@@ -1,0 +1,2981 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+ *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nft.JbrURLConnfdtion;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.spi.RfsourdfBundlfControlProvidfr;
+
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.util.lodblf.BbsfLodblf;
+import sun.util.lodblf.LodblfObjfdtCbdif;
+
+
+/**
+ *
+ * Rfsourdf bundlfs dontbin lodblf-spfdifid objfdts.  Wifn your progrbm nffds b
+ * lodblf-spfdifid rfsourdf, b <dodf>String</dodf> for fxbmplf, your progrbm dbn
+ * lobd it from tif rfsourdf bundlf tibt is bppropribtf for tif durrfnt usfr's
+ * lodblf. In tiis wby, you dbn writf progrbm dodf tibt is lbrgfly indfpfndfnt
+ * of tif usfr's lodblf isolbting most, if not bll, of tif lodblf-spfdifid
+ * informbtion in rfsourdf bundlfs.
+ *
+ * <p>
+ * Tiis bllows you to writf progrbms tibt dbn:
+ * <UL>
+ * <LI> bf fbsily lodblizfd, or trbnslbtfd, into difffrfnt lbngubgfs
+ * <LI> ibndlf multiplf lodblfs bt ondf
+ * <LI> bf fbsily modififd lbtfr to support fvfn morf lodblfs
+ * </UL>
+ *
+ * <P>
+ * Rfsourdf bundlfs bflong to fbmilifs wiosf mfmbfrs sibrf b dommon bbsf
+ * nbmf, but wiosf nbmfs blso ibvf bdditionbl domponfnts tibt idfntify
+ * tifir lodblfs. For fxbmplf, tif bbsf nbmf of b fbmily of rfsourdf
+ * bundlfs migit bf "MyRfsourdfs". Tif fbmily siould ibvf b dffbult
+ * rfsourdf bundlf wiidi simply ibs tif sbmf nbmf bs its fbmily -
+ * "MyRfsourdfs" - bnd will bf usfd bs tif bundlf of lbst rfsort if b
+ * spfdifid lodblf is not supportfd. Tif fbmily dbn tifn providf bs
+ * mbny lodblf-spfdifid mfmbfrs bs nffdfd, for fxbmplf b Gfrmbn onf
+ * nbmfd "MyRfsourdfs_df".
+ *
+ * <P>
+ * Ebdi rfsourdf bundlf in b fbmily dontbins tif sbmf itfms, but tif itfms ibvf
+ * bffn trbnslbtfd for tif lodblf rfprfsfntfd by tibt rfsourdf bundlf.
+ * For fxbmplf, boti "MyRfsourdfs" bnd "MyRfsourdfs_df" mby ibvf b
+ * <dodf>String</dodf> tibt's usfd on b button for dbndfling opfrbtions.
+ * In "MyRfsourdfs" tif <dodf>String</dodf> mby dontbin "Cbndfl" bnd in
+ * "MyRfsourdfs_df" it mby dontbin "Abbrfdifn".
+ *
+ * <P>
+ * If tifrf brf difffrfnt rfsourdfs for difffrfnt dountrifs, you
+ * dbn mbkf spfdiblizbtions: for fxbmplf, "MyRfsourdfs_df_CH" dontbins objfdts for
+ * tif Gfrmbn lbngubgf (df) in Switzfrlbnd (CH). If you wbnt to only
+ * modify somf of tif rfsourdfs
+ * in tif spfdiblizbtion, you dbn do so.
+ *
+ * <P>
+ * Wifn your progrbm nffds b lodblf-spfdifid objfdt, it lobds
+ * tif <dodf>RfsourdfBundlf</dodf> dlbss using tif
+ * {@link #gftBundlf(jbvb.lbng.String, jbvb.util.Lodblf) gftBundlf}
+ * mftiod:
+ * <blodkquotf>
+ * <prf>
+ * RfsourdfBundlf myRfsourdfs =
+ *      RfsourdfBundlf.gftBundlf("MyRfsourdfs", durrfntLodblf);
+ * </prf>
+ * </blodkquotf>
+ *
+ * <P>
+ * Rfsourdf bundlfs dontbin kfy/vbluf pbirs. Tif kfys uniqufly
+ * idfntify b lodblf-spfdifid objfdt in tif bundlf. Hfrf's bn
+ * fxbmplf of b <dodf>ListRfsourdfBundlf</dodf> tibt dontbins
+ * two kfy/vbluf pbirs:
+ * <blodkquotf>
+ * <prf>
+ * publid dlbss MyRfsourdfs fxtfnds ListRfsourdfBundlf {
+ *     protfdtfd Objfdt[][] gftContfnts() {
+ *         rfturn nfw Objfdt[][] {
+ *             // LOCALIZE THE SECOND STRING OF EACH ARRAY (f.g., "OK")
+ *             {"OkKfy", "OK"},
+ *             {"CbndflKfy", "Cbndfl"},
+ *             // END OF MATERIAL TO LOCALIZE
+ *        };
+ *     }
+ * }
+ * </prf>
+ * </blodkquotf>
+ * Kfys brf blwbys <dodf>String</dodf>s.
+ * In tiis fxbmplf, tif kfys brf "OkKfy" bnd "CbndflKfy".
+ * In tif bbovf fxbmplf, tif vblufs
+ * brf blso <dodf>String</dodf>s--"OK" bnd "Cbndfl"--but
+ * tify don't ibvf to bf. Tif vblufs dbn bf bny typf of objfdt.
+ *
+ * <P>
+ * You rftrifvf bn objfdt from rfsourdf bundlf using tif bppropribtf
+ * gfttfr mftiod. Bfdbusf "OkKfy" bnd "CbndflKfy"
+ * brf boti strings, you would usf <dodf>gftString</dodf> to rftrifvf tifm:
+ * <blodkquotf>
+ * <prf>
+ * button1 = nfw Button(myRfsourdfs.gftString("OkKfy"));
+ * button2 = nfw Button(myRfsourdfs.gftString("CbndflKfy"));
+ * </prf>
+ * </blodkquotf>
+ * Tif gfttfr mftiods bll rfquirf tif kfy bs bn brgumfnt bnd rfturn
+ * tif objfdt if found. If tif objfdt is not found, tif gfttfr mftiod
+ * tirows b <dodf>MissingRfsourdfExdfption</dodf>.
+ *
+ * <P>
+ * Bfsidfs <dodf>gftString</dodf>, <dodf>RfsourdfBundlf</dodf> blso providfs
+ * b mftiod for gftting string brrbys, <dodf>gftStringArrby</dodf>,
+ * bs wfll bs b gfnfrid <dodf>gftObjfdt</dodf> mftiod for bny otifr
+ * typf of objfdt. Wifn using <dodf>gftObjfdt</dodf>, you'll
+ * ibvf to dbst tif rfsult to tif bppropribtf typf. For fxbmplf:
+ * <blodkquotf>
+ * <prf>
+ * int[] myIntfgfrs = (int[]) myRfsourdfs.gftObjfdt("intList");
+ * </prf>
+ * </blodkquotf>
+ *
+ * <P>
+ * Tif Jbvb Plbtform providfs two subdlbssfs of <dodf>RfsourdfBundlf</dodf>,
+ * <dodf>ListRfsourdfBundlf</dodf> bnd <dodf>PropfrtyRfsourdfBundlf</dodf>,
+ * tibt providf b fbirly simplf wby to drfbtf rfsourdfs.
+ * As you sbw briffly in b prfvious fxbmplf, <dodf>ListRfsourdfBundlf</dodf>
+ * mbnbgfs its rfsourdf bs b list of kfy/vbluf pbirs.
+ * <dodf>PropfrtyRfsourdfBundlf</dodf> usfs b propfrtifs filf to mbnbgf
+ * its rfsourdfs.
+ *
+ * <p>
+ * If <dodf>ListRfsourdfBundlf</dodf> or <dodf>PropfrtyRfsourdfBundlf</dodf>
+ * do not suit your nffds, you dbn writf your own <dodf>RfsourdfBundlf</dodf>
+ * subdlbss.  Your subdlbssfs must ovfrridf two mftiods: <dodf>ibndlfGftObjfdt</dodf>
+ * bnd <dodf>gftKfys()</dodf>.
+ *
+ * <p>
+ * Tif implfmfntbtion of b {@dodf RfsourdfBundlf} subdlbss must bf tirfbd-sbff
+ * if it's simultbnfously usfd by multiplf tirfbds. Tif dffbult implfmfntbtions
+ * of tif non-bbstrbdt mftiods in tiis dlbss, bnd tif mftiods in tif dirfdt
+ * known dondrftf subdlbssfs {@dodf ListRfsourdfBundlf} bnd
+ * {@dodf PropfrtyRfsourdfBundlf} brf tirfbd-sbff.
+ *
+ * <i3>RfsourdfBundlf.Control</i3>
+ *
+ * Tif {@link RfsourdfBundlf.Control} dlbss providfs informbtion nfdfssbry
+ * to pfrform tif bundlf lobding prodfss by tif <dodf>gftBundlf</dodf>
+ * fbdtory mftiods tibt tbkf b <dodf>RfsourdfBundlf.Control</dodf>
+ * instbndf. You dbn implfmfnt your own subdlbss in ordfr to fnbblf
+ * non-stbndbrd rfsourdf bundlf formbts, dibngf tif sfbrdi strbtfgy, or
+ * dffinf dbdiing pbrbmftfrs. Rfffr to tif dfsdriptions of tif dlbss bnd tif
+ * {@link #gftBundlf(String, Lodblf, ClbssLobdfr, Control) gftBundlf}
+ * fbdtory mftiod for dftbils.
+ *
+ * <p><b nbmf="modify_dffbult_bfibvior">For tif {@dodf gftBundlf} fbdtory</b>
+ * mftiods tibt tbkf no {@link Control} instbndf, tifir <b
+ * irff="#dffbult_bfibvior"> dffbult bfibvior</b> of rfsourdf bundlf lobding
+ * dbn bf modififd witi <fm>instbllfd</fm> {@link
+ * RfsourdfBundlfControlProvidfr} implfmfntbtions. Any instbllfd providfrs brf
+ * dftfdtfd bt tif {@dodf RfsourdfBundlf} dlbss lobding timf. If bny of tif
+ * providfrs providfs b {@link Control} for tif givfn bbsf nbmf, tibt {@link
+ * Control} will bf usfd instfbd of tif dffbult {@link Control}. If tifrf is
+ * morf tibn onf sfrvidf providfr instbllfd for supporting tif sbmf bbsf nbmf,
+ * tif first onf rfturnfd from {@link SfrvidfLobdfr} will bf usfd.
+ *
+ * <i3>Cbdif Mbnbgfmfnt</i3>
+ *
+ * Rfsourdf bundlf instbndfs drfbtfd by tif <dodf>gftBundlf</dodf> fbdtory
+ * mftiods brf dbdifd by dffbult, bnd tif fbdtory mftiods rfturn tif sbmf
+ * rfsourdf bundlf instbndf multiplf timfs if it ibs bffn
+ * dbdifd. <dodf>gftBundlf</dodf> dlifnts mby dlfbr tif dbdif, mbnbgf tif
+ * lifftimf of dbdifd rfsourdf bundlf instbndfs using timf-to-livf vblufs,
+ * or spfdify not to dbdif rfsourdf bundlf instbndfs. Rfffr to tif
+ * dfsdriptions of tif {@linkplbin #gftBundlf(String, Lodblf, ClbssLobdfr,
+ * Control) <dodf>gftBundlf</dodf> fbdtory mftiod}, {@link
+ * #dlfbrCbdif(ClbssLobdfr) dlfbrCbdif}, {@link
+ * Control#gftTimfToLivf(String, Lodblf)
+ * RfsourdfBundlf.Control.gftTimfToLivf}, bnd {@link
+ * Control#nffdsRflobd(String, Lodblf, String, ClbssLobdfr, RfsourdfBundlf,
+ * long) RfsourdfBundlf.Control.nffdsRflobd} for dftbils.
+ *
+ * <i3>Exbmplf</i3>
+ *
+ * Tif following is b vfry simplf fxbmplf of b <dodf>RfsourdfBundlf</dodf>
+ * subdlbss, <dodf>MyRfsourdfs</dodf>, tibt mbnbgfs two rfsourdfs (for b lbrgfr numbfr of
+ * rfsourdfs you would probbbly usf b <dodf>Mbp</dodf>).
+ * Notidf tibt you don't nffd to supply b vbluf if
+ * b "pbrfnt-lfvfl" <dodf>RfsourdfBundlf</dodf> ibndlfs tif sbmf
+ * kfy witi tif sbmf vbluf (bs for tif okKfy bflow).
+ * <blodkquotf>
+ * <prf>
+ * // dffbult (Englisi lbngubgf, Unitfd Stbtfs)
+ * publid dlbss MyRfsourdfs fxtfnds RfsourdfBundlf {
+ *     publid Objfdt ibndlfGftObjfdt(String kfy) {
+ *         if (kfy.fqubls("okKfy")) rfturn "Ok";
+ *         if (kfy.fqubls("dbndflKfy")) rfturn "Cbndfl";
+ *         rfturn null;
+ *     }
+ *
+ *     publid Enumfrbtion&lt;String&gt; gftKfys() {
+ *         rfturn Collfdtions.fnumfrbtion(kfySft());
+ *     }
+ *
+ *     // Ovfrridfs ibndlfKfySft() so tibt tif gftKfys() implfmfntbtion
+ *     // dbn rfly on tif kfySft() vbluf.
+ *     protfdtfd Sft&lt;String&gt; ibndlfKfySft() {
+ *         rfturn nfw HbsiSft&lt;String&gt;(Arrbys.bsList("okKfy", "dbndflKfy"));
+ *     }
+ * }
+ *
+ * // Gfrmbn lbngubgf
+ * publid dlbss MyRfsourdfs_df fxtfnds MyRfsourdfs {
+ *     publid Objfdt ibndlfGftObjfdt(String kfy) {
+ *         // don't nffd okKfy, sindf pbrfnt lfvfl ibndlfs it.
+ *         if (kfy.fqubls("dbndflKfy")) rfturn "Abbrfdifn";
+ *         rfturn null;
+ *     }
+ *
+ *     protfdtfd Sft&lt;String&gt; ibndlfKfySft() {
+ *         rfturn nfw HbsiSft&lt;String&gt;(Arrbys.bsList("dbndflKfy"));
+ *     }
+ * }
+ * </prf>
+ * </blodkquotf>
+ * You do not ibvf to rfstridt yoursflf to using b singlf fbmily of
+ * <dodf>RfsourdfBundlf</dodf>s. For fxbmplf, you dould ibvf b sft of bundlfs for
+ * fxdfption mfssbgfs, <dodf>ExdfptionRfsourdfs</dodf>
+ * (<dodf>ExdfptionRfsourdfs_fr</dodf>, <dodf>ExdfptionRfsourdfs_df</dodf>, ...),
+ * bnd onf for widgfts, <dodf>WidgftRfsourdf</dodf> (<dodf>WidgftRfsourdfs_fr</dodf>,
+ * <dodf>WidgftRfsourdfs_df</dodf>, ...); brfbking up tif rfsourdfs iowfvfr you likf.
+ *
+ * @sff ListRfsourdfBundlf
+ * @sff PropfrtyRfsourdfBundlf
+ * @sff MissingRfsourdfExdfption
+ * @sindf 1.1
+ */
+publid bbstrbdt dlbss RfsourdfBundlf {
+
+    /** initibl sizf of tif bundlf dbdif */
+    privbtf stbtid finbl int INITIAL_CACHE_SIZE = 32;
+
+    /** donstbnt indidbting tibt no rfsourdf bundlf fxists */
+    privbtf stbtid finbl RfsourdfBundlf NONEXISTENT_BUNDLE = nfw RfsourdfBundlf() {
+            publid Enumfrbtion<String> gftKfys() { rfturn null; }
+            protfdtfd Objfdt ibndlfGftObjfdt(String kfy) { rfturn null; }
+            publid String toString() { rfturn "NONEXISTENT_BUNDLE"; }
+        };
+
+
+    /**
+     * Tif dbdif is b mbp from dbdif kfys (witi bundlf bbsf nbmf, lodblf, bnd
+     * dlbss lobdfr) to fitifr b rfsourdf bundlf or NONEXISTENT_BUNDLE wrbppfd by b
+     * BundlfRfffrfndf.
+     *
+     * Tif dbdif is b CondurrfntMbp, bllowing tif dbdif to bf sfbrdifd
+     * dondurrfntly by multiplf tirfbds.  Tiis will blso bllow tif dbdif kfys
+     * to bf rfdlbimfd blong witi tif ClbssLobdfrs tify rfffrfndf.
+     *
+     * Tiis vbribblf would bf bfttfr nbmfd "dbdif", but wf kffp tif old
+     * nbmf for dompbtibility witi somf workbrounds for bug 4212439.
+     */
+    privbtf stbtid finbl CondurrfntMbp<CbdifKfy, BundlfRfffrfndf> dbdifList
+        = nfw CondurrfntHbsiMbp<>(INITIAL_CACHE_SIZE);
+
+    /**
+     * Qufuf for rfffrfndf objfdts rfffrring to dlbss lobdfrs or bundlfs.
+     */
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> rfffrfndfQufuf = nfw RfffrfndfQufuf<>();
+
+    /**
+     * Rfturns tif bbsf nbmf of tiis bundlf, if known, or {@dodf null} if unknown.
+     *
+     * If not null, tifn tiis is tif vbluf of tif {@dodf bbsfNbmf} pbrbmftfr
+     * tibt wbs pbssfd to tif {@dodf RfsourdfBundlf.gftBundlf(...)} mftiod
+     * wifn tif rfsourdf bundlf wbs lobdfd.
+     *
+     * @rfturn Tif bbsf nbmf of tif rfsourdf bundlf, bs providfd to bnd fxpfdtfd
+     * by tif {@dodf RfsourdfBundlf.gftBundlf(...)} mftiods.
+     *
+     * @sff #gftBundlf(jbvb.lbng.String, jbvb.util.Lodblf, jbvb.lbng.ClbssLobdfr)
+     *
+     * @sindf 1.8
+     */
+    publid String gftBbsfBundlfNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Tif pbrfnt bundlf of tiis bundlf.
+     * Tif pbrfnt bundlf is sfbrdifd by {@link #gftObjfdt gftObjfdt}
+     * wifn tiis bundlf dofs not dontbin b pbrtidulbr rfsourdf.
+     */
+    protfdtfd RfsourdfBundlf pbrfnt = null;
+
+    /**
+     * Tif lodblf for tiis bundlf.
+     */
+    privbtf Lodblf lodblf = null;
+
+    /**
+     * Tif bbsf bundlf nbmf for tiis bundlf.
+     */
+    privbtf String nbmf;
+
+    /**
+     * Tif flbg indidbting tiis bundlf ibs fxpirfd in tif dbdif.
+     */
+    privbtf volbtilf boolfbn fxpirfd;
+
+    /**
+     * Tif bbdk link to tif dbdif kfy. null if tiis bundlf isn't in
+     * tif dbdif (yft) or ibs fxpirfd.
+     */
+    privbtf volbtilf CbdifKfy dbdifKfy;
+
+    /**
+     * A Sft of tif kfys dontbinfd only in tiis RfsourdfBundlf.
+     */
+    privbtf volbtilf Sft<String> kfySft;
+
+    privbtf stbtid finbl List<RfsourdfBundlfControlProvidfr> providfrs;
+
+    stbtid {
+        List<RfsourdfBundlfControlProvidfr> list = null;
+        SfrvidfLobdfr<RfsourdfBundlfControlProvidfr> sfrvidfLobdfrs
+                = SfrvidfLobdfr.lobdInstbllfd(RfsourdfBundlfControlProvidfr.dlbss);
+        for (RfsourdfBundlfControlProvidfr providfr : sfrvidfLobdfrs) {
+            if (list == null) {
+                list = nfw ArrbyList<>();
+            }
+            list.bdd(providfr);
+        }
+        providfrs = list;
+    }
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    publid RfsourdfBundlf() {
+    }
+
+    /**
+     * Gfts b string for tif givfn kfy from tiis rfsourdf bundlf or onf of its pbrfnts.
+     * Cblling tiis mftiod is fquivblfnt to dblling
+     * <blodkquotf>
+     * <dodf>(String) {@link #gftObjfdt(jbvb.lbng.String) gftObjfdt}(kfy)</dodf>.
+     * </blodkquotf>
+     *
+     * @pbrbm kfy tif kfy for tif dfsirfd string
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption if no objfdt for tif givfn kfy dbn bf found
+     * @fxdfption ClbssCbstExdfption if tif objfdt found for tif givfn kfy is not b string
+     * @rfturn tif string for tif givfn kfy
+     */
+    publid finbl String gftString(String kfy) {
+        rfturn (String) gftObjfdt(kfy);
+    }
+
+    /**
+     * Gfts b string brrby for tif givfn kfy from tiis rfsourdf bundlf or onf of its pbrfnts.
+     * Cblling tiis mftiod is fquivblfnt to dblling
+     * <blodkquotf>
+     * <dodf>(String[]) {@link #gftObjfdt(jbvb.lbng.String) gftObjfdt}(kfy)</dodf>.
+     * </blodkquotf>
+     *
+     * @pbrbm kfy tif kfy for tif dfsirfd string brrby
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption if no objfdt for tif givfn kfy dbn bf found
+     * @fxdfption ClbssCbstExdfption if tif objfdt found for tif givfn kfy is not b string brrby
+     * @rfturn tif string brrby for tif givfn kfy
+     */
+    publid finbl String[] gftStringArrby(String kfy) {
+        rfturn (String[]) gftObjfdt(kfy);
+    }
+
+    /**
+     * Gfts bn objfdt for tif givfn kfy from tiis rfsourdf bundlf or onf of its pbrfnts.
+     * Tiis mftiod first trifs to obtbin tif objfdt from tiis rfsourdf bundlf using
+     * {@link #ibndlfGftObjfdt(jbvb.lbng.String) ibndlfGftObjfdt}.
+     * If not suddfssful, bnd tif pbrfnt rfsourdf bundlf is not null,
+     * it dblls tif pbrfnt's <dodf>gftObjfdt</dodf> mftiod.
+     * If still not suddfssful, it tirows b MissingRfsourdfExdfption.
+     *
+     * @pbrbm kfy tif kfy for tif dfsirfd objfdt
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption if no objfdt for tif givfn kfy dbn bf found
+     * @rfturn tif objfdt for tif givfn kfy
+     */
+    publid finbl Objfdt gftObjfdt(String kfy) {
+        Objfdt obj = ibndlfGftObjfdt(kfy);
+        if (obj == null) {
+            if (pbrfnt != null) {
+                obj = pbrfnt.gftObjfdt(kfy);
+            }
+            if (obj == null) {
+                tirow nfw MissingRfsourdfExdfption("Cbn't find rfsourdf for bundlf "
+                                                   +tiis.gftClbss().gftNbmf()
+                                                   +", kfy "+kfy,
+                                                   tiis.gftClbss().gftNbmf(),
+                                                   kfy);
+            }
+        }
+        rfturn obj;
+    }
+
+    /**
+     * Rfturns tif lodblf of tiis rfsourdf bundlf. Tiis mftiod dbn bf usfd bftfr b
+     * dbll to gftBundlf() to dftfrminf wiftifr tif rfsourdf bundlf rfturnfd rfblly
+     * dorrfsponds to tif rfqufstfd lodblf or is b fbllbbdk.
+     *
+     * @rfturn tif lodblf of tiis rfsourdf bundlf
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    /*
+     * Autombtid dftfrminbtion of tif ClbssLobdfr to bf usfd to lobd
+     * rfsourdfs on bfiblf of tif dlifnt.
+     */
+    privbtf stbtid ClbssLobdfr gftLobdfr(Clbss<?> dbllfr) {
+        ClbssLobdfr dl = dbllfr == null ? null : dbllfr.gftClbssLobdfr();
+        if (dl == null) {
+            // Wifn tif dbllfr's lobdfr is tif boot dlbss lobdfr, dl is null
+            // ifrf. In tibt dbsf, ClbssLobdfr.gftSystfmClbssLobdfr() mby
+            // rfturn tif sbmf dlbss lobdfr tibt tif bpplidbtion is
+            // using. Wf tifrfforf usf b wrbppfr ClbssLobdfr to drfbtf b
+            // sfpbrbtf sdopf for bundlfs lobdfd on bfiblf of tif Jbvb
+            // runtimf so tibt tifsf bundlfs dbnnot bf rfturnfd from tif
+            // dbdif to tif bpplidbtion (5048280).
+            dl = RBClbssLobdfr.INSTANCE;
+        }
+        rfturn dl;
+    }
+
+    /**
+     * A wrbppfr of ClbssLobdfr.gftSystfmClbssLobdfr().
+     */
+    privbtf stbtid dlbss RBClbssLobdfr fxtfnds ClbssLobdfr {
+        privbtf stbtid finbl RBClbssLobdfr INSTANCE = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<RBClbssLobdfr>() {
+                        publid RBClbssLobdfr run() {
+                            rfturn nfw RBClbssLobdfr();
+                        }
+                    });
+        privbtf stbtid finbl ClbssLobdfr lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+
+        privbtf RBClbssLobdfr() {
+        }
+        publid Clbss<?> lobdClbss(String nbmf) tirows ClbssNotFoundExdfption {
+            if (lobdfr != null) {
+                rfturn lobdfr.lobdClbss(nbmf);
+            }
+            rfturn Clbss.forNbmf(nbmf);
+        }
+        publid URL gftRfsourdf(String nbmf) {
+            if (lobdfr != null) {
+                rfturn lobdfr.gftRfsourdf(nbmf);
+            }
+            rfturn ClbssLobdfr.gftSystfmRfsourdf(nbmf);
+        }
+        publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf) {
+            if (lobdfr != null) {
+                rfturn lobdfr.gftRfsourdfAsStrfbm(nbmf);
+            }
+            rfturn ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(nbmf);
+        }
+    }
+
+    /**
+     * Sfts tif pbrfnt bundlf of tiis bundlf.
+     * Tif pbrfnt bundlf is sfbrdifd by {@link #gftObjfdt gftObjfdt}
+     * wifn tiis bundlf dofs not dontbin b pbrtidulbr rfsourdf.
+     *
+     * @pbrbm pbrfnt tiis bundlf's pbrfnt bundlf.
+     */
+    protfdtfd void sftPbrfnt(RfsourdfBundlf pbrfnt) {
+        bssfrt pbrfnt != NONEXISTENT_BUNDLE;
+        tiis.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * Kfy usfd for dbdifd rfsourdf bundlfs.  Tif kfy difdks tif bbsf
+     * nbmf, tif lodblf, bnd tif dlbss lobdfr to dftfrminf if tif
+     * rfsourdf is b mbtdi to tif rfqufstfd onf. Tif lobdfr mby bf
+     * null, but tif bbsf nbmf bnd tif lodblf must ibvf b non-null
+     * vbluf.
+     */
+    privbtf stbtid dlbss CbdifKfy implfmfnts Clonfbblf {
+        // Tifsf tirff brf tif bdtubl kfys for lookup in Mbp.
+        privbtf String nbmf;
+        privbtf Lodblf lodblf;
+        privbtf LobdfrRfffrfndf lobdfrRff;
+
+        // bundlf formbt wiidi is nfdfssbry for dblling
+        // Control.nffdsRflobd().
+        privbtf String formbt;
+
+        // Tifsf timf vblufs brf in CbdifKfy so tibt NONEXISTENT_BUNDLE
+        // dofsn't nffd to bf dlonfd for dbdiing.
+
+        // Tif timf wifn tif bundlf ibs bffn lobdfd
+        privbtf volbtilf long lobdTimf;
+
+        // Tif timf wifn tif bundlf fxpirfs in tif dbdif, or fitifr
+        // Control.TTL_DONT_CACHE or Control.TTL_NO_EXPIRATION_CONTROL.
+        privbtf volbtilf long fxpirbtionTimf;
+
+        // Plbdfioldfr for bn frror rfport by b Tirowbblf
+        privbtf Tirowbblf dbusf;
+
+        // Hbsi dodf vbluf dbdif to bvoid rfdbldulbting tif ibsi dodf
+        // of tiis instbndf.
+        privbtf int ibsiCodfCbdif;
+
+        CbdifKfy(String bbsfNbmf, Lodblf lodblf, ClbssLobdfr lobdfr) {
+            tiis.nbmf = bbsfNbmf;
+            tiis.lodblf = lodblf;
+            if (lobdfr == null) {
+                tiis.lobdfrRff = null;
+            } flsf {
+                lobdfrRff = nfw LobdfrRfffrfndf(lobdfr, rfffrfndfQufuf, tiis);
+            }
+            dbldulbtfHbsiCodf();
+        }
+
+        String gftNbmf() {
+            rfturn nbmf;
+        }
+
+        CbdifKfy sftNbmf(String bbsfNbmf) {
+            if (!tiis.nbmf.fqubls(bbsfNbmf)) {
+                tiis.nbmf = bbsfNbmf;
+                dbldulbtfHbsiCodf();
+            }
+            rfturn tiis;
+        }
+
+        Lodblf gftLodblf() {
+            rfturn lodblf;
+        }
+
+        CbdifKfy sftLodblf(Lodblf lodblf) {
+            if (!tiis.lodblf.fqubls(lodblf)) {
+                tiis.lodblf = lodblf;
+                dbldulbtfHbsiCodf();
+            }
+            rfturn tiis;
+        }
+
+        ClbssLobdfr gftLobdfr() {
+            rfturn (lobdfrRff != null) ? lobdfrRff.gft() : null;
+        }
+
+        publid boolfbn fqubls(Objfdt otifr) {
+            if (tiis == otifr) {
+                rfturn truf;
+            }
+            try {
+                finbl CbdifKfy otifrEntry = (CbdifKfy)otifr;
+                //quidk difdk to sff if tify brf not fqubl
+                if (ibsiCodfCbdif != otifrEntry.ibsiCodfCbdif) {
+                    rfturn fblsf;
+                }
+                //brf tif nbmfs tif sbmf?
+                if (!nbmf.fqubls(otifrEntry.nbmf)) {
+                    rfturn fblsf;
+                }
+                // brf tif lodblfs tif sbmf?
+                if (!lodblf.fqubls(otifrEntry.lodblf)) {
+                    rfturn fblsf;
+                }
+                //brf rffs (boti non-null) or (boti null)?
+                if (lobdfrRff == null) {
+                    rfturn otifrEntry.lobdfrRff == null;
+                }
+                ClbssLobdfr lobdfr = lobdfrRff.gft();
+                rfturn (otifrEntry.lobdfrRff != null)
+                        // witi b null rfffrfndf wf dbn no longfr find
+                        // out wiidi dlbss lobdfr wbs rfffrfndfd; so
+                        // trfbt it bs unfqubl
+                        && (lobdfr != null)
+                        && (lobdfr == otifrEntry.lobdfrRff.gft());
+            } dbtdi (    NullPointfrExdfption | ClbssCbstExdfption f) {
+            }
+            rfturn fblsf;
+        }
+
+        publid int ibsiCodf() {
+            rfturn ibsiCodfCbdif;
+        }
+
+        privbtf void dbldulbtfHbsiCodf() {
+            ibsiCodfCbdif = nbmf.ibsiCodf() << 3;
+            ibsiCodfCbdif ^= lodblf.ibsiCodf();
+            ClbssLobdfr lobdfr = gftLobdfr();
+            if (lobdfr != null) {
+                ibsiCodfCbdif ^= lobdfr.ibsiCodf();
+            }
+        }
+
+        publid Objfdt dlonf() {
+            try {
+                CbdifKfy dlonf = (CbdifKfy) supfr.dlonf();
+                if (lobdfrRff != null) {
+                    dlonf.lobdfrRff = nfw LobdfrRfffrfndf(lobdfrRff.gft(),
+                                                          rfffrfndfQufuf, dlonf);
+                }
+                // Clfbr tif rfffrfndf to b Tirowbblf
+                dlonf.dbusf = null;
+                rfturn dlonf;
+            } dbtdi (ClonfNotSupportfdExdfption f) {
+                //tiis siould nfvfr ibppfn
+                tirow nfw IntfrnblError(f);
+            }
+        }
+
+        String gftFormbt() {
+            rfturn formbt;
+        }
+
+        void sftFormbt(String formbt) {
+            tiis.formbt = formbt;
+        }
+
+        privbtf void sftCbusf(Tirowbblf dbusf) {
+            if (tiis.dbusf == null) {
+                tiis.dbusf = dbusf;
+            } flsf {
+                // Ovfrridf tif dbusf if tif prfvious onf is
+                // ClbssNotFoundExdfption.
+                if (tiis.dbusf instbndfof ClbssNotFoundExdfption) {
+                    tiis.dbusf = dbusf;
+                }
+            }
+        }
+
+        privbtf Tirowbblf gftCbusf() {
+            rfturn dbusf;
+        }
+
+        publid String toString() {
+            String l = lodblf.toString();
+            if (l.lfngti() == 0) {
+                if (lodblf.gftVbribnt().lfngti() != 0) {
+                    l = "__" + lodblf.gftVbribnt();
+                } flsf {
+                    l = "\"\"";
+                }
+            }
+            rfturn "CbdifKfy[" + nbmf + ", ld=" + l + ", ldr=" + gftLobdfr()
+                + "(formbt=" + formbt + ")]";
+        }
+    }
+
+    /**
+     * Tif dommon intfrfbdf to gft b CbdifKfy in LobdfrRfffrfndf bnd
+     * BundlfRfffrfndf.
+     */
+    privbtf stbtid intfrfbdf CbdifKfyRfffrfndf {
+        publid CbdifKfy gftCbdifKfy();
+    }
+
+    /**
+     * Rfffrfndfs to dlbss lobdfrs brf wfbk rfffrfndfs, so tibt tify dbn bf
+     * gbrbbgf dollfdtfd wifn nobody flsf is using tifm. Tif RfsourdfBundlf
+     * dlbss ibs no rfbson to kffp dlbss lobdfrs blivf.
+     */
+    privbtf stbtid dlbss LobdfrRfffrfndf fxtfnds WfbkRfffrfndf<ClbssLobdfr>
+                                         implfmfnts CbdifKfyRfffrfndf {
+        privbtf CbdifKfy dbdifKfy;
+
+        LobdfrRfffrfndf(ClbssLobdfr rfffrfnt, RfffrfndfQufuf<Objfdt> q, CbdifKfy kfy) {
+            supfr(rfffrfnt, q);
+            dbdifKfy = kfy;
+        }
+
+        publid CbdifKfy gftCbdifKfy() {
+            rfturn dbdifKfy;
+        }
+    }
+
+    /**
+     * Rfffrfndfs to bundlfs brf soft rfffrfndfs so tibt tify dbn bf gbrbbgf
+     * dollfdtfd wifn tify ibvf no ibrd rfffrfndfs.
+     */
+    privbtf stbtid dlbss BundlfRfffrfndf fxtfnds SoftRfffrfndf<RfsourdfBundlf>
+                                         implfmfnts CbdifKfyRfffrfndf {
+        privbtf CbdifKfy dbdifKfy;
+
+        BundlfRfffrfndf(RfsourdfBundlf rfffrfnt, RfffrfndfQufuf<Objfdt> q, CbdifKfy kfy) {
+            supfr(rfffrfnt, q);
+            dbdifKfy = kfy;
+        }
+
+        publid CbdifKfy gftCbdifKfy() {
+            rfturn dbdifKfy;
+        }
+    }
+
+    /**
+     * Gfts b rfsourdf bundlf using tif spfdififd bbsf nbmf, tif dffbult lodblf,
+     * bnd tif dbllfr's dlbss lobdfr. Cblling tiis mftiod is fquivblfnt to dblling
+     * <blodkquotf>
+     * <dodf>gftBundlf(bbsfNbmf, Lodblf.gftDffbult(), tiis.gftClbss().gftClbssLobdfr())</dodf>,
+     * </blodkquotf>
+     * fxdfpt tibt <dodf>gftClbssLobdfr()</dodf> is run witi tif sfdurity
+     * privilfgfs of <dodf>RfsourdfBundlf</dodf>.
+     * Sff {@link #gftBundlf(String, Lodblf, ClbssLobdfr) gftBundlf}
+     * for b domplftf dfsdription of tif sfbrdi bnd instbntibtion strbtfgy.
+     *
+     * @pbrbm bbsfNbmf tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd dlbss nbmf
+     * @fxdfption jbvb.lbng.NullPointfrExdfption
+     *     if <dodf>bbsfNbmf</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *     if no rfsourdf bundlf for tif spfdififd bbsf nbmf dbn bf found
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd tif dffbult lodblf
+     */
+    @CbllfrSfnsitivf
+    publid stbtid finbl RfsourdfBundlf gftBundlf(String bbsfNbmf)
+    {
+        rfturn gftBundlfImpl(bbsfNbmf, Lodblf.gftDffbult(),
+                             gftLobdfr(Rfflfdtion.gftCbllfrClbss()),
+                             gftDffbultControl(bbsfNbmf));
+    }
+
+    /**
+     * Rfturns b rfsourdf bundlf using tif spfdififd bbsf nbmf, tif
+     * dffbult lodblf bnd tif spfdififd dontrol. Cblling tiis mftiod
+     * is fquivblfnt to dblling
+     * <prf>
+     * gftBundlf(bbsfNbmf, Lodblf.gftDffbult(),
+     *           tiis.gftClbss().gftClbssLobdfr(), dontrol),
+     * </prf>
+     * fxdfpt tibt <dodf>gftClbssLobdfr()</dodf> is run witi tif sfdurity
+     * privilfgfs of <dodf>RfsourdfBundlf</dodf>.  Sff {@link
+     * #gftBundlf(String, Lodblf, ClbssLobdfr, Control) gftBundlf} for tif
+     * domplftf dfsdription of tif rfsourdf bundlf lobding prodfss witi b
+     * <dodf>RfsourdfBundlf.Control</dodf>.
+     *
+     * @pbrbm bbsfNbmf
+     *        tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd dlbss
+     *        nbmf
+     * @pbrbm dontrol
+     *        tif dontrol wiidi givfs informbtion for tif rfsourdf bundlf
+     *        lobding prodfss
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd tif dffbult
+     *        lodblf
+     * @fxdfption NullPointfrExdfption
+     *        if <dodf>bbsfNbmf</dodf> or <dodf>dontrol</dodf> is
+     *        <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *        if no rfsourdf bundlf for tif spfdififd bbsf nbmf dbn bf found
+     * @fxdfption IllfgblArgumfntExdfption
+     *        if tif givfn <dodf>dontrol</dodf> dofsn't pfrform propfrly
+     *        (f.g., <dodf>dontrol.gftCbndidbtfLodblfs</dodf> rfturns null.)
+     *        Notf tibt vblidbtion of <dodf>dontrol</dodf> is pfrformfd bs
+     *        nffdfd.
+     * @sindf 1.6
+     */
+    @CbllfrSfnsitivf
+    publid stbtid finbl RfsourdfBundlf gftBundlf(String bbsfNbmf,
+                                                 Control dontrol) {
+        rfturn gftBundlfImpl(bbsfNbmf, Lodblf.gftDffbult(),
+                             gftLobdfr(Rfflfdtion.gftCbllfrClbss()),
+                             dontrol);
+    }
+
+    /**
+     * Gfts b rfsourdf bundlf using tif spfdififd bbsf nbmf bnd lodblf,
+     * bnd tif dbllfr's dlbss lobdfr. Cblling tiis mftiod is fquivblfnt to dblling
+     * <blodkquotf>
+     * <dodf>gftBundlf(bbsfNbmf, lodblf, tiis.gftClbss().gftClbssLobdfr())</dodf>,
+     * </blodkquotf>
+     * fxdfpt tibt <dodf>gftClbssLobdfr()</dodf> is run witi tif sfdurity
+     * privilfgfs of <dodf>RfsourdfBundlf</dodf>.
+     * Sff {@link #gftBundlf(String, Lodblf, ClbssLobdfr) gftBundlf}
+     * for b domplftf dfsdription of tif sfbrdi bnd instbntibtion strbtfgy.
+     *
+     * @pbrbm bbsfNbmf
+     *        tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd dlbss nbmf
+     * @pbrbm lodblf
+     *        tif lodblf for wiidi b rfsourdf bundlf is dfsirfd
+     * @fxdfption NullPointfrExdfption
+     *        if <dodf>bbsfNbmf</dodf> or <dodf>lodblf</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *        if no rfsourdf bundlf for tif spfdififd bbsf nbmf dbn bf found
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd lodblf
+     */
+    @CbllfrSfnsitivf
+    publid stbtid finbl RfsourdfBundlf gftBundlf(String bbsfNbmf,
+                                                 Lodblf lodblf)
+    {
+        rfturn gftBundlfImpl(bbsfNbmf, lodblf,
+                             gftLobdfr(Rfflfdtion.gftCbllfrClbss()),
+                             gftDffbultControl(bbsfNbmf));
+    }
+
+    /**
+     * Rfturns b rfsourdf bundlf using tif spfdififd bbsf nbmf, tbrgft
+     * lodblf bnd dontrol, bnd tif dbllfr's dlbss lobdfr. Cblling tiis
+     * mftiod is fquivblfnt to dblling
+     * <prf>
+     * gftBundlf(bbsfNbmf, tbrgftLodblf, tiis.gftClbss().gftClbssLobdfr(),
+     *           dontrol),
+     * </prf>
+     * fxdfpt tibt <dodf>gftClbssLobdfr()</dodf> is run witi tif sfdurity
+     * privilfgfs of <dodf>RfsourdfBundlf</dodf>.  Sff {@link
+     * #gftBundlf(String, Lodblf, ClbssLobdfr, Control) gftBundlf} for tif
+     * domplftf dfsdription of tif rfsourdf bundlf lobding prodfss witi b
+     * <dodf>RfsourdfBundlf.Control</dodf>.
+     *
+     * @pbrbm bbsfNbmf
+     *        tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd
+     *        dlbss nbmf
+     * @pbrbm tbrgftLodblf
+     *        tif lodblf for wiidi b rfsourdf bundlf is dfsirfd
+     * @pbrbm dontrol
+     *        tif dontrol wiidi givfs informbtion for tif rfsourdf
+     *        bundlf lobding prodfss
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd b
+     *        <dodf>Lodblf</dodf> in <dodf>lodblfs</dodf>
+     * @fxdfption NullPointfrExdfption
+     *        if <dodf>bbsfNbmf</dodf>, <dodf>lodblfs</dodf> or
+     *        <dodf>dontrol</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *        if no rfsourdf bundlf for tif spfdififd bbsf nbmf in bny
+     *        of tif <dodf>lodblfs</dodf> dbn bf found.
+     * @fxdfption IllfgblArgumfntExdfption
+     *        if tif givfn <dodf>dontrol</dodf> dofsn't pfrform propfrly
+     *        (f.g., <dodf>dontrol.gftCbndidbtfLodblfs</dodf> rfturns null.)
+     *        Notf tibt vblidbtion of <dodf>dontrol</dodf> is pfrformfd bs
+     *        nffdfd.
+     * @sindf 1.6
+     */
+    @CbllfrSfnsitivf
+    publid stbtid finbl RfsourdfBundlf gftBundlf(String bbsfNbmf, Lodblf tbrgftLodblf,
+                                                 Control dontrol) {
+        rfturn gftBundlfImpl(bbsfNbmf, tbrgftLodblf,
+                             gftLobdfr(Rfflfdtion.gftCbllfrClbss()),
+                             dontrol);
+    }
+
+    /**
+     * Gfts b rfsourdf bundlf using tif spfdififd bbsf nbmf, lodblf, bnd dlbss
+     * lobdfr.
+     *
+     * <p>Tiis mftiod bfibvfs tif sbmf bs dblling
+     * {@link #gftBundlf(String, Lodblf, ClbssLobdfr, Control)} pbssing b
+     * dffbult instbndf of {@link Control} unlfss bnotifr {@link Control} is
+     * providfd witi tif {@link RfsourdfBundlfControlProvidfr} SPI. Rfffr to tif
+     * dfsdription of <b irff="#modify_dffbult_bfibvior">modifying tif dffbult
+     * bfibvior</b>.
+     *
+     * <p><b nbmf="dffbult_bfibvior">Tif following dfsdribfs tif dffbult
+     * bfibvior</b>.
+     *
+     * <p><dodf>gftBundlf</dodf> usfs tif bbsf nbmf, tif spfdififd lodblf, bnd
+     * tif dffbult lodblf (obtbinfd from {@link jbvb.util.Lodblf#gftDffbult()
+     * Lodblf.gftDffbult}) to gfnfrbtf b sfqufndf of <b
+     * nbmf="dbndidbtfs"><fm>dbndidbtf bundlf nbmfs</fm></b>.  If tif spfdififd
+     * lodblf's lbngubgf, sdript, dountry, bnd vbribnt brf bll fmpty strings,
+     * tifn tif bbsf nbmf is tif only dbndidbtf bundlf nbmf.  Otifrwisf, b list
+     * of dbndidbtf lodblfs is gfnfrbtfd from tif bttributf vblufs of tif
+     * spfdififd lodblf (lbngubgf, sdript, dountry bnd vbribnt) bnd bppfndfd to
+     * tif bbsf nbmf.  Typidblly, tiis will look likf tif following:
+     *
+     * <prf>
+     *     bbsfNbmf + "_" + lbngubgf + "_" + sdript + "_" + dountry + "_" + vbribnt
+     *     bbsfNbmf + "_" + lbngubgf + "_" + sdript + "_" + dountry
+     *     bbsfNbmf + "_" + lbngubgf + "_" + sdript
+     *     bbsfNbmf + "_" + lbngubgf + "_" + dountry + "_" + vbribnt
+     *     bbsfNbmf + "_" + lbngubgf + "_" + dountry
+     *     bbsfNbmf + "_" + lbngubgf
+     * </prf>
+     *
+     * <p>Cbndidbtf bundlf nbmfs wifrf tif finbl domponfnt is bn fmpty string
+     * brf omittfd, blong witi tif undfrsdorf.  For fxbmplf, if dountry is bn
+     * fmpty string, tif sfdond bnd tif fifti dbndidbtf bundlf nbmfs bbovf
+     * would bf omittfd.  Also, if sdript is bn fmpty string, tif dbndidbtf nbmfs
+     * indluding sdript brf omittfd.  For fxbmplf, b lodblf witi lbngubgf "df"
+     * bnd vbribnt "JAVA" will produdf dbndidbtf nbmfs witi bbsf nbmf
+     * "MyRfsourdf" bflow.
+     *
+     * <prf>
+     *     MyRfsourdf_df__JAVA
+     *     MyRfsourdf_df
+     * </prf>
+     *
+     * In tif dbsf tibt tif vbribnt dontbins onf or morf undfrsdorfs ('_'), b
+     * sfqufndf of bundlf nbmfs gfnfrbtfd by trundbting tif lbst undfrsdorf bnd
+     * tif pbrt following it is insfrtfd bftfr b dbndidbtf bundlf nbmf witi tif
+     * originbl vbribnt.  For fxbmplf, for b lodblf witi lbngubgf "fn", sdript
+     * "Lbtn, dountry "US" bnd vbribnt "WINDOWS_VISTA", bnd bundlf bbsf nbmf
+     * "MyRfsourdf", tif list of dbndidbtf bundlf nbmfs bflow is gfnfrbtfd:
+     *
+     * <prf>
+     * MyRfsourdf_fn_Lbtn_US_WINDOWS_VISTA
+     * MyRfsourdf_fn_Lbtn_US_WINDOWS
+     * MyRfsourdf_fn_Lbtn_US
+     * MyRfsourdf_fn_Lbtn
+     * MyRfsourdf_fn_US_WINDOWS_VISTA
+     * MyRfsourdf_fn_US_WINDOWS
+     * MyRfsourdf_fn_US
+     * MyRfsourdf_fn
+     * </prf>
+     *
+     * <blodkquotf><b>Notf:</b> For somf <dodf>Lodblf</dodf>s, tif list of
+     * dbndidbtf bundlf nbmfs dontbins fxtrb nbmfs, or tif ordfr of bundlf nbmfs
+     * is sligitly modififd.  Sff tif dfsdription of tif dffbult implfmfntbtion
+     * of {@link Control#gftCbndidbtfLodblfs(String, Lodblf)
+     * gftCbndidbtfLodblfs} for dftbils.</blodkquotf>
+     *
+     * <p><dodf>gftBundlf</dodf> tifn itfrbtfs ovfr tif dbndidbtf bundlf nbmfs
+     * to find tif first onf for wiidi it dbn <fm>instbntibtf</fm> bn bdtubl
+     * rfsourdf bundlf. It usfs tif dffbult dontrols' {@link Control#gftFormbts
+     * gftFormbts} mftiod, wiidi gfnfrbtfs two bundlf nbmfs for fbdi gfnfrbtfd
+     * nbmf, tif first b dlbss nbmf bnd tif sfdond b propfrtifs filf nbmf. For
+     * fbdi dbndidbtf bundlf nbmf, it bttfmpts to drfbtf b rfsourdf bundlf:
+     *
+     * <ul><li>First, it bttfmpts to lobd b dlbss using tif gfnfrbtfd dlbss nbmf.
+     * If sudi b dlbss dbn bf found bnd lobdfd using tif spfdififd dlbss
+     * lobdfr, is bssignmfnt dompbtiblf witi RfsourdfBundlf, is bddfssiblf from
+     * RfsourdfBundlf, bnd dbn bf instbntibtfd, <dodf>gftBundlf</dodf> drfbtfs b
+     * nfw instbndf of tiis dlbss bnd usfs it bs tif <fm>rfsult rfsourdf
+     * bundlf</fm>.
+     *
+     * <li>Otifrwisf, <dodf>gftBundlf</dodf> bttfmpts to lodbtf b propfrty
+     * rfsourdf filf using tif gfnfrbtfd propfrtifs filf nbmf.  It gfnfrbtfs b
+     * pbti nbmf from tif dbndidbtf bundlf nbmf by rfplbding bll "." dibrbdtfrs
+     * witi "/" bnd bppfnding tif string ".propfrtifs".  It bttfmpts to find b
+     * "rfsourdf" witi tiis nbmf using {@link
+     * jbvb.lbng.ClbssLobdfr#gftRfsourdf(jbvb.lbng.String)
+     * ClbssLobdfr.gftRfsourdf}.  (Notf tibt b "rfsourdf" in tif sfnsf of
+     * <dodf>gftRfsourdf</dodf> ibs notiing to do witi tif dontfnts of b
+     * rfsourdf bundlf, it is just b dontbinfr of dbtb, sudi bs b filf.)  If it
+     * finds b "rfsourdf", it bttfmpts to drfbtf b nfw {@link
+     * PropfrtyRfsourdfBundlf} instbndf from its dontfnts.  If suddfssful, tiis
+     * instbndf bfdomfs tif <fm>rfsult rfsourdf bundlf</fm>.  </ul>
+     *
+     * <p>Tiis dontinufs until b rfsult rfsourdf bundlf is instbntibtfd or tif
+     * list of dbndidbtf bundlf nbmfs is fxibustfd.  If no mbtdiing rfsourdf
+     * bundlf is found, tif dffbult dontrol's {@link Control#gftFbllbbdkLodblf
+     * gftFbllbbdkLodblf} mftiod is dbllfd, wiidi rfturns tif durrfnt dffbult
+     * lodblf.  A nfw sfqufndf of dbndidbtf lodblf nbmfs is gfnfrbtfd using tiis
+     * lodblf bnd bnd sfbrdifd bgbin, bs bbovf.
+     *
+     * <p>If still no rfsult bundlf is found, tif bbsf nbmf blonf is lookfd up. If
+     * tiis still fbils, b <dodf>MissingRfsourdfExdfption</dodf> is tirown.
+     *
+     * <p><b nbmf="pbrfnt_dibin"> Ondf b rfsult rfsourdf bundlf ibs bffn found,
+     * its <fm>pbrfnt dibin</fm> is instbntibtfd</b>.  If tif rfsult bundlf blrfbdy
+     * ibs b pbrfnt (pfribps bfdbusf it wbs rfturnfd from b dbdif) tif dibin is
+     * domplftf.
+     *
+     * <p>Otifrwisf, <dodf>gftBundlf</dodf> fxbminfs tif rfmbindfr of tif
+     * dbndidbtf lodblf list tibt wbs usfd during tif pbss tibt gfnfrbtfd tif
+     * rfsult rfsourdf bundlf.  (As bfforf, dbndidbtf bundlf nbmfs wifrf tif
+     * finbl domponfnt is bn fmpty string brf omittfd.)  Wifn it domfs to tif
+     * fnd of tif dbndidbtf list, it trifs tif plbin bundlf nbmf.  Witi fbdi of tif
+     * dbndidbtf bundlf nbmfs it bttfmpts to instbntibtf b rfsourdf bundlf (first
+     * looking for b dlbss bnd tifn b propfrtifs filf, bs dfsdribfd bbovf).
+     *
+     * <p>Wifnfvfr it suddffds, it dblls tif prfviously instbntibtfd rfsourdf
+     * bundlf's {@link #sftPbrfnt(jbvb.util.RfsourdfBundlf) sftPbrfnt} mftiod
+     * witi tif nfw rfsourdf bundlf.  Tiis dontinufs until tif list of nbmfs
+     * is fxibustfd or tif durrfnt bundlf blrfbdy ibs b non-null pbrfnt.
+     *
+     * <p>Ondf tif pbrfnt dibin is domplftf, tif bundlf is rfturnfd.
+     *
+     * <p><b>Notf:</b> <dodf>gftBundlf</dodf> dbdifs instbntibtfd rfsourdf
+     * bundlfs bnd migit rfturn tif sbmf rfsourdf bundlf instbndf multiplf timfs.
+     *
+     * <p><b>Notf:</b>Tif <dodf>bbsfNbmf</dodf> brgumfnt siould bf b fully
+     * qublififd dlbss nbmf. Howfvfr, for dompbtibility witi fbrlifr vfrsions,
+     * Sun's Jbvb SE Runtimf Environmfnts do not vfrify tiis, bnd so it is
+     * possiblf to bddfss <dodf>PropfrtyRfsourdfBundlf</dodf>s by spfdifying b
+     * pbti nbmf (using "/") instfbd of b fully qublififd dlbss nbmf (using
+     * ".").
+     *
+     * <p><b nbmf="dffbult_bfibvior_fxbmplf">
+     * <strong>Exbmplf:</strong></b>
+     * <p>
+     * Tif following dlbss bnd propfrty filfs brf providfd:
+     * <prf>
+     *     MyRfsourdfs.dlbss
+     *     MyRfsourdfs.propfrtifs
+     *     MyRfsourdfs_fr.propfrtifs
+     *     MyRfsourdfs_fr_CH.dlbss
+     *     MyRfsourdfs_fr_CH.propfrtifs
+     *     MyRfsourdfs_fn.propfrtifs
+     *     MyRfsourdfs_fs_ES.dlbss
+     * </prf>
+     *
+     * Tif dontfnts of bll filfs brf vblid (tibt is, publid non-bbstrbdt
+     * subdlbssfs of <dodf>RfsourdfBundlf</dodf> for tif ".dlbss" filfs,
+     * syntbdtidblly dorrfdt ".propfrtifs" filfs).  Tif dffbult lodblf is
+     * <dodf>Lodblf("fn", "GB")</dodf>.
+     *
+     * <p>Cblling <dodf>gftBundlf</dodf> witi tif lodblf brgumfnts bflow will
+     * instbntibtf rfsourdf bundlfs bs follows:
+     *
+     * <tbblf summbry="gftBundlf() lodblf to rfsourdf bundlf mbpping">
+     * <tr><td>Lodblf("fr", "CH")</td><td>MyRfsourdfs_fr_CH.dlbss, pbrfnt MyRfsourdfs_fr.propfrtifs, pbrfnt MyRfsourdfs.dlbss</td></tr>
+     * <tr><td>Lodblf("fr", "FR")</td><td>MyRfsourdfs_fr.propfrtifs, pbrfnt MyRfsourdfs.dlbss</td></tr>
+     * <tr><td>Lodblf("df", "DE")</td><td>MyRfsourdfs_fn.propfrtifs, pbrfnt MyRfsourdfs.dlbss</td></tr>
+     * <tr><td>Lodblf("fn", "US")</td><td>MyRfsourdfs_fn.propfrtifs, pbrfnt MyRfsourdfs.dlbss</td></tr>
+     * <tr><td>Lodblf("fs", "ES")</td><td>MyRfsourdfs_fs_ES.dlbss, pbrfnt MyRfsourdfs.dlbss</td></tr>
+     * </tbblf>
+     *
+     * <p>Tif filf MyRfsourdfs_fr_CH.propfrtifs is nfvfr usfd bfdbusf it is
+     * iiddfn by tif MyRfsourdfs_fr_CH.dlbss. Likfwisf, MyRfsourdfs.propfrtifs
+     * is blso iiddfn by MyRfsourdfs.dlbss.
+     *
+     * @pbrbm bbsfNbmf tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd dlbss nbmf
+     * @pbrbm lodblf tif lodblf for wiidi b rfsourdf bundlf is dfsirfd
+     * @pbrbm lobdfr tif dlbss lobdfr from wiidi to lobd tif rfsourdf bundlf
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd lodblf
+     * @fxdfption jbvb.lbng.NullPointfrExdfption
+     *        if <dodf>bbsfNbmf</dodf>, <dodf>lodblf</dodf>, or <dodf>lobdfr</dodf> is <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *        if no rfsourdf bundlf for tif spfdififd bbsf nbmf dbn bf found
+     * @sindf 1.2
+     */
+    publid stbtid RfsourdfBundlf gftBundlf(String bbsfNbmf, Lodblf lodblf,
+                                           ClbssLobdfr lobdfr)
+    {
+        if (lobdfr == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        rfturn gftBundlfImpl(bbsfNbmf, lodblf, lobdfr, gftDffbultControl(bbsfNbmf));
+    }
+
+    /**
+     * Rfturns b rfsourdf bundlf using tif spfdififd bbsf nbmf, tbrgft
+     * lodblf, dlbss lobdfr bnd dontrol. Unlikf tif {@linkplbin
+     * #gftBundlf(String, Lodblf, ClbssLobdfr) <dodf>gftBundlf</dodf>
+     * fbdtory mftiods witi no <dodf>dontrol</dodf> brgumfnt}, tif givfn
+     * <dodf>dontrol</dodf> spfdififs iow to lodbtf bnd instbntibtf rfsourdf
+     * bundlfs. Condfptublly, tif bundlf lobding prodfss witi tif givfn
+     * <dodf>dontrol</dodf> is pfrformfd in tif following stfps.
+     *
+     * <ol>
+     * <li>Tiis fbdtory mftiod looks up tif rfsourdf bundlf in tif dbdif for
+     * tif spfdififd <dodf>bbsfNbmf</dodf>, <dodf>tbrgftLodblf</dodf> bnd
+     * <dodf>lobdfr</dodf>.  If tif rfqufstfd rfsourdf bundlf instbndf is
+     * found in tif dbdif bnd tif timf-to-livf pfriods of tif instbndf bnd
+     * bll of its pbrfnt instbndfs ibvf not fxpirfd, tif instbndf is rfturnfd
+     * to tif dbllfr. Otifrwisf, tiis fbdtory mftiod prodffds witi tif
+     * lobding prodfss bflow.</li>
+     *
+     * <li>Tif {@link RfsourdfBundlf.Control#gftFormbts(String)
+     * dontrol.gftFormbts} mftiod is dbllfd to gft rfsourdf bundlf formbts
+     * to produdf bundlf or rfsourdf nbmfs. Tif strings
+     * <dodf>"jbvb.dlbss"</dodf> bnd <dodf>"jbvb.propfrtifs"</dodf>
+     * dfsignbtf dlbss-bbsfd bnd {@linkplbin PropfrtyRfsourdfBundlf
+     * propfrty}-bbsfd rfsourdf bundlfs, rfspfdtivfly. Otifr strings
+     * stbrting witi <dodf>"jbvb."</dodf> brf rfsfrvfd for futurf fxtfnsions
+     * bnd must not bf usfd for bpplidbtion-dffinfd formbts. Otifr strings
+     * dfsignbtf bpplidbtion-dffinfd formbts.</li>
+     *
+     * <li>Tif {@link RfsourdfBundlf.Control#gftCbndidbtfLodblfs(String,
+     * Lodblf) dontrol.gftCbndidbtfLodblfs} mftiod is dbllfd witi tif tbrgft
+     * lodblf to gft b list of <fm>dbndidbtf <dodf>Lodblf</dodf>s</fm> for
+     * wiidi rfsourdf bundlfs brf sfbrdifd.</li>
+     *
+     * <li>Tif {@link RfsourdfBundlf.Control#nfwBundlf(String, Lodblf,
+     * String, ClbssLobdfr, boolfbn) dontrol.nfwBundlf} mftiod is dbllfd to
+     * instbntibtf b <dodf>RfsourdfBundlf</dodf> for tif bbsf bundlf nbmf, b
+     * dbndidbtf lodblf, bnd b formbt. (Rfffr to tif notf on tif dbdif
+     * lookup bflow.) Tiis stfp is itfrbtfd ovfr bll dombinbtions of tif
+     * dbndidbtf lodblfs bnd formbts until tif <dodf>nfwBundlf</dodf> mftiod
+     * rfturns b <dodf>RfsourdfBundlf</dodf> instbndf or tif itfrbtion ibs
+     * usfd up bll tif dombinbtions. For fxbmplf, if tif dbndidbtf lodblfs
+     * brf <dodf>Lodblf("df", "DE")</dodf>, <dodf>Lodblf("df")</dodf> bnd
+     * <dodf>Lodblf("")</dodf> bnd tif formbts brf <dodf>"jbvb.dlbss"</dodf>
+     * bnd <dodf>"jbvb.propfrtifs"</dodf>, tifn tif following is tif
+     * sfqufndf of lodblf-formbt dombinbtions to bf usfd to dbll
+     * <dodf>dontrol.nfwBundlf</dodf>.
+     *
+     * <tbblf stylf="widti: 50%; tfxt-blign: lfft; mbrgin-lfft: 40px;"
+     *  bordfr="0" dfllpbdding="2" dfllspbding="2" summbry="lodblf-formbt dombinbtions for nfwBundlf">
+     * <tbody>
+     * <tr>
+     * <td
+     * stylf="vfrtidbl-blign: top; tfxt-blign: lfft; font-wfigit: bold; widti: 50%;"><dodf>Lodblf</dodf><br>
+     * </td>
+     * <td
+     * stylf="vfrtidbl-blign: top; tfxt-blign: lfft; font-wfigit: bold; widti: 50%;"><dodf>formbt</dodf><br>
+     * </td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("df", "DE")</dodf><br>
+     * </td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.dlbss</dodf><br>
+     * </td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("df", "DE")</dodf></td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.propfrtifs</dodf><br>
+     * </td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("df")</dodf></td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.dlbss</dodf></td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("df")</dodf></td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.propfrtifs</dodf></td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("")</dodf><br>
+     * </td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.dlbss</dodf></td>
+     * </tr>
+     * <tr>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>Lodblf("")</dodf></td>
+     * <td stylf="vfrtidbl-blign: top; widti: 50%;"><dodf>jbvb.propfrtifs</dodf></td>
+     * </tr>
+     * </tbody>
+     * </tbblf>
+     * </li>
+     *
+     * <li>If tif prfvious stfp ibs found no rfsourdf bundlf, prodffd to
+     * Stfp 6. If b bundlf ibs bffn found tibt is b bbsf bundlf (b bundlf
+     * for <dodf>Lodblf("")</dodf>), bnd tif dbndidbtf lodblf list only dontbinfd
+     * <dodf>Lodblf("")</dodf>, rfturn tif bundlf to tif dbllfr. If b bundlf
+     * ibs bffn found tibt is b bbsf bundlf, but tif dbndidbtf lodblf list
+     * dontbinfd lodblfs otifr tibn Lodblf(""), put tif bundlf on iold bnd
+     * prodffd to Stfp 6. If b bundlf ibs bffn found tibt is not b bbsf
+     * bundlf, prodffd to Stfp 7.</li>
+     *
+     * <li>Tif {@link RfsourdfBundlf.Control#gftFbllbbdkLodblf(String,
+     * Lodblf) dontrol.gftFbllbbdkLodblf} mftiod is dbllfd to gft b fbllbbdk
+     * lodblf (bltfrnbtivf to tif durrfnt tbrgft lodblf) to try furtifr
+     * finding b rfsourdf bundlf. If tif mftiod rfturns b non-null lodblf,
+     * it bfdomfs tif nfxt tbrgft lodblf bnd tif lobding prodfss stbrts ovfr
+     * from Stfp 3. Otifrwisf, if b bbsf bundlf wbs found bnd put on iold in
+     * b prfvious Stfp 5, it is rfturnfd to tif dbllfr now. Otifrwisf, b
+     * MissingRfsourdfExdfption is tirown.</li>
+     *
+     * <li>At tiis point, wf ibvf found b rfsourdf bundlf tibt's not tif
+     * bbsf bundlf. If tiis bundlf sft its pbrfnt during its instbntibtion,
+     * it is rfturnfd to tif dbllfr. Otifrwisf, its <b
+     * irff="./RfsourdfBundlf.itml#pbrfnt_dibin">pbrfnt dibin</b> is
+     * instbntibtfd bbsfd on tif list of dbndidbtf lodblfs from wiidi it wbs
+     * found. Finblly, tif bundlf is rfturnfd to tif dbllfr.</li>
+     * </ol>
+     *
+     * <p>During tif rfsourdf bundlf lobding prodfss bbovf, tiis fbdtory
+     * mftiod looks up tif dbdif bfforf dblling tif {@link
+     * Control#nfwBundlf(String, Lodblf, String, ClbssLobdfr, boolfbn)
+     * dontrol.nfwBundlf} mftiod.  If tif timf-to-livf pfriod of tif
+     * rfsourdf bundlf found in tif dbdif ibs fxpirfd, tif fbdtory mftiod
+     * dblls tif {@link RfsourdfBundlf.Control#nffdsRflobd(String, Lodblf,
+     * String, ClbssLobdfr, RfsourdfBundlf, long) dontrol.nffdsRflobd}
+     * mftiod to dftfrminf wiftifr tif rfsourdf bundlf nffds to bf rflobdfd.
+     * If rflobding is rfquirfd, tif fbdtory mftiod dblls
+     * <dodf>dontrol.nfwBundlf</dodf> to rflobd tif rfsourdf bundlf.  If
+     * <dodf>dontrol.nfwBundlf</dodf> rfturns <dodf>null</dodf>, tif fbdtory
+     * mftiod puts b dummy rfsourdf bundlf in tif dbdif bs b mbrk of
+     * nonfxistfnt rfsourdf bundlfs in ordfr to bvoid lookup ovfrifbd for
+     * subsfqufnt rfqufsts. Sudi dummy rfsourdf bundlfs brf undfr tif sbmf
+     * fxpirbtion dontrol bs spfdififd by <dodf>dontrol</dodf>.
+     *
+     * <p>All rfsourdf bundlfs lobdfd brf dbdifd by dffbult. Rfffr to
+     * {@link Control#gftTimfToLivf(String,Lodblf)
+     * dontrol.gftTimfToLivf} for dftbils.
+     *
+     * <p>Tif following is bn fxbmplf of tif bundlf lobding prodfss witi tif
+     * dffbult <dodf>RfsourdfBundlf.Control</dodf> implfmfntbtion.
+     *
+     * <p>Conditions:
+     * <ul>
+     * <li>Bbsf bundlf nbmf: <dodf>foo.bbr.Mfssbgfs</dodf>
+     * <li>Rfqufstfd <dodf>Lodblf</dodf>: {@link Lodblf#ITALY}</li>
+     * <li>Dffbult <dodf>Lodblf</dodf>: {@link Lodblf#FRENCH}</li>
+     * <li>Avbilbblf rfsourdf bundlfs:
+     * <dodf>foo/bbr/Mfssbgfs_fr.propfrtifs</dodf> bnd
+     * <dodf>foo/bbr/Mfssbgfs.propfrtifs</dodf></li>
+     * </ul>
+     *
+     * <p>First, <dodf>gftBundlf</dodf> trifs lobding b rfsourdf bundlf in
+     * tif following sfqufndf.
+     *
+     * <ul>
+     * <li>dlbss <dodf>foo.bbr.Mfssbgfs_it_IT</dodf>
+     * <li>filf <dodf>foo/bbr/Mfssbgfs_it_IT.propfrtifs</dodf>
+     * <li>dlbss <dodf>foo.bbr.Mfssbgfs_it</dodf></li>
+     * <li>filf <dodf>foo/bbr/Mfssbgfs_it.propfrtifs</dodf></li>
+     * <li>dlbss <dodf>foo.bbr.Mfssbgfs</dodf></li>
+     * <li>filf <dodf>foo/bbr/Mfssbgfs.propfrtifs</dodf></li>
+     * </ul>
+     *
+     * <p>At tiis point, <dodf>gftBundlf</dodf> finds
+     * <dodf>foo/bbr/Mfssbgfs.propfrtifs</dodf>, wiidi is put on iold
+     * bfdbusf it's tif bbsf bundlf.  <dodf>gftBundlf</dodf> dblls {@link
+     * Control#gftFbllbbdkLodblf(String, Lodblf)
+     * dontrol.gftFbllbbdkLodblf("foo.bbr.Mfssbgfs", Lodblf.ITALY)} wiidi
+     * rfturns <dodf>Lodblf.FRENCH</dodf>. Nfxt, <dodf>gftBundlf</dodf>
+     * trifs lobding b bundlf in tif following sfqufndf.
+     *
+     * <ul>
+     * <li>dlbss <dodf>foo.bbr.Mfssbgfs_fr</dodf></li>
+     * <li>filf <dodf>foo/bbr/Mfssbgfs_fr.propfrtifs</dodf></li>
+     * <li>dlbss <dodf>foo.bbr.Mfssbgfs</dodf></li>
+     * <li>filf <dodf>foo/bbr/Mfssbgfs.propfrtifs</dodf></li>
+     * </ul>
+     *
+     * <p><dodf>gftBundlf</dodf> finds
+     * <dodf>foo/bbr/Mfssbgfs_fr.propfrtifs</dodf> bnd drfbtfs b
+     * <dodf>RfsourdfBundlf</dodf> instbndf. Tifn, <dodf>gftBundlf</dodf>
+     * sfts up its pbrfnt dibin from tif list of tif dbndidbtf lodblfs.  Only
+     * <dodf>foo/bbr/Mfssbgfs.propfrtifs</dodf> is found in tif list bnd
+     * <dodf>gftBundlf</dodf> drfbtfs b <dodf>RfsourdfBundlf</dodf> instbndf
+     * tibt bfdomfs tif pbrfnt of tif instbndf for
+     * <dodf>foo/bbr/Mfssbgfs_fr.propfrtifs</dodf>.
+     *
+     * @pbrbm bbsfNbmf
+     *        tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd
+     *        dlbss nbmf
+     * @pbrbm tbrgftLodblf
+     *        tif lodblf for wiidi b rfsourdf bundlf is dfsirfd
+     * @pbrbm lobdfr
+     *        tif dlbss lobdfr from wiidi to lobd tif rfsourdf bundlf
+     * @pbrbm dontrol
+     *        tif dontrol wiidi givfs informbtion for tif rfsourdf
+     *        bundlf lobding prodfss
+     * @rfturn b rfsourdf bundlf for tif givfn bbsf nbmf bnd lodblf
+     * @fxdfption NullPointfrExdfption
+     *        if <dodf>bbsfNbmf</dodf>, <dodf>tbrgftLodblf</dodf>,
+     *        <dodf>lobdfr</dodf>, or <dodf>dontrol</dodf> is
+     *        <dodf>null</dodf>
+     * @fxdfption MissingRfsourdfExdfption
+     *        if no rfsourdf bundlf for tif spfdififd bbsf nbmf dbn bf found
+     * @fxdfption IllfgblArgumfntExdfption
+     *        if tif givfn <dodf>dontrol</dodf> dofsn't pfrform propfrly
+     *        (f.g., <dodf>dontrol.gftCbndidbtfLodblfs</dodf> rfturns null.)
+     *        Notf tibt vblidbtion of <dodf>dontrol</dodf> is pfrformfd bs
+     *        nffdfd.
+     * @sindf 1.6
+     */
+    publid stbtid RfsourdfBundlf gftBundlf(String bbsfNbmf, Lodblf tbrgftLodblf,
+                                           ClbssLobdfr lobdfr, Control dontrol) {
+        if (lobdfr == null || dontrol == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        rfturn gftBundlfImpl(bbsfNbmf, tbrgftLodblf, lobdfr, dontrol);
+    }
+
+    privbtf stbtid Control gftDffbultControl(String bbsfNbmf) {
+        if (providfrs != null) {
+            for (RfsourdfBundlfControlProvidfr providfr : providfrs) {
+                Control dontrol = providfr.gftControl(bbsfNbmf);
+                if (dontrol != null) {
+                    rfturn dontrol;
+                }
+            }
+        }
+        rfturn Control.INSTANCE;
+    }
+
+    privbtf stbtid RfsourdfBundlf gftBundlfImpl(String bbsfNbmf, Lodblf lodblf,
+                                                ClbssLobdfr lobdfr, Control dontrol) {
+        if (lodblf == null || dontrol == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+
+        // Wf drfbtf b CbdifKfy ifrf for usf by tiis dbll. Tif bbsf
+        // nbmf bnd lobdfr will nfvfr dibngf during tif bundlf lobding
+        // prodfss. Wf ibvf to mbkf surf tibt tif lodblf is sft bfforf
+        // using it bs b dbdif kfy.
+        CbdifKfy dbdifKfy = nfw CbdifKfy(bbsfNbmf, lodblf, lobdfr);
+        RfsourdfBundlf bundlf = null;
+
+        // Quidk lookup of tif dbdif.
+        BundlfRfffrfndf bundlfRff = dbdifList.gft(dbdifKfy);
+        if (bundlfRff != null) {
+            bundlf = bundlfRff.gft();
+            bundlfRff = null;
+        }
+
+        // If tiis bundlf bnd bll of its pbrfnts brf vblid (not fxpirfd),
+        // tifn rfturn tiis bundlf. If bny of tif bundlfs is fxpirfd, wf
+        // don't dbll dontrol.nffdsRflobd ifrf but instfbd drop into tif
+        // domplftf lobding prodfss bflow.
+        if (isVblidBundlf(bundlf) && ibsVblidPbrfntCibin(bundlf)) {
+            rfturn bundlf;
+        }
+
+        // No vblid bundlf wbs found in tif dbdif, so wf nffd to lobd tif
+        // rfsourdf bundlf bnd its pbrfnts.
+
+        boolfbn isKnownControl = (dontrol == Control.INSTANCE) ||
+                                   (dontrol instbndfof SinglfFormbtControl);
+        List<String> formbts = dontrol.gftFormbts(bbsfNbmf);
+        if (!isKnownControl && !difdkList(formbts)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid Control: gftFormbts");
+        }
+
+        RfsourdfBundlf bbsfBundlf = null;
+        for (Lodblf tbrgftLodblf = lodblf;
+             tbrgftLodblf != null;
+             tbrgftLodblf = dontrol.gftFbllbbdkLodblf(bbsfNbmf, tbrgftLodblf)) {
+            List<Lodblf> dbndidbtfLodblfs = dontrol.gftCbndidbtfLodblfs(bbsfNbmf, tbrgftLodblf);
+            if (!isKnownControl && !difdkList(dbndidbtfLodblfs)) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid Control: gftCbndidbtfLodblfs");
+            }
+
+            bundlf = findBundlf(dbdifKfy, dbndidbtfLodblfs, formbts, 0, dontrol, bbsfBundlf);
+
+            // If tif lobdfd bundlf is tif bbsf bundlf bnd fxbdtly for tif
+            // rfqufstfd lodblf or tif only dbndidbtf lodblf, tifn tbkf tif
+            // bundlf bs tif rfsulting onf. If tif lobdfd bundlf is tif bbsf
+            // bundlf, it's put on iold until wf finisi prodfssing bll
+            // fbllbbdk lodblfs.
+            if (isVblidBundlf(bundlf)) {
+                boolfbn isBbsfBundlf = Lodblf.ROOT.fqubls(bundlf.lodblf);
+                if (!isBbsfBundlf || bundlf.lodblf.fqubls(lodblf)
+                    || (dbndidbtfLodblfs.sizf() == 1
+                        && bundlf.lodblf.fqubls(dbndidbtfLodblfs.gft(0)))) {
+                    brfbk;
+                }
+
+                // If tif bbsf bundlf ibs bffn lobdfd, kffp tif rfffrfndf in
+                // bbsfBundlf so tibt wf dbn bvoid bny rfdundbnt lobding in dbsf
+                // tif dontrol spfdify not to dbdif bundlfs.
+                if (isBbsfBundlf && bbsfBundlf == null) {
+                    bbsfBundlf = bundlf;
+                }
+            }
+        }
+
+        if (bundlf == null) {
+            if (bbsfBundlf == null) {
+                tirowMissingRfsourdfExdfption(bbsfNbmf, lodblf, dbdifKfy.gftCbusf());
+            }
+            bundlf = bbsfBundlf;
+        }
+
+        rfturn bundlf;
+    }
+
+    /**
+     * Cifdks if tif givfn <dodf>List</dodf> is not null, not fmpty,
+     * not ibving null in its flfmfnts.
+     */
+    privbtf stbtid boolfbn difdkList(List<?> b) {
+        boolfbn vblid = (b != null && !b.isEmpty());
+        if (vblid) {
+            int sizf = b.sizf();
+            for (int i = 0; vblid && i < sizf; i++) {
+                vblid = (b.gft(i) != null);
+            }
+        }
+        rfturn vblid;
+    }
+
+    privbtf stbtid RfsourdfBundlf findBundlf(CbdifKfy dbdifKfy,
+                                             List<Lodblf> dbndidbtfLodblfs,
+                                             List<String> formbts,
+                                             int indfx,
+                                             Control dontrol,
+                                             RfsourdfBundlf bbsfBundlf) {
+        Lodblf tbrgftLodblf = dbndidbtfLodblfs.gft(indfx);
+        RfsourdfBundlf pbrfnt = null;
+        if (indfx != dbndidbtfLodblfs.sizf() - 1) {
+            pbrfnt = findBundlf(dbdifKfy, dbndidbtfLodblfs, formbts, indfx + 1,
+                                dontrol, bbsfBundlf);
+        } flsf if (bbsfBundlf != null && Lodblf.ROOT.fqubls(tbrgftLodblf)) {
+            rfturn bbsfBundlf;
+        }
+
+        // Bfforf wf do tif rfbl lobding work, sff wiftifr wf nffd to
+        // do somf iousfkffping: If rfffrfndfs to dlbss lobdfrs or
+        // rfsourdf bundlfs ibvf bffn nullfd out, rfmovf bll rflbtfd
+        // informbtion from tif dbdif.
+        Objfdt rff;
+        wiilf ((rff = rfffrfndfQufuf.poll()) != null) {
+            dbdifList.rfmovf(((CbdifKfyRfffrfndf)rff).gftCbdifKfy());
+        }
+
+        // flbg indidbting tif rfsourdf bundlf ibs fxpirfd in tif dbdif
+        boolfbn fxpirfdBundlf = fblsf;
+
+        // First, look up tif dbdif to sff if it's in tif dbdif, witiout
+        // bttfmpting to lobd bundlf.
+        dbdifKfy.sftLodblf(tbrgftLodblf);
+        RfsourdfBundlf bundlf = findBundlfInCbdif(dbdifKfy, dontrol);
+        if (isVblidBundlf(bundlf)) {
+            fxpirfdBundlf = bundlf.fxpirfd;
+            if (!fxpirfdBundlf) {
+                // If its pbrfnt is tif onf bskfd for by tif dbndidbtf
+                // lodblfs (tif runtimf lookup pbti), wf dbn tbkf tif dbdifd
+                // onf. (If it's not idfntidbl, tifn wf'd ibvf to difdk tif
+                // pbrfnt's pbrfnts to bf donsistfnt witi wibt's bffn
+                // rfqufstfd.)
+                if (bundlf.pbrfnt == pbrfnt) {
+                    rfturn bundlf;
+                }
+                // Otifrwisf, rfmovf tif dbdifd onf sindf wf dbn't kffp
+                // tif sbmf bundlfs ibving difffrfnt pbrfnts.
+                BundlfRfffrfndf bundlfRff = dbdifList.gft(dbdifKfy);
+                if (bundlfRff != null && bundlfRff.gft() == bundlf) {
+                    dbdifList.rfmovf(dbdifKfy, bundlfRff);
+                }
+            }
+        }
+
+        if (bundlf != NONEXISTENT_BUNDLE) {
+            CbdifKfy donstKfy = (CbdifKfy) dbdifKfy.dlonf();
+
+            try {
+                bundlf = lobdBundlf(dbdifKfy, formbts, dontrol, fxpirfdBundlf);
+                if (bundlf != null) {
+                    if (bundlf.pbrfnt == null) {
+                        bundlf.sftPbrfnt(pbrfnt);
+                    }
+                    bundlf.lodblf = tbrgftLodblf;
+                    bundlf = putBundlfInCbdif(dbdifKfy, bundlf, dontrol);
+                    rfturn bundlf;
+                }
+
+                // Put NONEXISTENT_BUNDLE in tif dbdif bs b mbrk tibt tifrf's no bundlf
+                // instbndf for tif lodblf.
+                putBundlfInCbdif(dbdifKfy, NONEXISTENT_BUNDLE, dontrol);
+            } finblly {
+                if (donstKfy.gftCbusf() instbndfof IntfrruptfdExdfption) {
+                    Tirfbd.durrfntTirfbd().intfrrupt();
+                }
+            }
+        }
+        rfturn pbrfnt;
+    }
+
+    privbtf stbtid RfsourdfBundlf lobdBundlf(CbdifKfy dbdifKfy,
+                                             List<String> formbts,
+                                             Control dontrol,
+                                             boolfbn rflobd) {
+
+        // Hfrf wf bdtublly lobd tif bundlf in tif ordfr of formbts
+        // spfdififd by tif gftFormbts() vbluf.
+        Lodblf tbrgftLodblf = dbdifKfy.gftLodblf();
+
+        RfsourdfBundlf bundlf = null;
+        for (String formbt : formbts) {
+            try {
+                bundlf = dontrol.nfwBundlf(dbdifKfy.gftNbmf(), tbrgftLodblf, formbt,
+                                           dbdifKfy.gftLobdfr(), rflobd);
+            } dbtdi (LinkbgfError | Exdfption frror) {
+                // Wf nffd to ibndlf tif LinkbgfError dbsf duf to
+                // indonsistfnt dbsf-sfnsitivity in ClbssLobdfr.
+                // Sff 6572242 for dftbils.
+                dbdifKfy.sftCbusf(frror);
+            }
+            if (bundlf != null) {
+                // Sft tif formbt in tif dbdif kfy so tibt it dbn bf
+                // usfd wifn dblling nffdsRflobd lbtfr.
+                dbdifKfy.sftFormbt(formbt);
+                bundlf.nbmf = dbdifKfy.gftNbmf();
+                bundlf.lodblf = tbrgftLodblf;
+                // Bundlf providfr migit rfusf instbndfs. So wf siould mbkf
+                // surf to dlfbr tif fxpirfd flbg ifrf.
+                bundlf.fxpirfd = fblsf;
+                brfbk;
+            }
+        }
+
+        rfturn bundlf;
+    }
+
+    privbtf stbtid boolfbn isVblidBundlf(RfsourdfBundlf bundlf) {
+        rfturn bundlf != null && bundlf != NONEXISTENT_BUNDLE;
+    }
+
+    /**
+     * Dftfrminfs wiftifr bny of rfsourdf bundlfs in tif pbrfnt dibin,
+     * indluding tif lfbf, ibvf fxpirfd.
+     */
+    privbtf stbtid boolfbn ibsVblidPbrfntCibin(RfsourdfBundlf bundlf) {
+        long now = Systfm.durrfntTimfMillis();
+        wiilf (bundlf != null) {
+            if (bundlf.fxpirfd) {
+                rfturn fblsf;
+            }
+            CbdifKfy kfy = bundlf.dbdifKfy;
+            if (kfy != null) {
+                long fxpirbtionTimf = kfy.fxpirbtionTimf;
+                if (fxpirbtionTimf >= 0 && fxpirbtionTimf <= now) {
+                    rfturn fblsf;
+                }
+            }
+            bundlf = bundlf.pbrfnt;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Tirow b MissingRfsourdfExdfption witi propfr mfssbgf
+     */
+    privbtf stbtid void tirowMissingRfsourdfExdfption(String bbsfNbmf,
+                                                      Lodblf lodblf,
+                                                      Tirowbblf dbusf) {
+        // If tif dbusf is b MissingRfsourdfExdfption, bvoid drfbting
+        // b long dibin. (6355009)
+        if (dbusf instbndfof MissingRfsourdfExdfption) {
+            dbusf = null;
+        }
+        tirow nfw MissingRfsourdfExdfption("Cbn't find bundlf for bbsf nbmf "
+                                           + bbsfNbmf + ", lodblf " + lodblf,
+                                           bbsfNbmf + "_" + lodblf, // dlbssNbmf
+                                           "",                      // kfy
+                                           dbusf);
+    }
+
+    /**
+     * Finds b bundlf in tif dbdif. Any fxpirfd bundlfs brf mbrkfd bs
+     * `fxpirfd' bnd rfmovfd from tif dbdif upon rfturn.
+     *
+     * @pbrbm dbdifKfy tif kfy to look up tif dbdif
+     * @pbrbm dontrol tif Control to bf usfd for tif fxpirbtion dontrol
+     * @rfturn tif dbdifd bundlf, or null if tif bundlf is not found in tif
+     * dbdif or its pbrfnt ibs fxpirfd. <dodf>bundlf.fxpirf</dodf> is truf
+     * upon rfturn if tif bundlf in tif dbdif ibs fxpirfd.
+     */
+    privbtf stbtid RfsourdfBundlf findBundlfInCbdif(CbdifKfy dbdifKfy,
+                                                    Control dontrol) {
+        BundlfRfffrfndf bundlfRff = dbdifList.gft(dbdifKfy);
+        if (bundlfRff == null) {
+            rfturn null;
+        }
+        RfsourdfBundlf bundlf = bundlfRff.gft();
+        if (bundlf == null) {
+            rfturn null;
+        }
+        RfsourdfBundlf p = bundlf.pbrfnt;
+        bssfrt p != NONEXISTENT_BUNDLE;
+        // If tif pbrfnt ibs fxpirfd, tifn tiis onf must blso fxpirf. Wf
+        // difdk only tif immfdibtf pbrfnt bfdbusf tif bdtubl lobding is
+        // donf from tif root (bbsf) to lfbf (diild) bnd tif purposf of
+        // difdking is to propbgbtf fxpirbtion towbrds tif lfbf. For
+        // fxbmplf, if tif rfqufstfd lodblf is jb_JP_JP bnd tifrf brf
+        // bundlfs for bll of tif dbndidbtfs in tif dbdif, wf ibvf b list,
+        //
+        // bbsf <- jb <- jb_JP <- jb_JP_JP
+        //
+        // If jb ibs fxpirfd, tifn it will rflobd jb bnd tif list bfdomfs b
+        // trff.
+        //
+        // bbsf <- jb (nfw)
+        //  "   <- jb (fxpirfd) <- jb_JP <- jb_JP_JP
+        //
+        // Wifn looking up jb_JP in tif dbdif, it finds jb_JP in tif dbdif
+        // wiidi rfffrfndfs to tif fxpirfd jb. Tifn, jb_JP is mbrkfd bs
+        // fxpirfd bnd rfmovfd from tif dbdif. Tiis will bf propbgbtfd to
+        // jb_JP_JP.
+        //
+        // Now, it's possiblf, for fxbmplf, tibt wiilf lobding nfw jb_JP,
+        // somfonf flsf ibs stbrtfd lobding tif sbmf bundlf bnd finds tif
+        // bbsf bundlf ibs fxpirfd. Tifn, wibt wf gft from tif first
+        // gftBundlf dbll indludfs tif fxpirfd bbsf bundlf. Howfvfr, if
+        // somfonf flsf didn't stbrt its lobding, wf wouldn't know if tif
+        // bbsf bundlf ibs fxpirfd bt tif fnd of tif lobding prodfss. Tif
+        // fxpirbtion dontrol dofsn't gubrbntff tibt tif rfturnfd bundlf bnd
+        // its pbrfnts ibvfn't fxpirfd.
+        //
+        // Wf dould difdk tif fntirf pbrfnt dibin to sff if tifrf's bny in
+        // tif dibin tibt ibs fxpirfd. But tiis prodfss mby nfvfr fnd. An
+        // fxtrfmf dbsf would bf tibt gftTimfToLivf rfturns 0 bnd
+        // nffdsRflobd blwbys rfturns truf.
+        if (p != null && p.fxpirfd) {
+            bssfrt bundlf != NONEXISTENT_BUNDLE;
+            bundlf.fxpirfd = truf;
+            bundlf.dbdifKfy = null;
+            dbdifList.rfmovf(dbdifKfy, bundlfRff);
+            bundlf = null;
+        } flsf {
+            CbdifKfy kfy = bundlfRff.gftCbdifKfy();
+            long fxpirbtionTimf = kfy.fxpirbtionTimf;
+            if (!bundlf.fxpirfd && fxpirbtionTimf >= 0 &&
+                fxpirbtionTimf <= Systfm.durrfntTimfMillis()) {
+                // its TTL pfriod ibs fxpirfd.
+                if (bundlf != NONEXISTENT_BUNDLE) {
+                    // Syndironizf ifrf to dbll nffdsRflobd to bvoid
+                    // rfdundbnt dondurrfnt dblls for tif sbmf bundlf.
+                    syndironizfd (bundlf) {
+                        fxpirbtionTimf = kfy.fxpirbtionTimf;
+                        if (!bundlf.fxpirfd && fxpirbtionTimf >= 0 &&
+                            fxpirbtionTimf <= Systfm.durrfntTimfMillis()) {
+                            try {
+                                bundlf.fxpirfd = dontrol.nffdsRflobd(kfy.gftNbmf(),
+                                                                     kfy.gftLodblf(),
+                                                                     kfy.gftFormbt(),
+                                                                     kfy.gftLobdfr(),
+                                                                     bundlf,
+                                                                     kfy.lobdTimf);
+                            } dbtdi (Exdfption f) {
+                                dbdifKfy.sftCbusf(f);
+                            }
+                            if (bundlf.fxpirfd) {
+                                // If tif bundlf nffds to bf rflobdfd, tifn
+                                // rfmovf tif bundlf from tif dbdif, but
+                                // rfturn tif bundlf witi tif fxpirfd flbg
+                                // on.
+                                bundlf.dbdifKfy = null;
+                                dbdifList.rfmovf(dbdifKfy, bundlfRff);
+                            } flsf {
+                                // Updbtf tif fxpirbtion dontrol info. bnd rfusf
+                                // tif sbmf bundlf instbndf
+                                sftExpirbtionTimf(kfy, dontrol);
+                            }
+                        }
+                    }
+                } flsf {
+                    // Wf just rfmovf NONEXISTENT_BUNDLE from tif dbdif.
+                    dbdifList.rfmovf(dbdifKfy, bundlfRff);
+                    bundlf = null;
+                }
+            }
+        }
+        rfturn bundlf;
+    }
+
+    /**
+     * Put b nfw bundlf in tif dbdif.
+     *
+     * @pbrbm dbdifKfy tif kfy for tif rfsourdf bundlf
+     * @pbrbm bundlf tif rfsourdf bundlf to bf put in tif dbdif
+     * @rfturn tif RfsourdfBundlf for tif dbdifKfy; if somfonf ibs put
+     * tif bundlf bfforf tiis dbll, tif onf found in tif dbdif is
+     * rfturnfd.
+     */
+    privbtf stbtid RfsourdfBundlf putBundlfInCbdif(CbdifKfy dbdifKfy,
+                                                   RfsourdfBundlf bundlf,
+                                                   Control dontrol) {
+        sftExpirbtionTimf(dbdifKfy, dontrol);
+        if (dbdifKfy.fxpirbtionTimf != Control.TTL_DONT_CACHE) {
+            CbdifKfy kfy = (CbdifKfy) dbdifKfy.dlonf();
+            BundlfRfffrfndf bundlfRff = nfw BundlfRfffrfndf(bundlf, rfffrfndfQufuf, kfy);
+            bundlf.dbdifKfy = kfy;
+
+            // Put tif bundlf in tif dbdif if it's not bffn in tif dbdif.
+            BundlfRfffrfndf rfsult = dbdifList.putIfAbsfnt(kfy, bundlfRff);
+
+            // If somfonf flsf ibs put tif sbmf bundlf in tif dbdif bfforf
+            // us bnd it ibs not fxpirfd, wf siould usf tif onf in tif dbdif.
+            if (rfsult != null) {
+                RfsourdfBundlf rb = rfsult.gft();
+                if (rb != null && !rb.fxpirfd) {
+                    // Clfbr tif bbdk link to tif dbdif kfy
+                    bundlf.dbdifKfy = null;
+                    bundlf = rb;
+                    // Clfbr tif rfffrfndf in tif BundlfRfffrfndf so tibt
+                    // it won't bf fnqufufd.
+                    bundlfRff.dlfbr();
+                } flsf {
+                    // Rfplbdf tif invblid (gbrbbgf dollfdtfd or fxpirfd)
+                    // instbndf witi tif vblid onf.
+                    dbdifList.put(kfy, bundlfRff);
+                }
+            }
+        }
+        rfturn bundlf;
+    }
+
+    privbtf stbtid void sftExpirbtionTimf(CbdifKfy dbdifKfy, Control dontrol) {
+        long ttl = dontrol.gftTimfToLivf(dbdifKfy.gftNbmf(),
+                                         dbdifKfy.gftLodblf());
+        if (ttl >= 0) {
+            // If bny fxpirbtion timf is spfdififd, sft tif timf to bf
+            // fxpirfd in tif dbdif.
+            long now = Systfm.durrfntTimfMillis();
+            dbdifKfy.lobdTimf = now;
+            dbdifKfy.fxpirbtionTimf = now + ttl;
+        } flsf if (ttl >= Control.TTL_NO_EXPIRATION_CONTROL) {
+            dbdifKfy.fxpirbtionTimf = ttl;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Invblid Control: TTL=" + ttl);
+        }
+    }
+
+    /**
+     * Rfmovfs bll rfsourdf bundlfs from tif dbdif tibt ibvf bffn lobdfd
+     * using tif dbllfr's dlbss lobdfr.
+     *
+     * @sindf 1.6
+     * @sff RfsourdfBundlf.Control#gftTimfToLivf(String,Lodblf)
+     */
+    @CbllfrSfnsitivf
+    publid stbtid finbl void dlfbrCbdif() {
+        dlfbrCbdif(gftLobdfr(Rfflfdtion.gftCbllfrClbss()));
+    }
+
+    /**
+     * Rfmovfs bll rfsourdf bundlfs from tif dbdif tibt ibvf bffn lobdfd
+     * using tif givfn dlbss lobdfr.
+     *
+     * @pbrbm lobdfr tif dlbss lobdfr
+     * @fxdfption NullPointfrExdfption if <dodf>lobdfr</dodf> is null
+     * @sindf 1.6
+     * @sff RfsourdfBundlf.Control#gftTimfToLivf(String,Lodblf)
+     */
+    publid stbtid finbl void dlfbrCbdif(ClbssLobdfr lobdfr) {
+        if (lobdfr == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        Sft<CbdifKfy> sft = dbdifList.kfySft();
+        for (CbdifKfy kfy : sft) {
+            if (kfy.gftLobdfr() == lobdfr) {
+                sft.rfmovf(kfy);
+            }
+        }
+    }
+
+    /**
+     * Gfts bn objfdt for tif givfn kfy from tiis rfsourdf bundlf.
+     * Rfturns null if tiis rfsourdf bundlf dofs not dontbin bn
+     * objfdt for tif givfn kfy.
+     *
+     * @pbrbm kfy tif kfy for tif dfsirfd objfdt
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
+     * @rfturn tif objfdt for tif givfn kfy, or null
+     */
+    protfdtfd bbstrbdt Objfdt ibndlfGftObjfdt(String kfy);
+
+    /**
+     * Rfturns bn fnumfrbtion of tif kfys.
+     *
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of tif kfys dontbinfd in
+     *         tiis <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     */
+    publid bbstrbdt Enumfrbtion<String> gftKfys();
+
+    /**
+     * Dftfrminfs wiftifr tif givfn <dodf>kfy</dodf> is dontbinfd in
+     * tiis <dodf>RfsourdfBundlf</dodf> or its pbrfnt bundlfs.
+     *
+     * @pbrbm kfy
+     *        tif rfsourdf <dodf>kfy</dodf>
+     * @rfturn <dodf>truf</dodf> if tif givfn <dodf>kfy</dodf> is
+     *        dontbinfd in tiis <dodf>RfsourdfBundlf</dodf> or its
+     *        pbrfnt bundlfs; <dodf>fblsf</dodf> otifrwisf.
+     * @fxdfption NullPointfrExdfption
+     *         if <dodf>kfy</dodf> is <dodf>null</dodf>
+     * @sindf 1.6
+     */
+    publid boolfbn dontbinsKfy(String kfy) {
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        for (RfsourdfBundlf rb = tiis; rb != null; rb = rb.pbrfnt) {
+            if (rb.ibndlfKfySft().dontbins(kfy)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b <dodf>Sft</dodf> of bll kfys dontbinfd in tiis
+     * <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     *
+     * @rfturn b <dodf>Sft</dodf> of bll kfys dontbinfd in tiis
+     *         <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     * @sindf 1.6
+     */
+    publid Sft<String> kfySft() {
+        Sft<String> kfys = nfw HbsiSft<>();
+        for (RfsourdfBundlf rb = tiis; rb != null; rb = rb.pbrfnt) {
+            kfys.bddAll(rb.ibndlfKfySft());
+        }
+        rfturn kfys;
+    }
+
+    /**
+     * Rfturns b <dodf>Sft</dodf> of tif kfys dontbinfd <fm>only</fm>
+     * in tiis <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>Tif dffbult implfmfntbtion rfturns b <dodf>Sft</dodf> of tif
+     * kfys rfturnfd by tif {@link #gftKfys() gftKfys} mftiod fxdfpt
+     * for tif onfs for wiidi tif {@link #ibndlfGftObjfdt(String)
+     * ibndlfGftObjfdt} mftiod rfturns <dodf>null</dodf>. Ondf tif
+     * <dodf>Sft</dodf> ibs bffn drfbtfd, tif vbluf is kfpt in tiis
+     * <dodf>RfsourdfBundlf</dodf> in ordfr to bvoid produding tif
+     * sbmf <dodf>Sft</dodf> in subsfqufnt dblls. Subdlbssfs dbn
+     * ovfrridf tiis mftiod for fbstfr ibndling.
+     *
+     * @rfturn b <dodf>Sft</dodf> of tif kfys dontbinfd only in tiis
+     *        <dodf>RfsourdfBundlf</dodf>
+     * @sindf 1.6
+     */
+    protfdtfd Sft<String> ibndlfKfySft() {
+        if (kfySft == null) {
+            syndironizfd (tiis) {
+                if (kfySft == null) {
+                    Sft<String> kfys = nfw HbsiSft<>();
+                    Enumfrbtion<String> fnumKfys = gftKfys();
+                    wiilf (fnumKfys.ibsMorfElfmfnts()) {
+                        String kfy = fnumKfys.nfxtElfmfnt();
+                        if (ibndlfGftObjfdt(kfy) != null) {
+                            kfys.bdd(kfy);
+                        }
+                    }
+                    kfySft = kfys;
+                }
+            }
+        }
+        rfturn kfySft;
+    }
+
+
+
+    /**
+     * <dodf>RfsourdfBundlf.Control</dodf> dffinfs b sft of dbllbbdk mftiods
+     * tibt brf invokfd by tif {@link RfsourdfBundlf#gftBundlf(String,
+     * Lodblf, ClbssLobdfr, Control) RfsourdfBundlf.gftBundlf} fbdtory
+     * mftiods during tif bundlf lobding prodfss. In otifr words, b
+     * <dodf>RfsourdfBundlf.Control</dodf> dollbborbtfs witi tif fbdtory
+     * mftiods for lobding rfsourdf bundlfs. Tif dffbult implfmfntbtion of
+     * tif dbllbbdk mftiods providfs tif informbtion nfdfssbry for tif
+     * fbdtory mftiods to pfrform tif <b
+     * irff="./RfsourdfBundlf.itml#dffbult_bfibvior">dffbult bfibvior</b>.
+     *
+     * <p>In bddition to tif dbllbbdk mftiods, tif {@link
+     * #toBundlfNbmf(String, Lodblf) toBundlfNbmf} bnd {@link
+     * #toRfsourdfNbmf(String, String) toRfsourdfNbmf} mftiods brf dffinfd
+     * primbrily for donvfnifndf in implfmfnting tif dbllbbdk
+     * mftiods. Howfvfr, tif <dodf>toBundlfNbmf</dodf> mftiod dould bf
+     * ovfrriddfn to providf difffrfnt donvfntions in tif orgbnizbtion bnd
+     * pbdkbging of lodblizfd rfsourdfs.  Tif <dodf>toRfsourdfNbmf</dodf>
+     * mftiod is <dodf>finbl</dodf> to bvoid usf of wrong rfsourdf bnd dlbss
+     * nbmf sfpbrbtors.
+     *
+     * <p>Two fbdtory mftiods, {@link #gftControl(List)} bnd {@link
+     * #gftNoFbllbbdkControl(List)}, providf
+     * <dodf>RfsourdfBundlf.Control</dodf> instbndfs tibt implfmfnt dommon
+     * vbribtions of tif dffbult bundlf lobding prodfss.
+     *
+     * <p>Tif formbts rfturnfd by tif {@link Control#gftFormbts(String)
+     * gftFormbts} mftiod bnd dbndidbtf lodblfs rfturnfd by tif {@link
+     * RfsourdfBundlf.Control#gftCbndidbtfLodblfs(String, Lodblf)
+     * gftCbndidbtfLodblfs} mftiod must bf donsistfnt in bll
+     * <dodf>RfsourdfBundlf.gftBundlf</dodf> invodbtions for tif sbmf bbsf
+     * bundlf. Otifrwisf, tif <dodf>RfsourdfBundlf.gftBundlf</dodf> mftiods
+     * mby rfturn unintfndfd bundlfs. For fxbmplf, if only
+     * <dodf>"jbvb.dlbss"</dodf> is rfturnfd by tif <dodf>gftFormbts</dodf>
+     * mftiod for tif first dbll to <dodf>RfsourdfBundlf.gftBundlf</dodf>
+     * bnd only <dodf>"jbvb.propfrtifs"</dodf> for tif sfdond dbll, tifn tif
+     * sfdond dbll will rfturn tif dlbss-bbsfd onf tibt ibs bffn dbdifd
+     * during tif first dbll.
+     *
+     * <p>A <dodf>RfsourdfBundlf.Control</dodf> instbndf must bf tirfbd-sbff
+     * if it's simultbnfously usfd by multiplf tirfbds.
+     * <dodf>RfsourdfBundlf.gftBundlf</dodf> dofs not syndironizf to dbll
+     * tif <dodf>RfsourdfBundlf.Control</dodf> mftiods. Tif dffbult
+     * implfmfntbtions of tif mftiods brf tirfbd-sbff.
+     *
+     * <p>Applidbtions dbn spfdify <dodf>RfsourdfBundlf.Control</dodf>
+     * instbndfs rfturnfd by tif <dodf>gftControl</dodf> fbdtory mftiods or
+     * drfbtfd from b subdlbss of <dodf>RfsourdfBundlf.Control</dodf> to
+     * dustomizf tif bundlf lobding prodfss. Tif following brf fxbmplfs of
+     * dibnging tif dffbult bundlf lobding prodfss.
+     *
+     * <p><b>Exbmplf 1</b>
+     *
+     * <p>Tif following dodf lfts <dodf>RfsourdfBundlf.gftBundlf</dodf> look
+     * up only propfrtifs-bbsfd rfsourdfs.
+     *
+     * <prf>
+     * import jbvb.util.*;
+     * import stbtid jbvb.util.RfsourdfBundlf.Control.*;
+     * ...
+     * RfsourdfBundlf bundlf =
+     *   RfsourdfBundlf.gftBundlf("MyRfsourdfs", nfw Lodblf("fr", "CH"),
+     *                            RfsourdfBundlf.Control.gftControl(FORMAT_PROPERTIES));
+     * </prf>
+     *
+     * Givfn tif rfsourdf bundlfs in tif <b
+     * irff="./RfsourdfBundlf.itml#dffbult_bfibvior_fxbmplf">fxbmplf</b> in
+     * tif <dodf>RfsourdfBundlf.gftBundlf</dodf> dfsdription, tiis
+     * <dodf>RfsourdfBundlf.gftBundlf</dodf> dbll lobds
+     * <dodf>MyRfsourdfs_fr_CH.propfrtifs</dodf> wiosf pbrfnt is
+     * <dodf>MyRfsourdfs_fr.propfrtifs</dodf> wiosf pbrfnt is
+     * <dodf>MyRfsourdfs.propfrtifs</dodf>. (<dodf>MyRfsourdfs_fr_CH.propfrtifs</dodf>
+     * is not iiddfn, but <dodf>MyRfsourdfs_fr_CH.dlbss</dodf> is.)
+     *
+     * <p><b>Exbmplf 2</b>
+     *
+     * <p>Tif following is bn fxbmplf of lobding XML-bbsfd bundlfs
+     * using {@link Propfrtifs#lobdFromXML(jbvb.io.InputStrfbm)
+     * Propfrtifs.lobdFromXML}.
+     *
+     * <prf>
+     * RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("Mfssbgfs",
+     *     nfw RfsourdfBundlf.Control() {
+     *         publid List&lt;String&gt; gftFormbts(String bbsfNbmf) {
+     *             if (bbsfNbmf == null)
+     *                 tirow nfw NullPointfrExdfption();
+     *             rfturn Arrbys.bsList("xml");
+     *         }
+     *         publid RfsourdfBundlf nfwBundlf(String bbsfNbmf,
+     *                                         Lodblf lodblf,
+     *                                         String formbt,
+     *                                         ClbssLobdfr lobdfr,
+     *                                         boolfbn rflobd)
+     *                          tirows IllfgblAddfssExdfption,
+     *                                 InstbntibtionExdfption,
+     *                                 IOExdfption {
+     *             if (bbsfNbmf == null || lodblf == null
+     *                   || formbt == null || lobdfr == null)
+     *                 tirow nfw NullPointfrExdfption();
+     *             RfsourdfBundlf bundlf = null;
+     *             if (formbt.fqubls("xml")) {
+     *                 String bundlfNbmf = toBundlfNbmf(bbsfNbmf, lodblf);
+     *                 String rfsourdfNbmf = toRfsourdfNbmf(bundlfNbmf, formbt);
+     *                 InputStrfbm strfbm = null;
+     *                 if (rflobd) {
+     *                     URL url = lobdfr.gftRfsourdf(rfsourdfNbmf);
+     *                     if (url != null) {
+     *                         URLConnfdtion donnfdtion = url.opfnConnfdtion();
+     *                         if (donnfdtion != null) {
+     *                             // Disbblf dbdifs to gft frfsi dbtb for
+     *                             // rflobding.
+     *                             donnfdtion.sftUsfCbdifs(fblsf);
+     *                             strfbm = donnfdtion.gftInputStrfbm();
+     *                         }
+     *                     }
+     *                 } flsf {
+     *                     strfbm = lobdfr.gftRfsourdfAsStrfbm(rfsourdfNbmf);
+     *                 }
+     *                 if (strfbm != null) {
+     *                     BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(strfbm);
+     *                     bundlf = nfw XMLRfsourdfBundlf(bis);
+     *                     bis.dlosf();
+     *                 }
+     *             }
+     *             rfturn bundlf;
+     *         }
+     *     });
+     *
+     * ...
+     *
+     * privbtf stbtid dlbss XMLRfsourdfBundlf fxtfnds RfsourdfBundlf {
+     *     privbtf Propfrtifs props;
+     *     XMLRfsourdfBundlf(InputStrfbm strfbm) tirows IOExdfption {
+     *         props = nfw Propfrtifs();
+     *         props.lobdFromXML(strfbm);
+     *     }
+     *     protfdtfd Objfdt ibndlfGftObjfdt(String kfy) {
+     *         rfturn props.gftPropfrty(kfy);
+     *     }
+     *     publid Enumfrbtion&lt;String&gt; gftKfys() {
+     *         ...
+     *     }
+     * }
+     * </prf>
+     *
+     * @sindf 1.6
+     */
+    publid stbtid dlbss Control {
+        /**
+         * Tif dffbult formbt <dodf>List</dodf>, wiidi dontbins tif strings
+         * <dodf>"jbvb.dlbss"</dodf> bnd <dodf>"jbvb.propfrtifs"</dodf>, in
+         * tiis ordfr. Tiis <dodf>List</dodf> is {@linkplbin
+         * Collfdtions#unmodifibblfList(List) unmodifibblf}.
+         *
+         * @sff #gftFormbts(String)
+         */
+        publid stbtid finbl List<String> FORMAT_DEFAULT
+            = Collfdtions.unmodifibblfList(Arrbys.bsList("jbvb.dlbss",
+                                                         "jbvb.propfrtifs"));
+
+        /**
+         * Tif dlbss-only formbt <dodf>List</dodf> dontbining
+         * <dodf>"jbvb.dlbss"</dodf>. Tiis <dodf>List</dodf> is {@linkplbin
+         * Collfdtions#unmodifibblfList(List) unmodifibblf}.
+         *
+         * @sff #gftFormbts(String)
+         */
+        publid stbtid finbl List<String> FORMAT_CLASS
+            = Collfdtions.unmodifibblfList(Arrbys.bsList("jbvb.dlbss"));
+
+        /**
+         * Tif propfrtifs-only formbt <dodf>List</dodf> dontbining
+         * <dodf>"jbvb.propfrtifs"</dodf>. Tiis <dodf>List</dodf> is
+         * {@linkplbin Collfdtions#unmodifibblfList(List) unmodifibblf}.
+         *
+         * @sff #gftFormbts(String)
+         */
+        publid stbtid finbl List<String> FORMAT_PROPERTIES
+            = Collfdtions.unmodifibblfList(Arrbys.bsList("jbvb.propfrtifs"));
+
+        /**
+         * Tif timf-to-livf donstbnt for not dbdiing lobdfd rfsourdf bundlf
+         * instbndfs.
+         *
+         * @sff #gftTimfToLivf(String, Lodblf)
+         */
+        publid stbtid finbl long TTL_DONT_CACHE = -1;
+
+        /**
+         * Tif timf-to-livf donstbnt for disbbling tif fxpirbtion dontrol
+         * for lobdfd rfsourdf bundlf instbndfs in tif dbdif.
+         *
+         * @sff #gftTimfToLivf(String, Lodblf)
+         */
+        publid stbtid finbl long TTL_NO_EXPIRATION_CONTROL = -2;
+
+        privbtf stbtid finbl Control INSTANCE = nfw Control();
+
+        /**
+         * Solf donstrudtor. (For invodbtion by subdlbss donstrudtors,
+         * typidblly implidit.)
+         */
+        protfdtfd Control() {
+        }
+
+        /**
+         * Rfturns b <dodf>RfsourdfBundlf.Control</dodf> in wiidi tif {@link
+         * #gftFormbts(String) gftFormbts} mftiod rfturns tif spfdififd
+         * <dodf>formbts</dodf>. Tif <dodf>formbts</dodf> must bf fqubl to
+         * onf of {@link Control#FORMAT_PROPERTIES}, {@link
+         * Control#FORMAT_CLASS} or {@link
+         * Control#FORMAT_DEFAULT}. <dodf>RfsourdfBundlf.Control</dodf>
+         * instbndfs rfturnfd by tiis mftiod brf singlftons bnd tirfbd-sbff.
+         *
+         * <p>Spfdifying {@link Control#FORMAT_DEFAULT} is fquivblfnt to
+         * instbntibting tif <dodf>RfsourdfBundlf.Control</dodf> dlbss,
+         * fxdfpt tibt tiis mftiod rfturns b singlfton.
+         *
+         * @pbrbm formbts
+         *        tif formbts to bf rfturnfd by tif
+         *        <dodf>RfsourdfBundlf.Control.gftFormbts</dodf> mftiod
+         * @rfturn b <dodf>RfsourdfBundlf.Control</dodf> supporting tif
+         *        spfdififd <dodf>formbts</dodf>
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>formbts</dodf> is <dodf>null</dodf>
+         * @fxdfption IllfgblArgumfntExdfption
+         *        if <dodf>formbts</dodf> is unknown
+         */
+        publid stbtid finbl Control gftControl(List<String> formbts) {
+            if (formbts.fqubls(Control.FORMAT_PROPERTIES)) {
+                rfturn SinglfFormbtControl.PROPERTIES_ONLY;
+            }
+            if (formbts.fqubls(Control.FORMAT_CLASS)) {
+                rfturn SinglfFormbtControl.CLASS_ONLY;
+            }
+            if (formbts.fqubls(Control.FORMAT_DEFAULT)) {
+                rfturn Control.INSTANCE;
+            }
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+
+        /**
+         * Rfturns b <dodf>RfsourdfBundlf.Control</dodf> in wiidi tif {@link
+         * #gftFormbts(String) gftFormbts} mftiod rfturns tif spfdififd
+         * <dodf>formbts</dodf> bnd tif {@link
+         * Control#gftFbllbbdkLodblf(String, Lodblf) gftFbllbbdkLodblf}
+         * mftiod rfturns <dodf>null</dodf>. Tif <dodf>formbts</dodf> must
+         * bf fqubl to onf of {@link Control#FORMAT_PROPERTIES}, {@link
+         * Control#FORMAT_CLASS} or {@link Control#FORMAT_DEFAULT}.
+         * <dodf>RfsourdfBundlf.Control</dodf> instbndfs rfturnfd by tiis
+         * mftiod brf singlftons bnd tirfbd-sbff.
+         *
+         * @pbrbm formbts
+         *        tif formbts to bf rfturnfd by tif
+         *        <dodf>RfsourdfBundlf.Control.gftFormbts</dodf> mftiod
+         * @rfturn b <dodf>RfsourdfBundlf.Control</dodf> supporting tif
+         *        spfdififd <dodf>formbts</dodf> witi no fbllbbdk
+         *        <dodf>Lodblf</dodf> support
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>formbts</dodf> is <dodf>null</dodf>
+         * @fxdfption IllfgblArgumfntExdfption
+         *        if <dodf>formbts</dodf> is unknown
+         */
+        publid stbtid finbl Control gftNoFbllbbdkControl(List<String> formbts) {
+            if (formbts.fqubls(Control.FORMAT_DEFAULT)) {
+                rfturn NoFbllbbdkControl.NO_FALLBACK;
+            }
+            if (formbts.fqubls(Control.FORMAT_PROPERTIES)) {
+                rfturn NoFbllbbdkControl.PROPERTIES_ONLY_NO_FALLBACK;
+            }
+            if (formbts.fqubls(Control.FORMAT_CLASS)) {
+                rfturn NoFbllbbdkControl.CLASS_ONLY_NO_FALLBACK;
+            }
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+
+        /**
+         * Rfturns b <dodf>List</dodf> of <dodf>String</dodf>s dontbining
+         * formbts to bf usfd to lobd rfsourdf bundlfs for tif givfn
+         * <dodf>bbsfNbmf</dodf>. Tif <dodf>RfsourdfBundlf.gftBundlf</dodf>
+         * fbdtory mftiod trifs to lobd rfsourdf bundlfs witi formbts in tif
+         * ordfr spfdififd by tif list. Tif list rfturnfd by tiis mftiod
+         * must ibvf bt lfbst onf <dodf>String</dodf>. Tif prfdffinfd
+         * formbts brf <dodf>"jbvb.dlbss"</dodf> for dlbss-bbsfd rfsourdf
+         * bundlfs bnd <dodf>"jbvb.propfrtifs"</dodf> for {@linkplbin
+         * PropfrtyRfsourdfBundlf propfrtifs-bbsfd} onfs. Strings stbrting
+         * witi <dodf>"jbvb."</dodf> brf rfsfrvfd for futurf fxtfnsions bnd
+         * must not bf usfd by bpplidbtion-dffinfd formbts.
+         *
+         * <p>It is not b rfquirfmfnt to rfturn bn immutbblf (unmodifibblf)
+         * <dodf>List</dodf>.  Howfvfr, tif rfturnfd <dodf>List</dodf> must
+         * not bf mutbtfd bftfr it ibs bffn rfturnfd by
+         * <dodf>gftFormbts</dodf>.
+         *
+         * <p>Tif dffbult implfmfntbtion rfturns {@link #FORMAT_DEFAULT} so
+         * tibt tif <dodf>RfsourdfBundlf.gftBundlf</dodf> fbdtory mftiod
+         * looks up first dlbss-bbsfd rfsourdf bundlfs, tifn
+         * propfrtifs-bbsfd onfs.
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf nbmf of tif rfsourdf bundlf, b fully qublififd dlbss
+         *        nbmf
+         * @rfturn b <dodf>List</dodf> of <dodf>String</dodf>s dontbining
+         *        formbts for lobding rfsourdf bundlfs.
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf> is null
+         * @sff #FORMAT_DEFAULT
+         * @sff #FORMAT_CLASS
+         * @sff #FORMAT_PROPERTIES
+         */
+        publid List<String> gftFormbts(String bbsfNbmf) {
+            if (bbsfNbmf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            rfturn FORMAT_DEFAULT;
+        }
+
+        /**
+         * Rfturns b <dodf>List</dodf> of <dodf>Lodblf</dodf>s bs dbndidbtf
+         * lodblfs for <dodf>bbsfNbmf</dodf> bnd <dodf>lodblf</dodf>. Tiis
+         * mftiod is dbllfd by tif <dodf>RfsourdfBundlf.gftBundlf</dodf>
+         * fbdtory mftiod fbdi timf tif fbdtory mftiod trifs finding b
+         * rfsourdf bundlf for b tbrgft <dodf>Lodblf</dodf>.
+         *
+         * <p>Tif sfqufndf of tif dbndidbtf lodblfs blso dorrfsponds to tif
+         * runtimf rfsourdf lookup pbti (blso known bs tif <I>pbrfnt
+         * dibin</I>), if tif dorrfsponding rfsourdf bundlfs for tif
+         * dbndidbtf lodblfs fxist bnd tifir pbrfnts brf not dffinfd by
+         * lobdfd rfsourdf bundlfs tifmsflvfs.  Tif lbst flfmfnt of tif list
+         * must bf b {@linkplbin Lodblf#ROOT root lodblf} if it is dfsirfd to
+         * ibvf tif bbsf bundlf bs tif tfrminbl of tif pbrfnt dibin.
+         *
+         * <p>If tif givfn lodblf is fqubl to <dodf>Lodblf.ROOT</dodf> (tif
+         * root lodblf), b <dodf>List</dodf> dontbining only tif root
+         * <dodf>Lodblf</dodf> must bf rfturnfd. In tiis dbsf, tif
+         * <dodf>RfsourdfBundlf.gftBundlf</dodf> fbdtory mftiod lobds only
+         * tif bbsf bundlf bs tif rfsulting rfsourdf bundlf.
+         *
+         * <p>It is not b rfquirfmfnt to rfturn bn immutbblf (unmodifibblf)
+         * <dodf>List</dodf>. Howfvfr, tif rfturnfd <dodf>List</dodf> must not
+         * bf mutbtfd bftfr it ibs bffn rfturnfd by
+         * <dodf>gftCbndidbtfLodblfs</dodf>.
+         *
+         * <p>Tif dffbult implfmfntbtion rfturns b <dodf>List</dodf> dontbining
+         * <dodf>Lodblf</dodf>s using tif rulfs dfsdribfd bflow.  In tif
+         * dfsdription bflow, <fm>L</fm>, <fm>S</fm>, <fm>C</fm> bnd <fm>V</fm>
+         * rfspfdtivfly rfprfsfnt non-fmpty lbngubgf, sdript, dountry, bnd
+         * vbribnt.  For fxbmplf, [<fm>L</fm>, <fm>C</fm>] rfprfsfnts b
+         * <dodf>Lodblf</dodf> tibt ibs non-fmpty vblufs only for lbngubgf bnd
+         * dountry.  Tif form <fm>L</fm>("xx") rfprfsfnts tif (non-fmpty)
+         * lbngubgf vbluf is "xx".  For bll dbsfs, <dodf>Lodblf</dodf>s wiosf
+         * finbl domponfnt vblufs brf fmpty strings brf omittfd.
+         *
+         * <ol><li>For bn input <dodf>Lodblf</dodf> witi bn fmpty sdript vbluf,
+         * bppfnd dbndidbtf <dodf>Lodblf</dodf>s by omitting tif finbl domponfnt
+         * onf by onf bs bflow:
+         *
+         * <ul>
+         * <li> [<fm>L</fm>, <fm>C</fm>, <fm>V</fm>] </li>
+         * <li> [<fm>L</fm>, <fm>C</fm>] </li>
+         * <li> [<fm>L</fm>] </li>
+         * <li> <dodf>Lodblf.ROOT</dodf> </li>
+         * </ul></li>
+         *
+         * <li>For bn input <dodf>Lodblf</dodf> witi b non-fmpty sdript vbluf,
+         * bppfnd dbndidbtf <dodf>Lodblf</dodf>s by omitting tif finbl domponfnt
+         * up to lbngubgf, tifn bppfnd dbndidbtfs gfnfrbtfd from tif
+         * <dodf>Lodblf</dodf> witi dountry bnd vbribnt rfstorfd:
+         *
+         * <ul>
+         * <li> [<fm>L</fm>, <fm>S</fm>, <fm>C</fm>, <fm>V</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>S</fm>, <fm>C</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>S</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>C</fm>, <fm>V</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>C</fm>]</li>
+         * <li> [<fm>L</fm>]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul></li>
+         *
+         * <li>For bn input <dodf>Lodblf</dodf> witi b vbribnt vbluf donsisting
+         * of multiplf subtbgs sfpbrbtfd by undfrsdorf, gfnfrbtf dbndidbtf
+         * <dodf>Lodblf</dodf>s by omitting tif vbribnt subtbgs onf by onf, tifn
+         * insfrt tifm bftfr fvfry oddurrfndf of <dodf> Lodblf</dodf>s witi tif
+         * full vbribnt vbluf in tif originbl list.  For fxbmplf, if tif
+         * tif vbribnt donsists of two subtbgs <fm>V1</fm> bnd <fm>V2</fm>:
+         *
+         * <ul>
+         * <li> [<fm>L</fm>, <fm>S</fm>, <fm>C</fm>, <fm>V1</fm>, <fm>V2</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>S</fm>, <fm>C</fm>, <fm>V1</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>S</fm>, <fm>C</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>S</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>C</fm>, <fm>V1</fm>, <fm>V2</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>C</fm>, <fm>V1</fm>]</li>
+         * <li> [<fm>L</fm>, <fm>C</fm>]</li>
+         * <li> [<fm>L</fm>]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul></li>
+         *
+         * <li>Spfdibl dbsfs for Ciinfsf.  Wifn bn input <dodf>Lodblf</dodf> ibs tif
+         * lbngubgf "zi" (Ciinfsf) bnd bn fmpty sdript vbluf, fitifr "Hbns" (Simplififd) or
+         * "Hbnt" (Trbditionbl) migit bf supplifd, dfpfnding on tif dountry.
+         * Wifn tif dountry is "CN" (Ciinb) or "SG" (Singbporf), "Hbns" is supplifd.
+         * Wifn tif dountry is "HK" (Hong Kong SAR Ciinb), "MO" (Mbdbu SAR Ciinb),
+         * or "TW" (Tbiwbn), "Hbnt" is supplifd.  For bll otifr dountrifs or wifn tif dountry
+         * is fmpty, no sdript is supplifd.  For fxbmplf, for <dodf>Lodblf("zi", "CN")
+         * </dodf>, tif dbndidbtf list will bf:
+         * <ul>
+         * <li> [<fm>L</fm>("zi"), <fm>S</fm>("Hbns"), <fm>C</fm>("CN")]</li>
+         * <li> [<fm>L</fm>("zi"), <fm>S</fm>("Hbns")]</li>
+         * <li> [<fm>L</fm>("zi"), <fm>C</fm>("CN")]</li>
+         * <li> [<fm>L</fm>("zi")]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul>
+         *
+         * For <dodf>Lodblf("zi", "TW")</dodf>, tif dbndidbtf list will bf:
+         * <ul>
+         * <li> [<fm>L</fm>("zi"), <fm>S</fm>("Hbnt"), <fm>C</fm>("TW")]</li>
+         * <li> [<fm>L</fm>("zi"), <fm>S</fm>("Hbnt")]</li>
+         * <li> [<fm>L</fm>("zi"), <fm>C</fm>("TW")]</li>
+         * <li> [<fm>L</fm>("zi")]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul></li>
+         *
+         * <li>Spfdibl dbsfs for Norwfgibn.  Boti <dodf>Lodblf("no", "NO",
+         * "NY")</dodf> bnd <dodf>Lodblf("nn", "NO")</dodf> rfprfsfnt Norwfgibn
+         * Nynorsk.  Wifn b lodblf's lbngubgf is "nn", tif stbndbrd dbndidbtf
+         * list is gfnfrbtfd up to [<fm>L</fm>("nn")], bnd tifn tif following
+         * dbndidbtfs brf bddfd:
+         *
+         * <ul><li> [<fm>L</fm>("no"), <fm>C</fm>("NO"), <fm>V</fm>("NY")]</li>
+         * <li> [<fm>L</fm>("no"), <fm>C</fm>("NO")]</li>
+         * <li> [<fm>L</fm>("no")]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul>
+         *
+         * If tif lodblf is fxbdtly <dodf>Lodblf("no", "NO", "NY")</dodf>, it is first
+         * donvfrtfd to <dodf>Lodblf("nn", "NO")</dodf> bnd tifn tif bbovf prodfdurf is
+         * followfd.
+         *
+         * <p>Also, Jbvb trfbts tif lbngubgf "no" bs b synonym of Norwfgibn
+         * Bokm&#xE5;l "nb".  Exdfpt for tif singlf dbsf <dodf>Lodblf("no",
+         * "NO", "NY")</dodf> (ibndlfd bbovf), wifn bn input <dodf>Lodblf</dodf>
+         * ibs lbngubgf "no" or "nb", dbndidbtf <dodf>Lodblf</dodf>s witi
+         * lbngubgf dodf "no" bnd "nb" brf intfrlfbvfd, first using tif
+         * rfqufstfd lbngubgf, tifn using its synonym. For fxbmplf,
+         * <dodf>Lodblf("nb", "NO", "POSIX")</dodf> gfnfrbtfs tif following
+         * dbndidbtf list:
+         *
+         * <ul>
+         * <li> [<fm>L</fm>("nb"), <fm>C</fm>("NO"), <fm>V</fm>("POSIX")]</li>
+         * <li> [<fm>L</fm>("no"), <fm>C</fm>("NO"), <fm>V</fm>("POSIX")]</li>
+         * <li> [<fm>L</fm>("nb"), <fm>C</fm>("NO")]</li>
+         * <li> [<fm>L</fm>("no"), <fm>C</fm>("NO")]</li>
+         * <li> [<fm>L</fm>("nb")]</li>
+         * <li> [<fm>L</fm>("no")]</li>
+         * <li> <dodf>Lodblf.ROOT</dodf></li>
+         * </ul>
+         *
+         * <dodf>Lodblf("no", "NO", "POSIX")</dodf> would gfnfrbtf tif sbmf list
+         * fxdfpt tibt lodblfs witi "no" would bppfbr bfforf tif dorrfsponding
+         * lodblfs witi "nb".</li>
+         * </ol>
+         *
+         * <p>Tif dffbult implfmfntbtion usfs bn {@link ArrbyList} tibt
+         * ovfrriding implfmfntbtions mby modify bfforf rfturning it to tif
+         * dbllfr. Howfvfr, b subdlbss must not modify it bftfr it ibs
+         * bffn rfturnfd by <dodf>gftCbndidbtfLodblfs</dodf>.
+         *
+         * <p>For fxbmplf, if tif givfn <dodf>bbsfNbmf</dodf> is "Mfssbgfs"
+         * bnd tif givfn <dodf>lodblf</dodf> is
+         * <dodf>Lodblf("jb",&nbsp;"",&nbsp;"XX")</dodf>, tifn b
+         * <dodf>List</dodf> of <dodf>Lodblf</dodf>s:
+         * <prf>
+         *     Lodblf("jb", "", "XX")
+         *     Lodblf("jb")
+         *     Lodblf.ROOT
+         * </prf>
+         * is rfturnfd. And if tif rfsourdf bundlfs for tif "jb" bnd
+         * "" <dodf>Lodblf</dodf>s brf found, tifn tif runtimf rfsourdf
+         * lookup pbti (pbrfnt dibin) is:
+         * <prf>{@dodf
+         *     Mfssbgfs_jb -> Mfssbgfs
+         * }</prf>
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf nbmf of tif rfsourdf bundlf, b fully
+         *        qublififd dlbss nbmf
+         * @pbrbm lodblf
+         *        tif lodblf for wiidi b rfsourdf bundlf is dfsirfd
+         * @rfturn b <dodf>List</dodf> of dbndidbtf
+         *        <dodf>Lodblf</dodf>s for tif givfn <dodf>lodblf</dodf>
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf> or <dodf>lodblf</dodf> is
+         *        <dodf>null</dodf>
+         */
+        publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+            if (bbsfNbmf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            rfturn nfw ArrbyList<>(CANDIDATES_CACHE.gft(lodblf.gftBbsfLodblf()));
+        }
+
+        privbtf stbtid finbl CbndidbtfListCbdif CANDIDATES_CACHE = nfw CbndidbtfListCbdif();
+
+        privbtf stbtid dlbss CbndidbtfListCbdif fxtfnds LodblfObjfdtCbdif<BbsfLodblf, List<Lodblf>> {
+            protfdtfd List<Lodblf> drfbtfObjfdt(BbsfLodblf bbsf) {
+                String lbngubgf = bbsf.gftLbngubgf();
+                String sdript = bbsf.gftSdript();
+                String rfgion = bbsf.gftRfgion();
+                String vbribnt = bbsf.gftVbribnt();
+
+                // Spfdibl ibndling for Norwfgibn
+                boolfbn isNorwfgibnBokmbl = fblsf;
+                boolfbn isNorwfgibnNynorsk = fblsf;
+                if (lbngubgf.fqubls("no")) {
+                    if (rfgion.fqubls("NO") && vbribnt.fqubls("NY")) {
+                        vbribnt = "";
+                        isNorwfgibnNynorsk = truf;
+                    } flsf {
+                        isNorwfgibnBokmbl = truf;
+                    }
+                }
+                if (lbngubgf.fqubls("nb") || isNorwfgibnBokmbl) {
+                    List<Lodblf> tmpList = gftDffbultList("nb", sdript, rfgion, vbribnt);
+                    // Insfrt b lodblf rfplbding "nb" witi "no" for fvfry list fntry
+                    List<Lodblf> bokmblList = nfw LinkfdList<>();
+                    for (Lodblf l : tmpList) {
+                        bokmblList.bdd(l);
+                        if (l.gftLbngubgf().lfngti() == 0) {
+                            brfbk;
+                        }
+                        bokmblList.bdd(Lodblf.gftInstbndf("no", l.gftSdript(), l.gftCountry(),
+                                l.gftVbribnt(), null));
+                    }
+                    rfturn bokmblList;
+                } flsf if (lbngubgf.fqubls("nn") || isNorwfgibnNynorsk) {
+                    // Insfrt no_NO_NY, no_NO, no bftfr nn
+                    List<Lodblf> nynorskList = gftDffbultList("nn", sdript, rfgion, vbribnt);
+                    int idx = nynorskList.sizf() - 1;
+                    nynorskList.bdd(idx++, Lodblf.gftInstbndf("no", "NO", "NY"));
+                    nynorskList.bdd(idx++, Lodblf.gftInstbndf("no", "NO", ""));
+                    nynorskList.bdd(idx++, Lodblf.gftInstbndf("no", "", ""));
+                    rfturn nynorskList;
+                }
+                // Spfdibl ibndling for Ciinfsf
+                flsf if (lbngubgf.fqubls("zi")) {
+                    if (sdript.lfngti() == 0 && rfgion.lfngti() > 0) {
+                        // Supply sdript for usfrs wio wbnt to usf zi_Hbns/zi_Hbnt
+                        // bs bundlf nbmfs (rfdommfndfd for Jbvb7+)
+                        switdi (rfgion) {
+                        dbsf "TW":
+                        dbsf "HK":
+                        dbsf "MO":
+                            sdript = "Hbnt";
+                            brfbk;
+                        dbsf "CN":
+                        dbsf "SG":
+                            sdript = "Hbns";
+                            brfbk;
+                        }
+                    } flsf if (sdript.lfngti() > 0 && rfgion.lfngti() == 0) {
+                        // Supply rfgion(dountry) for usfrs wio still pbdkbgf Ciinfsf
+                        // bundlfs using old donvfnsion.
+                        switdi (sdript) {
+                        dbsf "Hbns":
+                            rfgion = "CN";
+                            brfbk;
+                        dbsf "Hbnt":
+                            rfgion = "TW";
+                            brfbk;
+                        }
+                    }
+                }
+
+                rfturn gftDffbultList(lbngubgf, sdript, rfgion, vbribnt);
+            }
+
+            privbtf stbtid List<Lodblf> gftDffbultList(String lbngubgf, String sdript, String rfgion, String vbribnt) {
+                List<String> vbribnts = null;
+
+                if (vbribnt.lfngti() > 0) {
+                    vbribnts = nfw LinkfdList<>();
+                    int idx = vbribnt.lfngti();
+                    wiilf (idx != -1) {
+                        vbribnts.bdd(vbribnt.substring(0, idx));
+                        idx = vbribnt.lbstIndfxOf('_', --idx);
+                    }
+                }
+
+                List<Lodblf> list = nfw LinkfdList<>();
+
+                if (vbribnts != null) {
+                    for (String v : vbribnts) {
+                        list.bdd(Lodblf.gftInstbndf(lbngubgf, sdript, rfgion, v, null));
+                    }
+                }
+                if (rfgion.lfngti() > 0) {
+                    list.bdd(Lodblf.gftInstbndf(lbngubgf, sdript, rfgion, "", null));
+                }
+                if (sdript.lfngti() > 0) {
+                    list.bdd(Lodblf.gftInstbndf(lbngubgf, sdript, "", "", null));
+
+                    // Witi sdript, bftfr trundbting vbribnt, rfgion bnd sdript,
+                    // stbrt ovfr witiout sdript.
+                    if (vbribnts != null) {
+                        for (String v : vbribnts) {
+                            list.bdd(Lodblf.gftInstbndf(lbngubgf, "", rfgion, v, null));
+                        }
+                    }
+                    if (rfgion.lfngti() > 0) {
+                        list.bdd(Lodblf.gftInstbndf(lbngubgf, "", rfgion, "", null));
+                    }
+                }
+                if (lbngubgf.lfngti() > 0) {
+                    list.bdd(Lodblf.gftInstbndf(lbngubgf, "", "", "", null));
+                }
+                // Add root lodblf bt tif fnd
+                list.bdd(Lodblf.ROOT);
+
+                rfturn list;
+            }
+        }
+
+        /**
+         * Rfturns b <dodf>Lodblf</dodf> to bf usfd bs b fbllbbdk lodblf for
+         * furtifr rfsourdf bundlf sfbrdifs by tif
+         * <dodf>RfsourdfBundlf.gftBundlf</dodf> fbdtory mftiod. Tiis mftiod
+         * is dbllfd from tif fbdtory mftiod fvfry timf wifn no rfsulting
+         * rfsourdf bundlf ibs bffn found for <dodf>bbsfNbmf</dodf> bnd
+         * <dodf>lodblf</dodf>, wifrf lodblf is fitifr tif pbrbmftfr for
+         * <dodf>RfsourdfBundlf.gftBundlf</dodf> or tif prfvious fbllbbdk
+         * lodblf rfturnfd by tiis mftiod.
+         *
+         * <p>Tif mftiod rfturns <dodf>null</dodf> if no furtifr fbllbbdk
+         * sfbrdi is dfsirfd.
+         *
+         * <p>Tif dffbult implfmfntbtion rfturns tif {@linkplbin
+         * Lodblf#gftDffbult() dffbult <dodf>Lodblf</dodf>} if tif givfn
+         * <dodf>lodblf</dodf> isn't tif dffbult onf.  Otifrwisf,
+         * <dodf>null</dodf> is rfturnfd.
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf nbmf of tif rfsourdf bundlf, b fully
+         *        qublififd dlbss nbmf for wiidi
+         *        <dodf>RfsourdfBundlf.gftBundlf</dodf> ibs bffn
+         *        unbblf to find bny rfsourdf bundlfs (fxdfpt for tif
+         *        bbsf bundlf)
+         * @pbrbm lodblf
+         *        tif <dodf>Lodblf</dodf> for wiidi
+         *        <dodf>RfsourdfBundlf.gftBundlf</dodf> ibs bffn
+         *        unbblf to find bny rfsourdf bundlfs (fxdfpt for tif
+         *        bbsf bundlf)
+         * @rfturn b <dodf>Lodblf</dodf> for tif fbllbbdk sfbrdi,
+         *        or <dodf>null</dodf> if no furtifr fbllbbdk sfbrdi
+         *        is dfsirfd.
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf> or <dodf>lodblf</dodf>
+         *        is <dodf>null</dodf>
+         */
+        publid Lodblf gftFbllbbdkLodblf(String bbsfNbmf, Lodblf lodblf) {
+            if (bbsfNbmf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            Lodblf dffbultLodblf = Lodblf.gftDffbult();
+            rfturn lodblf.fqubls(dffbultLodblf) ? null : dffbultLodblf;
+        }
+
+        /**
+         * Instbntibtfs b rfsourdf bundlf for tif givfn bundlf nbmf of tif
+         * givfn formbt bnd lodblf, using tif givfn dlbss lobdfr if
+         * nfdfssbry. Tiis mftiod rfturns <dodf>null</dodf> if tifrf is no
+         * rfsourdf bundlf bvbilbblf for tif givfn pbrbmftfrs. If b rfsourdf
+         * bundlf dbn't bf instbntibtfd duf to bn unfxpfdtfd frror, tif
+         * frror must bf rfportfd by tirowing bn <dodf>Error</dodf> or
+         * <dodf>Exdfption</dodf> rbtifr tibn simply rfturning
+         * <dodf>null</dodf>.
+         *
+         * <p>If tif <dodf>rflobd</dodf> flbg is <dodf>truf</dodf>, it
+         * indidbtfs tibt tiis mftiod is bfing dbllfd bfdbusf tif prfviously
+         * lobdfd rfsourdf bundlf ibs fxpirfd.
+         *
+         * <p>Tif dffbult implfmfntbtion instbntibtfs b
+         * <dodf>RfsourdfBundlf</dodf> bs follows.
+         *
+         * <ul>
+         *
+         * <li>Tif bundlf nbmf is obtbinfd by dblling {@link
+         * #toBundlfNbmf(String, Lodblf) toBundlfNbmf(bbsfNbmf,
+         * lodblf)}.</li>
+         *
+         * <li>If <dodf>formbt</dodf> is <dodf>"jbvb.dlbss"</dodf>, tif
+         * {@link Clbss} spfdififd by tif bundlf nbmf is lobdfd by dblling
+         * {@link ClbssLobdfr#lobdClbss(String)}. Tifn, b
+         * <dodf>RfsourdfBundlf</dodf> is instbntibtfd by dblling {@link
+         * Clbss#nfwInstbndf()}.  Notf tibt tif <dodf>rflobd</dodf> flbg is
+         * ignorfd for lobding dlbss-bbsfd rfsourdf bundlfs in tiis dffbult
+         * implfmfntbtion.</li>
+         *
+         * <li>If <dodf>formbt</dodf> is <dodf>"jbvb.propfrtifs"</dodf>,
+         * {@link #toRfsourdfNbmf(String, String) toRfsourdfNbmf(bundlfnbmf,
+         * "propfrtifs")} is dbllfd to gft tif rfsourdf nbmf.
+         * If <dodf>rflobd</dodf> is <dodf>truf</dodf>, {@link
+         * ClbssLobdfr#gftRfsourdf(String) lobd.gftRfsourdf} is dbllfd
+         * to gft b {@link URL} for drfbting b {@link
+         * URLConnfdtion}. Tiis <dodf>URLConnfdtion</dodf> is usfd to
+         * {@linkplbin URLConnfdtion#sftUsfCbdifs(boolfbn) disbblf tif
+         * dbdifs} of tif undfrlying rfsourdf lobding lbyfrs,
+         * bnd to {@linkplbin URLConnfdtion#gftInputStrfbm() gft bn
+         * <dodf>InputStrfbm</dodf>}.
+         * Otifrwisf, {@link ClbssLobdfr#gftRfsourdfAsStrfbm(String)
+         * lobdfr.gftRfsourdfAsStrfbm} is dbllfd to gft bn {@link
+         * InputStrfbm}. Tifn, b {@link
+         * PropfrtyRfsourdfBundlf} is donstrudtfd witi tif
+         * <dodf>InputStrfbm</dodf>.</li>
+         *
+         * <li>If <dodf>formbt</dodf> is nfitifr <dodf>"jbvb.dlbss"</dodf>
+         * nor <dodf>"jbvb.propfrtifs"</dodf>, bn
+         * <dodf>IllfgblArgumfntExdfption</dodf> is tirown.</li>
+         *
+         * </ul>
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf bundlf nbmf of tif rfsourdf bundlf, b fully
+         *        qublififd dlbss nbmf
+         * @pbrbm lodblf
+         *        tif lodblf for wiidi tif rfsourdf bundlf siould bf
+         *        instbntibtfd
+         * @pbrbm formbt
+         *        tif rfsourdf bundlf formbt to bf lobdfd
+         * @pbrbm lobdfr
+         *        tif <dodf>ClbssLobdfr</dodf> to usf to lobd tif bundlf
+         * @pbrbm rflobd
+         *        tif flbg to indidbtf bundlf rflobding; <dodf>truf</dodf>
+         *        if rflobding bn fxpirfd rfsourdf bundlf,
+         *        <dodf>fblsf</dodf> otifrwisf
+         * @rfturn tif rfsourdf bundlf instbndf,
+         *        or <dodf>null</dodf> if nonf dould bf found.
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bundlfNbmf</dodf>, <dodf>lodblf</dodf>,
+         *        <dodf>formbt</dodf>, or <dodf>lobdfr</dodf> is
+         *        <dodf>null</dodf>, or if <dodf>null</dodf> is rfturnfd by
+         *        {@link #toBundlfNbmf(String, Lodblf) toBundlfNbmf}
+         * @fxdfption IllfgblArgumfntExdfption
+         *        if <dodf>formbt</dodf> is unknown, or if tif rfsourdf
+         *        found for tif givfn pbrbmftfrs dontbins mblformfd dbtb.
+         * @fxdfption ClbssCbstExdfption
+         *        if tif lobdfd dlbss dbnnot bf dbst to <dodf>RfsourdfBundlf</dodf>
+         * @fxdfption IllfgblAddfssExdfption
+         *        if tif dlbss or its nullbry donstrudtor is not
+         *        bddfssiblf.
+         * @fxdfption InstbntibtionExdfption
+         *        if tif instbntibtion of b dlbss fbils for somf otifr
+         *        rfbson.
+         * @fxdfption ExdfptionInInitiblizfrError
+         *        if tif initiblizbtion provokfd by tiis mftiod fbils.
+         * @fxdfption SfdurityExdfption
+         *        If b sfdurity mbnbgfr is prfsfnt bnd drfbtion of nfw
+         *        instbndfs is dfnifd. Sff {@link Clbss#nfwInstbndf()}
+         *        for dftbils.
+         * @fxdfption IOExdfption
+         *        if bn frror oddurrfd wifn rfbding rfsourdfs using
+         *        bny I/O opfrbtions
+         */
+        publid RfsourdfBundlf nfwBundlf(String bbsfNbmf, Lodblf lodblf, String formbt,
+                                        ClbssLobdfr lobdfr, boolfbn rflobd)
+                    tirows IllfgblAddfssExdfption, InstbntibtionExdfption, IOExdfption {
+            String bundlfNbmf = toBundlfNbmf(bbsfNbmf, lodblf);
+            RfsourdfBundlf bundlf = null;
+            if (formbt.fqubls("jbvb.dlbss")) {
+                try {
+                    @SupprfssWbrnings("undifdkfd")
+                    Clbss<? fxtfnds RfsourdfBundlf> bundlfClbss
+                        = (Clbss<? fxtfnds RfsourdfBundlf>)lobdfr.lobdClbss(bundlfNbmf);
+
+                    // If tif dlbss isn't b RfsourdfBundlf subdlbss, tirow b
+                    // ClbssCbstExdfption.
+                    if (RfsourdfBundlf.dlbss.isAssignbblfFrom(bundlfClbss)) {
+                        bundlf = bundlfClbss.nfwInstbndf();
+                    } flsf {
+                        tirow nfw ClbssCbstExdfption(bundlfClbss.gftNbmf()
+                                     + " dbnnot bf dbst to RfsourdfBundlf");
+                    }
+                } dbtdi (ClbssNotFoundExdfption f) {
+                }
+            } flsf if (formbt.fqubls("jbvb.propfrtifs")) {
+                finbl String rfsourdfNbmf = toRfsourdfNbmf(bundlfNbmf, "propfrtifs");
+                finbl ClbssLobdfr dlbssLobdfr = lobdfr;
+                finbl boolfbn rflobdFlbg = rflobd;
+                InputStrfbm strfbm = null;
+                try {
+                    strfbm = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<InputStrfbm>() {
+                            publid InputStrfbm run() tirows IOExdfption {
+                                InputStrfbm is = null;
+                                if (rflobdFlbg) {
+                                    URL url = dlbssLobdfr.gftRfsourdf(rfsourdfNbmf);
+                                    if (url != null) {
+                                        URLConnfdtion donnfdtion = url.opfnConnfdtion();
+                                        if (donnfdtion != null) {
+                                            // Disbblf dbdifs to gft frfsi dbtb for
+                                            // rflobding.
+                                            donnfdtion.sftUsfCbdifs(fblsf);
+                                            is = donnfdtion.gftInputStrfbm();
+                                        }
+                                    }
+                                } flsf {
+                                    is = dlbssLobdfr.gftRfsourdfAsStrfbm(rfsourdfNbmf);
+                                }
+                                rfturn is;
+                            }
+                        });
+                } dbtdi (PrivilfgfdAdtionExdfption f) {
+                    tirow (IOExdfption) f.gftExdfption();
+                }
+                if (strfbm != null) {
+                    try {
+                        bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+                    } finblly {
+                        strfbm.dlosf();
+                    }
+                }
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("unknown formbt: " + formbt);
+            }
+            rfturn bundlf;
+        }
+
+        /**
+         * Rfturns tif timf-to-livf (TTL) vbluf for rfsourdf bundlfs tibt
+         * brf lobdfd undfr tiis
+         * <dodf>RfsourdfBundlf.Control</dodf>. Positivf timf-to-livf vblufs
+         * spfdify tif numbfr of millisfdonds b bundlf dbn rfmbin in tif
+         * dbdif witiout bfing vblidbtfd bgbinst tif sourdf dbtb from wiidi
+         * it wbs donstrudtfd. Tif vbluf 0 indidbtfs tibt b bundlf must bf
+         * vblidbtfd fbdi timf it is rftrifvfd from tif dbdif. {@link
+         * #TTL_DONT_CACHE} spfdififs tibt lobdfd rfsourdf bundlfs brf not
+         * put in tif dbdif. {@link #TTL_NO_EXPIRATION_CONTROL} spfdififs
+         * tibt lobdfd rfsourdf bundlfs brf put in tif dbdif witi no
+         * fxpirbtion dontrol.
+         *
+         * <p>Tif fxpirbtion bfffdts only tif bundlf lobding prodfss by tif
+         * <dodf>RfsourdfBundlf.gftBundlf</dodf> fbdtory mftiod.  Tibt is,
+         * if tif fbdtory mftiod finds b rfsourdf bundlf in tif dbdif tibt
+         * ibs fxpirfd, tif fbdtory mftiod dblls tif {@link
+         * #nffdsRflobd(String, Lodblf, String, ClbssLobdfr, RfsourdfBundlf,
+         * long) nffdsRflobd} mftiod to dftfrminf wiftifr tif rfsourdf
+         * bundlf nffds to bf rflobdfd. If <dodf>nffdsRflobd</dodf> rfturns
+         * <dodf>truf</dodf>, tif dbdifd rfsourdf bundlf instbndf is rfmovfd
+         * from tif dbdif. Otifrwisf, tif instbndf stbys in tif dbdif,
+         * updbtfd witi tif nfw TTL vbluf rfturnfd by tiis mftiod.
+         *
+         * <p>All dbdifd rfsourdf bundlfs brf subjfdt to rfmovbl from tif
+         * dbdif duf to mfmory donstrbints of tif runtimf fnvironmfnt.
+         * Rfturning b lbrgf positivf vbluf dofsn't mfbn to lodk lobdfd
+         * rfsourdf bundlfs in tif dbdif.
+         *
+         * <p>Tif dffbult implfmfntbtion rfturns {@link #TTL_NO_EXPIRATION_CONTROL}.
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf nbmf of tif rfsourdf bundlf for wiidi tif
+         *        fxpirbtion vbluf is spfdififd.
+         * @pbrbm lodblf
+         *        tif lodblf of tif rfsourdf bundlf for wiidi tif
+         *        fxpirbtion vbluf is spfdififd.
+         * @rfturn tif timf (0 or b positivf millisfdond offsft from tif
+         *        dbdifd timf) to gft lobdfd bundlfs fxpirfd in tif dbdif,
+         *        {@link #TTL_NO_EXPIRATION_CONTROL} to disbblf tif
+         *        fxpirbtion dontrol, or {@link #TTL_DONT_CACHE} to disbblf
+         *        dbdiing.
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf> or <dodf>lodblf</dodf> is
+         *        <dodf>null</dodf>
+         */
+        publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+            if (bbsfNbmf == null || lodblf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            rfturn TTL_NO_EXPIRATION_CONTROL;
+        }
+
+        /**
+         * Dftfrminfs if tif fxpirfd <dodf>bundlf</dodf> in tif dbdif nffds
+         * to bf rflobdfd bbsfd on tif lobding timf givfn by
+         * <dodf>lobdTimf</dodf> or somf otifr dritfrib. Tif mftiod rfturns
+         * <dodf>truf</dodf> if rflobding is rfquirfd; <dodf>fblsf</dodf>
+         * otifrwisf. <dodf>lobdTimf</dodf> is b millisfdond offsft sindf
+         * tif <b irff="Cblfndbr.itml#Epodi"> <dodf>Cblfndbr</dodf>
+         * Epodi</b>.
+         *
+         * Tif dblling <dodf>RfsourdfBundlf.gftBundlf</dodf> fbdtory mftiod
+         * dblls tiis mftiod on tif <dodf>RfsourdfBundlf.Control</dodf>
+         * instbndf usfd for its durrfnt invodbtion, not on tif instbndf
+         * usfd in tif invodbtion tibt originblly lobdfd tif rfsourdf
+         * bundlf.
+         *
+         * <p>Tif dffbult implfmfntbtion dompbrfs <dodf>lobdTimf</dodf> bnd
+         * tif lbst modififd timf of tif sourdf dbtb of tif rfsourdf
+         * bundlf. If it's dftfrminfd tibt tif sourdf dbtb ibs bffn modififd
+         * sindf <dodf>lobdTimf</dodf>, <dodf>truf</dodf> is
+         * rfturnfd. Otifrwisf, <dodf>fblsf</dodf> is rfturnfd. Tiis
+         * implfmfntbtion bssumfs tibt tif givfn <dodf>formbt</dodf> is tif
+         * sbmf string bs its filf suffix if it's not onf of tif dffbult
+         * formbts, <dodf>"jbvb.dlbss"</dodf> or
+         * <dodf>"jbvb.propfrtifs"</dodf>.
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf bundlf nbmf of tif rfsourdf bundlf, b
+         *        fully qublififd dlbss nbmf
+         * @pbrbm lodblf
+         *        tif lodblf for wiidi tif rfsourdf bundlf
+         *        siould bf instbntibtfd
+         * @pbrbm formbt
+         *        tif rfsourdf bundlf formbt to bf lobdfd
+         * @pbrbm lobdfr
+         *        tif <dodf>ClbssLobdfr</dodf> to usf to lobd tif bundlf
+         * @pbrbm bundlf
+         *        tif rfsourdf bundlf instbndf tibt ibs bffn fxpirfd
+         *        in tif dbdif
+         * @pbrbm lobdTimf
+         *        tif timf wifn <dodf>bundlf</dodf> wbs lobdfd bnd put
+         *        in tif dbdif
+         * @rfturn <dodf>truf</dodf> if tif fxpirfd bundlf nffds to bf
+         *        rflobdfd; <dodf>fblsf</dodf> otifrwisf.
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf>, <dodf>lodblf</dodf>,
+         *        <dodf>formbt</dodf>, <dodf>lobdfr</dodf>, or
+         *        <dodf>bundlf</dodf> is <dodf>null</dodf>
+         */
+        publid boolfbn nffdsRflobd(String bbsfNbmf, Lodblf lodblf,
+                                   String formbt, ClbssLobdfr lobdfr,
+                                   RfsourdfBundlf bundlf, long lobdTimf) {
+            if (bundlf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            if (formbt.fqubls("jbvb.dlbss") || formbt.fqubls("jbvb.propfrtifs")) {
+                formbt = formbt.substring(5);
+            }
+            boolfbn rfsult = fblsf;
+            try {
+                String rfsourdfNbmf = toRfsourdfNbmf(toBundlfNbmf(bbsfNbmf, lodblf), formbt);
+                URL url = lobdfr.gftRfsourdf(rfsourdfNbmf);
+                if (url != null) {
+                    long lbstModififd = 0;
+                    URLConnfdtion donnfdtion = url.opfnConnfdtion();
+                    if (donnfdtion != null) {
+                        // disbblf dbdifs to gft tif dorrfdt dbtb
+                        donnfdtion.sftUsfCbdifs(fblsf);
+                        if (donnfdtion instbndfof JbrURLConnfdtion) {
+                            JbrEntry fnt = ((JbrURLConnfdtion)donnfdtion).gftJbrEntry();
+                            if (fnt != null) {
+                                lbstModififd = fnt.gftTimf();
+                                if (lbstModififd == -1) {
+                                    lbstModififd = 0;
+                                }
+                            }
+                        } flsf {
+                            lbstModififd = donnfdtion.gftLbstModififd();
+                        }
+                    }
+                    rfsult = lbstModififd >= lobdTimf;
+                }
+            } dbtdi (NullPointfrExdfption npf) {
+                tirow npf;
+            } dbtdi (Exdfption f) {
+                // ignorf otifr fxdfptions
+            }
+            rfturn rfsult;
+        }
+
+        /**
+         * Convfrts tif givfn <dodf>bbsfNbmf</dodf> bnd <dodf>lodblf</dodf>
+         * to tif bundlf nbmf. Tiis mftiod is dbllfd from tif dffbult
+         * implfmfntbtion of tif {@link #nfwBundlf(String, Lodblf, String,
+         * ClbssLobdfr, boolfbn) nfwBundlf} bnd {@link #nffdsRflobd(String,
+         * Lodblf, String, ClbssLobdfr, RfsourdfBundlf, long) nffdsRflobd}
+         * mftiods.
+         *
+         * <p>Tiis implfmfntbtion rfturns tif following vbluf:
+         * <prf>
+         *     bbsfNbmf + "_" + lbngubgf + "_" + sdript + "_" + dountry + "_" + vbribnt
+         * </prf>
+         * wifrf <dodf>lbngubgf</dodf>, <dodf>sdript</dodf>, <dodf>dountry</dodf>,
+         * bnd <dodf>vbribnt</dodf> brf tif lbngubgf, sdript, dountry, bnd vbribnt
+         * vblufs of <dodf>lodblf</dodf>, rfspfdtivfly. Finbl domponfnt vblufs tibt
+         * brf fmpty Strings brf omittfd blong witi tif prfdfding '_'.  Wifn tif
+         * sdript is fmpty, tif sdript vbluf is omittfd blong witi tif prfdfding '_'.
+         * If bll of tif vblufs brf fmpty strings, tifn <dodf>bbsfNbmf</dodf>
+         * is rfturnfd.
+         *
+         * <p>For fxbmplf, if <dodf>bbsfNbmf</dodf> is
+         * <dodf>"bbsfNbmf"</dodf> bnd <dodf>lodblf</dodf> is
+         * <dodf>Lodblf("jb",&nbsp;"",&nbsp;"XX")</dodf>, tifn
+         * <dodf>"bbsfNbmf_jb_&tiinsp;_XX"</dodf> is rfturnfd. If tif givfn
+         * lodblf is <dodf>Lodblf("fn")</dodf>, tifn
+         * <dodf>"bbsfNbmf_fn"</dodf> is rfturnfd.
+         *
+         * <p>Ovfrriding tiis mftiod bllows bpplidbtions to usf difffrfnt
+         * donvfntions in tif orgbnizbtion bnd pbdkbging of lodblizfd
+         * rfsourdfs.
+         *
+         * @pbrbm bbsfNbmf
+         *        tif bbsf nbmf of tif rfsourdf bundlf, b fully
+         *        qublififd dlbss nbmf
+         * @pbrbm lodblf
+         *        tif lodblf for wiidi b rfsourdf bundlf siould bf
+         *        lobdfd
+         * @rfturn tif bundlf nbmf for tif rfsourdf bundlf
+         * @fxdfption NullPointfrExdfption
+         *        if <dodf>bbsfNbmf</dodf> or <dodf>lodblf</dodf>
+         *        is <dodf>null</dodf>
+         */
+        publid String toBundlfNbmf(String bbsfNbmf, Lodblf lodblf) {
+            if (lodblf == Lodblf.ROOT) {
+                rfturn bbsfNbmf;
+            }
+
+            String lbngubgf = lodblf.gftLbngubgf();
+            String sdript = lodblf.gftSdript();
+            String dountry = lodblf.gftCountry();
+            String vbribnt = lodblf.gftVbribnt();
+
+            if (lbngubgf == "" && dountry == "" && vbribnt == "") {
+                rfturn bbsfNbmf;
+            }
+
+            StringBuildfr sb = nfw StringBuildfr(bbsfNbmf);
+            sb.bppfnd('_');
+            if (sdript != "") {
+                if (vbribnt != "") {
+                    sb.bppfnd(lbngubgf).bppfnd('_').bppfnd(sdript).bppfnd('_').bppfnd(dountry).bppfnd('_').bppfnd(vbribnt);
+                } flsf if (dountry != "") {
+                    sb.bppfnd(lbngubgf).bppfnd('_').bppfnd(sdript).bppfnd('_').bppfnd(dountry);
+                } flsf {
+                    sb.bppfnd(lbngubgf).bppfnd('_').bppfnd(sdript);
+                }
+            } flsf {
+                if (vbribnt != "") {
+                    sb.bppfnd(lbngubgf).bppfnd('_').bppfnd(dountry).bppfnd('_').bppfnd(vbribnt);
+                } flsf if (dountry != "") {
+                    sb.bppfnd(lbngubgf).bppfnd('_').bppfnd(dountry);
+                } flsf {
+                    sb.bppfnd(lbngubgf);
+                }
+            }
+            rfturn sb.toString();
+
+        }
+
+        /**
+         * Convfrts tif givfn <dodf>bundlfNbmf</dodf> to tif form rfquirfd
+         * by tif {@link ClbssLobdfr#gftRfsourdf ClbssLobdfr.gftRfsourdf}
+         * mftiod by rfplbding bll oddurrfndfs of <dodf>'.'</dodf> in
+         * <dodf>bundlfNbmf</dodf> witi <dodf>'/'</dodf> bnd bppfnding b
+         * <dodf>'.'</dodf> bnd tif givfn filf <dodf>suffix</dodf>. For
+         * fxbmplf, if <dodf>bundlfNbmf</dodf> is
+         * <dodf>"foo.bbr.MyRfsourdfs_jb_JP"</dodf> bnd <dodf>suffix</dodf>
+         * is <dodf>"propfrtifs"</dodf>, tifn
+         * <dodf>"foo/bbr/MyRfsourdfs_jb_JP.propfrtifs"</dodf> is rfturnfd.
+         *
+         * @pbrbm bundlfNbmf
+         *        tif bundlf nbmf
+         * @pbrbm suffix
+         *        tif filf typf suffix
+         * @rfturn tif donvfrtfd rfsourdf nbmf
+         * @fxdfption NullPointfrExdfption
+         *         if <dodf>bundlfNbmf</dodf> or <dodf>suffix</dodf>
+         *         is <dodf>null</dodf>
+         */
+        publid finbl String toRfsourdfNbmf(String bundlfNbmf, String suffix) {
+            StringBuildfr sb = nfw StringBuildfr(bundlfNbmf.lfngti() + 1 + suffix.lfngti());
+            sb.bppfnd(bundlfNbmf.rfplbdf('.', '/')).bppfnd('.').bppfnd(suffix);
+            rfturn sb.toString();
+        }
+    }
+
+    privbtf stbtid dlbss SinglfFormbtControl fxtfnds Control {
+        privbtf stbtid finbl Control PROPERTIES_ONLY
+            = nfw SinglfFormbtControl(FORMAT_PROPERTIES);
+
+        privbtf stbtid finbl Control CLASS_ONLY
+            = nfw SinglfFormbtControl(FORMAT_CLASS);
+
+        privbtf finbl List<String> formbts;
+
+        protfdtfd SinglfFormbtControl(List<String> formbts) {
+            tiis.formbts = formbts;
+        }
+
+        publid List<String> gftFormbts(String bbsfNbmf) {
+            if (bbsfNbmf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            rfturn formbts;
+        }
+    }
+
+    privbtf stbtid finbl dlbss NoFbllbbdkControl fxtfnds SinglfFormbtControl {
+        privbtf stbtid finbl Control NO_FALLBACK
+            = nfw NoFbllbbdkControl(FORMAT_DEFAULT);
+
+        privbtf stbtid finbl Control PROPERTIES_ONLY_NO_FALLBACK
+            = nfw NoFbllbbdkControl(FORMAT_PROPERTIES);
+
+        privbtf stbtid finbl Control CLASS_ONLY_NO_FALLBACK
+            = nfw NoFbllbbdkControl(FORMAT_CLASS);
+
+        protfdtfd NoFbllbbdkControl(List<String> formbts) {
+            supfr(formbts);
+        }
+
+        publid Lodblf gftFbllbbdkLodblf(String bbsfNbmf, Lodblf lodblf) {
+            if (bbsfNbmf == null || lodblf == null) {
+                tirow nfw NullPointfrExdfption();
+            }
+            rfturn null;
+        }
+    }
+}

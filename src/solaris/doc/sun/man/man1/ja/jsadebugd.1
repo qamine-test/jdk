@@ -1,171 +1,855 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jsadebugd
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: トラブルシューティング・ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jsbdfbugd
+.\" Titlf: jsbdfbugd
+.\" Titlf: jsbdfbugd
+.\" Titlf: jsbdfbugd
+.\" Titlf: jsbdfbugd
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "jsadebugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jsadebugd \- Javaプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
-.if n \{\
-.RS 4
-.\}
-.nf
-\fIjsadebugd\fR \fIpid\fR [ \fIserver\-id\fR ]
-.fi
-.if n \{\
-.RE
-.\}
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-\fIjsadebugd\fR \fIexecutable\fR \fIcore\fR [ \fIserver\-id\fR ]
+.nf
+.nf
+.nf
+.nf
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
+.nf
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+.fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIpid\fR
+\fIpid\fR
+\fIpid\fR
+\fIpid\fR
+\fIpid\fR
 .RS 4
-デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJavaプロセスである必要があります。マシン上で実行しているJavaプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fI実行可能ファイル\fR
+\fI実行可能ファイル\fR
+\fI実行可能ファイル\fR
+\fI実行可能ファイル\fR
+\fI実行可能ファイル\fR
 .RS 4
-コア・ダンプの作成元のJava実行可能ファイル。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+コア・ダンプの作成元のJbvb実行可能ファイル。
+コア・ダンプの作成元のJbvb実行可能ファイル。
+コア・ダンプの作成元のJbvb実行可能ファイル。
+コア・ダンプの作成元のJbvb実行可能ファイル。
+コア・ダンプの作成元のJbvb実行可能ファイル。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIコア\fR
+\fIコア\fR
+\fIコア\fR
+\fIコア\fR
+\fIコア\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 デバッグ・サーバーを接続するコア・ファイルです。
+デバッグ・サーバーを接続するコア・ファイルです。
+デバッグ・サーバーを接続するコア・ファイルです。
+デバッグ・サーバーを接続するコア・ファイルです。
+デバッグ・サーバーを接続するコア・ファイルです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIserver\-id\fR
+.PP
+.PP
+.PP
+.PP
+\fIsfrvfr\-id\fR
+\fIsfrvfr\-id\fR
+\fIsfrvfr\-id\fR
+\fIsfrvfr\-id\fR
+\fIsfrvfr\-id\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIjsadebugd\fRコマンドは、Javaプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstack\fR、\fIjmap\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Java Remote Method Invocation (RMI)を使用しているサーバーに接続できます。\fIjsadebugd\fRコマンドを起動する前に、\fIrmiregistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+.PP
+.PP
+.PP
+.PP
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-rmiregistry \-J\-Xbootclasspath/p:$JAVA_HOME/lib/sajdi\&.jar
+.nf
+.nf
+.nf
+.nf
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-RMIレジストリが起動していない場合、\fIjsadebugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+.PP
+.PP
+.PP
+.PP
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fB注意:\fR
-このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgeng\&.dll\fRが存在していないWindowsシステムでは、Debugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
-\fIs\fR\fIet PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jinfo(1)
+jinfo(1)
+jinfo(1)
+jinfo(1)
+jinfo(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-jmap(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+jmbp(1)
+jmbp(1)
+jmbp(1)
+jmbp(1)
+jmbp(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jps(1)
+jps(1)
+jps(1)
+jps(1)
+jps(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-jstack(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-rmiregistry(1)
+.\}
+.\}
+.\}
+.\}
+jstbdk(1)
+jstbdk(1)
+jstbdk(1)
+jstbdk(1)
+jstbdk(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

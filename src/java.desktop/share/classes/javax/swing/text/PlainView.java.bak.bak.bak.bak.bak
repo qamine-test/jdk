@@ -1,0 +1,715 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Propfrtifs;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Implfmfnts Vifw intfrfbdf for b simplf multi-linf tfxt vifw
+ * tibt ibs tfxt in onf font bnd dolor.  Tif vifw rfprfsfnts fbdi
+ * diild flfmfnt bs b linf of tfxt.
+ *
+ * @butior  Timotiy Prinzing
+ * @sff     Vifw
+ */
+publid dlbss PlbinVifw fxtfnds Vifw implfmfnts TbbExpbndfr {
+
+    /**
+     * Construdts b nfw PlbinVifw wrbppfd on bn flfmfnt.
+     *
+     * @pbrbm flfm tif flfmfnt
+     */
+    publid PlbinVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Rfturns tif tbb sizf sft for tif dodumfnt, dffbulting to 8.
+     *
+     * @rfturn tif tbb sizf
+     */
+    protfdtfd int gftTbbSizf() {
+        Intfgfr i = (Intfgfr) gftDodumfnt().gftPropfrty(PlbinDodumfnt.tbbSizfAttributf);
+        int sizf = (i != null) ? i.intVbluf() : 8;
+        rfturn sizf;
+    }
+
+    /**
+     * Rfndfrs b linf of tfxt, supprfssing wiitfspbdf bt tif fnd
+     * bnd fxpbnding bny tbbs.  Tiis is implfmfntfd to mbkf dblls
+     * to tif mftiods <dodf>drbwUnsflfdtfdTfxt</dodf> bnd
+     * <dodf>drbwSflfdtfdTfxt</dodf> so tibt tif wby sflfdtfd bnd
+     * unsflfdtfd tfxt brf rfndfrfd dbn bf dustomizfd.
+     *
+     * @pbrbm linfIndfx tif linf to drbw &gt;= 0
+     * @pbrbm g tif <dodf>Grbpiids</dodf> dontfxt
+     * @pbrbm x tif stbrting X position &gt;= 0
+     * @pbrbm y tif stbrting Y position &gt;= 0
+     * @sff #drbwUnsflfdtfdTfxt
+     * @sff #drbwSflfdtfdTfxt
+     */
+    protfdtfd void drbwLinf(int linfIndfx, Grbpiids g, int x, int y) {
+        Elfmfnt linf = gftElfmfnt().gftElfmfnt(linfIndfx);
+        Elfmfnt flfm;
+
+        try {
+            if (linf.isLfbf()) {
+                drbwElfmfnt(linfIndfx, linf, g, x, y);
+            } flsf {
+                // tiis linf dontbins tif domposfd tfxt.
+                int dount = linf.gftElfmfntCount();
+                for(int i = 0; i < dount; i++) {
+                    flfm = linf.gftElfmfnt(i);
+                    x = drbwElfmfnt(linfIndfx, flfm, g, x, y);
+                }
+            }
+        } dbtdi (BbdLodbtionExdfption f) {
+            tirow nfw StbtfInvbribntError("Cbn't rfndfr linf: " + linfIndfx);
+        }
+    }
+
+    privbtf int drbwElfmfnt(int linfIndfx, Elfmfnt flfm, Grbpiids g, int x, int y) tirows BbdLodbtionExdfption {
+        int p0 = flfm.gftStbrtOffsft();
+        int p1 = flfm.gftEndOffsft();
+        p1 = Mbti.min(gftDodumfnt().gftLfngti(), p1);
+
+        if (linfIndfx == 0) {
+            x += firstLinfOffsft;
+        }
+        AttributfSft bttr = flfm.gftAttributfs();
+        if (Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+            g.sftColor(unsflfdtfd);
+            x = Utilitifs.drbwComposfdTfxt(tiis, bttr, g, x, y,
+                                        p0-flfm.gftStbrtOffsft(),
+                                        p1-flfm.gftStbrtOffsft());
+        } flsf {
+            if (sfl0 == sfl1 || sflfdtfd == unsflfdtfd) {
+                // no sflfdtion, or it is invisiblf
+                x = drbwUnsflfdtfdTfxt(g, x, y, p0, p1);
+            } flsf if ((p0 >= sfl0 && p0 <= sfl1) && (p1 >= sfl0 && p1 <= sfl1)) {
+                x = drbwSflfdtfdTfxt(g, x, y, p0, p1);
+            } flsf if (sfl0 >= p0 && sfl0 <= p1) {
+                if (sfl1 >= p0 && sfl1 <= p1) {
+                    x = drbwUnsflfdtfdTfxt(g, x, y, p0, sfl0);
+                    x = drbwSflfdtfdTfxt(g, x, y, sfl0, sfl1);
+                    x = drbwUnsflfdtfdTfxt(g, x, y, sfl1, p1);
+                } flsf {
+                    x = drbwUnsflfdtfdTfxt(g, x, y, p0, sfl0);
+                    x = drbwSflfdtfdTfxt(g, x, y, sfl0, p1);
+                }
+            } flsf if (sfl1 >= p0 && sfl1 <= p1) {
+                x = drbwSflfdtfdTfxt(g, x, y, p0, sfl1);
+                x = drbwUnsflfdtfdTfxt(g, x, y, sfl1, p1);
+            } flsf {
+                x = drbwUnsflfdtfdTfxt(g, x, y, p0, p1);
+            }
+        }
+
+        rfturn x;
+    }
+
+    /**
+     * Rfndfrs tif givfn rbngf in tif modfl bs normbl unsflfdtfd
+     * tfxt.  Usfs tif forfground or disbblfd dolor to rfndfr tif tfxt.
+     *
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm x tif stbrting X doordinbtf &gt;= 0
+     * @pbrbm y tif stbrting Y doordinbtf &gt;= 0
+     * @pbrbm p0 tif bfginning position in tif modfl &gt;= 0
+     * @pbrbm p1 tif fnding position in tif modfl &gt;= 0
+     * @rfturn tif X lodbtion of tif fnd of tif rbngf &gt;= 0
+     * @fxdfption BbdLodbtionExdfption if tif rbngf is invblid
+     */
+    protfdtfd int drbwUnsflfdtfdTfxt(Grbpiids g, int x, int y,
+                                     int p0, int p1) tirows BbdLodbtionExdfption {
+        g.sftColor(unsflfdtfd);
+        Dodumfnt dod = gftDodumfnt();
+        Sfgmfnt s = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(p0, p1 - p0, s);
+        int rft = Utilitifs.drbwTbbbfdTfxt(tiis, s, x, y, g, tiis, p0);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+        rfturn rft;
+    }
+
+    /**
+     * Rfndfrs tif givfn rbngf in tif modfl bs sflfdtfd tfxt.  Tiis
+     * is implfmfntfd to rfndfr tif tfxt in tif dolor spfdififd in
+     * tif iosting domponfnt.  It bssumfs tif iigiligitfr will rfndfr
+     * tif sflfdtfd bbdkground.
+     *
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm x tif stbrting X doordinbtf &gt;= 0
+     * @pbrbm y tif stbrting Y doordinbtf &gt;= 0
+     * @pbrbm p0 tif bfginning position in tif modfl &gt;= 0
+     * @pbrbm p1 tif fnding position in tif modfl &gt;= 0
+     * @rfturn tif lodbtion of tif fnd of tif rbngf
+     * @fxdfption BbdLodbtionExdfption if tif rbngf is invblid
+     */
+    protfdtfd int drbwSflfdtfdTfxt(Grbpiids g, int x,
+                                   int y, int p0, int p1) tirows BbdLodbtionExdfption {
+        g.sftColor(sflfdtfd);
+        Dodumfnt dod = gftDodumfnt();
+        Sfgmfnt s = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(p0, p1 - p0, s);
+        int rft = Utilitifs.drbwTbbbfdTfxt(tiis, s, x, y, g, tiis, p0);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+        rfturn rft;
+    }
+
+    /**
+     * Givfs bddfss to b bufffr tibt dbn bf usfd to fftdi
+     * tfxt from tif bssodibtfd dodumfnt.
+     *
+     * @rfturn tif bufffr
+     */
+    protfdtfd finbl Sfgmfnt gftLinfBufffr() {
+        if (linfBufffr == null) {
+            linfBufffr = nfw Sfgmfnt();
+        }
+        rfturn linfBufffr;
+    }
+
+    /**
+     * Cifdks to sff if tif font mftrids bnd longfst linf
+     * brf up-to-dbtf.
+     *
+     * @sindf 1.4
+     */
+    protfdtfd void updbtfMftrids() {
+        Componfnt iost = gftContbinfr();
+        Font f = iost.gftFont();
+        if (font != f) {
+            // Tif font dibngfd, wf nffd to rfdbldulbtf tif
+            // longfst linf.
+            dbldulbtfLongfstLinf();
+            tbbSizf = gftTbbSizf() * mftrids.dibrWidti('m');
+        }
+    }
+
+    // ---- Vifw mftiods ----------------------------------------------------
+
+    /**
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
+     */
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        updbtfMftrids();
+        switdi (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn gftLinfWidti(longLinf);
+        dbsf Vifw.Y_AXIS:
+            rfturn gftElfmfnt().gftElfmfntCount() * mftrids.gftHfigit();
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+        }
+    }
+
+    /**
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * itsflf to rfndfr into tif givfn bllodbtion.
+     *
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     *
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbpiids g, Sibpf b) {
+        Sibpf originblA = b;
+        b = bdjustPbintRfgion(b);
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        tbbBbsf = bllod.x;
+        JTfxtComponfnt iost = (JTfxtComponfnt) gftContbinfr();
+        Higiligitfr i = iost.gftHigiligitfr();
+        g.sftFont(iost.gftFont());
+        sfl0 = iost.gftSflfdtionStbrt();
+        sfl1 = iost.gftSflfdtionEnd();
+        unsflfdtfd = (iost.isEnbblfd()) ?
+            iost.gftForfground() : iost.gftDisbblfdTfxtColor();
+        Cbrft d = iost.gftCbrft();
+        sflfdtfd = d.isSflfdtionVisiblf() && i != null ?
+                       iost.gftSflfdtfdTfxtColor() : unsflfdtfd;
+        updbtfMftrids();
+
+        // If tif linfs brf dlippfd tifn wf don't fxpfnd tif fffort to
+        // try bnd pbint tifm.  Sindf bll of tif linfs brf tif sbmf ifigit
+        // witi tiis objfdt, dftfrminbtion of wibt linfs nffd to bf rfpbintfd
+        // is quidk.
+        Rfdtbnglf dlip = g.gftClipBounds();
+        int fontHfigit = mftrids.gftHfigit();
+        int ifigitBflow = (bllod.y + bllod.ifigit) - (dlip.y + dlip.ifigit);
+        int ifigitAbovf = dlip.y - bllod.y;
+        int linfsBflow, linfsAbovf, linfsTotbl;
+
+        if (fontHfigit > 0) {
+            linfsBflow = Mbti.mbx(0, ifigitBflow / fontHfigit);
+            linfsAbovf = Mbti.mbx(0, ifigitAbovf / fontHfigit);
+            linfsTotbl = bllod.ifigit / fontHfigit;
+            if (bllod.ifigit % fontHfigit != 0) {
+                linfsTotbl++;
+            }
+        } flsf {
+            linfsBflow = linfsAbovf = linfsTotbl = 0;
+        }
+
+        // updbtf tif visiblf linfs
+        Rfdtbnglf linfArfb = linfToRfdt(b, linfsAbovf);
+        int y = linfArfb.y + mftrids.gftAsdfnt();
+        int x = linfArfb.x;
+        Elfmfnt mbp = gftElfmfnt();
+        int linfCount = mbp.gftElfmfntCount();
+        int fndLinf = Mbti.min(linfCount, linfsTotbl - linfsBflow);
+        linfCount--;
+        LbyfrfdHigiligitfr di = (i instbndfof LbyfrfdHigiligitfr) ?
+                           (LbyfrfdHigiligitfr)i : null;
+        for (int linf = linfsAbovf; linf < fndLinf; linf++) {
+            if (di != null) {
+                Elfmfnt linfElfmfnt = mbp.gftElfmfnt(linf);
+                if (linf == linfCount) {
+                    di.pbintLbyfrfdHigiligits(g, linfElfmfnt.gftStbrtOffsft(),
+                                              linfElfmfnt.gftEndOffsft(),
+                                              originblA, iost, tiis);
+                }
+                flsf {
+                    di.pbintLbyfrfdHigiligits(g, linfElfmfnt.gftStbrtOffsft(),
+                                              linfElfmfnt.gftEndOffsft() - 1,
+                                              originblA, iost, tiis);
+                }
+            }
+            drbwLinf(linf, g, x, y);
+            y += fontHfigit;
+            if (linf == 0) {
+                // Tiis siould nfvfr rfblly ibppfn, in so fbr bs if
+                // firstLinfOffsft is non 0, tifrf siould only bf onf
+                // linf of tfxt.
+                x -= firstLinfOffsft;
+            }
+        }
+    }
+
+    /**
+     * Siould rfturn b sibpf idfbl for pbinting bbsfd on tif pbssfd in
+     * Sibpf <dodf>b</dodf>. Tiis is usfful if pbinting in b difffrfnt
+     * rfgion. Tif dffbult implfmfntbtion rfturns <dodf>b</dodf>.
+     */
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+        rfturn b;
+    }
+
+    /**
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     *
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        // linf doordinbtfs
+        Dodumfnt dod = gftDodumfnt();
+        Elfmfnt mbp = gftElfmfnt();
+        int linfIndfx = mbp.gftElfmfntIndfx(pos);
+        if (linfIndfx < 0) {
+            rfturn linfToRfdt(b, 0);
+        }
+        Rfdtbnglf linfArfb = linfToRfdt(b, linfIndfx);
+
+        // dftfrminf spbn from tif stbrt of tif linf
+        tbbBbsf = linfArfb.x;
+        Elfmfnt linf = mbp.gftElfmfnt(linfIndfx);
+        int p0 = linf.gftStbrtOffsft();
+        Sfgmfnt s = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(p0, pos - p0, s);
+        int xOffs = Utilitifs.gftTbbbfdTfxtWidti(s, mftrids, tbbBbsf, tiis,p0);
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+
+        // fill in tif rfsults bnd rfturn
+        linfArfb.x += xOffs;
+        linfArfb.widti = 1;
+        linfArfb.ifigit = mftrids.gftHfigit();
+        rfturn linfArfb;
+    }
+
+    /**
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
+     *
+     * @pbrbm fx tif X doordinbtf &gt;= 0
+     * @pbrbm fy tif Y doordinbtf &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+        // PENDING(prinz) propfrly dbldulbtf bibs
+        bibs[0] = Position.Bibs.Forwbrd;
+
+        Rfdtbnglf bllod = b.gftBounds();
+        Dodumfnt dod = gftDodumfnt();
+        int x = (int) fx;
+        int y = (int) fy;
+        if (y < bllod.y) {
+            // bbovf tif brfb dovfrfd by tiis idon, so tif tif position
+            // is bssumfd to bf tif stbrt of tif dovfrbgf for tiis vifw.
+            rfturn gftStbrtOffsft();
+        } flsf if (y > bllod.y + bllod.ifigit) {
+            // bflow tif brfb dovfrfd by tiis idon, so tif tif position
+            // is bssumfd to bf tif fnd of tif dovfrbgf for tiis vifw.
+            rfturn gftEndOffsft() - 1;
+        } flsf {
+            // positionfd witiin tif dovfrbgf of tiis vifw vfrtidblly,
+            // so wf figurf out wiidi linf tif point dorrfsponds to.
+            // if tif linf is grfbtfr tibn tif numbfr of linfs dontbinfd, tifn
+            // simply usf tif lbst linf bs it rfprfsfnts tif lbst possiblf plbdf
+            // wf dbn position to.
+            Elfmfnt mbp = dod.gftDffbultRootElfmfnt();
+            int fontHfigit = mftrids.gftHfigit();
+            int linfIndfx = (fontHfigit > 0 ?
+                                Mbti.bbs((y - bllod.y) / fontHfigit) :
+                                mbp.gftElfmfntCount() - 1);
+            if (linfIndfx >= mbp.gftElfmfntCount()) {
+                rfturn gftEndOffsft() - 1;
+            }
+            Elfmfnt linf = mbp.gftElfmfnt(linfIndfx);
+            int dx = 0;
+            if (linfIndfx == 0) {
+                bllod.x += firstLinfOffsft;
+                bllod.widti -= firstLinfOffsft;
+            }
+            if (x < bllod.x) {
+                // point is to tif lfft of tif linf
+                rfturn linf.gftStbrtOffsft();
+            } flsf if (x > bllod.x + bllod.widti) {
+                // point is to tif rigit of tif linf
+                rfturn linf.gftEndOffsft() - 1;
+            } flsf {
+                // Dftfrminf tif offsft into tif tfxt
+                try {
+                    int p0 = linf.gftStbrtOffsft();
+                    int p1 = linf.gftEndOffsft() - 1;
+                    Sfgmfnt s = SfgmfntCbdif.gftSibrfdSfgmfnt();
+                    dod.gftTfxt(p0, p1 - p0, s);
+                    tbbBbsf = bllod.x;
+                    int offs = p0 + Utilitifs.gftTbbbfdTfxtOffsft(s, mftrids,
+                                                                  tbbBbsf, x, tiis, p0);
+                    SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+                    rfturn offs;
+                } dbtdi (BbdLodbtionExdfption f) {
+                    // siould not ibppfn
+                    rfturn -1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#insfrtUpdbtf
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        updbtfDbmbgf(dibngfs, b, f);
+    }
+
+    /**
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#rfmovfUpdbtf
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        updbtfDbmbgf(dibngfs, b, f);
+    }
+
+    /**
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
+     */
+    publid void dibngfdUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        updbtfDbmbgf(dibngfs, b, f);
+    }
+
+    /**
+     * Sfts tif sizf of tif vifw.  Tiis siould dbusf
+     * lbyout of tif vifw blong tif givfn bxis, if it
+     * ibs bny lbyout dutifs.
+     *
+     * @pbrbm widti tif widti &gt;= 0
+     * @pbrbm ifigit tif ifigit &gt;= 0
+     */
+    publid void sftSizf(flobt widti, flobt ifigit) {
+        supfr.sftSizf(widti, ifigit);
+        updbtfMftrids();
+    }
+
+    // --- TbbExpbndfr mftiods ------------------------------------------
+
+    /**
+     * Rfturns tif nfxt tbb stop position bftfr b givfn rfffrfndf position.
+     * Tiis implfmfntbtion dofs not support tiings likf dfntfring so it
+     * ignorfs tif tbbOffsft brgumfnt.
+     *
+     * @pbrbm x tif durrfnt position &gt;= 0
+     * @pbrbm tbbOffsft tif position witiin tif tfxt strfbm
+     *   tibt tif tbb oddurrfd bt &gt;= 0.
+     * @rfturn tif tbb stop, mfbsurfd in points &gt;= 0
+     */
+    publid flobt nfxtTbbStop(flobt x, int tbbOffsft) {
+        if (tbbSizf == 0) {
+            rfturn x;
+        }
+        int ntbbs = (((int) x) - tbbBbsf) / tbbSizf;
+        rfturn tbbBbsf + ((ntbbs + 1) * tbbSizf);
+    }
+
+    // --- lodbl mftiods ------------------------------------------------
+
+    /**
+     * Rfpbint tif rfgion of dibngf dovfrfd by tif givfn dodumfnt
+     * fvfnt.  Dbmbgfs tif linf tibt bfgins tif rbngf to dovfr
+     * tif dbsf wifn tif insfrt/rfmovf is only on onf linf.
+     * If linfs brf bddfd or rfmovfd, dbmbgfs tif wiolf
+     * vifw.  Tif longfst linf is difdkfd to sff if it ibs
+     * dibngfd.
+     *
+     * @sindf 1.4
+     */
+    protfdtfd void updbtfDbmbgf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        Componfnt iost = gftContbinfr();
+        updbtfMftrids();
+        Elfmfnt flfm = gftElfmfnt();
+        DodumfntEvfnt.ElfmfntCibngf fd = dibngfs.gftCibngf(flfm);
+
+        Elfmfnt[] bddfd = (fd != null) ? fd.gftCiildrfnAddfd() : null;
+        Elfmfnt[] rfmovfd = (fd != null) ? fd.gftCiildrfnRfmovfd() : null;
+        if (((bddfd != null) && (bddfd.lfngti > 0)) ||
+            ((rfmovfd != null) && (rfmovfd.lfngti > 0))) {
+            // linfs wfrf bddfd or rfmovfd...
+            if (bddfd != null) {
+                int durrWidf = gftLinfWidti(longLinf);
+                for (int i = 0; i < bddfd.lfngti; i++) {
+                    int w = gftLinfWidti(bddfd[i]);
+                    if (w > durrWidf) {
+                        durrWidf = w;
+                        longLinf = bddfd[i];
+                    }
+                }
+            }
+            if (rfmovfd != null) {
+                for (int i = 0; i < rfmovfd.lfngti; i++) {
+                    if (rfmovfd[i] == longLinf) {
+                        dbldulbtfLongfstLinf();
+                        brfbk;
+                    }
+                }
+            }
+            prfffrfndfCibngfd(null, truf, truf);
+            iost.rfpbint();
+        } flsf {
+            Elfmfnt mbp = gftElfmfnt();
+            int linf = mbp.gftElfmfntIndfx(dibngfs.gftOffsft());
+            dbmbgfLinfRbngf(linf, linf, b, iost);
+            if (dibngfs.gftTypf() == DodumfntEvfnt.EvfntTypf.INSERT) {
+                // difdk to sff if tif linf is longfr tibn durrfnt
+                // longfst linf.
+                int w = gftLinfWidti(longLinf);
+                Elfmfnt f = mbp.gftElfmfnt(linf);
+                if (f == longLinf) {
+                    prfffrfndfCibngfd(null, truf, fblsf);
+                } flsf if (gftLinfWidti(f) > w) {
+                    longLinf = f;
+                    prfffrfndfCibngfd(null, truf, fblsf);
+                }
+            } flsf if (dibngfs.gftTypf() == DodumfntEvfnt.EvfntTypf.REMOVE) {
+                if (mbp.gftElfmfnt(linf) == longLinf) {
+                    // rfmovfd from longfst linf... rfdbld
+                    dbldulbtfLongfstLinf();
+                    prfffrfndfCibngfd(null, truf, fblsf);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfpbint tif givfn linf rbngf.
+     *
+     * @pbrbm iost tif domponfnt iosting tif vifw (usfd to dbll rfpbint)
+     * @pbrbm b  tif rfgion bllodbtfd for tif vifw to rfndfr into
+     * @pbrbm linf0 tif stbrting linf numbfr to rfpbint.  Tiis must
+     *   bf b vblid linf numbfr in tif modfl.
+     * @pbrbm linf1 tif fnding linf numbfr to rfpbint.  Tiis must
+     *   bf b vblid linf numbfr in tif modfl.
+     * @sindf 1.4
+     */
+    protfdtfd void dbmbgfLinfRbngf(int linf0, int linf1, Sibpf b, Componfnt iost) {
+        if (b != null) {
+            Rfdtbnglf brfb0 = linfToRfdt(b, linf0);
+            Rfdtbnglf brfb1 = linfToRfdt(b, linf1);
+            if ((brfb0 != null) && (brfb1 != null)) {
+                Rfdtbnglf dbmbgf = brfb0.union(brfb1);
+                iost.rfpbint(dbmbgf.x, dbmbgf.y, dbmbgf.widti, dbmbgf.ifigit);
+            } flsf {
+                iost.rfpbint();
+            }
+        }
+    }
+
+    /**
+     * Dftfrminf tif rfdtbnglf tibt rfprfsfnts tif givfn linf.
+     *
+     * @pbrbm b  tif rfgion bllodbtfd for tif vifw to rfndfr into
+     * @pbrbm linf tif linf numbfr to find tif rfgion of.  Tiis must
+     *   bf b vblid linf numbfr in tif modfl.
+     * @sindf 1.4
+     */
+    protfdtfd Rfdtbnglf linfToRfdt(Sibpf b, int linf) {
+        Rfdtbnglf r = null;
+        updbtfMftrids();
+        if (mftrids != null) {
+            Rfdtbnglf bllod = b.gftBounds();
+            if (linf == 0) {
+                bllod.x += firstLinfOffsft;
+                bllod.widti -= firstLinfOffsft;
+            }
+            r = nfw Rfdtbnglf(bllod.x, bllod.y + (linf * mftrids.gftHfigit()),
+                              bllod.widti, mftrids.gftHfigit());
+        }
+        rfturn r;
+    }
+
+    /**
+     * Itfrbtf ovfr tif linfs rfprfsfntfd by tif diild flfmfnts
+     * of tif flfmfnt tiis vifw rfprfsfnts, looking for tif linf
+     * tibt is tif longfst.  Tif <fm>longLinf</fm> vbribblf is updbtfd to
+     * rfprfsfnt tif longfst linf dontbinfd.  Tif <fm>font</fm> vbribblf
+     * is updbtfd to indidbtf tif font usfd to dbldulbtf tif
+     * longfst linf.
+     */
+    privbtf void dbldulbtfLongfstLinf() {
+        Componfnt d = gftContbinfr();
+        font = d.gftFont();
+        mftrids = d.gftFontMftrids(font);
+        Dodumfnt dod = gftDodumfnt();
+        Elfmfnt linfs = gftElfmfnt();
+        int n = linfs.gftElfmfntCount();
+        int mbxWidti = -1;
+        for (int i = 0; i < n; i++) {
+            Elfmfnt linf = linfs.gftElfmfnt(i);
+            int w = gftLinfWidti(linf);
+            if (w > mbxWidti) {
+                mbxWidti = w;
+                longLinf = linf;
+            }
+        }
+    }
+
+    /**
+     * Cbldulbtf tif widti of tif linf rfprfsfntfd by
+     * tif givfn flfmfnt.  It is bssumfd tibt tif font
+     * bnd font mftrids brf up-to-dbtf.
+     */
+    privbtf int gftLinfWidti(Elfmfnt linf) {
+        if (linf == null) {
+            rfturn 0;
+        }
+        int p0 = linf.gftStbrtOffsft();
+        int p1 = linf.gftEndOffsft();
+        int w;
+        Sfgmfnt s = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        try {
+            linf.gftDodumfnt().gftTfxt(p0, p1 - p0, s);
+            w = Utilitifs.gftTbbbfdTfxtWidti(s, mftrids, tbbBbsf, tiis, p0);
+        } dbtdi (BbdLodbtionExdfption blf) {
+            w = 0;
+        }
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(s);
+        rfturn w;
+    }
+
+    // --- mfmbfr vbribblfs -----------------------------------------------
+
+    /**
+     * Font mftrids for tif durrfnt font.
+     */
+    protfdtfd FontMftrids mftrids;
+
+    /**
+     * Tif durrfnt longfst linf.  Tiis is usfd to dbldulbtf
+     * tif prfffrrfd widti of tif vifw.  Sindf tif dbldulbtion
+     * is potfntiblly fxpfnsivf wf try to bvoid it by stbsiing
+     * wiidi linf is durrfntly tif longfst.
+     */
+    Elfmfnt longLinf;
+
+    /**
+     * Font usfd to dbldulbtf tif longfst linf... if tiis
+     * dibngfs wf nffd to rfdbldulbtf tif longfst linf
+     */
+    Font font;
+
+    Sfgmfnt linfBufffr;
+    int tbbSizf;
+    int tbbBbsf;
+
+    int sfl0;
+    int sfl1;
+    Color unsflfdtfd;
+    Color sflfdtfd;
+
+    /**
+     * Offsft of wifrf to drbw tif first dibrbdtfr on tif first linf.
+     * Tiis is b ibdk bnd tfmporbry until wf dbn bfttfr bddrfss tif problfm
+     * of tfxt mfbsuring. Tiis fifld is bdtublly nfvfr sft dirfdtly in
+     * PlbinVifw, but by FifldVifw.
+     */
+    int firstLinfOffsft;
+
+}

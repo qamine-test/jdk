@@ -1,0 +1,1099 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+
+import jbvb.lbng.rfflfdt.*;
+
+/**
+ * Providfs implfmfntbtions for tif mftiods tibt sft bnd gft
+ * mftbdbtb informbtion bbout b <dodf>RowSft</dodf> objfdt's dolumns.
+ * A <dodf>RowSftMftbDbtbImpl</dodf> objfdt kffps trbdk of tif
+ * numbfr of dolumns in tif rowsft bnd mbintbins bn intfrnbl brrby
+ * of dolumn bttributfs for fbdi dolumn.
+ * <P>
+ * A <dodf>RowSft</dodf> objfdt drfbtfs b <dodf>RowSftMftbDbtbImpl</dodf>
+ * objfdt intfrnblly in ordfr to sft bnd rftrifvf informbtion bbout
+ * its dolumns.
+ * <P>
+ * NOTE: All mftbdbtb in b <dodf>RowSftMftbDbtbImpl</dodf> objfdt
+ * siould bf donsidfrfd bs unbvbilbblf until tif <dodf>RowSft</dodf> objfdt
+ * tibt it dfsdribfs is populbtfd.
+ * Tifrfforf, bny <dodf>RowSftMftbDbtbImpl</dodf> mftiod tibt rftrifvfs informbtion
+ * is dffinfd bs ibving unspfdififd bfibvior wifn it is dbllfd
+ * bfforf tif <dodf>RowSft</dodf> objfdt dontbins dbtb.
+ *
+ * @sindf 1.5
+ */
+publid dlbss RowSftMftbDbtbImpl implfmfnts RowSftMftbDbtb,  Sfriblizbblf {
+
+    /**
+     * Tif numbfr of dolumns in tif <dodf>RowSft</dodf> objfdt tibt drfbtfd
+     * tiis <dodf>RowSftMftbDbtbImpl</dodf> objfdt.
+     * @sfribl
+     */
+    privbtf int dolCount;
+
+    /**
+     * An brrby of <dodf>ColInfo</dodf> objfdts usfd to storf informbtion
+     * bbout fbdi dolumn in tif <dodf>RowSft</dodf> objfdt for wiidi
+     * tiis <dodf>RowSftMftbDbtbImpl</dodf> objfdt wbs drfbtfd. Tif first
+     * <dodf>ColInfo</dodf> objfdt in tiis brrby dontbins informbtion bbout
+     * tif first dolumn in tif <dodf>RowSft</dodf> objfdt, tif sfdond flfmfnt
+     * dontbins informbtion bbout tif sfdond dolumn, bnd so on.
+     * @sfribl
+     */
+    privbtf ColInfo[] dolInfo;
+
+    /**
+     * Cifdks to sff tibt tif dfsignbtfd dolumn is b vblid dolumn numbfr for
+     * tif <dodf>RowSft</dodf> objfdt for wiidi tiis <dodf>RowSftMftbDbtbImpl</dodf>
+     * wbs drfbtfd. To bf vblid, b dolumn numbfr must bf grfbtfr tibn
+     * <dodf>0</dodf> bnd lfss tibn or fqubl to tif numbfr of dolumns in b row.
+     * @tirows <dodf>SQLExdfption</dodf> witi tif mfssbgf "Invblid dolumn indfx"
+     *        if tif givfn dolumn numbfr is out of tif rbngf of vblid dolumn
+     *        numbfrs for tif <dodf>RowSft</dodf> objfdt
+     */
+    privbtf void difdkColRbngf(int dol) tirows SQLExdfption {
+        if (dol <= 0 || dol > dolCount) {
+            tirow nfw SQLExdfption("Invblid dolumn indfx :"+dol);
+        }
+    }
+
+    /**
+     * Cifdks to sff tibt tif givfn SQL typf is b vblid dolumn typf bnd tirows bn
+     * <dodf>SQLExdfption</dodf> objfdt if it is not.
+     * To bf vblid, b SQL typf must bf onf of tif donstbnt vblufs
+     * in tif <dodf><b irff="../../sql/Typfs.itml">jbvb.sql.Typfs</b></dodf>
+     * dlbss.
+     *
+     * @pbrbm SQLTypf bn <dodf>int</dodf> dffinfd in tif dlbss <dodf>jbvb.sql.Typfs</dodf>
+     * @tirows SQLExdfption if tif givfn <dodf>int</dodf> is not b donstbnt dffinfd in tif
+     *         dlbss <dodf>jbvb.sql.Typfs</dodf>
+     */
+    privbtf void difdkColTypf(int SQLTypf) tirows SQLExdfption {
+        try {
+            Clbss<?> d = jbvb.sql.Typfs.dlbss;
+            Fifld[] publidFiflds = d.gftFiflds();
+            int fifldVbluf = 0;
+            for (int i = 0; i < publidFiflds.lfngti; i++) {
+                fifldVbluf = publidFiflds[i].gftInt(d);
+                if (fifldVbluf == SQLTypf) {
+                    rfturn;
+                 }
+            }
+        } dbtdi (Exdfption f) {
+            tirow nfw SQLExdfption(f.gftMfssbgf());
+        }
+        tirow nfw SQLExdfption("Invblid SQL typf for dolumn");
+    }
+
+    /**
+     * Sfts to tif givfn numbfr tif numbfr of dolumns in tif <dodf>RowSft</dodf>
+     * objfdt for wiidi tiis <dodf>RowSftMftbDbtbImpl</dodf> objfdt wbs drfbtfd.
+     *
+     * @pbrbm dolumnCount bn <dodf>int</dodf> giving tif numbfr of dolumns in tif
+     *        <dodf>RowSft</dodf> objfdt
+     * @tirows SQLExdfption if tif givfn numbfr is fqubl to or lfss tibn zfro
+     */
+    publid void sftColumnCount(int dolumnCount) tirows SQLExdfption {
+
+        if (dolumnCount <= 0) {
+            tirow nfw SQLExdfption("Invblid dolumn dount. Cbnnot bf lfss " +
+                "or fqubl to zfro");
+            }
+
+       dolCount = dolumnCount;
+
+       // If tif dolCount is Intfgfr.MAX_VALUE,
+       // wf do not initiblizf tif dolInfo objfdt.
+       // fvfn if wf try to initiblizf tif dolCount witi
+       // dolCount = Intfgfr.MAx_VALUE-1, tif dolInfo
+       // initiblizbtion fbils tirowing bn ERROR
+       // OutOfMfmory Exdfption. So wf do not initiblizf
+       // dolInfo bt Intfgfr.MAX_VALUE. Tiis is to pbss TCK.
+
+       if(!(dolCount == Intfgfr.MAX_VALUE)) {
+            dolInfo = nfw ColInfo[dolCount + 1];
+
+           for (int i=1; i <= dolCount; i++) {
+                 dolInfo[i] = nfw ColInfo();
+           }
+       }
+
+
+    }
+
+    /**
+     * Sfts wiftifr tif dfsignbtfd dolumn is butombtidblly
+     * numbfrfd, tius rfbd-only, to tif givfn <dodf>boolfbn</dodf>
+     * vbluf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns
+     *        in tif rowsft, indlusivf
+     * @pbrbm propfrty <dodf>truf</dodf> if tif givfn dolumn is
+     *                 butombtidblly indrfmfntfd; <dodf>fblsf</dodf>
+     *                 otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *         tif givfn indfx is out of bounds
+     */
+    publid void sftAutoIndrfmfnt(int dolumnIndfx, boolfbn propfrty) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].butoIndrfmfnt = propfrty;
+    }
+
+    /**
+     * Sfts wiftifr tif nbmf of tif dfsignbtfd dolumn is dbsf sfnsitivf to
+     * tif givfn <dodf>boolfbn</dodf>.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns
+     *        in tif rowsft, indlusivf
+     * @pbrbm propfrty <dodf>truf</dodf> to indidbtf tibt tif dolumn
+     *                 nbmf is dbsf sfnsitivf; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *         tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftCbsfSfnsitivf(int dolumnIndfx, boolfbn propfrty) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].dbsfSfnsitivf = propfrty;
+    }
+
+    /**
+     * Sfts wiftifr b vbluf storfd in tif dfsignbtfd dolumn dbn bf usfd
+     * in b <dodf>WHERE</dodf> dlbusf to tif givfn <dodf>boolfbn</dodf> vbluf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *                    must bf bftwffn <dodf>1</dodf> bnd tif numbfr
+     *                    of dolumns in tif rowsft, indlusivf
+     * @pbrbm propfrty <dodf>truf</dodf> to indidbtf tibt b dolumn
+     *                 vbluf dbn bf usfd in b <dodf>WHERE</dodf> dlbusf;
+     *                 <dodf>fblsf</dodf> otifrwisf
+     *
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *         tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftSfbrdibblf(int dolumnIndfx, boolfbn propfrty)
+        tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].sfbrdibblf = propfrty;
+    }
+
+    /**
+     * Sfts wiftifr b vbluf storfd in tif dfsignbtfd dolumn is b dbsi
+     * vbluf to tif givfn <dodf>boolfbn</dodf>.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns,
+     * indlusivf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm propfrty truf if tif vbluf is b dbsi vbluf; fblsf otifrwisf.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftCurrfndy(int dolumnIndfx, boolfbn propfrty)
+        tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].durrfndy = propfrty;
+    }
+
+    /**
+     * Sfts wiftifr b vbluf storfd in tif dfsignbtfd dolumn dbn bf sft
+     * to <dodf>NULL</dodf> to tif givfn donstbnt from tif intfrfbdf
+     * <dodf>RfsultSftMftbDbtb</dodf>.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm propfrty onf of tif following <dodf>RfsultSftMftbDbtb</dodf> donstbnts:
+     *                 <dodf>dolumnNoNulls</dodf>,
+     *                 <dodf>dolumnNullbblf</dodf>, or
+     *                 <dodf>dolumnNullbblfUnknown</dodf>
+     *
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *         tif givfn dolumn numbfr is out of bounds, or tif vbluf supplifd
+     *         for tif <i>propfrty</i> pbrbmftfr is not onf of tif following
+     *         donstbnts:
+     *           <dodf>RfsultSftMftbDbtb.dolumnNoNulls</dodf>,
+     *           <dodf>RfsultSftMftbDbtb.dolumnNullbblf</dodf>, or
+     *           <dodf>RfsultSftMftbDbtb.dolumnNullbblfUnknown</dodf>
+     */
+    publid void sftNullbblf(int dolumnIndfx, int propfrty) tirows SQLExdfption {
+        if ((propfrty < RfsultSftMftbDbtb.dolumnNoNulls) ||
+            propfrty > RfsultSftMftbDbtb.dolumnNullbblfUnknown) {
+                tirow nfw SQLExdfption("Invblid nullbblf donstbnt sft. Must bf " +
+                    "fitifr dolumnNoNulls, dolumnNullbblf or dolumnNullbblfUnknown");
+        }
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].nullbblf = propfrty;
+    }
+
+    /**
+     * Sfts wiftifr b vbluf storfd in tif dfsignbtfd dolumn is b signfd
+     * numbfr to tif givfn <dodf>boolfbn</dodf>.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm propfrty <dodf>truf</dodf> to indidbtf tibt b dolumn
+     *                 vbluf is b signfd numbfr;
+     *                 <dodf>fblsf</dodf> to indidbtf tibt it is not
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftSignfd(int dolumnIndfx, boolfbn propfrty) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].signfd = propfrty;
+    }
+
+    /**
+     * Sfts tif normbl mbximum numbfr of dibrs in tif dfsignbtfd dolumn
+     * to tif givfn numbfr.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm sizf tif mbximum sizf of tif dolumn in dibrs; must bf
+     *        <dodf>0</dodf> or morf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *        tif givfn dolumn numbfr is out of bounds, or <i>sizf</i> is
+     *        lfss tibn <dodf>0</dodf>
+     */
+    publid void sftColumnDisplbySizf(int dolumnIndfx, int sizf) tirows SQLExdfption {
+        if (sizf < 0) {
+            tirow nfw SQLExdfption("Invblid dolumn displby sizf. Cbnnot bf lfss " +
+                "tibn zfro");
+        }
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].dolumnDisplbySizf = sizf;
+    }
+
+    /**
+     * Sfts tif suggfstfd dolumn lbbfl for usf in printouts bnd
+     * displbys, if bny, to <i>lbbfl</i>. If <i>lbbfl</i> is
+     * <dodf>null</dodf>, tif dolumn lbbfl is sft to bn fmpty string
+     * ("").
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm lbbfl tif dolumn lbbfl to bf usfd in printouts bnd displbys; if tif
+     *        dolumn lbbfl is <dodf>null</dodf>, bn fmpty <dodf>String</dodf> is
+     *        sft
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn indfx is out of bounds
+     */
+    publid void sftColumnLbbfl(int dolumnIndfx, String lbbfl) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (lbbfl != null) {
+            dolInfo[dolumnIndfx].dolumnLbbfl = lbbfl;
+        } flsf {
+            dolInfo[dolumnIndfx].dolumnLbbfl = "";
+        }
+    }
+
+    /**
+     * Sfts tif dolumn nbmf of tif dfsignbtfd dolumn to tif givfn nbmf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *      must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt indidbting tif dolumn nbmf;
+     *      if tif givfn nbmf is <dodf>null</dodf>, bn fmpty <dodf>String</dodf>
+     *      is sft
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif givfn dolumn
+     *      indfx is out of bounds
+     */
+    publid void sftColumnNbmf(int dolumnIndfx, String dolumnNbmf) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (dolumnNbmf != null) {
+            dolInfo[dolumnIndfx].dolumnNbmf = dolumnNbmf;
+        } flsf {
+            dolInfo[dolumnIndfx].dolumnNbmf = "";
+        }
+    }
+
+    /**
+     * Sfts tif dfsignbtfd dolumn's tbblf's sdifmb nbmf, if bny, to
+     * <i>sdifmbNbmf</i>. If <i>sdifmbNbmf</i> is <dodf>null</dodf>,
+     * tif sdifmb nbmf is sft to bn fmpty string ("").
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm sdifmbNbmf tif sdifmb nbmf for tif tbblf from wiidi b vbluf in tif
+     *        dfsignbtfd dolumn wbs dfrivfd; mby bf bn fmpty <dodf>String</dodf>
+     *        or <dodf>null</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *        or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftSdifmbNbmf(int dolumnIndfx, String sdifmbNbmf) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (sdifmbNbmf != null ) {
+            dolInfo[dolumnIndfx].sdifmbNbmf = sdifmbNbmf;
+        } flsf {
+            dolInfo[dolumnIndfx].sdifmbNbmf = "";
+        }
+    }
+
+    /**
+     * Sfts tif totbl numbfr of dfdimbl digits in b vbluf storfd in tif
+     * dfsignbtfd dolumn to tif givfn numbfr.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm prfdision tif totbl numbfr of dfdimbl digits; must bf <dodf>0</dodf>
+     *        or morf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *         <i>dolumnIndfx</i> is out of bounds, or <i>prfdision</i>
+     *         is lfss tibn <dodf>0</dodf>
+     */
+    publid void sftPrfdision(int dolumnIndfx, int prfdision) tirows SQLExdfption {
+
+        if (prfdision < 0) {
+            tirow nfw SQLExdfption("Invblid prfdision vbluf. Cbnnot bf lfss " +
+                "tibn zfro");
+        }
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].dolPrfdision = prfdision;
+    }
+
+    /**
+     * Sfts tif numbfr of digits to tif rigit of tif dfdimbl point in b vbluf
+     * storfd in tif dfsignbtfd dolumn to tif givfn numbfr.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm sdblf tif numbfr of digits to tif rigit of tif dfdimbl point; must bf
+     *        zfro or grfbtfr
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *         <i>dolumnIndfx</i> is out of bounds, or <i>sdblf</i>
+     *         is lfss tibn <dodf>0</dodf>
+     */
+    publid void sftSdblf(int dolumnIndfx, int sdblf) tirows SQLExdfption {
+        if (sdblf < 0) {
+            tirow nfw SQLExdfption("Invblid sdblf sizf. Cbnnot bf lfss " +
+                "tibn zfro");
+        }
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].dolSdblf = sdblf;
+    }
+
+    /**
+     * Sfts tif nbmf of tif tbblf from wiidi tif dfsignbtfd dolumn
+     * wbs dfrivfd to tif givfn tbblf nbmf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm tbblfNbmf tif dolumn's tbblf nbmf; mby bf <dodf>null</dodf> or bn
+     *        fmpty string
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftTbblfNbmf(int dolumnIndfx, String tbblfNbmf) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (tbblfNbmf != null) {
+            dolInfo[dolumnIndfx].tbblfNbmf = tbblfNbmf;
+        } flsf {
+            dolInfo[dolumnIndfx].tbblfNbmf = "";
+        }
+    }
+
+    /**
+     * Sfts tif dbtblog nbmf of tif tbblf from wiidi tif dfsignbtfd
+     * dolumn wbs dfrivfd to <i>dbtblogNbmf</i>. If <i>dbtblogNbmf</i>
+     * is <dodf>null</dodf>, tif dbtblog nbmf is sft to bn fmpty string.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm dbtblogNbmf tif dolumn's tbblf's dbtblog nbmf; if tif dbtblogNbmf
+     *        is <dodf>null</dodf>, bn fmpty <dodf>String</dodf> is sft
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftCbtblogNbmf(int dolumnIndfx, String dbtblogNbmf) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (dbtblogNbmf != null)
+            dolInfo[dolumnIndfx].dbtNbmf = dbtblogNbmf;
+        flsf
+            dolInfo[dolumnIndfx].dbtNbmf = "";
+    }
+
+    /**
+     * Sfts tif SQL typf dodf for vblufs storfd in tif dfsignbtfd dolumn
+     * to tif givfn typf dodf from tif dlbss <dodf>jbvb.sql.Typfs</dodf>.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm SQLTypf tif dfsignbtfd dolumn's SQL typf, wiidi must bf onf of tif
+     *                donstbnts in tif dlbss <dodf>jbvb.sql.Typfs</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *         tif givfn dolumn numbfr is out of bounds, or tif dolumn typf
+     *         spfdififd is not onf of tif donstbnts in
+     *         <dodf>jbvb.sql.Typfs</dodf>
+     * @sff jbvb.sql.Typfs
+     */
+    publid void sftColumnTypf(int dolumnIndfx, int SQLTypf) tirows SQLExdfption {
+        // fxbminf jbvb.sql.Typf rfflfdtivfly, loop on tif fiflds bnd difdk
+        // tiis. Sfpbrbtf out into b privbtf mftiod
+        difdkColTypf(SQLTypf);
+        difdkColRbngf(dolumnIndfx);
+        dolInfo[dolumnIndfx].dolTypf = SQLTypf;
+    }
+
+    /**
+     * Sfts tif typf nbmf usfd by tif dbtb sourdf for vblufs storfd in tif
+     * dfsignbtfd dolumn to tif givfn typf nbmf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @pbrbm typfNbmf tif dbtb sourdf-spfdifid typf nbmf; if <i>typfNbmf</i> is
+     *        <dodf>null</dodf>, bn fmpty <dodf>String</dodf> is sft
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid void sftColumnTypfNbmf(int dolumnIndfx, String typfNbmf)
+        tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        if (typfNbmf != null) {
+            dolInfo[dolumnIndfx].dolTypfNbmf = typfNbmf;
+        } flsf {
+            dolInfo[dolumnIndfx].dolTypfNbmf = "";
+        }
+    }
+
+    /**
+     * Rftrifvfs tif numbfr of dolumns in tif <dodf>RowSft</dodf> objfdt
+     * for wiidi tiis <dodf>RowSftMftbDbtbImpl</dodf> objfdt wbs drfbtfd.
+     *
+     * @rfturn tif numbfr of dolumns
+     * @tirows SQLExdfption if bn frror oddurs dftfrmining tif dolumn dount
+     */
+    publid int gftColumnCount() tirows SQLExdfption {
+        rfturn dolCount;
+    }
+
+    /**
+     * Rftrifvfs wiftifr b vbluf storfd in tif dfsignbtfd dolumn is
+     * butombtidblly numbfrfd, bnd tius rfbdonly.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *         must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if tif dolumn is butombtidblly numbfrfd;
+     *         <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isAutoIndrfmfnt(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].butoIndrfmfnt;
+    }
+
+    /**
+     * Indidbtfs wiftifr tif dbsf of tif dfsignbtfd dolumn's nbmf
+     * mbttfrs.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if tif dolumn nbmf is dbsf sfnsitivf;
+     *          <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isCbsfSfnsitivf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dbsfSfnsitivf;
+    }
+
+    /**
+     * Indidbtfs wiftifr b vbluf storfd in tif dfsignbtfd dolumn
+     * dbn bf usfd in b <dodf>WHERE</dodf> dlbusf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if b vbluf in tif dfsignbtfd dolumn dbn bf usfd in b
+     *         <dodf>WHERE</dodf> dlbusf; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isSfbrdibblf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].sfbrdibblf;
+    }
+
+    /**
+     * Indidbtfs wiftifr b vbluf storfd in tif dfsignbtfd dolumn
+     * is b dbsi vbluf.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if b vbluf in tif dfsignbtfd dolumn is b dbsi vbluf;
+     *         <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isCurrfndy(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].durrfndy;
+    }
+
+    /**
+     * Rftrifvfs b donstbnt indidbting wiftifr it is possiblf
+     * to storf b <dodf>NULL</dodf> vbluf in tif dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn b donstbnt from tif <dodf>RfsultSftMftbDbtb</dodf> intfrfbdf;
+     *         fitifr <dodf>dolumnNoNulls</dodf>,
+     *         <dodf>dolumnNullbblf</dodf>, or
+     *         <dodf>dolumnNullbblfUnknown</dodf>
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid int isNullbblf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].nullbblf;
+    }
+
+    /**
+     * Indidbtfs wiftifr b vbluf storfd in tif dfsignbtfd dolumn is
+     * b signfd numbfr.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if b vbluf in tif dfsignbtfd dolumn is b signfd
+     *         numbfr; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isSignfd(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].signfd;
+    }
+
+    /**
+     * Rftrifvfs tif normbl mbximum widti in dibrs of tif dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif mbximum numbfr of dibrs tibt dbn bf displbyfd in tif dfsignbtfd
+     *         dolumn
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid int gftColumnDisplbySizf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolumnDisplbySizf;
+    }
+
+    /**
+     * Rftrifvfs tif tif suggfstfd dolumn titlf for tif dfsignbtfd
+     * dolumn for usf in printouts bnd displbys.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif suggfstfd dolumn nbmf to usf in printouts bnd displbys
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftColumnLbbfl(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolumnLbbfl;
+    }
+
+    /**
+     * Rftrifvfs tif nbmf of tif dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif dolumn nbmf of tif dfsignbtfd dolumn
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftColumnNbmf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolumnNbmf;
+    }
+
+    /**
+     * Rftrifvfs tif sdifmb nbmf of tif tbblf from wiidi tif vbluf
+     * in tif dfsignbtfd dolumn wbs dfrivfd.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *         must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns,
+     *         indlusivf
+     * @rfturn tif sdifmb nbmf or bn fmpty <dodf>String</dodf> if no sdifmb
+     *         nbmf is bvbilbblf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftSdifmbNbmf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        String str ="";
+        if(dolInfo[dolumnIndfx].sdifmbNbmf == null){
+        } flsf {
+              str = dolInfo[dolumnIndfx].sdifmbNbmf;
+        }
+        rfturn str;
+    }
+
+    /**
+     * Rftrifvfs tif totbl numbfr of digits for vblufs storfd in
+     * tif dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif prfdision for vblufs storfd in tif dfsignbtfd dolumn
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid int gftPrfdision(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolPrfdision;
+    }
+
+    /**
+     * Rftrifvfs tif numbfr of digits to tif rigit of tif dfdimbl point
+     * for vblufs storfd in tif dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif sdblf for vblufs storfd in tif dfsignbtfd dolumn
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid int gftSdblf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolSdblf;
+    }
+
+    /**
+     * Rftrifvfs tif nbmf of tif tbblf from wiidi tif vbluf
+     * in tif dfsignbtfd dolumn wbs dfrivfd.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif tbblf nbmf or bn fmpty <dodf>String</dodf> if no tbblf nbmf
+     *         is bvbilbblf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftTbblfNbmf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].tbblfNbmf;
+    }
+
+    /**
+     * Rftrifvfs tif dbtblog nbmf of tif tbblf from wiidi tif vbluf
+     * in tif dfsignbtfd dolumn wbs dfrivfd.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif dbtblog nbmf of tif dolumn's tbblf or bn fmpty
+     *         <dodf>String</dodf> if no dbtblog nbmf is bvbilbblf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftCbtblogNbmf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        String str ="";
+        if(dolInfo[dolumnIndfx].dbtNbmf == null){
+        } flsf {
+           str = dolInfo[dolumnIndfx].dbtNbmf;
+        }
+        rfturn str;
+    }
+
+    /**
+     * Rftrifvfs tif typf dodf (onf of tif <dodf>jbvb.sql.Typfs</dodf>
+     * donstbnts) for tif SQL typf of tif vbluf storfd in tif
+     * dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif SQL typf of vblufs
+     * storfd in tif dfsignbtfd dolumn
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     * @sff jbvb.sql.Typfs
+     */
+    publid int gftColumnTypf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolTypf;
+    }
+
+    /**
+     * Rftrifvfs tif DBMS-spfdifid typf nbmf for vblufs storfd in tif
+     * dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif typf nbmf usfd by tif dbtb sourdf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftColumnTypfNbmf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].dolTypfNbmf;
+    }
+
+
+    /**
+     * Indidbtfs wiftifr tif dfsignbtfd dolumn is dffinitfly
+     * not writbblf, tius rfbdonly.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>RowSft</dodf> objfdt is rfbd-Only
+     * bnd tius not updbtbblf; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isRfbdOnly(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].rfbdOnly;
+    }
+
+    /**
+     * Indidbtfs wiftifr it is possiblf for b writf opfrbtion on
+     * tif dfsignbtfd dolumn to suddffd. A rfturn vbluf of
+     * <dodf>truf</dodf> mfbns tibt b writf opfrbtion mby or mby
+     * not suddffd.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *         must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if b writf opfrbtion on tif dfsignbtfd dolumn mby
+     *          will suddffd; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid boolfbn isWritbblf(int dolumnIndfx) tirows SQLExdfption {
+        difdkColRbngf(dolumnIndfx);
+        rfturn dolInfo[dolumnIndfx].writbblf;
+    }
+
+    /**
+     * Indidbtfs wiftifr b writf opfrbtion on tif dfsignbtfd dolumn
+     * will dffinitfly suddffd.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     * must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn <dodf>truf</dodf> if b writf opfrbtion on tif dfsignbtfd dolumn will
+     *         dffinitfly suddffd; <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * or tif givfn dolumn numbfr is out of bounds
+     */
+    publid  boolfbn isDffinitflyWritbblf(int dolumnIndfx)
+        tirows SQLExdfption { rfturn truf;}
+
+    /**
+     * Rftrifvfs tif fully-qublififd nbmf of tif dlbss in tif Jbvb
+     * progrbmming lbngubgf to wiidi b vbluf in tif dfsignbtfd dolumn
+     * will bf mbppfd.  For fxbmplf, if tif vbluf is bn <dodf>int</dodf>,
+     * tif dlbss nbmf rfturnfd by tiis mftiod will bf
+     * <dodf>jbvb.lbng.Intfgfr</dodf>.
+     * <P>
+     * If tif vbluf in tif dfsignbtfd dolumn ibs b dustom mbpping,
+     * tiis mftiod rfturns tif nbmf of tif dlbss tibt implfmfnts
+     * <dodf>SQLDbtb</dodf>. Wifn tif mftiod <dodf>RfsultSft.gftObjfdt</dodf>
+     * is dbllfd to rftrifvf b vbluf from tif dfsignbtfd dolumn, it will
+     * drfbtf bn instbndf of tiis dlbss or onf of its subdlbssfs.
+     *
+     * @pbrbm dolumnIndfx tif first dolumn is 1, tif sfdond is 2, bnd so on;
+     *        must bf bftwffn <dodf>1</dodf> bnd tif numbfr of dolumns, indlusivf
+     * @rfturn tif fully-qublififd nbmf of tif dlbss in tif Jbvb progrbmming
+     *        lbngubgf tibt would bf usfd by tif mftiod <dodf>RowSft.gftObjfdt</dodf> to
+     *        rftrifvf tif vbluf in tif spfdififd dolumn. Tiis is tif dlbss
+     *        nbmf usfd for dustom mbpping wifn tifrf is b dustom mbpping.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         or tif givfn dolumn numbfr is out of bounds
+     */
+    publid String gftColumnClbssNbmf(int dolumnIndfx) tirows SQLExdfption {
+        String dlbssNbmf = String.dlbss.gftNbmf();
+
+        int sqlTypf = gftColumnTypf(dolumnIndfx);
+
+        switdi (sqlTypf) {
+
+        dbsf Typfs.NUMERIC:
+        dbsf Typfs.DECIMAL:
+            dlbssNbmf = jbvb.mbti.BigDfdimbl.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.BIT:
+            dlbssNbmf = jbvb.lbng.Boolfbn.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.TINYINT:
+            dlbssNbmf = jbvb.lbng.Bytf.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.SMALLINT:
+            dlbssNbmf = jbvb.lbng.Siort.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.INTEGER:
+            dlbssNbmf = jbvb.lbng.Intfgfr.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.BIGINT:
+            dlbssNbmf = jbvb.lbng.Long.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.REAL:
+            dlbssNbmf = jbvb.lbng.Flobt.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.FLOAT:
+        dbsf Typfs.DOUBLE:
+            dlbssNbmf = jbvb.lbng.Doublf.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.BINARY:
+        dbsf Typfs.VARBINARY:
+        dbsf Typfs.LONGVARBINARY:
+            dlbssNbmf = "bytf[]";
+            brfbk;
+
+        dbsf Typfs.DATE:
+            dlbssNbmf = jbvb.sql.Dbtf.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.TIME:
+            dlbssNbmf = jbvb.sql.Timf.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.TIMESTAMP:
+            dlbssNbmf = jbvb.sql.Timfstbmp.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.BLOB:
+            dlbssNbmf = jbvb.sql.Blob.dlbss.gftNbmf();
+            brfbk;
+
+        dbsf Typfs.CLOB:
+            dlbssNbmf = jbvb.sql.Clob.dlbss.gftNbmf();
+            brfbk;
+        }
+
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Rfturns bn objfdt tibt implfmfnts tif givfn intfrfbdf to bllow bddfss to non-stbndbrd mftiods,
+     * or stbndbrd mftiods not fxposfd by tif proxy.
+     * Tif rfsult mby bf fitifr tif objfdt found to implfmfnt tif intfrfbdf or b proxy for tibt objfdt.
+     * If tif rfdfivfr implfmfnts tif intfrfbdf tifn tibt is tif objfdt. If tif rfdfivfr is b wrbppfr
+     * bnd tif wrbppfd objfdt implfmfnts tif intfrfbdf tifn tibt is tif objfdt. Otifrwisf tif objfdt is
+     *  tif rfsult of dblling <dodf>unwrbp</dodf> rfdursivfly on tif wrbppfd objfdt. If tif rfdfivfr is not b
+     * wrbppfr bnd dofs not implfmfnt tif intfrfbdf, tifn bn <dodf>SQLExdfption</dodf> is tirown.
+     *
+     * @pbrbm ifbdf A Clbss dffining bn intfrfbdf tibt tif rfsult must implfmfnt.
+     * @rfturn bn objfdt tibt implfmfnts tif intfrfbdf. Mby bf b proxy for tif bdtubl implfmfnting objfdt.
+     * @tirows jbvb.sql.SQLExdfption If no objfdt found tibt implfmfnts tif intfrfbdf
+     * @sindf 1.6
+     */
+    publid <T> T unwrbp(jbvb.lbng.Clbss<T> ifbdf) tirows jbvb.sql.SQLExdfption {
+
+        if(isWrbppfrFor(ifbdf)) {
+            rfturn ifbdf.dbst(tiis);
+        } flsf {
+            tirow nfw SQLExdfption("unwrbp fbilfd for:"+ ifbdf);
+        }
+    }
+
+    /**
+     * Rfturns truf if tiis fitifr implfmfnts tif intfrfbdf brgumfnt or is dirfdtly or indirfdtly b wrbppfr
+     * for bn objfdt tibt dofs. Rfturns fblsf otifrwisf. If tiis implfmfnts tif intfrfbdf tifn rfturn truf,
+     * flsf if tiis is b wrbppfr tifn rfturn tif rfsult of rfdursivfly dblling <dodf>isWrbppfrFor</dodf> on tif wrbppfd
+     * objfdt. If tiis dofs not implfmfnt tif intfrfbdf bnd is not b wrbppfr, rfturn fblsf.
+     * Tiis mftiod siould bf implfmfntfd bs b low-dost opfrbtion dompbrfd to <dodf>unwrbp</dodf> so tibt
+     * dbllfrs dbn usf tiis mftiod to bvoid fxpfnsivf <dodf>unwrbp</dodf> dblls tibt mby fbil. If tiis mftiod
+     * rfturns truf tifn dblling <dodf>unwrbp</dodf> witi tif sbmf brgumfnt siould suddffd.
+     *
+     * @pbrbm intfrfbdfs b Clbss dffining bn intfrfbdf.
+     * @rfturn truf if tiis implfmfnts tif intfrfbdf or dirfdtly or indirfdtly wrbps bn objfdt tibt dofs.
+     * @tirows jbvb.sql.SQLExdfption  if bn frror oddurs wiilf dftfrmining wiftifr tiis is b wrbppfr
+     * for bn objfdt witi tif givfn intfrfbdf.
+     * @sindf 1.6
+     */
+    publid boolfbn isWrbppfrFor(Clbss<?> intfrfbdfs) tirows SQLExdfption {
+        rfturn intfrfbdfs.isInstbndf(tiis);
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 6893806403181801867L;
+
+    privbtf dlbss ColInfo implfmfnts Sfriblizbblf {
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn is b numbfr
+         * tibt is indrfmfntfd butombtidblly, wiidi mbkfs tif vbluf rfbd-only.
+         * <dodf>truf</dodf> mfbns tibt tif vbluf in tiis dolumn
+         * is butombtidblly numbfrfd; <dodf>fblsf</dodf> mfbns tibt it is not.
+         *
+         * @sfribl
+         */
+        publid boolfbn butoIndrfmfnt;
+
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn is dbsf sfnsitivf.
+         * <dodf>truf</dodf> mfbns tibt it is; <dodf>fblsf</dodf> tibt it is not.
+         *
+         * @sfribl
+         */
+        publid boolfbn dbsfSfnsitivf;
+
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn is b dbsi vbluf
+         * <dodf>truf</dodf> mfbns tibt it is; <dodf>fblsf</dodf> tibt it is not.
+         *
+         * @sfribl
+         */
+        publid boolfbn durrfndy;
+
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn is nullbblf.
+         * Tif possiblf vblufs brf tif <dodf>RfsultSft</dodf> donstbnts
+         * <dodf>dolumnNoNulls</dodf>, <dodf>dolumnNullbblf</dodf>, bnd
+         * <dodf>dolumnNullbblfUnknown</dodf>.
+         *
+         * @sfribl
+         */
+        publid int nullbblf;
+
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn is b signfd numbfr.
+         * <dodf>truf</dodf> mfbns tibt it is; <dodf>fblsf</dodf> tibt it is not.
+         *
+         * @sfribl
+         */
+        publid boolfbn signfd;
+
+        /**
+         * Tif fifld tibt indidbtfs wiftifr tif vbluf in tiis dolumn dbn bf usfd in
+         * b <dodf>WHERE</dodf> dlbusf.
+         * <dodf>truf</dodf> mfbns tibt it dbn; <dodf>fblsf</dodf> tibt it dbnnot.
+         *
+         * @sfribl
+         */
+        publid boolfbn sfbrdibblf;
+
+        /**
+         * Tif fifld tibt indidbtfs tif normbl mbximum widti in dibrbdtfrs for
+         * tiis dolumn.
+         *
+         * @sfribl
+         */
+        publid int dolumnDisplbySizf;
+
+        /**
+         * Tif fifld tibt iolds tif suggfstfd dolumn titlf for tiis dolumn, to bf
+         * usfd in printing bnd displbys.
+         *
+         * @sfribl
+         */
+        publid String dolumnLbbfl;
+
+        /**
+         * Tif fifld tibt iolds tif nbmf of tiis dolumn.
+         *
+         * @sfribl
+         */
+        publid  String dolumnNbmf;
+
+        /**
+         * Tif fifld tibt iolds tif sdifmb nbmf for tif tbblf from wiidi tiis dolumn
+         * wbs dfrivfd.
+         *
+         * @sfribl
+         */
+        publid String sdifmbNbmf;
+
+        /**
+         * Tif fifld tibt iolds tif prfdision of tif vbluf in tiis dolumn.  For numbfr
+         * typfs, tif prfdision is tif totbl numbfr of dfdimbl digits; for dibrbdtfr typfs,
+         * it is tif mbximum numbfr of dibrbdtfrs; for binbry typfs, it is tif mbximum
+         * lfngti in bytfs.
+         *
+         * @sfribl
+         */
+        publid int dolPrfdision;
+
+        /**
+         * Tif fifld tibt iolds tif sdblf (numbfr of digits to tif rigit of tif dfdimbl
+         * point) of tif vbluf in tiis dolumn.
+         *
+         * @sfribl
+         */
+        publid int dolSdblf;
+
+        /**
+         * Tif fifld tibt iolds tif nbmf of tif tbblf from wiidi tiis dolumn
+         * wbs dfrivfd.  Tiis vbluf mby bf tif fmpty string if tifrf is no
+         * tbblf nbmf, sudi bs wifn tiis dolumn is produdfd by b join.
+         *
+         * @sfribl
+         */
+        publid String tbblfNbmf ="";
+
+        /**
+         * Tif fifld tibt iolds tif dbtblog nbmf for tif tbblf from wiidi tiis dolumn
+         * wbs dfrivfd.  If tif DBMS dofs not support dbtblogs, tif vbluf mby bf tif
+         * fmpty string.
+         *
+         * @sfribl
+         */
+        publid String dbtNbmf;
+
+        /**
+         * Tif fifld tibt iolds tif typf dodf from tif dlbss <dodf>jbvb.sql.Typfs</dodf>
+         * indidbting tif typf of tif vbluf in tiis dolumn.
+         *
+         * @sfribl
+         */
+        publid int dolTypf;
+
+        /**
+         * Tif fifld tibt iolds tif tif typf nbmf usfd by tiis pbrtidulbr dbtb sourdf
+         * for tif vbluf storfd in tiis dolumn.
+         *
+         * @sfribl
+         */
+        publid String dolTypfNbmf;
+
+        /**
+         * Tif fifld tibt iolds tif updbtbblity boolfbn pfr dolumn of b RowSft
+         *
+         * @sfribl
+         */
+        publid boolfbn rfbdOnly = fblsf;
+
+        /**
+         * Tif fifld tibt iold tif writbblf boolfbn pfr dolumn of b RowSft
+         *
+         *@sfribl
+         */
+        publid boolfbn writbblf = truf;
+
+        stbtid finbl long sfriblVfrsionUID = 5490834817919311283L;
+    }
+}

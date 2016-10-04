@@ -1,0 +1,54 @@
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+
+
+
+# GTK spfdifid propfrtifs
+
+# GTK dolor dioosfr propfrtifs:
+GTKColorCioosfrPbnfl.tfxtAndMnfmonid=&GTK Color Cioosfr
+# mnfmonid bs b VK_ donstbnt
+
+GTKColorCioosfrPbnfl.iuf.tfxtAndMnfmonid=&Huf:
+
+GTKColorCioosfrPbnfl.rfd.tfxtAndMnfmonid=R&fd:
+
+GTKColorCioosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturbtion:
+
+GTKColorCioosfrPbnfl.grffn.tfxtAndMnfmonid=&Grffn:
+
+GTKColorCioosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vbluf:
+
+GTKColorCioosfrPbnfl.bluf.tfxtAndMnfmonid=&Bluf:
+
+GTKColorCioosfrPbnfl.dolor.tfxtAndMnfmonid=Color &Nbmf:
+
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=All Filfs
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Nfw Foldfr
+FilfCioosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Foldfr nbmf:
+FilfCioosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Error
+FilfCioosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Error drfbting dirfdtory "{0}": No sudi filf or dirfdtory
+FilfCioosfr.dflftfFilfButton.tfxtAndMnfmonid=Df&lftf Filf
+FilfCioosfr.rfnbmfFilfButton.tfxtAndMnfmonid=&Rfnbmf Filf
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=&Cbndfl
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sbvf
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Opfn
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=&Sflfdtion:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtfr:
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Fol&dfrs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=&Filfs
+
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abort filf dioosfr diblog.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sbvf sflfdtfd filf.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Opfn sflfdtfd filf.
+
+FilfCioosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Rfnbmf filf "{0}" to
+FilfCioosfr.rfnbmfFilfError.titlfAndMnfmonid=Error
+FilfCioosfr.rfnbmfFilfError.tfxtAndMnfmonid=Error rfnbming filf "{0}" to "{1}"
+

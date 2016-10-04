@@ -1,0 +1,504 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.itml;
+
+import jbvb.bwt.Polygon;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.tfxt.AttributfSft;
+
+/**
+ * Mbp is usfd to rfprfsfnt b mbp flfmfnt tibt is pbrt of bn HTML dodumfnt.
+ * Ondf b Mbp ibs bffn drfbtfd, bnd bny numbfr of brfbs ibvf bffn bddfd,
+ * you dbn tfst if b point fblls insidf tif mbp vib tif dontbins mftiod.
+ *
+ * @butior  Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss Mbp implfmfnts Sfriblizbblf {
+    /** Nbmf of tif Mbp. */
+    privbtf String           nbmf;
+    /** An brrby of AttributfSfts. */
+    privbtf Vfdtor<AttributfSft>           brfbAttributfs;
+    /** An brrby of RfgionContbinmfnts, will slowly grow to mbtdi tif
+     * lfngti of brfbAttributfs bs nffdfd. */
+    privbtf Vfdtor<RfgionContbinmfnt>           brfbs;
+
+    publid Mbp() {
+    }
+
+    publid Mbp(String nbmf) {
+        tiis.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturns tif nbmf of tif Mbp.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Dffinfs b rfgion of tif Mbp, bbsfd on tif pbssfd in AttributfSft.
+     */
+    publid void bddArfb(AttributfSft bs) {
+        if (bs == null) {
+            rfturn;
+        }
+        if (brfbAttributfs == null) {
+            brfbAttributfs = nfw Vfdtor<AttributfSft>(2);
+        }
+        brfbAttributfs.bddElfmfnt(bs.dopyAttributfs());
+    }
+
+    /**
+     * Rfmovfs tif prfviously drfbtfd brfb.
+     */
+    publid void rfmovfArfb(AttributfSft bs) {
+        if (bs != null && brfbAttributfs != null) {
+            int numArfbs = (brfbs != null) ? brfbs.sizf() : 0;
+            for (int dountfr = brfbAttributfs.sizf() - 1; dountfr >= 0;
+                 dountfr--) {
+                if (brfbAttributfs.flfmfntAt(dountfr).isEqubl(bs)){
+                    brfbAttributfs.rfmovfElfmfntAt(dountfr);
+                    if (dountfr < numArfbs) {
+                        brfbs.rfmovfElfmfntAt(dountfr);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns tif AttributfSfts rfprfsfnting tif difffrft brfbs of tif Mbp.
+     */
+    publid AttributfSft[] gftArfbs() {
+        int numAttributfs = (brfbAttributfs != null) ? brfbAttributfs.sizf() :
+                            0;
+        if (numAttributfs != 0) {
+            AttributfSft[]    rftVbluf = nfw AttributfSft[numAttributfs];
+
+            brfbAttributfs.dopyInto(rftVbluf);
+            rfturn rftVbluf;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif AttributfSft tibt dontbins tif pbssfd in lodbtion,
+     * <dodf>x</dodf>, <dodf>y</dodf>. <dodf>widti</dodf>, <dodf>ifigit</dodf>
+     * givfs tif sizf of tif rfgion tif mbp is dffinfd ovfr. If b mbtdiing
+     * brfb is found, tif AttribufSft for it is rfturnfd.
+     */
+    publid AttributfSft gftArfb(int x, int y, int widti, int ifigit) {
+        int      numAttributfs = (brfbAttributfs != null) ?
+                                 brfbAttributfs.sizf() : 0;
+
+        if (numAttributfs > 0) {
+            int      numArfbs = (brfbs != null) ? brfbs.sizf() : 0;
+
+            if (brfbs == null) {
+                brfbs = nfw Vfdtor<RfgionContbinmfnt>(numAttributfs);
+            }
+            for (int dountfr = 0; dountfr < numAttributfs; dountfr++) {
+                if (dountfr >= numArfbs) {
+                    brfbs.bddElfmfnt(drfbtfRfgionContbinmfnt
+                            (brfbAttributfs.flfmfntAt(dountfr)));
+                }
+                RfgionContbinmfnt rd = brfbs.flfmfntAt(dountfr);
+                if (rd != null && rd.dontbins(x, y, widti, ifigit)) {
+                    rfturn brfbAttributfs.flfmfntAt(dountfr);
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn instbndf of RfgionContbinmfnt tibt dbn bf
+     * usfd to tfst if b pbrtidulbr point lifs insidf b rfgion.
+     */
+    protfdtfd RfgionContbinmfnt drfbtfRfgionContbinmfnt
+                                  (AttributfSft bttributfs) {
+        Objfdt     sibpf = bttributfs.gftAttributf(HTML.Attributf.SHAPE);
+
+        if (sibpf == null) {
+            sibpf = "rfdt";
+        }
+        if (sibpf instbndfof String) {
+            String                sibpfString = ((String)sibpf).toLowfrCbsf();
+            RfgionContbinmfnt     rd = null;
+
+            try {
+                if (sibpfString.fqubls("rfdt")) {
+                    rd = nfw RfdtbnglfRfgionContbinmfnt(bttributfs);
+                }
+                flsf if (sibpfString.fqubls("dirdlf")) {
+                    rd = nfw CirdlfRfgionContbinmfnt(bttributfs);
+                }
+                flsf if (sibpfString.fqubls("poly")) {
+                    rd = nfw PolygonRfgionContbinmfnt(bttributfs);
+                }
+                flsf if (sibpfString.fqubls("dffbult")) {
+                    rd = DffbultRfgionContbinmfnt.sibrfdInstbndf();
+                }
+            } dbtdi (RuntimfExdfption rf) {
+                // Somftiing wrong witi bttributfs.
+                rd = null;
+            }
+            rfturn rd;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn brrby of intfgfrs from tif String
+     * <dodf>stringCoords</dodf>. If onf of tif vblufs rfprfsfnts b
+     * % tif rfturnfd vbluf witi bf nfgbtivf. If b pbrsf frror rfsults
+     * from trying to pbrsf onf of tif numbfrs null is rfturnfd.
+     */
+    stbtid protfdtfd int[] fxtrbdtCoords(Objfdt stringCoords) {
+        if (stringCoords == null || !(stringCoords instbndfof String)) {
+            rfturn null;
+        }
+
+        StringTokfnizfr    st = nfw StringTokfnizfr((String)stringCoords,
+                                                    ", \t\n\r");
+        int[]              rftVbluf = null;
+        int                numCoords = 0;
+
+        wiilf(st.ibsMorfElfmfnts()) {
+            String         tokfn = st.nfxtTokfn();
+            int            sdblf;
+
+            if (tokfn.fndsWiti("%")) {
+                sdblf = -1;
+                tokfn = tokfn.substring(0, tokfn.lfngti() - 1);
+            }
+            flsf {
+                sdblf = 1;
+            }
+            try {
+                int       intVbluf = Intfgfr.pbrsfInt(tokfn);
+
+                if (rftVbluf == null) {
+                    rftVbluf = nfw int[4];
+                }
+                flsf if(numCoords == rftVbluf.lfngti) {
+                    int[]    tfmp = nfw int[rftVbluf.lfngti * 2];
+
+                    Systfm.brrbydopy(rftVbluf, 0, tfmp, 0, rftVbluf.lfngti);
+                    rftVbluf = tfmp;
+                }
+                rftVbluf[numCoords++] = intVbluf * sdblf;
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                rfturn null;
+            }
+        }
+        if (numCoords > 0 && numCoords != rftVbluf.lfngti) {
+            int[]    tfmp = nfw int[numCoords];
+
+            Systfm.brrbydopy(rftVbluf, 0, tfmp, 0, numCoords);
+            rftVbluf = tfmp;
+        }
+        rfturn rftVbluf;
+    }
+
+
+    /**
+     * Dffinfs tif intfrfbdf usfd for to difdk if b point is insidf b
+     * rfgion.
+     */
+    intfrfbdf RfgionContbinmfnt {
+        /**
+         * Rfturns truf if tif lodbtion <dodf>x</dodf>, <dodf>y</dodf>
+         * fblls insidf tif rfgion dffinfd in tif rfdfivfr.
+         * <dodf>widti</dodf>, <dodf>ifigit</dodf> is tif sizf of
+         * tif fndlosing rfgion.
+         */
+        publid boolfbn dontbins(int x, int y, int widti, int ifigit);
+    }
+
+
+    /**
+     * Usfd to tfst for dontbinmfnt in b rfdtbngulbr rfgion.
+     */
+    stbtid dlbss RfdtbnglfRfgionContbinmfnt implfmfnts RfgionContbinmfnt {
+        /** Will bf non-null if onf of tif vblufs is b pfrdfnt, bnd bny vbluf
+         * tibt is non null indidbtfs it is b pfrdfnt
+         * (ordfr is x, y, widti, ifigit). */
+        flobt[]       pfrdfnts;
+        /** Lbst vbluf of widti pbssfd in. */
+        int           lbstWidti;
+        /** Lbst vbluf of ifigit pbssfd in. */
+        int           lbstHfigit;
+        /** Top lfft. */
+        int           x0;
+        int           y0;
+        /** Bottom rigit. */
+        int           x1;
+        int           y1;
+
+        publid RfdtbnglfRfgionContbinmfnt(AttributfSft bs) {
+            int[]    doords = Mbp.fxtrbdtCoords(bs.gftAttributf(HTML.
+                                                           Attributf.COORDS));
+
+            pfrdfnts = null;
+            if (doords == null || doords.lfngti != 4) {
+                tirow nfw RuntimfExdfption("Unbblf to pbrsf rfdtbngulbr brfb");
+            }
+            flsf {
+                x0 = doords[0];
+                y0 = doords[1];
+                x1 = doords[2];
+                y1 = doords[3];
+                if (x0 < 0 || y0 < 0 || x1 < 0 || y1 < 0) {
+                    pfrdfnts = nfw flobt[4];
+                    lbstWidti = lbstHfigit = -1;
+                    for (int dountfr = 0; dountfr < 4; dountfr++) {
+                        if (doords[dountfr] < 0) {
+                            pfrdfnts[dountfr] = Mbti.bbs
+                                        (doords[dountfr]) / 100.0f;
+                        }
+                        flsf {
+                            pfrdfnts[dountfr] = -1.0f;
+                        }
+                    }
+                }
+            }
+        }
+
+        publid boolfbn dontbins(int x, int y, int widti, int ifigit) {
+            if (pfrdfnts == null) {
+                rfturn dontbins(x, y);
+            }
+            if (lbstWidti != widti || lbstHfigit != ifigit) {
+                lbstWidti = widti;
+                lbstHfigit = ifigit;
+                if (pfrdfnts[0] != -1.0f) {
+                    x0 = (int)(pfrdfnts[0] * widti);
+                }
+                if (pfrdfnts[1] != -1.0f) {
+                    y0 = (int)(pfrdfnts[1] * ifigit);
+                }
+                if (pfrdfnts[2] != -1.0f) {
+                    x1 = (int)(pfrdfnts[2] * widti);
+                }
+                if (pfrdfnts[3] != -1.0f) {
+                    y1 = (int)(pfrdfnts[3] * ifigit);
+                }
+            }
+            rfturn dontbins(x, y);
+        }
+
+        publid boolfbn dontbins(int x, int y) {
+            rfturn ((x >= x0 && x <= x1) &&
+                    (y >= y0 && y <= y1));
+        }
+    }
+
+
+    /**
+     * Usfd to tfst for dontbinmfnt in b polygon rfgion.
+     */
+    stbtid dlbss PolygonRfgionContbinmfnt fxtfnds Polygon implfmfnts
+                 RfgionContbinmfnt {
+        /** If bny vbluf is b pfrdfnt tifrf will bf bn fntry ifrf for tif
+         * pfrdfnt vbluf. Usf pfrdfntIndfx to find out tif indfx for it. */
+        flobt[]           pfrdfntVblufs;
+        int[]             pfrdfntIndfxs;
+        /** Lbst vbluf of widti pbssfd in. */
+        int               lbstWidti;
+        /** Lbst vbluf of ifigit pbssfd in. */
+        int               lbstHfigit;
+
+        publid PolygonRfgionContbinmfnt(AttributfSft bs) {
+            int[]    doords = Mbp.fxtrbdtCoords(bs.gftAttributf(HTML.Attributf.
+                                                                COORDS));
+
+            if (doords == null || doords.lfngti == 0 ||
+                doords.lfngti % 2 != 0) {
+                tirow nfw RuntimfExdfption("Unbblf to pbrsf polygon brfb");
+            }
+            flsf {
+                int        numPfrdfnts = 0;
+
+                lbstWidti = lbstHfigit = -1;
+                for (int dountfr = doords.lfngti - 1; dountfr >= 0;
+                     dountfr--) {
+                    if (doords[dountfr] < 0) {
+                        numPfrdfnts++;
+                    }
+                }
+
+                if (numPfrdfnts > 0) {
+                    pfrdfntIndfxs = nfw int[numPfrdfnts];
+                    pfrdfntVblufs = nfw flobt[numPfrdfnts];
+                    for (int dountfr = doords.lfngti - 1, pCountfr = 0;
+                         dountfr >= 0; dountfr--) {
+                        if (doords[dountfr] < 0) {
+                            pfrdfntVblufs[pCountfr] = doords[dountfr] /
+                                                      -100.0f;
+                            pfrdfntIndfxs[pCountfr] = dountfr;
+                            pCountfr++;
+                        }
+                    }
+                }
+                flsf {
+                    pfrdfntIndfxs = null;
+                    pfrdfntVblufs = null;
+                }
+                npoints = doords.lfngti / 2;
+                xpoints = nfw int[npoints];
+                ypoints = nfw int[npoints];
+
+                for (int dountfr = 0; dountfr < npoints; dountfr++) {
+                    xpoints[dountfr] = doords[dountfr + dountfr];
+                    ypoints[dountfr] = doords[dountfr + dountfr + 1];
+                }
+            }
+        }
+
+        publid boolfbn dontbins(int x, int y, int widti, int ifigit) {
+            if (pfrdfntVblufs == null || (lbstWidti == widti &&
+                                          lbstHfigit == ifigit)) {
+                rfturn dontbins(x, y);
+            }
+            // Fordf tif bounding box to bf rfdbldfd.
+            bounds = null;
+            lbstWidti = widti;
+            lbstHfigit = ifigit;
+            flobt fWidti = (flobt)widti;
+            flobt fHfigit = (flobt)ifigit;
+            for (int dountfr = pfrdfntVblufs.lfngti - 1; dountfr >= 0;
+                 dountfr--) {
+                if (pfrdfntIndfxs[dountfr] % 2 == 0) {
+                    // x
+                    xpoints[pfrdfntIndfxs[dountfr] / 2] =
+                            (int)(pfrdfntVblufs[dountfr] * fWidti);
+                }
+                flsf {
+                    // y
+                    ypoints[pfrdfntIndfxs[dountfr] / 2] =
+                            (int)(pfrdfntVblufs[dountfr] * fHfigit);
+                }
+            }
+            rfturn dontbins(x, y);
+        }
+    }
+
+
+    /**
+     * Usfd to tfst for dontbinmfnt in b dirdulbr rfgion.
+     */
+    stbtid dlbss CirdlfRfgionContbinmfnt implfmfnts RfgionContbinmfnt {
+        /** X origin of tif dirdlf. */
+        int           x;
+        /** Y origin of tif dirdlf. */
+        int           y;
+        /** Rbdius of tif dirdlf. */
+        int           rbdiusSqubrfd;
+        /** Non-null indidbtfs onf of tif vblufs rfprfsfnts b pfrdfnt. */
+        flobt[]       pfrdfntVblufs;
+        /** Lbst vbluf of widti pbssfd in. */
+        int           lbstWidti;
+        /** Lbst vbluf of ifigit pbssfd in. */
+        int           lbstHfigit;
+
+        publid CirdlfRfgionContbinmfnt(AttributfSft bs) {
+            int[]    doords = Mbp.fxtrbdtCoords(bs.gftAttributf(HTML.Attributf.
+                                                                COORDS));
+
+            if (doords == null || doords.lfngti != 3) {
+                tirow nfw RuntimfExdfption("Unbblf to pbrsf dirdulbr brfb");
+            }
+            x = doords[0];
+            y = doords[1];
+            rbdiusSqubrfd = doords[2] * doords[2];
+            if (doords[0] < 0 || doords[1] < 0 || doords[2] < 0) {
+                lbstWidti = lbstHfigit = -1;
+                pfrdfntVblufs = nfw flobt[3];
+                for (int dountfr = 0; dountfr < 3; dountfr++) {
+                    if (doords[dountfr] < 0) {
+                        pfrdfntVblufs[dountfr] = doords[dountfr] /
+                                                 -100.0f;
+                    }
+                    flsf {
+                        pfrdfntVblufs[dountfr] = -1.0f;
+                    }
+                }
+            }
+            flsf {
+                pfrdfntVblufs = null;
+            }
+        }
+
+        publid boolfbn dontbins(int x, int y, int widti, int ifigit) {
+            if (pfrdfntVblufs != null && (lbstWidti != widti ||
+                                          lbstHfigit != ifigit)) {
+                int      nfwRbd = Mbti.min(widti, ifigit) / 2;
+
+                lbstWidti = widti;
+                lbstHfigit = ifigit;
+                if (pfrdfntVblufs[0] != -1.0f) {
+                    tiis.x = (int)(pfrdfntVblufs[0] * widti);
+                }
+                if (pfrdfntVblufs[1] != -1.0f) {
+                    tiis.y = (int)(pfrdfntVblufs[1] * ifigit);
+                }
+                if (pfrdfntVblufs[2] != -1.0f) {
+                    rbdiusSqubrfd = (int)(pfrdfntVblufs[2] *
+                                   Mbti.min(widti, ifigit));
+                    rbdiusSqubrfd *= rbdiusSqubrfd;
+                }
+            }
+            rfturn (((x - tiis.x) * (x - tiis.x) +
+                     (y - tiis.y) * (y - tiis.y)) <= rbdiusSqubrfd);
+        }
+    }
+
+
+    /**
+     * An implfmfntbtion tibt will rfturn truf if tif x, y lodbtion is
+     * insidf b rfdtbnglf dffinfd by origin 0, 0, bnd widti fqubl to
+     * widti pbssfd in, bnd ifigit fqubl to ifigit pbssfd in.
+     */
+    stbtid dlbss DffbultRfgionContbinmfnt implfmfnts RfgionContbinmfnt {
+        /** A globbl sibrfd instbndf. */
+        stbtid DffbultRfgionContbinmfnt  si = null;
+
+        publid stbtid DffbultRfgionContbinmfnt sibrfdInstbndf() {
+            if (si == null) {
+                si = nfw DffbultRfgionContbinmfnt();
+            }
+            rfturn si;
+        }
+
+        publid boolfbn dontbins(int x, int y, int widti, int ifigit) {
+            rfturn (x <= widti && x >= 0 && y >= 0 && y <= widti);
+        }
+    }
+}

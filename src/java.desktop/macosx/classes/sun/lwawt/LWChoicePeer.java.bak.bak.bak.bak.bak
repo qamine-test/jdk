@@ -1,0 +1,197 @@
+/*
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvb.bwt.pffr.CioidfPffr;
+
+import jbvbx.bddfssibility.Addfssiblf;
+import jbvbx.swing.*;
+
+/**
+ * Ligitwfigit implfmfntbtion of {@link CioidfPffr}. Dflfgbtfs most of tif work
+ * to tif {@link JComboBox}.
+ */
+finbl dlbss LWCioidfPffr fxtfnds LWComponfntPffr<Cioidf, JComboBox<String>>
+        implfmfnts CioidfPffr, ItfmListfnfr {
+
+    /**
+     * Addording to Cioidf spfdifidbtion itfm fvfnts brf sfnt in rfsponsf to
+     * usfr input, but not in rfsponsf to dblls to sflfdt(). But JComboBox brf
+     * sfnt itfm fvfnts in boti dbsfs. Siould bf usfd undfr dflfgbtfLodk.
+     */
+    privbtf boolfbn skipPostMfssbgf;
+
+    LWCioidfPffr(finbl Cioidf tbrgft,
+                 finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
+    }
+
+    @Ovfrridf
+    JComboBox<String> drfbtfDflfgbtf() {
+        rfturn nfw JComboBoxDflfgbtf();
+    }
+
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        finbl Cioidf dioidf = gftTbrgft();
+        finbl JComboBox<String> dombo = gftDflfgbtf();
+        syndironizfd (gftDflfgbtfLodk()) {
+            finbl int dount = dioidf.gftItfmCount();
+            for (int i = 0; i < dount; ++i) {
+                dombo.bddItfm(dioidf.gftItfm(i));
+            }
+            sflfdt(dioidf.gftSflfdtfdIndfx());
+
+            // NOTE: tif listfnfr must bf bddfd bt tif vfry fnd, otifrwisf it
+            // firfs fvfnts upon initiblizbtion of tif dombo box.
+            dombo.bddItfmListfnfr(tiis);
+        }
+    }
+
+    @Ovfrridf
+    publid void itfmStbtfCibngfd(finbl ItfmEvfnt f) {
+        // AWT Cioidf sfnds SELECTED fvfnt only wifrfbs JComboBox
+        // sfnds boti SELECTED bnd DESELECTED.
+        if (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+            syndironizfd (gftDflfgbtfLodk()) {
+                if (skipPostMfssbgf) {
+                    rfturn;
+                }
+                gftTbrgft().sflfdt(gftDflfgbtf().gftSflfdtfdIndfx());
+            }
+            postEvfnt(nfw ItfmEvfnt(gftTbrgft(), ItfmEvfnt.ITEM_STATE_CHANGED,
+                                    f.gftItfm(), ItfmEvfnt.SELECTED));
+        }
+    }
+
+    @Ovfrridf
+    publid void bdd(finbl String itfm, finbl int indfx) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().insfrtItfmAt(itfm, indfx);
+        }
+    }
+
+    @Ovfrridf
+    publid void rfmovf(finbl int indfx) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            // Wf siouldn't post fvfnt, if sflfdtfd itfm wbs rfmovfd.
+            skipPostMfssbgf = truf;
+            gftDflfgbtf().rfmovfItfmAt(indfx);
+            skipPostMfssbgf = fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid void rfmovfAll() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().rfmovfAllItfms();
+        }
+    }
+
+    @Ovfrridf
+    publid void sflfdt(finbl int indfx) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            if (indfx != gftDflfgbtf().gftSflfdtfdIndfx()) {
+                skipPostMfssbgf = truf;
+                gftDflfgbtf().sftSflfdtfdIndfx(indfx);
+                skipPostMfssbgf = fblsf;
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    @SupprfssWbrnings("sfribl")// Sbff: outfr dlbss is non-sfriblizbblf.
+    privbtf finbl dlbss JComboBoxDflfgbtf fxtfnds JComboBox<String> {
+
+        // Empty non privbtf donstrudtor wbs bddfd bfdbusf bddfss to tiis
+        // dlbss siouldn't bf fmulbtfd by b syntiftid bddfssor mftiod.
+        JComboBoxDflfgbtf() {
+            supfr();
+        }
+
+        @Ovfrridf
+        publid boolfbn ibsFodus() {
+            rfturn gftTbrgft().ibsFodus();
+        }
+
+        //Nffdfd for propfr popup mfnu lodbtion
+        @Ovfrridf
+        publid Point gftLodbtionOnSdrffn() {
+            rfturn LWCioidfPffr.tiis.gftLodbtionOnSdrffn();
+        }
+
+        /**
+         * Wf siould post ITEM_STATE_CHANGED fvfnt wifn tif sbmf flfmfnt is
+         * rfsflfdtfd.
+         */
+        @Ovfrridf
+        publid void sftSflfdtfdItfm(finbl Objfdt bnObjfdt) {
+            finbl Objfdt oldSflfdtion = sflfdtfdItfmRfmindfr;
+            if (oldSflfdtion != null && oldSflfdtion.fqubls(bnObjfdt)) {
+                sflfdtfdItfmCibngfd();
+            }
+            supfr.sftSflfdtfdItfm(bnObjfdt);
+        }
+
+        @Ovfrridf
+        publid void firfPopupMfnuWillBfdomfVisiblf() {
+            supfr.firfPopupMfnuWillBfdomfVisiblf();
+            SwingUtilitifs.invokfLbtfr(() -> {
+                JPopupMfnu popupMfnu = gftPopupMfnu();
+                // Nffd to ovfrridf tif invokfr for propfr grbb ibndling
+                if (popupMfnu != null
+                        && popupMfnu.isSiowing()
+                        && popupMfnu.gftInvokfr() != gftTbrgft()) {
+                    // Tif popup is now visiblf witi dorrfdt lodbtion
+                    // Sbvf it bnd rfstorf bftfr toggling visibility bnd dibnging invokfr
+                    Point lod = popupMfnu.gftLodbtionOnSdrffn();
+                    SwingUtilitifs.donvfrtPointFromSdrffn(lod, tiis);
+                    popupMfnu.sftVisiblf(fblsf);
+                    popupMfnu.siow(gftTbrgft(), lod.x, lod.y);
+                }
+            });
+        }
+
+        privbtf JPopupMfnu gftPopupMfnu() {
+            for (int i = 0; i < gftAddfssiblfContfxt().gftAddfssiblfCiildrfnCount(); i++) {
+                Addfssiblf diild = gftAddfssiblfContfxt().gftAddfssiblfCiild(i);
+                if (diild instbndfof JPopupMfnu) {
+                    rfturn  (JPopupMfnu) diild;
+                }
+            }
+            rfturn null;
+        }
+    }
+}

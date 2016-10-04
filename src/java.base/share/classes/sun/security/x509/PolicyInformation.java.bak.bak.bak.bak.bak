@@ -1,0 +1,284 @@
+/*
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.PolidyQublififrInfo;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.Sft;
+
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+/**
+ * PolidyInformbtion is tif dlbss tibt dontbins b spfdifid dfrtifidbtf polidy
+ * tibt is pbrt of tif CfrtifidbtfPolidifsExtfnsion. A
+ * CfrtifidbtfPolidyExtfnsion vbluf donsists of b vfdtor of tifsf objfdts.
+ * <p>
+ * Tif ASN.1 syntbx for PolidyInformbtion (IMPLICIT tbgging is dffinfd in tif
+ * modulf dffinition):
+ * <prf>
+ *
+ * PolidyInformbtion ::= SEQUENCE {
+ *      polidyIdfntififr   CfrtPolidyId,
+ *      polidyQublififrs   SEQUENCE SIZE (1..MAX) OF
+ *                              PolidyQublififrInfo OPTIONAL }
+ *
+ * CfrtPolidyId ::= OBJECT IDENTIFIER
+ *
+ * PolidyQublififrInfo ::= SEQUENCE {
+ *      polidyQublififrId  PolidyQublififrId,
+ *      qublififr          ANY DEFINED BY polidyQublififrId }
+ * </prf>
+ *
+ * @butior Sfbn Mullbn
+ * @butior Annf Andfrson
+ * @sindf       1.4
+ */
+publid dlbss PolidyInformbtion {
+
+    // Attributf nbmfs
+    publid stbtid finbl String NAME       = "PolidyInformbtion";
+    publid stbtid finbl String ID         = "id";
+    publid stbtid finbl String QUALIFIERS = "qublififrs";
+
+    /* Tif polidy OID */
+    privbtf CfrtifidbtfPolidyId polidyIdfntififr;
+
+    /* A Sft of jbvb.sfdurity.dfrt.PolidyQublififrInfo objfdts */
+    privbtf Sft<PolidyQublififrInfo> polidyQublififrs;
+
+    /**
+     * Crfbtf bn instbndf of PolidyInformbtion
+     *
+     * @pbrbm polidyIdfntififr tif polidyIdfntififr bs b
+     *          CfrtifidbtfPolidyId
+     * @pbrbm polidyQublififrs b Sft of PolidyQublififrInfo objfdts.
+     *          Must not bf NULL. Spfdify bn fmpty Sft for no qublififrs.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid PolidyInformbtion(CfrtifidbtfPolidyId polidyIdfntififr,
+            Sft<PolidyQublififrInfo> polidyQublififrs) tirows IOExdfption {
+        if (polidyQublififrs == null) {
+            tirow nfw NullPointfrExdfption("polidyQublififrs is null");
+        }
+        tiis.polidyQublififrs =
+            nfw LinkfdHbsiSft<PolidyQublififrInfo>(polidyQublififrs);
+        tiis.polidyIdfntififr = polidyIdfntififr;
+    }
+
+    /**
+     * Crfbtf bn instbndf of PolidyInformbtion, dfdoding from
+     * tif pbssfd DfrVbluf.
+     *
+     * @pbrbm vbl tif DfrVbluf to donstrudt tif PolidyInformbtion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid PolidyInformbtion(DfrVbluf vbl) tirows IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding of PolidyInformbtion");
+        }
+        polidyIdfntififr = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
+        if (vbl.dbtb.bvbilbblf() != 0) {
+            polidyQublififrs = nfw LinkfdHbsiSft<PolidyQublififrInfo>();
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+            if (opt.tbg != DfrVbluf.tbg_Sfqufndf)
+                tirow nfw IOExdfption("Invblid fndoding of PolidyInformbtion");
+            if (opt.dbtb.bvbilbblf() == 0)
+                tirow nfw IOExdfption("No dbtb bvbilbblf in polidyQublififrs");
+            wiilf (opt.dbtb.bvbilbblf() != 0)
+                polidyQublififrs.bdd(nfw PolidyQublififrInfo
+                        (opt.dbtb.gftDfrVbluf().toBytfArrby()));
+        } flsf {
+            polidyQublififrs = Collfdtions.fmptySft();
+        }
+    }
+
+    /**
+     * Compbrf tiis PolidyInformbtion witi bnotifr objfdt for fqublity
+     *
+     * @pbrbm otifr objfdt to bf dompbrfd witi tiis
+     * @rfturn truf iff tif PolidyInformbtion objfdts mbtdi
+     */
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (!(otifr instbndfof PolidyInformbtion))
+            rfturn fblsf;
+        PolidyInformbtion piOtifr = (PolidyInformbtion)otifr;
+
+        if (!polidyIdfntififr.fqubls(piOtifr.gftPolidyIdfntififr()))
+            rfturn fblsf;
+
+        rfturn polidyQublififrs.fqubls(piOtifr.gftPolidyQublififrs());
+    }
+
+    /**
+     * Rfturns tif ibsi dodf for tiis PolidyInformbtion.
+     *
+     * @rfturn b ibsi dodf vbluf.
+     */
+    publid int ibsiCodf() {
+        int myibsi = 37 + polidyIdfntififr.ibsiCodf();
+        myibsi = 37 * myibsi + polidyQublififrs.ibsiCodf();
+        rfturn myibsi;
+    }
+
+    /**
+     * Rfturn tif polidyIdfntififr vbluf
+     *
+     * @rfturn Tif CfrtifidbtfPolidyId objfdt dontbining
+     *     tif polidyIdfntififr (not b dopy).
+     */
+    publid CfrtifidbtfPolidyId gftPolidyIdfntififr() {
+        rfturn polidyIdfntififr;
+    }
+
+    /**
+     * Rfturn tif polidyQublififrs vbluf
+     *
+     * @rfturn b Sft of PolidyQublififrInfo objfdts bssodibtfd
+     *    witi tiis dfrtifidbtf polidy (not b dopy).
+     *    Rfturns bn fmpty Sft if tifrf brf no qublififrs.
+     *    Nfvfr rfturns null.
+     */
+    publid Sft<PolidyQublififrInfo> gftPolidyQublififrs() {
+        rfturn polidyQublififrs;
+    }
+
+    /**
+     * Gft tif bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ID)) {
+            rfturn polidyIdfntififr;
+        } flsf if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            rfturn polidyQublififrs;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion.");
+        }
+    }
+
+    /**
+     * Sft tif bttributf vbluf.
+     */
+    @SupprfssWbrnings("undifdkfd") // Cifdkfd witi instbndfof
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ID)) {
+            if (obj instbndfof CfrtifidbtfPolidyId)
+                polidyIdfntififr = (CfrtifidbtfPolidyId)obj;
+            flsf
+                tirow nfw IOExdfption("Attributf vbluf must bf instbndf " +
+                    "of CfrtifidbtfPolidyId.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            if (polidyIdfntififr == null) {
+                tirow nfw IOExdfption("Attributf must ibvf b " +
+                    "CfrtifidbtfPolidyIdfntififr vbluf bfforf " +
+                    "PolidyQublififrInfo dbn bf sft.");
+            }
+            if (obj instbndfof Sft) {
+                Itfrbtor<?> i = ((Sft<?>)obj).itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    Objfdt obj1 = i.nfxt();
+                    if (!(obj1 instbndfof PolidyQublififrInfo)) {
+                        tirow nfw IOExdfption("Attributf vbluf must bf b" +
+                                    "Sft of PolidyQublififrInfo objfdts.");
+                    }
+                }
+                polidyQublififrs = (Sft<PolidyQublififrInfo>) obj;
+            } flsf {
+                tirow nfw IOExdfption("Attributf vbluf must bf of typf Sft.");
+            }
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion");
+        }
+    }
+
+    /**
+     * Dflftf tif bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(QUALIFIERS)) {
+            polidyQublififrs = Collfdtions.fmptySft();
+        } flsf if (nbmf.fqublsIgnorfCbsf(ID)) {
+            tirow nfw IOExdfption("Attributf ID mby not bf dflftfd from " +
+                "PolidyInformbtion.");
+        } flsf {
+            //ID mby not bf dflftfd
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by PolidyInformbtion.");
+        }
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(ID);
+        flfmfnts.bddElfmfnt(QUALIFIERS);
+
+        rfturn flfmfnts.flfmfnts();
+    }
+
+    /**
+     * Rfturn tif nbmf of tiis bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn NAME;
+    }
+
+    /**
+     * Rfturn b printbblf rfprfsfntbtion of tif PolidyInformbtion.
+     */
+    publid String toString() {
+        StringBuildfr s = nfw StringBuildfr("  [" + polidyIdfntififr.toString());
+        s.bppfnd(polidyQublififrs + "  ]\n");
+        rfturn s.toString();
+    }
+
+    /**
+     * Writf tif PolidyInformbtion to tif DfrOutputStrfbm.
+     *
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        polidyIdfntififr.fndodf(tmp);
+        if (!polidyQublififrs.isEmpty()) {
+            DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+            for (PolidyQublififrInfo pq : polidyQublififrs) {
+                tmp2.writf(pq.gftEndodfd());
+            }
+            tmp.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+    }
+}

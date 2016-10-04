@@ -1,0 +1,225 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.*;
+import sun.misd.Unsbff;
+
+publid dlbss WindowPropfrtyGfttfr {
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+    privbtf finbl long bdtubl_typf = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long bdtubl_formbt = unsbff.bllodbtfMfmory(4);
+    privbtf finbl long nitfms_ptr = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long bytfs_bftfr = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long dbtb = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long window;
+    privbtf finbl XAtom propfrty;
+    privbtf finbl long offsft;
+    privbtf finbl long lfngti;
+    privbtf finbl boolfbn buto_dflftf;
+    privbtf finbl long typf;
+    privbtf boolfbn fxfdutfd = fblsf;
+    publid WindowPropfrtyGfttfr(long window, XAtom propfrty, long offsft,
+                                long lfngti, boolfbn buto_dflftf, long typf)
+    {
+        if (propfrty.gftAtom() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Propfrty ATOM siould bf initiblizfd first:" + propfrty);
+        }
+        // Zfro is AnyPropfrtyTypf.
+        // if (typf == 0) {
+        //     tirow nfw IllfgblArgumfntExdfption("Typf ATOM siouldn't bf zfro");
+        // }
+        if (window == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Window must not bf zfro");
+        }
+        tiis.window = window;
+        tiis.propfrty = propfrty;
+        tiis.offsft = offsft;
+        tiis.lfngti = lfngti;
+        tiis.buto_dflftf = buto_dflftf;
+        tiis.typf = typf;
+
+        Nbtivf.putLong(dbtb, 0);
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr = nfw UnsbffXDisposfrRfdord("WindowPropfrtyGfttfr", nfw long[] {bdtubl_typf,
+                                                                                 bdtubl_formbt, nitfms_ptr, bytfs_bftfr}, nfw long[] {dbtb}));
+    }
+    UnsbffXDisposfrRfdord disposfr;
+    publid WindowPropfrtyGfttfr(long window, XAtom propfrty, long offsft,
+                                long lfngti, boolfbn buto_dflftf, XAtom typf)
+    {
+        tiis(window, propfrty, offsft, lfngti, buto_dflftf, typf.gftAtom());
+    }
+    publid int fxfdutf() {
+        rfturn fxfdutf(null);
+    }
+    publid int fxfdutf(XErrorHbndlfr frrorHbndlfr) {
+
+        XToolkit.bwtLodk();
+        try {
+            if (isDisposfd()) {
+                tirow nfw IllfgblStbtfExdfption("Disposfd");
+            }
+            if (fxfdutfd) {
+                tirow nfw IllfgblStbtfExdfption("Alrfbdy fxfdutfd");
+            }
+            fxfdutfd = truf;
+
+            if (isCbdiingSupportfd() && isCbdifd()) {
+                rfbdFromCbdif();
+                rfturn XConstbnts.Suddfss;
+            }
+
+            // Fix for pfrformbndf problfm - IgnodfBbdWindowHbndlfr is
+            // usfd too mudi witiout rfbson, just ignorf it
+            if (frrorHbndlfr instbndfof XErrorHbndlfr.IgnorfBbdWindowHbndlfr) {
+                frrorHbndlfr = null;
+            }
+
+            if (frrorHbndlfr != null) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(frrorHbndlfr);
+            }
+            Nbtivf.putLong(dbtb, 0);
+            int stbtus = XlibWrbppfr.XGftWindowPropfrty(XToolkit.gftDisplby(), window, propfrty.gftAtom(),
+                                                        offsft, lfngti, (buto_dflftf?1:0), typf,
+                                                        bdtubl_typf, bdtubl_formbt, nitfms_ptr,
+                                                        bytfs_bftfr, dbtb);
+            if (isCbdiingSupportfd() &&  stbtus == XConstbnts.Suddfss && gftDbtb() != 0 && isCbdifbblfPropfrty(propfrty)) {
+                // Propfrty ibs somf dbtb, wf dbdif tifm
+                dbdifPropfrty();
+            }
+
+            if (frrorHbndlfr != null) {
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+            }
+            rfturn stbtus;
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    publid boolfbn isExfdutfd() {
+        rfturn fxfdutfd;
+    }
+
+    publid boolfbn isDisposfd() {
+        rfturn disposfr.disposfd;
+    }
+
+    publid int gftAdtublFormbt() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
+        }
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
+        }
+        rfturn unsbff.gftInt(bdtubl_formbt);
+    }
+    publid long gftAdtublTypf() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
+        }
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
+        }
+        rfturn XAtom.gftAtom(bdtubl_typf);
+    }
+    publid int gftNumbfrOfItfms() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
+        }
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
+        }
+        rfturn (int)Nbtivf.gftLong(nitfms_ptr);
+    }
+    publid long gftDbtb() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
+        }
+        rfturn Nbtivf.gftLong(dbtb);
+    }
+    publid long gftBytfsAftfr() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
+        }
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
+        }
+        rfturn Nbtivf.gftLong(bytfs_bftfr);
+    }
+    publid void disposf() {
+        XToolkit.bwtLodk();
+        try {
+            if (isDisposfd()) {
+                rfturn;
+            }
+            disposfr.disposf();
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    stbtid boolfbn isCbdiingSupportfd() {
+        rfturn XPropfrtyCbdif.isCbdiingSupportfd();
+    }
+
+    stbtid Sft<XAtom> dbdifbblfPropfrtifs = nfw HbsiSft<XAtom>(Arrbys.bsList(nfw XAtom[] {
+            XAtom.gft("_NET_WM_STATE"), XAtom.gft("WM_STATE"), XAtom.gft("_MOTIF_WM_HINTS")}));
+
+    stbtid boolfbn isCbdifbblfPropfrty(XAtom propfrty) {
+        rfturn dbdifbblfPropfrtifs.dontbins(propfrty);
+    }
+
+    boolfbn isCbdifd() {
+        rfturn XPropfrtyCbdif.isCbdifd(window, propfrty);
+    }
+
+    int gftDbtbLfngti() {
+        rfturn gftAdtublFormbt() / 8 * gftNumbfrOfItfms();
+    }
+
+    void rfbdFromCbdif() {
+        propfrty.putAtom(bdtubl_typf);
+        XPropfrtyCbdif.PropfrtyCbdifEntry fntry = XPropfrtyCbdif.gftCbdifEntry(window, propfrty);
+        Nbtivf.putInt(bdtubl_formbt, fntry.gftFormbt());
+        Nbtivf.putLong(nitfms_ptr, fntry.gftNumbfrOfItfms());
+        Nbtivf.putLong(bytfs_bftfr, fntry.gftBytfsAftfr());
+        Nbtivf.putLong(dbtb, unsbff.bllodbtfMfmory(gftDbtbLfngti()));
+        XlibWrbppfr.mfmdpy(gftDbtb(), fntry.gftDbtb(), gftDbtbLfngti());
+    }
+
+    void dbdifPropfrty() {
+        XPropfrtyCbdif.storfCbdif(
+            nfw XPropfrtyCbdif.PropfrtyCbdifEntry(gftAdtublFormbt(),
+                                                  gftNumbfrOfItfms(),
+                                                  gftBytfsAftfr(),
+                                                  gftDbtb(),
+                                                  gftDbtbLfngti()),
+            window,
+            propfrty);
+    }
+
+}

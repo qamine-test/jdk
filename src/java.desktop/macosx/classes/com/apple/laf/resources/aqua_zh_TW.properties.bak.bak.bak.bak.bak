@@ -1,0 +1,183 @@
+#
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+
+############ FILE CHOOSER STRINGS #############
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\u4E00\u822C\u6A94\u6848
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\u76EE\u9304
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\u5EFA\u7ACB\u8CC7\u6599\u593E\u6642\u767C\u751F\u932F\u8AA4
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\u6240\u6709\u6A94\u6848
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\u53D6\u6D88
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\u5132\u5B58
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\u958B\u555F
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\u5132\u5B58
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\u958B\u555F
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\u66F4\u65B0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\u8AAA\u660E
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\u958B\u555F
+
+# Filf Sizf Units
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+
+# Mbd-spfdifid strings
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\u5132\u5B58
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\u958B\u555F
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\u8A72\u540D\u7A31\u5DF2\u7D93\u88AB\u4F7F\u7528
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\u9078\u64C7
+
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\u65B0\u8CC7\u6599\u593E
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\u65B0\u8CC7\u6599\u593E
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\u6A94\u6848:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\u53E6\u5B58\u65B0\u6A94:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\u6A94\u6848\u683C\u5F0F:
+
+FilfCioosfr.dfsktopNbmf=\u684C\u9762
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\u65B0\u8CC7\u6599\u593E\u540D\u7A31:
+FilfCioosfr.untitlfdFoldfrNbmf=\u672A\u547D\u540D\u7684\u8CC7\u6599\u593E
+FilfCioosfr.untitlfdFilfNbmf=\u672A\u547D\u540D
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\u5EFA\u7ACB
+
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\u4FEE\u6539\u65E5\u671F
+FilfCioosfr.by.tfxtAndMnfmonid=\u540D\u7A31
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\u65B0\u8CC7\u6599\u593E
+
+FilfCioosfr.mbd.nfwFoldfr=\u672A\u547D\u540D\u7684\u8CC7\u6599\u593E
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\u672A\u547D\u540D\u7684\u8CC7\u6599\u593E {0}
+
+
+############ COLOR CHOOSER STRINGS #############
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\u9810\u89BD
+ColorCioosfr.ok.tfxtAndMnfmonid=\u78BA\u5B9A
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\u53D6\u6D88
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\u91CD\u8A2D(&R)
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\u7BC4\u4F8B\u6587\u5B57  \u7BC4\u4F8B\u6587\u5B57
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\u8ABF\u8272\u677F(&S)
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\u6700\u65B0\u9078\u64C7:
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\u7D05(&D)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\u7DA0(&N)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\u85CD(&B)
+
+############ OPTION PANE STRINGS #############
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\u662F(&Y)
+OptionPbnf.noButton.tfxtAndMnfmonid=\u5426(&N)
+OptionPbnf.okButton.tfxtAndMnfmonid=\u78BA\u5B9A
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\u53D6\u6D88
+OptionPbnf.titlf.tfxtAndMnfmonid=\u9078\u53D6\u4E00\u500B\u9078\u9805
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\u8F38\u5165
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\u8A0A\u606F
+
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\u5217\u5370\u4E2D
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\u5217\u5370 (\u4E2D\u6B62\u4E2D)
+
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\u6B63\u5728\u5217\u5370...
+
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\u5DF2\u5217\u5370\u7B2C {0} \u9801...
+
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\u6B63\u5728\u4E2D\u6B62\u5217\u5370...
+
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\u4E2D\u6B62(&A)
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\u4E2D\u6B62\u5217\u5370
+
+############ Intfrnbl Frbmf Strings ############
+IntfrnblFrbmf.idonButtonToolTip=\u6700\u5C0F\u5316
+IntfrnblFrbmf.mbxButtonToolTip=\u6700\u5927\u5316
+IntfrnblFrbmf.rfstorfButtonToolTip=\u5FA9\u539F
+IntfrnblFrbmf.dlosfButtonToolTip=\u95DC\u9589
+
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\u5FA9\u539F
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\u79FB\u52D5
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\u5927\u5C0F
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\u6700\u5C0F\u5316
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\u6700\u5927\u5316
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\u95DC\u9589
+
+############ Tfxt strings #############
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=\u9001\u51FA\u67E5\u8A62
+FormVifw.rfsftButton.tfxtAndMnfmonid=\u91CD\u8A2D
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\u700F\u89BD...
+
+############ Abstrbdt Dodumfnt Strings ############
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\u6A23\u5F0F\u8B8A\u66F4
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\u9644\u52A0
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\u522A\u9664
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\u9084\u539F
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\u91CD\u505A
+
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\u6309\u4E00\u4E0B
+
+############ Abstrbdt Undobblf Edit Strings ############
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\u9084\u539F
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\u91CD\u505A
+
+############ Combo Box Strings ############
+ComboBox.togglfPopup.tfxtAndMnfmonid=\u5207\u63DB\u5373\u73FE\u5F0F\u8996\u7A97
+
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\u9032\u5EA6...
+
+############ Split Pbnf Strings ############
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\u5DE6\u6309\u9215
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\u53F3\u6309\u9215
+# Usfd for Isindfx
+IsindfxVifw.prompt=\u9019\u662F\u4E00\u500B\u53EF\u641C\u5C0B\u7684\u7D22\u5F15\u3002\u8F38\u5165\u641C\u5C0B\u95DC\u9375\u5B57: 
+
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\u5716\u793A\u5316
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\u6700\u5927\u5316
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\u95DC\u9589

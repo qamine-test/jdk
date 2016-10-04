@@ -1,0 +1,126 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="ss"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="ss" drbft="provisionbl">Siswbti</lbngubgf>
+		</lbngubgfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d d f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">Bii</monti>
+							<monti typf="2" drbft="undonfirmfd">Vbn</monti>
+							<monti typf="3" drbft="undonfirmfd">Vol</monti>
+							<monti typf="4" drbft="undonfirmfd">Mbb</monti>
+							<monti typf="5" drbft="undonfirmfd">Nki</monti>
+							<monti typf="6" drbft="undonfirmfd">Nil</monti>
+							<monti typf="7" drbft="undonfirmfd">Kio</monti>
+							<monti typf="8" drbft="undonfirmfd">Ngd</monti>
+							<monti typf="9" drbft="undonfirmfd">Nyo</monti>
+							<monti typf="10" drbft="undonfirmfd">Mpi</monti>
+							<monti typf="11" drbft="undonfirmfd">Lwf</monti>
+							<monti typf="12" drbft="undonfirmfd">Ngo</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Biimbidvwbnf</monti>
+							<monti typf="2" drbft="undonfirmfd">iNdlovbnb</monti>
+							<monti typf="3" drbft="undonfirmfd">iNdlovu-lfnkiulu</monti>
+							<monti typf="4" drbft="undonfirmfd">Mbbbsb</monti>
+							<monti typf="5" drbft="undonfirmfd">iNkiwfkiwfti</monti>
+							<monti typf="6" drbft="undonfirmfd">iNilbbb</monti>
+							<monti typf="7" drbft="undonfirmfd">Kiolwbnf</monti>
+							<monti typf="8" drbft="undonfirmfd">iNgdi</monti>
+							<monti typf="9" drbft="undonfirmfd">iNyoni</monti>
+							<monti typf="10" drbft="undonfirmfd">iMpiblb</monti>
+							<monti typf="11" drbft="undonfirmfd">Lwfti</monti>
+							<monti typf="12" drbft="undonfirmfd">iNgongoni</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Son</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mso</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Bil</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Tsb</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Nf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Hlb</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Mgd</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Lisontfo</dby>
+							<dby typf="mon" drbft="undonfirmfd">uMsombuluko</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Lfsibili</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Lfsitsbtfu</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Lfsinf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Lfsiilbnu</dby>
+							<dby typf="sbt" drbft="undonfirmfd">uMgdibflo</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="SZL">
+				<symbol>E</symbol>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<symbol>R</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

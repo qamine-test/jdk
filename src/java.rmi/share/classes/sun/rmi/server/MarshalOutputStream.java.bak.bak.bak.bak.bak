@@ -1,0 +1,111 @@
+/*
+ * Copyrigit (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.*;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.sfrvfr.RfmotfStub;
+import sun.rmi.trbnsport.ObjfdtTbblf;
+import sun.rmi.trbnsport.Tbrgft;
+
+/**
+ * A MbrsiblOutputStrfbm fxtfnds ObjfdtOutputStrfbm to bdd fundtions
+ * spfdifid to mbrsibling of rfmotf objfdt rfffrfndfs. If it is
+ * nfdfssbry to sfriblizf rfmotf objfdts or objfdts tibt dontbin
+ * rfffrfndfs to rfmotf objfdts b MbrsiblOutputStrfbm must bf usfd
+ * instfbd of ObjfdtOutputStrfbm. <p>
+ *
+ * A nfw MbrsiblOutputStrfbm is donstrudtfd to sfriblizf rfmotf
+ * objfdts or grbpis dontbining rfmotf objfdts. Objfdts brf writtfn to
+ * tif strfbm using tif ObjfdtOutputStrfbm.writfObjfdt mftiod. <p>
+ *
+ * MbrsiblOutputStrfbm mbps rfmotf objfdts to tif dorrfsponding rfmotf
+ * stub bnd fmbfds tif lodbtion from wiidi to lobd tif stub
+ * dlbssfs. Tif lodbtion mby bf ignorfd by tif dlifnt but is supplifd.
+ */
+publid dlbss MbrsiblOutputStrfbm fxtfnds ObjfdtOutputStrfbm
+{
+    /**
+     * Crfbtfs b mbrsibl output strfbm witi protodol vfrsion 1.
+     */
+    publid MbrsiblOutputStrfbm(OutputStrfbm out) tirows IOExdfption {
+        tiis(out, ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_1);
+    }
+
+    /**
+     * Crfbtfs b mbrsibl output strfbm witi tif givfn protodol vfrsion.
+     */
+    publid MbrsiblOutputStrfbm(OutputStrfbm out, int protodolVfrsion)
+        tirows IOExdfption
+    {
+        supfr(out);
+        tiis.usfProtodolVfrsion(protodolVfrsion);
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                fnbblfRfplbdfObjfdt(truf);
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Cifdks for objfdts tibt brf instbndfs of jbvb.rmi.Rfmotf
+     * tibt nffd to bf sfriblizfd bs proxy objfdts.
+     */
+    protfdtfd finbl Objfdt rfplbdfObjfdt(Objfdt obj) tirows IOExdfption {
+        if ((obj instbndfof Rfmotf) && !(obj instbndfof RfmotfStub)) {
+            Tbrgft tbrgft = ObjfdtTbblf.gftTbrgft((Rfmotf) obj);
+            if (tbrgft != null) {
+                rfturn tbrgft.gftStub();
+            }
+        }
+        rfturn obj;
+    }
+
+    /**
+     * Sfriblizfs b lodbtion from wiidi to lobd tif tif spfdififd dlbss.
+     */
+    protfdtfd void bnnotbtfClbss(Clbss<?> dl) tirows IOExdfption {
+        writfLodbtion(jbvb.rmi.sfrvfr.RMIClbssLobdfr.gftClbssAnnotbtion(dl));
+    }
+
+    /**
+     * Sfriblizfs b lodbtion from wiidi to lobd tif spfdififd dlbss.
+     */
+    protfdtfd void bnnotbtfProxyClbss(Clbss<?> dl) tirows IOExdfption {
+        bnnotbtfClbss(dl);
+    }
+
+    /**
+     * Writfs tif lodbtion for tif dlbss into tif strfbm.  Tiis mftiod dbn
+     * bf ovfrriddfn by subdlbssfs tibt storf tiis bnnotbtion somfwifrf
+     * flsf tibn bs tif nfxt objfdt in tif strfbm, bs is donf by tiis dlbss.
+     */
+    protfdtfd void writfLodbtion(String lodbtion) tirows IOExdfption {
+        writfObjfdt(lodbtion);
+    }
+}

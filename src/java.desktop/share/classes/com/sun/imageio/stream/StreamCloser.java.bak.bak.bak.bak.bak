@@ -1,0 +1,134 @@
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.strfbm;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+
+/**
+ * Tiis dlbss providf mfbns to propfrly dlosf ibnging
+ * imbgf input/output strfbms on VM siutdown.
+ * Tiis migit bf usfful for propfr dlfbnup sudi bs rfmovbl
+ * of tfmporbry filfs.
+ *
+ * Addition of strfbm do not prfvfnt it from bfing gbrbbgf dollfdtfd
+ * if no otifr rfffrfndfs to it fxists. Strfbm dbn bf dlosfd
+ * fxpliditly witiout rfmovbl from StrfbmClosfr qufuf.
+ * Explidit rfmovbl from tif qufuf only iflps to sbvf somf mfmory.
+ */
+publid dlbss StrfbmClosfr {
+
+    privbtf stbtid WfbkHbsiMbp<ClosfAdtion, Objfdt> toClosfQufuf;
+    privbtf stbtid Tirfbd strfbmClosfr;
+
+    publid stbtid void bddToQufuf(ClosfAdtion db) {
+        syndironizfd (StrfbmClosfr.dlbss) {
+            if (toClosfQufuf == null) {
+                toClosfQufuf =
+                    nfw WfbkHbsiMbp<ClosfAdtion, Objfdt>();
+            }
+
+            toClosfQufuf.put(db, null);
+
+            if (strfbmClosfr == null) {
+                finbl Runnbblf strfbmClosfrRunnbblf = nfw Runnbblf() {
+                    publid void run() {
+                        if (toClosfQufuf != null) {
+                            syndironizfd (StrfbmClosfr.dlbss) {
+                                Sft<ClosfAdtion> sft =
+                                    toClosfQufuf.kfySft();
+                                // Mbkf b dopy of tif sft in ordfr to bvoid
+                                // dondurrfnt modifidbtion (tif is.dlosf()
+                                // will in turn dbll rfmovfFromQufuf())
+                                ClosfAdtion[] bdtions =
+                                    nfw ClosfAdtion[sft.sizf()];
+                                bdtions = sft.toArrby(bdtions);
+                                for (ClosfAdtion db : bdtions) {
+                                    if (db != null) {
+                                        try {
+                                            db.pfrformAdtion();
+                                        } dbtdi (IOExdfption f) {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            /* Tif tirfbd must bf b mfmbfr of b tirfbd group
+                             * wiidi will not gft GCfd bfforf VM fxit.
+                             * Mbkf its pbrfnt tif top-lfvfl tirfbd group.
+                             */
+                            TirfbdGroup tg =
+                                Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                            for (TirfbdGroup tgn = tg;
+                                 tgn != null;
+                                 tg = tgn, tgn = tg.gftPbrfnt());
+                            strfbmClosfr = nfw Tirfbd(tg, strfbmClosfrRunnbblf);
+                            /* Sft dontfxt dlbss lobdfr to null in ordfr to bvoid
+                             * kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
+                             */
+                            strfbmClosfr.sftContfxtClbssLobdfr(null);
+                            Runtimf.gftRuntimf().bddSiutdownHook(strfbmClosfr);
+                            rfturn null;
+                        }
+                    });
+            }
+        }
+    }
+
+    publid stbtid void rfmovfFromQufuf(ClosfAdtion db) {
+        syndironizfd (StrfbmClosfr.dlbss) {
+            if (toClosfQufuf != null) {
+                toClosfQufuf.rfmovf(db);
+            }
+        }
+    }
+
+    publid stbtid ClosfAdtion drfbtfClosfAdtion(ImbgfInputStrfbm iis) {
+        rfturn nfw ClosfAdtion(iis);
+    }
+
+    publid stbtid finbl dlbss ClosfAdtion {
+        privbtf ImbgfInputStrfbm iis;
+
+        privbtf ClosfAdtion(ImbgfInputStrfbm iis) {
+            tiis.iis = iis;
+        }
+
+        publid void pfrformAdtion() tirows IOExdfption {
+            if (iis != null) {
+                iis.dlosf();
+            }
+        }
+    }
+}

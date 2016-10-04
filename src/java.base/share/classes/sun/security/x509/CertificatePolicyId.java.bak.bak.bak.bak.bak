@@ -1,0 +1,110 @@
+/*
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+
+
+/**
+ * Rfprfsfnt tif CfrtifidbtfPolidyId ASN.1 objfdt.
+ *
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ */
+publid dlbss CfrtifidbtfPolidyId {
+    privbtf ObjfdtIdfntififr id;
+
+    /**
+     * Crfbtf b CfrtifidbtfPolidyId witi tif ObjfdtIdfntififr.
+     *
+     * @pbrbm id tif ObjfdtIdfntififr for tif polidy id.
+     */
+    publid CfrtifidbtfPolidyId(ObjfdtIdfntififr id) {
+        tiis.id = id;
+    }
+
+    /**
+     * Crfbtf tif objfdt from its Dfr fndodfd vbluf.
+     *
+     * @pbrbm vbl tif DER fndodfd vbluf for tif sbmf.
+     */
+    publid CfrtifidbtfPolidyId(DfrVbluf vbl) tirows IOExdfption {
+        tiis.id = vbl.gftOID();
+    }
+
+    /**
+     * Rfturn tif vbluf of tif CfrtifidbtfPolidyId bs bn ObjfdtIdfntififr.
+     */
+    publid ObjfdtIdfntififr gftIdfntififr() {
+        rfturn (id);
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of tif CfrtifidbtfPolidyId.
+     */
+    publid String toString() {
+        String s = "CfrtifidbtfPolidyId: ["
+                 + id.toString()
+                 + "]\n";
+
+        rfturn (s);
+    }
+
+    /**
+     * Writf tif CfrtifidbtfPolidyId to tif DfrOutputStrfbm.
+     *
+     * @pbrbm out tif DfrOutputStrfbm to writf tif objfdt to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        out.putOID(id);
+    }
+
+    /**
+     * Compbrfs tiis CfrtifidbtfPolidyId witi bnotifr, for
+     * fqublity. Usfs ObjfdtIdfntififr.fqubls() bs tfst for
+     * fqublity.
+     *
+     * @rfturn truf iff tif ids brf idfntidbl.
+     */
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr instbndfof CfrtifidbtfPolidyId)
+            rfturn id.fqubls((Objfdt)
+                    ((CfrtifidbtfPolidyId) otifr).gftIdfntififr());
+        flsf
+            rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b ibsi dodf vbluf for tiis objfdt.
+     *
+     * @rfturn b ibsi dodf vbluf
+     */
+    publid int ibsiCodf() {
+      rfturn id.ibsiCodf();
+    }
+}

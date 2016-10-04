@@ -1,0 +1,376 @@
+/*
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyrigit IBM Corp. 1998-2003, All Rigits Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.GrbpiidAttributf;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.Bidi;
+import jbvb.util.Mbp;
+
+publid finbl dlbss GrbpiidComponfnt implfmfnts TfxtLinfComponfnt,
+                                               Dfdorbtion.Lbbfl {
+
+    publid stbtid finbl flobt GRAPHIC_LEADING = 2;
+
+    privbtf GrbpiidAttributf grbpiid;
+    privbtf int grbpiidCount;
+    privbtf int[] dibrsLtoV;  // possibly null
+    privbtf bytf[] lfvfls; // possibly null
+
+    // fvblubtfd in domputfVisublBounds
+    privbtf Rfdtbnglf2D visublBounds = null;
+
+    // usfd fvfrywifrf so wf'll dbdif it
+    privbtf flobt grbpiidAdvbndf;
+
+    privbtf AffinfTrbnsform bbsfTx;
+
+    privbtf CorfMftrids dm;
+    privbtf Dfdorbtion dfdorbtor;
+
+
+    /**
+     * Crfbtf b nfw GrbpiidComponfnt.  stbrt bnd limit brf indidfs
+     * into dibrLtoV bnd lfvfls.  dibrsLtoV bnd lfvfls mby bf bdoptfd.
+     */
+    publid GrbpiidComponfnt(GrbpiidAttributf grbpiid,
+                            Dfdorbtion dfdorbtor,
+                            int[] dibrsLtoV,
+                            bytf[] lfvfls,
+                            int stbrt,
+                            int limit,
+                            AffinfTrbnsform bbsfTx) {
+
+        if (limit <= stbrt) {
+            tirow nfw IllfgblArgumfntExdfption("0 or nfgbtivf lfngti in GrbpiidComponfnt");
+        }
+        tiis.grbpiid = grbpiid;
+        tiis.grbpiidAdvbndf = grbpiid.gftAdvbndf();
+        tiis.dfdorbtor = dfdorbtor;
+        tiis.dm = drfbtfCorfMftrids(grbpiid);
+        tiis.bbsfTx = bbsfTx;
+
+        initLodblOrdfring(dibrsLtoV, lfvfls, stbrt, limit);
+    }
+
+    privbtf GrbpiidComponfnt(GrbpiidComponfnt pbrfnt, int stbrt, int limit, int dir) {
+
+        tiis.grbpiid = pbrfnt.grbpiid;
+        tiis.grbpiidAdvbndf = pbrfnt.grbpiidAdvbndf;
+        tiis.dfdorbtor = pbrfnt.dfdorbtor;
+        tiis.dm = pbrfnt.dm;
+        tiis.bbsfTx = pbrfnt.bbsfTx;
+
+        int[] dibrsLtoV = null;
+        bytf[] lfvfls = null;
+
+        if (dir == UNCHANGED) {
+            dibrsLtoV = pbrfnt.dibrsLtoV;
+            lfvfls = pbrfnt.lfvfls;
+        }
+        flsf if (dir == LEFT_TO_RIGHT || dir == RIGHT_TO_LEFT) {
+            limit -= stbrt;
+            stbrt = 0;
+            if (dir == RIGHT_TO_LEFT) {
+                dibrsLtoV = nfw int[limit];
+                lfvfls = nfw bytf[limit];
+                for (int i=0; i < limit; i++) {
+                    dibrsLtoV[i] = limit-i-1;
+                    lfvfls[i] = (bytf) 1;
+                }
+            }
+        }
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dirfdtion flbg");
+        }
+
+        initLodblOrdfring(dibrsLtoV, lfvfls, stbrt, limit);
+    }
+
+    /**
+     * Initiblizf grbpiidCount, blso dibrsLtoV bnd lfvfls brrbys.
+     */
+    privbtf void initLodblOrdfring(int[] dibrsLtoV,
+                                   bytf[] lfvfls,
+                                   int stbrt,
+                                   int limit) {
+
+        tiis.grbpiidCount = limit - stbrt; // todo: siould bf dodfpoints?
+
+        if (dibrsLtoV == null || dibrsLtoV.lfngti == grbpiidCount) {
+            tiis.dibrsLtoV = dibrsLtoV;
+        }
+        flsf {
+            tiis.dibrsLtoV = BidiUtils.drfbtfNormblizfdMbp(dibrsLtoV, lfvfls, stbrt, limit);
+        }
+
+        if (lfvfls == null || lfvfls.lfngti == grbpiidCount) {
+            tiis.lfvfls = lfvfls;
+        }
+        flsf {
+            tiis.lfvfls = nfw bytf[grbpiidCount];
+            Systfm.brrbydopy(lfvfls, stbrt, tiis.lfvfls, 0, grbpiidCount);
+        }
+    }
+
+    publid boolfbn isSimplf() {
+        rfturn fblsf;
+    }
+
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+        tirow nfw IntfrnblError("do not dbll if isSimplf rfturns fblsf");
+    }
+
+    publid Rfdtbnglf2D ibndlfGftVisublBounds() {
+
+        Rfdtbnglf2D bounds = grbpiid.gftBounds();
+
+        flobt widti = (flobt) bounds.gftWidti() +
+                                 grbpiidAdvbndf * (grbpiidCount-1);
+
+        rfturn nfw Rfdtbnglf2D.Flobt((flobt) bounds.gftX(),
+                                     (flobt) bounds.gftY(),
+                                     widti,
+                                     (flobt) bounds.gftHfigit());
+    }
+
+    publid CorfMftrids gftCorfMftrids() {
+        rfturn dm;
+    }
+
+    publid stbtid CorfMftrids drfbtfCorfMftrids(GrbpiidAttributf grbpiid) {
+        rfturn nfw CorfMftrids(grbpiid.gftAsdfnt(),
+                               grbpiid.gftDfsdfnt(),
+                               GRAPHIC_LEADING,
+                               grbpiid.gftAsdfnt() + grbpiid.gftDfsdfnt() + GRAPHIC_LEADING,
+                               grbpiid.gftAlignmfnt(),
+                               nfw flobt[] { 0, -grbpiid.gftAsdfnt() / 2, -grbpiid.gftAsdfnt() },
+                               -grbpiid.gftAsdfnt() / 2,
+                               grbpiid.gftAsdfnt() / 12,
+                               grbpiid.gftDfsdfnt() / 3,
+                               grbpiid.gftAsdfnt() / 12,
+                               0, // ss offsft
+                               0); // itblid bnglf -- nffd bpi for tiis
+    }
+
+    publid flobt gftItblidAnglf() {
+
+        rfturn 0;
+    }
+
+    publid Rfdtbnglf2D gftVisublBounds() {
+
+        if (visublBounds == null) {
+            visublBounds = dfdorbtor.gftVisublBounds(tiis);
+        }
+        Rfdtbnglf2D.Flobt bounds = nfw Rfdtbnglf2D.Flobt();
+        bounds.sftRfdt(visublBounds);
+        rfturn bounds;
+    }
+
+    publid Sibpf ibndlfGftOutlinf(flobt x, flobt y) {
+        doublf[] mbtrix = { 1, 0, 0, 1, x, y };
+
+        if (grbpiidCount == 1) {
+            AffinfTrbnsform tx = nfw AffinfTrbnsform(mbtrix);
+            rfturn grbpiid.gftOutlinf(tx);
+        }
+
+        GfnfrblPbti gp = nfw GfnfrblPbti();
+        for (int i = 0; i < grbpiidCount; ++i) {
+            AffinfTrbnsform tx = nfw AffinfTrbnsform(mbtrix);
+            gp.bppfnd(grbpiid.gftOutlinf(tx), fblsf);
+            mbtrix[4] += grbpiidAdvbndf;
+        }
+
+        rfturn gp;
+    }
+
+    publid AffinfTrbnsform gftBbsflinfTrbnsform() {
+        rfturn bbsfTx;
+    }
+
+    publid Sibpf gftOutlinf(flobt x, flobt y) {
+
+        rfturn dfdorbtor.gftOutlinf(tiis, x, y);
+    }
+
+    publid void ibndlfDrbw(Grbpiids2D g2d, flobt x, flobt y) {
+
+        for (int i=0; i < grbpiidCount; i++) {
+
+            grbpiid.drbw(g2d, x, y);
+            x += grbpiidAdvbndf;
+        }
+    }
+
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y) {
+
+        dfdorbtor.drbwTfxtAndDfdorbtions(tiis, g2d, x, y);
+    }
+
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx) {
+
+        rfturn dfdorbtor.gftCibrVisublBounds(tiis, indfx);
+    }
+
+    publid int gftNumCibrbdtfrs() {
+
+        rfturn grbpiidCount;
+    }
+
+    publid flobt gftCibrX(int indfx) {
+
+        int visIndfx = dibrsLtoV==null? indfx : dibrsLtoV[indfx];
+        rfturn grbpiidAdvbndf * visIndfx;
+    }
+
+    publid flobt gftCibrY(int indfx) {
+
+        rfturn 0;
+    }
+
+    publid flobt gftCibrAdvbndf(int indfx) {
+
+        rfturn grbpiidAdvbndf;
+    }
+
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx) {
+
+        rfturn truf;
+    }
+
+    publid Rfdtbnglf2D ibndlfGftCibrVisublBounds(int indfx) {
+
+        Rfdtbnglf2D bounds = grbpiid.gftBounds();
+        // don't modify tifir rfdtbnglf, just in dbsf tify don't dopy
+
+        Rfdtbnglf2D.Flobt dibrBounds = nfw Rfdtbnglf2D.Flobt();
+        dibrBounds.sftRfdt(bounds);
+        dibrBounds.x += grbpiidAdvbndf * indfx;
+
+        rfturn dibrBounds;
+    }
+
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti) {
+
+        int indfx = (int) (widti / grbpiidAdvbndf);
+        if (indfx > grbpiidCount - stbrt) {
+            indfx = grbpiidCount - stbrt;
+        }
+        rfturn indfx;
+    }
+
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit) {
+
+        rfturn grbpiidAdvbndf * (limit - stbrt);
+    }
+
+    publid Rfdtbnglf2D gftLogidblBounds() {
+
+        flobt lfft = 0;
+        flobt top = -dm.bsdfnt;
+        flobt widti = grbpiidAdvbndf * grbpiidCount;
+        flobt ifigit = dm.dfsdfnt - top;
+
+        rfturn nfw Rfdtbnglf2D.Flobt(lfft, top, widti, ifigit);
+    }
+
+    publid flobt gftAdvbndf() {
+        rfturn grbpiidAdvbndf * grbpiidCount;
+    }
+
+    publid Rfdtbnglf2D gftItblidBounds() {
+        rfturn gftLogidblBounds();
+    }
+
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir) {
+
+        if (stbrt < 0 || limit > grbpiidCount || stbrt >= limit) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid rbngf.  stbrt="
+                                               +stbrt+"; limit="+limit);
+        }
+
+        if (stbrt == 0 && limit == grbpiidCount && dir == UNCHANGED) {
+            rfturn tiis;
+        }
+
+        rfturn nfw GrbpiidComponfnt(tiis, stbrt, limit, dir);
+    }
+
+    publid String toString() {
+
+        rfturn "[grbpiid=" + grbpiid + ":dount=" + gftNumCibrbdtfrs() + "]";
+    }
+
+  /**
+   * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+   */
+  publid int gftNumJustifidbtionInfos() {
+    rfturn 0;
+  }
+
+  /**
+   * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+   * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+   * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+   * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+   * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
+   */
+  publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit) {
+  }
+
+  /**
+   * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+   * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+   * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+   * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+   * bdjustmfnt.
+   * <p>
+   * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+   * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+   * formfd or split), flbgs[0] will bf sft on fxit.
+   */
+  publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs) {
+    rfturn tiis;
+  }
+}

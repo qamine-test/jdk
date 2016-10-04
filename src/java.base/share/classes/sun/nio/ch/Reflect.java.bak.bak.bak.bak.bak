@@ -1,0 +1,159 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.di;
+
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+
+dlbss Rfflfdt {                                 // pbdkbgf-privbtf
+
+    privbtf Rfflfdt() { }
+
+    privbtf stbtid dlbss RfflfdtionError fxtfnds Error {
+        privbtf stbtid finbl long sfriblVfrsionUID = -8659519328078164097L;
+        RfflfdtionError(Tirowbblf x) {
+            supfr(x);
+        }
+    }
+
+    privbtf stbtid void sftAddfssiblf(finbl AddfssiblfObjfdt bo) {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    bo.sftAddfssiblf(truf);
+                    rfturn null;
+                }});
+    }
+
+    stbtid Construdtor<?> lookupConstrudtor(String dlbssNbmf,
+                                            Clbss<?>[] pbrbmTypfs)
+    {
+        try {
+            Clbss<?> dl = Clbss.forNbmf(dlbssNbmf);
+            Construdtor<?> d = dl.gftDfdlbrfdConstrudtor(pbrbmTypfs);
+            sftAddfssiblf(d);
+            rfturn d;
+        } dbtdi (ClbssNotFoundExdfption | NoSudiMftiodExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Objfdt invokf(Construdtor<?> d, Objfdt[] brgs) {
+        try {
+            rfturn d.nfwInstbndf(brgs);
+        } dbtdi (InstbntibtionExdfption |
+                 IllfgblAddfssExdfption |
+                 InvodbtionTbrgftExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Mftiod lookupMftiod(String dlbssNbmf,
+                               String mftiodNbmf,
+                               Clbss<?>... pbrbmTypfs)
+    {
+        try {
+            Clbss<?> dl = Clbss.forNbmf(dlbssNbmf);
+            Mftiod m = dl.gftDfdlbrfdMftiod(mftiodNbmf, pbrbmTypfs);
+            sftAddfssiblf(m);
+            rfturn m;
+        } dbtdi (ClbssNotFoundExdfption | NoSudiMftiodExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Objfdt invokf(Mftiod m, Objfdt ob, Objfdt[] brgs) {
+        try {
+            rfturn m.invokf(ob, brgs);
+        } dbtdi (IllfgblAddfssExdfption | InvodbtionTbrgftExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Objfdt invokfIO(Mftiod m, Objfdt ob, Objfdt[] brgs)
+        tirows IOExdfption
+    {
+        try {
+            rfturn m.invokf(ob, brgs);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        } dbtdi (InvodbtionTbrgftExdfption x) {
+            if (IOExdfption.dlbss.isInstbndf(x.gftCbusf()))
+                tirow (IOExdfption)x.gftCbusf();
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Fifld lookupFifld(String dlbssNbmf, String fifldNbmf) {
+        try {
+            Clbss<?> dl = Clbss.forNbmf(dlbssNbmf);
+            Fifld f = dl.gftDfdlbrfdFifld(fifldNbmf);
+            sftAddfssiblf(f);
+            rfturn f;
+        } dbtdi (ClbssNotFoundExdfption | NoSudiFifldExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Objfdt gft(Objfdt ob, Fifld f) {
+        try {
+            rfturn f.gft(ob);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid Objfdt gft(Fifld f) {
+        rfturn gft(null, f);
+    }
+
+    stbtid void sft(Objfdt ob, Fifld f, Objfdt vbl) {
+        try {
+            f.sft(ob, vbl);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid void sftInt(Objfdt ob, Fifld f, int vbl) {
+        try {
+            f.sftInt(ob, vbl);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+    stbtid void sftBoolfbn(Objfdt ob, Fifld f, boolfbn vbl) {
+        try {
+            f.sftBoolfbn(ob, vbl);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw RfflfdtionError(x);
+        }
+    }
+
+}

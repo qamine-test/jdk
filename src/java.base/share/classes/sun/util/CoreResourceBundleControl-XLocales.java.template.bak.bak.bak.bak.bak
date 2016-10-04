@@ -1,0 +1,114 @@
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf sun.util;
+
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.RfsourdfBundlf.Control;
+
+/**
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * tify ibvf to bf in dlbss filf formbt.
+ *
+ * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * rfsourdfs won't bf sfbrdifd.
+ *
+ * @sindf 1.6.
+ */
+publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+    /* tif dbndidbtf lodblf list to sfbrdi */
+    privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
+        nfw CorfRfsourdfBundlfControl();
+
+    protfdtfd CorfRfsourdfBundlfControl() {
+        fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
+    }
+
+    /**
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * up tif sfbrdi of rfsourdfs in JDK.
+     *
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     */
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+        rfturn rfsourdfBundlfControlInstbndf;
+    }
+
+    /**
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
+     *
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     *    otifrwisf rfturns null.
+     */
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            rfturn rfsourdfBundlfControlInstbndf;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+     */
+    @Ovfrridf
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        rfturn dbndidbtfs;
+    }
+
+    /**
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     */
+    @Ovfrridf
+    publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+        rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
+    }
+}

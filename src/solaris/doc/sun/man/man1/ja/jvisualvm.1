@@ -1,123 +1,615 @@
 '\" t
-.\" Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jvisualvm
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Javaトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jvisublvm
+.\" Titlf: jvisublvm
+.\" Titlf: jvisublvm
+.\" Titlf: jvisublvm
+.\" Titlf: jvisublvm
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "jvisualvm" "1" "2013年11月21日" "JDK 8" "Javaトラブルシューティング、プロファイリング、モニタリン"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jvisualvm \- Javaアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIjvisualvm\fR [ \fIoptions\fR ]
+.nf
+.nf
+.nf
+.nf
+\fIjvisublvm\fR [ \fIoptions\fR ]
+\fIjvisublvm\fR [ \fIoptions\fR ]
+\fIjvisublvm\fR [ \fIoptions\fR ]
+\fIjvisublvm\fR [ \fIoptions\fR ]
+\fIjvisublvm\fR [ \fIoptions\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-Java VisualVMは、指定されたJava仮想マシン(JVM)でJavaテクノロジ・ベースのアプリケーション(Javaアプリケーション)が実行されているときに、そのJavaアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Java VisualVMという名前は、Java VisualVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
 .PP
-Java VisualVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmap\fR、\fIjinfo\fR、\fIjstat\fRおよび\fIjstack\fRで提供されている機能のほとんどが、Java VisualVMに組み込まれています。\fIjconsole\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
 .PP
-Java VisualVMは、Javaアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Java VisualVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJava VisualVMの機能を拡張できます。たとえば、\fIjconsole\fRコマンドのほとんどの機能は、「MBean」タブおよびJConsole Plug\-in Wrapperプラグインを介して使用できます。標準のJava VisualVMプラグインのカタログから選択するには、Java VisualVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
 .PP
-Java VisualVMを起動するには、次のコマンドを実行します。
+.PP
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+.PP
+.PP
+.PP
+.PP
+.PP
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+.PP
+.PP
+.PP
+.PP
+.PP
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+.PP
+.PP
+.PP
+.PP
+.PP
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-%  jvisualvm <options>
+.nf
+.nf
+.nf
+.nf
+%  jvisublvm <options>
+%  jvisublvm <options>
+%  jvisublvm <options>
+%  jvisublvm <options>
+%  jvisublvm <options>
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .PP
-次のオプションは、Java VisualVMを起動したときに実行可能になります。
+.PP
+.PP
+.PP
+.PP
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIjvm_option\fR
+\-J\fIjvm_option\fR
+\-J\fIjvm_option\fR
+\-J\fIjvm_option\fR
+\-J\fIjvm_option\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 この\fIjvm_option\fRをJVMソフトウェアに渡します。
+この\fIjvm_option\fRをJVMソフトウェアに渡します。
+この\fIjvm_option\fRをJVMソフトウェアに渡します。
+この\fIjvm_option\fRをJVMソフトウェアに渡します。
+この\fIjvm_option\fRをJVMソフトウェアに渡します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-Java VisualVM開発者のサイト
-http://visualvm\&.java\&.net/
+.\}
+.\}
+.\}
+.\}
+Jbvb VisublVM開発者のサイト
+Jbvb VisublVM開発者のサイト
+Jbvb VisublVM開発者のサイト
+Jbvb VisublVM開発者のサイト
+Jbvb VisublVM開発者のサイト
+ittp://visublvm\&.jbvb\&.nft/
+ittp://visublvm\&.jbvb\&.nft/
+ittp://visublvm\&.jbvb\&.nft/
+ittp://visublvm\&.jbvb\&.nft/
+ittp://visublvm\&.jbvb\&.nft/
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-Java SEドキュメントのJava VisualVM
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/visualvm/index\&.html)
+.\}
+.\}
+.\}
+.\}
+Jbvb SEドキュメントのJbvb VisublVM
+Jbvb SEドキュメントのJbvb VisublVM
+Jbvb SEドキュメントのJbvb VisublVM
+Jbvb SEドキュメントのJbvb VisublVM
+Jbvb SEドキュメントのJbvb VisublVM
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

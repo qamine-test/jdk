@@ -1,0 +1,189 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf jbvbx.swing;
+
+
+
+import jbvb.io.*;
+import jbvb.bwt.Componfnt;
+
+
+
+/**
+ * Monitors tif progrfss of rfbding from somf InputStrfbm. Tiis ProgrfssMonitor
+ * is normblly invokfd in rougily tiis form:
+ * <prf>
+ * InputStrfbm in = nfw BufffrfdInputStrfbm(
+ *                          nfw ProgrfssMonitorInputStrfbm(
+ *                                  pbrfntComponfnt,
+ *                                  "Rfbding " + filfNbmf,
+ *                                  nfw FilfInputStrfbm(filfNbmf)));
+ * </prf><p>
+ * Tiis drfbtfs b progrfss monitor to monitor tif progrfss of rfbding
+ * tif input strfbm.  If it's tbking b wiilf, b ProgrfssDiblog will
+ * bf poppfd up to inform tif usfr.  If tif usfr iits tif Cbndfl button
+ * bn IntfrruptfdIOExdfption will bf tirown on tif nfxt rfbd.
+ * All tif rigit dlfbnup is donf wifn tif strfbm is dlosfd.
+ *
+ *
+ * <p>
+ *
+ * For furtifr dodumfntbtion bnd fxbmplfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.itml">How to Monitor Progrfss</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ *
+ * @sff ProgrfssMonitor
+ * @sff JOptionPbnf
+ * @butior Jbmfs Gosling
+ * @sindf 1.2
+ */
+publid dlbss ProgrfssMonitorInputStrfbm fxtfnds FiltfrInputStrfbm
+{
+    privbtf ProgrfssMonitor monitor;
+    privbtf int             nrfbd = 0;
+    privbtf int             sizf = 0;
+
+
+    /**
+     * Construdts bn objfdt to monitor tif progrfss of bn input strfbm.
+     *
+     * @pbrbm mfssbgf Dfsdriptivf tfxt to bf plbdfd in tif diblog box
+     *                if onf is poppfd up.
+     * @pbrbm pbrfntComponfnt Tif domponfnt triggfring tif opfrbtion
+     *                        bfing monitorfd.
+     * @pbrbm in Tif input strfbm to bf monitorfd.
+     */
+    publid ProgrfssMonitorInputStrfbm(Componfnt pbrfntComponfnt,
+                                      Objfdt mfssbgf,
+                                      InputStrfbm in) {
+        supfr(in);
+        try {
+            sizf = in.bvbilbblf();
+        }
+        dbtdi(IOExdfption iof) {
+            sizf = 0;
+        }
+        monitor = nfw ProgrfssMonitor(pbrfntComponfnt, mfssbgf, null, 0, sizf);
+    }
+
+
+    /**
+     * Gft tif ProgrfssMonitor objfdt bfing usfd by tiis strfbm. Normblly
+     * tiis isn't nffdfd unlfss you wbnt to do somftiing likf dibngf tif
+     * dfsdriptivf tfxt pbrtwby tirougi rfbding tif filf.
+     * @rfturn tif ProgrfssMonitor objfdt usfd by tiis objfdt
+     */
+    publid ProgrfssMonitor gftProgrfssMonitor() {
+        rfturn monitor;
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
+     */
+    publid int rfbd() tirows IOExdfption {
+        int d = in.rfbd();
+        if (d >= 0) monitor.sftProgrfss(++nrfbd);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
+        }
+        rfturn d;
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
+     */
+    publid int rfbd(bytf b[]) tirows IOExdfption {
+        int nr = in.rfbd(b);
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
+        }
+        rfturn nr;
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
+     */
+    publid int rfbd(bytf b[],
+                    int off,
+                    int lfn) tirows IOExdfption {
+        int nr = in.rfbd(b, off, lfn);
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
+        }
+        rfturn nr;
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.skip</dodf>
+     * to updbtf tif progrfss monitor bftfr tif skip.
+     */
+    publid long skip(long n) tirows IOExdfption {
+        long nr = in.skip(n);
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        rfturn nr;
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.dlosf</dodf>
+     * to dlosf tif progrfss monitor bs wfll bs tif strfbm.
+     */
+    publid void dlosf() tirows IOExdfption {
+        in.dlosf();
+        monitor.dlosf();
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfsft</dodf>
+     * to rfsft tif progrfss monitor bs wfll bs tif strfbm.
+     */
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        in.rfsft();
+        nrfbd = sizf - in.bvbilbblf();
+        monitor.sftProgrfss(nrfbd);
+    }
+}

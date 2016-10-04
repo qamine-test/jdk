@@ -1,0 +1,801 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/* ****************************************************************
+ ******************************************************************
+ ******************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd
+ *** Stbtfs Codf.  All rigits rfsfrvfd.
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.util.Arrbys;
+
+/**
+ *  Tiis dlbss rfprfsfnts pixfl dbtb pbdkfd sudi tibt tif N sbmplfs wiidi mbkf
+ *  up b singlf pixfl brf storfd in b singlf dbtb brrby flfmfnt, bnd fbdi dbtb
+ *  dbtb brrby flfmfnt iolds sbmplfs for only onf pixfl.
+ *  Tiis dlbss supports
+ *  {@link DbtbBufffr#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBufffr#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBufffr#TYPE_INT TYPE_INT} dbtb typfs.
+ *  All dbtb brrby flfmfnts rfsidf
+ *  in tif first bbnk of b DbtbBufffr.  Addfssor mftiods brf providfd so
+ *  tibt tif imbgf dbtb dbn bf mbnipulbtfd dirfdtly. Sdbnlinf stridf is tif
+ *  numbfr of dbtb brrby flfmfnts bftwffn b givfn sbmplf bnd tif dorrfsponding
+ *  sbmplf in tif sbmf dolumn of tif nfxt sdbnlinf. Bit mbsks brf tif mbsks
+ *  rfquirfd to fxtrbdt tif sbmplfs rfprfsfnting tif bbnds of tif pixfl.
+ *  Bit offsfts brf tif offsfts in bits into tif dbtb brrby
+ *  flfmfnt of tif sbmplfs rfprfsfnting tif bbnds of tif pixfl.
+ * <p>
+ * Tif following dodf illustrbtfs fxtrbdting tif bits of tif sbmplf
+ * rfprfsfnting bbnd <dodf>b</dodf> for pixfl <dodf>x,y</dodf>
+ * from DbtbBufffr <dodf>dbtb</dodf>:
+ * <prf>{@dodf
+ *      int sbmplf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+ *      sbmplf = (sbmplf & bitMbsks[b]) >>> bitOffsfts[b];
+ * }</prf>
+ */
+
+publid dlbss SinglfPixflPbdkfdSbmplfModfl fxtfnds SbmplfModfl
+{
+    /** Bit mbsks for bll bbnds of tif imbgf dbtb. */
+    privbtf int bitMbsks[];
+
+    /** Bit Offsfts for bll bbnds of tif imbgf dbtb. */
+    privbtf int bitOffsfts[];
+
+    /** Bit sizfs for bll tif bbnds of tif imbgf dbtb. */
+    privbtf int bitSizfs[];
+
+    /** Mbximum bit sizf. */
+    privbtf int mbxBitSizf;
+
+    /** Linf stridf of tif rfgion of imbgf dbtb dfsdribfd by tiis
+     *  SinglfPixflPbdkfdSbmplfModfl.
+     */
+    privbtf int sdbnlinfStridf;
+
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
+        initIDs();
+    }
+
+    /**
+     * Construdts b SinglfPixflPbdkfdSbmplfModfl witi bitMbsks.lfngti bbnds.
+     * Ebdi sbmplf is storfd in b dbtb brrby flfmfnt in tif position of
+     * its dorrfsponding bit mbsk.  Ebdi bit mbsk must bf dontiguous bnd
+     * mbsks must not ovfrlbp. Bit mbsks fxdffding dbtb typf dbpbdity brf
+     * trundbtfd.
+     * @pbrbm dbtbTypf  Tif dbtb typf for storing sbmplfs.
+     * @pbrbm w         Tif widti (in pixfls) of tif rfgion of tif
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm i         Tif ifigit (in pixfls) of tif rfgion of tif
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm bitMbsks  Tif bit mbsks for bll bbnds.
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         fitifr <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     *         <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     *         <dodf>DbtbBufffr.TYPE_INT</dodf>
+     */
+    publid SinglfPixflPbdkfdSbmplfModfl(int dbtbTypf, int w, int i,
+                                   int bitMbsks[]) {
+        tiis(dbtbTypf, w, i, w, bitMbsks);
+        if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+            dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+            dbtbTypf != DbtbBufffr.TYPE_INT) {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd dbtb typf "+
+                                               dbtbTypf);
+        }
+    }
+
+    /**
+     * Construdts b SinglfPixflPbdkfdSbmplfModfl witi bitMbsks.lfngti bbnds
+     * bnd b sdbnlinf stridf fqubl to sdbnlinfStridf dbtb brrby flfmfnts.
+     * Ebdi sbmplf is storfd in b dbtb brrby flfmfnt in tif position of
+     * its dorrfsponding bit mbsk.  Ebdi bit mbsk must bf dontiguous bnd
+     * mbsks must not ovfrlbp. Bit mbsks fxdffding dbtb typf dbpbdity brf
+     * trundbtfd.
+     * @pbrbm dbtbTypf  Tif dbtb typf for storing sbmplfs.
+     * @pbrbm w         Tif widti (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm i         Tif ifigit (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm sdbnlinfStridf Tif linf stridf of tif imbgf dbtb.
+     * @pbrbm bitMbsks Tif bit mbsks for bll bbnds.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     * @tirows IllfgblArgumfntExdfption if bny mbsk in
+     *         <dodf>bitMbsk</dodf> is not dontiguous
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         fitifr <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     *         <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     *         <dodf>DbtbBufffr.TYPE_INT</dodf>
+     */
+    publid SinglfPixflPbdkfdSbmplfModfl(int dbtbTypf, int w, int i,
+                                   int sdbnlinfStridf, int bitMbsks[]) {
+        supfr(dbtbTypf, w, i, bitMbsks.lfngti);
+        if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+            dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+            dbtbTypf != DbtbBufffr.TYPE_INT) {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd dbtb typf "+
+                                               dbtbTypf);
+        }
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bitMbsks = bitMbsks.dlonf();
+        tiis.sdbnlinfStridf = sdbnlinfStridf;
+
+        tiis.bitOffsfts = nfw int[numBbnds];
+        tiis.bitSizfs = nfw int[numBbnds];
+
+        int mbxMbsk = (int)((1L << DbtbBufffr.gftDbtbTypfSizf(dbtbTypf)) - 1);
+
+        tiis.mbxBitSizf = 0;
+        for (int i=0; i<numBbnds; i++) {
+            int bitOffsft = 0, bitSizf = 0, mbsk;
+            tiis.bitMbsks[i] &= mbxMbsk;
+            mbsk = tiis.bitMbsks[i];
+            if (mbsk != 0) {
+                wiilf ((mbsk & 1) == 0) {
+                    mbsk = mbsk >>> 1;
+                    bitOffsft++;
+                }
+                wiilf ((mbsk & 1) == 1) {
+                    mbsk = mbsk >>> 1;
+                    bitSizf++;
+                }
+                if (mbsk != 0) {
+                    tirow nfw IllfgblArgumfntExdfption("Mbsk "+bitMbsks[i]+
+                                                       " must bf dontiguous");
+                }
+            }
+            bitOffsfts[i] = bitOffsft;
+            bitSizfs[i] = bitSizf;
+            if (bitSizf > mbxBitSizf) {
+                mbxBitSizf = bitSizf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns tif numbfr of dbtb flfmfnts nffdfd to trbnsffr onf pixfl
+     * vib tif gftDbtbElfmfnts bnd sftDbtbElfmfnts mftiods.
+     * For b SinglfPixflPbdkfdSbmplfModfl, tiis is onf.
+     */
+    publid int gftNumDbtbElfmfnts() {
+        rfturn 1;
+    }
+
+    /**
+     * Rfturns tif sizf of tif bufffr (in dbtb brrby flfmfnts)
+     * nffdfd for b dbtb bufffr tibt mbtdifs tiis
+     * SinglfPixflPbdkfdSbmplfModfl.
+     */
+    privbtf long gftBufffrSizf() {
+      long sizf = sdbnlinfStridf * (ifigit-1) + widti;
+      rfturn sizf;
+    }
+
+    /**
+     * Crfbtfs b nfw SinglfPixflPbdkfdSbmplfModfl witi tif spfdififd
+     * widti bnd ifigit.  Tif nfw SinglfPixflPbdkfdSbmplfModfl will ibvf tif
+     * sbmf storbgf dbtb typf bnd bit mbsks bs tiis
+     * SinglfPixflPbdkfdSbmplfModfl.
+     * @pbrbm w tif widti of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @pbrbm i tif ifigit of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @rfturn b <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf> witi tif
+     *         spfdififd widti bnd ifigit.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     */
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+      SbmplfModfl sbmplfModfl = nfw SinglfPixflPbdkfdSbmplfModfl(dbtbTypf, w, i,
+                                                              bitMbsks);
+      rfturn sbmplfModfl;
+    }
+
+    /**
+     * Crfbtfs b DbtbBufffr tibt dorrfsponds to tiis
+     * SinglfPixflPbdkfdSbmplfModfl.  Tif DbtbBufffr's dbtb typf bnd sizf
+     * will bf donsistfnt witi tiis SinglfPixflPbdkfdSbmplfModfl.  Tif
+     * DbtbBufffr will ibvf b singlf bbnk.
+     */
+    publid DbtbBufffr drfbtfDbtbBufffr() {
+        DbtbBufffr dbtbBufffr = null;
+
+        int sizf = (int)gftBufffrSizf();
+        switdi (dbtbTypf) {
+        dbsf DbtbBufffr.TYPE_BYTE:
+            dbtbBufffr = nfw DbtbBufffrBytf(sizf);
+            brfbk;
+        dbsf DbtbBufffr.TYPE_USHORT:
+            dbtbBufffr = nfw DbtbBufffrUSiort(sizf);
+            brfbk;
+        dbsf DbtbBufffr.TYPE_INT:
+            dbtbBufffr = nfw DbtbBufffrInt(sizf);
+            brfbk;
+        }
+        rfturn dbtbBufffr;
+    }
+
+    /** Rfturns tif numbfr of bits pfr sbmplf for bll bbnds. */
+    publid int[] gftSbmplfSizf() {
+        rfturn bitSizfs.dlonf();
+    }
+
+    /** Rfturns tif numbfr of bits pfr sbmplf for tif spfdififd bbnd. */
+    publid int gftSbmplfSizf(int bbnd) {
+        rfturn bitSizfs[bbnd];
+    }
+
+    /** Rfturns tif offsft (in dbtb brrby flfmfnts) of pixfl (x,y).
+     *  Tif dbtb flfmfnt dontbining pixfl <dodf>x,y</dodf>
+     *  dbn bf rftrifvfd from b DbtbBufffr <dodf>dbtb</dodf> witi b
+     *  SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm</dodf> bs:
+     * <prf>
+     *        dbtb.gftElfm(sppsm.gftOffsft(x, y));
+     * </prf>
+     * @pbrbm x tif X doordinbtf of tif spfdififd pixfl
+     * @pbrbm y tif Y doordinbtf of tif spfdififd pixfl
+     * @rfturn tif offsft of tif spfdififd pixfl.
+     */
+    publid int gftOffsft(int x, int y) {
+        int offsft = y * sdbnlinfStridf + x;
+        rfturn offsft;
+    }
+
+    /** Rfturns tif bit offsfts into tif dbtb brrby flfmfnt rfprfsfnting
+     *  b pixfl for bll bbnds.
+     *  @rfturn tif bit offsfts rfprfsfnting b pixfl for bll bbnds.
+     */
+    publid int [] gftBitOffsfts() {
+      rfturn bitOffsfts.dlonf();
+    }
+
+    /** Rfturns tif bit mbsks for bll bbnds.
+     *  @rfturn tif bit mbsks for bll bbnds.
+     */
+    publid int [] gftBitMbsks() {
+      rfturn bitMbsks.dlonf();
+    }
+
+    /** Rfturns tif sdbnlinf stridf of tiis SinglfPixflPbdkfdSbmplfModfl.
+     *  @rfturn tif sdbnlinf stridf of tiis
+     *          <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf>.
+     */
+    publid int gftSdbnlinfStridf() {
+      rfturn sdbnlinfStridf;
+    }
+
+    /**
+     * Tiis drfbtfs b nfw SinglfPixflPbdkfdSbmplfModfl witi b subsft of tif
+     * bbnds of tiis SinglfPixflPbdkfdSbmplfModfl.  Tif nfw
+     * SinglfPixflPbdkfdSbmplfModfl dbn bf usfd witi bny DbtbBufffr tibt tif
+     * fxisting SinglfPixflPbdkfdSbmplfModfl dbn bf usfd witi.  Tif nfw
+     * SinglfPixflPbdkfdSbmplfModfl/DbtbBufffr dombinbtion will rfprfsfnt
+     * bn imbgf witi b subsft of tif bbnds of tif originbl
+     * SinglfPixflPbdkfdSbmplfModfl/DbtbBufffr dombinbtion.
+     * @fxdfption RbstfrFormbtExdfption if tif lfngti of tif bbnds brgumfnt is
+     *                                  grfbtfr tibn tif numbfr of bbnds in
+     *                                  tif sbmplf modfl.
+     */
+    publid SbmplfModfl drfbtfSubsftSbmplfModfl(int bbnds[]) {
+        if (bbnds.lfngti > numBbnds)
+            tirow nfw RbstfrFormbtExdfption("Tifrf brf only " +
+                                            numBbnds +
+                                            " bbnds");
+        int nfwBitMbsks[] = nfw int[bbnds.lfngti];
+        for (int i=0; i<bbnds.lfngti; i++)
+            nfwBitMbsks[i] = bitMbsks[bbnds[i]];
+
+        rfturn nfw SinglfPixflPbdkfdSbmplfModfl(tiis.dbtbTypf, widti, ifigit,
+                                           tiis.sdbnlinfStridf, nfwBitMbsks);
+    }
+
+    /**
+     * Rfturns dbtb for b singlf pixfl in b primitivf brrby of typf
+     * TrbnsffrTypf.  For b SinglfPixflPbdkfdSbmplfModfl, tif brrby will
+     * ibvf onf flfmfnt, bnd tif typf will bf tif sbmf bs tif storbgf
+     * dbtb typf.  Gfnfrblly, obj
+     * siould bf pbssfd in bs null, so tibt tif Objfdt will bf drfbtfd
+     * butombtidblly bnd will bf of tif rigit primitivf dbtb typf.
+     * <p>
+     * Tif following dodf illustrbtfs trbnsffrring dbtb for onf pixfl from
+     * DbtbBufffr <dodf>db1</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm1</dodf>, to
+     * DbtbBufffr <dodf>db2</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm2</dodf>.
+     * Tif trbnsffr will gfnfrblly bf morf fffidifnt tibn using
+     * gftPixfl/sftPixfl.
+     * <prf>
+     *       SinglfPixflPbdkfdSbmplfModfl sppsm1, sppsm2;
+     *       DbtbBufffrInt db1, db2;
+     *       sppsm2.sftDbtbElfmfnts(x, y, sppsm1.gftDbtbElfmfnts(x, y, null,
+     *                              db1), db2);
+     * </prf>
+     * Using gftDbtbElfmfnts/sftDbtbElfmfnts to trbnsffr bftwffn two
+     * DbtbBufffr/SbmplfModfl pbirs is lfgitimbtf if tif SbmplfModfls ibvf
+     * tif sbmf numbfr of bbnds, dorrfsponding bbnds ibvf tif sbmf numbfr of
+     * bits pfr sbmplf, bnd tif TrbnsffrTypfs brf tif sbmf.
+     * <p>
+     * If obj is non-null, it siould bf b primitivf brrby of typf TrbnsffrTypf.
+     * Otifrwisf, b ClbssCbstExdfption is tirown.  An
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds, or if obj is non-null bnd is not lbrgf fnougi to iold
+     * tif pixfl dbtb.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm obj       If non-null, b primitivf brrby in wiidi to rfturn
+     *                  tif pixfl dbtb.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif dbtb for tif spfdififd pixfl.
+     * @sff #sftDbtbElfmfnts(int, int, Objfdt, DbtbBufffr)
+     */
+    publid Objfdt gftDbtbElfmfnts(int x, int y, Objfdt obj, DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+
+        int typf = gftTrbnsffrTypf();
+
+        switdi(typf) {
+
+        dbsf DbtbBufffr.TYPE_BYTE:
+
+            bytf[] bdbtb;
+
+            if (obj == null)
+                bdbtb = nfw bytf[1];
+            flsf
+                bdbtb = (bytf[])obj;
+
+            bdbtb[0] = (bytf)dbtb.gftElfm(y * sdbnlinfStridf + x);
+
+            obj = (Objfdt)bdbtb;
+            brfbk;
+
+        dbsf DbtbBufffr.TYPE_USHORT:
+
+            siort[] sdbtb;
+
+            if (obj == null)
+                sdbtb = nfw siort[1];
+            flsf
+                sdbtb = (siort[])obj;
+
+            sdbtb[0] = (siort)dbtb.gftElfm(y * sdbnlinfStridf + x);
+
+            obj = (Objfdt)sdbtb;
+            brfbk;
+
+        dbsf DbtbBufffr.TYPE_INT:
+
+            int[] idbtb;
+
+            if (obj == null)
+                idbtb = nfw int[1];
+            flsf
+                idbtb = (int[])obj;
+
+            idbtb[0] = dbtb.gftElfm(y * sdbnlinfStridf + x);
+
+            obj = (Objfdt)idbtb;
+            brfbk;
+        }
+
+        rfturn obj;
+    }
+
+    /**
+     * Rfturns bll sbmplfs in for tif spfdififd pixfl in bn int brrby.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn bll sbmplfs for tif spfdififd pixfl.
+     * @sff #sftPixfl(int, int, int[], DbtbBufffr)
+     */
+    publid int [] gftPixfl(int x, int y, int iArrby[], DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int pixfls[];
+        if (iArrby == null) {
+            pixfls = nfw int [numBbnds];
+        } flsf {
+            pixfls = iArrby;
+        }
+
+        int vbluf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+        for (int i=0; i<numBbnds; i++) {
+            pixfls[i] = (vbluf & bitMbsks[i]) >>> bitOffsfts[i];
+        }
+        rfturn pixfls;
+    }
+
+    /**
+     * Rfturns bll sbmplfs for tif spfdififd rfdtbnglf of pixfls in
+     * bn int brrby, onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn bll sbmplfs for tif spfdififd rfgion of pixfls.
+     * @sff #sftPixfls(int, int, int, int, int[], DbtbBufffr)
+     */
+    publid int[] gftPixfls(int x, int y, int w, int i,
+                           int iArrby[], DbtbBufffr dbtb) {
+        int x1 = x + w;
+        int y1 = y + i;
+
+        if (x < 0 || x >= widti || w > widti || x1 < 0 || x1 > widti ||
+            y < 0 || y >= ifigit || i > ifigit || y1 < 0 || y1 >  ifigit)
+        {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int pixfls[];
+        if (iArrby != null) {
+           pixfls = iArrby;
+        } flsf {
+           pixfls = nfw int [w*i*numBbnds];
+        }
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int dstOffsft = 0;
+
+        for (int i = 0; i < i; i++) {
+           for (int j = 0; j < w; j++) {
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              for (int k=0; k < numBbnds; k++) {
+                  pixfls[dstOffsft++] =
+                     ((vbluf & bitMbsks[k]) >>> bitOffsfts[k]);
+              }
+           }
+           linfOffsft += sdbnlinfStridf;
+        }
+        rfturn pixfls;
+    }
+
+    /**
+     * Rfturns bs int tif sbmplf in b spfdififd bbnd for tif pixfl
+     * lodbtfd bt (x,y).
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm b         Tif bbnd to rfturn.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif sbmplf in b spfdififd bbnd for tif spfdififd
+     *         pixfl.
+     * @sff #sftSbmplf(int, int, int, int, DbtbBufffr)
+     */
+    publid int gftSbmplf(int x, int y, int b, DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int sbmplf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+        rfturn ((sbmplf & bitMbsks[b]) >>> bitOffsfts[b]);
+    }
+
+    /**
+     * Rfturns tif sbmplfs for b spfdififd bbnd for tif spfdififd rfdtbnglf
+     * of pixfls in bn int brrby, onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm b         Tif bbnd to rfturn.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif sbmplfs for tif spfdififd bbnd for tif spfdififd
+     *         rfgion of pixfls.
+     * @sff #sftSbmplfs(int, int, int, int, int, int[], DbtbBufffr)
+     */
+    publid int[] gftSbmplfs(int x, int y, int w, int i, int b,
+                           int iArrby[], DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x + w > widti) || (y + i > ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int sbmplfs[];
+        if (iArrby != null) {
+           sbmplfs = iArrby;
+        } flsf {
+           sbmplfs = nfw int [w*i];
+        }
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int dstOffsft = 0;
+
+        for (int i = 0; i < i; i++) {
+           for (int j = 0; j < w; j++) {
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              sbmplfs[dstOffsft++] =
+                 ((vbluf & bitMbsks[b]) >>> bitOffsfts[b]);
+           }
+           linfOffsft += sdbnlinfStridf;
+        }
+        rfturn sbmplfs;
+    }
+
+    /**
+     * Sfts tif dbtb for b singlf pixfl in tif spfdififd DbtbBufffr from b
+     * primitivf brrby of typf TrbnsffrTypf.  For b
+     * SinglfPixflPbdkfdSbmplfModfl, only tif first flfmfnt of tif brrby
+     * will iold vblid dbtb, bnd tif typf of tif brrby must bf tif sbmf bs
+     * tif storbgf dbtb typf of tif SinglfPixflPbdkfdSbmplfModfl.
+     * <p>
+     * Tif following dodf illustrbtfs trbnsffrring dbtb for onf pixfl from
+     * DbtbBufffr <dodf>db1</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm1</dodf>,
+     * to DbtbBufffr <dodf>db2</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm2</dodf>.
+     * Tif trbnsffr will gfnfrblly bf morf fffidifnt tibn using
+     * gftPixfl/sftPixfl.
+     * <prf>
+     *       SinglfPixflPbdkfdSbmplfModfl sppsm1, sppsm2;
+     *       DbtbBufffrInt db1, db2;
+     *       sppsm2.sftDbtbElfmfnts(x, y, sppsm1.gftDbtbElfmfnts(x, y, null,
+     *                              db1), db2);
+     * </prf>
+     * Using gftDbtbElfmfnts/sftDbtbElfmfnts to trbnsffr bftwffn two
+     * DbtbBufffr/SbmplfModfl pbirs is lfgitimbtf if tif SbmplfModfls ibvf
+     * tif sbmf numbfr of bbnds, dorrfsponding bbnds ibvf tif sbmf numbfr of
+     * bits pfr sbmplf, bnd tif TrbnsffrTypfs brf tif sbmf.
+     * <p>
+     * obj must bf b primitivf brrby of typf TrbnsffrTypf.  Otifrwisf,
+     * b ClbssCbstExdfption is tirown.  An
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds, or if obj is not lbrgf fnougi to iold tif pixfl dbtb.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm obj       A primitivf brrby dontbining pixfl dbtb.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftDbtbElfmfnts(int, int, Objfdt, DbtbBufffr)
+     */
+    publid void sftDbtbElfmfnts(int x, int y, Objfdt obj, DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+
+        int typf = gftTrbnsffrTypf();
+
+        switdi(typf) {
+
+        dbsf DbtbBufffr.TYPE_BYTE:
+
+            bytf[] bbrrby = (bytf[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ((int)bbrrby[0])&0xff);
+            brfbk;
+
+        dbsf DbtbBufffr.TYPE_USHORT:
+
+            siort[] sbrrby = (siort[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ((int)sbrrby[0])&0xffff);
+            brfbk;
+
+        dbsf DbtbBufffr.TYPE_INT:
+
+            int[] ibrrby = (int[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ibrrby[0]);
+            brfbk;
+        }
+    }
+
+    /**
+     * Sfts b pixfl in tif DbtbBufffr using bn int brrby of sbmplfs for input.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftPixfl(int, int, int[], DbtbBufffr)
+     */
+    publid void sftPixfl(int x, int y,
+                         int iArrby[],
+                         DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int linfOffsft = y * sdbnlinfStridf + x;
+        int vbluf = dbtb.gftElfm(linfOffsft);
+        for (int i=0; i < numBbnds; i++) {
+            vbluf &= ~bitMbsks[i];
+            vbluf |= ((iArrby[i] << bitOffsfts[i]) & bitMbsks[i]);
+        }
+        dbtb.sftElfm(linfOffsft, vbluf);
+    }
+
+    /**
+     * Sfts bll sbmplfs for b rfdtbnglf of pixfls from bn int brrby dontbining
+     * onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftPixfls(int, int, int, int, int[], DbtbBufffr)
+     */
+    publid void sftPixfls(int x, int y, int w, int i,
+                          int iArrby[], DbtbBufffr dbtb) {
+        int x1 = x + w;
+        int y1 = y + i;
+
+        if (x < 0 || x >= widti || w > widti || x1 < 0 || x1 > widti ||
+            y < 0 || y >= ifigit || i > ifigit || y1 < 0 || y1 >  ifigit)
+        {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int srdOffsft = 0;
+
+        for (int i = 0; i < i; i++) {
+           for (int j = 0; j < w; j++) {
+               int vbluf = dbtb.gftElfm(linfOffsft+j);
+               for (int k=0; k < numBbnds; k++) {
+                   vbluf &= ~bitMbsks[k];
+                   int srdVbluf = iArrby[srdOffsft++];
+                   vbluf |= ((srdVbluf << bitOffsfts[k])
+                             & bitMbsks[k]);
+               }
+               dbtb.sftElfm(linfOffsft+j, vbluf);
+           }
+           linfOffsft += sdbnlinfStridf;
+        }
+    }
+
+    /**
+     * Sfts b sbmplf in tif spfdififd bbnd for tif pixfl lodbtfd bt (x,y)
+     * in tif DbtbBufffr using bn int for input.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm b         Tif bbnd to sft.
+     * @pbrbm s         Tif input sbmplf bs bn int.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftSbmplf(int, int, int, DbtbBufffr)
+     */
+    publid void sftSbmplf(int x, int y, int b, int s,
+                          DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int vbluf = dbtb.gftElfm(y*sdbnlinfStridf + x);
+        vbluf &= ~bitMbsks[b];
+        vbluf |= (s << bitOffsfts[b]) & bitMbsks[b];
+        dbtb.sftElfm(y*sdbnlinfStridf + x,vbluf);
+    }
+
+    /**
+     * Sfts tif sbmplfs in tif spfdififd bbnd for tif spfdififd rfdtbnglf
+     * of pixfls from bn int brrby dontbining onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds.
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm b         Tif bbnd to sft.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftSbmplfs(int, int, int, int, int, int[], DbtbBufffr)
+     */
+    publid void sftSbmplfs(int x, int y, int w, int i, int b,
+                          int iArrby[], DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x + w > widti) || (y + i > ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int srdOffsft = 0;
+
+        for (int i = 0; i < i; i++) {
+           for (int j = 0; j < w; j++) {
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              vbluf &= ~bitMbsks[b];
+              int sbmplf = iArrby[srdOffsft++];
+              vbluf |= (sbmplf << bitOffsfts[b]) & bitMbsks[b];
+              dbtb.sftElfm(linfOffsft+j,vbluf);
+           }
+           linfOffsft += sdbnlinfStridf;
+        }
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if ((o == null) || !(o instbndfof SinglfPixflPbdkfdSbmplfModfl)) {
+            rfturn fblsf;
+        }
+
+        SinglfPixflPbdkfdSbmplfModfl tibt = (SinglfPixflPbdkfdSbmplfModfl)o;
+        rfturn tiis.widti == tibt.widti &&
+            tiis.ifigit == tibt.ifigit &&
+            tiis.numBbnds == tibt.numBbnds &&
+            tiis.dbtbTypf == tibt.dbtbTypf &&
+            Arrbys.fqubls(tiis.bitMbsks, tibt.bitMbsks) &&
+            Arrbys.fqubls(tiis.bitOffsfts, tibt.bitOffsfts) &&
+            Arrbys.fqubls(tiis.bitSizfs, tibt.bitSizfs) &&
+            tiis.mbxBitSizf == tibt.mbxBitSizf &&
+            tiis.sdbnlinfStridf == tibt.sdbnlinfStridf;
+    }
+
+    // If wf implfmfnt fqubls() wf must blso implfmfnt ibsiCodf
+    publid int ibsiCodf() {
+        int ibsi = 0;
+        ibsi = widti;
+        ibsi <<= 8;
+        ibsi ^= ifigit;
+        ibsi <<= 8;
+        ibsi ^= numBbnds;
+        ibsi <<= 8;
+        ibsi ^= dbtbTypf;
+        ibsi <<= 8;
+        for (int i = 0; i < bitMbsks.lfngti; i++) {
+            ibsi ^= bitMbsks[i];
+            ibsi <<= 8;
+        }
+        for (int i = 0; i < bitOffsfts.lfngti; i++) {
+            ibsi ^= bitOffsfts[i];
+            ibsi <<= 8;
+        }
+        for (int i = 0; i < bitSizfs.lfngti; i++) {
+            ibsi ^= bitSizfs[i];
+            ibsi <<= 8;
+        }
+        ibsi ^= mbxBitSizf;
+        ibsi <<= 8;
+        ibsi ^= sdbnlinfStridf;
+        rfturn ibsi;
+    }
+}

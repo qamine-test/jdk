@@ -1,0 +1,393 @@
+/*
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.logging.Loggfr;
+import jbvbx.xml.bind.JAXBContfxt;
+import jbvbx.xml.bind.JAXBExdfption;
+import jbvbx.xml.bind.Mbrsibllfr;
+import jbvbx.xml.bind.Unmbrsibllfr;
+
+/**
+ * Tif dlbss XmlConfigUtils is usfd to dfbl witi XML sfriblizbtion
+ * bnd XML filfs.
+ *
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
+ */
+publid dlbss XmlConfigUtils {
+
+    /**
+     * A URI for our XML donfigurbtion nbmfspbdf. Tiis dofsn't stbrt witi
+     * ittp:// bfdbusf wf brf not going to publisi tiis privbtf sdifmb
+     * bnywifrf.
+     **/
+    publid stbtid finbl String NAMESPACE =
+            "jmx:dom.sun.jmx.fxbmplfs.sdbndir.donfig";
+    /**
+     * A loggfr for tiis dlbss.
+     **/
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(XmlConfigUtils.dlbss.gftNbmf());
+
+    // Our JAXBContfxt.
+    privbtf stbtid JAXBContfxt dontfxt;
+
+    // Tif filf nbmf of tif XML filf in wiidi bn instbndf of tiis objfdt
+    // will rfbd bnd writf XML dbtb.
+    finbl String filf;
+
+    /**
+     * Crfbtfs b nfw instbndf of XmlConfigUtils.
+     * @pbrbm filf Tif filf nbmf of tif XML filf in wiidi bn instbndf of tiis
+     *        objfdt will rfbd bnd writf XML dbtb.
+     */
+    publid XmlConfigUtils(String filf) {
+        tiis.filf = filf;
+    }
+
+    /**
+     * Writf tif givfn bfbn to tif XML filf.
+     * <p>
+     * Pfrforms bn btomid writf, first writing in {@dodf <filf>.nfw}, tifn
+     * rfnbming {@dodf <filf>} to {@dodf <filf>~}, tifn rfnbming
+     * rfnbming {@dodf <filf>.nfw} to {@dodf <filf>}.
+     * </p>
+     * @pbrbm bfbn Tif donfigurbtion to writf in tif XML filf.
+     * @tirows IOExdfption if writf to filf fbilfd.
+     **/
+    publid syndironizfd void writfToFilf(SdbnMbnbgfrConfig bfbn)
+        tirows IOExdfption {
+
+        // Crfbtfs b nfw filf nbmfd <filf>.nfw
+        finbl Filf f = nfwXmlTmpFilf(filf);
+        try {
+            finbl FilfOutputStrfbm out = nfw FilfOutputStrfbm(f);
+            boolfbn fbilfd = truf;
+            try {
+                // writfs to <filf>.nfw
+                writf(bfbn,out,fblsf);
+
+                // no fxdfption: sft fbilfd=fblsf for finbly {} blodk.
+                fbilfd = fblsf;
+            } finblly {
+                out.dlosf();
+                // An fxdfption wbs rbisfd: dflftf tfmporbry filf.
+                if (fbilfd == truf) f.dflftf();
+            }
+
+            // rfnbmf <filf> to <filf>~ bnd <filf>.nfw to <filf>
+            dommit(filf,f);
+        } dbtdi (JAXBExdfption x) {
+            finbl IOExdfption io =
+                    nfw IOExdfption("Fbilfd to writf SfssionConfigBfbn to " +
+                    filf+": "+x,x);
+            tirow io;
+        }
+    }
+
+    /**
+     * Crfbtfs bn XML string rfprfsfntbtion of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XMLbinding dontfxt.
+     * @rfturn An XML string rfprfsfntbtion of tif givfn bfbn.
+     **/
+    publid stbtid String toString(Objfdt bfbn) {
+        try {
+            finbl BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+            m.sftPropfrty(m.JAXB_FRAGMENT,Boolfbn.TRUE);
+            m.mbrsibl(bfbn, bbos);
+            rfturn bbos.toString();
+        } dbtdi (JAXBExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(
+                        "Fbilfd to writf SfssionConfigBfbn: "+x,x);
+            tirow ibf;
+        }
+    }
+
+    /**
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
+     * <p>
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
+     * </p>
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @pbrbm bfbn Tif bfbn to dlonf.
+     */
+    publid stbtid SdbnMbnbgfrConfig xmlClonf(SdbnMbnbgfrConfig bfbn) {
+        finbl Objfdt dlonf = dopy(bfbn);
+        rfturn (SdbnMbnbgfrConfig)dlonf;
+    }
+
+    /**
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
+     * <p>
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
+     * </p>
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
+     **/
+    privbtf stbtid Objfdt dopy(Objfdt bfbn) {
+        try {
+            finbl BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+            m.mbrsibl(bfbn, bbos);
+            finbl BytfArrbyInputStrfbm bbis =
+                    nfw BytfArrbyInputStrfbm(bbos.toBytfArrby());
+            rfturn drfbtfUnmbrsibllfr().unmbrsibl(bbis);
+        } dbtdi (JAXBExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Fbilfd to writf SfssionConfigBfbn: "+x,x);
+            tirow ibf;
+        }
+    }
+
+    /**
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
+     * <p>
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
+     * </p>
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @pbrbm bfbn Tif bfbn to dlonf.
+     */
+    publid stbtid DirfdtorySdbnnfrConfig xmlClonf(DirfdtorySdbnnfrConfig bfbn) {
+        finbl Objfdt dlonf = dopy(bfbn);
+        rfturn (DirfdtorySdbnnfrConfig)dlonf;
+    }
+
+    /**
+     * Rfbds tif donfigurbtion from tif XML donfigurbtion filf.
+     * @tirows IOExdfption if it fbils to rfbd tif donfigurbtion.
+     * @rfturn A {@dodf SdbnMbnbgfrConfig} bfbn rfbd from tif
+     *         XML donfigurbtion filf.
+     **/
+    publid syndironizfd SdbnMbnbgfrConfig rfbdFromFilf() tirows IOExdfption {
+        finbl Filf f = nfw Filf(filf);
+        if (!f.fxists())
+            tirow nfw IOExdfption("No sudi filf: "+filf);
+        if (!f.dbnRfbd())
+            tirow nfw IOExdfption("Cbn't rfbd filf: "+filf);
+        try {
+            rfturn rfbd(f);
+        } dbtdi (JAXBExdfption x) {
+            finbl IOExdfption io =
+                    nfw IOExdfption("Fbilfd to rfbd SfssionConfigBfbn from " +
+                    filf+": "+x,x);
+            tirow io;
+        }
+    }
+
+    /**
+     * Rfbds tif donfigurbtion from tif givfn XML donfigurbtion filf.
+     * @pbrbm f tif filf to rfbd from.
+     * @rfturn A {@dodf SdbnMbnbgfrConfig} bfbn rfbd from tif
+     *         XML donfigurbtion filf.
+     * @tirows jbvbx.xml.bind.JAXBExdfption if it fbils to rfbd tif donfigurbtion.
+     */
+    publid stbtid SdbnMbnbgfrConfig rfbd(Filf f)
+        tirows JAXBExdfption {
+        finbl Unmbrsibllfr u = drfbtfUnmbrsibllfr();
+        rfturn (SdbnMbnbgfrConfig) u.unmbrsibl(f);
+
+    }
+
+    /**
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
+     **/
+    publid stbtid void writf(SdbnMbnbgfrConfig bfbn, OutputStrfbm os,
+            boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        writfXml((Objfdt)bfbn,os,frbgmfnt);
+    }
+
+    /**
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
+     **/
+    publid stbtid void writf(RfsultRfdord bfbn, OutputStrfbm os, boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        writfXml((Objfdt)bfbn,os,frbgmfnt);
+    }
+
+    /**
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
+     **/
+    privbtf stbtid void writfXml(Objfdt bfbn, OutputStrfbm os, boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+        if (frbgmfnt) m.sftPropfrty(m.JAXB_FRAGMENT,Boolfbn.TRUE);
+        m.mbrsibl(bfbn,os);
+    }
+
+    // Crfbtfs b JAXB Unmbrsibllfr.
+    privbtf stbtid Unmbrsibllfr drfbtfUnmbrsibllfr() tirows JAXBExdfption {
+        rfturn gftContfxt().drfbtfUnmbrsibllfr();
+    }
+
+    // Crfbtfs b JAXB Mbrsibllfr - for nidfly XML formbttfd output.
+    privbtf stbtid Mbrsibllfr drfbtfMbrsibllfr() tirows JAXBExdfption {
+        finbl  Mbrsibllfr m = gftContfxt().drfbtfMbrsibllfr();
+        m.sftPropfrty(Mbrsibllfr.JAXB_FORMATTED_OUTPUT,Boolfbn.TRUE);
+        rfturn m;
+    }
+
+    // Crfbtfs b JAXBContfxt if nffdfd, bnd rfturns it.
+    // Tif JAXBContfxt instbndf wf drfbtf will bf bblf to ibndlf tif
+    // SdbnMbnbgfrConfig bnd RfsultRfdord dlbssfs, plus bll tif propfrty
+    // dlbssfs tify rfffrfndf (DirfdtorySdbnnfrBfbn ftd...).
+    //
+    privbtf stbtid syndironizfd JAXBContfxt gftContfxt() tirows JAXBExdfption {
+        if (dontfxt == null)
+            dontfxt = JAXBContfxt.nfwInstbndf(SdbnMbnbgfrConfig.dlbss,
+                                              RfsultRfdord.dlbss);
+        rfturn dontfxt;
+    }
+
+
+    // Crfbtfs b nfw XML tfmporbry filf dbllfd <bbsfnbmf>.nfw
+    // Tiis mftiod is usfd to implfmfnt btomid writing to filf.
+    // Tif usubl sfqufndf is:
+    //
+    // Finbl tmp = nfwXmlTmpFilf(bbsfnbmf);
+    // boolfbn fbilfd = truf;
+    // try {
+    //      ... writf to 'tmp' ...
+    //      // no fxdfption: sft fbilfd=fblsf for finbly {} blodk.
+    //      fbilfd = fblsf;
+    // } finblly
+    //      // fbilfd==truf mfbns tifrf wbs bn fxdfption bnd
+    //      // dommit won't bf dbllfd...
+    //      if (fbilfd==truf) tmp.dflftf();
+    // }
+    // dommit(tmp,bbsfnbmf)
+    //
+    privbtf stbtid Filf nfwXmlTmpFilf(String bbsfnbmf) tirows IOExdfption {
+        finbl Filf f = nfw Filf(bbsfnbmf+".nfw");
+        if (!f.drfbtfNfwFilf())
+            tirow nfw IOExdfption("filf "+f.gftNbmf()+" blrfbdy fxists");
+
+        try {
+            finbl OutputStrfbm nfwStrfbm = nfw FilfOutputStrfbm(f);
+            try {
+                finbl String dfdl =
+                    "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\" stbndblonf=\"yfs\"?>";
+                nfwStrfbm.writf(dfdl.gftBytfs("UTF-8"));
+                nfwStrfbm.flusi();
+            } finblly {
+                nfwStrfbm.dlosf();
+            }
+        } dbtdi (IOExdfption x) {
+            f.dflftf();
+            tirow x;
+        }
+        rfturn f;
+    }
+
+    // Commit tif tfmporbry filf by rfnbming <bbsfnbmf> to <bbfsnbmf>~
+    // bnd tmpFilf to <bbsfnbmf>.
+    privbtf stbtid Filf dommit(String bbsfnbmf, Filf tmpFilf)
+        tirows IOExdfption {
+        try {
+            finbl String bbdkupNbmf = bbsfnbmf+"~";
+            finbl Filf dfsirfd = nfw Filf(bbsfnbmf);
+            finbl Filf bbdkup = nfw Filf(bbdkupNbmf);
+            bbdkup.dflftf();
+            if (dfsirfd.fxists()) {
+                if (!dfsirfd.rfnbmfTo(nfw Filf(bbdkupNbmf)))
+                    tirow nfw IOExdfption("dbn't rfnbmf to "+bbdkupNbmf);
+            }
+            if (!tmpFilf.rfnbmfTo(nfw Filf(bbsfnbmf)))
+                tirow nfw IOExdfption("dbn't rfnbmf to "+bbsfnbmf);
+        } dbtdi (IOExdfption x) {
+            tmpFilf.dflftf();
+            tirow x;
+        }
+        rfturn nfw Filf(bbsfnbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw dommittfd XML filf for {@dodf <bbsfnbmf>}, dontbining only
+     * tif {@dodf <?xml ...?>} ifbdfr.
+     * <p>Tiis mftiod will rfnbmf {@dodf <bbsfnbmf>} to {@dodf <bbsfnbmf>~},
+     * if it fxists.
+     * </p>
+     * @rfturn A nfwly drfbtfd XML filf dontbining tif rfgulbr
+     *         {@dodf <?xml ...?>} ifbdfr.
+     * @pbrbm bbsfnbmf Tif nbmf of tif nfw filf.
+     * @tirows IOExdfption if tif nfw XML filf douldn't bf drfbtfd.
+     */
+    publid stbtid Filf drfbtfNfwXmlFilf(String bbsfnbmf) tirows IOExdfption {
+        rfturn dommit(bbsfnbmf,nfwXmlTmpFilf(bbsfnbmf));
+    }
+
+}

@@ -1,0 +1,488 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.util.Lodblf;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.fvfnt.PrintSfrvidfAttributfListfnfr;
+
+
+/**
+ * Intfrfbdf PrintSfrvidf is tif fbdtory for b DodPrintJob. A PrintSfrvidf
+ * dfsdribfs tif dbpbbilitifs of b Printfr bnd dbn bf qufrifd rfgbrding
+ * b printfr's supportfd bttributfs.
+ * <P>
+ * Exbmplf:
+ *   <PRE>{@dodf
+ *   DodFlbvor flbvor = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+ *   PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+ *   bsft.bdd(MfdibSizfNbmf.ISO_A4);
+ *   PrintSfrvidf[] psfrvidfs =
+ *                 PrintSfrvidfLookup.lookupPrintSfrvidfs(flbvor, bsft);
+ *   if (psfrvidfs.lfngti > 0) {
+ *       DodPrintJob pj = psfrvidfs[0].drfbtfPrintJob();
+ *       try {
+ *           FilfInputStrfbm fis = nfw FilfInputStrfbm("tfst.ps");
+ *           Dod dod = nfw SimplfDod(fis, flbvor, null);
+ *           pj.print(dod, bsft);
+ *        } dbtdi (FilfNotFoundExdfption ff) {
+ *        } dbtdi (PrintExdfption f) {
+ *        }
+ *   }
+ *   }</PRE>
+ */
+publid intfrfbdf PrintSfrvidf {
+
+    /** Rfturns b String nbmf for tiis print sfrvidf wiidi mby bf usfd
+      * by bpplidbtions to rfqufst b pbrtidulbr print sfrvidf.
+      * In b suitbblf dontfxt, sudi bs b nbmf sfrvidf, tiis nbmf must bf
+      * uniquf.
+      * In somf fnvironmfnts tiis uniquf nbmf mby bf tif sbmf bs tif usfr
+      * frifndly printfr nbmf dffinfd bs tif
+      * {@link jbvbx.print.bttributf.stbndbrd.PrintfrNbmf PrintfrNbmf}
+      * bttributf.
+      * @rfturn nbmf of tif sfrvidf.
+      */
+    publid String gftNbmf();
+
+    /**
+     * Crfbtfs bnd rfturns b PrintJob dbpbblf of ibndling dbtb from
+     * bny of tif supportfd dodumfnt flbvors.
+     * @rfturn b DodPrintJob objfdt
+     */
+    publid DodPrintJob drfbtfPrintJob();
+
+    /**
+     * Rfgistfrs b listfnfr for fvfnts on tiis PrintSfrvidf.
+     * @pbrbm listfnfr  b PrintSfrvidfAttributfListfnfr, wiidi
+     *        monitors tif stbtus of b print sfrvidf
+     * @sff #rfmovfPrintSfrvidfAttributfListfnfr
+     */
+    publid void bddPrintSfrvidfAttributfListfnfr(
+                                       PrintSfrvidfAttributfListfnfr listfnfr);
+
+    /**
+     * Rfmovfs tif print-sfrvidf listfnfr from tiis print sfrvidf.
+     * Tiis mfbns tif listfnfr is no longfr intfrfstfd in
+     * <dodf>PrintSfrvidf</dodf> fvfnts.
+     * @pbrbm listfnfr  b PrintSfrvidfAttributfListfnfr objfdt
+     * @sff #bddPrintSfrvidfAttributfListfnfr
+     */
+    publid void rfmovfPrintSfrvidfAttributfListfnfr(
+                                       PrintSfrvidfAttributfListfnfr listfnfr);
+
+    /**
+     * Obtbins tiis print sfrvidf's sft of printfr dfsdription bttributfs
+     * giving tiis Print Sfrvidf's stbtus. Tif rfturnfd bttributf sft objfdt
+     * is unmodifibblf. Tif rfturnfd bttributf sft objfdt is b "snbpsiot" of
+     * tiis Print Sfrvidf's bttributf sft bt tif timf of tif
+     * <CODE>gftAttributfs()</CODE> mftiod dbll: tibt is, tif rfturnfd
+     * bttributf sft's dontfnts will <I>not</I> bf updbtfd if tiis print
+     * sfrvidf's bttributf sft's dontfnts dibngf in tif futurf. To dftfdt
+     * dibngfs in bttributf vblufs, dbll <CODE>gftAttributfs()</CODE> bgbin
+     * bnd dompbrf tif nfw bttributf sft to tif prfvious bttributf sft;
+     * bltfrnbtivfly, rfgistfr b listfnfr for print sfrvidf fvfnts.
+     *
+     * @rfturn  Unmodifibblf snbpsiot of tiis Print Sfrvidf's bttributf sft.
+     *          Mby bf fmpty, but not null.
+     */
+    publid PrintSfrvidfAttributfSft gftAttributfs();
+
+    /**
+     * Gfts tif vbluf of tif singlf spfdififd sfrvidf bttributf.
+     * Tiis mby bf usfful to dlifnts wiidi only nffd tif vbluf of onf
+     * bttributf bnd wbnt to minimizf ovfrifbd.
+     * @pbrbm <T> tif typf of tif spfdififd sfrvidf bttributf
+     * @pbrbm dbtfgory tif dbtfgory of b PrintSfrvidfAttributf supportfd
+     * by tiis sfrvidf - mby not bf null.
+     * @rfturn tif vbluf of tif supportfd bttributf or null if tif
+     * bttributf is not supportfd by tiis sfrvidf.
+     * @fxdfption NullPointfrExdfption if tif dbtfgory is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) if <CODE>dbtfgory</CODE> is not b
+     *     <dodf>Clbss</dodf> tibt implfmfnts intfrfbdf
+     *{@link jbvbx.print.bttributf.PrintSfrvidfAttributf PrintSfrvidfAttributf}.
+     */
+    publid <T fxtfnds PrintSfrvidfAttributf>
+        T gftAttributf(Clbss<T> dbtfgory);
+
+    /**
+     * Dftfrminfs tif print dbtb formbts b dlifnt dbn spfdify wifn sftting
+     * up b job for tiis <dodf>PrintSfrvidf</dodf>. A print dbtb formbt is
+     * dfsignbtfd by b "dod
+     * flbvor" (dlbss {@link jbvbx.print.DodFlbvor DodFlbvor})
+     * donsisting of b MIME typf plus b print dbtb rfprfsfntbtion dlbss.
+     * <P>
+     * Notf tibt somf dod flbvors mby not bf supportfd in dombinbtion
+     * witi bll bttributfs. Usf <dodf>gftUnsupportfdAttributfs(..)</dodf>
+     * to vblidbtf spfdifid dombinbtions.
+     *
+     * @rfturn  Arrby of supportfd dod flbvors, siould ibvf bt lfbst
+     *          onf flfmfnt.
+     *
+     */
+    publid DodFlbvor[] gftSupportfdDodFlbvors();
+
+    /**
+     * Dftfrminfs if tiis print sfrvidf supports b spfdifid
+     * <dodf>DodFlbvor</dodf>.  Tiis is b donvfnifndf mftiod to dftfrminf
+     * if tif <dodf>DodFlbvor</dodf> would bf b mfmbfr of tif rfsult of
+     * <dodf>gftSupportfdDodFlbvors()</dodf>.
+     * <p>
+     * Notf tibt somf dod flbvors mby not bf supportfd in dombinbtion
+     * witi bll bttributfs. Usf <dodf>gftUnsupportfdAttributfs(..)</dodf>
+     * to vblidbtf spfdifid dombinbtions.
+     *
+     * @pbrbm flbvor tif <dodf>DodFlbvor</dodf>to qufry for support.
+     * @rfturn  <dodf>truf</dodf> if tiis print sfrvidf supports tif
+     * spfdififd <dodf>DodFlbvor</dodf>; <dodf>fblsf</dodf> otifrwisf.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>flbvor</CODE> is null.
+     */
+    publid boolfbn isDodFlbvorSupportfd(DodFlbvor flbvor);
+
+
+    /**
+     * Dftfrminfs tif printing bttributf dbtfgorifs b dlifnt dbn spfdify
+     * wifn sftting up b job for tiis print sfrvidf.
+     * A printing bttributf dbtfgory is
+     * dfsignbtfd by b <dodf>Clbss</dodf> tibt implfmfnts intfrfbdf
+     * {@link jbvbx.print.bttributf.Attributf Attributf}. Tiis mftiod rfturns
+     * just tif bttributf <I>dbtfgorifs</I> tibt brf supportfd; it dofs not
+     * rfturn tif pbrtidulbr bttributf <I>vblufs</I> tibt brf supportfd.
+     * <P>
+     * Tiis mftiod rfturns bll tif printing bttributf
+     * dbtfgorifs tiis print sfrvidf supports for bny possiblf job.
+     * Somf dbtfgorifs mby not bf supportfd in b pbrtidulbr dontfxt (if
+     * for b pbrtidulbr <dodf>DodFlbvor</dodf>).
+     * Usf onf of tif mftiods tibt indludf b <dodf>DodFlbvor</dodf> to
+     * vblidbtf tif rfqufst bfforf submitting it, sudi bs
+     * <dodf>gftSupportfdAttributfVblufs(..)</dodf>.
+     *
+     * @rfturn  Arrby of printing bttributf dbtfgorifs tibt tif dlifnt dbn
+     *          spfdify bs b dod-lfvfl or job-lfvfl bttributf in b Print
+     *          Rfqufst. Ebdi flfmfnt in tif brrby is b {@link jbvb.lbng.Clbss
+     *          Clbss} tibt implfmfnts intfrfbdf {@link
+     *          jbvbx.print.bttributf.Attributf Attributf}.
+     *          Tif brrby is fmpty if no dbtfgorifs brf supportfd.
+     */
+    publid Clbss<?>[] gftSupportfdAttributfCbtfgorifs();
+
+    /**
+     * Dftfrminfs wiftifr b dlifnt dbn spfdify tif givfn printing
+     * bttributf dbtfgory wifn sftting up b job for tiis print sfrvidf. A
+     * printing bttributf dbtfgory is dfsignbtfd by b <dodf>Clbss</dodf>
+     * tibt implfmfnts intfrfbdf {@link jbvbx.print.bttributf.Attributf
+     * Attributf}. Tiis mftiod tflls wiftifr tif bttributf <I>dbtfgory</I> is
+     * supportfd; it dofs not tfll wiftifr b pbrtidulbr bttributf <I>vbluf</I>
+     * is supportfd.
+     * <p>
+     * Somf dbtfgorifs mby not bf supportfd in b pbrtidulbr dontfxt (if
+     * for b pbrtidulbr <dodf>DodFlbvor</dodf>).
+     * Usf onf of tif mftiods wiidi indludf b <dodf>DodFlbvor</dodf> to
+     * vblidbtf tif rfqufst bfforf submitting it, sudi bs
+     * <dodf>gftSupportfdAttributfVblufs(..)</dodf>.
+     * <P>
+     * Tiis is b donvfnifndf mftiod to dftfrminf if tif dbtfgory
+     * would bf b mfmbfr of tif rfsult of
+     * <dodf>gftSupportfdAttributfCbtfgorifs()</dodf>.
+     *
+     * @pbrbm  dbtfgory    Printing bttributf dbtfgory to tfst. It must bf b
+     *                        <dodf>Clbss</dodf> tibt implfmfnts
+     *                        intfrfbdf
+     *                {@link jbvbx.print.bttributf.Attributf Attributf}.
+     *
+     * @rfturn  <dodf>truf</dodf> if tiis print sfrvidf supports
+     *          spfdifying b dod-lfvfl or
+     *          job-lfvfl bttributf in <CODE>dbtfgory</CODE> in b Print
+     *          Rfqufst; <dodf>fblsf</dodf> if it dofsn't.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is not b
+     *     <dodf>Clbss</dodf> tibt implfmfnts intfrfbdf
+     *     {@link jbvbx.print.bttributf.Attributf Attributf}.
+     */
+    publid boolfbn
+        isAttributfCbtfgorySupportfd(Clbss<? fxtfnds Attributf> dbtfgory);
+
+    /**
+     * Dftfrminfs tiis print sfrvidf's dffbult printing bttributf vbluf in
+     * tif givfn dbtfgory. A printing bttributf vbluf is bn instbndf of
+     * b dlbss tibt implfmfnts intfrfbdf
+     * {@link jbvbx.print.bttributf.Attributf Attributf}. If b dlifnt sfts
+     * up b print job bnd dofs not spfdify bny bttributf vbluf in tif
+     * givfn dbtfgory, tiis Print Sfrvidf will usf tif
+     * dffbult bttributf vbluf instfbd.
+     * <p>
+     * Somf bttributfs mby not bf supportfd in b pbrtidulbr dontfxt (if
+     * for b pbrtidulbr <dodf>DodFlbvor</dodf>).
+     * Usf onf of tif mftiods tibt indludf b <dodf>DodFlbvor</dodf> to
+     * vblidbtf tif rfqufst bfforf submitting it, sudi bs
+     * <dodf>gftSupportfdAttributfVblufs(..)</dodf>.
+     * <P>
+     * Not bll bttributfs ibvf b dffbult vbluf. For fxbmplf tif
+     * sfrvidf will not ibvf b dffbultvbluf for <dodf>RfqufstingUsfr</dodf>
+     * i.f. b null rfturn for b supportfd dbtfgory mfbns tifrf is no
+     * sfrvidf dffbult vbluf for tibt dbtfgory. Usf tif
+     * <dodf>isAttributfCbtfgorySupportfd(Clbss)</dodf> mftiod to
+     * distinguisi tifsf dbsfs.
+     *
+     * @pbrbm  dbtfgory    Printing bttributf dbtfgory for wiidi tif dffbult
+     *                     bttributf vbluf is rfqufstfd. It must bf b {@link
+     *                        jbvb.lbng.Clbss Clbss} tibt implfmfnts intfrfbdf
+     *                        {@link jbvbx.print.bttributf.Attributf
+     *                        Attributf}.
+     *
+     * @rfturn  Dffbult bttributf vbluf for <CODE>dbtfgory</CODE>, or null
+     *       if tiis Print Sfrvidf dofs not support spfdifying b dod-lfvfl or
+     *          job-lfvfl bttributf in <CODE>dbtfgory</CODE> in b Print
+     *          Rfqufst, or tif sfrvidf dofs not ibvf b dffbult vbluf
+     *          for tiis bttributf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts intfrfbdf {@link
+     *     jbvbx.print.bttributf.Attributf Attributf}.
+     */
+    publid Objfdt
+        gftDffbultAttributfVbluf(Clbss<? fxtfnds Attributf> dbtfgory);
+
+    /**
+     * Dftfrminfs tif printing bttributf vblufs b dlifnt dbn spfdify in
+     * tif givfn dbtfgory wifn sftting up b job for tiis print sfrvidf. A
+     * printing
+     * bttributf vbluf is bn instbndf of b dlbss tibt implfmfnts intfrfbdf
+     * {@link jbvbx.print.bttributf.Attributf Attributf}.
+     * <P>
+     * If <CODE>flbvor</CODE> is null bnd <CODE>bttributfs</CODE> is null
+     * or is bn fmpty sft, tiis mftiod rfturns bll tif printing bttributf
+     * vblufs tiis Print Sfrvidf supports for bny possiblf job. If
+     * <CODE>flbvor</CODE> is not null or <CODE>bttributfs</CODE> is not
+     * bn fmpty sft, tiis mftiod rfturns just tif printing bttributf vblufs
+     * tibt brf dompbtiblf witi tif givfn dod flbvor bnd/or sft of bttributfs.
+     * Tibt is, b null rfturn vbluf mby indidbtf tibt spfdifying tiis bttributf
+     * is indompbtiblf witi tif spfdififd DodFlbvor.
+     * Also if DodFlbvor is not null it must bf b flbvor supportfd by tiis
+     * PrintSfrvidf, flsf IllfgblArgumfntExdfption will bf tirown.
+     * <P>
+     * If tif <dodf>bttributfs</dodf> pbrbmftfr dontbins bn Attributf wiosf
+     * dbtfgory is tif sbmf bs tif <dodf>dbtfgory</dodf> pbrbmftfr, tif sfrvidf
+     * must ignorf tiis bttributf in tif AttributfSft.
+     * <p>
+     * <dodf>DodAttributf</dodf>s wiidi brf to bf spfdififd on tif
+     * <dodf>Dod</dodf> must bf indludfd in tiis sft to bddurbtfly
+     * rfprfsfnt tif dontfxt.
+     * <p>
+     * Tiis mftiod rfturns bn Objfdt bfdbusf difffrfnt printing bttributf
+     * dbtfgorifs indidbtf tif supportfd bttributf vblufs in difffrfnt wbys.
+     * Tif dodumfntbtion for fbdi printing bttributf in pbdkbgf {@link
+     * jbvbx.print.bttributf.stbndbrd jbvbx.print.bttributf.stbndbrd}
+     * dfsdribfs iow fbdi bttributf indidbtfs its supportfd vblufs. Possiblf
+     * wbys of indidbting support indludf:
+     * <UL>
+     * <LI>
+     * Rfturn b singlf instbndf of tif bttributf dbtfgory to indidbtf tibt bny
+     * vbluf is lfgbl -- usfd, for fxbmplf, by bn bttributf wiosf vbluf is bn
+     * brbitrbry tfxt string. (Tif vbluf of tif rfturnfd bttributf objfdt is
+     * irrflfvbnt.)
+     * <LI>
+     * Rfturn bn brrby of onf or morf instbndfs of tif bttributf dbtfgory,
+     * dontbining tif lfgbl vblufs -- usfd, for fxbmplf, by bn bttributf witi
+     * b list of fnumfrbtfd vblufs. Tif typf of tif brrby is bn brrby of tif
+     * spfdififd bttributf dbtfgory typf bs rfturnfd by its
+     * <dodf>gftCbtfgory(Clbss)</dodf>.
+     * <LI>
+     * Rfturn b singlf objfdt (of somf dlbss otifr tibn tif bttributf dbtfgory)
+     * tibt indidbtfs bounds on tif lfgbl vblufs -- usfd, for fxbmplf, by bn
+     * intfgfr-vblufd bttributf tibt must lif witiin b dfrtbin rbngf.
+     * </UL>
+     *
+     * @pbrbm  dbtfgory    Printing bttributf dbtfgory to tfst. It must bf b
+     *                        {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts
+     *                        intfrfbdf {@link
+     *                        jbvbx.print.bttributf.Attributf Attributf}.
+     * @pbrbm  flbvor      Dod flbvor for b supposfd job, or null.
+     * @pbrbm  bttributfs  Sft of printing bttributfs for b supposfd job
+     *                        (boti job-lfvfl bttributfs bnd dodumfnt-lfvfl
+     *                        bttributfs), or null.
+     *
+     * @rfturn  Objfdt indidbting supportfd vblufs for <CODE>dbtfgory</CODE>,
+     *          or null if tiis Print Sfrvidf dofs not support spfdifying b
+     *          dod-lfvfl or job-lfvfl bttributf in <CODE>dbtfgory</CODE> in
+     *          b Print Rfqufst.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfgory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts intfrfbdf {@link
+     *     jbvbx.print.bttributf.Attributf Attributf}, or
+     *     <dodf>DodFlbvor</dodf> is not supportfd by tiis sfrvidf.
+     */
+    publid Objfdt
+        gftSupportfdAttributfVblufs(Clbss<? fxtfnds Attributf> dbtfgory,
+                                    DodFlbvor flbvor,
+                                    AttributfSft bttributfs);
+
+    /**
+     * Dftfrminfs wiftifr b dlifnt dbn spfdify tif givfn printing
+     * bttributf
+     * vbluf wifn sftting up b job for tiis Print Sfrvidf. A printing
+     * bttributf vbluf is bn instbndf of b dlbss tibt implfmfnts intfrfbdf
+     *  {@link jbvbx.print.bttributf.Attributf Attributf}.
+     * <P>
+     * If <CODE>flbvor</CODE> is null bnd <CODE>bttributfs</CODE> is null or
+     * is bn fmpty sft, tiis mftiod tflls wiftifr tiis Print Sfrvidf supports
+     * tif givfn printing bttributf vbluf for somf possiblf dombinbtion of dod
+     * flbvor bnd sft of bttributfs. If <CODE>flbvor</CODE> is not null or
+     * <CODE>bttributfs</CODE> is not bn fmpty sft, tiis mftiod tflls wiftifr
+     * tiis Print Sfrvidf supports tif givfn printing bttributf vbluf in
+     * dombinbtion witi tif givfn dod flbvor bnd/or sft of bttributfs.
+     * <p>
+     * Also if DodFlbvor is not null it must bf b flbvor supportfd by tiis
+     * PrintSfrvidf, flsf IllfgblArgumfntExdfption will bf tirown.
+     * <p>
+     * <dodf>DodAttributf</dodf>s wiidi brf to bf spfdififd on tif
+     * <dodf>Dod</dodf> must bf indludfd in tiis sft to bddurbtfly
+     * rfprfsfnt tif dontfxt.
+     * <p>
+     * Tiis is b donvfnifndf mftiod to dftfrminf if tif vbluf
+     * would bf b mfmbfr of tif rfsult of
+     * <dodf>gftSupportfdAttributfVblufs(...)</dodf>.
+     *
+     * @pbrbm  bttrvbl       Printing bttributf vbluf to tfst.
+     * @pbrbm  flbvor      Dod flbvor for b supposfd job, or null.
+     * @pbrbm  bttributfs  Sft of printing bttributfs for b supposfd job
+     *                        (boti job-lfvfl bttributfs bnd dodumfnt-lfvfl
+     *                        bttributfs), or null.
+     *
+     * @rfturn  Truf if tiis Print Sfrvidf supports spfdifying
+     *        <CODE>bttrvbl</CODE> bs b dod-lfvfl or job-lfvfl bttributf in b
+     *          Print Rfqufst, fblsf if it dofsn't.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption)  if <CODE>bttrvbl</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption if flbvor is not supportfd by
+     *      tiis PrintSfrvidf.
+     */
+    publid boolfbn isAttributfVblufSupportfd(Attributf bttrvbl,
+                                             DodFlbvor flbvor,
+                                             AttributfSft bttributfs);
+
+
+    /**
+     * Idfntififs tif bttributfs tibt brf unsupportfd for b print rfqufst
+     * in tif dontfxt of b pbrtidulbr DodFlbvor.
+     * Tiis mftiod is usfful for vblidbting b potfntibl print job bnd
+     * idfntifying tif spfdifid bttributfs wiidi dbnnot bf supportfd.
+     * It is importbnt to supply only b supportfd DodFlbvor or bn
+     * IllfgblArgumfntExdfption will bf tirown. If tif
+     * rfturn vbluf from tiis mftiod is null, bll bttributfs brf supportfd.
+     * <p>
+     * <dodf>DodAttributf</dodf>s wiidi brf to bf spfdififd on tif
+     * <dodf>Dod</dodf> must bf indludfd in tiis sft to bddurbtfly
+     * rfprfsfnt tif dontfxt.
+     * <p>
+     * If tif rfturn vbluf is non-null, bll bttributfs in tif rfturnfd
+     * sft brf unsupportfd witi tiis DodFlbvor. Tif rfturnfd sft dofs not
+     * distinguisi bttributf dbtfgorifs tibt brf unsupportfd from
+     * unsupportfd bttributf vblufs.
+     * <p>
+     * A supportfd print rfqufst dbn tifn bf drfbtfd by rfmoving
+     * bll unsupportfd bttributfs from tif originbl bttributf sft,
+     * fxdfpt in tif dbsf tibt tif DodFlbvor is unsupportfd.
+     * <p>
+     * If bny bttributfs brf unsupportfd only bfdbusf tify brf in donflidt
+     * witi otifr bttributfs tifn it is bt tif disdrftion of tif sfrvidf
+     * to sflfdt tif bttributf(s) to bf idfntififd bs tif dbusf of tif
+     * donflidt.
+     * <p>
+     * Usf <dodf>isDodFlbvorSupportfd()</dodf> to vfrify tibt b DodFlbvor
+     * is supportfd bfforf dblling tiis mftiod.
+     *
+     * @pbrbm  flbvor      Dod flbvor to tfst, or null
+     * @pbrbm  bttributfs  Sft of printing bttributfs for b supposfd job
+     *                        (boti job-lfvfl bttributfs bnd dodumfnt-lfvfl
+     *                        bttributfs), or null.
+     *
+     * @rfturn  null if tiis Print Sfrvidf supports tif print rfqufst
+     * spfdifidbtion, flsf tif unsupportfd bttributfs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if<CODE>flbvor</CODE> is
+     *             not supportfd by tiis PrintSfrvidf.
+     */
+    publid AttributfSft gftUnsupportfdAttributfs(DodFlbvor flbvor,
+                                           AttributfSft bttributfs);
+
+    /**
+     * Rfturns b fbdtory for UI domponfnts wiidi bllow usfrs to intfrbdt
+     * witi tif sfrvidf in vbrious rolfs.
+     * Sfrvidfs wiidi do not providf bny UI siould rfturn null.
+     * Print Sfrvidfs wiidi do providf UI but wbnt to bf supportfd in
+     * bn fnvironmfnt witi no UI support siould fnsurf tibt tif fbdtory
+     * is not initiblisfd unlfss tif bpplidbtion dblls tiis mftiod to
+     * obtbin tif fbdtory.
+     * Sff <dodf>SfrvidfUIFbdtory</dodf> for morf informbtion.
+     * @rfturn null or b fbdtory for UI domponfnts.
+     */
+    publid SfrvidfUIFbdtory gftSfrvidfUIFbdtory();
+
+    /**
+     * Dftfrminfs if two sfrvidfs brf rfffrring to tif sbmf undfrlying
+     * sfrvidf.  Objfdts fndbpsulbting b print sfrvidf mby not fxiibit
+     * fqublity of rfffrfndf fvfn tiougi tify rfffr to tif sbmf undfrlying
+     * sfrvidf.
+     * <p>
+     * Clifnts siould dbll tiis mftiod to dftfrminf if two sfrvidfs brf
+     * rfffrring to tif sbmf undfrlying sfrvidf.
+     * <p>
+     * Sfrvidfs must implfmfnt tiis mftiod bnd rfturn truf only if tif
+     * sfrvidf objfdts bfing dompbrfd mby bf usfd intfrdibngfbbly by tif
+     * dlifnt.
+     * Sfrvidfs brf frff to rfturn tif sbmf objfdt rfffrfndf to bn undfrlying
+     * sfrvidf if tibt, but dlifnts must not dfpfnd on fqublity of rfffrfndf.
+     * @pbrbm obj tif rfffrfndf objfdt witi wiidi to dompbrf.
+     * @rfturn truf if tiis sfrvidf is tif sbmf bs tif obj brgumfnt,
+     * fblsf otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Tiis mftiod siould bf implfmfntfd donsistfntly witi
+     * <dodf>fqubls(Objfdt)</dodf>.
+     * @rfturn ibsi dodf of tiis objfdt.
+     */
+    publid int ibsiCodf();
+
+}

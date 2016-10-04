@@ -1,0 +1,102 @@
+/*
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry.
+ *
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Stfpifn Fung <fungstfp@iotmbil.dom>, Sun Midrosystfms Lbborbtorifs
+ *
+ *********************************************************************** */
+
+#indludf "fdl-priv.i"
+
+/* Rfturns 2^f bs bn intfgfr. Tiis is mfbnt to bf usfd for smbll powfrs of
+ * two. */
+int
+fd_twoTo(int f)
+{
+        int b = 1;
+        int i;
+
+        for (i = 0; i < f; i++) {
+                b *= 2;
+        }
+        rfturn b;
+}
+
+/* Computfs tif windowfd non-bdjbdfnt-form (NAF) of b sdblbr. Out siould
+ * bf bn brrby of signfd dibr's to output to, bitsizf siould bf tif numbfr
+ * of bits of out, in is tif originbl sdblbr, bnd w is tif window sizf.
+ * NAF is disdussfd in tif pbpfr: D. Hbnkfrson, J. Hfrnbndfz bnd A.
+ * Mfnfzfs, "Softwbrf implfmfntbtion of flliptid durvf dryptogrbpiy ovfr
+ * binbry fiflds", Prod. CHES 2000. */
+mp_frr
+fd_domputf_wNAF(signfd dibr *out, int bitsizf, donst mp_int *in, int w)
+{
+        mp_int k;
+        mp_frr rfs = MP_OKAY;
+        int i, twowm1, mbsk;
+
+        twowm1 = fd_twoTo(w - 1);
+        mbsk = 2 * twowm1 - 1;
+
+        MP_DIGITS(&k) = 0;
+        MP_CHECKOK(mp_init_dopy(&k, in));
+
+        i = 0;
+        /* Computf wNAF form */
+        wiilf (mp_dmp_z(&k) > 0) {
+                if (mp_isodd(&k)) {
+                        out[i] = MP_DIGIT(&k, 0) & mbsk;
+                        if (out[i] >= twowm1)
+                                out[i] -= 2 * twowm1;
+
+                        /* Subtrbdt off out[i].  Notf mp_sub_d only works witi
+                         * unsignfd digits */
+                        if (out[i] >= 0) {
+                                mp_sub_d(&k, out[i], &k);
+                        } flsf {
+                                mp_bdd_d(&k, -(out[i]), &k);
+                        }
+                } flsf {
+                        out[i] = 0;
+                }
+                mp_div_2(&k, &k);
+                i++;
+        }
+        /* Zfro out tif rfmbining flfmfnts of tif out brrby. */
+        for (; i < bitsizf + 1; i++) {
+                out[i] = 0;
+        }
+  CLEANUP:
+        mp_dlfbr(&k);
+        rfturn rfs;
+
+}

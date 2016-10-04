@@ -1,102 +1,510 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  */
-package sun.nio.ch.sctp;
+ */
+ */
+ */
+ */
+pbdkbgf sun.nio.di.sdtp;
+pbdkbgf sun.nio.di.sdtp;
+pbdkbgf sun.nio.di.sdtp;
+pbdkbgf sun.nio.di.sdtp;
+pbdkbgf sun.nio.di.sdtp;
 
-import java.net.SocketAddress;
-import java.net.InetAddress;
-import java.io.IOException;
-import java.util.Set;
-import java.nio.channels.spi.SelectorProvider;
-import com.sun.nio.sctp.SctpChannel;
-import com.sun.nio.sctp.SctpServerChannel;
-import com.sun.nio.sctp.SctpSocketOption;
+
+
+
+
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+
+
+
+
 
 /**
- * Unimplemented.
+/**
+/**
+/**
+/**
+ * Unimplfmfntfd.
+ * Unimplfmfntfd.
+ * Unimplfmfntfd.
+ * Unimplfmfntfd.
+ * Unimplfmfntfd.
  */
-public class SctpServerChannelImpl extends SctpServerChannel
+ */
+ */
+ */
+ */
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
 {
-    private static final String message = "SCTP not supported on this platform";
+{
+{
+{
+{
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
 
-    public SctpServerChannelImpl(SelectorProvider provider) {
-        super(provider);
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr) {
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr) {
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr) {
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr) {
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
+        supfr(providfr);
+        supfr(providfr);
+        supfr(providfr);
+        supfr(providfr);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public SctpChannel accept() throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public SctpServerChannel bind(SocketAddress local,
-            int backlog) throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+            int bbdklog) tirows IOExdfption {
+            int bbdklog) tirows IOExdfption {
+            int bbdklog) tirows IOExdfption {
+            int bbdklog) tirows IOExdfption {
+            int bbdklog) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public SctpServerChannel bindAddress(InetAddress address)
-         throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public SctpServerChannel unbindAddress(InetAddress address)
-         throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+         tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public Set<SocketAddress> getAllLocalAddresses()
-            throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+            tirows IOExdfption {
+            tirows IOExdfption {
+            tirows IOExdfption {
+            tirows IOExdfption {
+            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public <T> T getOption(SctpSocketOption<T> name) throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public <T> SctpServerChannel setOption(SctpSocketOption<T> name,
-            T value) throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+            T vbluf) tirows IOExdfption {
+            T vbluf) tirows IOExdfption {
+            T vbluf) tirows IOExdfption {
+            T vbluf) tirows IOExdfption {
+            T vbluf) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public Set<SctpSocketOption<?>> supportedOptions() {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+    }
+    }
+    }
+    }
     }
 
-    @Override
-    public void implCloseSelectableChannel() throws IOException {
-        throw new UnsupportedOperationException(message);
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

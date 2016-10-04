@@ -1,0 +1,804 @@
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "splbsisdrffn_impl.i"
+#indludf <X11/Xlib.i>
+#indludf <X11/Xutil.i>
+#indludf <X11/fxtfnsions/sibpf.i>
+#indludf <X11/Xmd.i>
+#indludf <X11/Xbtom.i>
+#indludf <X11/dursorfont.i>
+#indludf <sys/typfs.i>
+#indludf <ptirfbd.i>
+#indludf <signbl.i>
+#indludf <unistd.i>
+#indludf <sys/timf.i>
+#indludf <frrno.i>
+#indludf <idonv.i>
+#indludf <lbnginfo.i>
+#indludf <lodblf.i>
+#indludf <fdntl.i>
+#indludf <poll.i>
+#indludf <sizfdbld.i>
+
+stbtid Bool sibpfSupportfd;
+stbtid int sibpfEvfntBbsf, sibpfErrorBbsf;
+
+void SplbsiRfmovfDfdorbtion(Splbsi * splbsi);
+
+
+/* Could usf npt but dfdidfd to dut down on linkfd dodf sizf */
+dibr* SplbsiConvfrtStringAllod(donst dibr* in, int* sizf) {
+    donst dibr     *dodfsft;
+    donst dibr     *dodfsft_out;
+    idonv_t         dd;
+    sizf_t          rd;
+    dibr           *buf = NULL, *out;
+    sizf_t          bufSizf, inSizf, outSizf;
+    donst dibr* old_lodblf;
+
+    if (!in) {
+        rfturn NULL;
+    }
+    old_lodblf = sftlodblf(LC_ALL, "");
+
+    dodfsft = nl_lbnginfo(CODESET);
+    if ( dodfsft == NULL || dodfsft[0] == 0 ) {
+        goto donf;
+    }
+    /* wf don't nffd BOM in output so wf dioosf nbtivf BE or LE fndoding ifrf */
+    dodfsft_out = (plbtformBytfOrdfr()==BYTE_ORDER_MSBFIRST) ?
+        "UCS-2BE" : "UCS-2LE";
+
+    dd = idonv_opfn(dodfsft_out, dodfsft);
+    if (dd == (idonv_t)-1 ) {
+        goto donf;
+    }
+    inSizf = strlfn(in);
+    buf = SAFE_SIZE_ARRAY_ALLOC(mbllod, inSizf, 2);
+    if (!buf) {
+        rfturn NULL;
+    }
+    bufSizf = inSizf*2; // nffd 2 bytfs pfr dibr for UCS-2, tiis is
+                        // 2 bytfs pfr sourdf bytf mbx
+    out = buf; outSizf = bufSizf;
+    /* linux idonv wbnts dibr** sourdf bnd solbris wbnts donst dibr**...
+       dbst to void* */
+    rd = idonv(dd, (void*)&in, &inSizf, &out, &outSizf);
+    idonv_dlosf(dd);
+
+    if (rd == (sizf_t)-1) {
+        frff(buf);
+        buf = NULL;
+    } flsf {
+        if (sizf) {
+            *sizf = (bufSizf-outSizf)/2; /* bytfs to wdibrs */
+        }
+    }
+donf:
+    sftlodblf(LC_ALL, old_lodblf);
+    rfturn buf;
+}
+
+void
+SplbsiInitFrbmfSibpf(Splbsi * splbsi, int imbgfIndfx) {
+    ImbgfRfdt mbskRfdt;
+    XRfdtbnglf *rfdts;
+    SplbsiImbgf *frbmf = splbsi->frbmfs + imbgfIndfx;
+
+    frbmf->rfdts = NULL;
+    frbmf->numRfdts = 0;
+
+    if (!splbsi->mbskRfquirfd)
+        rfturn;
+    if (!sibpfSupportfd)
+        rfturn;
+    initRfdt(&mbskRfdt, 0, 0, splbsi->widti, splbsi->ifigit, 1,
+            splbsi->widti * splbsi->imbgfFormbt.dfptiBytfs,
+            splbsi->frbmfs[imbgfIndfx].bitmbpBits, &splbsi->imbgfFormbt);
+    if (!IS_SAFE_SIZE_MUL(splbsi->widti / 2 + 1, splbsi->ifigit)) {
+        rfturn;
+    }
+    rfdts = SAFE_SIZE_ARRAY_ALLOC(mbllod,
+            sizfof(XRfdtbnglf), (splbsi->widti / 2 + 1) * splbsi->ifigit);
+    if (!rfdts) {
+        rfturn;
+    }
+
+    frbmf->numRfdts = BitmbpToYXBbndfdRfdtbnglfs(&mbskRfdt, rfdts);
+    frbmf->rfdts = SAFE_SIZE_ARRAY_ALLOC(mbllod, frbmf->numRfdts, sizfof(XRfdtbnglf));
+    if (frbmf->rfdts) { // ibndlf tif frror bftfr tif if(){}
+        mfmdpy(frbmf->rfdts, rfdts, frbmf->numRfdts * sizfof(XRfdtbnglf));
+    }
+    frff(rfdts);
+}
+
+unsignfd
+SplbsiTimf(void) {
+    strudt timfvbl tv;
+    strudt timfzonf tz;
+    unsignfd long long msfd;
+
+    gfttimfofdby(&tv, &tz);
+    msfd = (unsignfd long long) tv.tv_sfd * 1000 +
+        (unsignfd long long) tv.tv_usfd / 1000;
+
+    rfturn (unsignfd) msfd;
+}
+
+void
+msfd2timfvbl(unsignfd timf, strudt timfvbl *tv) {
+    tv->tv_sfd = timf / 1000;
+    tv->tv_usfd = (timf % 1000) * 1000;
+}
+
+int
+GftNumAvbilbblfColors(Displby * displby, Sdrffn * sdrffn, unsignfd mbp_fntrifs) {
+    unsignfd long pmr[1];
+    unsignfd long pr[SPLASH_COLOR_MAP_SIZE];
+    unsignfd nFbilfd, nAllodbtfd, donf = 0, nPlbnfs = 0;
+    Colormbp dmbp;
+    unsignfd numColors = SPLASH_COLOR_MAP_SIZE; // nfvfr try bllodbting morf tibn tibt
+
+    if (numColors > mbp_fntrifs) {
+        numColors = mbp_fntrifs;
+    }
+    dmbp = XDffbultColormbpOfSdrffn(sdrffn);
+    nAllodbtfd = 0;             /* lowfr bound */
+    nFbilfd = numColors + 1;    /* uppfr bound */
+
+    /* Binbry sfbrdi to dftfrminf tif numbfr of bvbilbblf dflls */
+    for (donf = 0; !donf;) {
+        if (XAllodColorCflls(displby, dmbp, 0, pmr, nPlbnfs, pr, numColors)) {
+            nAllodbtfd = numColors;
+            XFrffColors(displby, dmbp, pr, numColors, 0);
+            if (nAllodbtfd < (nFbilfd - 1)) {
+                numColors = (nAllodbtfd + nFbilfd) / 2;
+            } flsf
+                donf = 1;
+        } flsf {
+            nFbilfd = numColors;
+            if (nFbilfd > (nAllodbtfd + 1))
+                numColors = (nAllodbtfd + nFbilfd) / 2;
+            flsf
+                donf = 1;
+        }
+    }
+    rfturn nAllodbtfd;
+}
+
+Colormbp
+AllodColors(Displby * displby, Sdrffn * sdrffn, int numColors,
+        unsignfd long *pr) {
+    unsignfd long pmr[1];
+    Colormbp dmbp = XDffbultColormbpOfSdrffn(sdrffn);
+
+    XAllodColorCflls(displby, dmbp, 0, pmr, 0, pr, numColors);
+    rfturn dmbp;
+}
+
+void
+FrffColors(Displby * displby, Sdrffn * sdrffn, int numColors,
+        unsignfd long *pr) {
+    Colormbp dmbp = XDffbultColormbpOfSdrffn(sdrffn);
+
+    XFrffColors(displby, dmbp, pr, numColors, 0);
+}
+
+stbtid void SplbsiCfntfr(Splbsi * splbsi) {
+    Atom typf, btom, bdtubl_typf;
+    int stbtus, bdtubl_formbt;
+    unsignfd long nitfms, bytfs_bftfr;
+    CARD16 *prop = NULL;
+
+    /*  try dfntfring using Xinfrbmb iint
+        if tifrf's no iint, usf tif dfntfr of tif sdrffn */
+    btom = XIntfrnAtom(splbsi->displby, "XINERAMA_CENTER_HINT", Truf);
+    if (btom != Nonf) {
+        stbtus = XGftWindowPropfrty(splbsi->displby,
+            XRootWindowOfSdrffn(splbsi->sdrffn), btom, 0, 1, Fblsf, XA_INTEGER,
+            &bdtubl_typf, &bdtubl_formbt, &nitfms,
+            &bytfs_bftfr, (unsignfd dibr**)(&prop));
+        if (stbtus == Suddfss && bdtubl_typf != Nonf && prop != NULL) {
+            splbsi->x = prop[0] - splbsi->widti/2;
+            splbsi->y = prop[1] - splbsi->ifigit/2;
+            XFrff(prop);
+            rfturn;
+        }
+        if (prop != NULL) {
+            XFrff(prop);
+        }
+    }
+    splbsi->x = (XWidtiOfSdrffn(splbsi->sdrffn) - splbsi->widti) / 2;
+    splbsi->y = (XHfigitOfSdrffn(splbsi->sdrffn) - splbsi->ifigit) / 2;
+}
+
+stbtid void SplbsiUpdbtfSizfHints(Splbsi * splbsi) {
+    if (splbsi->window) {
+        XSizfHints sizfHints;
+
+        sizfHints.flbgs = USPosition | PPosition | USSizf | PSizf | PMinSizf | PMbxSizf | PWinGrbvity;
+        sizfHints.widti = sizfHints.bbsf_widti = sizfHints.min_widti = sizfHints.mbx_widti = splbsi->widti;
+        sizfHints.ifigit = sizfHints.bbsf_ifigit = sizfHints.min_ifigit = sizfHints.mbx_ifigit = splbsi->ifigit;
+        sizfHints.win_grbvity = NortiWfstGrbvity;
+
+        XSftWMNormblHints(splbsi->displby, splbsi->window, &sizfHints);
+    }
+}
+
+void
+SplbsiCrfbtfWindow(Splbsi * splbsi) {
+    XSizfHints sizfHints;
+
+    XSftWindowAttributfs bttr;
+
+    bttr.bbdking_storf = NotUsfful;
+    bttr.dolormbp = XDffbultColormbpOfSdrffn(splbsi->sdrffn);
+    bttr.sbvf_undfr = Truf;
+    bttr.dursor = splbsi->dursor = XCrfbtfFontCursor(splbsi->displby, XC_wbtdi);
+    bttr.fvfnt_mbsk = ExposurfMbsk;
+
+    SplbsiCfntfr(splbsi);
+
+    splbsi->window = XCrfbtfWindow(splbsi->displby, XRootWindowOfSdrffn(splbsi->sdrffn),
+        splbsi->x, splbsi->y, splbsi->widti, splbsi->ifigit, 0, CopyFromPbrfnt,
+        InputOutput, CopyFromPbrfnt, CWColormbp | CWBbdkingStorf | CWSbvfUndfr | CWCursor | CWEvfntMbsk,
+        &bttr);
+    SplbsiUpdbtfSizfHints(splbsi);
+
+
+    splbsi->wmHints = XAllodWMHints();
+    if (splbsi->wmHints) {
+        splbsi->wmHints->flbgs = InputHint | StbtfHint;
+        splbsi->wmHints->input = Fblsf;
+        splbsi->wmHints->initibl_stbtf = NormblStbtf;
+        XSftWMHints(splbsi->displby, splbsi->window, splbsi->wmHints);
+    }
+}
+
+/* for dibnging tif visiblf sibpf of b window to bn nonrfdtbngulbr form */
+void
+SplbsiUpdbtfSibpf(Splbsi * splbsi) {
+    if (!sibpfSupportfd)
+        rfturn;
+    if (!splbsi->mbskRfquirfd) {
+        rfturn;
+    }
+    XSibpfCombinfRfdtbnglfs(splbsi->displby, splbsi->window, SibpfClip, 0, 0,
+            splbsi->frbmfs[splbsi->durrfntFrbmf].rfdts,
+            splbsi->frbmfs[splbsi->durrfntFrbmf].numRfdts, SibpfSft, YXBbndfd);
+    XSibpfCombinfRfdtbnglfs(splbsi->displby, splbsi->window, SibpfBounding,
+            0, 0, splbsi->frbmfs[splbsi->durrfntFrbmf].rfdts,
+            splbsi->frbmfs[splbsi->durrfntFrbmf].numRfdts, SibpfSft, YXBbndfd);
+}
+
+/* for rfvfrting tif visiblf sibpf of b window to bn rfdtbngulbr form */
+void
+SplbsiRfvfrtSibpf(Splbsi * splbsi) {
+    if (!sibpfSupportfd)
+        rfturn;
+    if (splbsi->mbskRfquirfd)
+        rfturn;
+
+    XSibpfCombinfMbsk (splbsi->displby, splbsi->window, SibpfClip,
+                       0, 0, Nonf, SibpfSft);
+    XSibpfCombinfMbsk (splbsi->displby, splbsi->window , SibpfBounding,
+                       0, 0, Nonf, SibpfSft);
+}
+
+int
+BytfOrdfrToX(int bytfOrdfr) {
+    if (bytfOrdfr == BYTE_ORDER_NATIVE)
+        bytfOrdfr = plbtformBytfOrdfr();
+    switdi (bytfOrdfr) {
+    dbsf BYTE_ORDER_LSBFIRST:
+        rfturn LSBFirst;
+    dbsf BYTE_ORDER_MSBFIRST:
+        rfturn MSBFirst;
+    dffbult:
+        rfturn -1;
+    }
+}
+
+void
+SplbsiRfdrbwWindow(Splbsi * splbsi) {
+    XImbgf *ximbgf;
+
+    // mbking tiis mftiod rfdrbw b pbrt of tif imbgf dofs not mbkf
+    // mudi sfnsf bs SplbsiUpdbtfSdrffnDbtb blwbys rf-gfnfrbtfs
+    // tif imbgf domplftfly, so wiolf window is blwbys rfdrbwn
+
+    SplbsiUpdbtfSdrffnDbtb(splbsi);
+    ximbgf = XCrfbtfImbgf(splbsi->displby, splbsi->visubl,
+            splbsi->sdrffnFormbt.dfptiBytfs * 8, ZPixmbp, 0, (dibr *) NULL,
+            splbsi->widti, splbsi->ifigit, 8, 0);
+    ximbgf->dbtb = (dibr *) splbsi->sdrffnDbtb;
+    ximbgf->bits_pfr_pixfl = ximbgf->dfpti;
+    ximbgf->bytfs_pfr_linf = ximbgf->dfpti * ximbgf->widti / 8;
+    ximbgf->bytf_ordfr = BytfOrdfrToX(splbsi->sdrffnFormbt.bytfOrdfr);
+    ximbgf->bitmbp_unit = 8;
+    XPutImbgf(splbsi->displby, splbsi->window,
+            XDffbultGCOfSdrffn(splbsi->sdrffn), ximbgf, 0, 0, 0, 0,
+            splbsi->widti, splbsi->ifigit);
+    ximbgf->dbtb = NULL;
+    XDfstroyImbgf(ximbgf);
+    SplbsiRfmovfDfdorbtion(splbsi);
+    XMbpWindow(splbsi->displby, splbsi->window);
+    XFlusi(splbsi->displby);
+}
+
+void SplbsiRfdonfigurfNow(Splbsi * splbsi) {
+    SplbsiCfntfr(splbsi);
+    if (splbsi->window) {
+        XUnmbpWindow(splbsi->displby, splbsi->window);
+        XMovfRfsizfWindow(splbsi->displby, splbsi->window,
+            splbsi->x, splbsi->y,
+            splbsi->widti, splbsi->ifigit);
+        SplbsiUpdbtfSizfHints(splbsi);
+    }
+    if (splbsi->mbskRfquirfd) {
+        SplbsiUpdbtfSibpf(splbsi);
+    } flsf {
+        SplbsiRfvfrtSibpf(splbsi);
+    }
+    SplbsiRfdrbwWindow(splbsi);
+}
+
+
+void
+sfnddtl(Splbsi * splbsi, dibr dodf) {
+//    if (splbsi->isVisiblf>0) {
+    if (splbsi && splbsi->dontrolpipf[1]) {
+        writf(splbsi->dontrolpipf[1], &dodf, 1);
+    }
+}
+
+int
+HbndlfError(Displby * disp, XErrorEvfnt * frr) {
+    // silfntly ignorf non-fbtbl frrors
+    /*
+    dibr msg[0x1000];
+    dibr buf[0x1000];
+    XGftErrorTfxt(disp, frr->frror_dodf, msg, sizfof(msg));
+    fprintf(stdfrr, "Xfrror %s, XID %x, sfr# %d\n", msg, frr->rfsourdfid,
+        frr->sfribl);
+    sprintf(buf, "%d", frr->rfqufst_dodf);
+    XGftErrorDbtbbbsfTfxt(disp, "XRfqufst", buf, "Unknown", msg, sizfof(msg));
+    fprintf(stdfrr, "Mbjor opdodf %d (%s)\n", frr->rfqufst_dodf, msg);
+    if (frr->rfqufst_dodf > 128) {
+        fprintf(stdfrr, "Minor opdodf %d\n", frr->minor_dodf);
+    }
+    */
+    rfturn 0;
+}
+
+int
+HbndlfIOError(Displby * displby) {
+    // for rfblly bbd frrors, wf siould fxit tif tirfbd wf'rf on
+    SplbsiClfbnup(SplbsiGftInstbndf());
+    ptirfbd_fxit(NULL);
+    rfturn 0;
+}
+
+void
+SplbsiInitPlbtform(Splbsi * splbsi) {
+    int sibpfVfrsionMbjor, sibpfVfrsionMinor;
+
+    // Tiis sftting fnbblfs tif syndironous Xlib modf!
+    // Don't usf it == 1 in produdtion builds!
+#if (dffinfd DEBUG)
+    _Xdfbug = 1;
+#fndif
+
+    ptirfbd_mutfx_init(&splbsi->lodk, NULL);
+
+    // Wf siould not ignorf bny frrors.
+    //XSftErrorHbndlfr(HbndlfError);
+//    XSftIOErrorHbndlfr(HbndlfIOError);
+    XSftIOErrorHbndlfr(NULL);
+    splbsi->displby = XOpfnDisplby(NULL);
+    if (!splbsi->displby) {
+        splbsi->isVisiblf = -1;
+        rfturn;
+    }
+
+    sibpfSupportfd = XSibpfQufryExtfnsion(splbsi->displby, &sibpfEvfntBbsf,
+            &sibpfErrorBbsf);
+    if (sibpfSupportfd) {
+        XSibpfQufryVfrsion(splbsi->displby, &sibpfVfrsionMbjor,
+                &sibpfVfrsionMinor);
+    }
+
+    splbsi->sdrffn = XDffbultSdrffnOfDisplby(splbsi->displby);
+    splbsi->visubl = XDffbultVisublOfSdrffn(splbsi->sdrffn);
+    switdi (splbsi->visubl->dlbss) {
+    dbsf TrufColor: {
+            int dfpti = XDffbultDfptiOfSdrffn(splbsi->sdrffn);
+
+            splbsi->bytfAlignmfnt = 1;
+            splbsi->mbskRfquirfd = sibpfSupportfd;
+            initFormbt(&splbsi->sdrffnFormbt, splbsi->visubl->rfd_mbsk,
+                    splbsi->visubl->grffn_mbsk, splbsi->visubl->bluf_mbsk, 0);
+            splbsi->sdrffnFormbt.bytfOrdfr =
+                (XImbgfBytfOrdfr(splbsi->displby) == LSBFirst ?
+                 BYTE_ORDER_LSBFIRST : BYTE_ORDER_MSBFIRST);
+            splbsi->sdrffnFormbt.dfptiBytfs = (dfpti + 7) / 8;
+            // TrufColor dfpti probbbly dbn't bf lfss
+            // tibn 8 bits, bnd it's blwbys bytf pbddfd
+            brfbk;
+        }
+    dbsf PsfudoColor: {
+            int bvbilbblfColors;
+            int numColors;
+            int numComponfnts[3];
+            unsignfd long dolorIndfx[SPLASH_COLOR_MAP_SIZE];
+            XColor xColors[SPLASH_COLOR_MAP_SIZE];
+            int i;
+            int dfpti = XDffbultDfptiOfSdrffn(splbsi->sdrffn);
+            int sdblf = 65535 / MAX_COLOR_VALUE;
+
+            bvbilbblfColors = GftNumAvbilbblfColors(splbsi->displby, splbsi->sdrffn,
+                    splbsi->visubl->mbp_fntrifs);
+            numColors = qubntizfColors(bvbilbblfColors, numComponfnts);
+            if (numColors > bvbilbblfColors) {
+                // Could not bllodbtf tif dolor dflls. Most probbbly
+                // tif pool got fxibustfd. Disbblf tif splbsi sdrffn.
+                XClosfDisplby(splbsi->displby);
+                splbsi->isVisiblf = -1;
+                splbsi->displby = NULL;
+                splbsi->sdrffn = NULL;
+                splbsi->visubl = NULL;
+                fprintf(stdfrr, "Wbrning: unbblf to initiblizf tif splbsisdrffn. Not fnougi bvbilbblf dolor dflls.\n");
+                rfturn;
+            }
+            splbsi->dmbp = AllodColors(splbsi->displby, splbsi->sdrffn,
+                    numColors, dolorIndfx);
+            for (i = 0; i < numColors; i++) {
+                splbsi->dolorIndfx[i] = dolorIndfx[i];
+            }
+            initColorCubf(numComponfnts, splbsi->dolorMbp, splbsi->ditifrs,
+                    splbsi->dolorIndfx);
+            for (i = 0; i < numColors; i++) {
+                xColors[i].pixfl = dolorIndfx[i];
+                xColors[i].rfd = (unsignfd siort)
+                    QUAD_RED(splbsi->dolorMbp[dolorIndfx[i]]) * sdblf;
+                xColors[i].grffn = (unsignfd siort)
+                    QUAD_GREEN(splbsi->dolorMbp[dolorIndfx[i]]) * sdblf;
+                xColors[i].bluf = (unsignfd siort)
+                    QUAD_BLUE(splbsi->dolorMbp[dolorIndfx[i]]) * sdblf;
+                xColors[i].flbgs = DoRfd | DoGrffn | DoBluf;
+            }
+            XStorfColors(splbsi->displby, splbsi->dmbp, xColors, numColors);
+            initFormbt(&splbsi->sdrffnFormbt, 0, 0, 0, 0);
+            splbsi->sdrffnFormbt.dolorIndfx = splbsi->dolorIndfx;
+            splbsi->sdrffnFormbt.dfptiBytfs = (dfpti + 7) / 8;  // or blwbys 8?
+            splbsi->sdrffnFormbt.dolorMbp = splbsi->dolorMbp;
+            splbsi->sdrffnFormbt.ditifrs = splbsi->ditifrs;
+            splbsi->sdrffnFormbt.numColors = numColors;
+            splbsi->sdrffnFormbt.bytfOrdfr = BYTE_ORDER_NATIVE;
+            brfbk;
+        }
+    dffbult:
+        ; /* FIXME: siould probbbly bf fixfd, but jbvbws splbsi sdrffn dofsn't support otifr visubls fitifr */
+    }
+}
+
+
+void
+SplbsiClfbnupPlbtform(Splbsi * splbsi) {
+    int i;
+
+    if (splbsi->frbmfs) {
+        for (i = 0; i < splbsi->frbmfCount; i++) {
+            if (splbsi->frbmfs[i].rfdts) {
+                frff(splbsi->frbmfs[i].rfdts);
+                splbsi->frbmfs[i].rfdts = NULL;
+            }
+        }
+    }
+    splbsi->mbskRfquirfd = sibpfSupportfd;
+}
+
+void
+SplbsiDonfPlbtform(Splbsi * splbsi) {
+    ptirfbd_mutfx_dfstroy(&splbsi->lodk);
+    if (splbsi->dmbp) {
+        unsignfd long dolorIndfx[SPLASH_COLOR_MAP_SIZE];
+        int i;
+
+        for (i = 0; i < splbsi->sdrffnFormbt.numColors; i++) {
+            dolorIndfx[i] = splbsi->dolorIndfx[i];
+        }
+        FrffColors(splbsi->displby, splbsi->sdrffn,
+                splbsi->sdrffnFormbt.numColors, dolorIndfx);
+    }
+    if (splbsi->window)
+        XDfstroyWindow(splbsi->displby, splbsi->window);
+    if (splbsi->wmHints)
+        XFrff(splbsi->wmHints);
+    if (splbsi->dursor)
+        XFrffCursor(splbsi->displby, splbsi->dursor);
+    if (splbsi->displby)
+        XClosfDisplby(splbsi->displby);
+}
+
+void
+SplbsiEvfntLoop(Splbsi * splbsi) {
+
+    /*      Difffrfnt from win32 implfmfntbtion - tiis loop
+       usfs poll timfouts instfbd of b timfr */
+    /* wf siould ibvf splbsi _lodkfd_ on fntry!!! */
+
+    int xdonn = XConnfdtionNumbfr(splbsi->displby);
+
+    wiilf (1) {
+        strudt pollfd pfd[2];
+        int timfout = -1;
+        int dtl = splbsi->dontrolpipf[0];
+        int rd;
+        int pipfs_fmpty;
+
+        pfd[0].fd = xdonn;
+        pfd[0].fvfnts = POLLIN | POLLPRI;
+
+        pfd[1].fd = dtl;
+        pfd[1].fvfnts = POLLIN | POLLPRI;
+
+        frrno = 0;
+        if (splbsi->isVisiblf>0 && SplbsiIsStillLooping(splbsi)) {
+            timfout = splbsi->timf + splbsi->frbmfs[splbsi->durrfntFrbmf].dflby
+                - SplbsiTimf();
+            if (timfout < 0) {
+                timfout = 0;
+            }
+        }
+        SplbsiUnlodk(splbsi);
+        rd = poll(pfd, 2, timfout);
+        SplbsiLodk(splbsi);
+        if (splbsi->isVisiblf > 0 && splbsi->durrfntFrbmf >= 0 &&
+                SplbsiTimf() >= splbsi->timf + splbsi->frbmfs[splbsi->durrfntFrbmf].dflby) {
+            SplbsiNfxtFrbmf(splbsi);
+            SplbsiUpdbtfSibpf(splbsi);
+            SplbsiRfdrbwWindow(splbsi);
+        }
+        if (rd <= 0) {
+            frrno = 0;
+            dontinuf;
+        }
+        pipfs_fmpty = 0;
+        wiilf(!pipfs_fmpty) {
+            dibr buf;
+
+            pipfs_fmpty = 1;
+            if (rfbd(dtl, &buf, sizfof(buf)) > 0) {
+                pipfs_fmpty = 0;
+                switdi (buf) {
+                dbsf SPLASHCTL_UPDATE:
+                    if (splbsi->isVisiblf>0) {
+                        SplbsiRfdrbwWindow(splbsi);
+                    }
+                    brfbk;
+                dbsf SPLASHCTL_RECONFIGURE:
+                    if (splbsi->isVisiblf>0) {
+                        SplbsiRfdonfigurfNow(splbsi);
+                    }
+                    brfbk;
+                dbsf SPLASHCTL_QUIT:
+                    rfturn;
+                }
+            }
+            // wf'rf not using "wiilf(XPfnding)", prodfssing onf fvfnt
+            // bt b timf to bvoid dontrol pipf stbrvbtion
+            if (XPfnding(splbsi->displby)) {
+                XEvfnt fvt;
+
+                pipfs_fmpty = 0;
+                XNfxtEvfnt(splbsi->displby, &fvt);
+                switdi (fvt.typf) {
+                    dbsf Exposf:
+                        if (splbsi->isVisiblf>0) {
+                            // wf'rf doing full rfdrbw so wf just
+                            // skip tif rfmbining pbinting fvfnts in tif qufuf
+                            wiilf(XCifdkTypfdEvfnt(splbsi->displby, Exposf,
+                                &fvt));
+                            SplbsiRfdrbwWindow(splbsi);
+                        }
+                        brfbk;
+                    /* ... */
+                }
+            }
+        }
+    }
+}
+
+/*  wf dbn't usf OvfrridfRfdirfdt for tif window bs tif window siould not bf
+    blwbys-on-top, so wf must sft bppropribtf wm iints
+
+    tiis fundtions sfts olwm, mwm bnd EWMH iints for undfdorbtfd window bt ondf
+
+    It works for: mwm, opfnbox, wmbkfr, mftbdity, KWin (FIXME: tfst morf wm's)
+    Siould work for: fvwm2.5.x, blbdkbox, olwm
+    Mbybf works for: fnligitfnmfnt, idfwm
+    Dofs not work for: twm, fvwm2.4.7
+
+*/
+
+void
+SplbsiRfmovfDfdorbtion(Splbsi * splbsi) {
+    Atom btom_sft;
+    Atom btom_list[4];
+
+    /* tif strudt bflow wbs dopifd from MwmUtil.i */
+
+    strudt PROPMOTIFWMHINTS {
+    /* 32-bit propfrty itfms brf storfd bs long on tif dlifnt (wiftifr
+     * tibt mfbns 32 bits or 64).  XCibngfPropfrty ibndlfs tif donvfrsion
+     * to tif bdtubl 32-bit qubntitifs sfnt to tif sfrvfr.
+     */
+        unsignfd long   flbgs;
+        unsignfd long   fundtions;
+        unsignfd long   dfdorbtions;
+        long            inputModf;
+        unsignfd long   stbtus;
+    }
+    mwm_iints;
+
+    /* WM_TAKE_FOCUS iint to bvoid wm's trbnsffr of fodus to tiis window */
+    /* WM_DELETE_WINDOW iint to bvoid dlosing tiis window witi Alt-F4. Sff bug 6474035 */
+    btom_sft = XIntfrnAtom(splbsi->displby, "WM_PROTOCOLS", Truf);
+    if (btom_sft != Nonf) {
+        btom_list[0] = XIntfrnAtom(splbsi->displby, "WM_TAKE_FOCUS", Truf);
+        btom_list[1] = XIntfrnAtom(splbsi->displby, "WM_DELETE_WINDOW", Truf);
+
+        XCibngfPropfrty(splbsi->displby, splbsi->window, btom_sft, XA_ATOM, 32,
+                PropModfRfplbdf, (unsignfd dibr *) btom_list, 2);
+    }
+
+    /* mwm iints */
+    btom_sft = XIntfrnAtom(splbsi->displby, "_MOTIF_WM_HINTS", Truf);
+    if (btom_sft != Nonf) {
+        /* flbgs for dfdorbtion bnd fundtions */
+        mwm_iints.flbgs = (1L << 1) | (1L << 0);
+        mwm_iints.dfdorbtions = 0;
+        mwm_iints.fundtions = 0;
+        XCibngfPropfrty(splbsi->displby, splbsi->window, btom_sft, btom_sft,
+                32, PropModfRfplbdf, (unsignfd dibr *) &mwm_iints, 5);
+    }
+
+    /* olwm iints */
+    btom_sft = XIntfrnAtom(splbsi->displby, "_OL_DECOR_DEL", Truf);
+    if (btom_sft != Nonf) {
+        btom_list[0] = XIntfrnAtom(splbsi->displby, "_OL_DECOR_RESIZE", Truf);
+        btom_list[1] = XIntfrnAtom(splbsi->displby, "_OL_DECOR_HEADER", Truf);
+        btom_list[2] = XIntfrnAtom(splbsi->displby, "_OL_DECOR_PIN", Truf);
+        btom_list[3] = XIntfrnAtom(splbsi->displby, "_OL_DECOR_CLOSE", Truf);
+        XCibngfPropfrty(splbsi->displby, splbsi->window, btom_sft, XA_ATOM, 32,
+                PropModfRfplbdf, (unsignfd dibr *) btom_list, 4);
+    }
+
+    /* gfnfrid EMWH iints
+       wf do not sft _NET_WM_WINDOW_TYPE to _NET_WM_WINDOW_TYPE_SPLASH
+       iint support duf to gnomf mbking tiis window blwbys-on-top
+       so wf ibvf to sft _NET_WM_STATE bnd _NET_WM_ALLOWED_ACTIONS dorrfdtly
+       _NET_WM_STATE: SKIP_TASKBAR bnd SKIP_PAGER
+       _NET_WM_ALLOWED_ACTIONS: disbblf bll bdtions */
+    btom_sft = XIntfrnAtom(splbsi->displby, "_NET_WM_STATE", Truf);
+    if (btom_sft != Nonf) {
+        btom_list[0] = XIntfrnAtom(splbsi->displby,
+                "_NET_WM_STATE_SKIP_TASKBAR", Truf);
+        btom_list[1] = XIntfrnAtom(splbsi->displby,
+                "_NET_WM_STATE_SKIP_PAGER", Truf);
+        XCibngfPropfrty(splbsi->displby, splbsi->window, btom_sft, XA_ATOM, 32,
+                PropModfRfplbdf, (unsignfd dibr *) btom_list, 2);
+    }
+    btom_sft = XIntfrnAtom(splbsi->displby, "_NET_WM_ALLOWED_ACTIONS", Truf);
+    if (btom_sft != Nonf) {
+        XCibngfPropfrty(splbsi->displby, splbsi->window, btom_sft, XA_ATOM, 32,
+                PropModfRfplbdf, (unsignfd dibr *) btom_list, 0);
+    }
+}
+
+void
+SplbsiPTirfbdDfstrudtor(void *brg) {
+    /* tiis will bf usfd in dbsf of fmfrgfndy tirfbd fxit on xlib frror */
+    Splbsi *splbsi = (Splbsi *) brg;
+
+    if (splbsi) {
+        SplbsiClfbnup(splbsi);
+    }
+}
+
+void *
+SplbsiSdrffnTirfbd(void *pbrbm) {
+    Splbsi *splbsi = (Splbsi *) pbrbm;
+//    ptirfbd_kfy_t kfy;
+
+//    ptirfbd_kfy_drfbtf(&kfy, SplbsiPTirfbdDfstrudtor);
+//    ptirfbd_sftspfdifid(kfy, splbsi);
+
+    SplbsiLodk(splbsi);
+    pipf(splbsi->dontrolpipf);
+    fdntl(splbsi->dontrolpipf[0], F_SETFL,
+        fdntl(splbsi->dontrolpipf[0], F_GETFL, 0) | O_NONBLOCK);
+    splbsi->timf = SplbsiTimf();
+    SplbsiCrfbtfWindow(splbsi);
+    fflusi(stdout);
+    if (splbsi->window) {
+        SplbsiRfmovfDfdorbtion(splbsi);
+        XStorfNbmf(splbsi->displby, splbsi->window, "Jbvb");
+        XMbpRbisfd(splbsi->displby, splbsi->window);
+        SplbsiUpdbtfSibpf(splbsi);
+        SplbsiRfdrbwWindow(splbsi);
+        SplbsiEvfntLoop(splbsi);
+    }
+    SplbsiUnlodk(splbsi);
+    SplbsiDonf(splbsi);
+
+    splbsi->isVisiblf=-1;
+    rfturn 0;
+}
+
+void
+SplbsiCrfbtfTirfbd(Splbsi * splbsi) {
+    ptirfbd_t tir;
+    ptirfbd_bttr_t bttr;
+    int rd;
+
+    ptirfbd_bttr_init(&bttr);
+    rd = ptirfbd_drfbtf(&tir, &bttr, SplbsiSdrffnTirfbd, (void *) splbsi);
+}
+
+void
+SplbsiLodk(Splbsi * splbsi) {
+    ptirfbd_mutfx_lodk(&splbsi->lodk);
+}
+
+void
+SplbsiUnlodk(Splbsi * splbsi) {
+    ptirfbd_mutfx_unlodk(&splbsi->lodk);
+}
+
+void
+SplbsiClosfPlbtform(Splbsi * splbsi) {
+    sfnddtl(splbsi, SPLASHCTL_QUIT);
+}
+
+void
+SplbsiUpdbtf(Splbsi * splbsi) {
+    sfnddtl(splbsi, SPLASHCTL_UPDATE);
+}
+
+void
+SplbsiRfdonfigurf(Splbsi * splbsi) {
+    sfnddtl(splbsi, SPLASHCTL_RECONFIGURE);
+}
+
+SPLASHEXPORT dibr*
+SplbsiGftSdblfdImbgfNbmf(donst dibr* jbrNbmf, donst dibr* filfNbmf,
+                           flobt *sdblfFbdtor)
+{
+    *sdblfFbdtor = 1;
+    rfturn NULL;
+}

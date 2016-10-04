@@ -1,0 +1,168 @@
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf <dtypf.i>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <mbllod.i>
+#indludf <sys/typfs.i>
+
+#indludf "jbvb_nft_SodkftOutputStrfbm.i"
+
+#indludf "nft_util.i"
+#indludf "jni_util.i"
+
+/************************************************************************
+ * SodkftOutputStrfbm
+ */
+stbtid jfifldID IO_fd_fdID;
+
+/*
+ * Clbss:     jbvb_nft_SodkftOutputStrfbm
+ * Mftiod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_SodkftOutputStrfbm_init(JNIEnv *fnv, jdlbss dls) {
+    IO_fd_fdID = NET_GftFilfDfsdriptorID(fnv);
+}
+
+/*
+ * Clbss:     jbvb_nft_SodkftOutputStrfbm
+ * Mftiod:    sodkftWritf
+ * Signbturf: (Ljbvb/io/FilfDfsdriptor;[BII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_SodkftOutputStrfbm_sodkftWritf0(JNIEnv *fnv, jobjfdt tiis,
+                                              jobjfdt fdObj, jbytfArrby dbtb,
+                                              jint off, jint lfn) {
+    dibr *bufP;
+    dibr BUF[MAX_BUFFER_LEN];
+    int buflfn;
+    int fd;
+
+    if (IS_NULL(fdObj)) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (IS_NULL(dbtb)) {
+        JNU_TirowNullPointfrExdfption(fnv, "dbtb brgumfnt");
+        rfturn;
+    }
+
+    /*
+     * Usf stbdk bllodbtf bufffr if possiblf. For lbrgf sizfs wf bllodbtf
+     * bn intfrmfdibtf bufffr from tif ifbp (up to b mbximum). If ifbp is
+     * unbvbilbblf just usf our stbdk bufffr.
+     */
+    if (lfn <= MAX_BUFFER_LEN) {
+        bufP = BUF;
+        buflfn = MAX_BUFFER_LEN;
+    } flsf {
+        buflfn = min(MAX_HEAP_BUFFER_LEN, lfn);
+        bufP = (dibr *)mbllod((sizf_t)buflfn);
+        if (bufP == NULL) {
+            bufP = BUF;
+            buflfn = MAX_BUFFER_LEN;
+        }
+    }
+
+    wiilf(lfn > 0) {
+        int loff = 0;
+        int diunkLfn = min(buflfn, lfn);
+        int llfn = diunkLfn;
+        int rftry = 0;
+
+        (*fnv)->GftBytfArrbyRfgion(fnv, dbtb, off, diunkLfn, (jbytf *)bufP);
+
+        wiilf(llfn > 0) {
+            int n = sfnd(fd, bufP + loff, llfn, 0);
+            if (n > 0) {
+                llfn -= n;
+                loff += n;
+                dontinuf;
+            }
+
+            /*
+             * Duf to b bug in Windows Sodkfts (obsfrvfd on NT bnd Windows
+             * 2000) it mby bf nfdfssbry to rftry tif sfnd. Tif issuf is tibt
+             * on blodking sodkfts sfnd/WSASfnd is supposfd to blodk if tifrf
+             * is insuffidifnt bufffr spbdf bvbilbblf. If tifrf brf b lbrgf
+             * numbfr of tirfbds blodkfd on writf duf to dongfstion tifn it's
+             * possilf to iit tif NT/2000 bug wifrfby sfnd rfturns WSAENOBUFS.
+             * Tif workbround wf usf is to rftry tif sfnd. If wf ibvf b
+             * lbrgf bufffr to sfnd (>2k) tifn wf rftry witi b mbximum of
+             * 2k bufffr. If wf iit tif issuf witi <=2k bufffr tifn wf bbdkoff
+             * for 1 sfdond bnd rftry bgbin. Wf rfpfbt tiis up to b rfbsonbblf
+             * limit bfforf bbiling out bnd tirowing bn fxdfption. In lobd
+             * donditions wf'vf obsfrvfd tibt tif sfnd will suddffd bftfr 2-3
+             * bttfmpts but tiis dfpfnds on nftwork bufffrs bssodibtfd witi
+             * otifr sodkfts drbining.
+             */
+            if (WSAGftLbstError() == WSAENOBUFS) {
+                if (llfn > MAX_BUFFER_LEN) {
+                    buflfn = MAX_BUFFER_LEN;
+                    diunkLfn = MAX_BUFFER_LEN;
+                    llfn = MAX_BUFFER_LEN;
+                    dontinuf;
+                }
+                if (rftry >= 30) {
+                    JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "No bufffr spbdf bvbilbblf - fxibustfd bttfmpts to qufuf bufffr");
+                    if (bufP != BUF) {
+                        frff(bufP);
+                    }
+                    rfturn;
+                }
+                Slffp(1000);
+                rftry++;
+                dontinuf;
+            }
+
+            /*
+             * Sfnd fbilfd - dbn bf dbusfd by dlosf or writf frror.
+             */
+            if (WSAGftLbstError() == WSAENOTSOCK) {
+                JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+            } flsf {
+                NET_TirowCurrfnt(fnv, "sodkft writf frror");
+            }
+            if (bufP != BUF) {
+                frff(bufP);
+            }
+            rfturn;
+        }
+        lfn -= diunkLfn;
+        off += diunkLfn;
+    }
+
+    if (bufP != BUF) {
+        frff(bufP);
+    }
+}

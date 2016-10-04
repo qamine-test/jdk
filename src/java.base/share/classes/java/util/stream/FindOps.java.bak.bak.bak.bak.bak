@@ -1,0 +1,318 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Optionbl;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.OptionblInt;
+import jbvb.util.OptionblLong;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Fbdtory for instbndfs of b siort-dirduiting {@dodf TfrminblOp} tibt sfbrdifs
+ * for bn flfmfnt in b strfbm pipflinf, bnd tfrminbtfs wifn it finds onf.
+ * Supportfd vbribnts indludf find-first (find tif first flfmfnt in tif
+ * fndountfr ordfr) bnd find-bny (find bny flfmfnt, mby not bf tif first in
+ * fndountfr ordfr.)
+ *
+ * @sindf 1.8
+ */
+finbl dlbss FindOps {
+
+    privbtf FindOps() { }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} for strfbms of objfdts.
+     *
+     * @pbrbm <T> tif typf of flfmfnts of tif strfbm
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
+     */
+    publid stbtid <T> TfrminblOp<T, Optionbl<T>> mbkfRff(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.REFERENCE, Optionbl.fmpty(),
+                            Optionbl::isPrfsfnt, FindSink.OfRff::nfw);
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} for strfbms of ints.
+     *
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
+     */
+    publid stbtid TfrminblOp<Intfgfr, OptionblInt> mbkfInt(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.INT_VALUE, OptionblInt.fmpty(),
+                            OptionblInt::isPrfsfnt, FindSink.OfInt::nfw);
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} for strfbms of longs.
+     *
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
+     */
+    publid stbtid TfrminblOp<Long, OptionblLong> mbkfLong(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.LONG_VALUE, OptionblLong.fmpty(),
+                            OptionblLong::isPrfsfnt, FindSink.OfLong::nfw);
+    }
+
+    /**
+     * Construdts b {@dodf FindOp} for strfbms of doublfs.
+     *
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
+     */
+    publid stbtid TfrminblOp<Doublf, OptionblDoublf> mbkfDoublf(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.DOUBLE_VALUE, OptionblDoublf.fmpty(),
+                            OptionblDoublf::isPrfsfnt, FindSink.OfDoublf::nfw);
+    }
+
+    /**
+     * A siort-dirduiting {@dodf TfrminblOp} tibt sfbrdifs for bn flfmfnt in b
+     * strfbm pipflinf, bnd tfrminbtfs wifn it finds onf.  Implfmfnts boti
+     * find-first (find tif first flfmfnt in tif fndountfr ordfr) bnd find-bny
+     * (find bny flfmfnt, mby not bf tif first in fndountfr ordfr.)
+     *
+     * @pbrbm <T> tif output typf of tif strfbm pipflinf
+     * @pbrbm <O> tif rfsult typf of tif find opfrbtion, typidblly bn optionbl
+     *        typf
+     */
+    privbtf stbtid finbl dlbss FindOp<T, O> implfmfnts TfrminblOp<T, O> {
+        privbtf finbl StrfbmSibpf sibpf;
+        finbl boolfbn mustFindFirst;
+        finbl O fmptyVbluf;
+        finbl Prfdidbtf<O> prfsfntPrfdidbtf;
+        finbl Supplifr<TfrminblSink<T, O>> sinkSupplifr;
+
+        /**
+         * Construdts b {@dodf FindOp}.
+         *
+         * @pbrbm mustFindFirst if truf, must find tif first flfmfnt in
+         *        fndountfr ordfr, otifrwisf dbn find bny flfmfnt
+         * @pbrbm sibpf strfbm sibpf of flfmfnts to sfbrdi
+         * @pbrbm fmptyVbluf rfsult vbluf dorrfsponding to "found notiing"
+         * @pbrbm prfsfntPrfdidbtf {@dodf Prfdidbtf} on rfsult vbluf
+         *        dorrfsponding to "found somftiing"
+         * @pbrbm sinkSupplifr supplifr for b {@dodf TfrminblSink} implfmfnting
+         *        tif mbtdiing fundtionblity
+         */
+        FindOp(boolfbn mustFindFirst,
+                       StrfbmSibpf sibpf,
+                       O fmptyVbluf,
+                       Prfdidbtf<O> prfsfntPrfdidbtf,
+                       Supplifr<TfrminblSink<T, O>> sinkSupplifr) {
+            tiis.mustFindFirst = mustFindFirst;
+            tiis.sibpf = sibpf;
+            tiis.fmptyVbluf = fmptyVbluf;
+            tiis.prfsfntPrfdidbtf = prfsfntPrfdidbtf;
+            tiis.sinkSupplifr = sinkSupplifr;
+        }
+
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn StrfbmOpFlbg.IS_SHORT_CIRCUIT | (mustFindFirst ? 0 : StrfbmOpFlbg.NOT_ORDERED);
+        }
+
+        @Ovfrridf
+        publid StrfbmSibpf inputSibpf() {
+            rfturn sibpf;
+        }
+
+        @Ovfrridf
+        publid <S> O fvblubtfSfqufntibl(PipflinfHflpfr<T> iflpfr,
+                                        Splitfrbtor<S> splitfrbtor) {
+            O rfsult = iflpfr.wrbpAndCopyInto(sinkSupplifr.gft(), splitfrbtor).gft();
+            rfturn rfsult != null ? rfsult : fmptyVbluf;
+        }
+
+        @Ovfrridf
+        publid <P_IN> O fvblubtfPbrbllfl(PipflinfHflpfr<T> iflpfr,
+                                         Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw FindTbsk<>(tiis, iflpfr, splitfrbtor).invokf();
+        }
+    }
+
+    /**
+     * Implfmfntbtion of @{dodf TfrminblSink} tibt implfmfnts tif find
+     * fundtionblity, rfqufsting dbndfllbtion wifn somftiing ibs bffn found
+     *
+     * @pbrbm <T> Tif typf of input flfmfnt
+     * @pbrbm <O> Tif rfsult typf, typidblly bn optionbl typf
+     */
+    privbtf stbtid bbstrbdt dlbss FindSink<T, O> implfmfnts TfrminblSink<T, O> {
+        boolfbn ibsVbluf;
+        T vbluf;
+
+        FindSink() {} // Avoid drfbtion of spfdibl bddfssor
+
+        @Ovfrridf
+        publid void bddfpt(T vbluf) {
+            if (!ibsVbluf) {
+                ibsVbluf = truf;
+                tiis.vbluf = vbluf;
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn ibsVbluf;
+        }
+
+        /** Spfdiblizbtion of {@dodf FindSink} for rfffrfndf strfbms */
+        stbtid finbl dlbss OfRff<T> fxtfnds FindSink<T, Optionbl<T>> {
+            @Ovfrridf
+            publid Optionbl<T> gft() {
+                rfturn ibsVbluf ? Optionbl.of(vbluf) : null;
+            }
+        }
+
+        /** Spfdiblizbtion of {@dodf FindSink} for int strfbms */
+        stbtid finbl dlbss OfInt fxtfnds FindSink<Intfgfr, OptionblInt>
+                implfmfnts Sink.OfInt {
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Intfgfr) vbluf);
+            }
+
+            @Ovfrridf
+            publid OptionblInt gft() {
+                rfturn ibsVbluf ? OptionblInt.of(vbluf) : null;
+            }
+        }
+
+        /** Spfdiblizbtion of {@dodf FindSink} for long strfbms */
+        stbtid finbl dlbss OfLong fxtfnds FindSink<Long, OptionblLong>
+                implfmfnts Sink.OfLong {
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Long) vbluf);
+            }
+
+            @Ovfrridf
+            publid OptionblLong gft() {
+                rfturn ibsVbluf ? OptionblLong.of(vbluf) : null;
+            }
+        }
+
+        /** Spfdiblizbtion of {@dodf FindSink} for doublf strfbms */
+        stbtid finbl dlbss OfDoublf fxtfnds FindSink<Doublf, OptionblDoublf>
+                implfmfnts Sink.OfDoublf {
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Doublf) vbluf);
+            }
+
+            @Ovfrridf
+            publid OptionblDoublf gft() {
+                rfturn ibsVbluf ? OptionblDoublf.of(vbluf) : null;
+            }
+        }
+    }
+
+    /**
+     * {@dodf ForkJoinTbsk} implfmfnting pbrbllfl siort-dirduiting sfbrdi
+     * @pbrbm <P_IN> Input flfmfnt typf to tif strfbm pipflinf
+     * @pbrbm <P_OUT> Output flfmfnt typf from tif strfbm pipflinf
+     * @pbrbm <O> Rfsult typf from tif find opfrbtion
+     */
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss FindTbsk<P_IN, P_OUT, O>
+            fxtfnds AbstrbdtSiortCirduitTbsk<P_IN, P_OUT, O, FindTbsk<P_IN, P_OUT, O>> {
+        privbtf finbl FindOp<P_OUT, O> op;
+
+        FindTbsk(FindOp<P_OUT, O> op,
+                 PipflinfHflpfr<P_OUT> iflpfr,
+                 Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(iflpfr, splitfrbtor);
+            tiis.op = op;
+        }
+
+        FindTbsk(FindTbsk<P_IN, P_OUT, O> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            tiis.op = pbrfnt.op;
+        }
+
+        @Ovfrridf
+        protfdtfd FindTbsk<P_IN, P_OUT, O> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw FindTbsk<>(tiis, splitfrbtor);
+        }
+
+        @Ovfrridf
+        protfdtfd O gftEmptyRfsult() {
+            rfturn op.fmptyVbluf;
+        }
+
+        privbtf void foundRfsult(O bnswfr) {
+            if (isLfftmostNodf())
+                siortCirduit(bnswfr);
+            flsf
+                dbndflLbtfrNodfs();
+        }
+
+        @Ovfrridf
+        protfdtfd O doLfbf() {
+            O rfsult = iflpfr.wrbpAndCopyInto(op.sinkSupplifr.gft(), splitfrbtor).gft();
+            if (!op.mustFindFirst) {
+                if (rfsult != null)
+                    siortCirduit(rfsult);
+                rfturn null;
+            }
+            flsf {
+                if (rfsult != null) {
+                    foundRfsult(rfsult);
+                    rfturn rfsult;
+                }
+                flsf
+                    rfturn null;
+            }
+        }
+
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (op.mustFindFirst) {
+                    for (FindTbsk<P_IN, P_OUT, O> diild = lfftCiild, p = null; diild != p;
+                         p = diild, diild = rigitCiild) {
+                    O rfsult = diild.gftLodblRfsult();
+                    if (rfsult != null && op.prfsfntPrfdidbtf.tfst(rfsult)) {
+                        sftLodblRfsult(rfsult);
+                        foundRfsult(rfsult);
+                        brfbk;
+                    }
+                }
+            }
+            supfr.onComplftion(dbllfr);
+        }
+    }
+}
+

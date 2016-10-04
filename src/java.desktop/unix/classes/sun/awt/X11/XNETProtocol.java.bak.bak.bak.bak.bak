@@ -1,0 +1,452 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Frbmf;
+
+import sun.bwt.IdonInfo;
+import sun.util.logging.PlbtformLoggfr;
+
+finbl dlbss XNETProtodol fxtfnds XProtodol implfmfnts XStbtfProtodol, XLbyfrProtodol
+{
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XNETProtodol");
+    privbtf finbl stbtid PlbtformLoggfr idonLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.idon.XNETProtodol");
+    privbtf stbtid PlbtformLoggfr stbtfLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.stbtfs.XNETProtodol");
+
+    /**
+     * XStbtfProtodol
+     */
+    publid boolfbn supportsStbtf(int stbtf) {
+        rfturn doStbtfProtodol() ; // TODO - difdk for Frbmf donstbnts
+    }
+
+    publid void sftStbtf(XWindowPffr window, int stbtf) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sftting stbtf of " + window + " to " + stbtf);
+        }
+        if (window.isSiowing()) {
+            rfqufstStbtf(window, stbtf);
+        } flsf {
+            sftInitiblStbtf(window, stbtf);
+        }
+    }
+
+    privbtf void sftInitiblStbtf(XWindowPffr window, int stbtf) {
+        XAtomList old_stbtf = window.gftNETWMStbtf();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Currfnt stbtf of tif window {0} is {1}", window, old_stbtf);
+        }
+        if ((stbtf & Frbmf.MAXIMIZED_VERT) != 0) {
+            old_stbtf.bdd(XA_NET_WM_STATE_MAXIMIZED_VERT);
+        } flsf {
+            old_stbtf.rfmovf(XA_NET_WM_STATE_MAXIMIZED_VERT);
+        }
+        if ((stbtf & Frbmf.MAXIMIZED_HORIZ) != 0) {
+            old_stbtf.bdd(XA_NET_WM_STATE_MAXIMIZED_HORZ);
+        } flsf {
+            old_stbtf.rfmovf(XA_NET_WM_STATE_MAXIMIZED_HORZ);
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sftting initibl stbtf of tif window {0} to {1}", window, old_stbtf);
+        }
+        window.sftNETWMStbtf(old_stbtf);
+    }
+
+    privbtf void rfqufstStbtf(XWindowPffr window, int stbtf) {
+        /*
+         * Wf ibvf to usf togglf for mbximizbtion bfdbusf of trbnsitions
+         * from mbximizbtion in onf dirfdtion only to mbximizbtion in tif
+         * otifr dirfdtion only.
+         */
+        int old_nft_stbtf = gftStbtf(window);
+        int mbx_dibngfd = (stbtf ^ old_nft_stbtf) & (Frbmf.MAXIMIZED_BOTH);
+
+        XClifntMfssbgfEvfnt rfq = nfw XClifntMfssbgfEvfnt();
+        try {
+            switdi(mbx_dibngfd) {
+              dbsf 0:
+                  rfturn;
+              dbsf Frbmf.MAXIMIZED_HORIZ:
+                  rfq.sft_dbtb(1, XA_NET_WM_STATE_MAXIMIZED_HORZ.gftAtom());
+                  rfq.sft_dbtb(2, 0);
+                  brfbk;
+              dbsf Frbmf.MAXIMIZED_VERT:
+                  rfq.sft_dbtb(1, XA_NET_WM_STATE_MAXIMIZED_VERT.gftAtom());
+                  rfq.sft_dbtb(2, 0);
+                  brfbk;
+              dbsf Frbmf.MAXIMIZED_BOTH:
+                  rfq.sft_dbtb(1, XA_NET_WM_STATE_MAXIMIZED_HORZ.gftAtom());
+                  rfq.sft_dbtb(2, XA_NET_WM_STATE_MAXIMIZED_VERT.gftAtom());
+                  brfbk;
+              dffbult:
+                  rfturn;
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Rfqufsting stbtf on " + window + " for " + stbtf);
+            }
+            rfq.sft_typf(XConstbnts.ClifntMfssbgf);
+            rfq.sft_window(window.gftWindow());
+            rfq.sft_mfssbgf_typf(XA_NET_WM_STATE.gftAtom());
+            rfq.sft_formbt(32);
+            rfq.sft_dbtb(0, _NET_WM_STATE_TOGGLE);
+            XToolkit.bwtLodk();
+            try {
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
+                        XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), window.gftSdrffnNumbfr()),
+                        fblsf,
+                        XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                        rfq.pDbtb);
+            }
+            finblly {
+                XToolkit.bwtUnlodk();
+            }
+        } finblly {
+            rfq.disposf();
+        }
+    }
+
+    publid int gftStbtf(XWindowPffr window) {
+        rfturn gftStbtfImpl(window);
+    }
+
+    /*
+     * Nfw "NET" WM spfd: _NET_WM_STATE/Atom[]
+     */
+    int gftStbtfImpl(XWindowPffr window) {
+        XAtomList nft_wm_stbtf = window.gftNETWMStbtf();
+        if (nft_wm_stbtf.sizf() == 0) {
+            rfturn Frbmf.NORMAL;
+        }
+        int jbvb_stbtf = Frbmf.NORMAL;
+        if (nft_wm_stbtf.dontbins(XA_NET_WM_STATE_MAXIMIZED_VERT)) {
+            jbvb_stbtf |= Frbmf.MAXIMIZED_VERT;
+        }
+        if (nft_wm_stbtf.dontbins(XA_NET_WM_STATE_MAXIMIZED_HORZ)) {
+            jbvb_stbtf |= Frbmf.MAXIMIZED_HORIZ;
+        }
+        rfturn jbvb_stbtf;
+    }
+
+    publid boolfbn isStbtfCibngf(XPropfrtyEvfnt f) {
+        boolfbn rfs = doStbtfProtodol() && (f.gft_btom() == XA_NET_WM_STATE.gftAtom()) ;
+
+        if (rfs) {
+            // Sindf stbtf dibngf ibppfnfd, rfsft our dbdifd stbtf.  It will bf rf-rfbd by gftStbtf
+            XWindowPffr wpffr = (XWindowPffr)XToolkit.windowToXWindow(f.gft_window());
+            wpffr.sftNETWMStbtf(null);
+        }
+        rfturn rfs;
+    }
+
+    /*
+     * Work bround for 4775545.
+     */
+    publid void unsibdfKludgf(XWindowPffr window) {
+        XAtomList nft_wm_stbtf = window.gftNETWMStbtf();
+        nft_wm_stbtf.rfmovf(XA_NET_WM_STATE_SHADED);
+        window.sftNETWMStbtf(nft_wm_stbtf);
+    }
+
+    /**
+     * XLbyfrProtodol
+     */
+    publid boolfbn supportsLbyfr(int lbyfr) {
+        rfturn ((lbyfr == LAYER_ALWAYS_ON_TOP) || (lbyfr == LAYER_NORMAL)) && doLbyfrProtodol();
+    }
+
+    publid void rfqufstStbtf(XWindow window, XAtom stbtf, boolfbn isAdd) {
+        XClifntMfssbgfEvfnt rfq = nfw XClifntMfssbgfEvfnt();
+        try {
+            rfq.sft_typf(XConstbnts.ClifntMfssbgf);
+            rfq.sft_window(window.gftWindow());
+            rfq.sft_mfssbgf_typf(XA_NET_WM_STATE.gftAtom());
+            rfq.sft_formbt(32);
+            rfq.sft_dbtb(0, isAdd ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE);
+            rfq.sft_dbtb(1, stbtf.gftAtom());
+            // Fix for 6735584: rfq.dbtb[2] must bf sft to 0 wifn only onf propfrty is dibngfd
+            rfq.sft_dbtb(2, 0);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Sftting _NET_STATE btom {0} on {1} for {2}", stbtf, window, Boolfbn.vblufOf(isAdd));
+            }
+            XToolkit.bwtLodk();
+            try {
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
+                        XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), window.gftSdrffnNumbfr()),
+                        fblsf,
+                        XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                        rfq.pDbtb);
+            }
+            finblly {
+                XToolkit.bwtUnlodk();
+            }
+        } finblly {
+            rfq.disposf();
+        }
+    }
+
+    /**
+     * Hflpfr fundtion to sft/rfsft onf stbtf in NET_WM_STATE
+     * If window is siowing tifn it usfs ClifntMfssbgf, otifrwisf bdjusts NET_WM_STATE list
+     * @pbrbm window Window wiidi NET_WM_STATE propfrty is bfing modififd
+     * @pbrbm stbtf Stbtf btom to bf sft/rfsft
+     * @pbrbm sft Indidbtfs opfrbtion, 'sft' if fblsf, 'rfsft' if truf
+     */
+    privbtf void sftStbtfHflpfr(XWindowPffr window, XAtom stbtf, boolfbn sft) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Window visibility is: witidrbwn={0}, visiblf={1}, mbppfd={2} siowing={3}",
+                  Boolfbn.vblufOf(window.isWitidrbwn()), Boolfbn.vblufOf(window.isVisiblf()),
+                  Boolfbn.vblufOf(window.isMbppfd()), Boolfbn.vblufOf(window.isSiowing()));
+        }
+        if (window.isSiowing()) {
+            rfqufstStbtf(window, stbtf, sft);
+        } flsf {
+            XAtomList nft_wm_stbtf = window.gftNETWMStbtf();
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Currfnt stbtf on {0} is {1}", window, nft_wm_stbtf);
+            }
+            if (!sft) {
+                nft_wm_stbtf.rfmovf(stbtf);
+            } flsf {
+                nft_wm_stbtf.bdd(stbtf);
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Sftting stbtfs on {0} to {1}", window, nft_wm_stbtf);
+            }
+            window.sftNETWMStbtf(nft_wm_stbtf);
+        }
+        XToolkit.XSynd();
+    }
+
+    publid void sftLbyfr(XWindowPffr window, int lbyfr) {
+        sftStbtfHflpfr(window, XA_NET_WM_STATE_ABOVE, lbyfr == LAYER_ALWAYS_ON_TOP);
+    }
+
+    /* Nfw "nftwm" spfd from www.frffdfsktop.org */
+    XAtom XA_UTF8_STRING = XAtom.gft("UTF8_STRING");   /* likf STRING but fndoding is UTF-8 */
+    XAtom XA_NET_SUPPORTING_WM_CHECK = XAtom.gft("_NET_SUPPORTING_WM_CHECK");
+    XAtom XA_NET_SUPPORTED = XAtom.gft("_NET_SUPPORTED");      /* list of protodols (propfrty of root) */
+    XAtom XA_NET_ACTIVE_WINDOW = XAtom.gft("_NET_ACTIVE_WINDOW");
+    XAtom XA_NET_WM_NAME = XAtom.gft("_NET_WM_NAME");  /* window propfrty */
+    XAtom XA_NET_WM_STATE = XAtom.gft("_NET_WM_STATE");/* boti window propfrty bnd rfqufst */
+
+/*
+ * _NET_WM_STATE is b list of btoms.
+ * NB: Stbndbrd spflling is "HORZ" (yfs, witiout bn 'I'), but KDE2
+ * usfs misspfllfd "HORIZ" (sff KDE bug #20229).  Tiis wbs fixfd in
+ * KDE 2.2.  Undfr fbrlifr vfrsions of KDE2 iorizontbl bnd full
+ * mbximizbtion dofsn't work .
+ */
+    XAtom XA_NET_WM_STATE_MAXIMIZED_HORZ = XAtom.gft("_NET_WM_STATE_MAXIMIZED_HORZ");
+    XAtom XA_NET_WM_STATE_MAXIMIZED_VERT = XAtom.gft("_NET_WM_STATE_MAXIMIZED_VERT");
+    XAtom XA_NET_WM_STATE_SHADED = XAtom.gft("_NET_WM_STATE_SHADED");
+    XAtom XA_NET_WM_STATE_ABOVE = XAtom.gft("_NET_WM_STATE_ABOVE");
+    XAtom XA_NET_WM_STATE_MODAL = XAtom.gft("_NET_WM_STATE_MODAL");
+    XAtom XA_NET_WM_STATE_FULLSCREEN = XAtom.gft("_NET_WM_STATE_FULLSCREEN");
+    XAtom XA_NET_WM_STATE_BELOW = XAtom.gft("_NET_WM_STATE_BELOW");
+    XAtom XA_NET_WM_STATE_HIDDEN = XAtom.gft("_NET_WM_STATE_HIDDEN");
+    XAtom XA_NET_WM_STATE_SKIP_TASKBAR = XAtom.gft("_NET_WM_STATE_SKIP_TASKBAR");
+    XAtom XA_NET_WM_STATE_SKIP_PAGER = XAtom.gft("_NET_WM_STATE_SKIP_PAGER");
+
+    publid finbl XAtom XA_NET_WM_WINDOW_TYPE = XAtom.gft("_NET_WM_WINDOW_TYPE");
+    publid finbl XAtom XA_NET_WM_WINDOW_TYPE_NORMAL = XAtom.gft("_NET_WM_WINDOW_TYPE_NORMAL");
+    publid finbl XAtom XA_NET_WM_WINDOW_TYPE_DIALOG = XAtom.gft("_NET_WM_WINDOW_TYPE_DIALOG");
+    publid finbl XAtom XA_NET_WM_WINDOW_TYPE_UTILITY = XAtom.gft("_NET_WM_WINDOW_TYPE_UTILITY");
+    publid finbl XAtom XA_NET_WM_WINDOW_TYPE_POPUP_MENU = XAtom.gft("_NET_WM_WINDOW_TYPE_POPUP_MENU");
+
+    XAtom XA_NET_WM_WINDOW_OPACITY = XAtom.gft("_NET_WM_WINDOW_OPACITY");
+
+/* For _NET_WM_STATE ClifntMfssbgf rfqufsts */
+    finbl stbtid int _NET_WM_STATE_REMOVE      =0; /* rfmovf/unsft propfrty */
+    finbl stbtid int _NET_WM_STATE_ADD         =1; /* bdd/sft propfrty      */
+    finbl stbtid int _NET_WM_STATE_TOGGLE      =2; /* togglf propfrty       */
+
+    boolfbn supportCifdkfd = fblsf;
+    long NftWindow = 0;
+    void dftfdt() {
+        if (supportCifdkfd) {
+            // TODO: How bbout dftfdting WM-rfstbrt or fxit?
+            rfturn;
+        }
+        NftWindow = difdkAndior(XA_NET_SUPPORTING_WM_CHECK, XAtom.XA_WINDOW);
+        supportCifdkfd = truf;
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("### " + tiis + " is bdtivf: " + (NftWindow != 0));
+        }
+    }
+
+    boolfbn bdtivf() {
+        dftfdt();
+        rfturn NftWindow != 0;
+    }
+
+    boolfbn doStbtfProtodol() {
+        boolfbn rfs = bdtivf() && difdkProtodol(XA_NET_SUPPORTED, XA_NET_WM_STATE);
+        if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            stbtfLog.finfr("doStbtfProtodol() rfturns " + rfs);
+        }
+        rfturn rfs;
+    }
+
+    boolfbn doLbyfrProtodol() {
+        boolfbn rfs = bdtivf() && difdkProtodol(XA_NET_SUPPORTED, XA_NET_WM_STATE_ABOVE);
+        rfturn rfs;
+    }
+
+    boolfbn doModblityProtodol() {
+        boolfbn rfs = bdtivf() && difdkProtodol(XA_NET_SUPPORTED, XA_NET_WM_STATE_MODAL);
+        rfturn rfs;
+    }
+
+    boolfbn doOpbdityProtodol() {
+        boolfbn rfs = bdtivf() && difdkProtodol(XA_NET_SUPPORTED, XA_NET_WM_WINDOW_OPACITY);
+        rfturn rfs;
+    }
+
+    publid void sftAdtivfWindow(XWindow window) {
+        if (!bdtivf() || !difdkProtodol(XA_NET_SUPPORTED, XA_NET_ACTIVE_WINDOW)) {
+            rfturn;
+        }
+
+        XClifntMfssbgfEvfnt msg = nfw XClifntMfssbgfEvfnt();
+        msg.zfro();
+        msg.sft_typf(XConstbnts.ClifntMfssbgf);
+        msg.sft_mfssbgf_typf(XA_NET_ACTIVE_WINDOW.gftAtom());
+        msg.sft_displby(XToolkit.gftDisplby());
+        msg.sft_window(window.gftWindow());
+        msg.sft_formbt(32);
+        msg.sft_dbtb(0, 1);
+        msg.sft_dbtb(1, XToolkit.gftCurrfntSfrvfrTimf());
+        msg.sft_dbtb(2, 0);
+
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(), fblsf,
+                    XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk, msg.gftPDbtb());
+        } finblly {
+            XToolkit.bwtUnlodk();
+            msg.disposf();
+        }
+    }
+
+    boolfbn isWMNbmf(String nbmf) {
+        if (!bdtivf()) {
+            rfturn fblsf;
+        }
+        String nft_wm_nbmf_string = gftWMNbmf();
+        if (nft_wm_nbmf_string == null) {
+            rfturn fblsf;
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("### WM_NAME = " + nft_wm_nbmf_string);
+        }
+        rfturn nft_wm_nbmf_string.stbrtsWiti(nbmf);
+    }
+
+    String nft_wm_nbmf_dbdif;
+    publid String gftWMNbmf() {
+        if (!bdtivf()) {
+            rfturn null;
+        }
+
+        if (nft_wm_nbmf_dbdif != null) {
+            rfturn nft_wm_nbmf_dbdif;
+        }
+
+        /*
+         * Cifdk boti UTF8_STRING bnd STRING.  Wf only dbll tiis fundtion
+         * witi ASCII nbmfs bnd UTF8 prfsfrvfs ASCII bit-wisf.  wm-spfd
+         * mbndbtfs UTF8_STRING for _NET_WM_NAME but bt lfbst sbwfisi-1.0
+         * still usfs STRING.  (mmm, moving tbrgfts...).
+         */
+        String dibrSft = "UTF8";
+        bytf[] nft_wm_nbmf = XA_NET_WM_NAME.gftBytfArrbyPropfrty(NftWindow, XA_UTF8_STRING.gftAtom());
+        if (nft_wm_nbmf == null) {
+            nft_wm_nbmf = XA_NET_WM_NAME.gftBytfArrbyPropfrty(NftWindow, XAtom.XA_STRING);
+            dibrSft = "ASCII";
+        }
+
+        if (nft_wm_nbmf == null) {
+            rfturn null;
+        }
+        try {
+            nft_wm_nbmf_dbdif = nfw String(nft_wm_nbmf, dibrSft);
+            rfturn nft_wm_nbmf_dbdif;
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption ufx) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Sfts _NET_WM_ICON propfrty on tif window using tif List of IdonInfo
+     * If idons is null or fmpty list, rfmovfs _NET_WM_ICON propfrty
+     */
+    publid void sftWMIdons(XWindowPffr window, jbvb.util.List<IdonInfo> idons) {
+        if (window == null) rfturn;
+
+        XAtom idonsAtom = XAtom.gft("_NET_WM_ICON");
+        if (idons == null) {
+            idonsAtom.DflftfPropfrty(window);
+            rfturn;
+        }
+
+        int lfngti = 0;
+        for (IdonInfo ii : idons) {
+            lfngti += ii.gftRbwLfngti();
+        }
+        int dbrdinblSizf = (XlibWrbppfr.dbtbModfl == 32) ? 4 : 8;
+        int bufffrSizf = lfngti * dbrdinblSizf;
+
+        if (bufffrSizf != 0) {
+            long bufffr = XlibWrbppfr.unsbff.bllodbtfMfmory(bufffrSizf);
+            try {
+                long ptr = bufffr;
+                for (IdonInfo ii : idons) {
+                    int sizf = ii.gftRbwLfngti() * dbrdinblSizf;
+                    if (XlibWrbppfr.dbtbModfl == 32) {
+                        XlibWrbppfr.dopyIntArrby(ptr, ii.gftIntDbtb(), sizf);
+                    } flsf {
+                        XlibWrbppfr.dopyLongArrby(ptr, ii.gftLongDbtb(), sizf);
+                    }
+                    ptr += sizf;
+                }
+                idonsAtom.sftAtomDbtb(window.gftWindow(), XAtom.XA_CARDINAL, bufffr, bufffrSizf/Nbtivf.gftCbrd32Sizf());
+            } finblly {
+                XlibWrbppfr.unsbff.frffMfmory(bufffr);
+            }
+        } flsf {
+            idonsAtom.DflftfPropfrty(window);
+        }
+    }
+
+    publid boolfbn isWMStbtfNftHiddfn(XWindowPffr window) {
+        if (!doStbtfProtodol()) {
+            rfturn fblsf;
+        }
+        XAtomList stbtf = window.gftNETWMStbtf();
+        rfturn (stbtf != null && stbtf.sizf() != 0 && stbtf.dontbins(XA_NET_WM_STATE_HIDDEN));
+    }
+}

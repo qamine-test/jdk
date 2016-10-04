@@ -1,0 +1,768 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.IindInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InvokfDynbmidInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MultiANfwArrbyInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.VbrInsnNodf;
+
+/**
+ * A symbolid fxfdution stbdk frbmf. A stbdk frbmf dontbins b sft of lodbl
+ * vbribblf slots, bnd bn opfrbnd stbdk. Wbrning: long bnd doublf vblufs brf
+ * rfprfsfntfd by <i>two</i> slots in lodbl vbribblfs, bnd by <i>onf</i> slot in
+ * tif opfrbnd stbdk.
+ *
+ * @pbrbm <V>
+ *            typf of tif Vbluf usfd for tif bnblysis.
+ *
+ * @butior Erid Brunfton
+ */
+publid dlbss Frbmf<V fxtfnds Vbluf> {
+
+    /**
+     * Tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod, or <tt>null</tt> if tif
+     * mftiod rfturns void.
+     */
+    privbtf V rfturnVbluf;
+
+    /**
+     * Tif lodbl vbribblfs bnd opfrbnd stbdk of tiis frbmf.
+     */
+    privbtf V[] vblufs;
+
+    /**
+     * Tif numbfr of lodbl vbribblfs of tiis frbmf.
+     */
+    privbtf int lodbls;
+
+    /**
+     * Tif numbfr of flfmfnts in tif opfrbnd stbdk.
+     */
+    privbtf int top;
+
+    /**
+     * Construdts b nfw frbmf witi tif givfn sizf.
+     *
+     * @pbrbm nLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif frbmf.
+     * @pbrbm nStbdk
+     *            tif mbximum stbdk sizf of tif frbmf.
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid Frbmf(finbl int nLodbls, finbl int nStbdk) {
+        tiis.vblufs = (V[]) nfw Vbluf[nLodbls + nStbdk];
+        tiis.lodbls = nLodbls;
+    }
+
+    /**
+     * Construdts b nfw frbmf tibt is idfntidbl to tif givfn frbmf.
+     *
+     * @pbrbm srd
+     *            b frbmf.
+     */
+    publid Frbmf(finbl Frbmf<? fxtfnds V> srd) {
+        tiis(srd.lodbls, srd.vblufs.lfngti - srd.lodbls);
+        init(srd);
+    }
+
+    /**
+     * Copifs tif stbtf of tif givfn frbmf into tiis frbmf.
+     *
+     * @pbrbm srd
+     *            b frbmf.
+     * @rfturn tiis frbmf.
+     */
+    publid Frbmf<V> init(finbl Frbmf<? fxtfnds V> srd) {
+        rfturnVbluf = srd.rfturnVbluf;
+        Systfm.brrbydopy(srd.vblufs, 0, vblufs, 0, vblufs.lfngti);
+        top = srd.top;
+        rfturn tiis;
+    }
+
+    /**
+     * Sfts tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod.
+     *
+     * @pbrbm v
+     *            tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod, or
+     *            <tt>null</tt> if tif mftiod rfturns void.
+     */
+    publid void sftRfturn(finbl V v) {
+        rfturnVbluf = v;
+    }
+
+    /**
+     * Rfturns tif mbximum numbfr of lodbl vbribblfs of tiis frbmf.
+     *
+     * @rfturn tif mbximum numbfr of lodbl vbribblfs of tiis frbmf.
+     */
+    publid int gftLodbls() {
+        rfturn lodbls;
+    }
+
+    /**
+     * Rfturns tif mbximum stbdk sizf of tiis frbmf.
+     *
+     * @rfturn tif mbximum stbdk sizf of tiis frbmf.
+     */
+    publid int gftMbxStbdkSizf() {
+        rfturn vblufs.lfngti - lodbls;
+    }
+
+    /**
+     * Rfturns tif vbluf of tif givfn lodbl vbribblf.
+     *
+     * @pbrbm i
+     *            b lodbl vbribblf indfx.
+     * @rfturn tif vbluf of tif givfn lodbl vbribblf.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif vbribblf dofs not fxist.
+     */
+    publid V gftLodbl(finbl int i) tirows IndfxOutOfBoundsExdfption {
+        if (i >= lodbls) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Trying to bddfss bn infxistbnt lodbl vbribblf");
+        }
+        rfturn vblufs[i];
+    }
+
+    /**
+     * Sfts tif vbluf of tif givfn lodbl vbribblf.
+     *
+     * @pbrbm i
+     *            b lodbl vbribblf indfx.
+     * @pbrbm vbluf
+     *            tif nfw vbluf of tiis lodbl vbribblf.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif vbribblf dofs not fxist.
+     */
+    publid void sftLodbl(finbl int i, finbl V vbluf)
+            tirows IndfxOutOfBoundsExdfption {
+        if (i >= lodbls) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Trying to bddfss bn infxistbnt lodbl vbribblf " + i);
+        }
+        vblufs[i] = vbluf;
+    }
+
+    /**
+     * Rfturns tif numbfr of vblufs in tif opfrbnd stbdk of tiis frbmf. Long bnd
+     * doublf vblufs brf trfbtfd bs singlf vblufs.
+     *
+     * @rfturn tif numbfr of vblufs in tif opfrbnd stbdk of tiis frbmf.
+     */
+    publid int gftStbdkSizf() {
+        rfturn top;
+    }
+
+    /**
+     * Rfturns tif vbluf of tif givfn opfrbnd stbdk slot.
+     *
+     * @pbrbm i
+     *            tif indfx of bn opfrbnd stbdk slot.
+     * @rfturn tif vbluf of tif givfn opfrbnd stbdk slot.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk slot dofs not fxist.
+     */
+    publid V gftStbdk(finbl int i) tirows IndfxOutOfBoundsExdfption {
+        rfturn vblufs[i + lodbls];
+    }
+
+    /**
+     * Clfbrs tif opfrbnd stbdk of tiis frbmf.
+     */
+    publid void dlfbrStbdk() {
+        top = 0;
+    }
+
+    /**
+     * Pops b vbluf from tif opfrbnd stbdk of tiis frbmf.
+     *
+     * @rfturn tif vbluf tibt ibs bffn poppfd from tif stbdk.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk is fmpty.
+     */
+    publid V pop() tirows IndfxOutOfBoundsExdfption {
+        if (top == 0) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Cbnnot pop opfrbnd off bn fmpty stbdk.");
+        }
+        rfturn vblufs[--top + lodbls];
+    }
+
+    /**
+     * Pusifs b vbluf into tif opfrbnd stbdk of tiis frbmf.
+     *
+     * @pbrbm vbluf
+     *            tif vbluf tibt must bf pusifd into tif stbdk.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk is full.
+     */
+    publid void pusi(finbl V vbluf) tirows IndfxOutOfBoundsExdfption {
+        if (top + lodbls >= vblufs.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Insuffidifnt mbximum stbdk sizf.");
+        }
+        vblufs[top++ + lodbls] = vbluf;
+    }
+
+    publid void fxfdutf(finbl AbstrbdtInsnNodf insn,
+            finbl Intfrprftfr<V> intfrprftfr) tirows AnblyzfrExdfption {
+        V vbluf1, vbluf2, vbluf3, vbluf4;
+        List<V> vblufs;
+        int vbr;
+
+        switdi (insn.gftOpdodf()) {
+        dbsf Opdodfs.NOP:
+            brfbk;
+        dbsf Opdodfs.ACONST_NULL:
+        dbsf Opdodfs.ICONST_M1:
+        dbsf Opdodfs.ICONST_0:
+        dbsf Opdodfs.ICONST_1:
+        dbsf Opdodfs.ICONST_2:
+        dbsf Opdodfs.ICONST_3:
+        dbsf Opdodfs.ICONST_4:
+        dbsf Opdodfs.ICONST_5:
+        dbsf Opdodfs.LCONST_0:
+        dbsf Opdodfs.LCONST_1:
+        dbsf Opdodfs.FCONST_0:
+        dbsf Opdodfs.FCONST_1:
+        dbsf Opdodfs.FCONST_2:
+        dbsf Opdodfs.DCONST_0:
+        dbsf Opdodfs.DCONST_1:
+        dbsf Opdodfs.BIPUSH:
+        dbsf Opdodfs.SIPUSH:
+        dbsf Opdodfs.LDC:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.ILOAD:
+        dbsf Opdodfs.LLOAD:
+        dbsf Opdodfs.FLOAD:
+        dbsf Opdodfs.DLOAD:
+        dbsf Opdodfs.ALOAD:
+            pusi(intfrprftfr.dopyOpfrbtion(insn,
+                    gftLodbl(((VbrInsnNodf) insn).vbr)));
+            brfbk;
+        dbsf Opdodfs.IALOAD:
+        dbsf Opdodfs.LALOAD:
+        dbsf Opdodfs.FALOAD:
+        dbsf Opdodfs.DALOAD:
+        dbsf Opdodfs.AALOAD:
+        dbsf Opdodfs.BALOAD:
+        dbsf Opdodfs.CALOAD:
+        dbsf Opdodfs.SALOAD:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.ISTORE:
+        dbsf Opdodfs.LSTORE:
+        dbsf Opdodfs.FSTORE:
+        dbsf Opdodfs.DSTORE:
+        dbsf Opdodfs.ASTORE:
+            vbluf1 = intfrprftfr.dopyOpfrbtion(insn, pop());
+            vbr = ((VbrInsnNodf) insn).vbr;
+            sftLodbl(vbr, vbluf1);
+            if (vbluf1.gftSizf() == 2) {
+                sftLodbl(vbr + 1, intfrprftfr.nfwVbluf(null));
+            }
+            if (vbr > 0) {
+                Vbluf lodbl = gftLodbl(vbr - 1);
+                if (lodbl != null && lodbl.gftSizf() == 2) {
+                    sftLodbl(vbr - 1, intfrprftfr.nfwVbluf(null));
+                }
+            }
+            brfbk;
+        dbsf Opdodfs.IASTORE:
+        dbsf Opdodfs.LASTORE:
+        dbsf Opdodfs.FASTORE:
+        dbsf Opdodfs.DASTORE:
+        dbsf Opdodfs.AASTORE:
+        dbsf Opdodfs.BASTORE:
+        dbsf Opdodfs.CASTORE:
+        dbsf Opdodfs.SASTORE:
+            vbluf3 = pop();
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.tfrnbryOpfrbtion(insn, vbluf1, vbluf2, vbluf3);
+            brfbk;
+        dbsf Opdodfs.POP:
+            if (pop().gftSizf() == 2) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of POP");
+            }
+            brfbk;
+        dbsf Opdodfs.POP2:
+            if (pop().gftSizf() == 1) {
+                if (pop().gftSizf() != 1) {
+                    tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of POP2");
+                }
+            }
+            brfbk;
+        dbsf Opdodfs.DUP:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP");
+            }
+            pusi(vbluf1);
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            brfbk;
+        dbsf Opdodfs.DUP_X1:
+            vbluf1 = pop();
+            vbluf2 = pop();
+            if (vbluf1.gftSizf() != 1 || vbluf2.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP_X1");
+            }
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            pusi(vbluf2);
+            pusi(vbluf1);
+            brfbk;
+        dbsf Opdodfs.DUP_X2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
+                    }
+                } flsf {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
+                }
+            }
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP_X2");
+        dbsf Opdodfs.DUP2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    brfbk;
+                }
+            } flsf {
+                pusi(vbluf1);
+                pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                brfbk;
+            }
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2");
+        dbsf Opdodfs.DUP2_X1:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
+                    }
+                }
+            } flsf {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
+                }
+            }
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2_X1");
+        dbsf Opdodfs.DUP2_X2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        vbluf4 = pop();
+                        if (vbluf4.gftSizf() == 1) {
+                            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                            pusi(vbluf4);
+                            pusi(vbluf3);
+                            pusi(vbluf2);
+                            pusi(vbluf1);
+                            brfbk;
+                        }
+                    } flsf {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
+                    }
+                }
+            } flsf {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
+                    }
+                } flsf {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
+                }
+            }
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2_X2");
+        dbsf Opdodfs.SWAP:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() != 1 || vbluf2.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of SWAP");
+            }
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            brfbk;
+        dbsf Opdodfs.IADD:
+        dbsf Opdodfs.LADD:
+        dbsf Opdodfs.FADD:
+        dbsf Opdodfs.DADD:
+        dbsf Opdodfs.ISUB:
+        dbsf Opdodfs.LSUB:
+        dbsf Opdodfs.FSUB:
+        dbsf Opdodfs.DSUB:
+        dbsf Opdodfs.IMUL:
+        dbsf Opdodfs.LMUL:
+        dbsf Opdodfs.FMUL:
+        dbsf Opdodfs.DMUL:
+        dbsf Opdodfs.IDIV:
+        dbsf Opdodfs.LDIV:
+        dbsf Opdodfs.FDIV:
+        dbsf Opdodfs.DDIV:
+        dbsf Opdodfs.IREM:
+        dbsf Opdodfs.LREM:
+        dbsf Opdodfs.FREM:
+        dbsf Opdodfs.DREM:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.INEG:
+        dbsf Opdodfs.LNEG:
+        dbsf Opdodfs.FNEG:
+        dbsf Opdodfs.DNEG:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.ISHL:
+        dbsf Opdodfs.LSHL:
+        dbsf Opdodfs.ISHR:
+        dbsf Opdodfs.LSHR:
+        dbsf Opdodfs.IUSHR:
+        dbsf Opdodfs.LUSHR:
+        dbsf Opdodfs.IAND:
+        dbsf Opdodfs.LAND:
+        dbsf Opdodfs.IOR:
+        dbsf Opdodfs.LOR:
+        dbsf Opdodfs.IXOR:
+        dbsf Opdodfs.LXOR:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.IINC:
+            vbr = ((IindInsnNodf) insn).vbr;
+            sftLodbl(vbr, intfrprftfr.unbryOpfrbtion(insn, gftLodbl(vbr)));
+            brfbk;
+        dbsf Opdodfs.I2L:
+        dbsf Opdodfs.I2F:
+        dbsf Opdodfs.I2D:
+        dbsf Opdodfs.L2I:
+        dbsf Opdodfs.L2F:
+        dbsf Opdodfs.L2D:
+        dbsf Opdodfs.F2I:
+        dbsf Opdodfs.F2L:
+        dbsf Opdodfs.F2D:
+        dbsf Opdodfs.D2I:
+        dbsf Opdodfs.D2L:
+        dbsf Opdodfs.D2F:
+        dbsf Opdodfs.I2B:
+        dbsf Opdodfs.I2C:
+        dbsf Opdodfs.I2S:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.LCMP:
+        dbsf Opdodfs.FCMPL:
+        dbsf Opdodfs.FCMPG:
+        dbsf Opdodfs.DCMPL:
+        dbsf Opdodfs.DCMPG:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.IFEQ:
+        dbsf Opdodfs.IFNE:
+        dbsf Opdodfs.IFLT:
+        dbsf Opdodfs.IFGE:
+        dbsf Opdodfs.IFGT:
+        dbsf Opdodfs.IFLE:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.IF_ICMPEQ:
+        dbsf Opdodfs.IF_ICMPNE:
+        dbsf Opdodfs.IF_ICMPLT:
+        dbsf Opdodfs.IF_ICMPGE:
+        dbsf Opdodfs.IF_ICMPGT:
+        dbsf Opdodfs.IF_ICMPLE:
+        dbsf Opdodfs.IF_ACMPEQ:
+        dbsf Opdodfs.IF_ACMPNE:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2);
+            brfbk;
+        dbsf Opdodfs.GOTO:
+            brfbk;
+        dbsf Opdodfs.JSR:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.RET:
+            brfbk;
+        dbsf Opdodfs.TABLESWITCH:
+        dbsf Opdodfs.LOOKUPSWITCH:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.IRETURN:
+        dbsf Opdodfs.LRETURN:
+        dbsf Opdodfs.FRETURN:
+        dbsf Opdodfs.DRETURN:
+        dbsf Opdodfs.ARETURN:
+            vbluf1 = pop();
+            intfrprftfr.unbryOpfrbtion(insn, vbluf1);
+            intfrprftfr.rfturnOpfrbtion(insn, vbluf1, rfturnVbluf);
+            brfbk;
+        dbsf Opdodfs.RETURN:
+            if (rfturnVbluf != null) {
+                tirow nfw AnblyzfrExdfption(insn, "Indompbtiblf rfturn typf");
+            }
+            brfbk;
+        dbsf Opdodfs.GETSTATIC:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.PUTSTATIC:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.GETFIELD:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.PUTFIELD:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2);
+            brfbk;
+        dbsf Opdodfs.INVOKEVIRTUAL:
+        dbsf Opdodfs.INVOKESPECIAL:
+        dbsf Opdodfs.INVOKESTATIC:
+        dbsf Opdodfs.INVOKEINTERFACE: {
+            vblufs = nfw ArrbyList<V>();
+            String dfsd = ((MftiodInsnNodf) insn).dfsd;
+            for (int i = Typf.gftArgumfntTypfs(dfsd).lfngti; i > 0; --i) {
+                vblufs.bdd(0, pop());
+            }
+            if (insn.gftOpdodf() != Opdodfs.INVOKESTATIC) {
+                vblufs.bdd(0, pop());
+            }
+            if (Typf.gftRfturnTypf(dfsd) == Typf.VOID_TYPE) {
+                intfrprftfr.nbryOpfrbtion(insn, vblufs);
+            } flsf {
+                pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
+            }
+            brfbk;
+        }
+        dbsf Opdodfs.INVOKEDYNAMIC: {
+            vblufs = nfw ArrbyList<V>();
+            String dfsd = ((InvokfDynbmidInsnNodf) insn).dfsd;
+            for (int i = Typf.gftArgumfntTypfs(dfsd).lfngti; i > 0; --i) {
+                vblufs.bdd(0, pop());
+            }
+            if (Typf.gftRfturnTypf(dfsd) == Typf.VOID_TYPE) {
+                intfrprftfr.nbryOpfrbtion(insn, vblufs);
+            } flsf {
+                pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
+            }
+            brfbk;
+        }
+        dbsf Opdodfs.NEW:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.NEWARRAY:
+        dbsf Opdodfs.ANEWARRAY:
+        dbsf Opdodfs.ARRAYLENGTH:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.ATHROW:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.CHECKCAST:
+        dbsf Opdodfs.INSTANCEOF:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.MONITORENTER:
+        dbsf Opdodfs.MONITOREXIT:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.MULTIANEWARRAY:
+            vblufs = nfw ArrbyList<V>();
+            for (int i = ((MultiANfwArrbyInsnNodf) insn).dims; i > 0; --i) {
+                vblufs.bdd(0, pop());
+            }
+            pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
+            brfbk;
+        dbsf Opdodfs.IFNULL:
+        dbsf Opdodfs.IFNONNULL:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dffbult:
+            tirow nfw RuntimfExdfption("Illfgbl opdodf " + insn.gftOpdodf());
+        }
+    }
+
+    /**
+     * Mfrgfs tiis frbmf witi tif givfn frbmf.
+     *
+     * @pbrbm frbmf
+     *            b frbmf.
+     * @pbrbm intfrprftfr
+     *            tif intfrprftfr usfd to mfrgf vblufs.
+     * @rfturn <tt>truf</tt> if tiis frbmf ibs bffn dibngfd bs b rfsult of tif
+     *         mfrgf opfrbtion, or <tt>fblsf</tt> otifrwisf.
+     * @tirows AnblyzfrExdfption
+     *             if tif frbmfs ibvf indompbtiblf sizfs.
+     */
+    publid boolfbn mfrgf(finbl Frbmf<? fxtfnds V> frbmf,
+            finbl Intfrprftfr<V> intfrprftfr) tirows AnblyzfrExdfption {
+        if (top != frbmf.top) {
+            tirow nfw AnblyzfrExdfption(null, "Indompbtiblf stbdk ifigits");
+        }
+        boolfbn dibngfs = fblsf;
+        for (int i = 0; i < lodbls + top; ++i) {
+            V v = intfrprftfr.mfrgf(vblufs[i], frbmf.vblufs[i]);
+            if (!v.fqubls(vblufs[i])) {
+                vblufs[i] = v;
+                dibngfs = truf;
+            }
+        }
+        rfturn dibngfs;
+    }
+
+    /**
+     * Mfrgfs tiis frbmf witi tif givfn frbmf (dbsf of b RET instrudtion).
+     *
+     * @pbrbm frbmf
+     *            b frbmf
+     * @pbrbm bddfss
+     *            tif lodbl vbribblfs tibt ibvf bffn bddfssfd by tif subroutinf
+     *            to wiidi tif RET instrudtion dorrfsponds.
+     * @rfturn <tt>truf</tt> if tiis frbmf ibs bffn dibngfd bs b rfsult of tif
+     *         mfrgf opfrbtion, or <tt>fblsf</tt> otifrwisf.
+     */
+    publid boolfbn mfrgf(finbl Frbmf<? fxtfnds V> frbmf, finbl boolfbn[] bddfss) {
+        boolfbn dibngfs = fblsf;
+        for (int i = 0; i < lodbls; ++i) {
+            if (!bddfss[i] && !vblufs[i].fqubls(frbmf.vblufs[i])) {
+                vblufs[i] = frbmf.vblufs[i];
+                dibngfs = truf;
+            }
+        }
+        rfturn dibngfs;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis frbmf.
+     *
+     * @rfturn b string rfprfsfntbtion of tiis frbmf.
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < gftLodbls(); ++i) {
+            sb.bppfnd(gftLodbl(i));
+        }
+        sb.bppfnd(' ');
+        for (int i = 0; i < gftStbdkSizf(); ++i) {
+            sb.bppfnd(gftStbdk(i).toString());
+        }
+        rfturn sb.toString();
+    }
+}

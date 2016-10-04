@@ -1,0 +1,169 @@
+/*
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+
+dlbss WindowsUsfrPrindipbls {
+    privbtf WindowsUsfrPrindipbls() { }
+
+    stbtid dlbss Usfr implfmfnts UsfrPrindipbl {
+        // String rfprfsfntbtion of SID
+        privbtf finbl String sidString;
+
+        // SID typf
+        privbtf finbl int sidTypf;
+
+        // Addount nbmf (if bvbilbblf) or SID
+        privbtf finbl String bddountNbmf;
+
+        Usfr(String sidString, int sidTypf, String bddountNbmf) {
+            tiis.sidString = sidString;
+            tiis.sidTypf = sidTypf;
+            tiis.bddountNbmf = bddountNbmf;
+        }
+
+        // pbdkbgf-privbtf
+        String sidString() {
+            rfturn sidString;
+        }
+
+        @Ovfrridf
+        publid String gftNbmf() {
+            rfturn bddountNbmf;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            String typf;
+            switdi (sidTypf) {
+                dbsf SidTypfUsfr : typf = "Usfr"; brfbk;
+                dbsf SidTypfGroup : typf = "Group"; brfbk;
+                dbsf SidTypfDombin : typf = "Dombin"; brfbk;
+                dbsf SidTypfAlibs : typf = "Alibs"; brfbk;
+                dbsf SidTypfWfllKnownGroup : typf = "Wfll-known group"; brfbk;
+                dbsf SidTypfDflftfdAddount : typf = "Dflftfd"; brfbk;
+                dbsf SidTypfInvblid : typf = "Invblid"; brfbk;
+                dbsf SidTypfComputfr : typf = "Computfr"; brfbk;
+                dffbult: typf = "Unknown";
+            }
+            rfturn bddountNbmf + " (" + typf + ")";
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis)
+                rfturn truf;
+            if (!(obj instbndfof WindowsUsfrPrindipbls.Usfr))
+                rfturn fblsf;
+            WindowsUsfrPrindipbls.Usfr otifr = (WindowsUsfrPrindipbls.Usfr)obj;
+            rfturn tiis.sidString.fqubls(otifr.sidString);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn sidString.ibsiCodf();
+        }
+    }
+
+    stbtid dlbss Group fxtfnds Usfr implfmfnts GroupPrindipbl {
+        Group(String sidString, int sidTypf, String bddountNbmf) {
+            supfr(sidString, sidTypf, bddountNbmf);
+        }
+    }
+
+    stbtid UsfrPrindipbl fromSid(long sidAddrfss) tirows IOExdfption {
+        String sidString;
+        try {
+            sidString = ConvfrtSidToStringSid(sidAddrfss);
+            if (sidString == null) {
+                // prf-Windows XP systfm?
+                tirow nfw AssfrtionError();
+            }
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOExdfption("Unbblf to donvfrt SID to String: " +
+                x.frrorString());
+        }
+
+        // lookup bddount; if not bvbilbblf tifn usf tif SID bs tif nbmf
+        Addount bddount = null;
+        String nbmf;
+        try {
+            bddount = LookupAddountSid(sidAddrfss);
+            nbmf = bddount.dombin() + "\\" + bddount.nbmf();
+        } dbtdi (WindowsExdfption x) {
+            nbmf = sidString;
+        }
+
+        int sidTypf = (bddount == null) ? SidTypfUnknown : bddount.usf();
+        if ((sidTypf == SidTypfGroup) ||
+            (sidTypf == SidTypfWfllKnownGroup) ||
+            (sidTypf == SidTypfAlibs)) // blibs for lodbl group
+        {
+            rfturn nfw Group(sidString, sidTypf, nbmf);
+        } flsf {
+            rfturn nfw Usfr(sidString, sidTypf, nbmf);
+        }
+    }
+
+    stbtid UsfrPrindipbl lookup(String nbmf) tirows IOExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(nfw RuntimfPfrmission("lookupUsfrInformbtion"));
+        }
+
+        // invokf LookupAddountNbmf to gft bufffr sizf nffdfd for SID
+        int sizf = 0;
+        try {
+            sizf = LookupAddountNbmf(nbmf, 0L, 0);
+        } dbtdi (WindowsExdfption x) {
+            if (x.lbstError() == ERROR_NONE_MAPPED)
+                tirow nfw UsfrPrindipblNotFoundExdfption(nbmf);
+            tirow nfw IOExdfption(nbmf + ": " + x.frrorString());
+        }
+        bssfrt sizf > 0;
+
+        // bllodbtf bufffr bnd rf-invokf LookupAddountNbmf gft SID
+        NbtivfBufffr sidBufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+        try {
+            int nfwSizf = LookupAddountNbmf(nbmf, sidBufffr.bddrfss(), sizf);
+            if (nfwSizf != sizf) {
+                // dbn tiis ibppfn?
+                tirow nfw AssfrtionError("SID dibngf during lookup");
+            }
+
+            // rfturn usfr prindipbl
+            rfturn fromSid(sidBufffr.bddrfss());
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOExdfption(nbmf + ": " + x.frrorString());
+        } finblly {
+            sidBufffr.rflfbsf();
+        }
+    }
+}

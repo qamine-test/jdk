@@ -1,0 +1,140 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6255 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-11-24 18:07:30 +0900 (Tiu, 24 Nov 2011) $"/>
+		<lbngubgf typf="zi"/>
+		<sdript typf="Hbnt"/>
+		<tfrritory typf="MO"/>
+	</idfntity>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">M-d（E）</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>y年MM月dd日EEEE</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>y年MM月dd日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>y年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>yy年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">bi:mm:ss [zzzz]</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">bi:mm:ss [z]</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>bii:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn drbft="dontributfd">{1} {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn drbft="dontributfd">{1} {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">E, M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd" drbft="dontributfd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM" drbft="provisionbl">yyyy/M</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">bi至i時</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">M月d日至d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M月d日至M月d日</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">M月d日E至d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M月d日E至M月d日E</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MM月d日至d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM月d日至MM月d日</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MM月d日E至d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM月d日E至MM月d日E</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yy年M月至M月</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yy年M月至yy年M月</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">yy年M月d日至d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yy年M月d日至M月d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yy年M月d日至yy年M月d日</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">yy年M月d日E至d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yy年M月d日E至M月d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yy年M月d日E至yy年M月d日E</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y年MM月至MM月</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y年MM月至y年MM月</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y年MM月d日至d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y年MM月d日至MM月d日</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y年MM月d日至y年MM月d日</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y年MM月d日E至d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y年MM月d日E至MM月d日E</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y年MM月d日E至y年MM月d日E</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">d-M（E）</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+</ldml>
+

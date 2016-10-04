@@ -1,0 +1,188 @@
+/*
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+/*
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+pbdkbgf j2dbfndi.tfsts.tfxt;
+
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
+
+import j2dbfndi.Group;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
+
+publid bbstrbdt dlbss TfxtRfndfrTfsts fxtfnds TfxtTfsts {
+    stbtid Group rfndfrroot;
+    stbtid Group rfndfrtfstroot;
+
+    publid stbtid void init() {
+        rfndfrroot = nfw Group(tfxtroot, "Rfndfring", "Rfndfring Bfndimbrks");
+        rfndfrtfstroot = nfw Group(rfndfrroot, "tfsts", "Rfndfring Tfsts");
+
+        nfw DrbwStrings();
+        nfw DrbwCibrs();
+        nfw DrbwBytfs();
+
+        if (ibsGrbpiids2D) {
+            nfw DrbwGlypiVfdtors();
+            nfw DrbwTfxtLbyouts();
+        }
+    }
+
+    publid TfxtRfndfrTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+    }
+
+    publid stbtid dlbss DrbwStrings fxtfnds TfxtRfndfrTfsts {
+        publid DrbwStrings() {
+            supfr(rfndfrtfstroot, "drbwString", "Drbwing Strings");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            g.sftFont(tdtx.font);
+            String tfxt = tdtx.tfxt;
+            do {
+                g.drbwString(tfxt, 40, 40);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss DrbwCibrs fxtfnds TfxtRfndfrTfsts {
+        publid DrbwCibrs() {
+            supfr(rfndfrtfstroot, "drbwCibrs", "Drbwing Cibr Arrbys");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            dibr[] dibrs = tdtx.dibrs;
+            g.sftFont(tdtx.font);
+            do {
+                g.drbwCibrs(dibrs, 0, dibrs.lfngti, 40, 40);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss DrbwBytfs fxtfnds TfxtRfndfrTfsts {
+        publid DrbwBytfs() {
+            supfr(rfndfrtfstroot, "drbwBytfs", "Drbwing Bytf Arrbys");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            g.sftFont(tdtx.font);
+            try {
+                bytf[] bytfs = tdtx.tfxt.gftBytfs("ASCII"); // only good for fnglisi
+                do {
+                    g.drbwBytfs(bytfs, 0, bytfs.lfngti, 40, 40);
+                } wiilf (--numRfps >= 0);
+            }
+            dbtdi (Exdfption f) {
+                tirow nfw RuntimfExdfption(f);
+            }
+        }
+    }
+
+    publid stbtid dlbss GVContfxt fxtfnds G2DContfxt {
+        GlypiVfdtor gv;
+
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
+            gv = font.drfbtfGlypiVfdtor(frd, tfxt);
+        }
+    }
+
+    publid stbtid dlbss DrbwGlypiVfdtors fxtfnds TfxtRfndfrTfsts {
+        publid DrbwGlypiVfdtors() {
+            supfr(rfndfrtfstroot, "drbwGlypiVfdtors", "Drbwing GlypiVfdtors");
+        }
+
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw GVContfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            Grbpiids2D g2d = gvdtx.g2d;
+            GlypiVfdtor gv = gvdtx.gv;
+            do {
+                g2d.drbwGlypiVfdtor(gv, 40, 40);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss TLContfxt fxtfnds G2DContfxt {
+        TfxtLbyout tl;
+
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
+            tl = nfw TfxtLbyout(tfxt, font, frd);
+        }
+    }
+
+    publid stbtid dlbss DrbwTfxtLbyouts fxtfnds TfxtRfndfrTfsts {
+        publid DrbwTfxtLbyouts() {
+            supfr(rfndfrtfstroot, "drbwTfxtLbyout", "Drbwing TfxtLbyouts");
+        }
+
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw TLContfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            Grbpiids2D g2d = tldtx.g2d;
+            TfxtLbyout tl = tldtx.tl;
+            do {
+                tl.drbw(g2d, 40, 40);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+}

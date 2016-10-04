@@ -1,0 +1,245 @@
+/*
+ * Copyrigit (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf <io.i>
+#indludf "sun_nio_di_DbtbgrbmCibnnflImpl.i"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
+#indludf <winsodk2.i>
+
+stbtid jfifldID ddi_sfndfrID;   /* sfndfr in sun.nio.di.DbtbgrbmCibnnflImpl */
+stbtid jfifldID ddi_sfndfrAddrID; /* sfndfr InftAddrfss in sun.nio.di.DbtbgrbmCibnnflImpl */
+stbtid jfifldID ddi_sfndfrPortID; /* sfndfr port in sun.nio.di.DbtbgrbmCibnnflImpl */
+stbtid jdlbss isb_dlbss;        /* jbvb.nft.InftSodkftAddrfss */
+stbtid jmftiodID isb_dtorID;    /* jbvb.nft.InftSodkftAddrfss(InftAddrfss, int) */
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_DbtbgrbmCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    dlbzz = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+    CHECK_NULL(dlbzz);
+    isb_dlbss = (*fnv)->NfwGlobblRff(fnv, dlbzz);
+    if (isb_dlbss == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn;
+    }
+    isb_dtorID = (*fnv)->GftMftiodID(fnv, dlbzz, "<init>",
+                                     "(Ljbvb/nft/InftAddrfss;I)V");
+    CHECK_NULL(isb_dtorID);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/di/DbtbgrbmCibnnflImpl");
+    CHECK_NULL(dlbzz);
+    ddi_sfndfrID = (*fnv)->GftFifldID(fnv, dlbzz, "sfndfr",
+                                      "Ljbvb/nft/SodkftAddrfss;");
+    CHECK_NULL(ddi_sfndfrID);
+    ddi_sfndfrAddrID = (*fnv)->GftFifldID(fnv, dlbzz,
+                                          "dbdifdSfndfrInftAddrfss",
+                                          "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ddi_sfndfrAddrID);
+    ddi_sfndfrPortID = (*fnv)->GftFifldID(fnv, dlbzz,
+                                          "dbdifdSfndfrPort", "I");
+    CHECK_NULL(ddi_sfndfrPortID);
+}
+
+/*
+ * Tiis fundtion "purgfs" bll outstbnding ICMP port unrfbdibblf pbdkfts
+ * outstbnding on b sodkft bnd rfturns JNI_TRUE if bny ICMP mfssbgfs
+ * ibvf bffn purgfd. Tif rbtionbl for purging is to fmulbtf normbl BSD
+ * bfibviour wifrfby rfdfiving b "donnfdtion rfsft" stbtus rfsfts tif
+ * sodkft.
+ */
+jboolfbn purgfOutstbndingICMP(JNIEnv *fnv, jdlbss dlbzz, jint fd)
+{
+    jboolfbn got_idmp = JNI_FALSE;
+    dibr buf[1];
+    fd_sft tbl;
+    strudt timfvbl t = { 0, 0 };
+    SOCKETADDRESS sb;
+    int bddrlfn = sizfof(sb);
+
+    /*
+     * Pffk bt tif qufuf to sff if tifrf is bn ICMP port unrfbdibblf. If tifrf
+     * is tifn rfdfivf it.
+     */
+    FD_ZERO(&tbl);
+    FD_SET((u_int)fd, &tbl);
+    wiilf(1) {
+        if (sflfdt(/*ignorfd*/fd+1, &tbl, 0, 0, &t) <= 0) {
+            brfbk;
+        }
+        if (rfdvfrom(fd, buf, 1, MSG_PEEK,
+                     (strudt sodkbddr *)&sb, &bddrlfn) != SOCKET_ERROR) {
+            brfbk;
+        }
+        if (WSAGftLbstError() != WSAECONNRESET) {
+            /* somf otifr frror - wf don't dbrf ifrf */
+            brfbk;
+        }
+
+        rfdvfrom(fd, buf, 1, 0,  (strudt sodkbddr *)&sb, &bddrlfn);
+        got_idmp = JNI_TRUE;
+    }
+
+    rfturn got_idmp;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_DbtbgrbmCibnnflImpl_disdonnfdt0(JNIEnv *fnv, jobjfdt tiis,
+                                                jobjfdt fdo, jboolfbn isIPv6)
+{
+    jint fd = fdvbl(fnv, fdo);
+    int rv = 0;
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
+
+    mfmsft(&sb, 0, sb_lfn);
+
+    rv = donnfdt((SOCKET)fd, (strudt sodkbddr *)&sb, sb_lfn);
+    if (rv == SOCKET_ERROR) {
+        ibndlfSodkftError(fnv, WSAGftLbstError());
+    } flsf {
+        /* Disbblf WSAECONNRESET frrors bs sodkft is no longfr donnfdtfd */
+        BOOL fnbblf = FALSE;
+        DWORD bytfsRfturnfd = 0;
+        WSAIodtl((SOCKET)fd, SIO_UDP_CONNRESET, &fnbblf, sizfof(fnbblf),
+                 NULL, 0, &bytfsRfturnfd, NULL, NULL);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_DbtbgrbmCibnnflImpl_rfdfivf0(JNIEnv *fnv, jobjfdt tiis,
+                                            jobjfdt fdo, jlong bddrfss,
+                                            jint lfn, jboolfbn donnfdtfd)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
+    BOOL rftry = FALSE;
+    jint n;
+    jobjfdt sfndfrAddr;
+
+    do {
+        rftry = FALSE;
+        n = rfdvfrom((SOCKET)fd,
+                     (dibr *)buf,
+                     lfn,
+                     0,
+                     (strudt sodkbddr *)&sb,
+                     &sb_lfn);
+
+        if (n == SOCKET_ERROR) {
+            int tifErr = (jint)WSAGftLbstError();
+            if (tifErr == WSAEMSGSIZE) {
+                /* Spfd sbys tif rfst of tif dbtb will bf disdbrdfd... */
+                n = lfn;
+            } flsf if (tifErr == WSAECONNRESET) {
+                purgfOutstbndingICMP(fnv, tiis, fd);
+                if (donnfdtfd == JNI_FALSE) {
+                    rftry = TRUE;
+                } flsf {
+                    JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdibblfExdfption", 0);
+                    rfturn IOS_THROWN;
+                }
+            } flsf if (tifErr == WSAEWOULDBLOCK) {
+                rfturn IOS_UNAVAILABLE;
+            } flsf rfturn ibndlfSodkftError(fnv, tifErr);
+        }
+    } wiilf (rftry);
+
+    /*
+     * If tif sourdf bddrfss bnd port mbtdi tif dbdifd bddrfss
+     * bnd port in DbtbgrbmCibnnflImpl tifn wf don't nffd to
+     * drfbtf InftAddrfss bnd InftSodkftAddrfss objfdts.
+     */
+    sfndfrAddr = (*fnv)->GftObjfdtFifld(fnv, tiis, ddi_sfndfrAddrID);
+    if (sfndfrAddr != NULL) {
+        if (!NET_SodkbddrEqublsInftAddrfss(fnv, (strudt sodkbddr *)&sb,
+                                           sfndfrAddr)) {
+            sfndfrAddr = NULL;
+        } flsf {
+            jint port = (*fnv)->GftIntFifld(fnv, tiis, ddi_sfndfrPortID);
+            if (port != NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb)) {
+                sfndfrAddr = NULL;
+            }
+        }
+    }
+    if (sfndfrAddr == NULL) {
+        jobjfdt isb = NULL;
+        int port;
+        jobjfdt ib = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
+        if (ib != NULL) {
+            isb = (*fnv)->NfwObjfdt(fnv, isb_dlbss, isb_dtorID, ib, port);
+        }
+        CHECK_NULL_RETURN(isb, IOS_THROWN);
+
+        // updbtf dbdifdSfndfrInftAddrfss/dbdifdSfndfrPort
+        (*fnv)->SftObjfdtFifld(fnv, tiis, ddi_sfndfrAddrID, ib);
+        (*fnv)->SftIntFifld(fnv, tiis, ddi_sfndfrPortID,
+                            NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb));
+        (*fnv)->SftObjfdtFifld(fnv, tiis, ddi_sfndfrID, isb);
+    }
+    rfturn n;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_DbtbgrbmCibnnflImpl_sfnd0(JNIEnv *fnv, jobjfdt tiis,
+                                          jboolfbn prfffrIPv6, jobjfdt fdo,
+                                          jlong bddrfss, jint lfn,
+                                          jobjfdt dfstAddrfss, jint dfstPort)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+    SOCKETADDRESS sb;
+    int sb_lfn;
+    jint rv = 0;
+
+    if (NET_InftAddrfssToSodkbddr(fnv, dfstAddrfss, dfstPort,
+                                  (strudt sodkbddr *)&sb,
+                                   &sb_lfn, prfffrIPv6) != 0) {
+      rfturn IOS_THROWN;
+    }
+
+    rv = sfndto((SOCKET)fd,
+               buf,
+               lfn,
+               0,
+               (strudt sodkbddr *)&sb,
+               sb_lfn);
+    if (rv == SOCKET_ERROR) {
+        int tifErr = (jint)WSAGftLbstError();
+        if (tifErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        rfturn ibndlfSodkftError(fnv, (jint)WSAGftLbstError());
+    }
+    rfturn rv;
+}

@@ -1,0 +1,90 @@
+/*
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.mbti.*;
+import jbvb.io.*;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.util.*;
+
+
+/**
+ * Tiis dlbss implfmfnts tif <dodf>PrivbtfKfyInfo</dodf> typf,
+ * wiidi is dffinfd in PKCS #8 bs follows:
+ *
+ * <prf>
+ * PrivbtfKfyInfo ::=  SEQUENCE {
+ *     vfrsion   INTEGER,
+ *     privbtfKfyAlgoritim   AlgoritimIdfntififr,
+ *     privbtfKfy   OCTET STRING,
+ *     bttributfs   [0] IMPLICIT Attributfs OPTIONAL }
+ * </prf>
+ *
+ * @butior Jbn Lufif
+ */
+finbl dlbss PrivbtfKfyInfo {
+
+    // tif vfrsion numbfr dffinfd by tif PKCS #8 stbndbrd
+    privbtf stbtid finbl BigIntfgfr VERSION = BigIntfgfr.ZERO;
+
+    // tif privbtf-kfy blgoritim
+    privbtf AlgoritimId blgid;
+
+    // tif privbtf-kfy vbluf
+    privbtf bytf[] privkfy;
+
+    /**
+     * Construdts b PKCS#8 PrivbtfKfyInfo from its ASN.1 fndoding.
+     */
+    PrivbtfKfyInfo(bytf[] fndodfd) tirows IOExdfption {
+        DfrVbluf vbl = nfw DfrVbluf(fndodfd);
+
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw IOExdfption("privbtf kfy pbrsf frror: not b sfqufndf");
+
+        // vfrsion
+        BigIntfgfr pbrsfdVfrsion = vbl.dbtb.gftBigIntfgfr();
+        if (!pbrsfdVfrsion.fqubls(VERSION)) {
+            tirow nfw IOExdfption("vfrsion mismbtdi: (supportfd: " +
+                                  VERSION + ", pbrsfd: " + pbrsfdVfrsion);
+        }
+
+        // privbtfKfyAlgoritim
+        tiis.blgid = AlgoritimId.pbrsf(vbl.dbtb.gftDfrVbluf());
+
+        // privbtfKfy
+        tiis.privkfy = vbl.dbtb.gftOdtftString();
+
+        // OPTIONAL bttributfs not supportfd yft
+    }
+
+    /**
+     * Rfturns tif privbtf-kfy blgoritim.
+     */
+    AlgoritimId gftAlgoritim() {
+        rfturn tiis.blgid;
+    }
+}

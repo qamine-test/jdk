@@ -1,0 +1,122 @@
+'\" t
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: sdifmbgfn.1
+.\"
+.if n .pl 99999
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIjbvb-filfs\fR
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
+.SH DESCRIPTION    
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+.PP
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+.sp     
+.nf     
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+.fi     
+.nf     
+\f3Notf: Writing sdifmb1\&.xsd\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+.SH OPTIONS    
+.TP
+-d \fIpbti\fR
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+.TP
+-dp \fIpbti\fR
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+.TP
+-dlbsspbti \fIpbti\fR
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+.TP
+-fndoding \fIfndoding\fR
+.br
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+.TP
+-fpisodf \fIfilf\fR
+.br
+Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+.TP
+-vfrsion
+.br
+Displbys rflfbsf informbtion\&.
+.TP
+-iflp
+.br
+Displbys b iflp mfssbgf\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+.TP 0.2i    
+\(bu
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+.RE
+.br
+'pl 8.5i
+'bp

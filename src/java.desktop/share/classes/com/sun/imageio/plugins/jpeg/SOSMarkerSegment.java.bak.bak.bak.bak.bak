@@ -1,0 +1,240 @@
+/*
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+//import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+
+import jbvb.io.IOExdfption;
+
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * An SOS (Stbrt Of Sdbn) mbrkfr sfgmfnt.
+ */
+dlbss SOSMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    int stbrtSpfdtrblSflfdtion;
+    int fndSpfdtrblSflfdtion;
+    int bpproxHigi;
+    int bpproxLow;
+    SdbnComponfntSpfd [] domponfntSpfds; // Arrby sizf is numSdbnComponfnts
+
+    SOSMbrkfrSfgmfnt(boolfbn willSubsbmplf,
+                     bytf[] domponfntIDs,
+                     int numComponfnts) {
+        supfr(JPEG.SOS);
+        stbrtSpfdtrblSflfdtion = 0;
+        fndSpfdtrblSflfdtion = 63;
+        bpproxHigi = 0;
+        bpproxLow = 0;
+        domponfntSpfds = nfw SdbnComponfntSpfd[numComponfnts];
+        for (int i = 0; i < numComponfnts; i++) {
+            int tbblfSfl = 0;
+            if (willSubsbmplf) {
+                if ((i == 1) || (i == 2)) {
+                    tbblfSfl = 1;
+                }
+            }
+            domponfntSpfds[i] = nfw SdbnComponfntSpfd(domponfntIDs[i],
+                                                      tbblfSfl);
+        }
+    }
+
+    SOSMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        int numComponfnts = bufffr.buf[bufffr.bufPtr++];
+        domponfntSpfds = nfw SdbnComponfntSpfd[numComponfnts];
+        for (int i = 0; i < numComponfnts; i++) {
+            domponfntSpfds[i] = nfw SdbnComponfntSpfd(bufffr);
+        }
+        stbrtSpfdtrblSflfdtion = bufffr.buf[bufffr.bufPtr++];
+        fndSpfdtrblSflfdtion = bufffr.buf[bufffr.bufPtr++];
+        bpproxHigi = bufffr.buf[bufffr.bufPtr] >> 4;
+        bpproxLow = bufffr.buf[bufffr.bufPtr++] &0xf;
+        bufffr.bufAvbil -= lfngti;
+    }
+
+    SOSMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        supfr(JPEG.SOS);
+        stbrtSpfdtrblSflfdtion = 0;
+        fndSpfdtrblSflfdtion = 63;
+        bpproxHigi = 0;
+        bpproxLow = 0;
+        updbtfFromNbtivfNodf(nodf, truf);
+    }
+
+    protfdtfd Objfdt dlonf () {
+        SOSMbrkfrSfgmfnt nfwGuy = (SOSMbrkfrSfgmfnt) supfr.dlonf();
+        if (domponfntSpfds != null) {
+            nfwGuy.domponfntSpfds = domponfntSpfds.dlonf();
+            for (int i = 0; i < domponfntSpfds.lfngti; i++) {
+                nfwGuy.domponfntSpfds[i] =
+                    (SdbnComponfntSpfd) domponfntSpfds[i].dlonf();
+            }
+        }
+        rfturn nfwGuy;
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("sos");
+        nodf.sftAttributf("numSdbnComponfnts",
+                          Intfgfr.toString(domponfntSpfds.lfngti));
+        nodf.sftAttributf("stbrtSpfdtrblSflfdtion",
+                          Intfgfr.toString(stbrtSpfdtrblSflfdtion));
+        nodf.sftAttributf("fndSpfdtrblSflfdtion",
+                          Intfgfr.toString(fndSpfdtrblSflfdtion));
+        nodf.sftAttributf("bpproxHigi",
+                          Intfgfr.toString(bpproxHigi));
+        nodf.sftAttributf("bpproxLow",
+                          Intfgfr.toString(bpproxLow));
+        for (int i = 0; i < domponfntSpfds.lfngti; i++) {
+            nodf.bppfndCiild(domponfntSpfds[i].gftNbtivfNodf());
+        }
+
+        rfturn nodf;
+    }
+
+    void updbtfFromNbtivfNodf(Nodf nodf, boolfbn fromSdrbtdi)
+        tirows IIOInvblidTrffExdfption {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        int numComponfnts = gftAttributfVbluf(nodf, bttrs, "numSdbnComponfnts",
+                                              1, 4, truf);
+        int vbluf = gftAttributfVbluf(nodf, bttrs, "stbrtSpfdtrblSflfdtion",
+                                      0, 63, fblsf);
+        stbrtSpfdtrblSflfdtion = (vbluf != -1) ? vbluf : stbrtSpfdtrblSflfdtion;
+        vbluf = gftAttributfVbluf(nodf, bttrs, "fndSpfdtrblSflfdtion",
+                                  0, 63, fblsf);
+        fndSpfdtrblSflfdtion = (vbluf != -1) ? vbluf : fndSpfdtrblSflfdtion;
+        vbluf = gftAttributfVbluf(nodf, bttrs, "bpproxHigi", 0, 15, fblsf);
+        bpproxHigi = (vbluf != -1) ? vbluf : bpproxHigi;
+        vbluf = gftAttributfVbluf(nodf, bttrs, "bpproxLow", 0, 15, fblsf);
+        bpproxLow = (vbluf != -1) ? vbluf : bpproxLow;
+
+        // Now tif diildrfn
+        NodfList diildrfn = nodf.gftCiildNodfs();
+        if (diildrfn.gftLfngti() != numComponfnts) {
+            tirow nfw IIOInvblidTrffExdfption
+                ("numSdbnComponfnts must mbtdi tif numbfr of diildrfn", nodf);
+        }
+        domponfntSpfds = nfw SdbnComponfntSpfd[numComponfnts];
+        for (int i = 0; i < numComponfnts; i++) {
+            domponfntSpfds[i] = nfw SdbnComponfntSpfd(diildrfn.itfm(i));
+        }
+    }
+
+    /**
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.
+     */
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        // Wf don't writf SOS sfgmfnts; tif IJG librbry dofs.
+    }
+
+    void print () {
+        printTbg("SOS");
+        Systfm.out.print("Stbrt spfdtrbl sflfdtion: ");
+        Systfm.out.println(stbrtSpfdtrblSflfdtion);
+        Systfm.out.print("End spfdtrbl sflfdtion: ");
+        Systfm.out.println(fndSpfdtrblSflfdtion);
+        Systfm.out.print("Approx iigi: ");
+        Systfm.out.println(bpproxHigi);
+        Systfm.out.print("Approx low: ");
+        Systfm.out.println(bpproxLow);
+        Systfm.out.print("Num sdbn domponfnts: ");
+        Systfm.out.println(domponfntSpfds.lfngti);
+        for (int i = 0; i< domponfntSpfds.lfngti; i++) {
+            domponfntSpfds[i].print();
+        }
+    }
+
+    SdbnComponfntSpfd gftSdbnComponfntSpfd(bytf domponfntSfl, int tbblfSfl) {
+        rfturn nfw SdbnComponfntSpfd(domponfntSfl, tbblfSfl);
+    }
+
+    /**
+     * A sdbn domponfnt spfd witiin bn SOS mbrkfr sfgmfnt.
+     */
+    dlbss SdbnComponfntSpfd implfmfnts Clonfbblf {
+        int domponfntSflfdtor;
+        int ddHuffTbblf;
+        int bdHuffTbblf;
+
+        SdbnComponfntSpfd(bytf domponfntSfl, int tbblfSfl) {
+            domponfntSflfdtor = domponfntSfl;
+            ddHuffTbblf = tbblfSfl;
+            bdHuffTbblf = tbblfSfl;
+        }
+
+        SdbnComponfntSpfd(JPEGBufffr bufffr) {
+            // Pbrfnt blrfbdy lobdfd tif bufffr
+            domponfntSflfdtor = bufffr.buf[bufffr.bufPtr++];
+            ddHuffTbblf = bufffr.buf[bufffr.bufPtr] >> 4;
+            bdHuffTbblf = bufffr.buf[bufffr.bufPtr++] & 0xf;
+        }
+
+        SdbnComponfntSpfd(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+            domponfntSflfdtor = gftAttributfVbluf(nodf, bttrs, "domponfntSflfdtor",
+                                                  0, 255, truf);
+            ddHuffTbblf = gftAttributfVbluf(nodf, bttrs, "ddHuffTbblf",
+                                            0, 3, truf);
+            bdHuffTbblf = gftAttributfVbluf(nodf, bttrs, "bdHuffTbblf",
+                                            0, 3, truf);
+        }
+
+        protfdtfd Objfdt dlonf() {
+            try {
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {} // won't ibppfn
+            rfturn null;
+        }
+
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("sdbnComponfntSpfd");
+            nodf.sftAttributf("domponfntSflfdtor",
+                              Intfgfr.toString(domponfntSflfdtor));
+            nodf.sftAttributf("ddHuffTbblf",
+                              Intfgfr.toString(ddHuffTbblf));
+            nodf.sftAttributf("bdHuffTbblf",
+                              Intfgfr.toString(bdHuffTbblf));
+            rfturn nodf;
+        }
+
+        void print () {
+            Systfm.out.print("Componfnt Sflfdtor: ");
+            Systfm.out.println(domponfntSflfdtor);
+            Systfm.out.print("DC iuffmbn tbblf: ");
+            Systfm.out.println(ddHuffTbblf);
+            Systfm.out.print("AC iuffmbn tbblf: ");
+            Systfm.out.println(bdHuffTbblf);
+        }
+    }
+
+}

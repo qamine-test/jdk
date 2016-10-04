@@ -1,0 +1,210 @@
+/*
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft;
+
+import jbvb.nft.URL;
+
+/**
+ * ProgrfssSourdf rfprfsfnts tif sourdf of progrfss dibngfs.
+ *
+ * @butior Stbnlfy Mbn-Kit Ho
+ */
+publid dlbss ProgrfssSourdf
+{
+    publid fnum Stbtf { NEW, CONNECTED, UPDATE, DELETE };
+
+    // URL
+    privbtf URL url;
+    // URL mftiod
+    privbtf String mftiod;
+    // Contfnt typf
+    privbtf String dontfntTypf;
+    // bytfs rfbd
+    privbtf long progrfss = 0;
+    // lbst bytfs rfbd
+    privbtf long lbstProgrfss = 0;
+    //bytfs fxpfdtfd
+    privbtf long fxpfdtfd = -1;
+    // tif lbst tiing to ibppfn witi tiis sourdf
+    privbtf Stbtf stbtf;
+    // donnfdt flbg
+    privbtf boolfbn donnfdtfd = fblsf;
+    // tirfsiold for notifidbtion
+    privbtf int tirfsiold = 8192;
+    // progrfss monitor
+    privbtf ProgrfssMonitor progrfssMonitor;
+
+    /**
+     * Construdt progrfss sourdf objfdt.
+     */
+    publid ProgrfssSourdf(URL url, String mftiod) {
+        tiis(url, mftiod, -1);
+    }
+
+    /**
+     * Construdt progrfss sourdf objfdt.
+     */
+    publid ProgrfssSourdf(URL url, String mftiod, long fxpfdtfd)  {
+        tiis.url = url;
+        tiis.mftiod = mftiod;
+        tiis.dontfntTypf = "dontfnt/unknown";
+        tiis.progrfss = 0;
+        tiis.lbstProgrfss = 0;
+        tiis.fxpfdtfd = fxpfdtfd;
+        tiis.stbtf = Stbtf.NEW;
+        tiis.progrfssMonitor = ProgrfssMonitor.gftDffbult();
+        tiis.tirfsiold = progrfssMonitor.gftProgrfssUpdbtfTirfsiold();
+    }
+
+    publid boolfbn donnfdtfd() {
+        if (!donnfdtfd) {
+            donnfdtfd = truf;
+            stbtf = Stbtf.CONNECTED;
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Closf progrfss sourdf.
+     */
+    publid void dlosf() {
+        stbtf = Stbtf.DELETE;
+    }
+
+    /**
+     * Rfturn URL of progrfss sourdf.
+     */
+    publid URL gftURL() {
+        rfturn url;
+    }
+
+    /**
+     * Rfturn mftiod of URL.
+     */
+    publid String gftMftiod()  {
+        rfturn mftiod;
+    }
+
+    /**
+     * Rfturn dontfnt typf of URL.
+     */
+    publid String gftContfntTypf()  {
+        rfturn dontfntTypf;
+    }
+
+    // Cibngf dontfnt typf
+    publid void sftContfntTypf(String dt)  {
+        dontfntTypf = dt;
+    }
+
+    /**
+     * Rfturn durrfnt progrfss.
+     */
+    publid long gftProgrfss()  {
+        rfturn progrfss;
+    }
+
+    /**
+     * Rfturn fxpfdtfd mbximum progrfss; -1 if fxpfdtfd is unknown.
+     */
+    publid long gftExpfdtfd() {
+        rfturn fxpfdtfd;
+    }
+
+    /**
+     * Rfturn stbtf.
+     */
+    publid Stbtf gftStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Bfgin progrfss trbdking.
+     */
+    publid void bfginTrbdking() {
+        progrfssMonitor.rfgistfrSourdf(tiis);
+    }
+
+    /**
+     * Finisi progrfss trbdking.
+     */
+    publid void finisiTrbdking() {
+        progrfssMonitor.unrfgistfrSourdf(tiis);
+    }
+
+    /**
+     * Updbtf progrfss.
+     */
+    publid void updbtfProgrfss(long lbtfstProgrfss, long fxpfdtfdProgrfss) {
+        lbstProgrfss = progrfss;
+        progrfss = lbtfstProgrfss;
+        fxpfdtfd = fxpfdtfdProgrfss;
+
+        if (donnfdtfd() == fblsf)
+            stbtf = Stbtf.CONNECTED;
+        flsf
+            stbtf = Stbtf.UPDATE;
+
+        // Tif tirfsiold ffffdtivfly dividfs tif progrfss into
+        // difffrfnt sft of rbngfs:
+        //
+        //      Rbngf 0: 0..tirfsiold-1,
+        //      Rbngf 1: tirfsiold .. 2*tirfsiold-1
+        //      ....
+        //      Rbngf n: n*tirfsiold .. (n+1)*tirfsiold-1
+        //
+        // To dftfrminf wiidi rbngf tif progrfss bflongs to, it
+        // would bf dbldulbtfd bs follow:
+        //
+        //      rbngf numbfr = progrfss / tirfsiold
+        //
+        // Notifidbtion siould only bf triggfrfd wifn tif durrfnt
+        // progrfss bnd tif lbst progrfss brf in difffrfnt rbngfs,
+        // i.f. tify ibvf difffrfnt rbngf numbfrs.
+        //
+        // Using tiis rbngf sdifmf, notifidbtion will bf gfnfrbtfd
+        // only ondf wifn tif progrfss rfbdifs fbdi rbngf.
+        //
+        if (lbstProgrfss / tirfsiold != progrfss / tirfsiold)   {
+            progrfssMonitor.updbtfProgrfss(tiis);
+        }
+
+        // Dftfdt rfbd ovfrrun
+        if (fxpfdtfd != -1) {
+            if (progrfss >= fxpfdtfd && progrfss != 0)
+                dlosf();
+        }
+    }
+
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        rfturn supfr.dlonf();
+    }
+
+    publid String toString()    {
+        rfturn gftClbss().gftNbmf() + "[url=" + url + ", mftiod=" + mftiod + ", stbtf=" + stbtf
+            + ", dontfnt-typf=" + dontfntTypf + ", progrfss=" + progrfss + ", fxpfdtfd=" + fxpfdtfd + "]";
+    }
+}

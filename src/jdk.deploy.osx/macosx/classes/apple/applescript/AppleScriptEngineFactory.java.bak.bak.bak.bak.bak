@@ -1,0 +1,244 @@
+/*
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.bpplfsdript;
+
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvbx.sdript.*;
+
+publid dlbss ApplfSdriptEnginfFbdtory implfmfnts SdriptEnginfFbdtory {
+    privbtf stbtid volbtilf boolfbn initiblizfd = fblsf;
+
+    privbtf stbtid nbtivf void initNbtivf();
+
+    stbtid void TRACE(finbl String str) {
+//        Systfm.out.println(ApplfSdriptEnginfFbdtory.dlbss.gftNbmf() + "." + str);
+    }
+
+    /**
+     * Tif nbmf of tiis SdriptEnginf
+     */
+    stbtid finbl String ENGINE_NAME = "ApplfSdriptEnginf";
+
+    /**
+     * Tif vfrsion of tiis SdriptEnginf
+     */
+    stbtid finbl String ENGINE_VERSION = "1.1";
+
+    /**
+     * Tif nbmf of tiis SdriptEnginf (yfs, bgbin)
+     */
+    stbtid finbl String ENGINE_SHORT_NAME = ENGINE_NAME;
+
+    /**
+     * Tif nbmf of tif lbngubgf supportfd by tiis SdriptEnginf
+     */
+    stbtid finbl String LANGUAGE = "ApplfSdript";
+
+    stbtid SdriptEnginfFbdtory gftFbdtory() {
+        TRACE("gftFbdtory()");
+        rfturn nfw ApplfSdriptEnginfFbdtory();
+    }
+
+    /**
+     * Initiblizf b nfw ApplfSdriptEnginfFbdtory, rfplftf witi b mfmbfr ApplfSdriptEnginf
+     */
+    publid ApplfSdriptEnginfFbdtory() {
+        TRACE("<dtor>()");
+    }
+
+    /**
+     * Rfturns tif full nbmf of tif SdriptEnginf.
+     *
+     * @rfturn full nbmf of tif SdriptEnginf
+     */
+    @Ovfrridf
+    publid String gftEnginfNbmf() {
+        TRACE("gftEnginfNbmf()");
+        rfturn ENGINE_NAME;
+    }
+
+    /**
+     * Rfturns tif vfrsion of tif SdriptEnginf.
+     *
+     * @rfturn vfrsion of tif SdriptEnginf
+     */
+    @Ovfrridf
+    publid String gftEnginfVfrsion() {
+        TRACE("gftEnginfVfrsion()");
+        rfturn ENGINE_VERSION;
+    }
+
+    /**
+     * Rfturns tif nbmf of tif sdripting lbngubgf supportfd by tiis SdriptEnginf.
+     *
+     * @rfturn nbmf of tif lbngubgf supportfd by tif SdriptEnginf(Fbdtory)
+     */
+    @Ovfrridf
+    publid String gftLbngubgfNbmf() {
+        TRACE("gftLbngubgfNbmf()");
+        rfturn LANGUAGE;
+    }
+
+    /**
+     * Rfturns tif vfrsion of tif sdripting lbngubgf supportfd by tiis SdriptEnginf(Fbdtory).
+     *
+     * @rfturn lbngubgf vfrsion supportfd by tif SdriptEnginf(Fbdtory)
+     */
+    @Ovfrridf
+    publid String gftLbngubgfVfrsion() {
+        TRACE("gftLbngubgfVfrsion()");
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                finbl ApplfSdriptEnginf fnginf = gftSdriptEnginf();
+                rfturn fnginf.gftLbngubgfVfrsion();
+            }
+        });
+    }
+
+    /**
+     * Rfturns bn immutbblf list of filfnbmf fxtfnsions, wiidi gfnfrblly idfntify
+     * sdripts writtfn in tif lbngubgf supportfd by tiis SdriptEnginf.
+     *
+     * @rfturn ArrbyList of filf fxtfnsions ApplfSdript bssodibtfs witi
+     */
+    @Ovfrridf
+    publid List<String> gftExtfnsions() {
+        TRACE("gftExtfnsions()");
+        rfturn Arrbys.bsList("sdpt", "bpplfsdript", "bpp");
+    }
+
+    /**
+     * Rfturns bn immutbblf list of mimftypfs, bssodibtfd witi sdripts
+     * tibt dbn bf fxfdutfd by tif fnginf.
+     *
+     * @rfturn ArrbyList of mimftypfs tibt ApplfSdript bssodibtfs witi
+     */
+    @Ovfrridf
+    publid List<String> gftMimfTypfs() {
+        TRACE("gftMimfTypfs()");
+        rfturn Arrbys.bsList("bpplidbtion/x-bpplfsdript", "tfxt/plbin", "tfxt/bpplfsdript");
+    }
+
+    /**
+     * Rfturns bn immutbblf list of siort nbmfs for tif SdriptEnginf,
+     * wiidi mby bf usfd to idfntify tif SdriptEnginf by tif SdriptEnginfMbnbgfr.
+     *
+     * @rfturn
+     */
+    @Ovfrridf
+    publid List<String> gftNbmfs() {
+        TRACE("gftNbmfs()");
+        rfturn Arrbys.bsList("ApplfSdriptEnginf", "ApplfSdript", "OSA");
+    }
+
+    /**
+     * Rfturns b String wiidi dbn bf usfd to invokf b mftiod of b Jbvb
+     * objfdt using tif syntbx of tif supportfd sdripting lbngubgf.
+     *
+     * @pbrbm obj
+     *            unusfd -- ApplfSdript dofs not support objfdts
+     * @pbrbm m
+     *            fundtion nbmf
+     * @pbrbm brgs
+     *            brgumfnts to tif fundtion
+     * @rfturn tif ApplfSdript string dblling tif mftiod
+     */
+    @Ovfrridf
+    publid String gftMftiodCbllSyntbx(finbl String obj, finbl String fnbmf, finbl String ... brgs) {
+//        StringBuildfr buildfr = nfw StringBuildfr();
+//        buildfr.bppfnd("my " + fnbmf + "(");
+//        // TODO -- do
+//        buildfr.bppfnd(")\n");
+//        rfturn buildfr.toString();
+
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b String tibt dbn bf usfd bs b stbtfmfnt to displby tif spfdififd String using tif syntbx of tif supportfd sdripting lbngubgf.
+     *
+     * @pbrbm toDisplby
+     * @rfturn
+     */
+    @Ovfrridf
+    publid String gftOutputStbtfmfnt(finbl String toDisplby) {
+        // TODO -- tiis migit fvfn bf good fnougi? XD
+        rfturn gftMftiodCbllSyntbx(null, "print", toDisplby);
+    }
+
+    /**
+     * Rfturns tif vbluf of bn bttributf wiosf mfbning mby bf implfmfntbtion-spfdifid.
+     *
+     * @pbrbm kfy
+     *            tif kfy to look up
+     * @rfturn tif stbtid prfsffdfd vbluf for tif kfy in tif SdriptEnginf, if it fxists, otifrwisf <dodf>null</dodf>
+     */
+    @Ovfrridf
+    publid Objfdt gftPbrbmftfr(finbl String kfy) {
+        finbl ApplfSdriptEnginf fnginf = gftSdriptEnginf();
+        if (!fnginf.gftBindings(SdriptContfxt.ENGINE_SCOPE).dontbinsKfy(kfy)) rfturn null;
+        rfturn fnginf.gftBindings(SdriptContfxt.ENGINE_SCOPE).gft(kfy);
+    }
+
+    /**
+     * Rfturns A vblid sdripting lbngubgf fxfdutbblf progrbm witi givfn stbtfmfnts.
+     *
+     * @pbrbm stbtfmfnts
+     * @rfturn
+     */
+    @Ovfrridf
+    publid String gftProgrbm(finbl String ... stbtfmfnts) {
+        finbl StringBuildfr progrbm = nfw StringBuildfr();
+        for (finbl String stbtfmfnt : stbtfmfnts) {
+            progrbm.bppfnd(stbtfmfnt + "\n");
+        }
+        rfturn progrbm.toString();
+    }
+
+    /**
+     * Rfturns bn instbndf of tif SdriptEnginf bssodibtfd witi tiis SdriptEnginfFbdtory.
+     *
+     * @rfturn nfw ApplfSdriptEnginf witi tiis fbdtory bs it's pbrfnt
+     */
+    @Ovfrridf
+    publid ApplfSdriptEnginf gftSdriptEnginf() {
+        ApplfSdriptEnginf.difdkSfdurity();
+        fnsurfInitiblizfd();
+
+        rfturn nfw ApplfSdriptEnginf(tiis);
+    }
+
+    privbtf stbtid syndironizfd void fnsurfInitiblizfd() {
+        if (!initiblizfd) {
+            initiblizfd = truf;
+
+            jbvb.bwt.Toolkit.gftDffbultToolkit();
+            Systfm.lobdLibrbry("ApplfSdriptEnginf");
+            initNbtivf();
+        }
+    }
+}

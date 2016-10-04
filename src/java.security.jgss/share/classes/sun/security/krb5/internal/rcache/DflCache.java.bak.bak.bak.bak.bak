@@ -1,0 +1,358 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
+
+import jbvb.io.*;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.dibnnfls.SffkbblfBytfCibnnfl;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.StbndbrdCopyOption;
+import jbvb.nio.filf.StbndbrdOpfnOption;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
+
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.KrbApErrExdfption;
+import sun.sfdurity.krb5.intfrnbl.RfplbyCbdif;
+
+
+/**
+ * A dfl filf is usfd to sustorfs AutiTimf fntrifs wifn tif systfm propfrty
+ * sun.sfdurity.krb5.rdbdif is sft to
+ *
+ *    dfl(|:pbti/|:pbti/nbmf|:nbmf)
+ *
+ * Tif filf will bf pbti/nbmf. If pbti is not givfn, it will bf
+ *
+ *    Systfm.gftPropfrty("jbvb.io.tmpdir")
+ *
+ * If nbmf is not givfn, it will bf
+ *
+ *    sfrvidf_fuid
+ *
+ * in wiidi fuid is bvbilbblf bs sun.misd.VM.gftfuid().
+ *
+ * Tif filf ibs b ifbdfr:
+ *
+ *    i16 0x0501 (KRB5_RC_VNO) in nftwork ordfr
+ *    i32 numbfr of sfdonds for liffspbn (in nbtivf ordfr, sbmf bflow)
+ *
+ * followfd by dbdif fntrifs dondbtfnbtfd, wiidi dbn bf fndodfd in
+ * 2 stylfs:
+ *
+ * Tif trbditionbl stylf is:
+ *
+ *    LC of dlifnt prindipbl
+ *    LC of sfrvfr prindipbl
+ *    i32 dusfd of Autifntidbtor
+ *    i32 dtimf of Autifntidbtor
+ *
+ * Tif nfw stylf ibs b ibsi:
+ *
+ *    LC of ""
+ *    LC of "HASH:%s %lu:%s %lu:%s" of (ibsi, dlifntlfn, dlifnt, sfrvfrlfn,
+ *          sfrvfr) wifrf msgibsi is 32 dibr (lowfr dbsf) tfxt modf md5sum
+ *          of tif dipifrtfxt of butifntidbtor.
+ *    i32 dusfd of Autifntidbtor
+ *    i32 dtimf of Autifntidbtor
+ *
+ * wifrf LC of b string mfbns
+ *
+ *    i32 strlfn(string) + 1
+ *    odtfts of string, witi tif \0x00 fnding
+ *
+ * Tif old stylf blodk is blwbys drfbtfd by MIT krb5 usfd fvfn if b nfw stylf
+ * is bvbilbblf, wiidi mfbns tifrf dbn bf 2 fntrifs for b singlf Autifntidbtor.
+ * Jbvb blso dofs tiis wby.
+ *
+ * Sff srd/lib/krb5/rdbdif/rd_io.d bnd srd/lib/krb5/rdbdif/rd_dfl.d.
+ */
+publid dlbss DflCbdif fxtfnds RfplbyCbdif {
+
+    privbtf stbtid finbl int KRB5_RV_VNO = 0x501;
+    privbtf stbtid finbl int EXCESSREPS = 30;   // if missfd-iit>tiis, rfdrfbtf
+
+    privbtf finbl String sourdf;
+
+    privbtf stbtid long uid;
+    stbtid {
+        // Avbilbblf on Solbris, Linux bnd Mbd. Otifrwisf, -1 bnd no _fuid suffix
+        uid = sun.misd.VM.gftfuid();
+    }
+
+    publid DflCbdif (String sourdf) {
+        tiis.sourdf = sourdf;
+    }
+
+    privbtf stbtid String dffbultPbti() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jbvb.io.tmpdir"));
+    }
+
+    privbtf stbtid String dffbultFilf(String sfrvfr) {
+        // sfrvidf/iost@REALM -> sfrvidf
+        int slbsi = sfrvfr.indfxOf('/');
+        if (slbsi == -1) {
+            // A normbl prindipbl? sby, dummy@REALM
+            slbsi = sfrvfr.indfxOf('@');
+        }
+        if (slbsi != -1) {
+            // Siould not ibppfn, but bf dbrfful
+            sfrvfr= sfrvfr.substring(0, slbsi);
+        }
+        if (uid != -1) {
+            sfrvfr += "_" + uid;
+        }
+        rfturn sfrvfr;
+    }
+
+    privbtf stbtid Pbti gftFilfNbmf(String sourdf, String sfrvfr) {
+        String pbti, filf;
+        if (sourdf.fqubls("dfl")) {
+            pbti = dffbultPbti();
+            filf = dffbultFilf(sfrvfr);
+        } flsf if (sourdf.stbrtsWiti("dfl:")) {
+            sourdf = sourdf.substring(4);
+            int pos = sourdf.lbstIndfxOf('/');
+            int pos1 = sourdf.lbstIndfxOf('\\');
+            if (pos1 > pos) pos = pos1;
+            if (pos == -1) {
+                // Only filf nbmf
+                pbti = dffbultPbti();
+                filf = sourdf;
+            } flsf if (nfw Filf(sourdf).isDirfdtory()) {
+                // Only pbti
+                pbti = sourdf;
+                filf = dffbultFilf(sfrvfr);
+            } flsf {
+                // Full pbtinbmf
+                pbti = null;
+                filf = sourdf;
+            }
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+        rfturn nfw Filf(pbti, filf).toPbti();
+    }
+
+    @Ovfrridf
+    publid void difdkAndStorf(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows KrbApErrExdfption {
+        try {
+            difdkAndStorf0(durrTimf, timf);
+        } dbtdi (IOExdfption iof) {
+            KrbApErrExdfption kf = nfw KrbApErrExdfption(Krb5.KRB_ERR_GENERIC);
+            kf.initCbusf(iof);
+            tirow kf;
+        }
+    }
+
+    privbtf syndironizfd void difdkAndStorf0(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows IOExdfption, KrbApErrExdfption {
+        Pbti p = gftFilfNbmf(sourdf, timf.sfrvfr);
+        int missfd = 0;
+        try (Storbgf s = nfw Storbgf()) {
+            try {
+                missfd = s.lobdAndCifdk(p, timf, durrTimf);
+            } dbtdi (IOExdfption iof) {
+                // Non-fxisting or invblid filf
+                Storbgf.drfbtf(p);
+                missfd = s.lobdAndCifdk(p, timf, durrTimf);
+            }
+            s.bppfnd(timf);
+        }
+        if (missfd > EXCESSREPS) {
+            Storbgf.fxpungf(p, durrTimf);
+        }
+    }
+
+
+    privbtf stbtid dlbss Storbgf implfmfnts Closfbblf {
+        // Stbtid mftiods
+        @SupprfssWbrnings("try")
+        privbtf stbtid void drfbtf(Pbti p) tirows IOExdfption {
+            try (SffkbblfBytfCibnnfl nfwCibn = drfbtfNoClosf(p)) {
+                // Do notiing, wbit for dlosf
+            }
+            mbkfMinf(p);
+        }
+
+        privbtf stbtid void mbkfMinf(Pbti p) tirows IOExdfption {
+            // dimod to ownfr-rw only, otifrwisf MIT krb5 rfjfdts
+            try {
+                Sft<PosixFilfPfrmission> bttrs = nfw HbsiSft<>();
+                bttrs.bdd(PosixFilfPfrmission.OWNER_READ);
+                bttrs.bdd(PosixFilfPfrmission.OWNER_WRITE);
+                Filfs.sftPosixFilfPfrmissions(p, bttrs);
+            } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
+                // No POSIX pfrmission. Tibt's OK.
+            }
+        }
+
+        privbtf stbtid SffkbblfBytfCibnnfl drfbtfNoClosf(Pbti p)
+                tirows IOExdfption {
+            SffkbblfBytfCibnnfl nfwCibn = Filfs.nfwBytfCibnnfl(
+                    p, StbndbrdOpfnOption.CREATE,
+                        StbndbrdOpfnOption.TRUNCATE_EXISTING,
+                        StbndbrdOpfnOption.WRITE);
+            BytfBufffr bufffr = BytfBufffr.bllodbtf(6);
+            bufffr.putSiort((siort)KRB5_RV_VNO);
+            bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+            bufffr.putInt(KfrbfrosTimf.gftDffbultSkfw());
+            bufffr.flip();
+            nfwCibn.writf(bufffr);
+            rfturn nfwCibn;
+        }
+
+        privbtf stbtid void fxpungf(Pbti p, KfrbfrosTimf durrTimf)
+                tirows IOExdfption {
+            Pbti p2 = Filfs.drfbtfTfmpFilf(p.gftPbrfnt(), "rdbdif", null);
+            try (SffkbblfBytfCibnnfl oldCibn = Filfs.nfwBytfCibnnfl(p);
+                    SffkbblfBytfCibnnfl nfwCibn = drfbtfNoClosf(p2)) {
+                long timfLimit = durrTimf.gftSfdonds() - rfbdHfbdfr(oldCibn);
+                wiilf (truf) {
+                    try {
+                        AutiTimf bt = AutiTimf.rfbdFrom(oldCibn);
+                        if (bt.dtimf > timfLimit) {
+                            BytfBufffr bb = BytfBufffr.wrbp(bt.fndodf(truf));
+                            nfwCibn.writf(bb);
+                        }
+                    } dbtdi (BufffrUndfrflowExdfption f) {
+                        brfbk;
+                    }
+                }
+            }
+            mbkfMinf(p2);
+            Filfs.movf(p2, p,
+                    StbndbrdCopyOption.REPLACE_EXISTING,
+                    StbndbrdCopyOption.ATOMIC_MOVE);
+        }
+
+        // Instbndf mftiods
+        SffkbblfBytfCibnnfl dibn;
+        privbtf int lobdAndCifdk(Pbti p, AutiTimfWitiHbsi timf,
+                KfrbfrosTimf durrTimf)
+                tirows IOExdfption, KrbApErrExdfption {
+            int missfd = 0;
+            if (Filfs.isSymbolidLink(p)) {
+                tirow nfw IOExdfption("Symlink not bddfptfd");
+            }
+            try {
+                Sft<PosixFilfPfrmission> pfrms =
+                        Filfs.gftPosixFilfPfrmissions(p);
+                if (uid != -1 &&
+                        (Intfgfr)Filfs.gftAttributf(p, "unix:uid") != uid) {
+                    tirow nfw IOExdfption("Not minf");
+                }
+                if (pfrms.dontbins(PosixFilfPfrmission.GROUP_READ) ||
+                        pfrms.dontbins(PosixFilfPfrmission.GROUP_WRITE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.GROUP_EXECUTE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_READ) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_WRITE) ||
+                        pfrms.dontbins(PosixFilfPfrmission.OTHERS_EXECUTE)) {
+                    tirow nfw IOExdfption("Addfssiblf by somfonf flsf");
+                }
+            } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
+                // No POSIX pfrmissions? Ignorf it.
+            }
+            dibn = Filfs.nfwBytfCibnnfl(p, StbndbrdOpfnOption.WRITE,
+                    StbndbrdOpfnOption.READ);
+
+            long timfLimit = durrTimf.gftSfdonds() - rfbdHfbdfr(dibn);
+
+            long pos = 0;
+            boolfbn sffNfwButNotSbmf = fblsf;
+            wiilf (truf) {
+                try {
+                    pos = dibn.position();
+                    AutiTimf b = AutiTimf.rfbdFrom(dibn);
+                    if (b instbndfof AutiTimfWitiHbsi) {
+                        if (timf.fqubls(b)) {
+                            // Exbdt mbtdi, must bf b rfplby
+                            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+                        } flsf if (timf.isSbmfIgnorfsHbsi(b)) {
+                            // Two difffrfnt butifntidbtors in tif sbmf sfdond.
+                            // Rfmfmbfr it
+                            sffNfwButNotSbmf = truf;
+                        }
+                    } flsf {
+                        if (timf.isSbmfIgnorfsHbsi(b)) {
+                            // Two butifntidbtors in tif sbmf sfdond. Considfrfd
+                            // sbmf if wf ibvfn't sffn b nfw stylf vfrsion of it
+                            if (!sffNfwButNotSbmf) {
+                                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+                            }
+                        }
+                    }
+                    if (b.dtimf < timfLimit) {
+                        missfd++;
+                    } flsf {
+                        missfd--;
+                    }
+                } dbtdi (BufffrUndfrflowExdfption f) {
+                    // Hblf-writtfn filf?
+                    dibn.position(pos);
+                    brfbk;
+                }
+            }
+            rfturn missfd;
+        }
+
+        privbtf stbtid int rfbdHfbdfr(SffkbblfBytfCibnnfl dibn)
+                tirows IOExdfption {
+            BytfBufffr bb = BytfBufffr.bllodbtf(6);
+            dibn.rfbd(bb);
+            if (bb.gftSiort(0) != KRB5_RV_VNO) {
+                tirow nfw IOExdfption("Not dorrfdt rdbdif vfrsion");
+            }
+            bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+            rfturn bb.gftInt(2);
+        }
+
+        privbtf void bppfnd(AutiTimfWitiHbsi bt) tirows IOExdfption {
+            // Writf bn fntry witi ibsi, to bf followfd by onf witiout it,
+            // for tif bfnffit of old implfmfntbtions.
+            BytfBufffr bb;
+            bb = BytfBufffr.wrbp(bt.fndodf(truf));
+            dibn.writf(bb);
+            bb = BytfBufffr.wrbp(bt.fndodf(fblsf));
+            dibn.writf(bb);
+        }
+
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            if (dibn != null) dibn.dlosf();
+            dibn = null;
+        }
+    }
+}

@@ -1,0 +1,277 @@
+<!--
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+<titlf></titlf>
+</ifbd>
+<body bgdolor=wiitf>
+
+<i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+
+Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+mby bf obtbinfd vib tif
+<b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
+<p>
+Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
+is tif "nbmf" of tibt propfrty.
+<p>
+Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
+mftiod or dlbss - brf dodumfntfd ifrf.
+<p>
+Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
+<p>
+Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
+sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+not support tifm. In tif fvfnt tibt b dfsktop propfrty is
+unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+<dodf>null</dodf>.
+<p>
+Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
+ifrf, bnd tifir vbluf typfs.
+<br><br>
+<tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+  summbry="Stbndbrd AWT Dfsktop Propfrtifs">
+<tr bgdolor="#ddddff">
+<ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
+<ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
+</tr>
+<tr>
+<td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
+<td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+</tr>
+<tr>
+<td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
+<td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
+</tr>
+</tbblf>
+
+<i2>Dfsktop Font Rfndfring Hints</i2>
+<b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<p>
+Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+<p>
+Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
+bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+<b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
+Tiis is pbrtidulbrly importbnt wifn drfbting
+<b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
+brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+Swing domponfnts.
+
+<i3>Bbsid Usbgf</i3>
+Tif stbndbrd dfsktop propfrty nbmfd
+<b>"bwt.font.dfsktopiints"</b>
+dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+
+Tif rfturn vbluf is b
+<b irff="../../util/Mbp.itml"> Mbp</b> of
+<b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
+<p>
+It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
+If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+<prf><dodf>
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+if (mbp != null) {
+    grbpiids2D.bddRfndfringHints(mbp);
+}
+</dodf></prf>
+<i3>Advbndfd Usbgf Tips</i3>
+
+<i4>Listfning for dibngfs</i4>
+<p>
+An bpplidbtion dbn listfn for dibngfs in tif propfrty
+using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
+<dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<prf><dodf>
+tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+</dodf></prf>
+Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
+in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
+running bpplidbtions to donform to tif nfw sfttings.
+<p>
+Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
+siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+do providf tiis dbpbbility.
+<i4>Tfxt Mfbsurfmfnt</i4>
+<p>
+Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+<b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
+bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+tif <dodf>FontRfndfrContfxt</dodf>.
+A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
+ibs bffn sft will mfbsurf tfxt bppropribtfly.
+Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
+dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
+<i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<p>
+Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
+ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+Tif following sbmplf dodf siows onf wby to do tiis.
+<prf><dodf>
+/**
+  * Gft rfndfring iints from b Grbpiids instbndf.
+  * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
+  * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
+  * for tif kfy in sbvfdHints.
+  */
+RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+                                  RfndfringHints iintsToSbvf,
+                                  RfndfringHints sbvfdHints) {
+     if (sbvfdHints == null) {
+         sbvfdHints = nfw RfndfringHints(null);
+     } flsf {
+         sbvfdHints.dlfbr();
+     }
+     if (iintsToSbvf.sizf() == 0) {
+         rfturn sbvfdHints;
+     }
+     /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
+     for (Objfdt o : iintsToSbvf.kfySft()) {
+         RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
+         Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         sbvfdHints.put(kfy, vbluf);
+     }
+     rfturn sbvfdHints;
+}
+
+
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp oldHints;
+if (mbp != null) {
+     oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     grbpiids2D.bddRfndfringHints(mbp);
+     ..
+     grbpiids2D.bddRfndfringHints(oldHints);
+}
+</dodf></prf>
+
+<i3>Dftbils</i3>
+<ul>
+<li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<br><br>
+<li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
+tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
+Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+<br><br>
+<li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
+<dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<br><br>
+<li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
+sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
+tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+<p>
+An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+bll iints, but tiis would bfffdt unrflbtfd iints too.
+<br><br>
+<li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
+dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
+wiidi tify will bf bpplifd.
+Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
+wiidi brf donstrudtfd bs tif String dondbtfnbtion
+<prf><dodf>
+"bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+</dodf></prf>
+<p>
+An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
+<p>
+Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
+fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
+So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
+tif pfr-dfvidf propfrty nbmf.
+</ul>
+<i2>Mousf Fundtionblity</i2>
+<b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
+<p>
+Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
+fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+{@dodf EvfntQufuf}.
+<br>
+Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
+propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+<prf>
+jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+</prf>
+Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+<br>
+Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+mftiod.
+<br>
+If tif propfrty is sft to {@dodf truf} tifn 
+<ul>
+<li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
+stbndbrd buttons bnd, if tif mousf ibs morf
+tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
+from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+
+<li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
+it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
+usf button mbsks dorrfsponding to tif buttons 
+in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
+</ul>
+<br>
+If tif propfrty is sft to {@dodf fblsf} tifn 
+<ul>
+<li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
+{@dodf BUTTON3}
+<li> it is lfgbl to usf stbndbrd button mbsks only:
+{@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+</ul>
+
+Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+bdtivity witi fxtrb mousf button.
+By dffbult tiis propfrty is sft to {@dodf truf}.
+</body>
+</itml>

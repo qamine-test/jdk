@@ -1,0 +1,227 @@
+/*
+ * Copyrigit (d) 2004, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.util.*;
+
+/**
+ * A bbsf dlbss usfd for idons or imbgfs tibt brf fxpfnsivf to pbint.
+ * A subdlbss will do tif following:
+ * <ol>
+ * <li>Invokf <dodf>pbint</dodf> wifn you wbnt to pbint tif imbgf,
+ *     if you brf implfmfnting <dodf>Idon</dodf> you'll invokf tiis from
+ *     <dodf>pbintIdon</dodf>.
+ *     Tif brgs brgumfnt is usfful wifn bdditionbl stbtf is nffdfd.
+ * <li>Ovfrridf <dodf>pbintToImbgf</dodf> to rfndfr tif imbgf.  Tif dodf tibt
+ *     livfs ifrf is fquivblfnt to wibt prfviously would go in
+ *     <dodf>pbintIdon</dodf>, for bn <dodf>Idon</dodf>.
+ * </ol>
+ * Tif two wbys to usf tiis dlbss brf:
+ * <ol>
+ * <li>Invokf <dodf>pbint</dodf> to drbw tif dbdifd rfprfnsfntbtion bt
+ *     tif spfdififd lodbtion.
+ * <li>Invokf <dodf>gftImbgf</dodf> to gft tif dbdifd rfprfnsfntbtion bnd
+ *     drbw tif imbgf yoursflf.  Tiis is primbrly usfful wifn you brf not
+ *     using <dodf>VolbtilfImbgf</dodf>.
+ * </ol>
+ *
+ *
+ */
+publid bbstrbdt dlbss CbdifdPbintfr {
+    // CbdifMbp mbps from dlbss to ImbgfCbdif.
+    privbtf stbtid finbl Mbp<Objfdt,ImbgfCbdif> dbdifMbp =
+                   nfw HbsiMbp<Objfdt,ImbgfCbdif>();
+
+
+    privbtf stbtid ImbgfCbdif gftCbdif(Objfdt kfy) {
+        syndironizfd(CbdifdPbintfr.dlbss) {
+            ImbgfCbdif dbdif = dbdifMbp.gft(kfy);
+            if (dbdif == null) {
+                dbdif = nfw ImbgfCbdif(1);
+                dbdifMbp.put(kfy, dbdif);
+            }
+            rfturn dbdif;
+        }
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>CbdifdPbintfr</dodf> tibt will dbdif up
+     * to <dodf>dbdifCount</dodf> imbgfs of tiis dlbss.
+     *
+     * @pbrbm dbdifCount Mbx numbfr of imbgfs to dbdif
+     */
+    publid CbdifdPbintfr(int dbdifCount) {
+        gftCbdif(gftClbss()).sftMbxCount(dbdifCount);
+    }
+
+    /**
+     * Rfndfrs tif dbdifd imbgf to tif tif pbssfd in <dodf>Grbpiid</dodf>.
+     * If tifrf is no dbdifd imbgf <dodf>pbintToImbgf</dodf> will bf invokfd.
+     * <dodf>pbintImbgf</dodf> is invokfd to pbint tif dbdifd imbgf.
+     *
+     * @pbrbm d Componfnt rfndfring to, tiis mby bf null.
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm x X-doordinbtf to rfndfr to
+     * @pbrbm y Y-doordinbtf to rfndfr to
+     * @pbrbm w Widti to rfndfr in
+     * @pbrbm i Hfigit to rfndfr in
+     * @pbrbm brg Vbribblf brgumfnts tibt will bf pbssfd to pbintToImbgf
+     */
+    publid void pbint(Componfnt d, Grbpiids g, int x,
+                         int y, int w, int i, Objfdt... brgs) {
+        if (w <= 0 || i <= 0) {
+            rfturn;
+        }
+        if (d != null) {
+            syndironizfd(d.gftTrffLodk()) {
+                syndironizfd(CbdifdPbintfr.dlbss) {
+                    // If d is non-null, syndironizf on tif trff lodk.
+                    // Tiis is nfdfssbry bfdbusf bsking for tif
+                    // GrbpiidsConfigurbtion will grbb b trff lodk.
+                    pbint0(d, g, x, y, w, i, brgs);
+                }
+            }
+        }
+        flsf {
+            syndironizfd(CbdifdPbintfr.dlbss) {
+                pbint0(d, g, x, y, w, i, brgs);
+            }
+        }
+    }
+
+    privbtf void pbint0(Componfnt d, Grbpiids g, int x,
+                         int y, int w, int i, Objfdt... brgs) {
+        Objfdt kfy = gftClbss();
+        GrbpiidsConfigurbtion donfig = gftGrbpiidsConfigurbtion(d);
+        ImbgfCbdif dbdif = gftCbdif(kfy);
+        Imbgf imbgf = dbdif.gftImbgf(kfy, donfig, w, i, brgs);
+        int bttfmpts = 0;
+        do {
+            boolfbn drbw = fblsf;
+            if (imbgf instbndfof VolbtilfImbgf) {
+                // Sff if wf nffd to rfdrfbtf tif imbgf
+                switdi (((VolbtilfImbgf)imbgf).vblidbtf(donfig)) {
+                dbsf VolbtilfImbgf.IMAGE_INCOMPATIBLE:
+                    ((VolbtilfImbgf)imbgf).flusi();
+                    imbgf = null;
+                    brfbk;
+                dbsf VolbtilfImbgf.IMAGE_RESTORED:
+                    drbw = truf;
+                    brfbk;
+                }
+            }
+            if (imbgf == null) {
+                // Rfdrfbtf tif imbgf
+                imbgf = drfbtfImbgf(d, w, i, donfig, brgs);
+                dbdif.sftImbgf(kfy, donfig, w, i, brgs, imbgf);
+                drbw = truf;
+            }
+            if (drbw) {
+                // Rfndfr to tif Imbgf
+                Grbpiids g2 = imbgf.gftGrbpiids();
+                pbintToImbgf(d, imbgf, g2, w, i, brgs);
+                g2.disposf();
+            }
+
+            // Rfndfr to tif pbssfd in Grbpiids
+            pbintImbgf(d, g, x, y, w, i, imbgf, brgs);
+
+            // If wf did tiis 3 timfs bnd tif dontfnts brf still lost
+            // bssumf wf'rf pbinting to b VolbtilfImbgf tibt is bogus bnd
+            // givf up.  Prfsumbbly wf'll bf dbllfd bgbin to pbint.
+        } wiilf ((imbgf instbndfof VolbtilfImbgf) &&
+                 ((VolbtilfImbgf)imbgf).dontfntsLost() && ++bttfmpts < 3);
+    }
+
+    /**
+     * Pbints tif rfprfsfntbtion to dbdif to tif supplifd Grbpiids.
+     *
+     * @pbrbm d Componfnt pbinting to, mby bf null.
+     * @pbrbm imbgf Imbgf to pbint to
+     * @pbrbm g Grbpiids to pbint to, obtbinfd from tif pbssfd in Imbgf.
+     * @pbrbm w Widti to pbint to
+     * @pbrbm i Hfigit to pbint to
+     * @pbrbm brgs Argumfnts supplifd to <dodf>pbint</dodf>
+     */
+    protfdtfd bbstrbdt void pbintToImbgf(Componfnt d, Imbgf imbgf, Grbpiids g,
+                                         int w, int i, Objfdt[] brgs);
+
+
+    /**
+     * Pbints tif imbgf to tif spfdififd lodbtion.
+     *
+     * @pbrbm d Componfnt pbinting to
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm x X doordinbtf to pbint to
+     * @pbrbm y Y doordinbtf to pbint to
+     * @pbrbm w Widti to pbint to
+     * @pbrbm i Hfigit to pbint to
+     * @pbrbm imbgf Imbgf to pbint
+     * @pbrbm brgs Argumfnts supplifd to <dodf>pbint</dodf>
+     */
+    protfdtfd void pbintImbgf(Componfnt d, Grbpiids g,
+                              int x, int y, int w, int i, Imbgf imbgf,
+                              Objfdt[] brgs) {
+        g.drbwImbgf(imbgf, x, y, null);
+    }
+
+    /**
+     * Crfbtfs tif imbgf to dbdif.  Tiis rfturns bn opbquf imbgf, subdlbssfs
+     * tibt rfquirf trbnsludfndy or trbnspbrfndy will nffd to ovfrridf tiis
+     * mftiod.
+     *
+     * @pbrbm d Componfnt pbinting to
+     * @pbrbm w Widti of imbgf to drfbtf
+     * @pbrbm i Hfigit to imbgf to drfbtf
+     * @pbrbm donfig GrbpiidsConfigurbtion tibt will bf
+     *        rfndfrfd to, tiis mby bf null.
+     * @pbrbm brgs Argumfnts pbssfd to pbint
+     */
+    protfdtfd Imbgf drfbtfImbgf(Componfnt d, int w, int i,
+                                GrbpiidsConfigurbtion donfig, Objfdt[] brgs) {
+        if (donfig == null) {
+            rfturn nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_RGB);
+        }
+        rfturn donfig.drfbtfCompbtiblfVolbtilfImbgf(w, i);
+    }
+
+    /**
+     * Clfbr tif imbgf dbdif
+     */
+    protfdtfd void flusi() {
+        syndironizfd(CbdifdPbintfr.dlbss) {
+            gftCbdif(gftClbss()).flusi();
+        }
+    }
+
+    privbtf GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion(Componfnt d) {
+        if (d == null) {
+            rfturn null;
+        }
+        rfturn d.gftGrbpiidsConfigurbtion();
+    }
+}

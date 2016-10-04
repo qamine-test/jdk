@@ -1,0 +1,253 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyrigit IBM Corp. 1998-2003 - All Rigits Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+
+publid dlbss StbndbrdTfxtSourdf fxtfnds TfxtSourdf {
+  dibr[] dibrs;
+  int stbrt;
+  int lfn;
+  int dstbrt;
+  int dlfn;
+  int lfvfl; // bssumfd bll uniform
+  int flbgs; // sff GlypiVfdtor.jbvb
+  Font font;
+  FontRfndfrContfxt frd;
+  CorfMftrids dm;
+
+  /**
+   * Crfbtf b simplf implfmfntbtion of b TfxtSourdf.
+   *
+   * Cibrs is bn brrby dontbining dlfn dibrs in tif dontfxt, in
+   * logidbl ordfr, dontiguously stbrting bt dstbrt.  Stbrt bnd lfn
+   * rfprfsfnt tibt portion of tif dontfxt rfprfsfnting tif truf
+   * sourdf; stbrt, likf dstbrt, is rflbtivf to tif stbrt of tif
+   * dibrbdtfr brrby.
+   *
+   * Lfvfl is tif bidi lfvfl (0-63 for tif fntirf dontfxt. Flbgs is
+   * tif lbyout flbgs. Font is tif font, frd is tif rfndfr dontfxt,
+   * bnd lm is tif linf mftrids for tif fntirf sourdf tfxt, but not
+   * nfdfssbrily tif dontfxt.
+   */
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int stbrt,
+                            int lfn,
+                            int dstbrt,
+                            int dlfn,
+                            int lfvfl,
+                            int flbgs,
+                            Font font,
+                            FontRfndfrContfxt frd,
+                            CorfMftrids dm) {
+    if (dibrs == null) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dibrs: null");
+    }
+    if (dstbrt < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dstbrt: " + dstbrt);
+    }
+    if (stbrt < dstbrt) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " for dstbrt: " + dstbrt);
+    }
+    if (dlfn < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dlfn: " + dlfn);
+    }
+    if (dstbrt + dlfn > dibrs.lfngti) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dlfn: " + dlfn + " dstbrt: " + dstbrt + " for brrby lfn: " + dibrs.lfngti);
+    }
+    if (lfn < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd lfn: " + lfn);
+    }
+    if ((stbrt + lfn) > (dstbrt + dlfn)) {
+      tirow nfw IllfgblArgumfntExdfption("bbd lfn: " + lfn + " stbrt: " + stbrt + " for dstbrt: " + dstbrt + " dlfn: " + dlfn);
+    }
+    if (font == null) {
+      tirow nfw IllfgblArgumfntExdfption("bbd font: null");
+    }
+    if (frd == null) {
+      tirow nfw IllfgblArgumfntExdfption("bbd frd: null");
+    }
+
+    tiis.dibrs = dibrs.dlonf();
+    tiis.stbrt = stbrt;
+    tiis.lfn = lfn;
+    tiis.dstbrt = dstbrt;
+    tiis.dlfn = dlfn;
+    tiis.lfvfl = lfvfl;
+    tiis.flbgs = flbgs;
+    tiis.font = font;
+    tiis.frd = frd;
+
+    if (dm != null) {
+        tiis.dm = dm;
+    } flsf {
+        LinfMftrids mftrids = font.gftLinfMftrids(dibrs, dstbrt, dlfn, frd);
+        tiis.dm = ((FontLinfMftrids)mftrids).dm;
+    }
+  }
+
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt is dofxtfnsivf witi tif sourdf. */
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int stbrt,
+                            int lfn,
+                            int lfvfl,
+                            int flbgs,
+                            Font font,
+                            FontRfndfrContfxt frd,
+                            CorfMftrids dm) {
+    tiis(dibrs, stbrt, lfn, stbrt, lfn, lfvfl, flbgs, font, frd, dm);
+  }
+
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt bnd sourdf brf dofxtfnsivf witi tif fntirf dibr brrby. */
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int lfvfl,
+                            int flbgs,
+                            Font font,
+                            FontRfndfrContfxt frd) {
+    tiis(dibrs, 0, dibrs.lfngti, 0, dibrs.lfngti, lfvfl, flbgs, font, frd, null);
+  }
+
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt bnd sourdf brf bll tif tfxt in tif String. */
+  publid StbndbrdTfxtSourdf(String str,
+                            int lfvfl,
+                            int flbgs,
+                            Font font,
+                            FontRfndfrContfxt frd) {
+    tiis(str.toCibrArrby(), 0, str.lfngti(), 0, str.lfngti(), lfvfl, flbgs, font, frd, null);
+  }
+
+  // TfxtSourdf API
+
+  publid dibr[] gftCibrs() {
+    rfturn dibrs.dlonf();
+  }
+
+  publid int gftStbrt() {
+    rfturn stbrt;
+  }
+
+  publid int gftLfngti() {
+    rfturn lfn;
+  }
+
+  publid int gftContfxtStbrt() {
+    rfturn dstbrt;
+  }
+
+  publid int gftContfxtLfngti() {
+    rfturn dlfn;
+  }
+
+  publid int gftLbyoutFlbgs() {
+    rfturn flbgs;
+  }
+
+  publid int gftBidiLfvfl() {
+    rfturn lfvfl;
+  }
+
+  publid Font gftFont() {
+    rfturn font;
+  }
+
+  publid FontRfndfrContfxt gftFRC() {
+    rfturn frd;
+  }
+
+  publid CorfMftrids gftCorfMftrids() {
+    rfturn dm;
+  }
+
+  publid TfxtSourdf gftSubSourdf(int stbrt, int lfngti, int dir) {
+    if (stbrt < 0 || lfngti < 0 || (stbrt + lfngti) > lfn) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt (" + stbrt + ") or lfngti (" + lfngti + ")");
+    }
+
+    int lfvfl = tiis.lfvfl;
+    if (dir != TfxtLinfComponfnt.UNCHANGED) {
+        boolfbn ltr = (flbgs & 0x8) == 0;
+        if (!(dir == TfxtLinfComponfnt.LEFT_TO_RIGHT && ltr) &&
+                !(dir == TfxtLinfComponfnt.RIGHT_TO_LEFT && !ltr)) {
+            tirow nfw IllfgblArgumfntExdfption("dirfdtion flbg is invblid");
+        }
+        lfvfl = ltr? 0 : 1;
+    }
+
+    rfturn nfw StbndbrdTfxtSourdf(dibrs, tiis.stbrt + stbrt, lfngti, dstbrt, dlfn, lfvfl, flbgs, font, frd, dm);
+  }
+
+  publid String toString() {
+    rfturn toString(WITH_CONTEXT);
+  }
+
+  publid String toString(boolfbn witiContfxt) {
+    StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+    sb.bppfnd("[stbrt:");
+    sb.bppfnd(stbrt);
+    sb.bppfnd(", lfn:" );
+    sb.bppfnd(lfn);
+    sb.bppfnd(", dstbrt:");
+    sb.bppfnd(dstbrt);
+    sb.bppfnd(", dlfn:" );
+    sb.bppfnd(dlfn);
+    sb.bppfnd(", dibrs:\"");
+    int diStbrt, diLimit;
+    if (witiContfxt == WITH_CONTEXT) {
+        diStbrt = dstbrt;
+        diLimit = dstbrt + dlfn;
+    }
+    flsf {
+        diStbrt = stbrt;
+        diLimit = stbrt + lfn;
+    }
+    for (int i = diStbrt; i < diLimit; ++i) {
+      if (i > diStbrt) {
+        sb.bppfnd(" ");
+      }
+      sb.bppfnd(Intfgfr.toHfxString(dibrs[i]));
+    }
+    sb.bppfnd("\"");
+    sb.bppfnd(", lfvfl:");
+    sb.bppfnd(lfvfl);
+    sb.bppfnd(", flbgs:");
+    sb.bppfnd(flbgs);
+    sb.bppfnd(", font:");
+    sb.bppfnd(font);
+    sb.bppfnd(", frd:");
+    sb.bppfnd(frd);
+    sb.bppfnd(", dm:");
+    sb.bppfnd(dm);
+    sb.bppfnd("]");
+
+    rfturn sb.toString();
+  }
+}

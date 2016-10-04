@@ -1,0 +1,236 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvbx.swing.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.bwt.AppContfxt;
+
+/**
+ * Implfmfnts tif bumps usfd tirougiout tif Mftbl Look bnd Fffl.
+ *
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson
+ */
+
+
+dlbss MftblBumps implfmfnts Idon {
+
+    stbtid finbl Color ALPHA = nfw Color(0, 0, 0, 0);
+
+    protfdtfd int xBumps;
+    protfdtfd int yBumps;
+    protfdtfd Color topColor;
+    protfdtfd Color sibdowColor;
+    protfdtfd Color bbdkColor;
+
+    privbtf stbtid finbl Objfdt METAL_BUMPS = nfw Objfdt();
+    protfdtfd BumpBufffr bufffr;
+
+    /**
+     * Crfbtfs MftblBumps of tif spfdififd sizf witi tif spfdififd dolors.
+     * If <dodf>nfwBbdkColor</dodf> is null, tif bbdkground will bf
+     * trbnspbrfnt.
+     */
+    publid MftblBumps( int widti, int ifigit,
+                       Color nfwTopColor, Color nfwSibdowColor, Color nfwBbdkColor ) {
+        sftBumpArfb( widti, ifigit );
+        sftBumpColors( nfwTopColor, nfwSibdowColor, nfwBbdkColor );
+    }
+
+    privbtf stbtid BumpBufffr drfbtfBufffr(GrbpiidsConfigurbtion gd,
+                                           Color topColor, Color sibdowColor, Color bbdkColor) {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        @SupprfssWbrnings("undifdkfd")
+        List<BumpBufffr> bufffrs = (List<BumpBufffr>) dontfxt.gft(METAL_BUMPS);
+        if (bufffrs == null) {
+            bufffrs = nfw ArrbyList<BumpBufffr>();
+            dontfxt.put(METAL_BUMPS, bufffrs);
+        }
+        for (BumpBufffr bufffr : bufffrs) {
+            if (bufffr.ibsSbmfConfigurbtion(gd, topColor, sibdowColor, bbdkColor)) {
+                rfturn bufffr;
+            }
+        }
+        BumpBufffr bufffr = nfw BumpBufffr(gd, topColor, sibdowColor, bbdkColor);
+        bufffrs.bdd(bufffr);
+        rfturn bufffr;
+    }
+
+    publid void sftBumpArfb( Dimfnsion bumpArfb ) {
+        sftBumpArfb( bumpArfb.widti, bumpArfb.ifigit );
+    }
+
+    publid void sftBumpArfb( int widti, int ifigit ) {
+        xBumps = widti / 2;
+        yBumps = ifigit / 2;
+    }
+
+    publid void sftBumpColors( Color nfwTopColor, Color nfwSibdowColor, Color nfwBbdkColor ) {
+        topColor = nfwTopColor;
+        sibdowColor = nfwSibdowColor;
+        if (nfwBbdkColor == null) {
+            bbdkColor = ALPHA;
+        }
+        flsf {
+            bbdkColor = nfwBbdkColor;
+        }
+    }
+
+    publid void pbintIdon( Componfnt d, Grbpiids g, int x, int y ) {
+        GrbpiidsConfigurbtion gd = (g instbndfof Grbpiids2D) ?
+                ((Grbpiids2D) g).gftDfvidfConfigurbtion() : null;
+
+        if ((bufffr == null) || !bufffr.ibsSbmfConfigurbtion(gd, topColor, sibdowColor, bbdkColor)) {
+            bufffr = drfbtfBufffr(gd, topColor, sibdowColor, bbdkColor);
+        }
+
+        int bufffrWidti = BumpBufffr.IMAGE_SIZE;
+        int bufffrHfigit = BumpBufffr.IMAGE_SIZE;
+        int idonWidti = gftIdonWidti();
+        int idonHfigit = gftIdonHfigit();
+        int x2 = x + idonWidti;
+        int y2 = y + idonHfigit;
+        int sbvfx = x;
+
+        wiilf (y < y2) {
+            int i = Mbti.min(y2 - y, bufffrHfigit);
+            for (x = sbvfx; x < x2; x += bufffrWidti) {
+                int w = Mbti.min(x2 - x, bufffrWidti);
+                g.drbwImbgf(bufffr.gftImbgf(),
+                            x, y, x+w, y+i,
+                            0, 0, w, i,
+                            null);
+            }
+            y += bufffrHfigit;
+        }
+    }
+
+    publid int gftIdonWidti() {
+        rfturn xBumps * 2;
+    }
+
+    publid int gftIdonHfigit() {
+        rfturn yBumps * 2;
+    }
+}
+
+
+dlbss BumpBufffr {
+
+    stbtid finbl int IMAGE_SIZE = 64;
+
+    trbnsifnt Imbgf imbgf;
+    Color topColor;
+    Color sibdowColor;
+    Color bbdkColor;
+    privbtf GrbpiidsConfigurbtion gd;
+
+    publid BumpBufffr(GrbpiidsConfigurbtion gd, Color bTopColor,
+                      Color bSibdowColor, Color bBbdkColor) {
+        tiis.gd = gd;
+        topColor = bTopColor;
+        sibdowColor = bSibdowColor;
+        bbdkColor = bBbdkColor;
+        drfbtfImbgf();
+        fillBumpBufffr();
+    }
+
+    publid boolfbn ibsSbmfConfigurbtion(GrbpiidsConfigurbtion gd,
+                                        Color bTopColor, Color bSibdowColor,
+                                        Color bBbdkColor) {
+        if (tiis.gd != null) {
+            if (!tiis.gd.fqubls(gd)) {
+                rfturn fblsf;
+            }
+        }
+        flsf if (gd != null) {
+            rfturn fblsf;
+        }
+        rfturn topColor.fqubls( bTopColor )       &&
+               sibdowColor.fqubls( bSibdowColor ) &&
+               bbdkColor.fqubls( bBbdkColor );
+    }
+
+    /**
+     * Rfturns tif Imbgf dontbining tif bumps bppropribtf for tif pbssfd in
+     * <dodf>GrbpiidsConfigurbtion</dodf>.
+     */
+    publid Imbgf gftImbgf() {
+        rfturn imbgf;
+    }
+
+    /**
+     * Pbints tif bumps into tif durrfnt imbgf.
+     */
+    privbtf void fillBumpBufffr() {
+        Grbpiids g = imbgf.gftGrbpiids();
+
+        g.sftColor( bbdkColor );
+        g.fillRfdt( 0, 0, IMAGE_SIZE, IMAGE_SIZE );
+
+        g.sftColor(topColor);
+        for (int x = 0; x < IMAGE_SIZE; x+=4) {
+            for (int y = 0; y < IMAGE_SIZE; y+=4) {
+                g.drbwLinf( x, y, x, y );
+                g.drbwLinf( x+2, y+2, x+2, y+2);
+            }
+        }
+
+        g.sftColor(sibdowColor);
+        for (int x = 0; x < IMAGE_SIZE; x+=4) {
+            for (int y = 0; y < IMAGE_SIZE; y+=4) {
+                g.drbwLinf( x+1, y+1, x+1, y+1 );
+                g.drbwLinf( x+3, y+3, x+3, y+3);
+            }
+        }
+        g.disposf();
+    }
+
+    /**
+     * Crfbtfs tif imbgf bppropribtf for tif pbssfd in
+     * <dodf>GrbpiidsConfigurbtion</dodf>, wiidi mby bf null.
+     */
+    privbtf void drfbtfImbgf() {
+        if (gd != null) {
+            imbgf = gd.drfbtfCompbtiblfImbgf(IMAGE_SIZE, IMAGE_SIZE,
+                       (bbdkColor != MftblBumps.ALPHA) ? Trbnspbrfndy.OPAQUE :
+                       Trbnspbrfndy.BITMASK);
+        }
+        flsf {
+            int dmbp[] = { bbdkColor.gftRGB(), topColor.gftRGB(),
+                           sibdowColor.gftRGB() };
+            IndfxColorModfl idm = nfw IndfxColorModfl(8, 3, dmbp, 0, fblsf,
+                      (bbdkColor == MftblBumps.ALPHA) ? 0 : -1,
+                      DbtbBufffr.TYPE_BYTE);
+            imbgf = nfw BufffrfdImbgf(IMAGE_SIZE, IMAGE_SIZE,
+                                      BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
+        }
+    }
+}

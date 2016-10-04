@@ -1,156 +1,780 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jconsole
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Javaトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jdonsolf
+.\" Titlf: jdonsolf
+.\" Titlf: jdonsolf
+.\" Titlf: jdonsolf
+.\" Titlf: jdonsolf
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "jconsole" "1" "2013年11月21日" "JDK 8" "Javaトラブルシューティング、プロファイリング、モニタリン"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jconsole \- Javaアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIjconsole\fR [ \fIoptions\fR ] [ connection \&.\&.\&. ]
+.nf
+.nf
+.nf
+.nf
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-connection = \fIpid\fR | \fIhost\fR:\fIport\fR | \fIjmxURL\fR
+.PP
+.PP
+.PP
+.PP
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
 .RS 4
-\fIpid\fR値はローカルのJava仮想マシン(JVM)のプロセスIDです。JVMは\fIjconsole\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIhost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIcom\&.sun\&.management\&.jmxremote\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXServiceURLで記述されている、接続されるJMXエージェントのアドレスです。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
 .sp
-\fIconnection\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/management/agent\&.html)を参照してください
 .sp
-\fIJMXServiceURL\fRクラスの説明(
-http://docs\&.oracle\&.com/javase/8/docs/api/javax/management/remote/JMXServiceURL\&.html)も参照してください
+.sp
+.sp
+.sp
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+.sp
+.sp
+.sp
+.sp
+.sp
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIjconsole\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJavaアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
 .PP
-Windows上では、\fIjconsole\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjconsole\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+.PP
+.PP
+.PP
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+.PP
+.PP
+.PP
+.PP
+.PP
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
-\-interval\fI=n\fR
+.PP
+.PP
+.PP
+.PP
+\-intfrvbl\fI=n\fR
+\-intfrvbl\fI=n\fR
+\-intfrvbl\fI=n\fR
+\-intfrvbl\fI=n\fR
+\-intfrvbl\fI=n\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-notile
+.PP
+.PP
+.PP
+.PP
+\-notilf
+\-notilf
+\-notilf
+\-notilf
+\-notilf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 最初にウィンドウをタイリングしません(複数接続の場合)。
+最初にウィンドウをタイリングしません(複数接続の場合)。
+最初にウィンドウをタイリングしません(複数接続の場合)。
+最初にウィンドウをタイリングしません(複数接続の場合)。
+最初にウィンドウをタイリングしません(複数接続の場合)。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-pluginpath \fIplugins\fR
+.PP
+.PP
+.PP
+.PP
+\-pluginpbti \fIplugins\fR
+\-pluginpbti \fIplugins\fR
+\-pluginpbti \fIplugins\fR
+\-pluginpbti \fIplugins\fR
+\-pluginpbti \fIplugins\fR
 .RS 4
-\fIJConsole\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/services/com\&.sun\&.tools\&.jconsole\&.JConsolePlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIcom\&.sun\&.tools\&.jconsole\&.JConsolePlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-help
+.PP
+.PP
+.PP
+.PP
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-J\fIflag\fR
+.PP
+.PP
+.PP
+.PP
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
 .RS 4
-\fIjconsole\fRコマンドを実行したJVMに\fIflag\fRを渡します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-JConsoleの使用
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/management/jconsole\&.html)
+.\}
+.\}
+.\}
+.\}
+JConsolfの使用
+JConsolfの使用
+JConsolfの使用
+JConsolfの使用
+JConsolfの使用
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 JMXテクノロジを使用したモニタリングおよび管理
+JMXテクノロジを使用したモニタリングおよび管理
+JMXテクノロジを使用したモニタリングおよび管理
+JMXテクノロジを使用したモニタリングおよび管理
+JMXテクノロジを使用したモニタリングおよび管理
 
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/management/agent\&.html)
+
+
+
+
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-\fIJMXServiceURL\fRクラスの説明(
-http://docs\&.oracle\&.com/javase/8/docs/api/javax/management/remote/JMXServiceURL\&.html)
+.\}
+.\}
+.\}
+.\}
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+\fIJMXSfrvidfURL\fRクラスの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

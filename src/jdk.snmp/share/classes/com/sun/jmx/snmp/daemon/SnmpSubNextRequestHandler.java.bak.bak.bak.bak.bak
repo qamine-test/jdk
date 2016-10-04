@@ -1,0 +1,272 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+// jbvb imports
+//
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+// SNMP Runtimf import
+//
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst;
+import dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr;
+import dom.sun.jmx.snmp.intfrnbl.SnmpIndomingRfqufst;
+
+/* NPCTE fix for bugId 4492741, fsd 0 */
+import dom.sun.jmx.snmp.TirfbdContfxt;
+/* fnd of NPCTE fix for bugId 4492741 */
+
+dlbss SnmpSubNfxtRfqufstHbndlfr fxtfnds SnmpSubRfqufstHbndlfr {
+    privbtf SnmpAdbptorSfrvfr sfrvfr = null;
+    /**
+     * Tif donstrudtor initiblizf tif subrfqufst witi tif wiolf vbrbind
+     * list dontbinfd in tif originbl rfqufst.
+     */
+    protfdtfd SnmpSubNfxtRfqufstHbndlfr(SnmpAdbptorSfrvfr sfrvfr,
+                                        SnmpMibAgfnt bgfnt,
+                                        SnmpPdu rfq) {
+        supfr(bgfnt,rfq);
+        init(rfq, sfrvfr);
+    }
+
+    protfdtfd SnmpSubNfxtRfqufstHbndlfr(SnmpEnginf fnginf,
+                                        SnmpAdbptorSfrvfr sfrvfr,
+                                        SnmpIndomingRfqufst indRfqufst,
+                                        SnmpMibAgfnt bgfnt,
+                                        SnmpPdu rfq) {
+        supfr(fnginf, indRfqufst, bgfnt, rfq);
+        init(rfq, sfrvfr);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubNfxtRfqufstHbndlfr.dlbss.gftNbmf(),
+                "SnmpSubNfxtRfqufstHbndlfr", "Construdtor : " + tiis);
+        }
+    }
+
+    privbtf void init(SnmpPdu rfq, SnmpAdbptorSfrvfr sfrvfr) {
+        tiis.sfrvfr = sfrvfr;
+
+        // Tif trbnslbtion tbblf is fbsy in tiis dbsf ...
+        //
+        finbl int mbx= trbnslbtion.lfngti;
+        finbl SnmpVbrBind[] list= rfq.vbrBindList;
+        finbl NonSyndVfdtor<SnmpVbrBind> nonSyndVbrBind =
+                ((NonSyndVfdtor<SnmpVbrBind>)vbrBind);
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            // wf nffd to bllodbtf b nfw SnmpVbrBind. Otifrwisf tif first
+            // sub rfqufst will modify tif list...
+            //
+            finbl SnmpVbrBind nfwVbrBind =
+                nfw SnmpVbrBind(list[i].oid, list[i].vbluf);
+            nonSyndVbrBind.bddNonSyndElfmfnt(nfwVbrBind);
+        }
+    }
+
+    publid void run() {
+
+        try {
+            /* NPCTE fix for bugId 4492741, fsd 0, 16-August-2001 */
+            finbl TirfbdContfxt oldContfxt =
+                TirfbdContfxt.pusi("SnmpUsfrDbtb",dbtb);
+            try {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "run", "[" + Tirfbd.durrfntTirfbd() +
+                          "]:gftNfxt opfrbtion on " + bgfnt.gftMibNbmf());
+                }
+
+                // Alwbys dbll witi V2. So tif mfrgf of tif rfsponsfs will
+                // bf fbsifr.
+                //
+                bgfnt.gftNfxt(drfbtfMibRfqufst(vbrBind, snmpVfrsionTwo, dbtb));
+            } finblly {
+                TirfbdContfxt.rfstorf(oldContfxt);
+            }
+            /* fnd of NPCTE fix for bugId 4492741 */
+
+
+        } dbtdi(SnmpStbtusExdfption x) {
+            frrorStbtus = x.gftStbtus() ;
+            frrorIndfx=  x.gftErrorIndfx();
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                      "]:bn Snmp frror oddurrfd during tif opfrbtion", x);
+            }
+        }
+        dbtdi(Exdfption x) {
+            frrorStbtus = SnmpDffinitions.snmpRspGfnErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                      "]:b gfnfrid frror oddurrfd during tif opfrbtion", x);
+            }
+        }
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "run", "[" + Tirfbd.durrfntTirfbd() +  "]:opfrbtion domplftfd");
+        }
+    }
+
+    /**
+     * Tif mftiod updbtfs tif vbrbind list of tif subrfqufst.
+     */
+    protfdtfd  void updbtfRfqufst(SnmpVbrBind vbr, int pos) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "updbtfRfqufst", "Copy :" + vbr);
+        }
+        int sizf= vbrBind.sizf();
+        trbnslbtion[sizf]= pos;
+        finbl SnmpVbrBind nfwVbrBind =
+            nfw SnmpVbrBind(vbr.oid, vbr.vbluf);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "updbtfRfqufst", "Copifd :" + nfwVbrBind);
+        }
+
+        vbrBind.bddElfmfnt(nfwVbrBind);
+    }
+    /**
+     * Tif mftiod updbtfs b givfn vbr bind list witi tif rfsult of b
+     * prfvisouly invokfd opfrbtion.
+     * Prior to dblling tif mftiod, onf must mbkf surf tibt tif opfrbtion wbs
+     * suddfssful. As sudi tif mftiod gftErrorIndfx or gftErrorStbtus siould bf
+     * dbllfd.
+     */
+    protfdtfd void updbtfRfsult(SnmpVbrBind[] rfsult) {
+
+        finbl int mbx=vbrBind.sizf();
+        for(int i= 0; i< mbx ; i++) {
+            // Mby bf wf siould dontrol tif position ...
+            //
+            finbl int indfx= trbnslbtion[i];
+            finbl SnmpVbrBind flmt=
+                (SnmpVbrBind)((NonSyndVfdtor)vbrBind).flfmfntAtNonSynd(i);
+
+            finbl SnmpVbrBind vb= rfsult[indfx];
+            if (vb == null) {
+                rfsult[indfx]= flmt;
+                /* NPCTE fix for bugid 4381195 fsd 0. <J.C.> < 17-Odt-2000> */
+                // if ((flmt != null) &&  (flmt.vbluf == null) &&
+                //    (vfrsion == snmpVfrsionTwo))
+                //    flmt.vbluf = SnmpVbrBind.fndOfMibVifw;
+                /* fnd of NPCTE fix for bugid 4381195 */
+                dontinuf;
+            }
+
+            finbl SnmpVbluf vbl= vb.vbluf;
+            if ((vbl == null)|| (vbl == SnmpVbrBind.fndOfMibVifw)){
+                /* NPCTE fix for bugid 4381195 fsd 0. <J.C.> < 17-Odt-2000> */
+                if ((flmt != null) &&
+                    (flmt.vbluf != SnmpVbrBind.fndOfMibVifw))
+                    rfsult[indfx]= flmt;
+                // flsf if ((vbl == null) && (vfrsion == snmpVfrsionTwo))
+                //    vb.vbluf = SnmpVbrBind.fndOfMibVifw;
+                dontinuf;
+                /* fnd of NPCTE fix for bugid 4381195 */
+            }
+
+            /* NPCTE fix for bugid 4381195 fsd 0. <J.C.> < 17-Odt-2000> */
+            if (flmt == null) dontinuf;
+            /* fnd of NPCTE fix for bugid 4381195 */
+
+            if (flmt.vbluf == SnmpVbrBind.fndOfMibVifw) dontinuf;
+
+
+            // Now wf nffd to tbkf tif smbllfst oid ...
+            //
+            int domp = flmt.oid.dompbrfTo(vb.oid);
+            if (domp < 0) {
+              // Tbkf tif smbllfst (lfxidogrbpiidblly)
+                //
+                rfsult[indfx]= flmt;
+            }
+            flsf {
+                if(domp == 0) {
+                    // Must dompbrf bgfnt usfd for rfply
+                    // Tbkf tif dffpfr witiin tif rfply
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "updbtfRfsult"," oid ovfrlbpping. Oid : " +
+                              flmt.oid + "vbluf :" + flmt.vbluf);
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "updbtfRfsult","Alrfbdy prfsfnt vbrBind : " +
+                              vb);
+                    }
+
+                    SnmpOid oid = vb.oid;
+                    SnmpMibAgfnt dffpfrAgfnt = sfrvfr.gftAgfntMib(oid);
+
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "updbtfRfsult","Dffpfr bgfnt : " + dffpfrAgfnt);
+                    }
+                    if(dffpfrAgfnt == bgfnt) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                                "updbtfRfsult","Tif durrfnt bgfnt is tif dffpfr onf. Updbtf tif vbluf witi tif durrfnt onf");
+                        }
+                        rfsult[indfx].vbluf = flmt.vbluf;
+                    }
+
+                    /*
+                      Vfdtor v = nfw Vfdtor();
+                      SnmpMibRfqufst gftRfq = drfbtfMibRfqufst(v,
+                      vfrsion,
+                      null);
+                      SnmpVbrBind rfblVbluf = nfw SnmpVbrBind(oid);
+                      gftRfq.bddVbrBind(rfblVbluf);
+                      try {
+                      dffpfrAgfnt.gft(gftRfq);
+                      } dbtdi(SnmpStbtusExdfption f) {
+                      f.printStbdkTrbdf();
+                      }
+
+                      if(isDfbugOn())
+                      trbdf("updbtfRfsult", "Biggfst priority vbluf is : " +
+                      rfblVbluf.vbluf);
+
+                      rfsult[indfx].vbluf = rfblVbluf.vbluf;
+                    */
+                }
+            }
+        }
+    }
+}

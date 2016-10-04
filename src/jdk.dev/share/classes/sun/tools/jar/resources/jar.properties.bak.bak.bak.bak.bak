@@ -1,0 +1,94 @@
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+frror.dbnt.opfn=\
+     dbn''t opfn: {0} 
+frror.illfgbl.option=\
+        Illfgbl option: {0}
+frror.bbd.option=\
+        Onf of options -{dtxu} must bf spfdififd.
+frror.bbd.dflbg=\
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
+frror.bbd.uflbg=\
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
+frror.bbd.fflbg=\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	 togftifr!
+frror.nosudi.filfordir=\
+        {0} : no sudi filf or dirfdtory
+frror.writf.filf=\
+        Error in writing fxisting jbr filf
+frror.drfbtf.dir=\
+        {0} : dould not drfbtf dirfdtory
+frror.indorrfdt.lfngti=\
+        indorrfdt lfngti wiilf prodfssing: {0}
+frror.drfbtf.tfmpfilf=\
+        Could not drfbtf b tfmporbry filf
+out.bddfd.mbniffst=\
+        bddfd mbniffst
+out.updbtf.mbniffst=\
+        updbtfd mbniffst
+out.ignorf.fntry=\
+        ignoring fntry {0}
+out.bdding=\
+        bdding: {0}
+out.dfflbtfd=\
+        (dfflbtfd {0}%)
+out.storfd=\
+        (storfd 0%)
+out.drfbtf=\
+        \ \ drfbtfd: {0}
+out.fxtrbdtfd=\
+        fxtrbdtfd: {0}
+out.inflbtfd=\
+        \ inflbtfd: {0}
+out.sizf=\
+        (in = {0}) (out= {1})
+
+usbgf=\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
+Options:\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

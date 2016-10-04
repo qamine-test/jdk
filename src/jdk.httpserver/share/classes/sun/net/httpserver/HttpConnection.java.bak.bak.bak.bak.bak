@@ -1,0 +1,196 @@
+/*
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.ittpsfrvfr;
+
+import jbvb.io.*;
+import jbvbx.nft.ssl.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.logging.Loggfr;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+
+/**
+ * fndbpsulbtfs bll tif donnfdtion spfdifid stbtf for b HTTP/S donnfdtion
+ * onf of tifsf is iung from tif sflfdtor bttbdimfnt bnd is usfd to lodbtf
+ * fvfrytiing from tibt.
+ */
+dlbss HttpConnfdtion {
+
+    HttpContfxtImpl dontfxt;
+    SSLEnginf fnginf;
+    SSLContfxt sslContfxt;
+    SSLStrfbms sslStrfbms;
+
+    /* iigi lfvfl strfbms rfturnfd to bpplidbtion */
+    InputStrfbm i;
+
+    /* low lfvfl strfbm tibt sits dirfdtly ovfr dibnnfl */
+    InputStrfbm rbw;
+    OutputStrfbm rbwout;
+
+    SodkftCibnnfl dibn;
+    SflfdtionKfy sflfdtionKfy;
+    String protodol;
+    long timf;
+    volbtilf long drfbtionTimf; // timf tiis donnfdtion wbs drfbtfd
+    volbtilf long rspStbrtfdTimf; // timf wf stbrtfd writing tif rfsponsf
+    int rfmbining;
+    boolfbn dlosfd = fblsf;
+    Loggfr loggfr;
+
+    publid fnum Stbtf {IDLE, REQUEST, RESPONSE};
+    volbtilf Stbtf stbtf;
+
+    publid String toString() {
+        String s = null;
+        if (dibn != null) {
+            s = dibn.toString();
+        }
+        rfturn s;
+    }
+
+    HttpConnfdtion () {
+    }
+
+    void sftCibnnfl (SodkftCibnnfl d) {
+        dibn = d;
+    }
+
+    void sftContfxt (HttpContfxtImpl dtx) {
+        dontfxt = dtx;
+    }
+
+    Stbtf gftStbtf() {
+        rfturn stbtf;
+    }
+
+    void sftStbtf (Stbtf s) {
+        stbtf = s;
+    }
+
+    void sftPbrbmftfrs (
+        InputStrfbm in, OutputStrfbm rbwout, SodkftCibnnfl dibn,
+        SSLEnginf fnginf, SSLStrfbms sslStrfbms, SSLContfxt sslContfxt, String protodol,
+        HttpContfxtImpl dontfxt, InputStrfbm rbw
+    )
+    {
+        tiis.dontfxt = dontfxt;
+        tiis.i = in;
+        tiis.rbwout = rbwout;
+        tiis.rbw = rbw;
+        tiis.protodol = protodol;
+        tiis.fnginf = fnginf;
+        tiis.dibn = dibn;
+        tiis.sslContfxt = sslContfxt;
+        tiis.sslStrfbms = sslStrfbms;
+        tiis.loggfr = dontfxt.gftLoggfr();
+    }
+
+    SodkftCibnnfl gftCibnnfl () {
+        rfturn dibn;
+    }
+
+    syndironizfd void dlosf () {
+        if (dlosfd) {
+            rfturn;
+        }
+        dlosfd = truf;
+        if (loggfr != null && dibn != null) {
+            loggfr.finfst ("Closing donnfdtion: " + dibn.toString());
+        }
+
+        if (!dibn.isOpfn()) {
+            SfrvfrImpl.dprint ("Cibnnfl blrfbdy dlosfd");
+            rfturn;
+        }
+        try {
+            /* nffd to fnsurf tfmporbry sflfdtors brf dlosfd */
+            if (rbw != null) {
+                rbw.dlosf();
+            }
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
+        }
+        try {
+            if (rbwout != null) {
+                rbwout.dlosf();
+            }
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
+        }
+        try {
+            if (sslStrfbms != null) {
+                sslStrfbms.dlosf();
+            }
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
+        }
+        try {
+            dibn.dlosf();
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
+        }
+    }
+
+    /* rfmbining is tif numbfr of bytfs lfft on tif lowfst lfvfl inputstrfbm
+     * bftfr tif fxdibngf is finisifd
+     */
+    void sftRfmbining (int r) {
+        rfmbining = r;
+    }
+
+    int gftRfmbining () {
+        rfturn rfmbining;
+    }
+
+    SflfdtionKfy gftSflfdtionKfy () {
+        rfturn sflfdtionKfy;
+    }
+
+    InputStrfbm gftInputStrfbm () {
+            rfturn i;
+    }
+
+    OutputStrfbm gftRbwOutputStrfbm () {
+            rfturn rbwout;
+    }
+
+    String gftProtodol () {
+            rfturn protodol;
+    }
+
+    SSLEnginf gftSSLEnginf () {
+            rfturn fnginf;
+    }
+
+    SSLContfxt gftSSLContfxt () {
+            rfturn sslContfxt;
+    }
+
+    HttpContfxtImpl gftHttpContfxt () {
+            rfturn dontfxt;
+    }
+}

@@ -1,554 +1,2770 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: idlj
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java IDLおよびRMI-IIOPツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: idlj
+.\" Titlf: idlj
+.\" Titlf: idlj
+.\" Titlf: idlj
+.\" Titlf: idlj
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "idlj" "1" "2013年11月21日" "JDK 8" "Java IDLおよびRMI-IIOPツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "idlj" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "idlj" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "idlj" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "idlj" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "idlj" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJavaバインディングを生成します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJbvbバインディングを生成します。
+idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJbvbバインディングを生成します。
+idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJbvbバインディングを生成します。
+idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJbvbバインディングを生成します。
+idlj \- 指定されたインタフェース定義言語(IDL)ファイルに対してJbvbバインディングを生成します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIidlj\fR [ \fIoptions\fR ] \fIidlfile\fR
+.nf
+.nf
+.nf
+.nf
+\fIidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fIidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fIidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fIidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fIidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
 .RS 4
-コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfile\fRよりも前に指定する必要があります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfilf\fRよりも前に指定する必要があります。
+コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfilf\fRよりも前に指定する必要があります。
+コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfilf\fRよりも前に指定する必要があります。
+コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfilf\fRよりも前に指定する必要があります。
+コマンドライン・オプション。オプションを参照してください。optionsの順番は任意ですが、\fIidlfilf\fRよりも前に指定する必要があります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIidlfile\fR
+.PP
+.PP
+.PP
+.PP
+\fIidlfilf\fR
+\fIidlfilf\fR
+\fIidlfilf\fR
+\fIidlfilf\fR
+\fIidlfilf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 インタフェース定義言語(IDL)による定義が含まれるファイルの名前。
+インタフェース定義言語(IDL)による定義が含まれるファイルの名前。
+インタフェース定義言語(IDL)による定義が含まれるファイルの名前。
+インタフェース定義言語(IDL)による定義が含まれるファイルの名前。
+インタフェース定義言語(IDL)による定義が含まれるファイルの名前。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-IDL\-to\-Javaコンパイラは、指定されたIDLファイルに対してJavaバインディングを生成します。バインディングの詳細は、http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/mapping/jidlMapping\&.htmlにある
-Java IDL: Java言語マッピングへのIDLを参照してください。
 .PP
-IDL\-to\-Javaコンパイラの以前のリリースの中には、\fIidltojava\fRという名前だったものがあります。
+.PP
+.PP
+.PP
+IDL\-to\-Jbvbコンパイラは、指定されたIDLファイルに対してJbvbバインディングを生成します。バインディングの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlにある
+IDL\-to\-Jbvbコンパイラは、指定されたIDLファイルに対してJbvbバインディングを生成します。バインディングの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlにある
+IDL\-to\-Jbvbコンパイラは、指定されたIDLファイルに対してJbvbバインディングを生成します。バインディングの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlにある
+IDL\-to\-Jbvbコンパイラは、指定されたIDLファイルに対してJbvbバインディングを生成します。バインディングの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlにある
+IDL\-to\-Jbvbコンパイラは、指定されたIDLファイルに対してJbvbバインディングを生成します。バインディングの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlにある
+Jbvb IDL: Jbvb言語マッピングへのIDLを参照してください。
+Jbvb IDL: Jbvb言語マッピングへのIDLを参照してください。
+Jbvb IDL: Jbvb言語マッピングへのIDLを参照してください。
+Jbvb IDL: Jbvb言語マッピングへのIDLを参照してください。
+Jbvb IDL: Jbvb言語マッピングへのIDLを参照してください。
+.PP
+.PP
+.PP
+.PP
+.PP
+IDL\-to\-Jbvbコンパイラの以前のリリースの中には、\fIidltojbvb\fRという名前だったものがあります。
+IDL\-to\-Jbvbコンパイラの以前のリリースの中には、\fIidltojbvb\fRという名前だったものがあります。
+IDL\-to\-Jbvbコンパイラの以前のリリースの中には、\fIidltojbvb\fRという名前だったものがあります。
+IDL\-to\-Jbvbコンパイラの以前のリリースの中には、\fIidltojbvb\fRという名前だったものがあります。
+IDL\-to\-Jbvbコンパイラの以前のリリースの中には、\fIidltojbvb\fRという名前だったものがあります。
+.SS "クライアント・バインディングおよびサーバー・バインディングの発行"
+.SS "クライアント・バインディングおよびサーバー・バインディングの発行"
+.SS "クライアント・バインディングおよびサーバー・バインディングの発行"
+.SS "クライアント・バインディングおよびサーバー・バインディングの発行"
 .SS "クライアント・バインディングおよびサーバー・バインディングの発行"
 .PP
+.PP
+.PP
+.PP
+.PP
+次の\fIidlj\fRコマンドは、クライアント側バインディングを含む\fIMy\&.idl\fRという名前のIDLファイルを生成します。
+次の\fIidlj\fRコマンドは、クライアント側バインディングを含む\fIMy\&.idl\fRという名前のIDLファイルを生成します。
+次の\fIidlj\fRコマンドは、クライアント側バインディングを含む\fIMy\&.idl\fRという名前のIDLファイルを生成します。
+次の\fIidlj\fRコマンドは、クライアント側バインディングを含む\fIMy\&.idl\fRという名前のIDLファイルを生成します。
 次の\fIidlj\fRコマンドは、クライアント側バインディングを含む\fIMy\&.idl\fRという名前のIDLファイルを生成します。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 idlj My\&.idl
+idlj My\&.idl
+idlj My\&.idl
+idlj My\&.idl
+idlj My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 前の構文は次と同等です。
+前の構文は次と同等です。
+前の構文は次と同等です。
+前の構文は次と同等です。
+前の構文は次と同等です。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlj \-fclient My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-fdlifnt My\&.idl
+idlj \-fdlifnt My\&.idl
+idlj \-fdlifnt My\&.idl
+idlj \-fdlifnt My\&.idl
+idlj \-fdlifnt My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次の例では、サーバー側バインディングを生成し、クライアント側バインディングおよびスケルトンを含めており、これらはすべて、POA (継承モデル)です。
+次の例では、サーバー側バインディングを生成し、クライアント側バインディングおよびスケルトンを含めており、これらはすべて、POA (継承モデル)です。
+次の例では、サーバー側バインディングを生成し、クライアント側バインディングおよびスケルトンを含めており、これらはすべて、POA (継承モデル)です。
+次の例では、サーバー側バインディングを生成し、クライアント側バインディングおよびスケルトンを含めており、これらはすべて、POA (継承モデル)です。
+次の例では、サーバー側バインディングを生成し、クライアント側バインディングおよびスケルトンを含めており、これらはすべて、POA (継承モデル)です。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlg \-fserver My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlg \-fsfrvfr My\&.idl
+idlg \-fsfrvfr My\&.idl
+idlg \-fsfrvfr My\&.idl
+idlg \-fsfrvfr My\&.idl
+idlg \-fsfrvfr My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 クライアント側とサーバー側の両方のバインディングを生成する場合は、次のコマンド(どれも等価)のうちの1つを使用します。
+クライアント側とサーバー側の両方のバインディングを生成する場合は、次のコマンド(どれも等価)のうちの1つを使用します。
+クライアント側とサーバー側の両方のバインディングを生成する場合は、次のコマンド(どれも等価)のうちの1つを使用します。
+クライアント側とサーバー側の両方のバインディングを生成する場合は、次のコマンド(どれも等価)のうちの1つを使用します。
+クライアント側とサーバー側の両方のバインディングを生成する場合は、次のコマンド(どれも等価)のうちの1つを使用します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-idlj \-fclient \-fserver My\&.idl
-idlj \-fall My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-fdlifnt \-fsfrvfr My\&.idl
+idlj \-fdlifnt \-fsfrvfr My\&.idl
+idlj \-fdlifnt \-fsfrvfr My\&.idl
+idlj \-fdlifnt \-fsfrvfr My\&.idl
+idlj \-fdlifnt \-fsfrvfr My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTieモデルです。Tie委譲モデルを参照してください。
+.PP
+.PP
+.PP
+.PP
+サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTifモデルです。Tif委譲モデルを参照してください。
+サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTifモデルです。Tif委譲モデルを参照してください。
+サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTifモデルです。Tif委譲モデルを参照してください。
+サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTifモデルです。Tif委譲モデルを参照してください。
+サーバー側で可能なモデルは2つあります。移殖可能サーバント継承モデルとTifモデルです。Tif委譲モデルを参照してください。
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .sp
+.sp
+.sp
+.sp
+.sp
+.\}
+.\}
+.\}
+.\}
 .\}
 .RS 4
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
 .br
+.br
+.br
+.br
+.br
+.ps +1
+.ps +1
+.ps +1
+.ps +1
 .ps +1
 \fB移殖可能サーバント継承モデル\fR
+\fB移殖可能サーバント継承モデル\fR
+\fB移殖可能サーバント継承モデル\fR
+\fB移殖可能サーバント継承モデル\fR
+\fB移殖可能サーバント継承モデル\fR
+.ps -1
+.ps -1
+.ps -1
+.ps -1
 .ps -1
 .br
+.br
+.br
+.br
+.br
 .PP
-デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.java\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.java\fRは、http://docs\&.oracle\&.com/javase/8/docs/api/org/omg/PortableServer/Servant\&.htmlにある
-\fIorg\&.omg\&.PortableServer\&.Servant\fRクラスを拡張するストリームベースのスケルトンです。
 .PP
-\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIcallHandler\fRインタフェースと操作インタフェースを実装します。
 .PP
-ポータブル・オブジェクト・アダプタ(POA)の\fIPortableServer\fRモジュールは、ネイティブの\fIServant\fR型を定義します。http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/POA\&.htmlにある
+.PP
+.PP
+デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.jbvb\fRは、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itmlにある
+デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.jbvb\fRは、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itmlにある
+デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.jbvb\fRは、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itmlにある
+デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.jbvb\fRは、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itmlにある
+デフォルトのサーバー側のモデルは、移殖可能サーバント継承モデルです。\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fIMyPOA\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fIMyPOA\fRクラスから継承する必要があります。\fIMyPOA\&.jbvb\fRは、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itmlにある
+\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスを拡張するストリームベースのスケルトンです。
+\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスを拡張するストリームベースのスケルトンです。
+\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスを拡張するストリームベースのスケルトンです。
+\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスを拡張するストリームベースのスケルトンです。
+\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスを拡張するストリームベースのスケルトンです。
+.PP
+.PP
+.PP
+.PP
+.PP
+\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIdbllHbndlfr\fRインタフェースと操作インタフェースを実装します。
+\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIdbllHbndlfr\fRインタフェースと操作インタフェースを実装します。
+\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIdbllHbndlfr\fRインタフェースと操作インタフェースを実装します。
+\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIdbllHbndlfr\fRインタフェースと操作インタフェースを実装します。
+\fIMy\fRインタフェースは、スケルトンが実装するIDLインタフェースに関連付けられている\fIdbllHbndlfr\fRインタフェースと操作インタフェースを実装します。
+.PP
+.PP
+.PP
+.PP
+.PP
+ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itmlにある
+ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itmlにある
+ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itmlにある
+ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itmlにある
+ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itmlにある
+ポータブル・オブジェクト・アダプタ(POA)を参照してください。
+ポータブル・オブジェクト・アダプタ(POA)を参照してください。
+ポータブル・オブジェクト・アダプタ(POA)を参照してください。
+ポータブル・オブジェクト・アダプタ(POA)を参照してください。
 ポータブル・オブジェクト・アダプタ(POA)を参照してください。
 .PP
-Javaプログラミング言語では、\fIServant\fR型はJavaの\fIorg\&.omg\&.PortableServer\&.Servant\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
 .PP
-継承モデルのもう1つのオプションは、\fI\-oldImplBase\fRフラグを使用して、Java SE 1\&.4より前のリリースのJavaプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBase\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Java SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmakeファイルを変更して、\fI\-oldImplBase\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+.PP
+.PP
+.PP
+Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
+Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
+Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
+Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
+Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。
+.PP
+.PP
+.PP
+.PP
+.PP
+継承モデルのもう1つのオプションは、\fI\-oldImplBbsf\fRフラグを使用して、Jbvb SE 1\&.4より前のリリースのJbvbプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBbsf\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Jbvb SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmbkfファイルを変更して、\fI\-oldImplBbsf\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+継承モデルのもう1つのオプションは、\fI\-oldImplBbsf\fRフラグを使用して、Jbvb SE 1\&.4より前のリリースのJbvbプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBbsf\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Jbvb SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmbkfファイルを変更して、\fI\-oldImplBbsf\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+継承モデルのもう1つのオプションは、\fI\-oldImplBbsf\fRフラグを使用して、Jbvb SE 1\&.4より前のリリースのJbvbプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBbsf\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Jbvb SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmbkfファイルを変更して、\fI\-oldImplBbsf\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+継承モデルのもう1つのオプションは、\fI\-oldImplBbsf\fRフラグを使用して、Jbvb SE 1\&.4より前のリリースのJbvbプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBbsf\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Jbvb SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmbkfファイルを変更して、\fI\-oldImplBbsf\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+継承モデルのもう1つのオプションは、\fI\-oldImplBbsf\fRフラグを使用して、Jbvb SE 1\&.4より前のリリースのJbvbプログラミング言語と互換性のあるサーバー側バインディングを生成することです。\-\fIoldImplBbsf\fRフラグは非標準で、これらのAPIは非推奨です。このフラグを使用するのは、Jbvb SE 1\&.3で記述された既存のサーバーとの互換性が必要な場合のみです。その場合、既存のmbkfファイルを変更して、\fI\-oldImplBbsf\fRフラグを\fIidlj\fRコンパイラに追加する必要があります。それ以外の場合、POAベースのサーバー側マッピングが生成されます。下位互換性のあるサーバー側バインディングを生成するには、次を実行します。
+.sp .5v
+.sp .5v
+.sp .5v
+.sp .5v
 .sp .5v
 .RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-idlj \-fclient \-fserver \-oldImplBase My\&.idl
-idlj \-fall \-oldImplBase My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl
+idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl
+idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl
+idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl
+idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl
+idlj \-fbll \-oldImplBbsf My\&.idl
+idlj \-fbll \-oldImplBbsf My\&.idl
+idlj \-fbll \-oldImplBbsf My\&.idl
+idlj \-fbll \-oldImplBbsf My\&.idl
+idlj \-fbll \-oldImplBbsf My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBase\&.java\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBase\fRクラスから継承する必要があります。
+.PP
+.PP
+.PP
+.PP
+\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBbsf\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBbsf\fRクラスから継承する必要があります。
+\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBbsf\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBbsf\fRクラスから継承する必要があります。
+\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBbsf\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBbsf\fRクラスから継承する必要があります。
+\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBbsf\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBbsf\fRクラスから継承する必要があります。
+\fIMy\&.idl\fR内で\fIMy\fRインタフェースが定義されている場合は、\fI_MyImplBbsf\&.jbvb\fRというファイルが生成されます。\fIMy\fRインタフェースの実装を提供する必要があり、\fIMy\fRインタフェースは\fI_MyImplBbsf\fRクラスから継承する必要があります。
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .sp
+.sp
+.sp
+.sp
+.sp
+.\}
+.\}
+.\}
+.\}
 .\}
 .RS 4
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.it 1 bn-trbp
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.nr bn-brfbk-flbg 1
+.br
+.br
+.br
+.br
 .br
 .ps +1
-\fBTie委譲モデル\fR
+.ps +1
+.ps +1
+.ps +1
+.ps +1
+\fBTif委譲モデル\fR
+\fBTif委譲モデル\fR
+\fBTif委譲モデル\fR
+\fBTif委譲モデル\fR
+\fBTif委譲モデル\fR
+.ps -1
+.ps -1
+.ps -1
+.ps -1
 .ps -1
 .br
+.br
+.br
+.br
+.br
 .PP
-もう1つのサーバー側モデルは、Tieモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tieとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tieモデル用のバインディングが生成されます。
+.PP
+.PP
+.PP
+.PP
+もう1つのサーバー側モデルは、Tifモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tifとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tifモデル用のバインディングが生成されます。
+もう1つのサーバー側モデルは、Tifモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tifとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tifモデル用のバインディングが生成されます。
+もう1つのサーバー側モデルは、Tifモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tifとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tifモデル用のバインディングが生成されます。
+もう1つのサーバー側モデルは、Tifモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tifとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tifモデル用のバインディングが生成されます。
+もう1つのサーバー側モデルは、Tifモデルと呼ばれるものです。このサーバー側モデルは、委譲モデルです。Tifとスケルトンを同時に生成することはできないため、それらは別々に生成する必要があります。次のコマンドによって、Tifモデル用のバインディングが生成されます。
+.sp .5v
+.sp .5v
+.sp .5v
+.sp .5v
 .sp .5v
 .RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlj \-fall My\&.idl
-idlj \-fallTIE My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbllTIE My\&.idl
+idlj \-fbllTIE My\&.idl
+idlj \-fbllTIE My\&.idl
+idlj \-fbllTIE My\&.idl
+idlj \-fbllTIE My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATie\&.java\fRが生成されます。\fIMyPOATie\fRクラスへのコンストラクタは、delegateを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。delegateに対して実装を提供する必要がありますが、この実装は\fIMyOperations\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATie\fRクラス内で実装をラップする必要があります。
+.PP
+.PP
+.PP
+.PP
+\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATif\&.jbvb\fRが生成されます。\fIMyPOATif\fRクラスへのコンストラクタは、dflfgbtfを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。dflfgbtfに対して実装を提供する必要がありますが、この実装は\fIMyOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATif\fRクラス内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATif\&.jbvb\fRが生成されます。\fIMyPOATif\fRクラスへのコンストラクタは、dflfgbtfを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。dflfgbtfに対して実装を提供する必要がありますが、この実装は\fIMyOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATif\fRクラス内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATif\&.jbvb\fRが生成されます。\fIMyPOATif\fRクラスへのコンストラクタは、dflfgbtfを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。dflfgbtfに対して実装を提供する必要がありますが、この実装は\fIMyOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATif\fRクラス内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATif\&.jbvb\fRが生成されます。\fIMyPOATif\fRクラスへのコンストラクタは、dflfgbtfを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。dflfgbtfに対して実装を提供する必要がありますが、この実装は\fIMyOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATif\fRクラス内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、2番目のコマンドにより、\fIMyPOATif\&.jbvb\fRが生成されます。\fIMyPOATif\fRクラスへのコンストラクタは、dflfgbtfを取ります。この例では、デフォルトのPOAモデルを使用しているため、コンストラクタにもPOAが必要です。dflfgbtfに対して実装を提供する必要がありますが、この実装は\fIMyOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。これをORBと一緒に使用するには、たとえば次のように\fIMyPOATif\fRクラス内で実装をラップする必要があります。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-ORB orb = ORB\&.init(args, System\&.getProperties());
+.nf
+.nf
+.nf
+.nf
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
  
-// Get reference to rootpoa & activate the POAManager
-POA rootpoa = (POA)orb\&.resolve_initial_references("RootPOA");
-rootpoa\&.the_POAManager()\&.activate();
  
-// create servant and register it with the ORB
-MyServant myDelegate = new MyServant();
-myDelegate\&.setORB(orb); 
  
-// create a tie, with servant being the delegate\&.
-MyPOATie tie = new MyPOATie(myDelegate, rootpoa);
  
-// obtain the objectRef for the tie
-My ref = tie\&._this(orb);
+ 
+// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr
+// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr
+// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr
+// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr
+// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr
+POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");
+POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");
+POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");
+POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");
+POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");
+rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();
+rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();
+rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();
+rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();
+rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();
+ 
+ 
+ 
+ 
+ 
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+ 
+ 
+ 
+ 
+ 
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);
+ 
+ 
+ 
+ 
+ 
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-他の実装から継承する必要がある場合、標準の継承モデルではなくTieモデルを使用することもできます。Javaの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tieモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
 .PP
-サーバー側の生成の場合、Java SE 1\&.4より前のバージョンのJava言語にマッピングするIDLのバージョンと互換性のある、Tieモデルのバインディングです。
+.PP
+.PP
+.PP
+他の実装から継承する必要がある場合、標準の継承モデルではなくTifモデルを使用することもできます。Jbvbの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tifモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
+他の実装から継承する必要がある場合、標準の継承モデルではなくTifモデルを使用することもできます。Jbvbの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tifモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
+他の実装から継承する必要がある場合、標準の継承モデルではなくTifモデルを使用することもできます。Jbvbの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tifモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
+他の実装から継承する必要がある場合、標準の継承モデルではなくTifモデルを使用することもできます。Jbvbの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tifモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
+他の実装から継承する必要がある場合、標準の継承モデルではなくTifモデルを使用することもできます。Jbvbの場合は、インタフェースの継承の個数に制限はありませんが、クラスの継承に使用できるスロットは1つのみです。継承モデルを使用した場合は、そのスロットが占有されます。Tifモデルを使用すると、そのスロットが使用されず、ユーザーが独自の目的で使用できます。この方法には、間接性のレベルが1つ導入されるという短所があります。メソッドを呼び出すときに、余分なメソッド呼出しが1回発生します。
+.PP
+.PP
+.PP
+.PP
+.PP
+サーバー側の生成の場合、Jbvb SE 1\&.4より前のバージョンのJbvb言語にマッピングするIDLのバージョンと互換性のある、Tifモデルのバインディングです。
+サーバー側の生成の場合、Jbvb SE 1\&.4より前のバージョンのJbvb言語にマッピングするIDLのバージョンと互換性のある、Tifモデルのバインディングです。
+サーバー側の生成の場合、Jbvb SE 1\&.4より前のバージョンのJbvb言語にマッピングするIDLのバージョンと互換性のある、Tifモデルのバインディングです。
+サーバー側の生成の場合、Jbvb SE 1\&.4より前のバージョンのJbvb言語にマッピングするIDLのバージョンと互換性のある、Tifモデルのバインディングです。
+サーバー側の生成の場合、Jbvb SE 1\&.4より前のバージョンのJbvb言語にマッピングするIDLのバージョンと互換性のある、Tifモデルのバインディングです。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlj \-oldImplBase \-fall My\&.idl
-idlj \-oldImplBase \-fallTIE My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-oldImplBbsf \-fbll My\&.idl
+idlj \-oldImplBbsf \-fbll My\&.idl
+idlj \-oldImplBbsf \-fbll My\&.idl
+idlj \-oldImplBbsf \-fbll My\&.idl
+idlj \-oldImplBbsf \-fbll My\&.idl
+idlj \-oldImplBbsf \-fbllTIE My\&.idl
+idlj \-oldImplBbsf \-fbllTIE My\&.idl
+idlj \-oldImplBbsf \-fbllTIE My\&.idl
+idlj \-oldImplBbsf \-fbllTIE My\&.idl
+idlj \-oldImplBbsf \-fbllTIE My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-\fIMy\fRインタフェースの場合、これにより、\fIMy_Tie\&.java\fRが生成されます。\fIMy_Tie\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHelloOperations\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tie\fR内で実装をラップする必要があります。
+.PP
+.PP
+.PP
+.PP
+\fIMy\fRインタフェースの場合、これにより、\fIMy_Tif\&.jbvb\fRが生成されます。\fIMy_Tif\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHflloOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tif\fR内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、これにより、\fIMy_Tif\&.jbvb\fRが生成されます。\fIMy_Tif\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHflloOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tif\fR内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、これにより、\fIMy_Tif\&.jbvb\fRが生成されます。\fIMy_Tif\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHflloOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tif\fR内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、これにより、\fIMy_Tif\&.jbvb\fRが生成されます。\fIMy_Tif\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHflloOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tif\fR内で実装をラップする必要があります。
+\fIMy\fRインタフェースの場合、これにより、\fIMy_Tif\&.jbvb\fRが生成されます。\fIMy_Tif\fRクラスへのコンストラクタは、\fIimpl\fRオブジェクトを取ります。\fIimpl\fRに対して実装を提供する必要がありますが、その実装は\fIHflloOpfrbtions\fRインタフェースから継承する必要があるのみで、その他のクラスから継承する必要はありません。しかし、これをORBと一緒に使用するには、たとえば次のように\fIMy_Tif\fR内で実装をラップする必要があります。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-ORB orb = ORB\&.init(args, System\&.getProperties());
+.nf
+.nf
+.nf
+.nf
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
+ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());
 
-// create servant and register it with the ORB
-MyServant myDelegate = new MyServant();
-myDelegate\&.setORB(orb); 
+
+
+
+
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+MySfrvbnt myDflfgbtf = nfw MySfrvbnt();
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
+myDflfgbtf\&.sftORB(orb); 
  
-// create a tie, with servant being the delegate\&.
-MyPOATie tie = new MyPOATie(myDelegate);
  
-// obtain the objectRef for the tie
-My ref = tie\&._this(orb);
+ 
+ 
+ 
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.
+MyPOATif tif = nfw MyPOATif(myDflfgbtf);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf);
+MyPOATif tif = nfw MyPOATif(myDflfgbtf);
+ 
+ 
+ 
+ 
+ 
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+// obtbin tif objfdtRff for tif tif
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+My rff = tif\&._tiis(orb);
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "発行されたファイルの代替位置の指定"
+.SS "発行されたファイルの代替位置の指定"
+.SS "発行されたファイルの代替位置の指定"
+.SS "発行されたファイルの代替位置の指定"
+.SS "発行されたファイルの代替位置の指定"
 .PP
-発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /altdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+.PP
+.PP
+.PP
+.PP
+発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /bltdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /bltdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /bltdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /bltdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+発行されたファイルを現在のディレクトリ以外のディレクトリに置くには、\fIi\fR\fIdlj \-td /bltdir My\&.idl\fRのコマンドでコンパイラを呼び出します。
+.PP
+.PP
+.PP
+.PP
 .PP
 
-\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.java\fRではなく、\fI/altdir/My\&.java\fRなどに発行されます。
+
+
+
+
+\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.jbvb\fRではなく、\fI/bltdir/My\&.jbvb\fRなどに発行されます。
+\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.jbvb\fRではなく、\fI/bltdir/My\&.jbvb\fRなどに発行されます。
+\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.jbvb\fRではなく、\fI/bltdir/My\&.jbvb\fRなどに発行されます。
+\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.jbvb\fRではなく、\fI/bltdir/My\&.jbvb\fRなどに発行されます。
+\fIMy\fRインタフェースの場合、バインディングは、\fI\&./My\&.jbvb\fRではなく、\fI/bltdir/My\&.jbvb\fRなどに発行されます。
+.SS "インクルード・ファイルの代替位置の指定"
+.SS "インクルード・ファイルの代替位置の指定"
+.SS "インクルード・ファイルの代替位置の指定"
+.SS "インクルード・ファイルの代替位置の指定"
 .SS "インクルード・ファイルの代替位置の指定"
 .PP
-\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOther\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOther\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/includes\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+.PP
+.PP
+.PP
+.PP
+\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOtifr\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOtifr\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/indludfs\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOtifr\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOtifr\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/indludfs\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOtifr\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOtifr\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/indludfs\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOtifr\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOtifr\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/indludfs\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+\fIMy\&.idl\fRファイルが別の\fIidl\fRファイルである\fIMyOtifr\&.idl\fRをインクルードする場合、コンパイラでは、\fIMyOtifr\&.idl\fRファイルがローカル・ディレクトリに存在することを前提としています。たとえば、それが\fI/indludfs\fRにある場合は、次のようなコマンドでコンパイラを呼び出します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlj \-i /includes My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-i /indludfs My\&.idl
+idlj \-i /indludfs My\&.idl
+idlj \-i /indludfs My\&.idl
+idlj \-i /indludfs My\&.idl
+idlj \-i /indludfs My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
-たとえば、\fI/moreIncludes\fRにある\fIAnother\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+.PP
+.PP
+.PP
+.PP
+たとえば、\fI/morfIndludfs\fRにある\fIAnotifr\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+たとえば、\fI/morfIndludfs\fRにある\fIAnotifr\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+たとえば、\fI/morfIndludfs\fRにある\fIAnotifr\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+たとえば、\fI/morfIndludfs\fRにある\fIAnotifr\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+たとえば、\fI/morfIndludfs\fRにある\fIAnotifr\&.idl\fRも\fIMy\&.idl\fRにインクルードされているのであれば、次のようなコマンドでコンパイラを呼び出します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-idlj \-i /includes \-i /moreIncludes My\&.idl
+.nf
+.nf
+.nf
+.nf
+idlj \-i /indludfs \-i /morfIndludfs My\&.idl
+idlj \-i /indludfs \-i /morfIndludfs My\&.idl
+idlj \-i /indludfs \-i /morfIndludfs My\&.idl
+idlj \-i /indludfs \-i /morfIndludfs My\&.idl
+idlj \-i /indludfs \-i /morfIndludfs My\&.idl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
-このような形式の\fIinclude\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.configという名前のファイルを作成します。その\fIidl\&.config\fRの中に、次のような形式の行を入れます。
+.PP
+.PP
+.PP
+.PP
+このような形式の\fIindludf\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.donfigという名前のファイルを作成します。その\fIidl\&.donfig\fRの中に、次のような形式の行を入れます。
+このような形式の\fIindludf\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.donfigという名前のファイルを作成します。その\fIidl\&.donfig\fRの中に、次のような形式の行を入れます。
+このような形式の\fIindludf\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.donfigという名前のファイルを作成します。その\fIidl\&.donfig\fRの中に、次のような形式の行を入れます。
+このような形式の\fIindludf\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.donfigという名前のファイルを作成します。その\fIidl\&.donfig\fRの中に、次のような形式の行を入れます。
+このような形式の\fIindludf\fRは長くなるため、インクルード・ファイルを検索する場所をコンパイラに指示するための別の方法が用意されています。この方法は、環境変数の考え方と似ています。\fICLASSPATH\fR変数に一覧表示されているディレクトリ内にidl\&.donfigという名前のファイルを作成します。その\fIidl\&.donfig\fRの中に、次のような形式の行を入れます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-includes=/includes;/moreIncludes
+.nf
+.nf
+.nf
+.nf
+indludfs=/indludfs;/morfIndludfs
+indludfs=/indludfs;/morfIndludfs
+indludfs=/indludfs;/morfIndludfs
+indludfs=/indludfs;/morfIndludfs
+indludfs=/indludfs;/morfIndludfs
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 コンパイラは、このファイルを検索し、インクルード・リストを読み込みます。この例では、ディレクトリの間の区切り文字はセミコロン(;)になっています。この区切り文字は、プラットフォームによって異なります。Windowsプラットフォームではセミコロンを使用し、UNIXプラットフォームではコロンを使用するなどです。
+コンパイラは、このファイルを検索し、インクルード・リストを読み込みます。この例では、ディレクトリの間の区切り文字はセミコロン(;)になっています。この区切り文字は、プラットフォームによって異なります。Windowsプラットフォームではセミコロンを使用し、UNIXプラットフォームではコロンを使用するなどです。
+コンパイラは、このファイルを検索し、インクルード・リストを読み込みます。この例では、ディレクトリの間の区切り文字はセミコロン(;)になっています。この区切り文字は、プラットフォームによって異なります。Windowsプラットフォームではセミコロンを使用し、UNIXプラットフォームではコロンを使用するなどです。
+コンパイラは、このファイルを検索し、インクルード・リストを読み込みます。この例では、ディレクトリの間の区切り文字はセミコロン(;)になっています。この区切り文字は、プラットフォームによって異なります。Windowsプラットフォームではセミコロンを使用し、UNIXプラットフォームではコロンを使用するなどです。
+コンパイラは、このファイルを検索し、インクルード・リストを読み込みます。この例では、ディレクトリの間の区切り文字はセミコロン(;)になっています。この区切り文字は、プラットフォームによって異なります。Windowsプラットフォームではセミコロンを使用し、UNIXプラットフォームではコロンを使用するなどです。
+.SS "インクルード・ファイルに対するバインディングの発行"
+.SS "インクルード・ファイルに対するバインディングの発行"
+.SS "インクルード・ファイルに対するバインディングの発行"
+.SS "インクルード・ファイルに対するバインディングの発行"
 .SS "インクルード・ファイルに対するバインディングの発行"
 .PP
-デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Javaバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+.PP
+.PP
+.PP
+.PP
+デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Jbvbバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Jbvbバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Jbvbバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Jbvbバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+デフォルトでは、コマンドラインに指定した\fIidl\fRファイルで定義されているインタフェースや構造体などについてのみ、Jbvbバインディングが生成されます。インクルードされたファイルで定義されている型については生成されません。たとえば、次の2つの\fIidl\fRファイルについて考えてみます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-My\&.idl file:
+.nf
+.nf
+.nf
+.nf
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
  
-#include <MyOther\&.idl>
-interface My
+ 
+ 
+ 
+ 
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
+{
+{
+{
+{
 {
 };
+};
+};
+};
+};
  
-MyOther\&.idl file:
  
-interface MyOther
+ 
+ 
+ 
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+ 
+ 
+ 
+ 
+ 
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
 {
+{
+{
+{
+{
+};
+};
+};
+};
 };
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
-デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#include\fR文は、前述のとおりに処理されます。これらの\fI#include\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#include\fR文は、本当の意味での\fI#include\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJavaバインディングが発行されます。次はその例です。
+.PP
+.PP
+.PP
+.PP
+デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#indludf\fR文は、前述のとおりに処理されます。これらの\fI#indludf\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#indludf\fR文は、本当の意味での\fI#indludf\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJbvbバインディングが発行されます。次はその例です。
+デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#indludf\fR文は、前述のとおりに処理されます。これらの\fI#indludf\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#indludf\fR文は、本当の意味での\fI#indludf\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJbvbバインディングが発行されます。次はその例です。
+デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#indludf\fR文は、前述のとおりに処理されます。これらの\fI#indludf\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#indludf\fR文は、本当の意味での\fI#indludf\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJbvbバインディングが発行されます。次はその例です。
+デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#indludf\fR文は、前述のとおりに処理されます。これらの\fI#indludf\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#indludf\fR文は、本当の意味での\fI#indludf\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJbvbバインディングが発行されます。次はその例です。
+デフォルトのルールに関して警告があります。グローバル・スコープに表示される\fI#indludf\fR文は、前述のとおりに処理されます。これらの\fI#indludf\fR文は、インポート文と見なすことができます。囲まれたスコープ内に表示される\fI#indludf\fR文は、本当の意味での\fI#indludf\fR文として処理されます。つまり、インクルードされたファイルにあるコードが、元のファイルにそのまま表示されているかのように処理され、それに対してJbvbバインディングが発行されます。次はその例です。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-My\&.idl file:
+.nf
+.nf
+.nf
+.nf
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
+My\&.idl filf:
  
-#include <MyOther\&.idl>
-interface My
+ 
+ 
+ 
+ 
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+#indludf <MyOtifr\&.idl>
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
+intfrfbdf My
 {
-  #include <Embedded\&.idl>
+{
+{
+{
+{
+  #indludf <Embfddfd\&.idl>
+  #indludf <Embfddfd\&.idl>
+  #indludf <Embfddfd\&.idl>
+  #indludf <Embfddfd\&.idl>
+  #indludf <Embfddfd\&.idl>
+};
+};
+};
+};
 };
  
-MyOther\&.idl file:
  
-interface MyOther
+ 
+ 
+ 
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+MyOtifr\&.idl filf:
+ 
+ 
+ 
+ 
+ 
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+intfrfbdf MyOtifr
+{
+{
+{
+{
 {
 };
+};
+};
+};
+};
  
-Embedded\&.idl
  
-enum E {one, two, three};
+ 
+ 
+ 
+Embfddfd\&.idl
+Embfddfd\&.idl
+Embfddfd\&.idl
+Embfddfd\&.idl
+Embfddfd\&.idl
+ 
+ 
+ 
+ 
+ 
+fnum E {onf, two, tirff};
+fnum E {onf, two, tirff};
+fnum E {onf, two, tirff};
+fnum E {onf, two, tirff};
+fnum E {onf, two, tirff};
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
-\fI idlj My\&.idl \fRを実行して、Javaファイルの次のリストを生成します。インポート文とみなされる\fI#include\fRに定義されていたため、\fIMyOther\&.java\fRは生成されませんでした。ただし、本当の意味での\fI#include\fRで定義されていたため、\fIE\&.java\fRは生成されました。\fIEmbedded\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPackage\fR内)に生成されています。\fI\-emitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+.PP
+.PP
+.PP
+.PP
+\fI idlj My\&.idl \fRを実行して、Jbvbファイルの次のリストを生成します。インポート文とみなされる\fI#indludf\fRに定義されていたため、\fIMyOtifr\&.jbvb\fRは生成されませんでした。ただし、本当の意味での\fI#indludf\fRで定義されていたため、\fIE\&.jbvb\fRは生成されました。\fIEmbfddfd\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPbdkbgf\fR内)に生成されています。\fI\-fmitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+\fI idlj My\&.idl \fRを実行して、Jbvbファイルの次のリストを生成します。インポート文とみなされる\fI#indludf\fRに定義されていたため、\fIMyOtifr\&.jbvb\fRは生成されませんでした。ただし、本当の意味での\fI#indludf\fRで定義されていたため、\fIE\&.jbvb\fRは生成されました。\fIEmbfddfd\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPbdkbgf\fR内)に生成されています。\fI\-fmitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+\fI idlj My\&.idl \fRを実行して、Jbvbファイルの次のリストを生成します。インポート文とみなされる\fI#indludf\fRに定義されていたため、\fIMyOtifr\&.jbvb\fRは生成されませんでした。ただし、本当の意味での\fI#indludf\fRで定義されていたため、\fIE\&.jbvb\fRは生成されました。\fIEmbfddfd\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPbdkbgf\fR内)に生成されています。\fI\-fmitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+\fI idlj My\&.idl \fRを実行して、Jbvbファイルの次のリストを生成します。インポート文とみなされる\fI#indludf\fRに定義されていたため、\fIMyOtifr\&.jbvb\fRは生成されませんでした。ただし、本当の意味での\fI#indludf\fRで定義されていたため、\fIE\&.jbvb\fRは生成されました。\fIEmbfddfd\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPbdkbgf\fR内)に生成されています。\fI\-fmitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+\fI idlj My\&.idl \fRを実行して、Jbvbファイルの次のリストを生成します。インポート文とみなされる\fI#indludf\fRに定義されていたため、\fIMyOtifr\&.jbvb\fRは生成されませんでした。ただし、本当の意味での\fI#indludf\fRで定義されていたため、\fIE\&.jbvb\fRは生成されました。\fIEmbfddfd\&.idl\fRファイルが\fIMy\fRインタフェースのスコープ内にインクルードされているため、\fIMy\fRのスコープ内(つまり、\fIMyPbdkbgf\fR内)に生成されています。\fI\-fmitAll\fRフラグを使用した場合、インクルードされたすべてのファイルにあるすべての型が発行されます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-\&./MyHolder\&.java
-\&./MyHelper\&.java
-\&./_MyStub\&.java
-\&./MyPackage
-\&./MyPackage/EHolder\&.java
-\&./MyPackage/EHelper\&.java
-\&./MyPackage/E\&.java
-\&./My\&.java
+.nf
+.nf
+.nf
+.nf
+\&./MyHoldfr\&.jbvb
+\&./MyHoldfr\&.jbvb
+\&./MyHoldfr\&.jbvb
+\&./MyHoldfr\&.jbvb
+\&./MyHoldfr\&.jbvb
+\&./MyHflpfr\&.jbvb
+\&./MyHflpfr\&.jbvb
+\&./MyHflpfr\&.jbvb
+\&./MyHflpfr\&.jbvb
+\&./MyHflpfr\&.jbvb
+\&./_MyStub\&.jbvb
+\&./_MyStub\&.jbvb
+\&./_MyStub\&.jbvb
+\&./_MyStub\&.jbvb
+\&./_MyStub\&.jbvb
+\&./MyPbdkbgf
+\&./MyPbdkbgf
+\&./MyPbdkbgf
+\&./MyPbdkbgf
+\&./MyPbdkbgf
+\&./MyPbdkbgf/EHoldfr\&.jbvb
+\&./MyPbdkbgf/EHoldfr\&.jbvb
+\&./MyPbdkbgf/EHoldfr\&.jbvb
+\&./MyPbdkbgf/EHoldfr\&.jbvb
+\&./MyPbdkbgf/EHoldfr\&.jbvb
+\&./MyPbdkbgf/EHflpfr\&.jbvb
+\&./MyPbdkbgf/EHflpfr\&.jbvb
+\&./MyPbdkbgf/EHflpfr\&.jbvb
+\&./MyPbdkbgf/EHflpfr\&.jbvb
+\&./MyPbdkbgf/EHflpfr\&.jbvb
+\&./MyPbdkbgf/E\&.jbvb
+\&./MyPbdkbgf/E\&.jbvb
+\&./MyPbdkbgf/E\&.jbvb
+\&./MyPbdkbgf/E\&.jbvb
+\&./MyPbdkbgf/E\&.jbvb
+\&./My\&.jbvb
+\&./My\&.jbvb
+\&./My\&.jbvb
+\&./My\&.jbvb
+\&./My\&.jbvb
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "パッケージの接頭辞の挿入"
+.SS "パッケージの接頭辞の挿入"
+.SS "パッケージの接頭辞の挿入"
+.SS "パッケージの接頭辞の挿入"
+.SS "パッケージの接頭辞の挿入"
+.PP
+.PP
+.PP
+.PP
 .PP
 ABCという名前の会社のために作業していて、次のようなIDLファイルを構築したとしましょう。
+ABCという名前の会社のために作業していて、次のようなIDLファイルを構築したとしましょう。
+ABCという名前の会社のために作業していて、次のようなIDLファイルを構築したとしましょう。
+ABCという名前の会社のために作業していて、次のようなIDLファイルを構築したとしましょう。
+ABCという名前の会社のために作業していて、次のようなIDLファイルを構築したとしましょう。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-Widgets\&.idl file:
+.nf
+.nf
+.nf
+.nf
+Widgfts\&.idl filf:
+Widgfts\&.idl filf:
+Widgfts\&.idl filf:
+Widgfts\&.idl filf:
+Widgfts\&.idl filf:
  
-module Widgets
+ 
+ 
+ 
+ 
+modulf Widgfts
+modulf Widgfts
+modulf Widgfts
+modulf Widgfts
+modulf Widgfts
 {
-  interface W1 {\&.\&.\&.};
-  interface W2 {\&.\&.\&.};
+{
+{
+{
+{
+  intfrfbdf W1 {\&.\&.\&.};
+  intfrfbdf W1 {\&.\&.\&.};
+  intfrfbdf W1 {\&.\&.\&.};
+  intfrfbdf W1 {\&.\&.\&.};
+  intfrfbdf W1 {\&.\&.\&.};
+  intfrfbdf W2 {\&.\&.\&.};
+  intfrfbdf W2 {\&.\&.\&.};
+  intfrfbdf W2 {\&.\&.\&.};
+  intfrfbdf W2 {\&.\&.\&.};
+  intfrfbdf W2 {\&.\&.\&.};
+};
+};
+};
+};
 };
 .fi
-.if n \{\
-.RE
-.\}
-.PP
-IDL\-to\-Javaコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJavaバインディングは、\fIWidgets\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIcom\&.<company name>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIcom\&.abc\&.Widgets\fRにする必要があります。このパッケージ接頭辞をWidgetsモジュールに付加するには、次のコマンドを実行します。
-.sp
-.if n \{\
-.RS 4
-.\}
-.nf
-idlj \-pkgPrefix Widgets com\&.abc Widgets\&.idl
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-Widgets\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrefix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIcom\&.abc\&.Widgets\fRパッケージではなく、\fIWidgets\fRパッケージを検索することになります。
 .PP
-接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.configファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrefix\&.<type>=<prefix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrefix\&.Widgets=com\&.abc\fRになります。このオプションは、リポジトリIDには影響しません。
+.PP
+.PP
+.PP
+IDL\-to\-Jbvbコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJbvbバインディングは、\fIWidgfts\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIdom\&.<dompbny nbmf>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIdom\&.bbd\&.Widgfts\fRにする必要があります。このパッケージ接頭辞をWidgftsモジュールに付加するには、次のコマンドを実行します。
+IDL\-to\-Jbvbコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJbvbバインディングは、\fIWidgfts\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIdom\&.<dompbny nbmf>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIdom\&.bbd\&.Widgfts\fRにする必要があります。このパッケージ接頭辞をWidgftsモジュールに付加するには、次のコマンドを実行します。
+IDL\-to\-Jbvbコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJbvbバインディングは、\fIWidgfts\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIdom\&.<dompbny nbmf>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIdom\&.bbd\&.Widgfts\fRにする必要があります。このパッケージ接頭辞をWidgftsモジュールに付加するには、次のコマンドを実行します。
+IDL\-to\-Jbvbコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJbvbバインディングは、\fIWidgfts\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIdom\&.<dompbny nbmf>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIdom\&.bbd\&.Widgfts\fRにする必要があります。このパッケージ接頭辞をWidgftsモジュールに付加するには、次のコマンドを実行します。
+IDL\-to\-Jbvbコンパイラを介してこのファイルを実行した場合、W1およびW2に対するJbvbバインディングは、\fIWidgfts\fRパッケージ内に格納されます。業界の慣例によると、会社のパッケージは、\fIdom\&.<dompbny nbmf>\fRという名前のパッケージ内に置くことになっています。この慣例に従うには、パッケージ名を\fIdom\&.bbd\&.Widgfts\fRにする必要があります。このパッケージ接頭辞をWidgftsモジュールに付加するには、次のコマンドを実行します。
+.sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
+.nf
+idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl
+idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl
+idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl
+idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl
+idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl
+.fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
+.PP
+Widgfts\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrffix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIdom\&.bbd\&.Widgfts\fRパッケージではなく、\fIWidgfts\fRパッケージを検索することになります。
+Widgfts\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrffix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIdom\&.bbd\&.Widgfts\fRパッケージではなく、\fIWidgfts\fRパッケージを検索することになります。
+Widgfts\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrffix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIdom\&.bbd\&.Widgfts\fRパッケージではなく、\fIWidgfts\fRパッケージを検索することになります。
+Widgfts\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrffix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIdom\&.bbd\&.Widgfts\fRパッケージではなく、\fIWidgfts\fRパッケージを検索することになります。
+Widgfts\&.idlをインクルードしているIDLファイルがある場合は、そのコマンドにも\fI\-pkgPrffix\fRフラグが必要です。このフラグを指定しないと、そのIDLファイルは、\fIdom\&.bbd\&.Widgfts\fRパッケージではなく、\fIWidgfts\fRパッケージを検索することになります。
+.PP
+.PP
+.PP
+.PP
+.PP
+接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.donfigファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrffix\&.<typf>=<prffix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrffix\&.Widgfts=dom\&.bbd\fRになります。このオプションは、リポジトリIDには影響しません。
+接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.donfigファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrffix\&.<typf>=<prffix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrffix\&.Widgfts=dom\&.bbd\fRになります。このオプションは、リポジトリIDには影響しません。
+接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.donfigファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrffix\&.<typf>=<prffix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrffix\&.Widgfts=dom\&.bbd\fRになります。このオプションは、リポジトリIDには影響しません。
+接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.donfigファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrffix\&.<typf>=<prffix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrffix\&.Widgfts=dom\&.bbd\fRになります。このオプションは、リポジトリIDには影響しません。
+接頭辞が必要なパッケージがいくつもある場合は、前述のidl\&.donfigファイルで接頭辞を指定するのが簡単です。パッケージ接頭辞の各行は、\fIPkgPrffix\&.<typf>=<prffix>\fRの形式である必要があります。前述の例の行では、\fIPkgPrffix\&.Widgfts=dom\&.bbd\fRになります。このオプションは、リポジトリIDには影響しません。
+.SS "コンパイル前のシンボルの定義"
+.SS "コンパイル前のシンボルの定義"
+.SS "コンパイル前のシンボルの定義"
+.SS "コンパイル前のシンボルの定義"
 .SS "コンパイル前のシンボルの定義"
 .PP
-コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#define MYDEF\fRを配置した場合と同等になります。
+.PP
+.PP
+.PP
+.PP
+コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#dffinf MYDEF\fRを配置した場合と同等になります。
+コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#dffinf MYDEF\fRを配置した場合と同等になります。
+コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#dffinf MYDEF\fRを配置した場合と同等になります。
+コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#dffinf MYDEF\fRを配置した場合と同等になります。
+コンパイル用のシンボルがIDLファイル内で定義されていない場合は、そのシンボルを定義する必要があります。これは、たとえば、バインディング内にデバッグ・コードを組み入れるときに使用します。コマンド\fIidlj \-d MYDEF My\&.idl \fRは、My\&.idl内に行\fI#dffinf MYDEF\fRを配置した場合と同等になります。
+.SS "既存のバインディングの保持"
+.SS "既存のバインディングの保持"
+.SS "既存のバインディングの保持"
+.SS "既存のバインディングの保持"
 .SS "既存のバインディングの保持"
 .PP
-Javaバインディング・ファイルがすでに存在する場合は、\fI\-keep\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-keep\fRオプションは有用です。コマンド\fIidlj \-keep My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+.PP
+.PP
+.PP
+.PP
+Jbvbバインディング・ファイルがすでに存在する場合は、\fI\-kffp\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-kffp\fRオプションは有用です。コマンド\fIidlj \-kffp My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+Jbvbバインディング・ファイルがすでに存在する場合は、\fI\-kffp\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-kffp\fRオプションは有用です。コマンド\fIidlj \-kffp My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+Jbvbバインディング・ファイルがすでに存在する場合は、\fI\-kffp\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-kffp\fRオプションは有用です。コマンド\fIidlj \-kffp My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+Jbvbバインディング・ファイルがすでに存在する場合は、\fI\-kffp\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-kffp\fRオプションは有用です。コマンド\fIidlj \-kffp My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+Jbvbバインディング・ファイルがすでに存在する場合は、\fI\-kffp\fRフラグを指定すると、コンパイラによる上書きを回避できます。デフォルトでは、すでに存在するかどうかにかかわらず、すべてのファイルが生成されます。これらのファイルをカスタマイズした場合(ただし、それらの内容が正確であるとき以外はカスタマイズは避ける)、\fI\-kffp\fRオプションは有用です。コマンド\fIidlj \-kffp My\&.idl\fRは、すでに存在しないすべてのクライアント側バインディングを発行します。
+.SS "コンパイルの進捗状況の表示"
+.SS "コンパイルの進捗状況の表示"
+.SS "コンパイルの進捗状況の表示"
+.SS "コンパイルの進捗状況の表示"
 .SS "コンパイルの進捗状況の表示"
 .PP
-IDL\-to\-Javaコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+.PP
+.PP
+.PP
+.PP
+IDL\-to\-Jbvbコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+IDL\-to\-Jbvbコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+IDL\-to\-Jbvbコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+IDL\-to\-Jbvbコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+IDL\-to\-Jbvbコンパイラは、実行の各段階で状態メッセージを生成します。\fI\-v\fRオプションを使用して、\fIidlj \-v My\&.idl\fRのような冗長モードをアクティブ化します。
+.PP
+.PP
+.PP
+.PP
 .PP
 デフォルトでは、コンパイラは冗長モードでは実行されません。
+デフォルトでは、コンパイラは冗長モードでは実行されません。
+デフォルトでは、コンパイラは冗長モードでは実行されません。
+デフォルトでは、コンパイラは冗長モードでは実行されません。
+デフォルトでは、コンパイラは冗長モードでは実行されません。
+.SS "バージョン情報の表示"
+.SS "バージョン情報の表示"
+.SS "バージョン情報の表示"
+.SS "バージョン情報の表示"
 .SS "バージョン情報の表示"
 .PP
-IDL\-to\-Javaコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-version\fRで\fI\-version\fRオプションを指定します。
+.PP
+.PP
+.PP
+.PP
+IDL\-to\-Jbvbコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-vfrsion\fRで\fI\-vfrsion\fRオプションを指定します。
+IDL\-to\-Jbvbコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-vfrsion\fRで\fI\-vfrsion\fRオプションを指定します。
+IDL\-to\-Jbvbコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-vfrsion\fRで\fI\-vfrsion\fRオプションを指定します。
+IDL\-to\-Jbvbコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-vfrsion\fRで\fI\-vfrsion\fRオプションを指定します。
+IDL\-to\-Jbvbコンパイラのビルド・バージョンを表示するには、コマンドライン\fIidlj \-vfrsion\fRで\fI\-vfrsion\fRオプションを指定します。
+.PP
+.PP
+.PP
+.PP
 .PP
 バージョン情報は、コンパイラによって生成されたバインディング内にも書き込まれています。このオプションをコマンドラインに指定すると、それ以外のオプションを指定しても、すべて無視されます。
+バージョン情報は、コンパイラによって生成されたバインディング内にも書き込まれています。このオプションをコマンドラインに指定すると、それ以外のオプションを指定しても、すべて無視されます。
+バージョン情報は、コンパイラによって生成されたバインディング内にも書き込まれています。このオプションをコマンドラインに指定すると、それ以外のオプションを指定しても、すべて無視されます。
+バージョン情報は、コンパイラによって生成されたバインディング内にも書き込まれています。このオプションをコマンドラインに指定すると、それ以外のオプションを指定しても、すべて無視されます。
+バージョン情報は、コンパイラによって生成されたバインディング内にも書き込まれています。このオプションをコマンドラインに指定すると、それ以外のオプションを指定しても、すべて無視されます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-d \fIsymbol\fR
+\-d \fIsymbol\fR
+\-d \fIsymbol\fR
+\-d \fIsymbol\fR
 \-d \fIsymbol\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+このオプションは、IDLファイルに次のような行を追加した場合と等価です。
+このオプションは、IDLファイルに次のような行を追加した場合と等価です。
+このオプションは、IDLファイルに次のような行を追加した場合と等価です。
+このオプションは、IDLファイルに次のような行を追加した場合と等価です。
 このオプションは、IDLファイルに次のような行を追加した場合と等価です。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-#define \fIsymbol\fR
+.nf
+.nf
+.nf
+.nf
+#dffinf \fIsymbol\fR
+#dffinf \fIsymbol\fR
+#dffinf \fIsymbol\fR
+#dffinf \fIsymbol\fR
+#dffinf \fIsymbol\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-demitAll
+.PP
+.PP
+.PP
+.PP
+\-dfmitAll
+\-dfmitAll
+\-dfmitAll
+\-dfmitAll
+\-dfmitAll
 .RS 4
-\fI#include\fRファイル内で定義されているものも含めて、すべての型を発行します。
-.RE
-.PP
-\-fside
 .RS 4
-発行するバインディングを定義します。\fIside\fRパラメータには、\fIclient\fR、\fIserver\fR、\fIserverTIE\fR、\fIall\fRまたは\fIallTIE\fRを指定できます。\fI\-fserverTIE\fRまたは\fI\-fallTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fclient\fRにデフォルト設定されます。
+.RS 4
+.RS 4
+.RS 4
+\fI#indludf\fRファイル内で定義されているものも含めて、すべての型を発行します。
+\fI#indludf\fRファイル内で定義されているものも含めて、すべての型を発行します。
+\fI#indludf\fRファイル内で定義されているものも含めて、すべての型を発行します。
+\fI#indludf\fRファイル内で定義されているものも含めて、すべての型を発行します。
+\fI#indludf\fRファイル内で定義されているものも含めて、すべての型を発行します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-i \fIinclude\-path\fR
+.PP
+.PP
+.PP
+.PP
+\-fsidf
+\-fsidf
+\-fsidf
+\-fsidf
+\-fsidf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+発行するバインディングを定義します。\fIsidf\fRパラメータには、\fIdlifnt\fR、\fIsfrvfr\fR、\fIsfrvfrTIE\fR、\fIbll\fRまたは\fIbllTIE\fRを指定できます。\fI\-fsfrvfrTIE\fRまたは\fI\-fbllTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fdlifnt\fRにデフォルト設定されます。
+発行するバインディングを定義します。\fIsidf\fRパラメータには、\fIdlifnt\fR、\fIsfrvfr\fR、\fIsfrvfrTIE\fR、\fIbll\fRまたは\fIbllTIE\fRを指定できます。\fI\-fsfrvfrTIE\fRまたは\fI\-fbllTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fdlifnt\fRにデフォルト設定されます。
+発行するバインディングを定義します。\fIsidf\fRパラメータには、\fIdlifnt\fR、\fIsfrvfr\fR、\fIsfrvfrTIE\fR、\fIbll\fRまたは\fIbllTIE\fRを指定できます。\fI\-fsfrvfrTIE\fRまたは\fI\-fbllTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fdlifnt\fRにデフォルト設定されます。
+発行するバインディングを定義します。\fIsidf\fRパラメータには、\fIdlifnt\fR、\fIsfrvfr\fR、\fIsfrvfrTIE\fR、\fIbll\fRまたは\fIbllTIE\fRを指定できます。\fI\-fsfrvfrTIE\fRまたは\fI\-fbllTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fdlifnt\fRにデフォルト設定されます。
+発行するバインディングを定義します。\fIsidf\fRパラメータには、\fIdlifnt\fR、\fIsfrvfr\fR、\fIsfrvfrTIE\fR、\fIbll\fRまたは\fIbllTIE\fRを指定できます。\fI\-fsfrvfrTIE\fRまたは\fI\-fbllTIE\fRオプションを指定すると、委譲モデル・スケルトンが発行されます。フラグを指定しない場合、\fI\-fdlifnt\fRにデフォルト設定されます。
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-i \fIindludf\-pbti\fR
+\-i \fIindludf\-pbti\fR
+\-i \fIindludf\-pbti\fR
+\-i \fIindludf\-pbti\fR
+\-i \fIindludf\-pbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 デフォルトでは、インクルード・ファイルは現在のディレクトリから検索されます。このオプションを指定すると、他のディレクトリを追加できます。
+デフォルトでは、インクルード・ファイルは現在のディレクトリから検索されます。このオプションを指定すると、他のディレクトリを追加できます。
+デフォルトでは、インクルード・ファイルは現在のディレクトリから検索されます。このオプションを指定すると、他のディレクトリを追加できます。
+デフォルトでは、インクルード・ファイルは現在のディレクトリから検索されます。このオプションを指定すると、他のディレクトリを追加できます。
+デフォルトでは、インクルード・ファイルは現在のディレクトリから検索されます。このオプションを指定すると、他のディレクトリを追加できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-i \fIkeep\fR
+.PP
+.PP
+.PP
+.PP
+\-i \fIkffp\fR
+\-i \fIkffp\fR
+\-i \fIkffp\fR
+\-i \fIkffp\fR
+\-i \fIkffp\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成されるファイルがすでに存在している場合は、そのファイルが上書きされません。デフォルトでは、上書きされます。
+生成されるファイルがすでに存在している場合は、そのファイルが上書きされません。デフォルトでは、上書きされます。
+生成されるファイルがすでに存在している場合は、そのファイルが上書きされません。デフォルトでは、上書きされます。
+生成されるファイルがすでに存在している場合は、そのファイルが上書きされません。デフォルトでは、上書きされます。
+生成されるファイルがすでに存在している場合は、そのファイルが上書きされません。デフォルトでは、上書きされます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-noWarn
+.PP
+.PP
+.PP
+.PP
+\-noWbrn
+\-noWbrn
+\-noWbrn
+\-noWbrn
+\-noWbrn
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 警告メッセージを表示しないようにします。
+警告メッセージを表示しないようにします。
+警告メッセージを表示しないようにします。
+警告メッセージを表示しないようにします。
+警告メッセージを表示しないようにします。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-oldImplBase
+.PP
+.PP
+.PP
+.PP
+\-oldImplBbsf
+\-oldImplBbsf
+\-oldImplBbsf
+\-oldImplBbsf
+\-oldImplBbsf
 .RS 4
-1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBase\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJavaプログラミング言語との下位互換性が得られます。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBbsf\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJbvbプログラミング言語との下位互換性が得られます。
+1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBbsf\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJbvbプログラミング言語との下位互換性が得られます。
+1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBbsf\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJbvbプログラミング言語との下位互換性が得られます。
+1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBbsf\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJbvbプログラミング言語との下位互換性が得られます。
+1\&.4より前のJDK ORBと互換性のあるスケルトンを生成します。デフォルトでは、POA継承モデルのサーバー側バインディングが生成されます。このオプションを指定すると、\fIImplBbsf\fR継承モデルのクラスであるサーバー側バインディングが生成されるので、以前のリリースのJbvbプログラミング言語との下位互換性が得られます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-pkgPrefix \fItype\fR \fIprefix\fR
+.PP
+.PP
+.PP
+.PP
+\-pkgPrffix \fItypf\fR \fIprffix\fR
+\-pkgPrffix \fItypf\fR \fIprffix\fR
+\-pkgPrffix \fItypf\fR \fIprffix\fR
+\-pkgPrffix \fItypf\fR \fIprffix\fR
+\-pkgPrffix \fItypf\fR \fIprffix\fR
 .RS 4
-\fItype\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJavaパッケージ名に\fIprefix\fRという接頭辞が付加されます。typeは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fItypf\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJbvbパッケージ名に\fIprffix\fRという接頭辞が付加されます。typfは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+\fItypf\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJbvbパッケージ名に\fIprffix\fRという接頭辞が付加されます。typfは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+\fItypf\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJbvbパッケージ名に\fIprffix\fRという接頭辞が付加されます。typfは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+\fItypf\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJbvbパッケージ名に\fIprffix\fRという接頭辞が付加されます。typfは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+\fItypf\fRがファイル・スコープで検出された場合は、その型に対して生成されるすべてのファイルについて、生成されるJbvbパッケージ名に\fIprffix\fRという接頭辞が付加されます。typfは、トップレベル・モジュールの単純名か、どのモジュールよりも外側で定義されたIDL型の単純名のどちらかです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-pkgTranslate \fItype\fR \fIpackage\fR
+.PP
+.PP
+.PP
+.PP
+\-pkgTrbnslbtf \fItypf\fR \fIpbdkbgf\fR
+\-pkgTrbnslbtf \fItypf\fR \fIpbdkbgf\fR
+\-pkgTrbnslbtf \fItypf\fR \fIpbdkbgf\fR
+\-pkgTrbnslbtf \fItypf\fR \fIpbdkbgf\fR
+\-pkgTrbnslbtf \fItypf\fR \fIpbdkbgf\fR
 .RS 4
-識別子の中にモジュール名typeが検出されると、生成されるJavaパッケージ内のすべてのファイルについて、識別子の中のその名前がpackageで置き換えられます。最初に\fIpkgPrefix\fRの変更が行われます。typeの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+識別子の中にモジュール名typfが検出されると、生成されるJbvbパッケージ内のすべてのファイルについて、識別子の中のその名前がpbdkbgfで置き換えられます。最初に\fIpkgPrffix\fRの変更が行われます。typfの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+識別子の中にモジュール名typfが検出されると、生成されるJbvbパッケージ内のすべてのファイルについて、識別子の中のその名前がpbdkbgfで置き換えられます。最初に\fIpkgPrffix\fRの変更が行われます。typfの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+識別子の中にモジュール名typfが検出されると、生成されるJbvbパッケージ内のすべてのファイルについて、識別子の中のその名前がpbdkbgfで置き換えられます。最初に\fIpkgPrffix\fRの変更が行われます。typfの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+識別子の中にモジュール名typfが検出されると、生成されるJbvbパッケージ内のすべてのファイルについて、識別子の中のその名前がpbdkbgfで置き換えられます。最初に\fIpkgPrffix\fRの変更が行われます。typfの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+識別子の中にモジュール名typfが検出されると、生成されるJbvbパッケージ内のすべてのファイルについて、識別子の中のその名前がpbdkbgfで置き換えられます。最初に\fIpkgPrffix\fRの変更が行われます。typfの値は、トップレベルのモジュールの単純名、またはすべてのモジュールの外部で定義されたIDL型の単純名で、完全なパッケージ名に正確に一致する必要があります。
+.sp
+.sp
+.sp
+.sp
 .sp
 複数の変換が識別子に一致する場合、次の例に示すように、最も長い一致が選択されます。
+複数の変換が識別子に一致する場合、次の例に示すように、最も長い一致が選択されます。
+複数の変換が識別子に一致する場合、次の例に示すように、最も長い一致が選択されます。
+複数の変換が識別子に一致する場合、次の例に示すように、最も長い一致が選択されます。
+複数の変換が識別子に一致する場合、次の例に示すように、最も長い一致が選択されます。
+.sp
+.sp
+.sp
+.sp
 .sp
 \fBコマンド\fR:
+\fBコマンド\fR:
+\fBコマンド\fR:
+\fBコマンド\fR:
+\fBコマンド\fR:
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-pkgTranslate type pkg \-pkgTranslate type2\&.baz pkg2\&.fizz
+.nf
+.nf
+.nf
+.nf
+pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz
+pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz
+pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz
+pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz
+pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 \fB結果の変換\fR:
+\fB結果の変換\fR:
+\fB結果の変換\fR:
+\fB結果の変換\fR:
+\fB結果の変換\fR:
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-type => pkg
-type\&.ext => pkg\&.ext
-type\&.baz => pkg2\&.fizz
-type2\&.baz\&.pkg => pkg2\&.fizz\&.pkg
+.nf
+.nf
+.nf
+.nf
+typf => pkg
+typf => pkg
+typf => pkg
+typf => pkg
+typf => pkg
+typf\&.fxt => pkg\&.fxt
+typf\&.fxt => pkg\&.fxt
+typf\&.fxt => pkg\&.fxt
+typf\&.fxt => pkg\&.fxt
+typf\&.fxt => pkg\&.fxt
+typf\&.bbz => pkg2\&.fizz
+typf\&.bbz => pkg2\&.fizz
+typf\&.bbz => pkg2\&.fizz
+typf\&.bbz => pkg2\&.fizz
+typf\&.bbz => pkg2\&.fizz
+typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
+typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
+typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
+typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
+typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
-パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTranslate\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+.\}
+.\}
+.\}
+.\}
+パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTrbnslbtf\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTrbnslbtf\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTrbnslbtf\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTrbnslbtf\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+パッケージ名\fIorg\fR、\fIorg\fR\&.o\fImg\fR、または\fIorg\&.omg\fRのサブパッケージは、変換できません。これらのパッケージ名を変換しようとすると、互換性のないコードが生成され、\fI\-pkgTrbnslbtf\fRの後の最初の引数としてそれらのパッケージを使用すると、エラーとして扱われます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-skeletonName \fIxxx%yyy\fR
+.PP
+.PP
+.PP
+.PP
+\-skflftonNbmf \fIxxx%yyy\fR
+\-skflftonNbmf \fIxxx%yyy\fR
+\-skflftonNbmf \fIxxx%yyy\fR
+\-skflftonNbmf \fIxxx%yyy\fR
+\-skflftonNbmf \fIxxx%yyy\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIxxx%yyy\fRが、スケルトンに名前を付けるパターンとして使用されます。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
-(\fI\-fserver\fRまたは\fI\-fall\fR)、\fIoldImplBase\fRクラスの場合は\fI_%ImplBase\fR
-(\-\fIoldImplBase\fR)および(\fI\-fserver\fRまたは\fI\-fall\fR))。
+\fIxxx%yyy\fRが、スケルトンに名前を付けるパターンとして使用されます。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+\fIxxx%yyy\fRが、スケルトンに名前を付けるパターンとして使用されます。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+\fIxxx%yyy\fRが、スケルトンに名前を付けるパターンとして使用されます。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+\fIxxx%yyy\fRが、スケルトンに名前を付けるパターンとして使用されます。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR)、\fIoldImplBbsf\fRクラスの場合は\fI_%ImplBbsf\fR
+(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR)、\fIoldImplBbsf\fRクラスの場合は\fI_%ImplBbsf\fR
+(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR)、\fIoldImplBbsf\fRクラスの場合は\fI_%ImplBbsf\fR
+(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR)、\fIoldImplBbsf\fRクラスの場合は\fI_%ImplBbsf\fR
+(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR)、\fIoldImplBbsf\fRクラスの場合は\fI_%ImplBbsf\fR
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfr\fRまたは\fI\-fbll\fR))。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-td \fIdir\fR
+\-td \fIdir\fR
+\-td \fIdir\fR
+\-td \fIdir\fR
+\-td \fIdir\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 出力ディレクトリとして、現在のディレクトリではなく、\fIdir\fRが使用されます。
+出力ディレクトリとして、現在のディレクトリではなく、\fIdir\fRが使用されます。
+出力ディレクトリとして、現在のディレクトリではなく、\fIdir\fRが使用されます。
+出力ディレクトリとして、現在のディレクトリではなく、\fIdir\fRが使用されます。
+出力ディレクトリとして、現在のディレクトリではなく、\fIdir\fRが使用されます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-tieName \fIxxx%yyy\fR
+.PP
+.PP
+.PP
+.PP
+\-tifNbmf \fIxxx%yyy\fR
+\-tifNbmf \fIxxx%yyy\fR
+\-tifNbmf \fIxxx%yyy\fR
+\-tifNbmf \fIxxx%yyy\fR
+\-tifNbmf \fIxxx%yyy\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 パターンに従って、\fIxxx%yyy\fRを使用します。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
-(\fI\-fserverTieまたは\-fallTie\fR)、\fIoldImplBase\fR
-tieクラスの場合は\fI_%Tie\fR
-(\-\fIoldImplBase\fR)および(\fI\-fserverTie\fRまたは\fI\-fallTie\fR))。
+パターンに従って、\fIxxx%yyy\fRを使用します。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+パターンに従って、\fIxxx%yyy\fRを使用します。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+パターンに従って、\fIxxx%yyy\fRを使用します。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+パターンに従って、\fIxxx%yyy\fRを使用します。デフォルトは次のとおりです。\fIPOA\fRベース・クラスの場合は\fI%POA\fR
+(\fI\-fsfrvfrTifまたは\-fbllTif\fR)、\fIoldImplBbsf\fR
+(\fI\-fsfrvfrTifまたは\-fbllTif\fR)、\fIoldImplBbsf\fR
+(\fI\-fsfrvfrTifまたは\-fbllTif\fR)、\fIoldImplBbsf\fR
+(\fI\-fsfrvfrTifまたは\-fbllTif\fR)、\fIoldImplBbsf\fR
+(\fI\-fsfrvfrTifまたは\-fbllTif\fR)、\fIoldImplBbsf\fR
+tifクラスの場合は\fI_%Tif\fR
+tifクラスの場合は\fI_%Tif\fR
+tifクラスの場合は\fI_%Tif\fR
+tifクラスの場合は\fI_%Tif\fR
+tifクラスの場合は\fI_%Tif\fR
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfrTif\fRまたは\fI\-fbllTif\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfrTif\fRまたは\fI\-fbllTif\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfrTif\fRまたは\fI\-fbllTif\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfrTif\fRまたは\fI\-fbllTif\fR))。
+(\-\fIoldImplBbsf\fR)および(\fI\-fsfrvfrTif\fRまたは\fI\-fbllTif\fR))。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-nowarn、\-verbose
+.PP
+.PP
+.PP
+.PP
+\-nowbrn、\-vfrbosf
+\-nowbrn、\-vfrbosf
+\-nowbrn、\-vfrbosf
+\-nowbrn、\-vfrbosf
+\-nowbrn、\-vfrbosf
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
 リリース情報を表示して終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+リリース情報を表示して終了します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "制限事項"
+.SH "制限事項"
+.SH "制限事項"
+.SH "制限事項"
+.SH "制限事項"
 .PP
-グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObject\fRまたは\fIValueBase\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
 .PP
-\fIfixed\fRというIDL型はサポートされていません。
+.PP
+.PP
+.PP
+グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObjfdt\fRまたは\fIVblufBbsf\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
+グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObjfdt\fRまたは\fIVblufBbsf\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
+グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObjfdt\fRまたは\fIVblufBbsf\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
+グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObjfdt\fRまたは\fIVblufBbsf\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
+グローバル・スコープ内のエスケープされた識別子は、IDLプリミティブ型の\fIObjfdt\fRまたは\fIVblufBbsf\fRと同じ綴りにしないでください。これは、シンボル表がこれらの識別子でプリロードされているためです。これらの再定義を許可すると、元の定義が上書きされます。これは、おそらく恒久的な制約です。
+.PP
+.PP
+.PP
+.PP
+.PP
+\fIfixfd\fRというIDL型はサポートされていません。
+\fIfixfd\fRというIDL型はサポートされていません。
+\fIfixfd\fRというIDL型はサポートされていません。
+\fIfixfd\fRというIDL型はサポートされていません。
+\fIfixfd\fRというIDL型はサポートされていません。
+.SH "既知の問題"
+.SH "既知の問題"
+.SH "既知の問題"
+.SH "既知の問題"
 .SH "既知の問題"
 .PP
-グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fIServerDelegate\fR
-DSIコード内の\fINullPointerException\fRにあるようです。
+.PP
+.PP
+.PP
+.PP
+グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fISfrvfrDflfgbtf\fR
+グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fISfrvfrDflfgbtf\fR
+グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fISfrvfrDflfgbtf\fR
+グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fISfrvfrDflfgbtf\fR
+グローバル識別子についてインポートが生成されません。予期されないローカル\fIimpl\fRオブジェクトを呼び出すと、例外を受け取ります。しかし、その原因は、\fISfrvfrDflfgbtf\fR
+DSIコード内の\fINullPointfrExdfption\fRにあるようです。
+DSIコード内の\fINullPointfrExdfption\fRにあるようです。
+DSIコード内の\fINullPointfrExdfption\fRにあるようです。
+DSIコード内の\fINullPointfrExdfption\fRにあるようです。
+DSIコード内の\fINullPointfrExdfption\fRにあるようです。
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

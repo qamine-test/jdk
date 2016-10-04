@@ -1,0 +1,406 @@
+/*
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
+
+publid bbstrbdt dlbss MftiodImpl fxtfnds TypfComponfntImpl
+    implfmfnts Mftiod {
+    privbtf JNITypfPbrsfr signbturfPbrsfr;
+    bbstrbdt int brgSlotCount() tirows AbsfntInformbtionExdfption;
+
+    bbstrbdt List<Lodbtion> bllLinfLodbtions(SDE.Strbtum strbtum,
+                                   String sourdfNbmf)
+                           tirows AbsfntInformbtionExdfption;
+
+    bbstrbdt List<Lodbtion> lodbtionsOfLinf(SDE.Strbtum strbtum,
+                                  String sourdfNbmf,
+                                  int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption;
+
+    MftiodImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+               long rff,
+               String nbmf, String signbturf,
+               String gfnfridSignbturf, int modififrs) {
+        supfr(vm, dfdlbringTypf, rff, nbmf, signbturf,
+              gfnfridSignbturf, modififrs);
+        signbturfPbrsfr = nfw JNITypfPbrsfr(signbturf);
+    }
+
+    stbtid MftiodImpl drfbtfMftiodImpl(VirtublMbdiinf vm,
+                                       RfffrfndfTypfImpl dfdlbringTypf,
+                                       long rff,
+                                       String nbmf,
+                                       String signbturf,
+                                       String gfnfridSignbturf,
+                                       int modififrs) {
+        if ((modififrs &
+             (VMModififrs.NATIVE | VMModififrs.ABSTRACT)) != 0) {
+            rfturn nfw NonCondrftfMftiodImpl(vm, dfdlbringTypf, rff,
+                                             nbmf, signbturf,
+                                             gfnfridSignbturf,
+                                             modififrs);
+        } flsf {
+            rfturn nfw CondrftfMftiodImpl(vm, dfdlbringTypf, rff,
+                                          nbmf, signbturf,
+                                          gfnfridSignbturf,
+                                          modififrs);
+        }
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof MftiodImpl)) {
+            MftiodImpl otifr = (MftiodImpl)obj;
+            rfturn (dfdlbringTypf().fqubls(otifr.dfdlbringTypf())) &&
+                   (rff() == otifr.rff()) &&
+                   supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid int ibsiCodf() {
+        rfturn (int)rff();
+    }
+
+    publid finbl List<Lodbtion> bllLinfLodbtions()
+                           tirows AbsfntInformbtionExdfption {
+        rfturn bllLinfLodbtions(vm.gftDffbultStrbtum(), null);
+    }
+
+    publid List<Lodbtion> bllLinfLodbtions(String strbtumID,
+                                 String sourdfNbmf)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn bllLinfLodbtions(dfdlbringTypf.strbtum(strbtumID),
+                                sourdfNbmf);
+    }
+
+    publid finbl List<Lodbtion> lodbtionsOfLinf(int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn lodbtionsOfLinf(vm.gftDffbultStrbtum(),
+                               null, linfNumbfr);
+    }
+
+    publid List<Lodbtion> lodbtionsOfLinf(String strbtumID,
+                                String sourdfNbmf,
+                                int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn lodbtionsOfLinf(dfdlbringTypf.strbtum(strbtumID),
+                               sourdfNbmf, linfNumbfr);
+    }
+
+    LinfInfo dodfIndfxToLinfInfo(SDE.Strbtum strbtum,
+                                 long dodfIndfx) {
+        if (strbtum.isJbvb()) {
+            rfturn nfw BbsfLinfInfo(-1, dfdlbringTypf);
+        } flsf {
+            rfturn nfw StrbtumLinfInfo(strbtum.id(), -1,
+                                       null, null);
+        }
+    }
+
+    /**
+     * @rfturn b tfxt rfprfsfntbtion of tif dfdlbrfd rfturn typf
+     * of tiis mftiod.
+     */
+    publid String rfturnTypfNbmf() {
+        rfturn signbturfPbrsfr.typfNbmf();
+    }
+
+    privbtf String rfturnSignbturf() {
+        rfturn signbturfPbrsfr.signbturf();
+    }
+
+    publid Typf rfturnTypf() tirows ClbssNotLobdfdExdfption {
+        rfturn findTypf(rfturnSignbturf());
+    }
+
+    publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)dfdlbringTypf();
+        rfturn fndlosing.findTypf(signbturf);
+    }
+
+    publid List<String> brgumfntTypfNbmfs() {
+        rfturn signbturfPbrsfr.brgumfntTypfNbmfs();
+    }
+
+    publid List<String> brgumfntSignbturfs() {
+        rfturn signbturfPbrsfr.brgumfntSignbturfs();
+    }
+
+    Typf brgumfntTypf(int indfx) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)dfdlbringTypf();
+        String signbturf = brgumfntSignbturfs().gft(indfx);
+        rfturn fndlosing.findTypf(signbturf);
+    }
+
+    publid List<Typf> brgumfntTypfs() tirows ClbssNotLobdfdExdfption {
+        int sizf = brgumfntSignbturfs().sizf();
+        ArrbyList<Typf> typfs = nfw ArrbyList<Typf>(sizf);
+        for (int i = 0; i < sizf; i++) {
+            Typf typf = brgumfntTypf(i);
+            typfs.bdd(typf);
+        }
+
+        rfturn typfs;
+    }
+
+    publid int dompbrfTo(Mftiod mftiod) {
+        RfffrfndfTypfImpl dfdlbringTypf = (RfffrfndfTypfImpl)dfdlbringTypf();
+        int rd = dfdlbringTypf.dompbrfTo(mftiod.dfdlbringTypf());
+        if (rd == 0) {
+            rd = dfdlbringTypf.indfxOf(tiis) -
+                    dfdlbringTypf.indfxOf(mftiod);
+        }
+        rfturn rd;
+    }
+
+    publid boolfbn isAbstrbdt() {
+        rfturn isModififrSft(VMModififrs.ABSTRACT);
+    }
+
+    publid boolfbn isDffbult() {
+        rfturn !isModififrSft(VMModififrs.ABSTRACT) &&
+               !isModififrSft(VMModififrs.STATIC) &&
+               !isModififrSft(VMModififrs.PRIVATE) &&
+               dfdlbringTypf() instbndfof IntfrfbdfTypf;
+    }
+
+    publid boolfbn isSyndironizfd() {
+        rfturn isModififrSft(VMModififrs.SYNCHRONIZED);
+    }
+
+    publid boolfbn isNbtivf() {
+        rfturn isModififrSft(VMModififrs.NATIVE);
+    }
+
+    publid boolfbn isVbrArgs() {
+        rfturn isModififrSft(VMModififrs.VARARGS);
+    }
+
+    publid boolfbn isBridgf() {
+        rfturn isModififrSft(VMModififrs.BRIDGE);
+    }
+
+    publid boolfbn isConstrudtor() {
+        rfturn nbmf().fqubls("<init>");
+    }
+
+    publid boolfbn isStbtidInitiblizfr() {
+        rfturn nbmf().fqubls("<dlinit>");
+    }
+
+    publid boolfbn isObsolftf() {
+        try {
+            rfturn JDWP.Mftiod.IsObsolftf.prodfss(vm,
+                                    dfdlbringTypf, rff).isObsolftf;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
+        }
+    }
+
+
+    /*
+     * A dontbinfr dlbss for tif rfturn vbluf to bllow
+     * propfr typf-difdking.
+     */
+    dlbss RfturnContbinfr implfmfnts VblufContbinfr {
+        RfturnContbinfr() {
+        }
+        publid Typf typf() tirows ClbssNotLobdfdExdfption {
+            rfturn rfturnTypf();
+        }
+        publid String typfNbmf(){
+            rfturn rfturnTypfNbmf();
+        }
+        publid String signbturf() {
+            rfturn rfturnSignbturf(); //typf().signbturf();
+        }
+        publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+            rfturn MftiodImpl.tiis.findTypf(signbturf);
+        }
+    }
+    RfturnContbinfr rftVblContbinfr = null;
+    RfturnContbinfr gftRfturnVblufContbinfr() {
+        if (rftVblContbinfr == null) {
+            rftVblContbinfr = nfw RfturnContbinfr();
+        }
+        rfturn rftVblContbinfr;
+    }
+
+    /*
+     * A dontbinfr dlbss for tif brgumfnt to bllow
+     * propfr typf-difdking.
+     */
+    dlbss ArgumfntContbinfr implfmfnts VblufContbinfr {
+        int indfx;
+
+        ArgumfntContbinfr(int indfx) {
+            tiis.indfx = indfx;
+        }
+        publid Typf typf() tirows ClbssNotLobdfdExdfption {
+            rfturn brgumfntTypf(indfx);
+        }
+        publid String typfNbmf(){
+            rfturn brgumfntTypfNbmfs().gft(indfx);
+        }
+        publid String signbturf() {
+            rfturn brgumfntSignbturfs().gft(indfx);
+        }
+        publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+            rfturn MftiodImpl.tiis.findTypf(signbturf);
+        }
+    }
+
+    /*
+     * Tiis is b vbr brgs mftiod.  Tius, its lbst pbrbm is bn
+     * brrby. If tif mftiod ibs n pbrbms, tifn:
+     * 1.  If tifrf brf n brgs bnd tif lbst is tif sbmf typf bs tif typf of
+     *     tif lbst pbrbm, do notiing.  IE, b String[]
+     *     dbn bf pbssfd to b String...
+     * 2.  If tifrf brf >= n brgumfnts bnd for fbdi brg wiosf numbfr is >= n,
+     *     tif brg typf is 'dompbtiblf' witi tif domponfnt typf of
+     *     tif lbst pbrbm, tifn do
+     *     - drfbtf bn brrby of tif typf of tif lbst pbrbm
+     *     - put tif n, ... brgs into tiis brrby.
+     *       Wf migit ibvf to do donvfrsions ifrf.
+     *     - put tiis brrby into brgumfnts(n)
+     *     - dflftf brgumfnts(n+1), ...
+     * NOTE tibt tiis migit modify tif input list.
+     */
+    void ibndlfVbrArgs(List<Vbluf> brgumfnts)
+        tirows ClbssNotLobdfdExdfption, InvblidTypfExdfption {
+        List<Typf> pbrbmTypfs = tiis.brgumfntTypfs();
+        ArrbyTypf lbstPbrbmTypf = (ArrbyTypf)pbrbmTypfs.gft(pbrbmTypfs.sizf() - 1);
+        Typf domponfntTypf = lbstPbrbmTypf.domponfntTypf();
+        int brgCount = brgumfnts.sizf();
+        int pbrbmCount = pbrbmTypfs.sizf();
+        if (brgCount < pbrbmCount - 1) {
+            // Error; will bf dbugit lbtfr.
+            rfturn;
+        }
+        if (brgCount == pbrbmCount - 1) {
+            // It is ok to pbss 0 brgs to tif vbr brg.
+            // Wf ibvf to gfn b 0 lfngti brrby.
+            ArrbyRfffrfndf brgArrby = lbstPbrbmTypf.nfwInstbndf(0);
+            brgumfnts.bdd(brgArrby);
+            rfturn;
+        }
+        Vbluf ntiArgVbluf = brgumfnts.gft(pbrbmCount - 1);
+        if (ntiArgVbluf == null) {
+            rfturn;
+        }
+        Typf ntiArgTypf = ntiArgVbluf.typf();
+        if (ntiArgTypf instbndfof ArrbyTypfImpl) {
+            if (brgCount == pbrbmCount &&
+                ((ArrbyTypfImpl)ntiArgTypf).isAssignbblfTo(lbstPbrbmTypf)) {
+                /*
+                 * Tiis is dbsf 1.  A dompbtiblf brrby is bfing pbssfd to tif
+                 * vbr brgs brrby pbrbm.  Wf don't ibvf to do bnytiing.
+                 */
+                rfturn;
+            }
+        }
+
+        /*
+         * Cbsf 2.  Wf ibvf to vfrify tibt tif n, n+1, ... brgs brf dompbtiblf
+         * witi domponfntTypf, bnd do donvfrsions if nfdfssbry bnd drfbtf
+         * bn brrby of domponfntTypf to iold tifsf possibly donvfrtfd vblufs.
+         */
+        int dount = brgCount - pbrbmCount + 1;
+        ArrbyRfffrfndf brgArrby = lbstPbrbmTypf.nfwInstbndf(dount);
+
+        /*
+         * Tiis will dopy brgumfnts(pbrbmCount - 1) ... to brgArrby(0) ...
+         * doing wibtfvfr donvfrsions brf nffdfd!  It will tirow bn
+         * fxdfption if bn indompbtiblf brg is fndountfrfd
+         */
+        brgArrby.sftVblufs(0, brgumfnts, pbrbmCount - 1, dount);
+        brgumfnts.sft(pbrbmCount - 1, brgArrby);
+
+        /*
+         * Rfmovf tif fxdfss brgs
+         */
+        for (int ii = pbrbmCount; ii < brgCount; ii++) {
+            brgumfnts.rfmovf(pbrbmCount);
+        }
+        rfturn;
+    }
+
+    /*
+     * Tif output list will bf difffrfnt tibn tif input list.
+     */
+    List<Vbluf> vblidbtfAndPrfpbrfArgumfntsForInvokf(List<? fxtfnds Vbluf> origArgumfnts)
+                         tirows ClbssNotLobdfdExdfption, InvblidTypfExdfption {
+
+        List<Vbluf> brgumfnts = nfw ArrbyList<Vbluf>(origArgumfnts);
+        if (isVbrArgs()) {
+            ibndlfVbrArgs(brgumfnts);
+        }
+
+        int brgSizf = brgumfnts.sizf();
+
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf());
+        List<String> signbturfs = pbrsfr.brgumfntSignbturfs();
+
+        if (signbturfs.sizf() != brgSizf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid brgumfnt dount: fxpfdtfd " +
+                                               signbturfs.sizf() + ", rfdfivfd " +
+                                               brgumfnts.sizf());
+        }
+
+        for (int i = 0; i < brgSizf; i++) {
+            Vbluf vbluf = brgumfnts.gft(i);
+            vbluf = VblufImpl.prfpbrfForAssignmfnt(vbluf,
+                                                   nfw ArgumfntContbinfr(i));
+            brgumfnts.sft(i, vbluf);
+        }
+        rfturn brgumfnts;
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(dfdlbringTypf().nbmf());
+        sb.bppfnd(".");
+        sb.bppfnd(nbmf());
+        sb.bppfnd("(");
+        boolfbn first = truf;
+        for (String nbmf : brgumfntTypfNbmfs()) {
+            if (!first) {
+                sb.bppfnd(", ");
+            }
+            sb.bppfnd(nbmf);
+            first = fblsf;
+        }
+        sb.bppfnd(")");
+        rfturn sb.toString();
+    }
+}

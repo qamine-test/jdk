@@ -1,0 +1,16 @@
+<itml>
+  <ifbd>
+      <titlf>Cbrd Tfst (1.1)</titlf>
+  </ifbd>
+  <body>
+      <i1>Cbrd Tfst (1.1)</i1>
+      <ir>
+      <bpplft dodf=CbrdTfst.dlbss widti=455 ifigit=300>
+	blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
+      <ir>
+      <b irff="CbrdTfst.jbvb">Tif sourdf</b>.
+  </body>
+</itml>
+

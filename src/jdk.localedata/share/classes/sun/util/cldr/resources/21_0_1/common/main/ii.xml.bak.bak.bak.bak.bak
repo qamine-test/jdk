@@ -1,0 +1,224 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6443 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<lbngubgf typf="ii"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
+			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
+			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
+			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
+			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
+			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
+			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
+			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
+			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="BR">ꀠꑭ</tfrritory>
+			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="DE">ꄓꇩ</tfrritory>
+			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="GB">ꑱꇩ</tfrritory>
+			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
+			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
+			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
+		</tfrritorifs>
+		<typfs>
+			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">ꑭꆏ</dby>
+							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="tuf">ꆏꑍ</dby>
+							<dby typf="wfd">ꆏꌕ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="fri">ꆏꉬ</dby>
+							<dby typf="sbt">ꆏꃘ</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">ꑭꆏꑍ</dby>
+							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="tuf">ꆏꊂꑍ</dby>
+							<dby typf="wfd">ꆏꊂꌕ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="fri">ꆏꊂꉬ</dby>
+							<dby typf="sbt">ꆏꊂꃘ</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">ꆏ</dby>
+							<dby typf="mon">ꋍ</dby>
+							<dby typf="tuf">ꑍ</dby>
+							<dby typf="wfd">ꌕ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="fri">ꉬ</dby>
+							<dby typf="sbt">ꃘ</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
+							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
+							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
+							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ꃅꋊꂿ</frb>
+						<frb typf="1">ꃅꋊꊂ</frb>
+					</frbAbbr>
+				</frbs>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ꃅꋊ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>ꈎ</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>ꆪ</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ꑭꆏ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>ꑍ</displbyNbmf>
+						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
+						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
+						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>ꆏꑍ</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>ꄮꈉ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ꃏ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ꇙ</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+		</symbols>
+		<durrfndifs>
+			<durrfndy typf="XXX">
+				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ꉬ</yfsstr>
+			<nostr>ꀋꉬ</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>

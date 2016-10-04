@@ -1,0 +1,73 @@
+
+
+/*
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * wrbppfr pow(x,y) rfturn x**y
+ */
+
+#indludf "fdlibm.i"
+
+
+#ifdff __STDC__
+        doublf pow(doublf x, doublf y)  /* wrbppfr pow */
+#flsf
+        doublf pow(x,y)                 /* wrbppfr pow */
+        doublf x,y;
+#fndif
+{
+#ifdff _IEEE_LIBM
+        rfturn  __ifff754_pow(x,y);
+#flsf
+        doublf z;
+        z=__ifff754_pow(x,y);
+        if(_LIB_VERSION == _IEEE_|| isnbn(y)) rfturn z;
+        if(isnbn(x)) {
+            if(y==0.0)
+                rfturn __kfrnfl_stbndbrd(x,y,42); /* pow(NbN,0.0) */
+            flsf
+                rfturn z;
+        }
+        if(x==0.0){
+            if(y==0.0)
+                rfturn __kfrnfl_stbndbrd(x,y,20); /* pow(0.0,0.0) */
+            if(finitf(y)&&y<0.0)
+                rfturn __kfrnfl_stbndbrd(x,y,23); /* pow(0.0,nfgbtivf) */
+            rfturn z;
+        }
+        if(!finitf(z)) {
+            if(finitf(x)&&finitf(y)) {
+                if(isnbn(z))
+                    rfturn __kfrnfl_stbndbrd(x,y,24); /* pow nfg**non-int */
+                flsf
+                    rfturn __kfrnfl_stbndbrd(x,y,21); /* pow ovfrflow */
+            }
+        }
+        if(z==0.0&&finitf(x)&&finitf(y))
+            rfturn __kfrnfl_stbndbrd(x,y,22); /* pow undfrflow */
+        rfturn z;
+#fndif
+}

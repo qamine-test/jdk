@@ -1,0 +1,814 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvb.util.Arrbys;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+/**
+ * Tiis dlbss implfmfnts pbssword-bbsf fndryption blgoritim witi
+ * SHA1 digfst bnd tif following Cipifrs (in CBC modf, wifrf bpplidbblf):
+ * - DESfdf dipifr bnd
+ * - RC2 Cipifr witi 40-bit or 128-bit ffffdtivf kfy lfngti bnd
+ * - RC4 Cipifr witi 40-bit or 128-bit ffffdtivf kfy lfngti
+ * bs dffinfd by PKCS #12 vfrsion 1.0 stbndbrd.
+ *
+ * @butior Vblfrif Pfng
+ * @sff jbvbx.drypto.CipifrSpi
+ */
+finbl dlbss PKCS12PBECipifrCorf {
+
+    // TBD: rfplbdf CipifrCorf witi b CipifrSpi objfdt to simplify mbintfnbndf
+
+    privbtf CipifrCorf dipifr;
+    privbtf int blodkSizf;
+    privbtf int kfySizf;
+    privbtf String blgo = null;
+    privbtf String pbfAlgo = null;
+    privbtf bytf[] sblt = null;
+    privbtf int iCount = 0;
+
+    privbtf stbtid finbl int DEFAULT_SALT_LENGTH = 20;
+    privbtf stbtid finbl int DEFAULT_COUNT = 1024;
+
+    stbtid finbl int CIPHER_KEY = 1;
+    stbtid finbl int CIPHER_IV = 2;
+    stbtid finbl int MAC_KEY = 3;
+
+    // Usfs dffbult ibsi blgoritim (SHA-1)
+    stbtid bytf[] dfrivf(dibr[] dibrs, bytf[] sblt,
+                         int id, int n, int typf) {
+        rfturn dfrivf(dibrs, sblt, id, n, typf, "SHA-1", 64);
+    }
+
+    // Usfs supplifd ibsi blgoritim
+    stbtid bytf[] dfrivf(dibr[] dibrs, bytf[] sblt, int id, int n, int typf,
+        String ibsiAlgo, int blodkLfngti) {
+
+        // Add in trbiling NULL tfrminbtor.  Spfdibl dbsf:
+        // no tfrminbtor if pbssword is "\0".
+        int lfngti = dibrs.lfngti*2;
+        if (lfngti == 2 && dibrs[0] == 0) {
+            dibrs = nfw dibr[0];
+            lfngti = 0;
+        } flsf {
+            lfngti += 2;
+        }
+
+        bytf[] pbsswd = nfw bytf[lfngti];
+        for (int i = 0, j = 0; i < dibrs.lfngti; i++, j+=2) {
+            pbsswd[j] = (bytf) ((dibrs[i] >>> 8) & 0xFF);
+            pbsswd[j+1] = (bytf) (dibrs[i] & 0xFF);
+        }
+        bytf[] kfy = nfw bytf[n];
+
+        try {
+            MfssbgfDigfst sib = MfssbgfDigfst.gftInstbndf(ibsiAlgo);
+
+            int v = blodkLfngti;
+            int u = sib.gftDigfstLfngti();
+            int d = roundup(n, u) / u;
+            bytf[] D = nfw bytf[v];
+            int s = roundup(sblt.lfngti, v);
+            int p = roundup(pbsswd.lfngti, v);
+            bytf[] I = nfw bytf[s + p];
+
+            Arrbys.fill(D, (bytf)typf);
+            dondbt(sblt, I, 0, s);
+            dondbt(pbsswd, I, s, p);
+
+            bytf[] Ai;
+            bytf[] B = nfw bytf[v];
+            bytf[] tmp = nfw bytf[v];
+
+            int i = 0;
+            for (; ; i++, n -= u) {
+                sib.updbtf(D);
+                sib.updbtf(I);
+                Ai = sib.digfst();
+                for (int r = 1; r < id; r++)
+                    Ai = sib.digfst(Ai);
+                Systfm.brrbydopy(Ai, 0, kfy, u * i, Mbti.min(n, u));
+                if (i + 1 == d)
+                    brfbk;
+                dondbt(Ai, B, 0, B.lfngti);
+                BigIntfgfr B1;
+                B1 = nfw BigIntfgfr(1, B).bdd(BigIntfgfr.ONE);
+
+                for (int j = 0; j < I.lfngti; j += v) {
+                    BigIntfgfr Ij;
+                    int trund;
+
+                    if (tmp.lfngti != v)
+                        tmp = nfw bytf[v];
+                    Systfm.brrbydopy(I, j, tmp, 0, v);
+                    Ij = nfw BigIntfgfr(1, tmp);
+                    Ij = Ij.bdd(B1);
+                    tmp = Ij.toBytfArrby();
+                    trund = tmp.lfngti - v;
+                    if (trund >= 0) {
+                        Systfm.brrbydopy(tmp, trund, I, j, v);
+                    } flsf if (trund < 0) {
+                        Arrbys.fill(I, j, j + (-trund), (bytf)0);
+                        Systfm.brrbydopy(tmp, 0, I, j + (-trund), tmp.lfngti);
+                    }
+                }
+            }
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption("intfrnbl frror: " + f);
+        }
+        rfturn kfy;
+    }
+
+    privbtf stbtid int roundup(int x, int y) {
+        rfturn ((x + (y - 1)) / y) * y;
+    }
+
+    privbtf stbtid void dondbt(bytf[] srd, bytf[] dst, int stbrt, int lfn) {
+        if (srd.lfngti == 0) {
+            rfturn;
+        }
+        int loop = lfn / srd.lfngti;
+        int off, i;
+        for (i = 0, off = 0; i < loop; i++, off += srd.lfngti)
+            Systfm.brrbydopy(srd, 0, dst, off + stbrt, srd.lfngti);
+        Systfm.brrbydopy(srd, 0, dst, off + stbrt, lfn - off);
+    }
+
+    PKCS12PBECipifrCorf(String symmCipifrAlg, int dffKfySizf)
+        tirows NoSudiAlgoritimExdfption {
+
+        blgo = symmCipifrAlg;
+        if (blgo.fqubls("RC4")) {
+            pbfAlgo = "PBEWitiSHA1AndRC4_" + dffKfySizf * 8;
+        } flsf {
+            SymmftridCipifr symmCipifr = null;
+            if (blgo.fqubls("DESfdf")) {
+                symmCipifr = nfw DESfdfCrypt();
+                pbfAlgo = "PBEWitiSHA1AndDESfdf";
+            } flsf if (blgo.fqubls("RC2")) {
+                symmCipifr = nfw RC2Crypt();
+                pbfAlgo = "PBEWitiSHA1AndRC2_" + dffKfySizf * 8;
+            } flsf {
+                tirow nfw NoSudiAlgoritimExdfption("No Cipifr implfmfntbtion " +
+                       "for PBEWitiSHA1And" + blgo);
+            }
+            blodkSizf = symmCipifr.gftBlodkSizf();
+            dipifr = nfw CipifrCorf(symmCipifr, blodkSizf);
+            dipifr.sftModf("CBC");
+            try {
+                dipifr.sftPbdding("PKCS5Pbdding");
+            } dbtdi (NoSudiPbddingExdfption nspf) {
+                // siould not ibppfn
+            }
+        }
+        kfySizf = dffKfySizf;
+    }
+
+    void implSftModf(String modf) tirows NoSudiAlgoritimExdfption {
+        if ((modf != null) && (!modf.fqublsIgnorfCbsf("CBC"))) {
+            tirow nfw NoSudiAlgoritimExdfption("Invblid dipifr modf: "
+                                               + modf);
+        }
+    }
+
+    void implSftPbdding(String pbdding) tirows NoSudiPbddingExdfption {
+        if ((pbdding != null) &&
+            (!pbdding.fqublsIgnorfCbsf("PKCS5Pbdding"))) {
+            tirow nfw NoSudiPbddingExdfption("Invblid pbdding sdifmf: " +
+                                             pbdding);
+        }
+    }
+
+    int implGftBlodkSizf() {
+        rfturn blodkSizf;
+    }
+
+    int implGftOutputSizf(int inLfn) {
+        rfturn dipifr.gftOutputSizf(inLfn);
+    }
+
+    bytf[] implGftIV() {
+        rfturn dipifr.gftIV();
+    }
+
+    AlgoritimPbrbmftfrs implGftPbrbmftfrs() {
+        AlgoritimPbrbmftfrs pbrbms = null;
+        if (sblt == null) {
+            // Cipifr is not initiblizfd witi pbrbmftfrs;
+            // follow tif rfdommfndbtion in PKCS12 v1.0
+            // sfdtion B.4 to gfnfrbtf sblt bnd iCount.
+            sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+            SunJCE.gftRbndom().nfxtBytfs(sblt);
+            iCount = DEFAULT_COUNT;
+        }
+        PBEPbrbmftfrSpfd pbfSpfd = nfw PBEPbrbmftfrSpfd(sblt, iCount);
+        try {
+            pbrbms = AlgoritimPbrbmftfrs.gftInstbndf(pbfAlgo,
+                SunJCE.gftInstbndf());
+            pbrbms.init(pbfSpfd);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(
+                "SunJCE providfr is not donfigurfd propfrly");
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption("PBEPbrbmftfrSpfd not supportfd");
+        }
+        rfturn pbrbms;
+    }
+
+    void implInit(int opmodf, Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms,
+                  SfdurfRbndom rbndom) tirows InvblidKfyExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        implInit(opmodf, kfy, pbrbms, rbndom, null);
+    }
+
+    void implInit(int opmodf, Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms,
+                  SfdurfRbndom rbndom, CipifrSpi dipifrImpl)
+                      tirows InvblidKfyExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        dibr[] pbsswdCibrs = null;
+        sblt = null;
+        iCount = 0;
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            jbvbx.drypto.intfrfbdfs.PBEKfy pbfKfy =
+                (jbvbx.drypto.intfrfbdfs.PBEKfy) kfy;
+            pbsswdCibrs = pbfKfy.gftPbssword();
+            sblt = pbfKfy.gftSblt(); // mbybf null if unspfdififd
+            iCount = pbfKfy.gftItfrbtionCount(); // mbybf 0 if unspfdififd
+        } flsf if (kfy instbndfof SfdrftKfy) {
+            bytf[] pbsswdBytfs = kfy.gftEndodfd();
+            if ((pbsswdBytfs == null) ||
+                !(kfy.gftAlgoritim().rfgionMbtdifs(truf, 0, "PBE", 0, 3))) {
+                tirow nfw InvblidKfyExdfption("Missing pbssword");
+            }
+            pbsswdCibrs = nfw dibr[pbsswdBytfs.lfngti];
+            for (int i=0; i<pbsswdCibrs.lfngti; i++) {
+                pbsswdCibrs[i] = (dibr) (pbsswdBytfs[i] & 0x7f);
+            }
+        } flsf {
+            tirow nfw InvblidKfyExdfption("SfdrftKfy of PBE typf rfquirfd");
+        }
+
+        if (((opmodf == Cipifr.DECRYPT_MODE) ||
+             (opmodf == Cipifr.UNWRAP_MODE)) &&
+            ((pbrbms == null) && ((sblt == null) || (iCount == 0)))) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Pbrbmftfrs missing");
+        }
+
+        if (pbrbms == null) {
+            // gfnfrbtf dffbult for sblt bnd itfrbtion dount if nfdfssbry
+            if (sblt == null) {
+                sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+                if (rbndom != null) {
+                    rbndom.nfxtBytfs(sblt);
+                } flsf {
+                    SunJCE.gftRbndom().nfxtBytfs(sblt);
+                }
+            }
+            if (iCount == 0) iCount = DEFAULT_COUNT;
+        } flsf if (!(pbrbms instbndfof PBEPbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("PBEPbrbmftfrSpfd typf rfquirfd");
+        } flsf {
+            PBEPbrbmftfrSpfd pbfPbrbms = (PBEPbrbmftfrSpfd) pbrbms;
+            // mbkf surf tif pbrbmftfr vblufs brf donsistfnt
+            if (sblt != null) {
+                if (!Arrbys.fqubls(sblt, pbfPbrbms.gftSblt())) {
+                    tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Indonsistfnt vbluf of sblt bftwffn kfy bnd pbrbms");
+                }
+            } flsf {
+                sblt = pbfPbrbms.gftSblt();
+            }
+            if (iCount != 0) {
+                if (iCount != pbfPbrbms.gftItfrbtionCount()) {
+                    tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Difffrfnt itfrbtion dount bftwffn kfy bnd pbrbms");
+                }
+            } flsf {
+                iCount = pbfPbrbms.gftItfrbtionCount();
+            }
+        }
+        // sblt is rfdommfndfd to bf idfblly bs long bs tif output
+        // of tif ibsi fundtion. Howfvfr, it mby bf too stridt to
+        // fordf tiis; so instfbd, wf'll just rfquirf tif minimum
+        // sblt lfngti to bf 8-bytf wiidi is wibt PKCS#5 rfdommfnds
+        // bnd opfnssl dofs.
+        if (sblt.lfngti < 8) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Sblt must bf bt lfbst 8 bytfs long");
+        }
+        if (iCount <= 0) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("ItfrbtionCount must bf b positivf numbfr");
+        }
+        bytf[] dfrivfdKfy = dfrivf(pbsswdCibrs, sblt, iCount,
+                                   kfySizf, CIPHER_KEY);
+        SfdrftKfy dipifrKfy = nfw SfdrftKfySpfd(dfrivfdKfy, blgo);
+
+        if (dipifrImpl != null && dipifrImpl instbndfof ARCFOURCipifr) {
+            ((ARCFOURCipifr)dipifrImpl).fnginfInit(opmodf, dipifrKfy, rbndom);
+
+        } flsf {
+            bytf[] dfrivfdIv = dfrivf(pbsswdCibrs, sblt, iCount, 8,
+                                  CIPHER_IV);
+            IvPbrbmftfrSpfd ivSpfd = nfw IvPbrbmftfrSpfd(dfrivfdIv, 0, 8);
+
+            // initiblizf tif undfrlying dipifr
+            dipifr.init(opmodf, dipifrKfy, ivSpfd, rbndom);
+        }
+    }
+
+    void implInit(int opmodf, Kfy kfy, AlgoritimPbrbmftfrs pbrbms,
+                  SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        implInit(opmodf, kfy, pbrbms, rbndom, null);
+    }
+
+    void implInit(int opmodf, Kfy kfy, AlgoritimPbrbmftfrs pbrbms,
+                  SfdurfRbndom rbndom, CipifrSpi dipifrImpl)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        AlgoritimPbrbmftfrSpfd pbrbmSpfd = null;
+        if (pbrbms != null) {
+            try {
+                pbrbmSpfd = pbrbms.gftPbrbmftfrSpfd(PBEPbrbmftfrSpfd.dlbss);
+            } dbtdi (InvblidPbrbmftfrSpfdExdfption ipsf) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "rfquirfs PBE pbrbmftfrs");
+            }
+        }
+        implInit(opmodf, kfy, pbrbmSpfd, rbndom, dipifrImpl);
+    }
+
+    void implInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption {
+        implInit(opmodf, kfy, rbndom, null);
+    }
+
+    void implInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom,
+        CipifrSpi dipifrImpl) tirows InvblidKfyExdfption {
+        try {
+            implInit(opmodf, kfy, (AlgoritimPbrbmftfrSpfd) null, rbndom,
+                dipifrImpl);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+            tirow nfw InvblidKfyExdfption("rfquirfs PBE pbrbmftfrs");
+        }
+    }
+
+    bytf[] implUpdbtf(bytf[] in, int inOff, int inLfn) {
+        rfturn dipifr.updbtf(in, inOff, inLfn);
+    }
+
+    int implUpdbtf(bytf[] in, int inOff, int inLfn, bytf[] out, int outOff)
+        tirows SiortBufffrExdfption {
+        rfturn dipifr.updbtf(in, inOff, inLfn, out, outOff);
+    }
+
+    bytf[] implDoFinbl(bytf[] in, int inOff, int inLfn)
+        tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        rfturn dipifr.doFinbl(in, inOff, inLfn);
+    }
+
+    int implDoFinbl(bytf[] in, int inOff, int inLfn, bytf[] out, int outOff)
+        tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+               BbdPbddingExdfption {
+        rfturn dipifr.doFinbl(in, inOff, inLfn, out, outOff);
+    }
+
+    int implGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+        rfturn kfySizf;
+    }
+
+    bytf[] implWrbp(Kfy kfy) tirows IllfgblBlodkSizfExdfption,
+        InvblidKfyExdfption {
+        rfturn dipifr.wrbp(kfy);
+    }
+
+    Kfy implUnwrbp(bytf[] wrbppfdKfy, String wrbppfdKfyAlgoritim,
+                   int wrbppfdKfyTypf)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+        rfturn dipifr.unwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                             wrbppfdKfyTypf);
+    }
+
+    publid stbtid finbl dlbss PBEWitiSHA1AndDESfdf fxtfnds CipifrSpi {
+        privbtf finbl PKCS12PBECipifrCorf dorf;
+        publid PBEWitiSHA1AndDESfdf() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw PKCS12PBECipifrCorf("DESfdf", 24);
+        }
+        protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOff, int inLfn)
+            tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfDoFinbl(bytf[] in, int inOff, int inLfn,
+                                    bytf[] out, int outOff)
+            tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+                   BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd int fnginfGftBlodkSizf() {
+            rfturn dorf.implGftBlodkSizf();
+        }
+        protfdtfd bytf[] fnginfGftIV() {
+            rfturn dorf.implGftIV();
+        }
+        protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+            rfturn dorf.implGftKfySizf(kfy);
+        }
+        protfdtfd int fnginfGftOutputSizf(int inLfn) {
+            rfturn dorf.implGftOutputSizf(inLfn);
+        }
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            rfturn dorf.implGftPbrbmftfrs();
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrSpfd pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrs pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+            dorf.implInit(opmodf, kfy, rbndom);
+        }
+        protfdtfd void fnginfSftModf(String modf)
+            tirows NoSudiAlgoritimExdfption {
+            dorf.implSftModf(modf);
+        }
+        protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+            tirows NoSudiPbddingExdfption {
+            dorf.implSftPbdding(pbddingSdifmf);
+        }
+        protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                   String wrbppfdKfyAlgoritim,
+                                   int wrbppfdKfyTypf)
+            tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+            rfturn dorf.implUnwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                                   wrbppfdKfyTypf);
+        }
+        protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOff, int inLfn) {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfUpdbtf(bytf[] in, int inOff, int inLfn,
+                                   bytf[] out, int outOff)
+            tirows SiortBufffrExdfption {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+            rfturn dorf.implWrbp(kfy);
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC2_40 fxtfnds CipifrSpi {
+        privbtf finbl PKCS12PBECipifrCorf dorf;
+        publid PBEWitiSHA1AndRC2_40() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw PKCS12PBECipifrCorf("RC2", 5);
+        }
+        protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOff, int inLfn)
+            tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfDoFinbl(bytf[] in, int inOff, int inLfn,
+                                    bytf[] out, int outOff)
+            tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+                   BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd int fnginfGftBlodkSizf() {
+            rfturn dorf.implGftBlodkSizf();
+        }
+        protfdtfd bytf[] fnginfGftIV() {
+            rfturn dorf.implGftIV();
+        }
+        protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+            rfturn dorf.implGftKfySizf(kfy);
+        }
+        protfdtfd int fnginfGftOutputSizf(int inLfn) {
+            rfturn dorf.implGftOutputSizf(inLfn);
+        }
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            rfturn dorf.implGftPbrbmftfrs();
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrSpfd pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrs pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+            dorf.implInit(opmodf, kfy, rbndom);
+        }
+        protfdtfd void fnginfSftModf(String modf)
+            tirows NoSudiAlgoritimExdfption {
+            dorf.implSftModf(modf);
+        }
+        protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+            tirows NoSudiPbddingExdfption {
+            dorf.implSftPbdding(pbddingSdifmf);
+        }
+        protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                   String wrbppfdKfyAlgoritim,
+                                   int wrbppfdKfyTypf)
+            tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+            rfturn dorf.implUnwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                                   wrbppfdKfyTypf);
+        }
+        protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOff, int inLfn) {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfUpdbtf(bytf[] in, int inOff, int inLfn,
+                                   bytf[] out, int outOff)
+            tirows SiortBufffrExdfption {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+            rfturn dorf.implWrbp(kfy);
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC2_128 fxtfnds CipifrSpi {
+        privbtf finbl PKCS12PBECipifrCorf dorf;
+        publid PBEWitiSHA1AndRC2_128() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw PKCS12PBECipifrCorf("RC2", 16);
+        }
+        protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOff, int inLfn)
+            tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfDoFinbl(bytf[] in, int inOff, int inLfn,
+                                    bytf[] out, int outOff)
+            tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+                   BbdPbddingExdfption {
+            rfturn dorf.implDoFinbl(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd int fnginfGftBlodkSizf() {
+            rfturn dorf.implGftBlodkSizf();
+        }
+        protfdtfd bytf[] fnginfGftIV() {
+            rfturn dorf.implGftIV();
+        }
+        protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+            rfturn dorf.implGftKfySizf(kfy);
+        }
+        protfdtfd int fnginfGftOutputSizf(int inLfn) {
+            rfturn dorf.implGftOutputSizf(inLfn);
+        }
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            rfturn dorf.implGftPbrbmftfrs();
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrSpfd pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrs pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+            dorf.implInit(opmodf, kfy, rbndom);
+        }
+        protfdtfd void fnginfSftModf(String modf)
+            tirows NoSudiAlgoritimExdfption {
+            dorf.implSftModf(modf);
+        }
+        protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+            tirows NoSudiPbddingExdfption {
+            dorf.implSftPbdding(pbddingSdifmf);
+        }
+        protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                   String wrbppfdKfyAlgoritim,
+                                   int wrbppfdKfyTypf)
+            tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+            rfturn dorf.implUnwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                                   wrbppfdKfyTypf);
+        }
+        protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOff, int inLfn) {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfUpdbtf(bytf[] in, int inOff, int inLfn,
+                                   bytf[] out, int outOff)
+            tirows SiortBufffrExdfption {
+            rfturn dorf.implUpdbtf(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+            rfturn dorf.implWrbp(kfy);
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC4_40 fxtfnds CipifrSpi {
+        privbtf stbtid finbl int RC4_KEYSIZE = 5;
+        privbtf finbl PKCS12PBECipifrCorf dorf;
+        privbtf finbl ARCFOURCipifr dipifr;
+
+        publid PBEWitiSHA1AndRC4_40() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw PKCS12PBECipifrCorf("RC4", RC4_KEYSIZE);
+            dipifr = nfw ARCFOURCipifr();
+        }
+        protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOff, int inLfn)
+            tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+            rfturn dipifr.fnginfDoFinbl(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfDoFinbl(bytf[] in, int inOff, int inLfn,
+                                    bytf[] out, int outOff)
+            tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+                   BbdPbddingExdfption {
+            rfturn dipifr.fnginfDoFinbl(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd int fnginfGftBlodkSizf() {
+            rfturn dipifr.fnginfGftBlodkSizf();
+        }
+        protfdtfd bytf[] fnginfGftIV() {
+            rfturn dipifr.fnginfGftIV();
+        }
+        protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+            rfturn RC4_KEYSIZE;
+        }
+        protfdtfd int fnginfGftOutputSizf(int inLfn) {
+            rfturn dipifr.fnginfGftOutputSizf(inLfn);
+        }
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            rfturn dorf.implGftPbrbmftfrs();
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrSpfd pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom, dipifr);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrs pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom, dipifr);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+            dorf.implInit(opmodf, kfy, rbndom, dipifr);
+        }
+        protfdtfd void fnginfSftModf(String modf)
+            tirows NoSudiAlgoritimExdfption {
+            if (modf.fqublsIgnorfCbsf("ECB") == fblsf) {
+                tirow nfw NoSudiAlgoritimExdfption("Unsupportfd modf " + modf);
+            }
+        }
+        protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+            tirows NoSudiPbddingExdfption {
+            if (pbddingSdifmf.fqublsIgnorfCbsf("NoPbdding") == fblsf) {
+                tirow nfw NoSudiPbddingExdfption("Pbdding must bf NoPbdding");
+            }
+        }
+        protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                   String wrbppfdKfyAlgoritim,
+                                   int wrbppfdKfyTypf)
+            tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+            rfturn dipifr.fnginfUnwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                                   wrbppfdKfyTypf);
+        }
+        protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOff, int inLfn) {
+            rfturn dipifr.fnginfUpdbtf(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfUpdbtf(bytf[] in, int inOff, int inLfn,
+                                   bytf[] out, int outOff)
+            tirows SiortBufffrExdfption {
+            rfturn dipifr.fnginfUpdbtf(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+            rfturn dipifr.fnginfWrbp(kfy);
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC4_128 fxtfnds CipifrSpi {
+        privbtf stbtid finbl int RC4_KEYSIZE = 16;
+        privbtf finbl PKCS12PBECipifrCorf dorf;
+        privbtf finbl ARCFOURCipifr dipifr;
+
+        publid PBEWitiSHA1AndRC4_128() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw PKCS12PBECipifrCorf("RC4", RC4_KEYSIZE);
+            dipifr = nfw ARCFOURCipifr();
+        }
+        protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOff, int inLfn)
+            tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+            rfturn dipifr.fnginfDoFinbl(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfDoFinbl(bytf[] in, int inOff, int inLfn,
+                                    bytf[] out, int outOff)
+            tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+                   BbdPbddingExdfption {
+            rfturn dipifr.fnginfDoFinbl(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd int fnginfGftBlodkSizf() {
+            rfturn dipifr.fnginfGftBlodkSizf();
+        }
+        protfdtfd bytf[] fnginfGftIV() {
+            rfturn dipifr.fnginfGftIV();
+        }
+        protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+            rfturn RC4_KEYSIZE;
+        }
+        protfdtfd int fnginfGftOutputSizf(int inLfn) {
+            rfturn dipifr.fnginfGftOutputSizf(inLfn);
+        }
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            rfturn dorf.implGftPbrbmftfrs();
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrSpfd pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom, dipifr);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                                  AlgoritimPbrbmftfrs pbrbms,
+                                  SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(opmodf, kfy, pbrbms, rbndom, dipifr);
+        }
+        protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+            dorf.implInit(opmodf, kfy, rbndom, dipifr);
+        }
+        protfdtfd void fnginfSftModf(String modf)
+            tirows NoSudiAlgoritimExdfption {
+            if (modf.fqublsIgnorfCbsf("ECB") == fblsf) {
+                tirow nfw NoSudiAlgoritimExdfption("Unsupportfd modf " + modf);
+            }
+        }
+        protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+            tirows NoSudiPbddingExdfption {
+            if (pbddingSdifmf.fqublsIgnorfCbsf("NoPbdding") == fblsf) {
+                tirow nfw NoSudiPbddingExdfption("Pbdding must bf NoPbdding");
+            }
+        }
+        protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                   String wrbppfdKfyAlgoritim,
+                                   int wrbppfdKfyTypf)
+            tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+            rfturn dipifr.fnginfUnwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                                   wrbppfdKfyTypf);
+        }
+        protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOff, int inLfn) {
+            rfturn dipifr.fnginfUpdbtf(in, inOff, inLfn);
+        }
+        protfdtfd int fnginfUpdbtf(bytf[] in, int inOff, int inLfn,
+                                   bytf[] out, int outOff)
+            tirows SiortBufffrExdfption {
+            rfturn dipifr.fnginfUpdbtf(in, inOff, inLfn, out, outOff);
+        }
+        protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+            rfturn dipifr.fnginfWrbp(kfy);
+        }
+    }
+}

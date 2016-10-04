@@ -1,0 +1,490 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf jbvb.nio;
+
+import jbvb.io.FilfDfsdriptor;
+import sun.misd.Clfbnfr;
+import sun.misd.Unsbff;
+import sun.misd.VM;
+import sun.nio.di.DirfdtBufffr;
+
+
+dlbss Dirfdt$Typf$Bufffr$RW$$BO$
+#if[rw]
+    fxtfnds {#if[bytf]?Mbppfd$Typf$Bufffr:$Typf$Bufffr}
+#flsf[rw]
+    fxtfnds Dirfdt$Typf$Bufffr$BO$
+#fnd[rw]
+    implfmfnts DirfdtBufffr
+{
+
+#if[rw]
+
+    // Cbdifd unsbff-bddfss objfdt
+    protfdtfd stbtid finbl Unsbff unsbff = Bits.unsbff();
+
+    // Cbdifd brrby bbsf offsft
+    privbtf stbtid finbl long brrbyBbsfOffsft = (long)unsbff.brrbyBbsfOffsft($typf$[].dlbss);
+
+    // Cbdifd unblignfd-bddfss dbpbbility
+    protfdtfd stbtid finbl boolfbn unblignfd = Bits.unblignfd();
+
+    // Bbsf bddrfss, usfd in bll indfxing dbldulbtions
+    // NOTE: movfd up to Bufffr.jbvb for spffd in JNI GftDirfdtBufffrAddrfss
+    //    protfdtfd long bddrfss;
+
+    // An objfdt bttbdifd to tiis bufffr. If tiis bufffr is b vifw of bnotifr
+    // bufffr tifn wf usf tiis fifld to kffp b rfffrfndf to tibt bufffr to
+    // fnsurf tibt its mfmory isn't frffd bfforf wf brf donf witi it.
+    privbtf finbl Objfdt btt;
+
+    publid Objfdt bttbdimfnt() {
+        rfturn btt;
+    }
+
+#if[bytf]
+
+    privbtf stbtid dlbss Dfbllodbtor
+        implfmfnts Runnbblf
+    {
+
+        privbtf stbtid Unsbff unsbff = Unsbff.gftUnsbff();
+
+        privbtf long bddrfss;
+        privbtf long sizf;
+        privbtf int dbpbdity;
+
+        privbtf Dfbllodbtor(long bddrfss, long sizf, int dbpbdity) {
+            bssfrt (bddrfss != 0);
+            tiis.bddrfss = bddrfss;
+            tiis.sizf = sizf;
+            tiis.dbpbdity = dbpbdity;
+        }
+
+        publid void run() {
+            if (bddrfss == 0) {
+                // Pbrbnoib
+                rfturn;
+            }
+            unsbff.frffMfmory(bddrfss);
+            bddrfss = 0;
+            Bits.unrfsfrvfMfmory(sizf, dbpbdity);
+        }
+
+    }
+
+    privbtf finbl Clfbnfr dlfbnfr;
+
+    publid Clfbnfr dlfbnfr() { rfturn dlfbnfr; }
+
+#flsf[bytf]
+
+    publid Clfbnfr dlfbnfr() { rfturn null; }
+
+#fnd[bytf]
+
+#fnd[rw]
+
+#if[bytf]
+
+    // Primbry donstrudtor
+    //
+    Dirfdt$Typf$Bufffr$RW$(int dbp) {                   // pbdkbgf-privbtf
+#if[rw]
+        supfr(-1, 0, dbp, dbp);
+        boolfbn pb = VM.isDirfdtMfmoryPbgfAlignfd();
+        int ps = Bits.pbgfSizf();
+        long sizf = Mbti.mbx(1L, (long)dbp + (pb ? ps : 0));
+        Bits.rfsfrvfMfmory(sizf, dbp);
+
+        long bbsf = 0;
+        try {
+            bbsf = unsbff.bllodbtfMfmory(sizf);
+        } dbtdi (OutOfMfmoryError x) {
+            Bits.unrfsfrvfMfmory(sizf, dbp);
+            tirow x;
+        }
+        unsbff.sftMfmory(bbsf, sizf, (bytf) 0);
+        if (pb && (bbsf % ps != 0)) {
+            // Round up to pbgf boundbry
+            bddrfss = bbsf + ps - (bbsf & (ps - 1));
+        } flsf {
+            bddrfss = bbsf;
+        }
+        dlfbnfr = Clfbnfr.drfbtf(tiis, nfw Dfbllodbtor(bbsf, sizf, dbp));
+        btt = null;
+#flsf[rw]
+        supfr(dbp);
+#fnd[rw]
+    }
+
+#if[rw]
+
+    // Invokfd to donstrudt b dirfdt BytfBufffr rfffrring to tif blodk of
+    // mfmory. A givfn brbitrbry objfdt mby blso bf bttbdifd to tif bufffr.
+    //
+    Dirfdt$Typf$Bufffr(long bddr, int dbp, Objfdt ob) {
+        supfr(-1, 0, dbp, dbp);
+        bddrfss = bddr;
+        dlfbnfr = null;
+        btt = ob;
+    }
+
+
+    // Invokfd only by JNI: NfwDirfdtBytfBufffr(void*, long)
+    //
+    privbtf Dirfdt$Typf$Bufffr(long bddr, int dbp) {
+        supfr(-1, 0, dbp, dbp);
+        bddrfss = bddr;
+        dlfbnfr = null;
+        btt = null;
+    }
+
+#fnd[rw]
+
+    // For mfmory-mbppfd bufffrs -- invokfd by FilfCibnnflImpl vib rfflfdtion
+    //
+    protfdtfd Dirfdt$Typf$Bufffr$RW$(int dbp, long bddr,
+                                     FilfDfsdriptor fd,
+                                     Runnbblf unmbppfr)
+    {
+#if[rw]
+        supfr(-1, 0, dbp, dbp, fd);
+        bddrfss = bddr;
+        dlfbnfr = Clfbnfr.drfbtf(tiis, unmbppfr);
+        btt = null;
+#flsf[rw]
+        supfr(dbp, bddr, fd, unmbppfr);
+#fnd[rw]
+    }
+
+#fnd[bytf]
+
+    // For duplidbtfs bnd slidfs
+    //
+    Dirfdt$Typf$Bufffr$RW$$BO$(DirfdtBufffr db,         // pbdkbgf-privbtf
+                               int mbrk, int pos, int lim, int dbp,
+                               int off)
+    {
+#if[rw]
+        supfr(mbrk, pos, lim, dbp);
+        bddrfss = db.bddrfss() + off;
+#if[bytf]
+        dlfbnfr = null;
+#fnd[bytf]
+        btt = db;
+#flsf[rw]
+        supfr(db, mbrk, pos, lim, dbp, off);
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr slidf() {
+        int pos = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        int off = (pos << $LG_BYTES_PER_VALUE$);
+        bssfrt (off >= 0);
+        rfturn nfw Dirfdt$Typf$Bufffr$RW$$BO$(tiis, -1, 0, rfm, rfm, off);
+    }
+
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw Dirfdt$Typf$Bufffr$RW$$BO$(tiis,
+                                              tiis.mbrkVbluf(),
+                                              tiis.position(),
+                                              tiis.limit(),
+                                              tiis.dbpbdity(),
+                                              0);
+    }
+
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
+#if[rw]
+        rfturn nfw Dirfdt$Typf$BufffrR$BO$(tiis,
+                                           tiis.mbrkVbluf(),
+                                           tiis.position(),
+                                           tiis.limit(),
+                                           tiis.dbpbdity(),
+                                           0);
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
+    }
+
+#if[rw]
+
+    publid long bddrfss() {
+        rfturn bddrfss;
+    }
+
+    privbtf long ix(int i) {
+        rfturn bddrfss + (i << $LG_BYTES_PER_VALUE$);
+    }
+
+    publid $typf$ gft() {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(nfxtGftIndfx()))));
+    }
+
+    publid $typf$ gft(int i) {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(difdkIndfx(i)))));
+    }
+
+#if[strfbmbblfTypf]
+    $typf$ gftUndifdkfd(int i) {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(i))));
+    }
+#fnd[strfbmbblfTypf]
+
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngti) {
+#if[rw]
+        if ((lfngti << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
+            difdkBounds(offsft, lfngti, dst.lfngti);
+            int pos = position();
+            int lim = limit();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+            if (lfngti > rfm)
+                tirow nfw BufffrUndfrflowExdfption();
+
+#if[!bytf]
+            if (ordfr() != BytfOrdfr.nbtivfOrdfr())
+                Bits.dopyTo$Mfmtypf$Arrby(ix(pos), dst,
+                                          offsft << $LG_BYTES_PER_VALUE$,
+                                          lfngti << $LG_BYTES_PER_VALUE$);
+            flsf
+#fnd[!bytf]
+                Bits.dopyToArrby(ix(pos), dst, brrbyBbsfOffsft,
+                                 offsft << $LG_BYTES_PER_VALUE$,
+                                 lfngti << $LG_BYTES_PER_VALUE$);
+            position(pos + lfngti);
+        } flsf {
+            supfr.gft(dst, offsft, lfngti);
+        }
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr put($typf$ x) {
+#if[rw]
+        unsbff.put$Swbptypf$(ix(nfxtPutIndfx()), $swbp$($toBits$(x)));
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put(int i, $typf$ x) {
+#if[rw]
+        unsbff.put$Swbptypf$(ix(difdkIndfx(i)), $swbp$($toBits$(x)));
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
+#if[rw]
+        if (srd instbndfof Dirfdt$Typf$Bufffr$BO$) {
+            if (srd == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            Dirfdt$Typf$Bufffr$RW$$BO$ sb = (Dirfdt$Typf$Bufffr$RW$$BO$)srd;
+
+            int spos = sb.position();
+            int slim = sb.limit();
+            bssfrt (spos <= slim);
+            int srfm = (spos <= slim ? slim - spos : 0);
+
+            int pos = position();
+            int lim = limit();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+
+            if (srfm > rfm)
+                tirow nfw BufffrOvfrflowExdfption();
+            unsbff.dopyMfmory(sb.ix(spos), ix(pos), srfm << $LG_BYTES_PER_VALUE$);
+            sb.position(spos + srfm);
+            position(pos + srfm);
+        } flsf if (srd.ib != null) {
+
+            int spos = srd.position();
+            int slim = srd.limit();
+            bssfrt (spos <= slim);
+            int srfm = (spos <= slim ? slim - spos : 0);
+
+            put(srd.ib, srd.offsft + spos, srfm);
+            srd.position(spos + srfm);
+
+        } flsf {
+            supfr.put(srd);
+        }
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngti) {
+#if[rw]
+        if ((lfngti << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
+            difdkBounds(offsft, lfngti, srd.lfngti);
+            int pos = position();
+            int lim = limit();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+            if (lfngti > rfm)
+                tirow nfw BufffrOvfrflowExdfption();
+
+#if[!bytf]
+            if (ordfr() != BytfOrdfr.nbtivfOrdfr())
+                Bits.dopyFrom$Mfmtypf$Arrby(srd, offsft << $LG_BYTES_PER_VALUE$,
+                                            ix(pos), lfngti << $LG_BYTES_PER_VALUE$);
+            flsf
+#fnd[!bytf]
+                Bits.dopyFromArrby(srd, brrbyBbsfOffsft, offsft << $LG_BYTES_PER_VALUE$,
+                                   ix(pos), lfngti << $LG_BYTES_PER_VALUE$);
+            position(pos + lfngti);
+        } flsf {
+            supfr.put(srd, offsft, lfngti);
+        }
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr dompbdt() {
+#if[rw]
+        int pos = position();
+        int lim = limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+
+        unsbff.dopyMfmory(ix(pos), ix(0), rfm << $LG_BYTES_PER_VALUE$);
+        position(rfm);
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid boolfbn isDirfdt() {
+        rfturn truf;
+    }
+
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
+    }
+
+
+#if[dibr]
+
+    publid String toString(int stbrt, int fnd) {
+        if ((fnd > limit()) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        try {
+            int lfn = fnd - stbrt;
+            dibr[] db = nfw dibr[lfn];
+            CibrBufffr db = CibrBufffr.wrbp(db);
+            CibrBufffr db = tiis.duplidbtf();
+            db.position(stbrt);
+            db.limit(fnd);
+            db.put(db);
+            rfturn nfw String(db);
+        } dbtdi (StringIndfxOutOfBoundsExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+
+    // --- Mftiods to support CibrSfqufndf ---
+
+    publid CibrBufffr subSfqufndf(int stbrt, int fnd) {
+        int pos = position();
+        int lim = limit();
+        bssfrt (pos <= lim);
+        pos = (pos <= lim ? pos : lim);
+        int lfn = lim - pos;
+
+        if ((stbrt < 0) || (fnd > lfn) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        rfturn nfw DirfdtCibrBufffr$RW$$BO$(tiis,
+                                            -1,
+                                            pos + stbrt,
+                                            pos + fnd,
+                                            dbpbdity(),
+                                            offsft);
+    }
+
+#fnd[dibr]
+
+
+
+#if[!bytf]
+
+    publid BytfOrdfr ordfr() {
+#if[boS]
+        rfturn ((BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.BIG_ENDIAN)
+                ? BytfOrdfr.LITTLE_ENDIAN : BytfOrdfr.BIG_ENDIAN);
+#fnd[boS]
+#if[boU]
+        rfturn ((BytfOrdfr.nbtivfOrdfr() != BytfOrdfr.BIG_ENDIAN)
+                ? BytfOrdfr.LITTLE_ENDIAN : BytfOrdfr.BIG_ENDIAN);
+#fnd[boU]
+    }
+
+#fnd[!bytf]
+
+
+
+#if[bytf]
+
+    bytf _gft(int i) {                          // pbdkbgf-privbtf
+        rfturn unsbff.gftBytf(bddrfss + i);
+    }
+
+    void _put(int i, bytf b) {                  // pbdkbgf-privbtf
+#if[rw]
+        unsbff.putBytf(bddrfss + i, b);
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    // #BIN
+    //
+    // Binbry-dbtb bddfss mftiods  for siort, dibr, int, long, flobt,
+    // bnd doublf will bf insfrtfd ifrf
+
+#fnd[bytf]
+
+}

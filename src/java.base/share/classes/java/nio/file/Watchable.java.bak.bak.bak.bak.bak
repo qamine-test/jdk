@@ -1,0 +1,127 @@
+/*
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ *
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ *
+ * @sindf 1.7
+ *
+ * @sff Pbti#rfgistfr
+ */
+
+publid intfrfbdf Wbtdibblf {
+
+    /**
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     *
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     *
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * rfturnfd.
+     *
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * support.
+     *
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     * @pbrbm   modififrs
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
+     *
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     */
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Modififr... modififrs)
+        tirows IOExdfption;
+
+
+    /**
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     *
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * invodbtion
+     * <prf>
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     * </prf>
+     *
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if unsupportfd fvfnts brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     */
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+        tirows IOExdfption;
+}

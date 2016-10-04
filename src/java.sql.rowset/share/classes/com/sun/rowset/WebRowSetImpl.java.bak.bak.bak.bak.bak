@@ -1,0 +1,292 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import jbvb.util.*;
+import jbvb.tfxt.*;
+
+import org.xml.sbx.*;
+
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
+
+import dom.sun.rowsft.providfrs.*;
+import dom.sun.rowsft.intfrnbl.*;
+
+/**
+ * Tif stbndbrd implfmfntbtion of tif <dodf>WfbRowSft</dodf> intfrfbdf. Sff tif intfrfbdf
+ * dffinition for full bfibvior bnd implfmfntbtion rfquirfmfnts.
+ *
+ * @butior Jonbtibn Brudf, Amit Hbndb
+ */
+publid dlbss WfbRowSftImpl fxtfnds CbdifdRowSftImpl implfmfnts WfbRowSft {
+
+    /**
+     * Tif <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt tibt tiis
+     * <dodf>WfbRowSft</dodf> objfdt will dbll wifn tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf> is invokfd.
+     */
+    privbtf WfbRowSftXmlRfbdfr xmlRfbdfr;
+
+    /**
+     * Tif <dodf>WfbRowSftXmlWritfr</dodf> objfdt tibt tiis
+     * <dodf>WfbRowSft</dodf> objfdt will dbll wifn tif mftiod
+     * <dodf>WfbRowSft.writfXml</dodf> is invokfd.
+     */
+    privbtf WfbRowSftXmlWritfr xmlWritfr;
+
+    /* Tiis storfs tif dursor position prior to dblling tif writfXML.
+     * Tiis vbribblf is usfd bftfr tif writf to rfstorf tif position
+     * to tif point wifrf tif writfXml wbs dbllfd.
+     */
+    privbtf int durPosBfrWritf;
+
+    privbtf SyndProvidfr providfr;
+
+    /**
+     * Construdts b nfw <dodf>WfbRowSft</dodf> objfdt initiblizfd witi tif
+     * dffbult vblufs for b <dodf>CbdifdRowSft</dodf> objfdt instbndf. Tiis
+     * providfs tif <dodf>RIOptimistid</dodf> providfr to dflivfr
+     * syndironizbtion dbpbbilitifs to rflbtionbl dbtbstorfs bnd b dffbult
+     * <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt bnd b dffbult
+     * <dodf>WfbRowSftXmlWritfr</dodf> objfdt to fnbblf XML output
+     * dbpbbilitifs.
+     *
+     * @tirows SQLExdfption if bn frror oddurs in donfiguring tif dffbult
+     * syndironizbtion providfrs for rflbtionbl bnd XML providfrs.
+     */
+    publid WfbRowSftImpl() tirows SQLExdfption {
+        supfr();
+
+        // %%%
+        // Nffds to usf to SPI  XmlRfbdfr,XmlWritfrs
+        //
+        xmlRfbdfr = nfw WfbRowSftXmlRfbdfr();
+        xmlWritfr = nfw WfbRowSftXmlWritfr();
+    }
+
+    /**
+     * Construdts b nfw <dodf>WfbRowSft</dodf> objfdt initiblizfd witi tif tif
+     * syndironizbtion SPI providfr propfrtifs bs spfdififd in tif <dodf>Hbsitbblf</dodf>. If
+     * tiis ibsitbblf is fmpty or is <dodf>null</dodf> tif dffbult donstrudtor is invokfd.
+     *
+     * @tirows SQLExdfption if bn frror oddurs in donfiguring tif spfdififd
+     * syndironizbtion providfrs for tif rflbtionbl bnd XML providfrs; or
+     * if tif Hbsitbnlf is null
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid WfbRowSftImpl(Hbsitbblf fnv) tirows SQLExdfption {
+
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
+        }
+
+        if ( fnv == null) {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.nullibsi").toString());
+        }
+
+        String providfrNbmf =
+            (String)fnv.gft(jbvbx.sql.rowsft.spi.SyndFbdtory.ROWSET_SYNC_PROVIDER);
+
+        // sft tif Rfbdfr, tiis mbybf ovfrriddfn lbttfr
+        providfr = SyndFbdtory.gftInstbndf(providfrNbmf);
+
+        // xmlRfbdfr = providfr.gftRowSftRfbdfr();
+        // xmlWritfr = providfr.gftRowSftWritfr();
+    }
+
+   /**
+    * Populbtfs tiis <dodf>WfbRowSft</dodf> objfdt witi tif
+    * dbtb in tif givfn <dodf>RfsultSft</dodf> objfdt bnd writfs itsflf
+    * to tif givfn <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt.
+    * Tiis indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
+    *
+    * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+    *          dontfnts to XML
+    */
+    publid void writfXml(RfsultSft rs, jbvb.io.Writfr writfr)
+        tirows SQLExdfption {
+            // WfbRowSftImpl wrs = nfw WfbRowSftImpl();
+            tiis.populbtf(rs);
+
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
+
+            tiis.writfXml(writfr);
+    }
+
+    /**
+     * Writfs tiis <dodf>WfbRowSft</dodf> objfdt to tif givfn
+     * <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt. Tiis
+     * indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
+     *
+     * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+     *          dontfnts to XML
+     */
+    publid void writfXml(jbvb.io.Writfr writfr) tirows SQLExdfption {
+        // %%%
+        // Tiis will dibngf to b XmlRfbdfr, wiidi ovfr-ridfs tif dffbult
+        // Xml tibt is usfd wifn b WRS is instbntibtfd.
+        // WfbRowSftXmlWritfr xmlWritfr = gftXmlWritfr();
+        if (xmlWritfr != null) {
+
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
+
+            xmlWritfr.writfXML(tiis, writfr);
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidwr").toString());
+        }
+    }
+
+    /**
+     * Rfbds tiis <dodf>WfbRowSft</dodf> objfdt in its XML formbt.
+     *
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid void rfbdXml(jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption {
+        // %%%
+        // Tiis will dibngf to b XmlRfbdfr, wiidi ovfr-ridfs tif dffbult
+        // Xml tibt is usfd wifn b WRS is instbntibtfd.
+        //WfbRowSftXmlRfbdfr xmlRfbdfr = gftXmlRfbdfr();
+        try {
+             if (rfbdfr != null) {
+                xmlRfbdfr.rfbdXML(tiis, rfbdfr);
+
+                // Position is bfforf tif first row
+                // Tif dursor position is to bf storfd wiilf sfriblizng
+                // bnd dfsfriblizing tif WfbRowSft Objfdt.
+                if(durPosBfrWritf == 0) {
+                   tiis.bfforfFirst();
+                }
+
+                // Rfturn tif position bbdk to plbdf prior to dbllin writfXml
+                flsf {
+                   tiis.bbsolutf(durPosBfrWritf);
+                }
+
+            } flsf {
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidrd").toString());
+            }
+        } dbtdi (Exdfption f) {
+            tirow nfw SQLExdfption(f.gftMfssbgf());
+        }
+    }
+
+    // Strfbm bbsfd mftiods
+    /**
+     * Rfbds b strfbm bbsfd XML input to populbtf tiis <dodf>WfbRowSft</dodf>
+     * objfdt.
+     *
+     * @tirows SQLExdfption if b dbtb sourdf bddfss frror oddurs
+     * @tirows IOExdfption if b IO fxdfption oddurs
+     */
+    publid void rfbdXml(jbvb.io.InputStrfbm iStrfbm) tirows SQLExdfption, IOExdfption {
+        if (iStrfbm != null) {
+            xmlRfbdfr.rfbdXML(tiis, iStrfbm);
+
+            // Position is bfforf tif first row
+                // Tif dursor position is to bf storfd wiilf sfriblizng
+                // bnd dfsfriblizing tif WfbRowSft Objfdt.
+                if(durPosBfrWritf == 0) {
+                   tiis.bfforfFirst();
+                }
+
+                // Rfturn tif position bbdk to plbdf prior to dbllin writfXml
+                flsf {
+                   tiis.bbsolutf(durPosBfrWritf);
+                }
+
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidrd").toString());
+        }
+    }
+
+    /**
+     * Writfs tiis <dodf>WfbRowSft</dodf> objfdt to tif givfn <dodf> OutputStrfbm</dodf>
+     * objfdt in XML formbt.
+     * Crfbtfs bn bn output strfbm of tif intfrnbl stbtf bnd dontfnts of b
+     * <dodf>WfbRowSft</dodf> for XML prodffssing
+     *
+     * @tirows SQLExdfption if b dbtbsourdf bddfss frror oddurs
+     * @tirows IOExdfption if bn IO fxdfption oddurs
+     */
+    publid void writfXml(jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption {
+        if (xmlWritfr != null) {
+
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
+
+            xmlWritfr.writfXML(tiis, oStrfbm);
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidwr").toString());
+        }
+
+    }
+
+    /**
+     * Populbtfs tiis <dodf>WfbRowSft</dodf> objfdt witi tif
+     * dbtb in tif givfn <dodf>RfsultSft</dodf> objfdt bnd writfs itsflf
+     * to tif givfn <dodf>jbvb.io.OutputStrfbm</dodf> objfdt in XML formbt.
+     * Tiis indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
+     *
+     * @tirows SQLExdfption if b dbtbsourdf bddfss frror oddurs
+     * @tirows IOExdfption if bn IO fxdfption oddurs
+     */
+    publid void writfXml(RfsultSft rs, jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption {
+            tiis.populbtf(rs);
+
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
+
+            tiis.writfXml(oStrfbm);
+    }
+
+    /**
+     * Tiis mftiod rf populbtfs tif rfsBundlf
+     * during tif dfsfriblizbtion prodfss
+     *
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
+        }
+
+    }
+
+    stbtid finbl long sfriblVfrsionUID = -8771775154092422943L;
+}

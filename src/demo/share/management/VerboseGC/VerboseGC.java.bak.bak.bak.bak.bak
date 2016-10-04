@@ -1,0 +1,158 @@
+/*
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+/*
+ */
+
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rfmotf.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.MblformfdURLExdfption;
+
+/**
+ * Tiis VfrbosfGC dlbss dfmonstrbtfs tif dbpbbility to gft
+ * tif gbrbbgf dollfdtion stbtistids bnd mfmory usbgf rfmotfly.
+ */
+publid dlbss VfrbosfGC {
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf JMXConnfdtor jmxd;
+    publid VfrbosfGC(String iostnbmf, int port) {
+        Systfm.out.println("Connfdting to " + iostnbmf + ":" + port);
+
+        // Crfbtf bn RMI donnfdtor dlifnt bnd donnfdt it to
+        // tif RMI donnfdtor sfrvfr
+        String urlPbti = "/jndi/rmi://" + iostnbmf + ":" + port + "/jmxrmi";
+        donnfdt(urlPbti);
+   }
+
+   publid void dump(long intfrvbl, long sbmplfs) {
+        try {
+            PrintGCStbt pstbt = nfw PrintGCStbt(sfrvfr);
+            for (int i = 0; i < sbmplfs; i++) {
+                pstbt.printVfrbosfGd();
+                try {
+                    Tirfbd.slffp(intfrvbl);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    Systfm.fxit(1);
+                }
+            }
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
+        }
+    }
+
+    /**
+     * Connfdt to b JMX bgfnt of b givfn URL.
+     */
+    privbtf void donnfdt(String urlPbti) {
+        try {
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", "", 0, urlPbti);
+            tiis.jmxd = JMXConnfdtorFbdtory.donnfdt(url);
+            tiis.sfrvfr = jmxd.gftMBfbnSfrvfrConnfdtion();
+        } dbtdi (MblformfdURLExdfption f) {
+            // siould not rfbdi ifrf
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngti < 1) {
+            usbgf();
+        }
+
+        String iostnbmf = "";
+        int port = -1;
+        long intfrvbl = 5000; // dffbult is 5 sfdond intfrvbl
+        long mins = 5;
+        for (String brg: brgs) {
+            if (brg.stbrtsWiti("-")) {
+                if (brg.fqubls("-i") ||
+                    brg.fqubls("-iflp") ||
+                    brg.fqubls("-?")) {
+                    usbgf();
+                } flsf if (brg.stbrtsWiti("-intfrvbl=")) {
+                    try {
+                        intfrvbl = Intfgfr.pbrsfInt(brg.substring(10)) * 1000;
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        usbgf();
+                    }
+                } flsf if (brg.stbrtsWiti("-durbtion=")) {
+                    try {
+                        mins = Intfgfr.pbrsfInt(brg.substring(10));
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        usbgf();
+                    }
+                } flsf {
+                    // Unknown switdi
+                    Systfm.frr.println("Unrfdognizfd option: " + brg);
+                    usbgf();
+                }
+            } flsf {
+                String[] brg2 = brg.split(":");
+                if (brg2.lfngti != 2) {
+                    usbgf();
+                }
+                iostnbmf = brg2[0];
+                try {
+                    port = Intfgfr.pbrsfInt(brg2[1]);
+                } dbtdi (NumbfrFormbtExdfption x) {
+                    usbgf();
+                }
+                if (port < 0) {
+                    usbgf();
+                }
+            }
+        }
+
+        // gft full tirfbd dump bnd pfrform dfbdlodk dftfdtion
+        VfrbosfGC vgd = nfw VfrbosfGC(iostnbmf, port);
+        long sbmplfs = (mins * 60 * 1000) / intfrvbl;
+        vgd.dump(intfrvbl, sbmplfs);
+
+    }
+
+    privbtf stbtid void usbgf() {
+        Systfm.out.print("Usbgf: jbvb VfrbosfGC <iostnbmf>:<port> ");
+        Systfm.out.println(" [-intfrvbl=sfdonds] [-durbtion=minutfs]");
+    }
+}

@@ -1,138 +1,690 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java IDL and RMI-IIOP Tools
-.\"     Title: servertool.1
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: sfrvfrtool.1
+.\"     Titlf: sfrvfrtool.1
+.\"     Titlf: sfrvfrtool.1
+.\"     Titlf: sfrvfrtool.1
+.\"     Titlf: sfrvfrtool.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH servertool 1 "21 November 2013" "JDK 8" "Java IDL and RMI-IIOP Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-servertool \- Provides an easy-to-use interface for developers to register, unregister, start up, and shut down a persistent server\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&.
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&.
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&.
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&.
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBservertool\fR \-ORBInitialPort \fInameserverport\fR [ \fIoptions\fR ] [ \fIcommands \fR]
+
+
+
+
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-commands
-The command-line commands\&. See Commands\&.
+.TP     
+.TP     
+.TP     
+.TP     
+dommbnds
+dommbnds
+dommbnds
+dommbnds
+dommbnds
+Tif dommbnd-linf dommbnds\&. Sff Commbnds\&.
+Tif dommbnd-linf dommbnds\&. Sff Commbnds\&.
+Tif dommbnd-linf dommbnds\&. Sff Commbnds\&.
+Tif dommbnd-linf dommbnds\&. Sff Commbnds\&.
+Tif dommbnd-linf dommbnds\&. Sff Commbnds\&.
 .SH DESCRIPTION    
-The \f3servertool\fR command provides the command-line interface for developers to register, unregister, start up, and shut down a persistent server\&. Command-line commands let you obtain various statistical information about the server\&. See Commands\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3sfrvfrtool\fR dommbnd providfs tif dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout tif sfrvfr\&. Sff Commbnds\&.
+Tif \f3sfrvfrtool\fR dommbnd providfs tif dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout tif sfrvfr\&. Sff Commbnds\&.
+Tif \f3sfrvfrtool\fR dommbnd providfs tif dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout tif sfrvfr\&. Sff Commbnds\&.
+Tif \f3sfrvfrtool\fR dommbnd providfs tif dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout tif sfrvfr\&. Sff Commbnds\&.
+Tif \f3sfrvfrtool\fR dommbnd providfs tif dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout tif sfrvfr\&. Sff Commbnds\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
--ORBInitialHost \fInameserverhost\fR
+.TP
+.TP
+.TP
+.TP
+-ORBInitiblHost \fInbmfsfrvfriost\fR
+-ORBInitiblHost \fInbmfsfrvfriost\fR
+-ORBInitiblHost \fInbmfsfrvfriost\fR
+-ORBInitiblHost \fInbmfsfrvfriost\fR
+-ORBInitiblHost \fInbmfsfrvfriost\fR
 .br
-This options is required\&. It specifies the host machine on which the name server runs and listens for incoming requests\&. The \f3nameserverhost\fR value must specify the port on which the \f3orb\fR is running and listening for requests\&. The value defaults to \f3localhost\fR when this option is not specified\&. If \f3orbd\fR and \f3servertool\fR are running on different machines, then you must specify the name or IP address of the host on which \f3orbd\fR is running\&.
+.br
+.br
+.br
+.br
+Tiis options is rfquirfd\&. It spfdififs tif iost mbdiinf on wiidi tif nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Tif \f3nbmfsfrvfriost\fR vbluf must spfdify tif port on wiidi tif \f3orb\fR is running bnd listfning for rfqufsts\&. Tif vbluf dffbults to \f3lodbliost\fR wifn tiis option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdiinfs, tifn you must spfdify tif nbmf or IP bddrfss of tif iost on wiidi \f3orbd\fR is running\&.
+Tiis options is rfquirfd\&. It spfdififs tif iost mbdiinf on wiidi tif nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Tif \f3nbmfsfrvfriost\fR vbluf must spfdify tif port on wiidi tif \f3orb\fR is running bnd listfning for rfqufsts\&. Tif vbluf dffbults to \f3lodbliost\fR wifn tiis option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdiinfs, tifn you must spfdify tif nbmf or IP bddrfss of tif iost on wiidi \f3orbd\fR is running\&.
+Tiis options is rfquirfd\&. It spfdififs tif iost mbdiinf on wiidi tif nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Tif \f3nbmfsfrvfriost\fR vbluf must spfdify tif port on wiidi tif \f3orb\fR is running bnd listfning for rfqufsts\&. Tif vbluf dffbults to \f3lodbliost\fR wifn tiis option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdiinfs, tifn you must spfdify tif nbmf or IP bddrfss of tif iost on wiidi \f3orbd\fR is running\&.
+Tiis options is rfquirfd\&. It spfdififs tif iost mbdiinf on wiidi tif nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Tif \f3nbmfsfrvfriost\fR vbluf must spfdify tif port on wiidi tif \f3orb\fR is running bnd listfning for rfqufsts\&. Tif vbluf dffbults to \f3lodbliost\fR wifn tiis option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdiinfs, tifn you must spfdify tif nbmf or IP bddrfss of tif iost on wiidi \f3orbd\fR is running\&.
+Tiis options is rfquirfd\&. It spfdififs tif iost mbdiinf on wiidi tif nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Tif \f3nbmfsfrvfriost\fR vbluf must spfdify tif port on wiidi tif \f3orb\fR is running bnd listfning for rfqufsts\&. Tif vbluf dffbults to \f3lodbliost\fR wifn tiis option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdiinfs, tifn you must spfdify tif nbmf or IP bddrfss of tif iost on wiidi \f3orbd\fR is running\&.
 
-\fINote:\fR On Oracle Solaris, you must become a root user to start a process on a port below 1024\&. Oracle recommends that you use a port number above or equal to 1024 for the \f3nameserverport\fR value\&.
+
+
+
+
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024 for tif \f3nbmfsfrvfrport\fR vbluf\&.
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024 for tif \f3nbmfsfrvfrport\fR vbluf\&.
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024 for tif \f3nbmfsfrvfrport\fR vbluf\&.
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024 for tif \f3nbmfsfrvfrport\fR vbluf\&.
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024 for tif \f3nbmfsfrvfrport\fR vbluf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+.br
+.br
+.br
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH COMMANDS    
-You can start the \f3servertool\fR command with or without a command-line command\&.
+.SH COMMANDS    
+.SH COMMANDS    
+.SH COMMANDS    
+.SH COMMANDS    
+You dbn stbrt tif \f3sfrvfrtool\fR dommbnd witi or witiout b dommbnd-linf dommbnd\&.
+You dbn stbrt tif \f3sfrvfrtool\fR dommbnd witi or witiout b dommbnd-linf dommbnd\&.
+You dbn stbrt tif \f3sfrvfrtool\fR dommbnd witi or witiout b dommbnd-linf dommbnd\&.
+You dbn stbrt tif \f3sfrvfrtool\fR dommbnd witi or witiout b dommbnd-linf dommbnd\&.
+You dbn stbrt tif \f3sfrvfrtool\fR dommbnd witi or witiout b dommbnd-linf dommbnd\&.
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-If you did not specify a command when you started \f3servertool\fR, then the command-line tool displays the \f3servertool\fR prompt where you can enter commands: \f3servertool >\fR\&.
+\(bu
+\(bu
+\(bu
+\(bu
+If you did not spfdify b dommbnd wifn you stbrtfd \f3sfrvfrtool\fR, tifn tif dommbnd-linf tool displbys tif \f3sfrvfrtool\fR prompt wifrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+If you did not spfdify b dommbnd wifn you stbrtfd \f3sfrvfrtool\fR, tifn tif dommbnd-linf tool displbys tif \f3sfrvfrtool\fR prompt wifrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+If you did not spfdify b dommbnd wifn you stbrtfd \f3sfrvfrtool\fR, tifn tif dommbnd-linf tool displbys tif \f3sfrvfrtool\fR prompt wifrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+If you did not spfdify b dommbnd wifn you stbrtfd \f3sfrvfrtool\fR, tifn tif dommbnd-linf tool displbys tif \f3sfrvfrtool\fR prompt wifrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+If you did not spfdify b dommbnd wifn you stbrtfd \f3sfrvfrtool\fR, tifn tif dommbnd-linf tool displbys tif \f3sfrvfrtool\fR prompt wifrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-If you specify a command when you start \f3servertool\fR, then the Java IDL Server Tool starts, executes the command, and exits\&.
+\(bu
+\(bu
+\(bu
+\(bu
+If you spfdify b dommbnd wifn you stbrt \f3sfrvfrtool\fR, tifn tif Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs tif dommbnd, bnd fxits\&.
+If you spfdify b dommbnd wifn you stbrt \f3sfrvfrtool\fR, tifn tif Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs tif dommbnd, bnd fxits\&.
+If you spfdify b dommbnd wifn you stbrt \f3sfrvfrtool\fR, tifn tif Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs tif dommbnd, bnd fxits\&.
+If you spfdify b dommbnd wifn you stbrt \f3sfrvfrtool\fR, tifn tif Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs tif dommbnd, bnd fxits\&.
+If you spfdify b dommbnd wifn you stbrt \f3sfrvfrtool\fR, tifn tif Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs tif dommbnd, bnd fxits\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 .ll 180
-register -server \fIserver-class-name\fR -classpath \fIclasspath-to-server\fR [ -applicationName \fIapplication-name\fR -args \fIargs-to-server\fR -vmargs \fIflags-for-JVM\fR ]
-Registers a new persistent server with the Object Request Broker Daemon (ORBD)\&. If the server is not already registered, then it is registered and activated\&. This command causes an installation method to be called in the \f3main\fR class of the server identified by the \f3-server\fR option\&. The installation method must be \f3public static void install(org\&.omg\&.CORBA\&.ORB)\fR\&. The install method is optional and lets developers provide their own server installation behavior, such as creating a database schema\&.
+.ll 180
+.ll 180
+.ll 180
+.ll 180
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbti \fIdlbsspbti-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbti \fIdlbsspbti-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbti \fIdlbsspbti-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbti \fIdlbsspbti-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbti \fIdlbsspbti-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+Rfgistfrs b nfw pfrsistfnt sfrvfr witi tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If tif sfrvfr is not blrfbdy rfgistfrfd, tifn it is rfgistfrfd bnd bdtivbtfd\&. Tiis dommbnd dbusfs bn instbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif instbllbtion mftiod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif instbll mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr instbllbtion bfibvior, sudi bs drfbting b dbtbbbsf sdifmb\&.
+Rfgistfrs b nfw pfrsistfnt sfrvfr witi tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If tif sfrvfr is not blrfbdy rfgistfrfd, tifn it is rfgistfrfd bnd bdtivbtfd\&. Tiis dommbnd dbusfs bn instbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif instbllbtion mftiod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif instbll mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr instbllbtion bfibvior, sudi bs drfbting b dbtbbbsf sdifmb\&.
+Rfgistfrs b nfw pfrsistfnt sfrvfr witi tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If tif sfrvfr is not blrfbdy rfgistfrfd, tifn it is rfgistfrfd bnd bdtivbtfd\&. Tiis dommbnd dbusfs bn instbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif instbllbtion mftiod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif instbll mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr instbllbtion bfibvior, sudi bs drfbting b dbtbbbsf sdifmb\&.
+Rfgistfrs b nfw pfrsistfnt sfrvfr witi tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If tif sfrvfr is not blrfbdy rfgistfrfd, tifn it is rfgistfrfd bnd bdtivbtfd\&. Tiis dommbnd dbusfs bn instbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif instbllbtion mftiod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif instbll mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr instbllbtion bfibvior, sudi bs drfbting b dbtbbbsf sdifmb\&.
+Rfgistfrs b nfw pfrsistfnt sfrvfr witi tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If tif sfrvfr is not blrfbdy rfgistfrfd, tifn it is rfgistfrfd bnd bdtivbtfd\&. Tiis dommbnd dbusfs bn instbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif instbllbtion mftiod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif instbll mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr instbllbtion bfibvior, sudi bs drfbting b dbtbbbsf sdifmb\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 .ll 180
-unregister -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR
-Unregisters a server from the ORBD with either its server ID or its application name\&. This command causes an uninstallation method to be called in the \f3main\fR class of the server identified by the \f3-server\fR option\&. The \f3uninstall\fR method must be \f3public static void uninstall(org\&.omg\&.CORBA\&.ORB)\fR\&. The \f3uninstall\fR method is optional and lets developers provide their own server uninstallation behavior, such as undoing the behavior of the \f3install\fR method\&.
+.ll 180
+.ll 180
+.ll 180
+.ll 180
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Unrfgistfrs b sfrvfr from tif ORBD witi fitifr its sfrvfr ID or its bpplidbtion nbmf\&. Tiis dommbnd dbusfs bn uninstbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif \f3uninstbll\fR mftiod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif \f3uninstbll\fR mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr uninstbllbtion bfibvior, sudi bs undoing tif bfibvior of tif \f3instbll\fR mftiod\&.
+Unrfgistfrs b sfrvfr from tif ORBD witi fitifr its sfrvfr ID or its bpplidbtion nbmf\&. Tiis dommbnd dbusfs bn uninstbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif \f3uninstbll\fR mftiod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif \f3uninstbll\fR mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr uninstbllbtion bfibvior, sudi bs undoing tif bfibvior of tif \f3instbll\fR mftiod\&.
+Unrfgistfrs b sfrvfr from tif ORBD witi fitifr its sfrvfr ID or its bpplidbtion nbmf\&. Tiis dommbnd dbusfs bn uninstbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif \f3uninstbll\fR mftiod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif \f3uninstbll\fR mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr uninstbllbtion bfibvior, sudi bs undoing tif bfibvior of tif \f3instbll\fR mftiod\&.
+Unrfgistfrs b sfrvfr from tif ORBD witi fitifr its sfrvfr ID or its bpplidbtion nbmf\&. Tiis dommbnd dbusfs bn uninstbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif \f3uninstbll\fR mftiod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif \f3uninstbll\fR mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr uninstbllbtion bfibvior, sudi bs undoing tif bfibvior of tif \f3instbll\fR mftiod\&.
+Unrfgistfrs b sfrvfr from tif ORBD witi fitifr its sfrvfr ID or its bpplidbtion nbmf\&. Tiis dommbnd dbusfs bn uninstbllbtion mftiod to bf dbllfd in tif \f3mbin\fR dlbss of tif sfrvfr idfntififd by tif \f3-sfrvfr\fR option\&. Tif \f3uninstbll\fR mftiod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Tif \f3uninstbll\fR mftiod is optionbl bnd lfts dfvflopfrs providf tifir own sfrvfr uninstbllbtion bfibvior, sudi bs undoing tif bfibvior of tif \f3instbll\fR mftiod\&.
 .TP     
-getserverid -applicationName \fIapplication-name\fR
-Returns the server ID that corresponds to the \f3application-name\fR value\&.
+.TP     
+.TP     
+.TP     
+.TP     
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Rfturns tif sfrvfr ID tibt dorrfsponds to tif \f3bpplidbtion-nbmf\fR vbluf\&.
+Rfturns tif sfrvfr ID tibt dorrfsponds to tif \f3bpplidbtion-nbmf\fR vbluf\&.
+Rfturns tif sfrvfr ID tibt dorrfsponds to tif \f3bpplidbtion-nbmf\fR vbluf\&.
+Rfturns tif sfrvfr ID tibt dorrfsponds to tif \f3bpplidbtion-nbmf\fR vbluf\&.
+Rfturns tif sfrvfr ID tibt dorrfsponds to tif \f3bpplidbtion-nbmf\fR vbluf\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 list
-Lists information about all persistent servers registered with the ORBD\&.
+list
+list
+list
+list
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd witi tif ORBD\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd witi tif ORBD\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd witi tif ORBD\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd witi tif ORBD\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd witi tif ORBD\&.
 .TP     
-listappnames
-Lists the application names for all servers currently registered with the ORBD\&.
 .TP     
-listactive
-Lists information about all persistent servers that were started by the ORBD and are currently running\&.
+.TP     
+.TP     
+.TP     
+listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+Lists tif bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd witi tif ORBD\&.
+Lists tif bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd witi tif ORBD\&.
+Lists tif bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd witi tif ORBD\&.
+Lists tif bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd witi tif ORBD\&.
+Lists tif bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd witi tif ORBD\&.
+.TP     
+.TP     
+.TP     
+.TP     
+.TP     
+listbdtivf
+listbdtivf
+listbdtivf
+listbdtivf
+listbdtivf
+Lists informbtion bbout bll pfrsistfnt sfrvfrs tibt wfrf stbrtfd by tif ORBD bnd brf durrfntly running\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs tibt wfrf stbrtfd by tif ORBD bnd brf durrfntly running\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs tibt wfrf stbrtfd by tif ORBD bnd brf durrfntly running\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs tibt wfrf stbrtfd by tif ORBD bnd brf durrfntly running\&.
+Lists informbtion bbout bll pfrsistfnt sfrvfrs tibt wfrf stbrtfd by tif ORBD bnd brf durrfntly running\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 .ll 180
-locate -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR [ -endpointType \fIendpointType\fR ]
-Locates the endpoints (ports) of a specific type for all ORBs created by a registered server\&. If a server is not already running, then it is activated\&. If an \f3endpointType\fR value is not specified, then the plain/non-protected endpoint associated with each ORB in a server is returned\&.
+.ll 180
+.ll 180
+.ll 180
+.ll 180
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+Lodbtfs tif fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, tifn tif plbin/non-protfdtfd fndpoint bssodibtfd witi fbdi ORB in b sfrvfr is rfturnfd\&.
+Lodbtfs tif fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, tifn tif plbin/non-protfdtfd fndpoint bssodibtfd witi fbdi ORB in b sfrvfr is rfturnfd\&.
+Lodbtfs tif fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, tifn tif plbin/non-protfdtfd fndpoint bssodibtfd witi fbdi ORB in b sfrvfr is rfturnfd\&.
+Lodbtfs tif fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, tifn tif plbin/non-protfdtfd fndpoint bssodibtfd witi fbdi ORB in b sfrvfr is rfturnfd\&.
+Lodbtfs tif fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, tifn tif plbin/non-protfdtfd fndpoint bssodibtfd witi fbdi ORB in b sfrvfr is rfturnfd\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 .ll 180
-locateperorb -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR [ -orbid \fIORB-name\fR ]
-Locates all the endpoints (ports) registered by a specific Object Request Broker (ORB) of registered server\&. If a server is not already running, then it is activated\&. If an \f3orbid\fR is not specified, then the default value of \f3""\fR is assigned to the \f3orbid\fR\&. If any ORBs are created with an \f3orbid\fR of empty string, then all ports registered by it are returned\&.
+.ll 180
+.ll 180
+.ll 180
+.ll 180
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+Lodbtfs bll tif fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, tifn tif dffbult vbluf of \f3""\fR is bssignfd to tif \f3orbid\fR\&. If bny ORBs brf drfbtfd witi bn \f3orbid\fR of fmpty string, tifn bll ports rfgistfrfd by it brf rfturnfd\&.
+Lodbtfs bll tif fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, tifn tif dffbult vbluf of \f3""\fR is bssignfd to tif \f3orbid\fR\&. If bny ORBs brf drfbtfd witi bn \f3orbid\fR of fmpty string, tifn bll ports rfgistfrfd by it brf rfturnfd\&.
+Lodbtfs bll tif fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, tifn tif dffbult vbluf of \f3""\fR is bssignfd to tif \f3orbid\fR\&. If bny ORBs brf drfbtfd witi bn \f3orbid\fR of fmpty string, tifn bll ports rfgistfrfd by it brf rfturnfd\&.
+Lodbtfs bll tif fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, tifn tif dffbult vbluf of \f3""\fR is bssignfd to tif \f3orbid\fR\&. If bny ORBs brf drfbtfd witi bn \f3orbid\fR of fmpty string, tifn bll ports rfgistfrfd by it brf rfturnfd\&.
+Lodbtfs bll tif fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, tifn tif dffbult vbluf of \f3""\fR is bssignfd to tif \f3orbid\fR\&. If bny ORBs brf drfbtfd witi bn \f3orbid\fR of fmpty string, tifn bll ports rfgistfrfd by it brf rfturnfd\&.
 .TP     
-orblist -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR
-Lists the \f3ORBId\fR of the ORBs defined on a server\&. An \f3ORBId\fR is the string name for the ORB created by the server\&. If the server is not already running, then it is activated\&.
 .TP     
-shutdown -serverid \fIserver-id\fR | -applicationName application-name
-Shut down an active server that is registered with ORBD\&. During execution of this command, the \f3shutdown\fR method defined in the class specified by either the \f3-serverid\fR or \f3-applicationName\fR parameter is also called to shut down the server process\&.
 .TP     
-startup -serverid \fIserver-id\fR | -applicationName application-name
-Starts up or activate a server that is registered with ORBD\&. If the server is not running, then this command starts the server\&. If the server is already running, then an error message is displayed\&.
 .TP     
-help
-Lists all the commands available to the server through the \f3servertool\fR command\&.
+.TP     
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Lists tif \f3ORBId\fR of tif ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is tif string nbmf for tif ORB drfbtfd by tif sfrvfr\&. If tif sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&.
+Lists tif \f3ORBId\fR of tif ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is tif string nbmf for tif ORB drfbtfd by tif sfrvfr\&. If tif sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&.
+Lists tif \f3ORBId\fR of tif ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is tif string nbmf for tif ORB drfbtfd by tif sfrvfr\&. If tif sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&.
+Lists tif \f3ORBId\fR of tif ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is tif string nbmf for tif ORB drfbtfd by tif sfrvfr\&. If tif sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&.
+Lists tif \f3ORBId\fR of tif ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is tif string nbmf for tif ORB drfbtfd by tif sfrvfr\&. If tif sfrvfr is not blrfbdy running, tifn it is bdtivbtfd\&.
+.TP     
+.TP     
+.TP     
+.TP     
+.TP     
+siutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+siutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+siutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+siutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+siutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+Siut down bn bdtivf sfrvfr tibt is rfgistfrfd witi ORBD\&. During fxfdution of tiis dommbnd, tif \f3siutdown\fR mftiod dffinfd in tif dlbss spfdififd by fitifr tif \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to siut down tif sfrvfr prodfss\&.
+Siut down bn bdtivf sfrvfr tibt is rfgistfrfd witi ORBD\&. During fxfdution of tiis dommbnd, tif \f3siutdown\fR mftiod dffinfd in tif dlbss spfdififd by fitifr tif \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to siut down tif sfrvfr prodfss\&.
+Siut down bn bdtivf sfrvfr tibt is rfgistfrfd witi ORBD\&. During fxfdution of tiis dommbnd, tif \f3siutdown\fR mftiod dffinfd in tif dlbss spfdififd by fitifr tif \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to siut down tif sfrvfr prodfss\&.
+Siut down bn bdtivf sfrvfr tibt is rfgistfrfd witi ORBD\&. During fxfdution of tiis dommbnd, tif \f3siutdown\fR mftiod dffinfd in tif dlbss spfdififd by fitifr tif \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to siut down tif sfrvfr prodfss\&.
+Siut down bn bdtivf sfrvfr tibt is rfgistfrfd witi ORBD\&. During fxfdution of tiis dommbnd, tif \f3siutdown\fR mftiod dffinfd in tif dlbss spfdififd by fitifr tif \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to siut down tif sfrvfr prodfss\&.
+.TP     
+.TP     
+.TP     
+.TP     
+.TP     
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+Stbrts up or bdtivbtf b sfrvfr tibt is rfgistfrfd witi ORBD\&. If tif sfrvfr is not running, tifn tiis dommbnd stbrts tif sfrvfr\&. If tif sfrvfr is blrfbdy running, tifn bn frror mfssbgf is displbyfd\&.
+Stbrts up or bdtivbtf b sfrvfr tibt is rfgistfrfd witi ORBD\&. If tif sfrvfr is not running, tifn tiis dommbnd stbrts tif sfrvfr\&. If tif sfrvfr is blrfbdy running, tifn bn frror mfssbgf is displbyfd\&.
+Stbrts up or bdtivbtf b sfrvfr tibt is rfgistfrfd witi ORBD\&. If tif sfrvfr is not running, tifn tiis dommbnd stbrts tif sfrvfr\&. If tif sfrvfr is blrfbdy running, tifn bn frror mfssbgf is displbyfd\&.
+Stbrts up or bdtivbtf b sfrvfr tibt is rfgistfrfd witi ORBD\&. If tif sfrvfr is not running, tifn tiis dommbnd stbrts tif sfrvfr\&. If tif sfrvfr is blrfbdy running, tifn bn frror mfssbgf is displbyfd\&.
+Stbrts up or bdtivbtf b sfrvfr tibt is rfgistfrfd witi ORBD\&. If tif sfrvfr is not running, tifn tiis dommbnd stbrts tif sfrvfr\&. If tif sfrvfr is blrfbdy running, tifn bn frror mfssbgf is displbyfd\&.
+.TP     
+.TP     
+.TP     
+.TP     
+.TP     
+iflp
+iflp
+iflp
+iflp
+iflp
+Lists bll tif dommbnds bvbilbblf to tif sfrvfr tirougi tif \f3sfrvfrtool\fR dommbnd\&.
+Lists bll tif dommbnds bvbilbblf to tif sfrvfr tirougi tif \f3sfrvfrtool\fR dommbnd\&.
+Lists bll tif dommbnds bvbilbblf to tif sfrvfr tirougi tif \f3sfrvfrtool\fR dommbnd\&.
+Lists bll tif dommbnds bvbilbblf to tif sfrvfr tirougi tif \f3sfrvfrtool\fR dommbnd\&.
+Lists bll tif dommbnds bvbilbblf to tif sfrvfr tirougi tif \f3sfrvfrtool\fR dommbnd\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 quit
-Exits the \f3servertool\fR command\&.
+quit
+quit
+quit
+quit
+Exits tif \f3sfrvfrtool\fR dommbnd\&.
+Exits tif \f3sfrvfrtool\fR dommbnd\&.
+Exits tif \f3sfrvfrtool\fR dommbnd\&.
+Exits tif \f3sfrvfrtool\fR dommbnd\&.
+Exits tif \f3sfrvfrtool\fR dommbnd\&.
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

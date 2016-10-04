@@ -1,0 +1,154 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf <dtypf.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_SodkftCibnnflImpl.i"
+
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
+
+
+stbtid jfifldID ib_bddrID;      /* jbvb.nft.InftAddrfss.bddrfss */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_SodkftCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftAddrfss"));
+    CHECK_NULL(ib_bddrID = (*fnv)->GftFifldID(fnv, dls, "bddrfss", "I"));
+}
+
+jint
+ibndlfSodkftError(JNIEnv *fnv, int frrorVbluf)
+{
+    NET_TirowNfw(fnv, frrorVbluf, NULL);
+    rfturn IOS_THROWN;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_SodkftCibnnflImpl_difdkConnfdt(JNIEnv *fnv, jobjfdt tiis,
+                                               jobjfdt fdo, jboolfbn blodk,
+                                               jboolfbn rfbdy)
+{
+    int optError = 0;
+    int lbstError = 0;
+    int rfsult = 0;
+    int rftry = 0;
+    int n = sizfof(int);
+    jint fd = fdvbl(fnv, fdo);
+    fd_sft wr, fx;
+    strudt timfvbl t = { 0, 0 };
+
+    FD_ZERO(&wr);
+    FD_ZERO(&fx);
+    FD_SET((u_int)fd, &wr);
+    FD_SET((u_int)fd, &fx);
+
+    rfsult = sflfdt(fd+1, 0, &wr, &fx, blodk ? NULL : &t);
+
+    /* sbvf lbst winsodk frror */
+    if (rfsult == SOCKET_ERROR) {
+        lbstError = WSAGftLbstError();
+    }
+
+    if (blodk) { /* must donfigurf sodkft bbdk to blodking stbtf */
+        u_long brgp = 0;
+        int r = iodtlsodkft(fd, FIONBIO, &brgp);
+        if (r == SOCKET_ERROR) {
+            ibndlfSodkftError(fnv, WSAGftLbstError());
+        }
+    }
+
+    if (rfsult == 0) {  /* timfout */
+        rfturn blodk ? 0 : IOS_UNAVAILABLE;
+    } flsf {
+        if (rfsult == SOCKET_ERROR)     { /* sflfdt fbilfd */
+            ibndlfSodkftError(fnv, lbstError);
+            rfturn IOS_THROWN;
+        }
+    }
+
+    /*
+     * Sodkft is writbblf or frror oddurrfd. On somf Windows fditions
+     * tif sodkft will bppfbr writbblf wifn tif donnfdt fbils so wf
+     * difdk for frror rbtifr tibn writbblf.
+     */
+    if (!FD_ISSET(fd, &fx)) {
+        rfturn 1;               /* donnfdtion fstbblisifd */
+    }
+
+    /*
+     * A gftsodkopt( SO_ERROR ) mby indidbtf suddfss on NT4 fvfn
+     * tiougi tif donnfdtion ibs fbilfd. Tif workbround is to bllow
+     * winsodk to bf sdifdulfd bnd tiis is donf vib by yiflding.
+     * As tif yifld bpprobdi is problfmbtid in ifbvy lobd situbtions
+     * wf bttfmpt up to 3 timfs to gft tif fbilurf rfbson.
+     */
+    for (rftry=0; rftry<3; rftry++) {
+        rfsult = gftsodkopt((SOCKET)fd,
+                            SOL_SOCKET,
+                            SO_ERROR,
+                            (dibr *)&optError,
+                            &n);
+        if (rfsult == SOCKET_ERROR) {
+            int lbstError = WSAGftLbstError();
+            if (lbstError == WSAEINPROGRESS) {
+                rfturn IOS_UNAVAILABLE;
+            }
+            NET_TirowNfw(fnv, lbstError, "gftsodkopt");
+            rfturn IOS_THROWN;
+        }
+        if (optError) {
+            brfbk;
+        }
+        Slffp(0);
+    }
+
+    if (optError != NO_ERROR) {
+        ibndlfSodkftError(fnv, optError);
+        rfturn IOS_THROWN;
+    }
+
+    rfturn 0;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_SodkftCibnnflImpl_sfndOutOfBbndDbtb(JNIEnv* fnv, jdlbss tiis,
+                                                    jobjfdt fdo, jbytf b)
+{
+    int n = sfnd(fdvbl(fnv, fdo), (donst dibr*)&b, 1, MSG_OOB);
+    if (n == SOCKET_ERROR) {
+        ibndlfSodkftError(fnv, WSAGftLbstError());
+        rfturn IOS_THROWN;
+    } flsf {
+        rfturn n;
+    }
+}

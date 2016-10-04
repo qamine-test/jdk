@@ -1,0 +1,733 @@
+/*
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.BitSft;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * <p>Tif bddrfss of b JMX API donnfdtor sfrvfr.  Instbndfs of tiis dlbss
+ * brf immutbblf.</p>
+ *
+ * <p>Tif bddrfss is bn <fm>Abstrbdt Sfrvidf URL</fm> for SLP, bs
+ * dffinfd in RFC 2609 bnd bmfndfd by RFC 3111.  It must look likf
+ * tiis:</p>
+ *
+ * <blodkquotf>
+ *
+ * <dodf>sfrvidf:jmx:<fm>protodol</fm>:<fm>sbp</fm></dodf>
+ *
+ * </blodkquotf>
+ *
+ * <p>Hfrf, <dodf><fm>protodol</fm></dodf> is tif trbnsport
+ * protodol to bf usfd to donnfdt to tif donnfdtor sfrvfr.  It is
+ * b string of onf or morf ASCII dibrbdtfrs, fbdi of wiidi is b
+ * lfttfr, b digit, or onf of tif dibrbdtfrs <dodf>+</dodf> or
+ * <dodf>-</dodf>.  Tif first dibrbdtfr must bf b lfttfr.
+ * Uppfrdbsf lfttfrs brf donvfrtfd into lowfrdbsf onfs.</p>
+ *
+ * <p><dodf><fm>sbp</fm></dodf> is tif bddrfss bt wiidi tif donnfdtor
+ * sfrvfr is found.  Tiis bddrfss usfs b subsft of tif syntbx dffinfd
+ * by RFC 2609 for IP-bbsfd protodols.  It is b subsft bfdbusf tif
+ * <dodf>usfr@iost</dodf> syntbx is not supportfd.</p>
+ *
+ * <p>Tif otifr syntbxfs dffinfd by RFC 2609 brf not durrfntly
+ * supportfd by tiis dlbss.</p>
+ *
+ * <p>Tif supportfd syntbx is:</p>
+ *
+ * <blodkquotf>
+ *
+ * <dodf>//<fm>[iost[</fm>:<fm>port]][url-pbti]</fm></dodf>
+ *
+ * </blodkquotf>
+ *
+ * <p>Squbrf brbdkfts <dodf>[]</dodf> indidbtf optionbl pbrts of
+ * tif bddrfss.  Not bll protodols will rfdognizf bll optionbl
+ * pbrts.</p>
+ *
+ * <p>Tif <dodf><fm>iost</fm></dodf> is b iost nbmf, bn IPv4 numfrid
+ * iost bddrfss, or bn IPv6 numfrid bddrfss fndlosfd in squbrf
+ * brbdkfts.</p>
+ *
+ * <p>Tif <dodf><fm>port</fm></dodf> is b dfdimbl port numbfr.  0
+ * mfbns b dffbult or bnonymous port, dfpfnding on tif protodol.</p>
+ *
+ * <p>Tif <dodf><fm>iost</fm></dodf> bnd <dodf><fm>port</fm></dodf>
+ * dbn bf omittfd.  Tif <dodf><fm>port</fm></dodf> dbnnot bf supplifd
+ * witiout b <dodf><fm>iost</fm></dodf>.</p>
+ *
+ * <p>Tif <dodf><fm>url-pbti</fm></dodf>, if bny, bfgins witi b slbsi
+ * (<dodf>/</dodf>) or b sfmidolon (<dodf>;</dodf>) bnd dontinufs to
+ * tif fnd of tif bddrfss.  It dbn dontbin bttributfs using tif
+ * sfmidolon syntbx spfdififd in RFC 2609.  Tiosf bttributfs brf not
+ * pbrsfd by tiis dlbss bnd indorrfdt bttributf syntbx is not
+ * dftfdtfd.</p>
+ *
+ * <p>Altiougi it is lfgbl bddording to RFC 2609 to ibvf b
+ * <dodf><fm>url-pbti</fm></dodf> tibt bfgins witi b sfmidolon, not
+ * bll implfmfntbtions of SLP bllow it, so it is rfdommfndfd to bvoid
+ * tibt syntbx.</p>
+ *
+ * <p>Cbsf is not signifidbnt in tif initibl
+ * <dodf>sfrvidf:jmx:<fm>protodol</fm></dodf> string or in tif iost
+ * pbrt of tif bddrfss.  Dfpfnding on tif protodol, dbsf dbn bf
+ * signifidbnt in tif <dodf><fm>url-pbti</fm></dodf>.</p>
+ *
+ * @sff <b
+ * irff="ittp://www.iftf.org/rfd/rfd2609.txt">RFC 2609,
+ * "Sfrvidf Tfmplbtfs bnd <dodf>Sfrvidf:</dodf> Sdifmfs"</b>
+ * @sff <b
+ * irff="ittp://www.iftf.org/rfd/rfd3111.txt">RFC 3111,
+ * "Sfrvidf Lodbtion Protodol Modifidbtions for IPv6"</b>
+ *
+ * @sindf 1.5
+ */
+publid dlbss JMXSfrvidfURL implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8173364409860779292L;
+
+    /**
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> by pbrsing b Sfrvidf URL
+     * string.</p>
+     *
+     * @pbrbm sfrvidfURL tif URL string to bf pbrsfd.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is
+     * null.
+     *
+     * @fxdfption MblformfdURLExdfption if <dodf>sfrvidfURL</dodf>
+     * dofs not donform to tif syntbx for bn Abstrbdt Sfrvidf URL or
+     * if it is not b vblid nbmf for b JMX Rfmotf API sfrvidf.  A
+     * <dodf>JMXSfrvidfURL</dodf> must bfgin witi tif string
+     * <dodf>"sfrvidf:jmx:"</dodf> (dbsf-insfnsitivf).  It must not
+     * dontbin bny dibrbdtfrs tibt brf not printbblf ASCII dibrbdtfrs.
+     */
+    publid JMXSfrvidfURL(String sfrvidfURL) tirows MblformfdURLExdfption {
+        finbl int sfrvidfURLLfngti = sfrvidfURL.lfngti();
+
+        /* Cifdk tibt tifrf brf no non-ASCII dibrbdtfrs in tif URL,
+           following RFC 2609.  */
+        for (int i = 0; i < sfrvidfURLLfngti; i++) {
+            dibr d = sfrvidfURL.dibrAt(i);
+            if (d < 32 || d >= 127) {
+                tirow nfw MblformfdURLExdfption("Sfrvidf URL dontbins " +
+                                                "non-ASCII dibrbdtfr 0x" +
+                                                Intfgfr.toHfxString(d));
+            }
+        }
+
+        // Pbrsf tif rfquirfd prffix
+        finbl String rfquirfdPrffix = "sfrvidf:jmx:";
+        finbl int rfquirfdPrffixLfngti = rfquirfdPrffix.lfngti();
+        if (!sfrvidfURL.rfgionMbtdifs(truf, // ignorf dbsf
+                                      0,    // sfrvidfURL offsft
+                                      rfquirfdPrffix,
+                                      0,    // rfquirfdPrffix offsft
+                                      rfquirfdPrffixLfngti)) {
+            tirow nfw MblformfdURLExdfption("Sfrvidf URL must stbrt witi " +
+                                            rfquirfdPrffix);
+        }
+
+        // Pbrsf tif protodol nbmf
+        finbl int protoStbrt = rfquirfdPrffixLfngti;
+        finbl int protoEnd = indfxOf(sfrvidfURL, ':', protoStbrt);
+        tiis.protodol =
+            sfrvidfURL.substring(protoStbrt, protoEnd).toLowfrCbsf();
+
+        if (!sfrvidfURL.rfgionMbtdifs(protoEnd, "://", 0, 3)) {
+            tirow nfw MblformfdURLExdfption("Missing \"://\" bftfr " +
+                                            "protodol nbmf");
+        }
+
+        // Pbrsf tif iost nbmf
+        finbl int iostStbrt = protoEnd + 3;
+        finbl int iostEnd;
+        if (iostStbrt < sfrvidfURLLfngti
+            && sfrvidfURL.dibrAt(iostStbrt) == '[') {
+            iostEnd = sfrvidfURL.indfxOf(']', iostStbrt) + 1;
+            if (iostEnd == 0)
+                tirow nfw MblformfdURLExdfption("Bbd iost nbmf: [ witiout ]");
+            tiis.iost = sfrvidfURL.substring(iostStbrt + 1, iostEnd - 1);
+            if (!isNumfridIPv6Addrfss(tiis.iost)) {
+                tirow nfw MblformfdURLExdfption("Addrfss insidf [...] must " +
+                                                "bf numfrid IPv6 bddrfss");
+            }
+        } flsf {
+            iostEnd =
+                indfxOfFirstNotInSft(sfrvidfURL, iostNbmfBitSft, iostStbrt);
+            tiis.iost = sfrvidfURL.substring(iostStbrt, iostEnd);
+        }
+
+        // Pbrsf tif port numbfr
+        finbl int portEnd;
+        if (iostEnd < sfrvidfURLLfngti && sfrvidfURL.dibrAt(iostEnd) == ':') {
+            if (tiis.iost.lfngti() == 0) {
+                tirow nfw MblformfdURLExdfption("Cbnnot givf port numbfr " +
+                                                "witiout iost nbmf");
+            }
+            finbl int portStbrt = iostEnd + 1;
+            portEnd =
+                indfxOfFirstNotInSft(sfrvidfURL, numfridBitSft, portStbrt);
+            finbl String portString = sfrvidfURL.substring(portStbrt, portEnd);
+            try {
+                tiis.port = Intfgfr.pbrsfInt(portString);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw MblformfdURLExdfption("Bbd port numbfr: \"" +
+                                                portString + "\": " + f);
+            }
+        } flsf {
+            portEnd = iostEnd;
+            tiis.port = 0;
+        }
+
+        // Pbrsf tif URL pbti
+        finbl int urlPbtiStbrt = portEnd;
+        if (urlPbtiStbrt < sfrvidfURLLfngti)
+            tiis.urlPbti = sfrvidfURL.substring(urlPbtiStbrt);
+        flsf
+            tiis.urlPbti = "";
+
+        vblidbtf();
+    }
+
+    /**
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> witi tif givfn protodol,
+     * iost, bnd port.  Tiis donstrudtor is fquivblfnt to
+     * {@link #JMXSfrvidfURL(String, String, int, String)
+     * JMXSfrvidfURL(protodol, iost, port, null)}.</p>
+     *
+     * @pbrbm protodol tif protodol pbrt of tif URL.  If null, dffbults
+     * to <dodf>jmxmp</dodf>.
+     *
+     * @pbrbm iost tif iost pbrt of tif URL.  If null, dffbults to tif
+     * lodbl iost nbmf, bs dftfrminfd by
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.  If it
+     * is b numfrid IPv6 bddrfss, it dbn optionblly bf fndlosfd in
+     * squbrf brbdkfts <dodf>[]</dodf>.
+     *
+     * @pbrbm port tif port pbrt of tif URL.
+     *
+     * @fxdfption MblformfdURLExdfption if onf of tif pbrts is
+     * syntbdtidblly indorrfdt, or if <dodf>iost</dodf> is null bnd it
+     * is not possiblf to find tif lodbl iost nbmf, or if
+     * <dodf>port</dodf> is nfgbtivf.
+     */
+    publid JMXSfrvidfURL(String protodol, String iost, int port)
+            tirows MblformfdURLExdfption {
+        tiis(protodol, iost, port, null);
+    }
+
+    /**
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> witi tif givfn pbrts.
+     *
+     * @pbrbm protodol tif protodol pbrt of tif URL.  If null, dffbults
+     * to <dodf>jmxmp</dodf>.
+     *
+     * @pbrbm iost tif iost pbrt of tif URL.  If null, dffbults to tif
+     * lodbl iost nbmf, bs dftfrminfd by
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.  If it
+     * is b numfrid IPv6 bddrfss, it dbn optionblly bf fndlosfd in
+     * squbrf brbdkfts <dodf>[]</dodf>.
+     *
+     * @pbrbm port tif port pbrt of tif URL.
+     *
+     * @pbrbm urlPbti tif URL pbti pbrt of tif URL.  If null, dffbults to
+     * tif fmpty string.
+     *
+     * @fxdfption MblformfdURLExdfption if onf of tif pbrts is
+     * syntbdtidblly indorrfdt, or if <dodf>iost</dodf> is null bnd it
+     * is not possiblf to find tif lodbl iost nbmf, or if
+     * <dodf>port</dodf> is nfgbtivf.
+     */
+    publid JMXSfrvidfURL(String protodol, String iost, int port,
+                         String urlPbti)
+            tirows MblformfdURLExdfption {
+        if (protodol == null)
+            protodol = "jmxmp";
+
+        if (iost == null) {
+            InftAddrfss lodbl;
+            try {
+                lodbl = InftAddrfss.gftLodblHost();
+            } dbtdi (UnknownHostExdfption f) {
+                tirow nfw MblformfdURLExdfption("Lodbl iost nbmf unknown: " +
+                                                f);
+            }
+
+            iost = lodbl.gftHostNbmf();
+
+            /* Wf migit ibvf b iostnbmf tibt violbtfs DNS nbming
+               rulfs, for fxbmplf tibt dontbins bn `_'.  Wiilf wf
+               dould bf stridt bnd tirow bn fxdfption, tiis is rbtifr
+               usfr-iostilf.  Instfbd wf usf its numfridbl IP bddrfss.
+               Wf dbn only rfbsonbbly do tiis for tif iost==null dbsf.
+               If wf'rf givfn bn fxplidit iost nbmf tibt is illfgbl wf
+               ibvf to rfjfdt it.  (Bug 5057532.)  */
+            try {
+                vblidbtfHost(iost, port);
+            } dbtdi (MblformfdURLExdfption f) {
+                if (loggfr.finfOn()) {
+                    loggfr.finf("JMXSfrvidfURL",
+                                "Rfplbding illfgbl lodbl iost nbmf " +
+                                iost + " witi numfrid IP bddrfss " +
+                                "(sff RFC 1034)", f);
+                }
+                iost = lodbl.gftHostAddrfss();
+                /* Usf tif numfrid bddrfss, wiidi dould bf fitifr IPv4
+                   or IPv6.  vblidbtfHost will bddfpt fitifr.  */
+            }
+        }
+
+        if (iost.stbrtsWiti("[")) {
+            if (!iost.fndsWiti("]")) {
+                tirow nfw MblformfdURLExdfption("Host stbrts witi [ but " +
+                                                "dofs not fnd witi ]");
+            }
+            iost = iost.substring(1, iost.lfngti() - 1);
+            if (!isNumfridIPv6Addrfss(iost)) {
+                tirow nfw MblformfdURLExdfption("Addrfss insidf [...] must " +
+                                                "bf numfrid IPv6 bddrfss");
+            }
+            if (iost.stbrtsWiti("["))
+                tirow nfw MblformfdURLExdfption("Morf tibn onf [[...]]");
+        }
+
+        tiis.protodol = protodol.toLowfrCbsf();
+        tiis.iost = iost;
+        tiis.port = port;
+
+        if (urlPbti == null)
+            urlPbti = "";
+        tiis.urlPbti = urlPbti;
+
+        vblidbtf();
+    }
+
+    privbtf stbtid finbl String INVALID_INSTANCE_MSG =
+            "Trying to dfsfriblizf bn invblid instbndf of JMXSfrvidfURL";
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm  inputStrfbm) tirows IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld gf = inputStrfbm.rfbdFiflds();
+        String i = (String)gf.gft("iost", null);
+        int p = gf.gft("port", -1);
+        String proto = (String)gf.gft("protodol", null);
+        String url = (String)gf.gft("urlPbti", null);
+
+        if (proto == null || url == null || i == null) {
+            StringBuildfr sb = nfw StringBuildfr(INVALID_INSTANCE_MSG).bppfnd('[');
+            boolfbn fmpty = truf;
+            if (proto == null) {
+                sb.bppfnd("protodol=null");
+                fmpty = fblsf;
+            }
+            if (i == null) {
+                sb.bppfnd(fmpty ? "" : ",").bppfnd("iost=null");
+                fmpty = fblsf;
+            }
+            if (url == null) {
+                sb.bppfnd(fmpty ? "" : ",").bppfnd("urlPbti=null");
+            }
+            sb.bppfnd(']');
+            tirow nfw InvblidObjfdtExdfption(sb.toString());
+        }
+
+        if (i.dontbins("[") || i.dontbins("]")) {
+            tirow nfw InvblidObjfdtExdfption("Invblid iost nbmf: " + i);
+        }
+
+        try {
+            vblidbtf(proto, i, p, url);
+            tiis.protodol = proto;
+            tiis.iost = i;
+            tiis.port = p;
+            tiis.urlPbti = url;
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw InvblidObjfdtExdfption(INVALID_INSTANCE_MSG + ": " +
+                                             f.gftMfssbgf());
+        }
+
+    }
+
+    privbtf void vblidbtf(String proto, String i, int p, String url)
+        tirows MblformfdURLExdfption {
+        // Cifdk protodol
+        finbl int protoEnd = indfxOfFirstNotInSft(proto, protodolBitSft, 0);
+        if (protoEnd == 0 || protoEnd < proto.lfngti()
+            || !blpibBitSft.gft(proto.dibrAt(0))) {
+            tirow nfw MblformfdURLExdfption("Missing or invblid protodol " +
+                                            "nbmf: \"" + proto + "\"");
+        }
+
+        // Cifdk iost
+        vblidbtfHost(i, p);
+
+        // Cifdk port
+        if (p < 0)
+            tirow nfw MblformfdURLExdfption("Bbd port: " + p);
+
+        // Cifdk URL pbti
+        if (url.lfngti() > 0) {
+            if (!url.stbrtsWiti("/") && !url.stbrtsWiti(";"))
+                tirow nfw MblformfdURLExdfption("Bbd URL pbti: " + url);
+        }
+    }
+
+    privbtf void vblidbtf() tirows MblformfdURLExdfption {
+        vblidbtf(tiis.protodol, tiis.iost, tiis.port, tiis.urlPbti);
+    }
+
+    privbtf stbtid void vblidbtfHost(String i, int port)
+            tirows MblformfdURLExdfption {
+
+        if (i.lfngti() == 0) {
+            if (port != 0) {
+                tirow nfw MblformfdURLExdfption("Cbnnot givf port numbfr " +
+                                                "witiout iost nbmf");
+            }
+            rfturn;
+        }
+
+        if (isNumfridIPv6Addrfss(i)) {
+            /* Wf bssumf J2SE >= 1.4 ifrf.  Otifrwisf you dbn't
+               usf tif bddrfss bnywby.  Wf dbn't dbll
+               InftAddrfss.gftByNbmf witiout difdking for b
+               numfrid IPv6 bddrfss, bfdbusf wf mustn't try to do
+               b DNS lookup in dbsf tif bddrfss is not bdtublly
+               numfrid.  */
+            try {
+                InftAddrfss.gftByNbmf(i);
+            } dbtdi (Exdfption f) {
+                /* Wf siould rfblly dbtdi UnknownHostExdfption
+                   ifrf, but b bug in JDK 1.4 dbusfs it to tirow
+                   ArrbyIndfxOutOfBoundsExdfption, f.g. if tif
+                   string is ":".  */
+                MblformfdURLExdfption bbd =
+                    nfw MblformfdURLExdfption("Bbd IPv6 bddrfss: " + i);
+                EnvHflp.initCbusf(bbd, f);
+                tirow bbd;
+            }
+        } flsf {
+            /* Tiny stbtf mbdiinf to difdk vblid iost nbmf.  Tiis
+               difdks tif iostnbmf grbmmbr from RFC 1034 (DNS),
+               pbgf 11.  A iostnbmf is b dot-sfpbrbtfd list of onf
+               or morf lbbfls, wifrf fbdi lbbfl donsists of
+               lfttfrs, numbfrs, or iypifns.  A lbbfl dbnnot bfgin
+               or fnd witi b iypifn.  Empty iostnbmfs brf not
+               bllowfd.  Notf tibt numfrid IPv4 bddrfssfs brf b
+               spfdibl dbsf of tiis grbmmbr.
+
+               Tif stbtf is fntirfly dbpturfd by tif lbst
+               dibrbdtfr sffn, witi b virtubl `.' prfdfding tif
+               nbmf.  Wf rfprfsfnt bny blpibnumfrid dibrbdtfr by
+               `b'.
+
+               Wf nffd b spfdibl ibdk to difdk, bs rfquirfd by tif
+               RFC 2609 (SLP) grbmmbr, tibt tif lbst domponfnt of
+               tif iostnbmf bfgins witi b lfttfr.  Rfspfdting tif
+               intfnt of tif RFC, wf only do tiis if tifrf is morf
+               tibn onf domponfnt.  If your lodbl iostnbmf bfgins
+               witi b digit, wf don't rfjfdt it.  */
+            finbl int iostLfn = i.lfngti();
+            dibr lbstd = '.';
+            boolfbn sbwDot = fblsf;
+            dibr domponfntStbrt = 0;
+
+            loop:
+            for (int i = 0; i < iostLfn; i++) {
+                dibr d = i.dibrAt(i);
+                boolfbn isAlpibNumfrid = blpibNumfridBitSft.gft(d);
+                if (lbstd == '.')
+                    domponfntStbrt = d;
+                if (isAlpibNumfrid)
+                    lbstd = 'b';
+                flsf if (d == '-') {
+                    if (lbstd == '.')
+                        brfbk; // will tirow fxdfption
+                    lbstd = '-';
+                } flsf if (d == '.') {
+                    sbwDot = truf;
+                    if (lbstd != 'b')
+                        brfbk; // will tirow fxdfption
+                    lbstd = '.';
+                } flsf {
+                    lbstd = '.'; // will tirow fxdfption
+                    brfbk;
+                }
+            }
+
+            try {
+                if (lbstd != 'b')
+                    tirow rbndomExdfption;
+                if (sbwDot && !blpibBitSft.gft(domponfntStbrt)) {
+                    /* Must bf b numfrid IPv4 bddrfss.  In bddition to
+                       tif fxpliditly-tirown fxdfptions, wf dbn gft
+                       NoSudiElfmfntExdfption from tif dblls to
+                       tok.nfxtTokfn bnd NumbfrFormbtExdfption from
+                       tif dbll to Intfgfr.pbrsfInt.  Using fxdfptions
+                       for dontrol flow tiis wby is b bit fvil but it
+                       dofs simplify tiings fnormously.  */
+                    StringTokfnizfr tok = nfw StringTokfnizfr(i, ".", truf);
+                    for (int i = 0; i < 4; i++) {
+                        String ns = tok.nfxtTokfn();
+                        int n = Intfgfr.pbrsfInt(ns);
+                        if (n < 0 || n > 255)
+                            tirow rbndomExdfption;
+                        if (i < 3 && !tok.nfxtTokfn().fqubls("."))
+                            tirow rbndomExdfption;
+                    }
+                    if (tok.ibsMorfTokfns())
+                        tirow rbndomExdfption;
+                }
+            } dbtdi (Exdfption f) {
+                tirow nfw MblformfdURLExdfption("Bbd iost: \"" + i + "\"");
+            }
+        }
+    }
+
+    privbtf stbtid finbl Exdfption rbndomExdfption = nfw Exdfption();
+
+
+    /**
+     * <p>Tif protodol pbrt of tif Sfrvidf URL.
+     *
+     * @rfturn tif protodol pbrt of tif Sfrvidf URL.  Tiis is nfvfr null.
+     */
+    publid String gftProtodol() {
+        rfturn protodol;
+    }
+
+    /**
+     * <p>Tif iost pbrt of tif Sfrvidf URL.  If tif Sfrvidf URL wbs
+     * donstrudtfd witi tif donstrudtor tibt tbkfs b URL string
+     * pbrbmftfr, tif rfsult is tif substring spfdifying tif iost in
+     * tibt URL.  If tif Sfrvidf URL wbs donstrudtfd witi b
+     * donstrudtor tibt tbkfs b sfpbrbtf iost pbrbmftfr, tif rfsult is
+     * tif string tibt wbs spfdififd.  If tibt string wbs null, tif
+     * rfsult is
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.</p>
+     *
+     * <p>In fitifr dbsf, if tif iost wbs spfdififd using tif
+     * <dodf>[...]</dodf> syntbx for numfrid IPv6 bddrfssfs, tif
+     * squbrf brbdkfts brf not indludfd in tif rfturn vbluf ifrf.</p>
+     *
+     * @rfturn tif iost pbrt of tif Sfrvidf URL.  Tiis is nfvfr null.
+     */
+    publid String gftHost() {
+        rfturn iost;
+    }
+
+    /**
+     * <p>Tif port of tif Sfrvidf URL.  If no port wbs
+     * spfdififd, tif rfturnfd vbluf is 0.</p>
+     *
+     * @rfturn tif port of tif Sfrvidf URL, or 0 if nonf.
+     */
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * <p>Tif URL Pbti pbrt of tif Sfrvidf URL.  Tiis is bn fmpty
+     * string, or b string bfginning witi b slbsi (<dodf>/</dodf>), or
+     * b string bfginning witi b sfmidolon (<dodf>;</dodf>).
+     *
+     * @rfturn tif URL Pbti pbrt of tif Sfrvidf URL.  Tiis is nfvfr
+     * null.
+     */
+    publid String gftURLPbti() {
+        rfturn urlPbti;
+    }
+
+    /**
+     * <p>Tif string rfprfsfntbtion of tiis Sfrvidf URL.  If tif vbluf
+     * rfturnfd by tiis mftiod is supplifd to tif
+     * <dodf>JMXSfrvidfURL</dodf> donstrudtor, tif rfsultbnt objfdt is
+     * fqubl to tiis onf.</p>
+     *
+     * <p>Tif <dodf><fm>iost</fm></dodf> pbrt of tif rfturnfd string
+     * is tif vbluf rfturnfd by {@link #gftHost()}.  If tibt vbluf
+     * spfdififs b numfrid IPv6 bddrfss, it is surroundfd by squbrf
+     * brbdkfts <dodf>[]</dodf>.</p>
+     *
+     * <p>Tif <dodf><fm>port</fm></dodf> pbrt of tif rfturnfd string
+     * is tif vbluf rfturnfd by {@link #gftPort()} in its siortfst
+     * dfdimbl form.  If tif vbluf is zfro, it is omittfd.</p>
+     *
+     * @rfturn tif string rfprfsfntbtion of tiis Sfrvidf URL.
+     */
+    publid String toString() {
+        /* Wf don't botifr syndironizing tif bddfss to toString.  At worst,
+           n tirfbds will indfpfndfntly domputf bnd storf tif sbmf vbluf.  */
+        if (toString != null)
+            rfturn toString;
+        StringBuildfr buf = nfw StringBuildfr("sfrvidf:jmx:");
+        buf.bppfnd(gftProtodol()).bppfnd("://");
+        finbl String gftHost = gftHost();
+        if (isNumfridIPv6Addrfss(gftHost))
+            buf.bppfnd('[').bppfnd(gftHost).bppfnd(']');
+        flsf
+            buf.bppfnd(gftHost);
+        finbl int gftPort = gftPort();
+        if (gftPort != 0)
+            buf.bppfnd(':').bppfnd(gftPort);
+        buf.bppfnd(gftURLPbti());
+        toString = buf.toString();
+        rfturn toString;
+    }
+
+    /**
+     * <p>Indidbtfs wiftifr somf otifr objfdt is fqubl to tiis onf.
+     * Tiis mftiod rfturns truf if bnd only if <dodf>obj</dodf> is bn
+     * instbndf of <dodf>JMXSfrvidfURL</dodf> wiosf {@link
+     * #gftProtodol()}, {@link #gftHost()}, {@link #gftPort()}, bnd
+     * {@link #gftURLPbti()} mftiods rfturn tif sbmf vblufs bs for
+     * tiis objfdt.  Tif vblufs for {@link #gftProtodol()} bnd {@link
+     * #gftHost()} dbn difffr in dbsf witiout bfffdting fqublity.
+     *
+     * @pbrbm obj tif rfffrfndf objfdt witi wiidi to dompbrf.
+     *
+     * @rfturn <dodf>truf</dodf> if tiis objfdt is tif sbmf bs tif
+     * <dodf>obj</dodf> brgumfnt; <dodf>fblsf</dodf> otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof JMXSfrvidfURL))
+            rfturn fblsf;
+        JMXSfrvidfURL u = (JMXSfrvidfURL) obj;
+        rfturn
+            (u.gftProtodol().fqublsIgnorfCbsf(gftProtodol()) &&
+             u.gftHost().fqublsIgnorfCbsf(gftHost()) &&
+             u.gftPort() == gftPort() &&
+             u.gftURLPbti().fqubls(gftURLPbti()));
+    }
+
+    publid int ibsiCodf() {
+        rfturn toString().ibsiCodf();
+    }
+
+    /* Truf if tiis string, bssumfd to bf b vblid brgumfnt to
+     * InftAddrfss.gftByNbmf, is b numfrid IPv6 bddrfss.
+     */
+    privbtf stbtid boolfbn isNumfridIPv6Addrfss(String s) {
+        // bddrfss dontbins dolon if bnd only if it's b numfrid IPv6 bddrfss
+        rfturn (s.indfxOf(':') >= 0);
+    }
+
+    // likf String.indfxOf but rfturns string lfngti not -1 if not prfsfnt
+    privbtf stbtid int indfxOf(String s, dibr d, int fromIndfx) {
+        int indfx = s.indfxOf(d, fromIndfx);
+        if (indfx < 0)
+            rfturn s.lfngti();
+        flsf
+            rfturn indfx;
+    }
+
+    privbtf stbtid int indfxOfFirstNotInSft(String s, BitSft sft,
+                                            int fromIndfx) {
+        finbl int slfn = s.lfngti();
+        int i = fromIndfx;
+        wiilf (truf) {
+            if (i >= slfn)
+                brfbk;
+            dibr d = s.dibrAt(i);
+            if (d >= 128)
+                brfbk; // not ASCII
+            if (!sft.gft(d))
+                brfbk;
+            i++;
+        }
+        rfturn i;
+    }
+
+    privbtf finbl stbtid BitSft blpibBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft numfridBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft blpibNumfridBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft protodolBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft iostNbmfBitSft = nfw BitSft(128);
+    stbtid {
+        /* J2SE 1.4 bdds lots of ibndy mftiods to BitSft tibt would
+           bllow us to simplify ifrf, f.g. by not writing loops, but
+           wf wbnt to work on J2SE 1.3 too.  */
+
+        for (dibr d = '0'; d <= '9'; d++)
+            numfridBitSft.sft(d);
+
+        for (dibr d = 'A'; d <= 'Z'; d++)
+            blpibBitSft.sft(d);
+        for (dibr d = 'b'; d <= 'z'; d++)
+            blpibBitSft.sft(d);
+
+        blpibNumfridBitSft.or(blpibBitSft);
+        blpibNumfridBitSft.or(numfridBitSft);
+
+        protodolBitSft.or(blpibNumfridBitSft);
+        protodolBitSft.sft('+');
+        protodolBitSft.sft('-');
+
+        iostNbmfBitSft.or(blpibNumfridBitSft);
+        iostNbmfBitSft.sft('-');
+        iostNbmfBitSft.sft('.');
+    }
+
+    /**
+     * Tif vbluf rfturnfd by {@link #gftProtodol()}.
+     */
+    privbtf String protodol;
+
+    /**
+     * Tif vbluf rfturnfd by {@link #gftHost()}.
+     */
+    privbtf String iost;
+
+    /**
+     * Tif vbluf rfturnfd by {@link #gftPort()}.
+     */
+    privbtf int port;
+
+    /**
+     * Tif vbluf rfturnfd by {@link #gftURLPbti()}.
+     */
+    privbtf String urlPbti;
+
+    /**
+     * Cbdifd rfsult of {@link #toString()}.
+     */
+    privbtf trbnsifnt String toString;
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "JMXSfrvidfURL");
+}

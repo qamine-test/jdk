@@ -1,0 +1,1484 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tbblf;
+
+import sun.swing.tbblf.DffbultTbblfCfllHfbdfrRfndfrfr;
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.Trbnsifnt;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * Tiis is tif objfdt wiidi mbnbgfs tif ifbdfr of tif <dodf>JTbblf</dodf>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sff jbvbx.swing.JTbblf
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTbblfHfbdfr fxtfnds JComponfnt implfmfnts TbblfColumnModflListfnfr, Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "TbblfHfbdfrUI";
+
+//
+// Instbndf Vbribblfs
+//
+    /**
+     * Tif tbblf for wiidi tiis objfdt is tif ifbdfr;
+     * tif dffbult is <dodf>null</dodf>.
+     */
+    protfdtfd JTbblf tbblf;
+
+    /**
+     * Tif <dodf>TbblfColumnModfl</dodf> of tif tbblf ifbdfr.
+     */
+    protfdtfd TbblfColumnModfl  dolumnModfl;
+
+    /**
+     * If truf, rfordfring of dolumns brf bllowfd by tif usfr;
+     * tif dffbult is truf.
+     */
+    protfdtfd boolfbn   rfordfringAllowfd;
+
+    /**
+     * If truf, rfsizing of dolumns brf bllowfd by tif usfr;
+     * tif dffbult is truf.
+     */
+    protfdtfd boolfbn   rfsizingAllowfd;
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf
+     * to dolumn drbgging or rfsizing, brf now undonditionbl.
+     */
+    /*
+     * If tiis flbg is truf, tifn tif ifbdfr will rfpbint tif tbblf bs
+     * b dolumn is drbggfd or rfsizfd; tif dffbult is truf.
+     */
+    protfdtfd boolfbn   updbtfTbblfInRfblTimf;
+
+    /** Tif indfx of tif dolumn bfing rfsizfd. <dodf>null</dodf> if not rfsizing. */
+    trbnsifnt protfdtfd TbblfColumn     rfsizingColumn;
+
+    /** Tif indfx of tif dolumn bfing drbggfd. <dodf>null</dodf> if not drbgging. */
+    trbnsifnt protfdtfd TbblfColumn     drbggfdColumn;
+
+    /** Tif distbndf from its originbl position tif dolumn ibs bffn drbggfd. */
+    trbnsifnt protfdtfd int     drbggfdDistbndf;
+
+    /**
+      *  Tif dffbult rfndfrfr to bf usfd wifn b <dodf>TbblfColumn</dodf>
+      *  dofs not dffinf b <dodf>ifbdfrRfndfrfr</dodf>.
+      */
+    privbtf TbblfCfllRfndfrfr dffbultRfndfrfr;
+
+//
+// Construdtors
+//
+
+    /**
+     *  Construdts b <dodf>JTbblfHfbdfr</dodf> witi b dffbult
+     *  <dodf>TbblfColumnModfl</dodf>.
+     *
+     * @sff #drfbtfDffbultColumnModfl
+     */
+    publid JTbblfHfbdfr() {
+        tiis(null);
+    }
+
+    /**
+     *  Construdts b <dodf>JTbblfHfbdfr</dodf> wiidi is initiblizfd witi
+     *  <dodf>dm</dodf> bs tif dolumn modfl.  If <dodf>dm</dodf> is
+     *  <dodf>null</dodf> tiis mftiod will initiblizf tif tbblf ifbdfr
+     *  witi b dffbult <dodf>TbblfColumnModfl</dodf>.
+     *
+     * @pbrbm dm        tif dolumn modfl for tif tbblf
+     * @sff #drfbtfDffbultColumnModfl
+     */
+    publid JTbblfHfbdfr(TbblfColumnModfl dm) {
+        supfr();
+
+        //sftFodusbblf(fblsf); // for stridt win/mbd dompbtibility modf,
+                               // tiis mftiod siould bf invokfd
+
+        if (dm == null)
+            dm = drfbtfDffbultColumnModfl();
+        sftColumnModfl(dm);
+
+        // Initiblizf lodbl ivbrs
+        initiblizfLodblVbrs();
+
+        // Gft UI going
+        updbtfUI();
+    }
+
+//
+// Lodbl bfibvior bttributfs
+//
+
+    /**
+     *  Sfts tif tbblf bssodibtfd witi tiis ifbdfr.
+     *  @pbrbm  tbblf   tif nfw tbblf
+     *  @bfbninfo
+     *   bound: truf
+     *   dfsdription: Tif tbblf bssodibtfd witi tiis ifbdfr.
+     */
+    publid void sftTbblf(JTbblf tbblf) {
+        JTbblf old = tiis.tbblf;
+        tiis.tbblf = tbblf;
+        firfPropfrtyCibngf("tbblf", old, tbblf);
+    }
+
+    /**
+      *  Rfturns tif tbblf bssodibtfd witi tiis ifbdfr.
+      *  @rfturn  tif <dodf>tbblf</dodf> propfrty
+      */
+    publid JTbblf gftTbblf() {
+        rfturn tbblf;
+    }
+
+    /**
+     *  Sfts wiftifr tif usfr dbn drbg dolumn ifbdfrs to rfordfr dolumns.
+     *
+     * @pbrbm   rfordfringAllowfd       truf if tif tbblf vifw siould bllow
+     *                                  rfordfring; otifrwisf fblsf
+     * @sff     #gftRfordfringAllowfd
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Wiftifr tif usfr dbn drbg dolumn ifbdfrs to rfordfr dolumns.
+     */
+    publid void sftRfordfringAllowfd(boolfbn rfordfringAllowfd) {
+        boolfbn old = tiis.rfordfringAllowfd;
+        tiis.rfordfringAllowfd = rfordfringAllowfd;
+        firfPropfrtyCibngf("rfordfringAllowfd", old, rfordfringAllowfd);
+    }
+
+    /**
+     * Rfturns truf if tif usfr is bllowfd to rfbrrbngf dolumns by
+     * drbgging tifir ifbdfrs, fblsf otifrwisf. Tif dffbult is truf. You dbn
+     * rfbrrbngf dolumns progrbmmbtidblly rfgbrdlfss of tiis sftting.
+     *
+     * @rfturn  tif <dodf>rfordfringAllowfd</dodf> propfrty
+     * @sff     #sftRfordfringAllowfd
+     */
+    publid boolfbn gftRfordfringAllowfd() {
+        rfturn rfordfringAllowfd;
+    }
+
+    /**
+     *  Sfts wiftifr tif usfr dbn rfsizf dolumns by drbgging bftwffn ifbdfrs.
+     *
+     * @pbrbm   rfsizingAllowfd         truf if tbblf vifw siould bllow
+     *                                  rfsizing
+     * @sff     #gftRfsizingAllowfd
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Wiftifr tif usfr dbn rfsizf dolumns by drbgging bftwffn ifbdfrs.
+     */
+    publid void sftRfsizingAllowfd(boolfbn rfsizingAllowfd) {
+        boolfbn old = tiis.rfsizingAllowfd;
+        tiis.rfsizingAllowfd = rfsizingAllowfd;
+        firfPropfrtyCibngf("rfsizingAllowfd", old, rfsizingAllowfd);
+    }
+
+    /**
+     * Rfturns truf if tif usfr is bllowfd to rfsizf dolumns by drbgging
+     * bftwffn tifir ifbdfrs, fblsf otifrwisf. Tif dffbult is truf. You dbn
+     * rfsizf dolumns progrbmmbtidblly rfgbrdlfss of tiis sftting.
+     *
+     * @rfturn  tif <dodf>rfsizingAllowfd</dodf> propfrty
+     * @sff     #sftRfsizingAllowfd
+     */
+    publid boolfbn gftRfsizingAllowfd() {
+        rfturn rfsizingAllowfd;
+    }
+
+    /**
+     * Rfturns tif tif drbggfd dolumn, if bnd only if, b drbg is in
+     * prodfss, otifrwisf rfturns <dodf>null</dodf>.
+     *
+     * @rfturn  tif drbggfd dolumn, if b drbg is in
+     *          prodfss, otifrwisf rfturns <dodf>null</dodf>
+     * @sff     #gftDrbggfdDistbndf
+     */
+    publid TbblfColumn gftDrbggfdColumn() {
+        rfturn drbggfdColumn;
+    }
+
+    /**
+     * Rfturns tif dolumn's iorizontbl distbndf from its originbl
+     * position, if bnd only if, b drbg is in prodfss. Otifrwisf, tif
+     * tif rfturn vbluf is mfbninglfss.
+     *
+     * @rfturn  tif dolumn's iorizontbl distbndf from its originbl
+     *          position, if b drbg is in prodfss, otifrwisf tif rfturn
+     *          vbluf is mfbninglfss
+     * @sff     #gftDrbggfdColumn
+     */
+    publid int gftDrbggfdDistbndf() {
+        rfturn drbggfdDistbndf;
+    }
+
+    /**
+     * Rfturns tif rfsizing dolumn.  If no dolumn is bfing
+     * rfsizfd tiis mftiod rfturns <dodf>null</dodf>.
+     *
+     * @rfturn  tif rfsizing dolumn, if b rfsizf is in prodfss, otifrwisf
+     *          rfturns <dodf>null</dodf>
+     */
+    publid TbblfColumn gftRfsizingColumn() {
+        rfturn rfsizingColumn;
+    }
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf to
+     * dolumn drbgging or rfsizing, brf now undonditionbl.
+     */
+    /*
+     *  Sfts wiftifr tif body of tif tbblf updbtfs in rfbl timf wifn
+     *  b dolumn is rfsizfd or drbggfd.
+     *
+     * @pbrbm   flbg                    truf if tbblfVifw siould updbtf
+     *                                  tif body of tif tbblf in rfbl timf
+     * @sff #gftUpdbtfTbblfInRfblTimf
+     */
+    publid void sftUpdbtfTbblfInRfblTimf(boolfbn flbg) {
+        updbtfTbblfInRfblTimf = flbg;
+    }
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf to
+     * dolumn drbgging or rfsizing, brf now undonditionbl.
+     */
+    /*
+     * Rfturns truf if tif body of tif tbblf vifw updbtfs in rfbl
+     * timf wifn b dolumn is rfsizfd or drbggfd.  Usfr dbn sft tiis flbg to
+     * fblsf to spffd up tif tbblf's rfsponsf to usfr rfsizf or drbg bdtions.
+     * Tif dffbult is truf.
+     *
+     * @rfturn  truf if tif tbblf updbtfs in rfbl timf
+     * @sff #sftUpdbtfTbblfInRfblTimf
+     */
+    publid boolfbn gftUpdbtfTbblfInRfblTimf() {
+        rfturn updbtfTbblfInRfblTimf;
+    }
+
+    /**
+     * Sfts tif dffbult rfndfrfr to bf usfd wifn no <dodf>ifbdfrRfndfrfr</dodf>
+     * is dffinfd by b <dodf>TbblfColumn</dodf>.
+     * @pbrbm  dffbultRfndfrfr  tif dffbult rfndfrfr
+     * @sindf 1.3
+     */
+    publid void sftDffbultRfndfrfr(TbblfCfllRfndfrfr dffbultRfndfrfr) {
+        tiis.dffbultRfndfrfr = dffbultRfndfrfr;
+    }
+
+    /**
+     * Rfturns tif dffbult rfndfrfr usfd wifn no <dodf>ifbdfrRfndfrfr</dodf>
+     * is dffinfd by b <dodf>TbblfColumn</dodf>.
+     * @rfturn tif dffbult rfndfrfr
+     * @sindf 1.3
+     */
+    @Trbnsifnt
+    publid TbblfCfllRfndfrfr gftDffbultRfndfrfr() {
+        rfturn dffbultRfndfrfr;
+    }
+
+    /**
+     * Rfturns tif indfx of tif dolumn tibt <dodf>point</dodf> lifs in, or -1 if it
+     * lifs out of bounds.
+     *
+     * @pbrbm point  if tiis <dodf>point</dodf> lifs witiin b dolumn, tif indfx of
+     *               tibt dolumn will bf rfturnfd; otifrwisf it is out of bounds
+     *               bnd -1 is rfturnfd
+     *
+     * @rfturn  tif indfx of tif dolumn tibt <dodf>point</dodf> lifs in, or -1 if it
+     *          lifs out of bounds
+     */
+    publid int dolumnAtPoint(Point point) {
+        int x = point.x;
+        if (!gftComponfntOrifntbtion().isLfftToRigit()) {
+            x = gftWidtiInRigitToLfft() - x - 1;
+        }
+        rfturn gftColumnModfl().gftColumnIndfxAtX(x);
+    }
+
+    /**
+     * Rfturns tif rfdtbnglf dontbining tif ifbdfr tilf bt <dodf>dolumn</dodf>.
+     * Wifn tif <dodf>dolumn</dodf> pbrbmftfr is out of bounds tiis mftiod usfs tif
+     * sbmf donvfntions bs tif <dodf>JTbblf</dodf> mftiod <dodf>gftCfllRfdt</dodf>.
+     *
+     * @pbrbm dolumn  indfx of tif dolumn
+     *
+     * @rfturn  tif rfdtbnglf dontbining tif ifbdfr tilf bt <dodf>dolumn</dodf>
+     * @sff JTbblf#gftCfllRfdt
+     */
+    publid Rfdtbnglf gftHfbdfrRfdt(int dolumn) {
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        TbblfColumnModfl dm = gftColumnModfl();
+
+        r.ifigit = gftHfigit();
+
+        if (dolumn < 0) {
+            // x = widti = 0;
+            if( !gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidtiInRigitToLfft();
+            }
+        }
+        flsf if (dolumn >= dm.gftColumnCount()) {
+            if( gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidti();
+            }
+        }
+        flsf {
+            for(int i = 0; i < dolumn; i++) {
+                r.x += dm.gftColumn(i).gftWidti();
+            }
+            if( !gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidtiInRigitToLfft() - r.x - dm.gftColumn(dolumn).gftWidti();
+            }
+
+            r.widti = dm.gftColumn(dolumn).gftWidti();
+        }
+        rfturn r;
+    }
+
+
+    /**
+     * Allows tif rfndfrfr's tips to bf usfd if tifrf is tfxt sft.
+     * @pbrbm  fvfnt  tif lodbtion of tif fvfnt idfntififs tif propfr
+     *                          rfndfrfr bnd, tifrfforf, tif propfr tip
+     * @rfturn tif tool tip for tiis domponfnt
+     */
+    publid String gftToolTipTfxt(MousfEvfnt fvfnt) {
+        String tip = null;
+        Point p = fvfnt.gftPoint();
+        int dolumn;
+
+        // Lodbtf tif rfndfrfr undfr tif fvfnt lodbtion
+        if ((dolumn = dolumnAtPoint(p)) != -1) {
+            TbblfColumn bColumn = dolumnModfl.gftColumn(dolumn);
+            TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+            if (rfndfrfr == null) {
+                rfndfrfr = dffbultRfndfrfr;
+            }
+            Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                              gftTbblf(), bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                              -1, dolumn);
+
+            // Now ibvf to sff if tif domponfnt is b JComponfnt bfforf
+            // gftting tif tip
+            if (domponfnt instbndfof JComponfnt) {
+                // Convfrt tif fvfnt to tif rfndfrfr's doordinbtf systfm
+                MousfEvfnt nfwEvfnt;
+                Rfdtbnglf dfllRfdt = gftHfbdfrRfdt(dolumn);
+
+                p.trbnslbtf(-dfllRfdt.x, -dfllRfdt.y);
+                nfwEvfnt = nfw MousfEvfnt(domponfnt, fvfnt.gftID(),
+                                          fvfnt.gftWifn(), fvfnt.gftModififrs(),
+                                          p.x, p.y, fvfnt.gftXOnSdrffn(), fvfnt.gftYOnSdrffn(),
+                                          fvfnt.gftClidkCount(),
+                                          fvfnt.isPopupTriggfr(), MousfEvfnt.NOBUTTON);
+
+                tip = ((JComponfnt)domponfnt).gftToolTipTfxt(nfwEvfnt);
+            }
+        }
+
+        // No tip from tif rfndfrfr gft our own tip
+        if (tip == null)
+            tip = gftToolTipTfxt();
+
+        rfturn tip;
+    }
+
+//
+// Mbnbging TbblfHfbdfrUI
+//
+
+    /**
+     * Rfturns tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
+     *
+     * @rfturn tif <dodf>TbblfHfbdfrUI</dodf> objfdt tibt rfndfrs tiis domponfnt
+     */
+    publid TbblfHfbdfrUI gftUI() {
+        rfturn (TbblfHfbdfrUI)ui;
+    }
+
+    /**
+     * Sfts tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
+     *
+     * @pbrbm ui  tif <dodf>TbblfHfbdfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     */
+    publid void sftUI(TbblfHfbdfrUI ui){
+        if (tiis.ui != ui) {
+            supfr.sftUI(ui);
+            rfpbint();
+        }
+    }
+
+    /**
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif look bnd fffl
+     * (L&bmp;F) ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI(){
+        sftUI((TbblfHfbdfrUI)UIMbnbgfr.gftUI(tiis));
+
+        TbblfCfllRfndfrfr rfndfrfr = gftDffbultRfndfrfr();
+        if (rfndfrfr instbndfof Componfnt) {
+            SwingUtilitifs.updbtfComponfntTrffUI((Componfnt)rfndfrfr);
+        }
+    }
+
+
+    /**
+     * Rfturns tif suffix usfd to donstrudt tif nbmf of tif look bnd fffl
+     * (L&bmp;F) dlbss usfd to rfndfr tiis domponfnt.
+     * @rfturn tif string "TbblfHfbdfrUI"
+     *
+     * @rfturn "TbblfHfbdfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+//
+// Mbnbging modfls
+//
+
+
+    /**
+     *  Sfts tif dolumn modfl for tiis tbblf to <dodf>nfwModfl</dodf> bnd rfgistfrs
+     *  for listfnfr notifidbtions from tif nfw dolumn modfl.
+     *
+     * @pbrbm   dolumnModfl     tif nfw dbtb sourdf for tiis tbblf
+     * @fxdfption IllfgblArgumfntExdfption
+     *                          if <dodf>nfwModfl</dodf> is <dodf>null</dodf>
+     * @sff     #gftColumnModfl
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif objfdt govfrning tif wby dolumns bppfbr in tif vifw.
+     */
+    publid void sftColumnModfl(TbblfColumnModfl dolumnModfl) {
+        if (dolumnModfl == null) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot sft b null ColumnModfl");
+        }
+        TbblfColumnModfl old = tiis.dolumnModfl;
+        if (dolumnModfl != old) {
+            if (old != null) {
+                old.rfmovfColumnModflListfnfr(tiis);
+            }
+            tiis.dolumnModfl = dolumnModfl;
+            dolumnModfl.bddColumnModflListfnfr(tiis);
+
+            firfPropfrtyCibngf("dolumnModfl", old, dolumnModfl);
+            rfsizfAndRfpbint();
+        }
+    }
+
+    /**
+     * Rfturns tif <dodf>TbblfColumnModfl</dodf> tibt dontbins bll dolumn informbtion
+     * of tiis tbblf ifbdfr.
+     *
+     * @rfturn  tif <dodf>dolumnModfl</dodf> propfrty
+     * @sff     #sftColumnModfl
+     */
+    publid TbblfColumnModfl gftColumnModfl() {
+        rfturn dolumnModfl;
+    }
+
+//
+// Implfmfnting TbblfColumnModflListfnfr intfrfbdf
+//
+
+    /**
+     * Invokfd wifn b dolumn is bddfd to tif tbblf dolumn modfl.
+     * <p>
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm f  tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
+     */
+    publid void dolumnAddfd(TbblfColumnModflEvfnt f) { rfsizfAndRfpbint(); }
+
+
+    /**
+     * Invokfd wifn b dolumn is rfmovfd from tif tbblf dolumn modfl.
+     * <p>
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm f  tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
+     */
+    publid void dolumnRfmovfd(TbblfColumnModflEvfnt f) { rfsizfAndRfpbint(); }
+
+
+    /**
+     * Invokfd wifn b dolumn is rfpositionfd.
+     * <p>
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
+     */
+    publid void dolumnMovfd(TbblfColumnModflEvfnt f) { rfpbint(); }
+
+
+    /**
+     * Invokfd wifn b dolumn is movfd duf to b mbrgin dibngf.
+     * <p>
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
+     */
+    publid void dolumnMbrginCibngfd(CibngfEvfnt f) { rfsizfAndRfpbint(); }
+
+
+    // --Rfdrbwing tif ifbdfr is slow in dfll sflfdtion modf.
+    // --Sindf ifbdfr sflfdtion is ugly bnd it is blwbys dlfbr from tif
+    // --vifw wiidi dolumns brf sflfdtfd, don't rfdrbw tif ifbdfr.
+    /**
+     * Invokfd wifn tif sflfdtion modfl of tif <dodf>TbblfColumnModfl</dodf>
+     * is dibngfd.  Tiis mftiod durrfntly ibs no ffffdt (tif ifbdfr is not
+     * rfdrbwn).
+     * <p>
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
+     */
+    publid void dolumnSflfdtionCibngfd(ListSflfdtionEvfnt f) { } // rfpbint(); }
+
+//
+//  Pbdkbgf Mftiods
+//
+
+    /**
+     *  Rfturns tif dffbult dolumn modfl objfdt wiidi is
+     *  b <dodf>DffbultTbblfColumnModfl</dodf>.  A subdlbss dbn ovfrridf tiis
+     *  mftiod to rfturn b difffrfnt dolumn modfl objfdt
+     *
+     * @rfturn tif dffbult dolumn modfl objfdt
+     */
+    protfdtfd TbblfColumnModfl drfbtfDffbultColumnModfl() {
+        rfturn nfw DffbultTbblfColumnModfl();
+    }
+
+    /**
+     *  Rfturns b dffbult rfndfrfr to bf usfd wifn no ifbdfr rfndfrfr
+     *  is dffinfd by b <dodf>TbblfColumn</dodf>.
+     *
+     *  @rfturn tif dffbult tbblf dolumn rfndfrfr
+     * @sindf 1.3
+     */
+    protfdtfd TbblfCfllRfndfrfr drfbtfDffbultRfndfrfr() {
+        rfturn nfw DffbultTbblfCfllHfbdfrRfndfrfr();
+    }
+
+
+    /**
+     * Initiblizfs tif lodbl vbribblfs bnd propfrtifs witi dffbult vblufs.
+     * Usfd by tif donstrudtor mftiods.
+     */
+    protfdtfd void initiblizfLodblVbrs() {
+        sftOpbquf(truf);
+        tbblf = null;
+        rfordfringAllowfd = truf;
+        rfsizingAllowfd = truf;
+        drbggfdColumn = null;
+        drbggfdDistbndf = 0;
+        rfsizingColumn = null;
+        updbtfTbblfInRfblTimf = truf;
+
+        // I'm rfgistfrfd to do tool tips so wf dbn drbw tips for tif
+        // rfndfrfrs
+        ToolTipMbnbgfr toolTipMbnbgfr = ToolTipMbnbgfr.sibrfdInstbndf();
+        toolTipMbnbgfr.rfgistfrComponfnt(tiis);
+        sftDffbultRfndfrfr(drfbtfDffbultRfndfrfr());
+    }
+
+    /**
+     * Sizfs tif ifbdfr bnd mbrks it bs nffding displby.  Equivblfnt
+     * to <dodf>rfvblidbtf</dodf> followfd by <dodf>rfpbint</dodf>.
+     */
+    publid void rfsizfAndRfpbint() {
+        rfvblidbtf();
+        rfpbint();
+    }
+
+    /**
+      *  Sfts tif ifbdfr's <dodf>drbggfdColumn</dodf> to <dodf>bColumn</dodf>.
+      *  <p>
+      *  Applidbtion dodf will not usf tiis mftiod fxpliditly, it is usfd
+      *  intfrnblly by tif dolumn drbgging mfdibnism.
+      *
+      *  @pbrbm  bColumn  tif dolumn bfing drbggfd, or <dodf>null</dodf> if
+      *                 no dolumn is bfing drbggfd
+      */
+    publid void sftDrbggfdColumn(TbblfColumn bColumn) {
+        drbggfdColumn = bColumn;
+    }
+
+    /**
+      *  Sfts tif ifbdfr's <dodf>drbggfdDistbndf</dodf> to <dodf>distbndf</dodf>.
+      *  @pbrbm distbndf  tif distbndf drbggfd
+      */
+    publid void sftDrbggfdDistbndf(int distbndf) {
+        drbggfdDistbndf = distbndf;
+    }
+
+    /**
+      *  Sfts tif ifbdfr's <dodf>rfsizingColumn</dodf> to <dodf>bColumn</dodf>.
+      *  <p>
+      *  Applidbtion dodf will not usf tiis mftiod fxpliditly, it
+      *  is usfd intfrnblly by tif dolumn sizing mfdibnism.
+      *
+      *  @pbrbm  bColumn  tif dolumn bfing rfsizfd, or <dodf>null</dodf> if
+      *                 no dolumn is bfing rfsizfd
+      */
+    publid void sftRfsizingColumn(TbblfColumn bColumn) {
+        rfsizingColumn = bColumn;
+    }
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if ((ui != null) && (gftUIClbssID().fqubls(uiClbssID))) {
+            ui.instbllUI(tiis);
+        }
+    }
+
+    privbtf int gftWidtiInRigitToLfft() {
+        if ((tbblf != null) &&
+            (tbblf.gftAutoRfsizfModf() != JTbblf.AUTO_RESIZE_OFF)) {
+            rfturn tbblf.gftWidti();
+        }
+        rfturn supfr.gftWidti();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JTbblfHfbdfr</dodf>. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     * <P>
+     * Ovfrriding <dodf>pbrbmString</dodf> to providf informbtion bbout tif
+     * spfdifid nfw bspfdts of tif JFC domponfnts.
+     *
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JTbblfHfbdfr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String rfordfringAllowfdString = (rfordfringAllowfd ?
+                                          "truf" : "fblsf");
+        String rfsizingAllowfdString = (rfsizingAllowfd ?
+                                        "truf" : "fblsf");
+        String updbtfTbblfInRfblTimfString = (updbtfTbblfInRfblTimf ?
+                                              "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",drbggfdDistbndf=" + drbggfdDistbndf +
+        ",rfordfringAllowfd=" + rfordfringAllowfdString +
+        ",rfsizingAllowfd=" + rfsizingAllowfdString +
+        ",updbtfTbblfInRfblTimf=" + updbtfTbblfInRfblTimfString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JTbblfHfbdfr.
+     * For JTbblfHfbdfrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJTbblfHfbdfr.
+     * A nfw AddfssiblfJTbblfHfbdfr instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJTbblfHfbdfr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JTbblfHfbdfr
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTbblfHfbdfr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    //
+    // *** siould blso implfmfnt AddfssiblfSflfdtion?
+    // *** bnd wibt's up witi kfybobrd nbvigbtion/mbnipulbtion?
+    //
+    /**
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTbblfHfbdfr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tbblf ifbdfr usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTbblfHfbdfr fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft tif rolf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PANEL;
+        }
+
+        /**
+         * Rfturns tif Addfssiblf diild, if onf fxists, dontbinfd bt tif lodbl
+         * doordinbtf Point.
+         *
+         * @pbrbm p Tif point dffining tif top-lfft dornfr of tif Addfssiblf,
+         * givfn in tif doordinbtf spbdf of tif objfdt's pbrfnt.
+         * @rfturn tif Addfssiblf, if it fxists, bt tif spfdififd lodbtion;
+         * flsf null
+         */
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            int dolumn;
+
+            // Lodbtf tif rfndfrfr undfr tif Point
+            if ((dolumn = JTbblfHfbdfr.tiis.dolumnAtPoint(p)) != -1) {
+                TbblfColumn bColumn = JTbblfHfbdfr.tiis.dolumnModfl.gftColumn(dolumn);
+                TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                if (rfndfrfr == null) {
+                    if (dffbultRfndfrfr != null) {
+                        rfndfrfr = dffbultRfndfrfr;
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+                Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                  JTbblfHfbdfr.tiis.gftTbblf(),
+                                  bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                  -1, dolumn);
+
+                rfturn nfw AddfssiblfJTbblfHfbdfrEntry(dolumn, JTbblfHfbdfr.tiis, JTbblfHfbdfr.tiis.tbblf);
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.  If bll
+         * of tif diildrfn of tiis objfdt implfmfnt Addfssiblf, tibn tiis
+         * mftiod siould rfturn tif numbfr of diildrfn of tiis objfdt.
+         *
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt.
+         */
+        publid int gftAddfssiblfCiildrfnCount() {
+            rfturn JTbblfHfbdfr.tiis.dolumnModfl.gftColumnCount();
+        }
+
+        /**
+         * Rfturn tif nti Addfssiblf diild of tif objfdt.
+         *
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif nti Addfssiblf diild of tif objfdt
+         */
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            if (i < 0 || i >= gftAddfssiblfCiildrfnCount()) {
+                rfturn null;
+            } flsf {
+                TbblfColumn bColumn = JTbblfHfbdfr.tiis.dolumnModfl.gftColumn(i)
+;
+                TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                if (rfndfrfr == null) {
+                    if (dffbultRfndfrfr != null) {
+                        rfndfrfr = dffbultRfndfrfr;
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+                Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                  JTbblfHfbdfr.tiis.gftTbblf(),
+                                  bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                  -1, i);
+
+                rfturn nfw AddfssiblfJTbblfHfbdfrEntry(i, JTbblfHfbdfr.tiis, JTbblfHfbdfr.tiis.tbblf);
+            }
+        }
+
+      /**
+       * Tiis dlbss providfs bn implfmfntbtion of tif Jbvb Addfssibility
+       * API bppropribtf for JTbblfHfbdfr fntrifs.
+       */
+        protfdtfd dlbss AddfssiblfJTbblfHfbdfrEntry fxtfnds AddfssiblfContfxt
+            implfmfnts Addfssiblf, AddfssiblfComponfnt  {
+
+            privbtf JTbblfHfbdfr pbrfnt;
+            privbtf int dolumn;
+            privbtf JTbblf tbblf;
+
+            /**
+             *  Construdts bn AddfssiblJTbblfHfbbdfrEntry
+             * @sindf 1.4
+             *
+             * @pbrbm d  tif dolumn indfx
+             * @pbrbm p  tif pbrfnt <dodf>JTbblfHfbdfr</dodf>
+             * @pbrbm t  tif tbblf <dodf>JTbblf</dodf>
+             */
+            publid AddfssiblfJTbblfHfbdfrEntry(int d, JTbblfHfbdfr p, JTbblf t) {
+                pbrfnt = p;
+                dolumn = d;
+                tbblf = t;
+                tiis.sftAddfssiblfPbrfnt(pbrfnt);
+            }
+
+            /**
+             * Gft tif AddfssiblfContfxt bssodibtfd witi tiis objfdt.
+             * In tif implfmfntbtion of tif Jbvb Addfssibility API
+             * for tiis dlbss, rfturns tiis objfdt, wiidi sfrvfs bs
+             * its own AddfssiblfContfxt.
+             *
+             * @rfturn tiis objfdt
+             */
+            publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+                rfturn tiis;
+            }
+
+            privbtf AddfssiblfContfxt gftCurrfntAddfssiblfContfxt() {
+                TbblfColumnModfl tdm = tbblf.gftColumnModfl();
+                if (tdm != null) {
+                    // Fixfs 4772355 - ArrbyOutOfBoundsExdfption in
+                    // JTbblfHfbdfr
+                    if (dolumn < 0 || dolumn >= tdm.gftColumnCount()) {
+                        rfturn null;
+                    }
+                    TbblfColumn bColumn = tdm.gftColumn(dolumn);
+                    TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                    if (rfndfrfr == null) {
+                        if (dffbultRfndfrfr != null) {
+                            rfndfrfr = dffbultRfndfrfr;
+                        } flsf {
+                            rfturn null;
+                        }
+                    }
+                    Componfnt d = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                      JTbblfHfbdfr.tiis.gftTbblf(),
+                                      bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                      -1, dolumn);
+                    if (d instbndfof Addfssiblf) {
+                        rfturn ((Addfssiblf) d).gftAddfssiblfContfxt();
+                    }
+                }
+                rfturn null;
+            }
+
+            privbtf Componfnt gftCurrfntComponfnt() {
+                TbblfColumnModfl tdm = tbblf.gftColumnModfl();
+                if (tdm != null) {
+                    // Fixfs 4772355 - ArrbyOutOfBoundsExdfption in
+                    // JTbblfHfbdfr
+                    if (dolumn < 0 || dolumn >= tdm.gftColumnCount()) {
+                        rfturn null;
+                    }
+                    TbblfColumn bColumn = tdm.gftColumn(dolumn);
+                    TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                    if (rfndfrfr == null) {
+                        if (dffbultRfndfrfr != null) {
+                            rfndfrfr = dffbultRfndfrfr;
+                        } flsf {
+                            rfturn null;
+                        }
+                    }
+                    rfturn rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                      JTbblfHfbdfr.tiis.gftTbblf(),
+                                      bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                      -1, dolumn);
+                } flsf {
+                    rfturn null;
+                }
+            }
+
+        // AddfssiblfContfxt mftiods
+
+            publid String gftAddfssiblfNbmf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    String nbmf = bd.gftAddfssiblfNbmf();
+                    if ((nbmf != null) && (nbmf != "")) {
+                        // rfturn tif dfll rfndfrfr's AddfssiblfNbmf
+                        rfturn nbmf;
+                    }
+                }
+                if ((bddfssiblfNbmf != null) && (bddfssiblfNbmf != "")) {
+                    rfturn bddfssiblfNbmf;
+                } flsf {
+                    // fbll bbdk to tif dlifnt propfrty
+                    String nbmf = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY);
+                    if (nbmf != null) {
+                        rfturn nbmf;
+                    } flsf {
+                        rfturn tbblf.gftColumnNbmf(dolumn);
+                    }
+                }
+            }
+
+            publid void sftAddfssiblfNbmf(String s) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.sftAddfssiblfNbmf(s);
+                } flsf {
+                    supfr.sftAddfssiblfNbmf(s);
+                }
+            }
+
+            //
+            // *** siould difdk toolTip tfxt for dfsd. (nffds MousfEvfnt)
+            //
+            publid String gftAddfssiblfDfsdription() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfDfsdription();
+                } flsf {
+                    rfturn supfr.gftAddfssiblfDfsdription();
+                }
+            }
+
+            publid void sftAddfssiblfDfsdription(String s) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.sftAddfssiblfDfsdription(s);
+                } flsf {
+                    supfr.sftAddfssiblfDfsdription(s);
+                }
+            }
+
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfRolf();
+                } flsf {
+                    rfturn AddfssiblfRolf.COLUMN_HEADER;
+                }
+            }
+
+            publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    AddfssiblfStbtfSft stbtfs = bd.gftAddfssiblfStbtfSft();
+                    if (isSiowing()) {
+                        stbtfs.bdd(AddfssiblfStbtf.SHOWING);
+                    }
+                    rfturn stbtfs;
+                } flsf {
+                    rfturn nfw AddfssiblfStbtfSft();  // must bf non null?
+                }
+            }
+
+            publid int gftAddfssiblfIndfxInPbrfnt() {
+                rfturn dolumn;
+            }
+
+            publid int gftAddfssiblfCiildrfnCount() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfCiildrfnCount();
+                } flsf {
+                    rfturn 0;
+                }
+            }
+
+            publid Addfssiblf gftAddfssiblfCiild(int i) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    Addfssiblf bddfssiblfCiild = bd.gftAddfssiblfCiild(i);
+                    bd.sftAddfssiblfPbrfnt(tiis);
+                    rfturn bddfssiblfCiild;
+                } flsf {
+                    rfturn null;
+                }
+            }
+
+            publid Lodblf gftLodblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftLodblf();
+                } flsf {
+                    rfturn null;
+                }
+            }
+
+            publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.bddPropfrtyCibngfListfnfr(l);
+                } flsf {
+                    supfr.bddPropfrtyCibngfListfnfr(l);
+                }
+            }
+
+            publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.rfmovfPropfrtyCibngfListfnfr(l);
+                } flsf {
+                    supfr.rfmovfPropfrtyCibngfListfnfr(l);
+                }
+            }
+
+            publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfAdtion();
+            }
+
+           /**
+            * Gft tif AddfssiblfComponfnt bssodibtfd witi tiis objfdt.  In tif
+            * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+            * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+            * AddfssiblfComponfnt intfrfbdf on bfiblf of itsflf.
+            *
+            * @rfturn tiis objfdt
+            */
+            publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+                rfturn tiis; // to ovfrridf gftBounds()
+            }
+
+            publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfSflfdtion();
+            }
+
+            publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfTfxt();
+            }
+
+            publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfVbluf();
+            }
+
+
+        // AddfssiblfComponfnt mftiods
+
+            publid Color gftBbdkground() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftBbdkground();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftBbdkground();
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+            }
+
+            publid void sftBbdkground(Color d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftBbdkground(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftBbdkground(d);
+                    }
+                }
+            }
+
+            publid Color gftForfground() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftForfground();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftForfground();
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+            }
+
+            publid void sftForfground(Color d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftForfground(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftForfground(d);
+                    }
+                }
+            }
+
+            publid Cursor gftCursor() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftCursor();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftCursor();
+                    } flsf {
+                        Addfssiblf bp = gftAddfssiblfPbrfnt();
+                        if (bp instbndfof AddfssiblfComponfnt) {
+                            rfturn ((AddfssiblfComponfnt) bp).gftCursor();
+                        } flsf {
+                            rfturn null;
+                        }
+                    }
+                }
+            }
+
+            publid void sftCursor(Cursor d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftCursor(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftCursor(d);
+                    }
+                }
+            }
+
+            publid Font gftFont() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftFont();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftFont();
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+            }
+
+            publid void sftFont(Font f) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftFont(f);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftFont(f);
+                    }
+                }
+            }
+
+            publid FontMftrids gftFontMftrids(Font f) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftFontMftrids(f);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftFontMftrids(f);
+                    } flsf {
+                        rfturn null;
+                    }
+                }
+            }
+
+            publid boolfbn isEnbblfd() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isEnbblfd();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isEnbblfd();
+                    } flsf {
+                        rfturn fblsf;
+                    }
+                }
+            }
+
+            publid void sftEnbblfd(boolfbn b) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftEnbblfd(b);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftEnbblfd(b);
+                    }
+                }
+            }
+
+            publid boolfbn isVisiblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isVisiblf();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isVisiblf();
+                    } flsf {
+                        rfturn fblsf;
+                    }
+                }
+            }
+
+            publid void sftVisiblf(boolfbn b) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftVisiblf(b);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftVisiblf(b);
+                    }
+                }
+            }
+
+            publid boolfbn isSiowing() {
+                if (isVisiblf() && JTbblfHfbdfr.tiis.isSiowing()) {
+                    rfturn truf;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+
+            publid boolfbn dontbins(Point p) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+                    rfturn r.dontbins(p);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        Rfdtbnglf r = d.gftBounds();
+                        rfturn r.dontbins(p);
+                    } flsf {
+                        rfturn gftBounds().dontbins(p);
+                    }
+                }
+            }
+
+            publid Point gftLodbtionOnSdrffn() {
+                if (pbrfnt != null) {
+                    Point pbrfntLodbtion = pbrfnt.gftLodbtionOnSdrffn();
+                    Point domponfntLodbtion = gftLodbtion();
+                    domponfntLodbtion.trbnslbtf(pbrfntLodbtion.x, pbrfntLodbtion.y);
+                    rfturn domponfntLodbtion;
+                } flsf {
+                    rfturn null;
+                }
+            }
+
+            publid Point gftLodbtion() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+                    rfturn r.gftLodbtion();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        Rfdtbnglf r = d.gftBounds();
+                        rfturn r.gftLodbtion();
+                    } flsf {
+                        rfturn gftBounds().gftLodbtion();
+                    }
+                }
+            }
+
+            publid void sftLodbtion(Point p) {
+//                if ((pbrfnt != null)  && (pbrfnt.dontbins(p))) {
+//                    fnsurfIndfxIsVisiblf(indfxInPbrfnt);
+//                }
+            }
+
+            publid Rfdtbnglf gftBounds() {
+                  Rfdtbnglf r = tbblf.gftCfllRfdt(-1, dolumn, fblsf);
+                  r.y = 0;
+                  rfturn r;
+
+//                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+//                if (bd instbndfof AddfssiblfComponfnt) {
+//                    rfturn ((AddfssiblfComponfnt) bd).gftBounds();
+//                } flsf {
+//                  Componfnt d = gftCurrfntComponfnt();
+//                  if (d != null) {
+//                      rfturn d.gftBounds();
+//                  } flsf {
+//                      Rfdtbnglf r = tbblf.gftCfllRfdt(-1, dolumn, fblsf);
+//                      r.y = 0;
+//                      rfturn r;
+//                  }
+//              }
+            }
+
+            publid void sftBounds(Rfdtbnglf r) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftBounds(r);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftBounds(r);
+                    }
+                }
+            }
+
+            publid Dimfnsion gftSizf() {
+                rfturn gftBounds().gftSizf();
+//                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+//                if (bd instbndfof AddfssiblfComponfnt) {
+//                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+//                    rfturn r.gftSizf();
+//                } flsf {
+//                    Componfnt d = gftCurrfntComponfnt();
+//                    if (d != null) {
+//                        Rfdtbnglf r = d.gftBounds();
+//                        rfturn r.gftSizf();
+//                    } flsf {
+//                        rfturn gftBounds().gftSizf();
+//                    }
+//                }
+            }
+
+            publid void sftSizf (Dimfnsion d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftSizf(d);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftSizf(d);
+                    }
+                }
+            }
+
+            publid Addfssiblf gftAddfssiblfAt(Point p) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftAddfssiblfAt(p);
+                } flsf {
+                    rfturn null;
+                }
+            }
+
+            publid boolfbn isFodusTrbvfrsbblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isFodusTrbvfrsbblf();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isFodusTrbvfrsbblf();
+                    } flsf {
+                        rfturn fblsf;
+                    }
+                }
+            }
+
+            publid void rfqufstFodus() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).rfqufstFodus();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.rfqufstFodus();
+                    }
+                }
+            }
+
+            publid void bddFodusListfnfr(FodusListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).bddFodusListfnfr(l);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.bddFodusListfnfr(l);
+                    }
+                }
+            }
+
+            publid void rfmovfFodusListfnfr(FodusListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).rfmovfFodusListfnfr(l);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.rfmovfFodusListfnfr(l);
+                    }
+                }
+            }
+
+        } // innfr dlbss AddfssiblfJTbblfHfbdfrElfmfnt
+
+    }  // innfr dlbss AddfssiblfJTbblfHfbdfr
+
+}  // End of Clbss JTbblfHfbdfr

@@ -1,0 +1,216 @@
+/*
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+
+/**
+ * Tiis utility looks tirougi tif durrfnt Subjfdt bnd rftrifvfs privbtf
+ * drfdfntibls for tif dfsirfd dlifnt/sfrvfr prindipbls.
+ *
+ * @butior Rbm Mbrti
+ * @sindf 1.4.2
+ */
+
+dlbss SubjfdtCombfr {
+
+    privbtf stbtid finbl boolfbn DEBUG = Krb5Util.DEBUG;
+
+    /**
+     * Dffbult donstrudtor
+     */
+    privbtf SubjfdtCombfr() {  // Cbnnot drfbtf onf of tifsf
+    }
+
+    stbtid <T> T find(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss) {
+
+        // findAux rfturns T if onfOnly.
+        rfturn drfdClbss.dbst(findAux(subjfdt, sfrvfrPrindipbl,
+                                      dlifntPrindipbl, drfdClbss, truf));
+    }
+
+    @SupprfssWbrnings("undifdkfd") // findAux rfturns List<T> if !onfOnly.
+    stbtid <T> List<T> findMbny(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss) {
+
+        rfturn (List<T>)findAux(subjfdt, sfrvfrPrindipbl, dlifntPrindipbl,
+            drfdClbss, fblsf);
+    }
+
+    /**
+     * Find privbtf drfdfntibls for tif spfdififd dlifnt/sfrvfr prindipbls
+     * in tif subjfdt. Rfturns null if tif subjfdt is null.
+     *
+     * @rfturn tif privbtf drfdfntibls
+     */
+    // Rfturns T if onfOnly bnd List<T> if !onfOnly.
+    privbtf stbtid <T> Objfdt findAux(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss, boolfbn onfOnly) {
+
+        if (subjfdt == null) {
+            rfturn null;
+        } flsf {
+            List<T> bnswfr = (onfOnly ? null : nfw ArrbyList<T>());
+
+            if (drfdClbss == KfyTbb.dlbss) {
+                Itfrbtor<KfyTbb> itfrbtor =
+                    subjfdt.gftPrivbtfCrfdfntibls(KfyTbb.dlbss).itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    KfyTbb t = itfrbtor.nfxt();
+                    if (sfrvfrPrindipbl != null && t.isBound()) {
+                        KfrbfrosPrindipbl nbmf = t.gftPrindipbl();
+                        if (nbmf != null) {
+                            if (!sfrvfrPrindipbl.fqubls(nbmf.gftNbmf())) {
+                                dontinuf;
+                            }
+                        } flsf {
+                            // lfgbdy bound kfytbb. bltiougi wf don't know wio
+                            // tif bound prindipbl is, it must bf in bllPrinds
+                            boolfbn found = fblsf;
+                            for (KfrbfrosPrindipbl prind:
+                                    subjfdt.gftPrindipbls(KfrbfrosPrindipbl.dlbss)) {
+                                if (prind.gftNbmf().fqubls(sfrvfrPrindipbl)) {
+                                    found = truf;
+                                    brfbk;
+                                }
+                            }
+                            if (!found) dontinuf;
+                        }
+                    }
+                    // Cifdk pbssfd, wf dbn bdd now
+                    if (DEBUG) {
+                        Systfm.out.println("Found " + drfdClbss.gftSimplfNbmf()
+                                + " " + t);
+                    }
+                    if (onfOnly) {
+                        rfturn t;
+                    } flsf {
+                        bnswfr.bdd(drfdClbss.dbst(t));
+                    }
+                }
+            } flsf if (drfdClbss == KfrbfrosKfy.dlbss) {
+                // Wf brf looking for drfdfntibls for tif sfrvfrPrindipbl
+                Itfrbtor<KfrbfrosKfy> itfrbtor =
+                    subjfdt.gftPrivbtfCrfdfntibls(KfrbfrosKfy.dlbss).itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    KfrbfrosKfy t = itfrbtor.nfxt();
+                    String nbmf = t.gftPrindipbl().gftNbmf();
+                    if (sfrvfrPrindipbl == null || sfrvfrPrindipbl.fqubls(nbmf)) {
+                         if (DEBUG) {
+                             Systfm.out.println("Found " +
+                                     drfdClbss.gftSimplfNbmf() + " for " + nbmf);
+                         }
+                         if (onfOnly) {
+                             rfturn t;
+                         } flsf {
+                             bnswfr.bdd(drfdClbss.dbst(t));
+                         }
+                    }
+                }
+            } flsf if (drfdClbss == KfrbfrosTidkft.dlbss) {
+                // wf brf looking for b KfrbfrosTidkft drfdfntibls
+                // for dlifnt-sfrvidf prindipbl pbir
+                Sft<Objfdt> pds = subjfdt.gftPrivbtfCrfdfntibls();
+                syndironizfd (pds) {
+                    Itfrbtor<Objfdt> itfrbtor = pds.itfrbtor();
+                    wiilf (itfrbtor.ibsNfxt()) {
+                        Objfdt obj = itfrbtor.nfxt();
+                        if (obj instbndfof KfrbfrosTidkft) {
+                            @SupprfssWbrnings("undifdkfd")
+                            KfrbfrosTidkft tidkft = (KfrbfrosTidkft)obj;
+                            if (DEBUG) {
+                                Systfm.out.println("Found tidkft for "
+                                                    + tidkft.gftClifnt()
+                                                    + " to go to "
+                                                    + tidkft.gftSfrvfr()
+                                                    + " fxpiring on "
+                                                    + tidkft.gftEndTimf());
+                            }
+                            if (!tidkft.isCurrfnt()) {
+                                // lft us rfmovf tif tidkft from tif Subjfdt
+                                // Notf tibt boti TGT bnd sfrvidf tidkft will bf
+                                // rfmovfd  upon fxpirbtion
+                                if (!subjfdt.isRfbdOnly()) {
+                                    itfrbtor.rfmovf();
+                                    try {
+                                        tidkft.dfstroy();
+                                        if (DEBUG) {
+                                            Systfm.out.println("Rfmovfd bnd dfstroyfd "
+                                                        + "tif fxpirfd Tidkft \n"
+                                                        + tidkft);
+
+                                        }
+                                    } dbtdi (DfstroyFbilfdExdfption dff) {
+                                        if (DEBUG) {
+                                            Systfm.out.println("Expirfd tidkft not" +
+                                                    " dftroyfd suddfssfully. " + dff);
+                                        }
+                                    }
+
+                                }
+                            } flsf {
+                                if (sfrvfrPrindipbl == null ||
+                                    tidkft.gftSfrvfr().gftNbmf().fqubls(sfrvfrPrindipbl))  {
+
+                                    if (dlifntPrindipbl == null ||
+                                        dlifntPrindipbl.fqubls(
+                                            tidkft.gftClifnt().gftNbmf())) {
+                                        if (onfOnly) {
+                                            rfturn tidkft;
+                                        } flsf {
+                                            // Rfdord nbmfs so tibt tidkfts will
+                                            // bll bflong to sbmf prindipbls
+                                            if (dlifntPrindipbl == null) {
+                                                dlifntPrindipbl =
+                                                tidkft.gftClifnt().gftNbmf();
+                                            }
+                                            if (sfrvfrPrindipbl == null) {
+                                                sfrvfrPrindipbl =
+                                                tidkft.gftSfrvfr().gftNbmf();
+                                            }
+                                            bnswfr.bdd(drfdClbss.dbst(tidkft));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            rfturn bnswfr;
+        }
+    }
+}

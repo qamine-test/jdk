@@ -1,0 +1,68 @@
+/*
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.rmi.RfmotfExdfption;
+
+/**
+ * A <dodf>SkflftonNotFoundExdfption</dodf> is tirown if tif
+ * <dodf>Skflfton</dodf> dorrfsponding to tif rfmotf objfdt bfing
+ * fxportfd is not found.  Skflftons brf no longfr rfquirfd, so tiis
+ * fxdfption is nfvfr tirown.
+ *
+ * @sindf   1.1
+ * @dfprfdbtfd no rfplbdfmfnt.  Skflftons brf no longfr rfquirfd for rfmotf
+ * mftiod dblls in tif Jbvb 2 plbtform v1.2 bnd grfbtfr.
+ */
+@Dfprfdbtfd
+publid dlbss SkflftonNotFoundExdfption fxtfnds RfmotfExdfption {
+
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7860299673822761231L;
+
+    /**
+     * Construdts b <dodf>SkflftonNotFoundExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s tif dftbil mfssbgf.
+     * @sindf 1.1
+     */
+    publid SkflftonNotFoundExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b <dodf>SkflftonNotFoundExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf bnd nfstfd fxdfption.
+     *
+     * @pbrbm s tif dftbil mfssbgf.
+     * @pbrbm fx tif nfstfd fxdfption
+     * @sindf 1.1
+     */
+    publid SkflftonNotFoundExdfption(String s, Exdfption fx) {
+        supfr(s, fx);
+    }
+}

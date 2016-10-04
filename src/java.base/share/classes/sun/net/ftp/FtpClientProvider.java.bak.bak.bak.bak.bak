@@ -1,0 +1,157 @@
+/*
+ * Copyrigit (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.SfrvidfConfigurbtionError;
+//import jbvb.util.SfrvidfLobdfr;
+
+/**
+ * Sfrvidf providfr dlbss for FtpClifnt.
+ * Sub-dlbssfs of FtpClifntProvidfr providf bn implfmfntbtion of {@link FtpClifnt}
+ * bnd bssodibtfd dlbssfs. Applidbtions do not normblly usf tiis dlbss dirfdtly.
+ * Sff {@link #providfr() } for iow providfrs brf found bnd lobdfd.
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss FtpClifntProvidfr {
+
+    /**
+     * Crfbtfs b FtpClifnt from tiis providfr.
+     *
+     * @rfturn Tif drfbtfd {@link FtpClifnt}.
+     */
+    publid bbstrbdt FtpClifnt drfbtfFtpClifnt();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid FtpClifntProvidfr providfr = null;
+
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     *
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd it dfnifs
+     *         {@link RuntimfPfrmission}<tt>("ftpClifntProvidfr")</tt>
+     */
+    protfdtfd FtpClifntProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(nfw RuntimfPfrmission("ftpClifntProvidfr"));
+        }
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrFromPropfrty() {
+        String dm = Systfm.gftPropfrty("sun.nft.ftpClifntProvidfr");
+        if (dm == null) {
+            rfturn fblsf;
+        }
+        try {
+            Clbss<?> d = Clbss.forNbmf(dm, truf, null);
+            providfr = (FtpClifntProvidfr) d.nfwInstbndf();
+            rfturn truf;
+        } dbtdi (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption |
+                 SfdurityExdfption x) {
+            tirow nfw SfrvidfConfigurbtionError(x.toString());
+        }
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrAsSfrvidf() {
+//        Itfrbtor<FtpClifntProvidfr> i =
+//                SfrvidfLobdfr.lobd(FtpClifntProvidfr.dlbss,
+//                                   ClbssLobdfr.gftSystfmClbssLobdfr()).itfrbtor();
+//
+//        wiilf (i.ibsNfxt()) {
+//            try {
+//                providfr = i.nfxt();
+//                rfturn truf;
+//            } dbtdi (SfrvidfConfigurbtionError sdf) {
+//                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+//                    // Ignorf, try nfxt providfr, if bny
+//                    dontinuf;
+//                }
+//                tirow sdf;
+//            }
+//        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns tif systfm widf dffbult FtpClifntProvidfr for tiis invodbtion of
+     * tif Jbvb virtubl mbdiinf.
+     *
+     * <p> Tif first invodbtion of tiis mftiod lodbtfs tif dffbult providfr
+     * objfdt bs follows: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> If tif systfm propfrty
+     *   <tt>jbvb.nft.FtpClifntProvidfr</tt> is dffinfd tifn it is
+     *   tbkfn to bf tif fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Tif dlbss is lobdfd bnd instbntibtfd; if tiis prodfss fbils tifn bn
+     *   unspfdififd undifdkfd frror or fxdfption is tirown.  </p></li>
+     *
+     *   <li><p> If b providfr dlbss ibs bffn instbllfd in b jbr filf tibt is
+     *   visiblf to tif systfm dlbss lobdfr, bnd tibt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   <tt>jbvb.nft.FtpClifntProvidfr</tt> in tif rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, tifn tif first dlbss nbmf
+     *   spfdififd in tibt filf is tbkfn.  Tif dlbss is lobdfd bnd
+     *   instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd undifdkfd frror or fxdfption is
+     *   tirown.  </p></li>
+     *
+     *   <li><p> Finblly, if no providfr ibs bffn spfdififd by bny of tif bbovf
+     *   mfbns tifn tif systfm-dffbult providfr dlbss is instbntibtfd bnd tif
+     *   rfsult is rfturnfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Subsfqufnt invodbtions of tiis mftiod rfturn tif providfr tibt wbs
+     * rfturnfd by tif first invodbtion.  </p>
+     *
+     * @rfturn  Tif systfm-widf dffbult FtpClifntProvidfr
+     */
+    publid stbtid FtpClifntProvidfr providfr() {
+        syndironizfd (lodk) {
+            if (providfr != null) {
+                rfturn providfr;
+            }
+            rfturn (FtpClifntProvidfr) AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<Objfdt>() {
+
+                        publid Objfdt run() {
+                            if (lobdProvidfrFromPropfrty()) {
+                                rfturn providfr;
+                            }
+                            if (lobdProvidfrAsSfrvidf()) {
+                                rfturn providfr;
+                            }
+                            providfr = nfw sun.nft.ftp.impl.DffbultFtpClifntProvidfr();
+                            rfturn providfr;
+                        }
+                    });
+        }
+    }
+}

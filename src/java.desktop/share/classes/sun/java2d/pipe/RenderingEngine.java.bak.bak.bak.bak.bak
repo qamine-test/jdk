@@ -1,0 +1,462 @@
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+import sun.bwt.gfom.PbtiConsumfr2D;
+
+/**
+ * Tiis dlbss bbstrbdts b numbfr of ffbturfs for wiidi tif Jbvb 2D
+ * implfmfntbtion rflifs on propriftbry lidfnsfd softwbrf librbrifs.
+ * Addfss to tiosf ffbturfs is now bdiifvfd by rftrifving tif singlfton
+ * instbndf of tiis dlbss bnd dblling tif bppropribtf mftiods on it.
+ * Tif 3 primbry ffbturfs bbstrbdtfd ifrf indludf:
+ * <dl>
+ * <dt>Sibpf drfbtfStrokfdSibpf(Sibpf, [BbsidStrokf bttributfs]);
+ * <dd>Tiis mftiod implfmfnts tif fundtionblity of tif mftiod of tif
+ * sbmf nbmf on tif {@link BbsidStrokf} dlbss.
+ * <dt>void strokfTo(Sibpf, [rfndfring pbrbmftfrs], PbtiConsumfr2D);
+ * <dd>Tiis mftiod pfrforms widfning of tif sourdf pbti on tif fly
+ * bnd sfnds tif rfsults to tif givfn {@link PbtiConsumfr2D} objfdt.
+ * Tiis prodfdurf bvoids ibving to drfbtf bn intfrmfdibtf Sibpf
+ * objfdt to iold tif rfsults of tif {@dodf drfbtfStrokfdSibpf} mftiod.
+ * Tif mbin usfr of tiis mftiod is tif Jbvb 2D non-bntiblibsing rfndfrfr.
+ * <dt>AATilfGfnfrbtor gftAATilfGfnfrbtor(Sibpf, [rfndfring pbrbmftfrs]);
+ * <dd>Tiis mftiod rfturns bn objfdt wiidi dbn itfrbtf ovfr tif
+ * spfdififd bounding box bnd produdf tilfs of dovfrbgf vblufs for
+ * bntiblibsfd rfndfring.  Tif dftbils of tif opfrbtion of tif
+ * {@link AATilfGfnfrbtor} objfdt brf fxplbinfd in its dlbss dommfnts.
+ * </dl>
+ * Additionblly, tif following informbtionbl mftiod supplifs importbnt
+ * dbtb bbout tif implfmfntbtion.
+ * <dl>
+ * <dt>flobt gftMinimumAAPfnSizf()
+ * <dd>Tiis mftiod providfs informbtion on iow smbll tif BbsidStrokf
+ * linf widti dbn gft bfforf dropouts oddur.  Rfndfring witi b BbsidStrokf
+ * is dffinfd to nfvfr bllow tif linf to ibvf brfbks, gbps, or dropouts
+ * fvfn if tif widti is sft to 0.0f, so tiis informbtion bllows tif
+ * {@link SunGrbpiids2D} dlbss to dftfdt tif "tiin linf" dbsf bnd sft
+ * tif rfndfring bttributfs bddordingly.
+ * </dl>
+ * At stbrtup tif runtimf will lobd b singlf instbndf of tiis dlbss.
+ * It sfbrdifs tif dlbsspbti for b rfgistfrfd providfr of tiis API
+ * bnd rfturns fitifr tif lbst onf it finds, or tif instbndf wiosf
+ * dlbss nbmf mbtdifs tif vbluf supplifd in tif Systfm propfrty
+ * {@dodf sun.jbvb2d.rfndfrfr}.
+ * Additionblly, b runtimf Systfm propfrty flbg dbn bf sft to trbdf
+ * bll dblls to mftiods on tif {@dodf RfndfringEnginf} in usf by
+ * sftting tif sun.jbvb2d.rfndfrfr.trbdf propfrty to bny non-null vbluf.
+ * <p>
+ * Pbrts of tif systfm tibt nffd to usf bny of tif bbovf ffbturfs siould
+ * dbll {@dodf RfndfringEnginf.gftInstbndf()} to obtbin tif propfrly
+ * rfgistfrfd (bnd possibly trbdf-fnbblfd) vfrsion of tif RfndfringEnginf.
+ */
+publid bbstrbdt dlbss RfndfringEnginf {
+    privbtf stbtid RfndfringEnginf rfImpl;
+
+    /**
+     * Rfturns bn instbndf of {@dodf RfndfringEnginf} bs dftfrminfd
+     * by tif instbllbtion fnvironmfnt bnd runtimf flbgs.
+     * <p>
+     * A spfdifid instbndf of tif {@dodf RfndfringEnginf} dbn bf
+     * diosfn by spfdifying tif runtimf flbg:
+     * <prf>
+     *     jbvb -Dsun.jbvb2d.rfndfrfr=&lt;dlbssnbmf&gt;
+     * </prf>
+     *
+     * If no spfdifid {@dodf RfndfringEnginf} is spfdififd on tif dommbnd
+     * or Dudtus rfndfrfr is spfdififd, it will first bttfmpt lobding tif
+     * sun.dd.DudtusRfndfringEnginf dlbss using Clbss.forNbmf, if tibt
+     * is not found, tifn it will look for Pisdfs.
+     * <p>
+     * Runtimf trbding of tif bdtions of tif {@dodf RfndfringEnginf}
+     * dbn bf fnbblfd by spfdifying tif runtimf flbg:
+     * <prf>
+     *     jbvb -Dsun.jbvb2d.rfndfrfr.trbdf=&lt;bny string&gt;
+     * </prf>
+     * @rfturn bn instbndf of {@dodf RfndfringEnginf}
+     * @sindf 1.7
+     */
+    publid stbtid syndironizfd RfndfringEnginf gftInstbndf() {
+        if (rfImpl != null) {
+            rfturn rfImpl;
+        }
+
+        /* Look first for dudtus or bn bpp-ovfrridf rfndfrfr,
+         * if not spfdififd or prfsfnt, tifn look for pisdfs.
+         */
+        finbl String dudtusREClbss = "sun.dd.DudtusRfndfringEnginf";
+        finbl String pisdfsREClbss = "sun.jbvb2d.pisdfs.PisdfsRfndfringEnginf";
+        GftPropfrtyAdtion gpb =
+            nfw GftPropfrtyAdtion("sun.jbvb2d.rfndfrfr", dudtusREClbss);
+        String rfClbss = AddfssControllfr.doPrivilfgfd(gpb);
+        try {
+            Clbss<?> dls = Clbss.forNbmf(rfClbss);
+            rfImpl = (RfndfringEnginf) dls.nfwInstbndf();
+        } dbtdi (RfflfdtivfOpfrbtionExdfption ignorfd0) {
+            try {
+                Clbss<?> dls = Clbss.forNbmf(pisdfsREClbss);
+                rfImpl = (RfndfringEnginf) dls.nfwInstbndf();
+            } dbtdi (RfflfdtivfOpfrbtionExdfption ignorfd1) {
+            }
+        }
+
+        if (rfImpl == null) {
+            tirow nfw IntfrnblError("No RfndfringEnginf modulf found");
+        }
+
+        gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.rfndfrfr.trbdf");
+        String rfTrbdf = AddfssControllfr.doPrivilfgfd(gpb);
+        if (rfTrbdf != null) {
+            rfImpl = nfw Trbdfr(rfImpl);
+        }
+
+        rfturn rfImpl;
+    }
+
+    /**
+     * Crfbtf b widfnfd pbti bs spfdififd by tif pbrbmftfrs.
+     * <p>
+     * Tif spfdififd {@dodf srd} {@link Sibpf} is widfnfd bddording
+     * to tif spfdififd bttributf pbrbmftfrs bs pfr tif
+     * {@link BbsidStrokf} spfdifidbtion.
+     *
+     * @pbrbm srd tif sourdf pbti to bf widfnfd
+     * @pbrbm widti tif widti of tif widfnfd pbti bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbps tif fnd dbp dfdorbtions bs pfr {@dodf BbsidStrokf}
+     * @pbrbm join tif sfgmfnt join dfdorbtions bs pfr {@dodf BbsidStrokf}
+     * @pbrbm mitfrlimit tif mitfr limit bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbsifs tif dbsi lfngti brrby bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbsipibsf tif initibl dbsi pibsf bs pfr {@dodf BbsidStrokf}
+     * @rfturn tif widfnfd pbti storfd in b nfw {@dodf Sibpf} objfdt
+     * @sindf 1.7
+     */
+    publid bbstrbdt Sibpf drfbtfStrokfdSibpf(Sibpf srd,
+                                             flobt widti,
+                                             int dbps,
+                                             int join,
+                                             flobt mitfrlimit,
+                                             flobt dbsifs[],
+                                             flobt dbsipibsf);
+
+    /**
+     * Sfnds tif gfomftry for b widfnfd pbti bs spfdififd by tif pbrbmftfrs
+     * to tif spfdififd donsumfr.
+     * <p>
+     * Tif spfdififd {@dodf srd} {@link Sibpf} is widfnfd bddording
+     * to tif pbrbmftfrs spfdififd by tif {@link BbsidStrokf} objfdt.
+     * Adjustmfnts brf mbdf to tif pbti bs bppropribtf for tif
+     * {@link VALUE_STROKE_NORMALIZE} iint if tif {@dodf normblizf}
+     * boolfbn pbrbmftfr is truf.
+     * Adjustmfnts brf mbdf to tif pbti bs bppropribtf for tif
+     * {@link VALUE_ANTIALIAS_ON} iint if tif {@dodf bntiblibs}
+     * boolfbn pbrbmftfr is truf.
+     * <p>
+     * Tif gfomftry of tif widfnfd pbti is forwbrdfd to tif indidbtfd
+     * {@link PbtiConsumfr2D} objfdt bs it is dbldulbtfd.
+     *
+     * @pbrbm srd tif sourdf pbti to bf widfnfd
+     * @pbrbm bs tif {@dodf BbsidSrokf} objfdt spfdifying tif
+     *           dfdorbtions to bf bpplifd to tif widfnfd pbti
+     * @pbrbm normblizf indidbtfs wiftifr strokf normblizbtion siould
+     *                  bf bpplifd
+     * @pbrbm bntiblibs indidbtfs wiftifr or not bdjustmfnts bppropribtf
+     *                  to bntiblibsfd rfndfring siould bf bpplifd
+     * @pbrbm donsumfr tif {@dodf PbtiConsumfr2D} instbndf to forwbrd
+     *                 tif widfnfd gfomftry to
+     * @sindf 1.7
+     */
+    publid bbstrbdt void strokfTo(Sibpf srd,
+                                  AffinfTrbnsform bt,
+                                  BbsidStrokf bs,
+                                  boolfbn tiin,
+                                  boolfbn normblizf,
+                                  boolfbn bntiblibs,
+                                  PbtiConsumfr2D donsumfr);
+
+    /**
+     * Construdt bn bntiblibsfd tilf gfnfrbtor for tif givfn sibpf witi
+     * tif givfn rfndfring bttributfs bnd storf tif bounds of tif tilf
+     * itfrbtion in tif bbox pbrbmftfr.
+     * Tif {@dodf bt} pbrbmftfr spfdififs b trbnsform tibt siould bfffdt
+     * boti tif sibpf bnd tif {@dodf BbsidStrokf} bttributfs.
+     * Tif {@dodf dlip} pbrbmftfr spfdififs tif durrfnt dlip in ffffdt
+     * in dfvidf doordinbtfs bnd dbn bf usfd to prunf tif dbtb for tif
+     * opfrbtion, but tif rfndfrfr is not rfquirfd to pfrform bny
+     * dlipping.
+     * If tif {@dodf BbsidStrokf} pbrbmftfr is null tifn tif sibpf
+     * siould bf fillfd bs is, otifrwisf tif bttributfs of tif
+     * {@dodf BbsidStrokf} siould bf usfd to spfdify b drbw opfrbtion.
+     * Tif {@dodf tiin} pbrbmftfr indidbtfs wiftifr or not tif
+     * trbnsformfd {@dodf BbsidStrokf} rfprfsfnts doordinbtfs smbllfr
+     * tibn tif minimum rfsolution of tif bntiblibsing rbstfrizfr bs
+     * spfdififd by tif {@dodf gftMinimumAAPfnWidti()} mftiod.
+     * <p>
+     * Upon rfturning, tiis mftiod will fill tif {@dodf bbox} pbrbmftfr
+     * witi 4 vblufs indidbting tif bounds of tif itfrbtion of tif
+     * tilf gfnfrbtor.
+     * Tif itfrbtion ordfr of tif tilfs will bf bs spfdififd by tif
+     * psfudo-dodf:
+     * <prf>
+     *     for (y = bbox[1]; y < bbox[3]; y += tilfifigit) {
+     *         for (x = bbox[0]; x < bbox[2]; x += tilfwidti) {
+     *         }
+     *     }
+     * </prf>
+     * If tifrf is no output to bf rfndfrfd, tiis mftiod mby rfturn
+     * null.
+     *
+     * @pbrbm s tif sibpf to bf rfndfrfd (fill or drbw)
+     * @pbrbm bt tif trbnsform to bf bpplifd to tif sibpf bnd tif
+     *           strokf bttributfs
+     * @pbrbm dlip tif durrfnt dlip in ffffdt in dfvidf doordinbtfs
+     * @pbrbm bs if non-null, b {@dodf BbsidStrokf} wiosf bttributfs
+     *           siould bf bpplifd to tiis opfrbtion
+     * @pbrbm tiin truf if tif trbnsformfd strokf bttributfs brf smbllfr
+     *             tibn tif minimum dropout pfn widti
+     * @pbrbm normblizf truf if tif {@dodf VALUE_STROKE_NORMALIZE}
+     *                  {@dodf RfndfringHint} is in ffffdt
+     * @pbrbm bbox rfturns tif bounds of tif itfrbtion
+     * @rfturn tif {@dodf AATilfGfnfrbtor} instbndf to bf donsultfd
+     *         for tilf dovfrbgfs, or null if tifrf is no output to rfndfr
+     * @sindf 1.7
+     */
+    publid bbstrbdt AATilfGfnfrbtor gftAATilfGfnfrbtor(Sibpf s,
+                                                       AffinfTrbnsform bt,
+                                                       Rfgion dlip,
+                                                       BbsidStrokf bs,
+                                                       boolfbn tiin,
+                                                       boolfbn normblizf,
+                                                       int bbox[]);
+
+    /**
+     * Construdt bn bntiblibsfd tilf gfnfrbtor for tif givfn pbrbllflogrbm
+     * storf tif bounds of tif tilf itfrbtion in tif bbox pbrbmftfr.
+     * Tif pbrbllflogrbm is spfdififd bs b stbrting point bnd 2 dfltb
+     * vfdtors tibt indidbtf tif slopfs of tif 2 pbirs of sidfs of tif
+     * pbrbllflogrbm.
+     * Tif 4 dornfrs of tif pbrbllflogrbm brf dffinfd by tif 4 points:
+     * <ul>
+     * <li> {@dodf x}, {@dodf y}
+     * <li> {@dodf x+dx1}, {@dodf y+dy1}
+     * <li> {@dodf x+dx1+dx2}, {@dodf y+dy1+dy2}
+     * <li> {@dodf x+dx2}, {@dodf y+dy2}
+     * </ul>
+     * Tif {@dodf lw1} bnd {@dodf lw2} pbrbmftfrs providf b spfdifidbtion
+     * for bn optionblly strokfd pbrbllflogrbm if tify brf positivf numbfrs.
+     * Tif {@dodf lw1} pbrbmftfr is tif rbtio of tif lfngti of tif {@dodf dx1},
+     * {@dodf dx2} dfltb vfdtor to iblf of tif linf widti in tibt sbmf
+     * dirfdtion.
+     * Tif {@dodf lw2} pbrbmftfr providfs tif sbmf rbtio for tif otifr dfltb
+     * vfdtor.
+     * If {@dodf lw1} bnd {@dodf lw2} brf boti grfbtfr tibn zfro, tifn
+     * tif pbrbllflogrbm figurf is doublfd by boti fxpbnding bnd dontrbdting
+     * fbdi dfltb vfdtor by its dorrfsponding {@dodf lw} vbluf.
+     * If fitifr (@dodf lw1) or {@dodf lw2} brf blso grfbtfr tibn 1, tifn
+     * tif innfr (dontrbdtfd) pbrbllflogrbm disbppfbrs bnd tif figurf is
+     * simply b singlf fxpbndfd pbrbllflogrbm.
+     * Tif {@dodf dlip} pbrbmftfr spfdififs tif durrfnt dlip in ffffdt
+     * in dfvidf doordinbtfs bnd dbn bf usfd to prunf tif dbtb for tif
+     * opfrbtion, but tif rfndfrfr is not rfquirfd to pfrform bny
+     * dlipping.
+     * <p>
+     * Upon rfturning, tiis mftiod will fill tif {@dodf bbox} pbrbmftfr
+     * witi 4 vblufs indidbting tif bounds of tif itfrbtion of tif
+     * tilf gfnfrbtor.
+     * Tif itfrbtion ordfr of tif tilfs will bf bs spfdififd by tif
+     * psfudo-dodf:
+     * <prf>
+     *     for (y = bbox[1]; y < bbox[3]; y += tilfifigit) {
+     *         for (x = bbox[0]; x < bbox[2]; x += tilfwidti) {
+     *         }
+     *     }
+     * </prf>
+     * If tifrf is no output to bf rfndfrfd, tiis mftiod mby rfturn
+     * null.
+     *
+     * @pbrbm x tif X doordinbtf of tif first dornfr of tif pbrbllflogrbm
+     * @pbrbm y tif Y doordinbtf of tif first dornfr of tif pbrbllflogrbm
+     * @pbrbm dx1 tif X doordinbtf dfltb of tif first lfg of tif pbrbllflogrbm
+     * @pbrbm dy1 tif Y doordinbtf dfltb of tif first lfg of tif pbrbllflogrbm
+     * @pbrbm dx2 tif X doordinbtf dfltb of tif sfdond lfg of tif pbrbllflogrbm
+     * @pbrbm dy2 tif Y doordinbtf dfltb of tif sfdond lfg of tif pbrbllflogrbm
+     * @pbrbm lw1 tif linf widti rbtio for tif first lfg of tif pbrbllflogrbm
+     * @pbrbm lw2 tif linf widti rbtio for tif sfdond lfg of tif pbrbllflogrbm
+     * @pbrbm dlip tif durrfnt dlip in ffffdt in dfvidf doordinbtfs
+     * @pbrbm bbox rfturns tif bounds of tif itfrbtion
+     * @rfturn tif {@dodf AATilfGfnfrbtor} instbndf to bf donsultfd
+     *         for tilf dovfrbgfs, or null if tifrf is no output to rfndfr
+     * @sindf 1.7
+     */
+    publid bbstrbdt AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                                       doublf dx1, doublf dy1,
+                                                       doublf dx2, doublf dy2,
+                                                       doublf lw1, doublf lw2,
+                                                       Rfgion dlip,
+                                                       int bbox[]);
+
+    /**
+     * Rfturns tif minimum pfn widti tibt tif bntiblibsing rbstfrizfr
+     * dbn rfprfsfnt witiout dropouts oddurring.
+     * @sindf 1.7
+     */
+    publid bbstrbdt flobt gftMinimumAAPfnSizf();
+
+    /**
+     * Utility mftiod to fffd b {@link PbtiConsumfr2D} objfdt from b
+     * givfn {@link PbtiItfrbtor}.
+     * Tiis mftiod dfbls witi tif dftbils of running tif itfrbtor bnd
+     * fffding tif donsumfr b sfgmfnt bt b timf.
+     */
+    publid stbtid void fffdConsumfr(PbtiItfrbtor pi, PbtiConsumfr2D donsumfr) {
+        flobt doords[] = nfw flobt[6];
+        wiilf (!pi.isDonf()) {
+            switdi (pi.durrfntSfgmfnt(doords)) {
+            dbsf PbtiItfrbtor.SEG_MOVETO:
+                donsumfr.movfTo(doords[0], doords[1]);
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_LINETO:
+                donsumfr.linfTo(doords[0], doords[1]);
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_QUADTO:
+                donsumfr.qubdTo(doords[0], doords[1],
+                                doords[2], doords[3]);
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_CUBICTO:
+                donsumfr.durvfTo(doords[0], doords[1],
+                                 doords[2], doords[3],
+                                 doords[4], doords[5]);
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_CLOSE:
+                donsumfr.dlosfPbti();
+                brfbk;
+            }
+            pi.nfxt();
+        }
+    }
+
+    stbtid dlbss Trbdfr fxtfnds RfndfringEnginf {
+        RfndfringEnginf tbrgft;
+        String nbmf;
+
+        publid Trbdfr(RfndfringEnginf tbrgft) {
+            tiis.tbrgft = tbrgft;
+            nbmf = tbrgft.gftClbss().gftNbmf();
+        }
+
+        publid Sibpf drfbtfStrokfdSibpf(Sibpf srd,
+                                        flobt widti,
+                                        int dbps,
+                                        int join,
+                                        flobt mitfrlimit,
+                                        flobt dbsifs[],
+                                        flobt dbsipibsf)
+        {
+            Systfm.out.println(nbmf+".drfbtfStrokfdSibpf("+
+                               srd.gftClbss().gftNbmf()+", "+
+                               "widti = "+widti+", "+
+                               "dbps = "+dbps+", "+
+                               "join = "+join+", "+
+                               "mitfr = "+mitfrlimit+", "+
+                               "dbsifs = "+dbsifs+", "+
+                               "dbsipibsf = "+dbsipibsf+")");
+            rfturn tbrgft.drfbtfStrokfdSibpf(srd,
+                                             widti, dbps, join, mitfrlimit,
+                                             dbsifs, dbsipibsf);
+        }
+
+        publid void strokfTo(Sibpf srd,
+                             AffinfTrbnsform bt,
+                             BbsidStrokf bs,
+                             boolfbn tiin,
+                             boolfbn normblizf,
+                             boolfbn bntiblibs,
+                             PbtiConsumfr2D donsumfr)
+        {
+            Systfm.out.println(nbmf+".strokfTo("+
+                               srd.gftClbss().gftNbmf()+", "+
+                               bt+", "+
+                               bs+", "+
+                               (tiin ? "tiin" : "widf")+", "+
+                               (normblizf ? "normblizfd" : "purf")+", "+
+                               (bntiblibs ? "AA" : "non-AA")+", "+
+                               donsumfr.gftClbss().gftNbmf()+")");
+            tbrgft.strokfTo(srd, bt, bs, tiin, normblizf, bntiblibs, donsumfr);
+        }
+
+        publid flobt gftMinimumAAPfnSizf() {
+            Systfm.out.println(nbmf+".gftMinimumAAPfnSizf()");
+            rfturn tbrgft.gftMinimumAAPfnSizf();
+        }
+
+        publid AATilfGfnfrbtor gftAATilfGfnfrbtor(Sibpf s,
+                                                  AffinfTrbnsform bt,
+                                                  Rfgion dlip,
+                                                  BbsidStrokf bs,
+                                                  boolfbn tiin,
+                                                  boolfbn normblizf,
+                                                  int bbox[])
+        {
+            Systfm.out.println(nbmf+".gftAATilfGfnfrbtor("+
+                               s.gftClbss().gftNbmf()+", "+
+                               bt+", "+
+                               dlip+", "+
+                               bs+", "+
+                               (tiin ? "tiin" : "widf")+", "+
+                               (normblizf ? "normblizfd" : "purf")+")");
+            rfturn tbrgft.gftAATilfGfnfrbtor(s, bt, dlip,
+                                             bs, tiin, normblizf,
+                                             bbox);
+        }
+        publid AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                                  doublf dx1, doublf dy1,
+                                                  doublf dx2, doublf dy2,
+                                                  doublf lw1, doublf lw2,
+                                                  Rfgion dlip,
+                                                  int bbox[])
+        {
+            Systfm.out.println(nbmf+".gftAATilfGfnfrbtor("+
+                               x+", "+y+", "+
+                               dx1+", "+dy1+", "+
+                               dx2+", "+dy2+", "+
+                               lw1+", "+lw2+", "+
+                               dlip+")");
+            rfturn tbrgft.gftAATilfGfnfrbtor(x, y,
+                                             dx1, dy1,
+                                             dx2, dy2,
+                                             lw1, lw2,
+                                             dlip, bbox);
+        }
+    }
+}

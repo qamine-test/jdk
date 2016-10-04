@@ -1,0 +1,196 @@
+/*
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * An implfmfntbtion of <dodf>ImbgfOutputStrfbm</dodf> tibt writfs its
+ * output to b rfgulbr <dodf>OutputStrfbm</dodf>.  A mfmory bufffr is
+ * usfd to dbdif bt lfbst tif dbtb bftwffn tif disdbrd position bnd
+ * tif durrfnt writf position.  Tif only donstrudtor tbkfs bn
+ * <dodf>OutputStrfbm</dodf>, so tiis dlbss mby not bf usfd for
+ * rfbd/modify/writf opfrbtions.  Rfbding dbn oddur only on pbrts of
+ * tif strfbm tibt ibvf blrfbdy bffn writtfn to tif dbdif bnd not
+ * yft flusifd.
+ *
+ */
+publid dlbss MfmoryCbdifImbgfOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf OutputStrfbm strfbm;
+
+    privbtf MfmoryCbdif dbdif = nfw MfmoryCbdif();
+
+    /**
+     * Construdts b <dodf>MfmoryCbdifImbgfOutputStrfbm</dodf> tibt will writf
+     * to b givfn <dodf>OutputStrfbm</dodf>.
+     *
+     * @pbrbm strfbm bn <dodf>OutputStrfbm</dodf> to writf to.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>strfbm</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid MfmoryCbdifImbgfOutputStrfbm(OutputStrfbm strfbm) {
+        if (strfbm == null) {
+            tirow nfw IllfgblArgumfntExdfption("strfbm == null!");
+        }
+        tiis.strfbm = strfbm;
+    }
+
+    publid int rfbd() tirows IOExdfption {
+        difdkClosfd();
+
+        bitOffsft = 0;
+
+        int vbl = dbdif.rfbd(strfbmPos);
+        if (vbl != -1) {
+            ++strfbmPos;
+        }
+        rfturn vbl;
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        difdkClosfd();
+
+        if (b == null) {
+            tirow nfw NullPointfrExdfption("b == null!");
+        }
+        // Fix 4467608: rfbd([B,I,I) works indorrfdtly if lfn<=0
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off+lfn > b.lfngti || off+lfn < 0!");
+        }
+
+        bitOffsft = 0;
+
+        if (lfn == 0) {
+            rfturn 0;
+        }
+
+        // difdk if wf'rf blrfbdy bt/pbst EOF i.f.
+        // no morf bytfs lfft to rfbd from dbdif
+        long bytfsLfftInCbdif = dbdif.gftLfngti() - strfbmPos;
+        if (bytfsLfftInCbdif <= 0) {
+            rfturn -1; // EOF
+        }
+
+        // gubrbntffd by now tibt bytfsLfftInCbdif > 0 && lfn > 0
+        // bnd so tif rfst of tif frror difdking is donf by dbdif.rfbd()
+        // NOTE tibt blot of frror difdking is duplidbtfd
+        lfn = (int)Mbti.min(bytfsLfftInCbdif, (long)lfn);
+        dbdif.rfbd(b, off, lfn, strfbmPos);
+        strfbmPos += lfn;
+        rfturn lfn;
+    }
+
+    publid void writf(int b) tirows IOExdfption {
+        flusiBits(); // tiis will dbll difdkClosfd() for us
+        dbdif.writf(b, strfbmPos);
+        ++strfbmPos;
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        flusiBits(); // tiis will dbll difdkClosfd() for us
+        dbdif.writf(b, off, lfn, strfbmPos);
+        strfbmPos += lfn;
+    }
+
+    publid long lfngti() {
+        try {
+            difdkClosfd();
+            rfturn dbdif.gftLfngti();
+        } dbtdi (IOExdfption f) {
+            rfturn -1L;
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfOutputStrfbm</dodf> dbdifs dbtb in ordfr to bllow
+     * sffking bbdkwbrds.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdifdMfmory
+     * @sff #isCbdifdFilf
+     */
+    publid boolfbn isCbdifd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf> sindf tiis
+     * <dodf>ImbgfOutputStrfbm</dodf> dofs not mbintbin b filf dbdif.
+     *
+     * @rfturn <dodf>fblsf</dodf>.
+     *
+     * @sff #isCbdifd
+     * @sff #isCbdifdMfmory
+     */
+    publid boolfbn isCbdifdFilf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfOutputStrfbm</dodf> mbintbins b mbin mfmory dbdif.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdifd
+     * @sff #isCbdifdFilf
+     */
+    publid boolfbn isCbdifdMfmory() {
+        rfturn truf;
+    }
+
+    /**
+     * Closfs tiis <dodf>MfmoryCbdifImbgfOutputStrfbm</dodf>.  All
+     * pfnding dbtb is flusifd to tif output, bnd tif dbdif
+     * is rflfbsfd.  Tif dfstinbtion <dodf>OutputStrfbm</dodf>
+     * is not dlosfd.
+     */
+    publid void dlosf() tirows IOExdfption {
+        long lfngti = dbdif.gftLfngti();
+        sffk(lfngti);
+        flusiBfforf(lfngti);
+        supfr.dlosf();
+        dbdif.rfsft();
+        dbdif = null;
+        strfbm = null;
+    }
+
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+        long oFlusifdPos = flusifdPos;
+        supfr.flusiBfforf(pos); // tiis will dbll difdkClosfd() for us
+
+        long flusiBytfs = flusifdPos - oFlusifdPos;
+        dbdif.writfToStrfbm(strfbm, oFlusifdPos, flusiBytfs);
+        dbdif.disposfBfforf(flusifdPos);
+        strfbm.flusi();
+    }
+}

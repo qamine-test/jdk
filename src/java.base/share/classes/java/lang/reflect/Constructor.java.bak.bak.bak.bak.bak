@@ -1,0 +1,558 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.ConstrudtorAddfssor;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtionPbrsfr;
+import sun.rfflfdt.gfnfrids.rfpository.ConstrudtorRfpository;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.sdopf.ConstrudtorSdopf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+
+/**
+ * {@dodf Construdtor} providfs informbtion bbout, bnd bddfss to, b singlf
+ * donstrudtor for b dlbss.
+ *
+ * <p>{@dodf Construdtor} pfrmits widfning donvfrsions to oddur wifn mbtdiing tif
+ * bdtubl pbrbmftfrs to nfwInstbndf() witi tif undfrlying
+ * donstrudtor's formbl pbrbmftfrs, but tirows bn
+ * {@dodf IllfgblArgumfntExdfption} if b nbrrowing donvfrsion would oddur.
+ *
+ * @pbrbm <T> tif dlbss in wiidi tif donstrudtor is dfdlbrfd
+ *
+ * @sff Mfmbfr
+ * @sff jbvb.lbng.Clbss
+ * @sff jbvb.lbng.Clbss#gftConstrudtors()
+ * @sff jbvb.lbng.Clbss#gftConstrudtor(Clbss[])
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdConstrudtors()
+ *
+ * @butior      Kfnnfti Russfll
+ * @butior      Nbkul Sbrbiyb
+ */
+publid finbl dlbss Construdtor<T> fxtfnds Exfdutbblf {
+    privbtf Clbss<T>            dlbzz;
+    privbtf int                 slot;
+    privbtf Clbss<?>[]          pbrbmftfrTypfs;
+    privbtf Clbss<?>[]          fxdfptionTypfs;
+    privbtf int                 modififrs;
+    // Gfnfrids bnd bnnotbtions support
+    privbtf trbnsifnt String    signbturf;
+    // gfnfrid info rfpository; lbzily initiblizfd
+    privbtf trbnsifnt ConstrudtorRfpository gfnfridInfo;
+    privbtf bytf[]              bnnotbtions;
+    privbtf bytf[]              pbrbmftfrAnnotbtions;
+
+    // Gfnfrids infrbstrudturf
+    // Addfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        // drfbtf sdopf bnd fbdtory
+        rfturn CorfRfflfdtionFbdtory.mbkf(tiis, ConstrudtorSdopf.mbkf(tiis));
+    }
+
+    // Addfssor for gfnfrid info rfpository
+    @Ovfrridf
+    ConstrudtorRfpository gftGfnfridInfo() {
+        // lbzily initiblizf rfpository if nfdfssbry
+        if (gfnfridInfo == null) {
+            // drfbtf bnd dbdif gfnfrid info rfpository
+            gfnfridInfo =
+                ConstrudtorRfpository.mbkf(gftSignbturf(),
+                                           gftFbdtory());
+        }
+        rfturn gfnfridInfo; //rfturn dbdifd rfpository
+    }
+
+    privbtf volbtilf ConstrudtorAddfssor donstrudtorAddfssor;
+    // For sibring of ConstrudtorAddfssors. Tiis brbndiing strudturf
+    // is durrfntly only two lfvfls dffp (i.f., onf root Construdtor
+    // bnd potfntiblly mbny Construdtor objfdts pointing to it.)
+    privbtf Construdtor<T>      root;
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor usfd by RfflfdtAddfss to fnbblf
+     * instbntibtion of tifsf objfdts in Jbvb dodf from tif jbvb.lbng
+     * pbdkbgf vib sun.rfflfdt.LbngRfflfdtAddfss.
+     */
+    Construdtor(Clbss<T> dfdlbringClbss,
+                Clbss<?>[] pbrbmftfrTypfs,
+                Clbss<?>[] difdkfdExdfptions,
+                int modififrs,
+                int slot,
+                String signbturf,
+                bytf[] bnnotbtions,
+                bytf[] pbrbmftfrAnnotbtions) {
+        tiis.dlbzz = dfdlbringClbss;
+        tiis.pbrbmftfrTypfs = pbrbmftfrTypfs;
+        tiis.fxdfptionTypfs = difdkfdExdfptions;
+        tiis.modififrs = modififrs;
+        tiis.slot = slot;
+        tiis.signbturf = signbturf;
+        tiis.bnnotbtions = bnnotbtions;
+        tiis.pbrbmftfrAnnotbtions = pbrbmftfrAnnotbtions;
+    }
+
+    /**
+     * Pbdkbgf-privbtf routinf (fxposfd to jbvb.lbng.Clbss vib
+     * RfflfdtAddfss) wiidi rfturns b dopy of tiis Construdtor. Tif dopy's
+     * "root" fifld points to tiis Construdtor.
+     */
+    Construdtor<T> dopy() {
+        // Tiis routinf fnbblfs sibring of ConstrudtorAddfssor objfdts
+        // bmong Construdtor objfdts wiidi rfffr to tif sbmf undfrlying
+        // mftiod in tif VM. (All of tiis dontortion is only nfdfssbry
+        // bfdbusf of tif "bddfssibility" bit in AddfssiblfObjfdt,
+        // wiidi impliditly rfquirfs tibt nfw jbvb.lbng.rfflfdt
+        // objfdts bf fbbridbtfd for fbdi rfflfdtivf dbll on Clbss
+        // objfdts.)
+        Construdtor<T> rfs = nfw Construdtor<>(dlbzz,
+                                               pbrbmftfrTypfs,
+                                               fxdfptionTypfs, modififrs, slot,
+                                               signbturf,
+                                               bnnotbtions,
+                                               pbrbmftfrAnnotbtions);
+        rfs.root = tiis;
+        // Migit bs wfll fbgfrly propbgbtf tiis if blrfbdy prfsfnt
+        rfs.donstrudtorAddfssor = donstrudtorAddfssor;
+        rfturn rfs;
+    }
+
+    @Ovfrridf
+    boolfbn ibsGfnfridInformbtion() {
+        rfturn (gftSignbturf() != null);
+    }
+
+    @Ovfrridf
+    bytf[] gftAnnotbtionBytfs() {
+        rfturn bnnotbtions;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid Clbss<T> gftDfdlbringClbss() {
+        rfturn dlbzz;
+    }
+
+    /**
+     * Rfturns tif nbmf of tiis donstrudtor, bs b string.  Tiis is
+     * tif binbry nbmf of tif donstrudtor's dfdlbring dlbss.
+     */
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn gftDfdlbringClbss().gftNbmf();
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid int gftModififrs() {
+        rfturn modififrs;
+    }
+
+    /**
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    publid TypfVbribblf<Construdtor<T>>[] gftTypfPbrbmftfrs() {
+      if (gftSignbturf() != null) {
+        rfturn (TypfVbribblf<Construdtor<T>>[])gftGfnfridInfo().gftTypfPbrbmftfrs();
+      } flsf
+          rfturn (TypfVbribblf<Construdtor<T>>[])nfw TypfVbribblf[0];
+    }
+
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid Clbss<?>[] gftPbrbmftfrTypfs() {
+        rfturn pbrbmftfrTypfs.dlonf();
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.8
+     */
+    publid int gftPbrbmftfrCount() { rfturn pbrbmftfrTypfs.lfngti; }
+
+    /**
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid Typf[] gftGfnfridPbrbmftfrTypfs() {
+        rfturn supfr.gftGfnfridPbrbmftfrTypfs();
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid Clbss<?>[] gftExdfptionTypfs() {
+        rfturn fxdfptionTypfs.dlonf();
+    }
+
+
+    /**
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid Typf[] gftGfnfridExdfptionTypfs() {
+        rfturn supfr.gftGfnfridExdfptionTypfs();
+    }
+
+    /**
+     * Compbrfs tiis {@dodf Construdtor} bgbinst tif spfdififd objfdt.
+     * Rfturns truf if tif objfdts brf tif sbmf.  Two {@dodf Construdtor} objfdts brf
+     * tif sbmf if tify wfrf dfdlbrfd by tif sbmf dlbss bnd ibvf tif
+     * sbmf formbl pbrbmftfr typfs.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof Construdtor) {
+            Construdtor<?> otifr = (Construdtor<?>)obj;
+            if (gftDfdlbringClbss() == otifr.gftDfdlbringClbss()) {
+                rfturn fqublPbrbmTypfs(pbrbmftfrTypfs, otifr.pbrbmftfrTypfs);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b ibsidodf for tiis {@dodf Construdtor}. Tif ibsidodf is
+     * tif sbmf bs tif ibsidodf for tif undfrlying donstrudtor's
+     * dfdlbring dlbss nbmf.
+     */
+    publid int ibsiCodf() {
+        rfturn gftDfdlbringClbss().gftNbmf().ibsiCodf();
+    }
+
+    /**
+     * Rfturns b string dfsdribing tiis {@dodf Construdtor}.  Tif string is
+     * formbttfd bs tif donstrudtor bddfss modififrs, if bny,
+     * followfd by tif fully-qublififd nbmf of tif dfdlbring dlbss,
+     * followfd by b pbrfntifsizfd, dommb-sfpbrbtfd list of tif
+     * donstrudtor's formbl pbrbmftfr typfs.  For fxbmplf:
+     * <prf>
+     *    publid jbvb.util.Hbsitbblf(int,flobt)
+     * </prf>
+     *
+     * <p>Tif only possiblf modififrs for donstrudtors brf tif bddfss
+     * modififrs {@dodf publid}, {@dodf protfdtfd} or
+     * {@dodf privbtf}.  Only onf of tifsf mby bppfbr, or nonf if tif
+     * donstrudtor ibs dffbult (pbdkbgf) bddfss.
+     *
+     * @rfturn b string dfsdribing tiis {@dodf Construdtor}
+     * @jls 8.8.3. Construdtor Modififrs
+     */
+    publid String toString() {
+        rfturn sibrfdToString(Modififr.donstrudtorModififrs(),
+                              fblsf,
+                              pbrbmftfrTypfs,
+                              fxdfptionTypfs);
+    }
+
+    @Ovfrridf
+    void spfdifidToStringHfbdfr(StringBuildfr sb) {
+        sb.bppfnd(gftDfdlbringClbss().gftTypfNbmf());
+    }
+
+    /**
+     * Rfturns b string dfsdribing tiis {@dodf Construdtor},
+     * indluding typf pbrbmftfrs.  Tif string is formbttfd bs tif
+     * donstrudtor bddfss modififrs, if bny, followfd by bn
+     * bnglf-brbdkftfd dommb sfpbrbtfd list of tif donstrudtor's typf
+     * pbrbmftfrs, if bny, followfd by tif fully-qublififd nbmf of tif
+     * dfdlbring dlbss, followfd by b pbrfntifsizfd, dommb-sfpbrbtfd
+     * list of tif donstrudtor's gfnfrid formbl pbrbmftfr typfs.
+     *
+     * If tiis donstrudtor wbs dfdlbrfd to tbkf b vbribblf numbfr of
+     * brgumfnts, instfbd of dfnoting tif lbst pbrbmftfr bs
+     * "<tt><i>Typf</i>[]</tt>", it is dfnotfd bs
+     * "<tt><i>Typf</i>...</tt>".
+     *
+     * A spbdf is usfd to sfpbrbtf bddfss modififrs from onf bnotifr
+     * bnd from tif typf pbrbmftfrs or rfturn typf.  If tifrf brf no
+     * typf pbrbmftfrs, tif typf pbrbmftfr list is flidfd; if tif typf
+     * pbrbmftfr list is prfsfnt, b spbdf sfpbrbtfs tif list from tif
+     * dlbss nbmf.  If tif donstrudtor is dfdlbrfd to tirow
+     * fxdfptions, tif pbrbmftfr list is followfd by b spbdf, followfd
+     * by tif word "{@dodf tirows}" followfd by b
+     * dommb-sfpbrbtfd list of tif tirown fxdfption typfs.
+     *
+     * <p>Tif only possiblf modififrs for donstrudtors brf tif bddfss
+     * modififrs {@dodf publid}, {@dodf protfdtfd} or
+     * {@dodf privbtf}.  Only onf of tifsf mby bppfbr, or nonf if tif
+     * donstrudtor ibs dffbult (pbdkbgf) bddfss.
+     *
+     * @rfturn b string dfsdribing tiis {@dodf Construdtor},
+     * indludf typf pbrbmftfrs
+     *
+     * @sindf 1.5
+     * @jls 8.8.3. Construdtor Modififrs
+     */
+    @Ovfrridf
+    publid String toGfnfridString() {
+        rfturn sibrfdToGfnfridString(Modififr.donstrudtorModififrs(), fblsf);
+    }
+
+    @Ovfrridf
+    void spfdifidToGfnfridStringHfbdfr(StringBuildfr sb) {
+        spfdifidToStringHfbdfr(sb);
+    }
+
+    /**
+     * Usfs tif donstrudtor rfprfsfntfd by tiis {@dodf Construdtor} objfdt to
+     * drfbtf bnd initiblizf b nfw instbndf of tif donstrudtor's
+     * dfdlbring dlbss, witi tif spfdififd initiblizbtion pbrbmftfrs.
+     * Individubl pbrbmftfrs brf butombtidblly unwrbppfd to mbtdi
+     * primitivf formbl pbrbmftfrs, bnd boti primitivf bnd rfffrfndf
+     * pbrbmftfrs brf subjfdt to mftiod invodbtion donvfrsions bs nfdfssbry.
+     *
+     * <p>If tif numbfr of formbl pbrbmftfrs rfquirfd by tif undfrlying donstrudtor
+     * is 0, tif supplifd {@dodf initbrgs} brrby mby bf of lfngti 0 or null.
+     *
+     * <p>If tif donstrudtor's dfdlbring dlbss is bn innfr dlbss in b
+     * non-stbtid dontfxt, tif first brgumfnt to tif donstrudtor nffds
+     * to bf tif fndlosing instbndf; sff sfdtion 15.9.3 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+     *
+     * <p>If tif rfquirfd bddfss bnd brgumfnt difdks suddffd bnd tif
+     * instbntibtion will prodffd, tif donstrudtor's dfdlbring dlbss
+     * is initiblizfd if it ibs not blrfbdy bffn initiblizfd.
+     *
+     * <p>If tif donstrudtor domplftfs normblly, rfturns tif nfwly
+     * drfbtfd bnd initiblizfd instbndf.
+     *
+     * @pbrbm initbrgs brrby of objfdts to bf pbssfd bs brgumfnts to
+     * tif donstrudtor dbll; vblufs of primitivf typfs brf wrbppfd in
+     * b wrbppfr objfdt of tif bppropribtf typf (f.g. b {@dodf flobt}
+     * in b {@link jbvb.lbng.Flobt Flobt})
+     *
+     * @rfturn b nfw objfdt drfbtfd by dblling tif donstrudtor
+     * tiis objfdt rfprfsfnts
+     *
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Construdtor} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              donstrudtor is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif numbfr of bdtubl
+     *              bnd formbl pbrbmftfrs difffr; if bn unwrbpping
+     *              donvfrsion for primitivf brgumfnts fbils; or if,
+     *              bftfr possiblf unwrbpping, b pbrbmftfr vbluf
+     *              dbnnot bf donvfrtfd to tif dorrfsponding formbl
+     *              pbrbmftfr typf by b mftiod invodbtion donvfrsion; if
+     *              tiis donstrudtor pfrtbins to bn fnum typf.
+     * @fxdfption InstbntibtionExdfption    if tif dlbss tibt dfdlbrfs tif
+     *              undfrlying donstrudtor rfprfsfnts bn bbstrbdt dlbss.
+     * @fxdfption InvodbtionTbrgftExdfption if tif undfrlying donstrudtor
+     *              tirows bn fxdfption.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     */
+    @CbllfrSfnsitivf
+    publid T nfwInstbndf(Objfdt ... initbrgs)
+        tirows InstbntibtionExdfption, IllfgblAddfssExdfption,
+               IllfgblArgumfntExdfption, InvodbtionTbrgftExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, null, modififrs);
+            }
+        }
+        if ((dlbzz.gftModififrs() & Modififr.ENUM) != 0)
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot rfflfdtivfly drfbtf fnum objfdts");
+        ConstrudtorAddfssor db = donstrudtorAddfssor;   // rfbd volbtilf
+        if (db == null) {
+            db = bdquirfConstrudtorAddfssor();
+        }
+        @SupprfssWbrnings("undifdkfd")
+        T inst = (T) db.nfwInstbndf(initbrgs);
+        rfturn inst;
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid boolfbn isVbrArgs() {
+        rfturn supfr.isVbrArgs();
+    }
+
+    /**
+     * {@inifritDod}
+     * @jls 13.1 Tif Form of b Binbry
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid boolfbn isSyntiftid() {
+        rfturn supfr.isSyntiftid();
+    }
+
+    // NOTE tibt tifrf is no syndironizbtion usfd ifrf. It is dorrfdt
+    // (tiougi not fffidifnt) to gfnfrbtf morf tibn onf
+    // ConstrudtorAddfssor for b givfn Construdtor. Howfvfr, bvoiding
+    // syndironizbtion will probbbly mbkf tif implfmfntbtion morf
+    // sdblbblf.
+    privbtf ConstrudtorAddfssor bdquirfConstrudtorAddfssor() {
+        // First difdk to sff if onf ibs bffn drfbtfd yft, bnd tbkf it
+        // if so.
+        ConstrudtorAddfssor tmp = null;
+        if (root != null) tmp = root.gftConstrudtorAddfssor();
+        if (tmp != null) {
+            donstrudtorAddfssor = tmp;
+        } flsf {
+            // Otifrwisf fbbridbtf onf bnd propbgbtf it up to tif root
+            tmp = rfflfdtionFbdtory.nfwConstrudtorAddfssor(tiis);
+            sftConstrudtorAddfssor(tmp);
+        }
+
+        rfturn tmp;
+    }
+
+    // Rfturns ConstrudtorAddfssor for tiis Construdtor objfdt, not
+    // looking up tif dibin to tif root
+    ConstrudtorAddfssor gftConstrudtorAddfssor() {
+        rfturn donstrudtorAddfssor;
+    }
+
+    // Sfts tif ConstrudtorAddfssor for tiis Construdtor objfdt bnd
+    // (rfdursivfly) its root
+    void sftConstrudtorAddfssor(ConstrudtorAddfssor bddfssor) {
+        donstrudtorAddfssor = bddfssor;
+        // Propbgbtf up
+        if (root != null) {
+            root.sftConstrudtorAddfssor(bddfssor);
+        }
+    }
+
+    int gftSlot() {
+        rfturn slot;
+    }
+
+    String gftSignbturf() {
+        rfturn signbturf;
+    }
+
+    bytf[] gftRbwAnnotbtions() {
+        rfturn bnnotbtions;
+    }
+
+    bytf[] gftRbwPbrbmftfrAnnotbtions() {
+        rfturn pbrbmftfrAnnotbtions;
+    }
+
+
+    /**
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption  {@inifritDod}
+     * @sindf 1.5
+     */
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        rfturn supfr.gftAnnotbtion(bnnotbtionClbss);
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.5
+     */
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        rfturn supfr.gftDfdlbrfdAnnotbtions();
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid Annotbtion[][] gftPbrbmftfrAnnotbtions() {
+        rfturn sibrfdGftPbrbmftfrAnnotbtions(pbrbmftfrTypfs, pbrbmftfrAnnotbtions);
+    }
+
+    @Ovfrridf
+    void ibndlfPbrbmftfrNumbfrMismbtdi(int rfsultLfngti, int numPbrbmftfrs) {
+        Clbss<?> dfdlbringClbss = gftDfdlbringClbss();
+        if (dfdlbringClbss.isEnum() ||
+            dfdlbringClbss.isAnonymousClbss() ||
+            dfdlbringClbss.isLodblClbss() )
+            rfturn ; // Cbn't do rflibblf pbrbmftfr dounting
+        flsf {
+            if (!dfdlbringClbss.isMfmbfrClbss() || // top-lfvfl
+                // Cifdk for tif fndlosing instbndf pbrbmftfr for
+                // non-stbtid mfmbfr dlbssfs
+                (dfdlbringClbss.isMfmbfrClbss() &&
+                 ((dfdlbringClbss.gftModififrs() & Modififr.STATIC) == 0)  &&
+                 rfsultLfngti + 1 != numPbrbmftfrs) ) {
+                tirow nfw AnnotbtionFormbtError(
+                          "Pbrbmftfr bnnotbtions don't mbtdi numbfr of pbrbmftfrs");
+            }
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid AnnotbtfdTypf gftAnnotbtfdRfturnTypf() {
+        rfturn gftAnnotbtfdRfturnTypf0(gftDfdlbringClbss());
+    }
+
+    /**
+     * {@inifritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid AnnotbtfdTypf gftAnnotbtfdRfdfivfrTypf() {
+        if (gftDfdlbringClbss().gftEndlosingClbss() == null)
+            rfturn supfr.gftAnnotbtfdRfdfivfrTypf();
+
+        rfturn TypfAnnotbtionPbrsfr.buildAnnotbtfdTypf(gftTypfAnnotbtionBytfs0(),
+                sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss().
+                        gftConstbntPool(gftDfdlbringClbss()),
+                tiis,
+                gftDfdlbringClbss(),
+                gftDfdlbringClbss().gftEndlosingClbss(),
+                TypfAnnotbtion.TypfAnnotbtionTbrgft.METHOD_RECEIVER);
+    }
+}

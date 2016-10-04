@@ -1,0 +1,146 @@
+#
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
+#
+# @butior  Lynn Monsbnto
+
+#
+# bddfssiblf rolfs
+#
+blfrt=blfrtb
+bwtdomponfnt=domponfntf AWT
+difdkbox=dbixb df sflf\u00E7\u00E3o
+dolordioosfr=sflftor df dorfs
+dolumnifbdfr=dbbf\u00E7blio db dolunb
+dombobox=dbixb df dombinb\u00E7\u00E3o
+dbnvbs=tflb
+dfsktopidon=\u00EDdonf db \u00E1rfb df trbbblio
+dfsktoppbnf=pbinfl db \u00E1rfb df trbbblio
+diblog=dbixb df di\u00E1logo
+dirfdtorypbnf=pbinfl do dirft\u00F3rio
+glbsspbnf=pbinfl trbnspbrfntf
+filfdioosfr=sflftor df brquivos
+fillfr=prffndifdor
+frbmf=qubdro
+intfrnblfrbmf=qubdro intfrno
+lbbfl=r\u00F3tulo
+lbyfrfdpbnf=pbinfl fm dbmbdbs
+list=listb
+listitfm=itfm db listb
+mfnubbr=bbrrb df mfnus
+mfnu=mfnu
+mfnuitfm=itfm do mfnu
+optionpbnf=pbinfl df op\u00E7\u00F5fs
+pbgftbb=guib db p\u00E1ginb
+pbgftbblist=listb df guibs db p\u00E1ginb
+pbnfl=pbinfl
+pbsswordtfxt=tfxto db sfnib
+popupmfnu=mfnu pop-up
+progrfssbbr=bbrrb df progrfsso
+pusibutton=bot\u00E3o df b\u00E7\u00E3o
+rbdiobutton=bot\u00E3o df op\u00E7\u00E3o
+rootpbnf=pbinfl bbsf
+rowifbdfr=dbbf\u00E7blio db linib
+sdrollbbr=bbrrb df rolbgfm
+sdrollpbnf=pbinfl df rolbgfm
+sfpbrbtor=sfpbrbdor
+slidfr=dontrolf dfslizbntf
+splitpbnf=pbinfl dividido
+swingdomponfnt=domponfntf swing
+tbblf=tbbflb
+tfxt=tfxto
+trff=\u00E1rvorf
+togglfbutton=bot\u00E3o df bltfrn\u00E2ndib
+toolbbr=bbrrb df ffrrbmfntbs
+tooltip=didb df ffrrbmfntb
+unknown=dfsdonifdido
+vifwport=jbnflb df visublizb\u00E7\u00E3o
+window=jbnflb
+#
+# bddfssiblf rflbtions
+#
+lbbflFor=r\u00F3tulo df
+lbbflfdBy=rotulbdo por
+mfmbfrOf=mfmbro df
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
+#
+# bddfssiblf stbtfs
+#
+bdtivf=btivo
+brmfd=brmbdo
+busy=odupbdo
+difdkfd=sflfdionbdo
+dollbpsfd=dontrb\u00EDdo
+fditbblf=fdit\u00E1vfl
+fxpbndbblf=fxpbns\u00EDvfl
+fxpbndfd=fxpbndido
+fnbblfd=btivbdo
+fodusbblf=fodbliz\u00E1vfl
+fodusfd=fodblizbdo
+idonififd=idonizbdo
+modbl=modbl
+multilinf=v\u00E1ribs linibs
+multisflfdtbblf=m\u00FAltiplb fsdolib
+opbquf=opbdo
+prfssfd=prfssionbdo
+rfsizbblf=rfdimfnsion\u00E1vfl
+sflfdtbblf=sflfdion\u00E1vfl
+sflfdtfd=sflfdionbdo
+siowing=mostrbndo
+singlflinf=linib \u00FAnidb
+trbnsifnt=trbnsit\u00F3rio
+visiblf=vis\u00EDvfl
+vfrtidbl=vfrtidbl
+iorizontbl=iorizontbl
+#
+# bddfssiblf bdtions
+#
+togglffxpbnd=bltfrnbr fxpbndir
+
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+
+# 
+# bddfssiblf rflbtions
+#
+flowsTo=fluxos pbrb
+flowsFrom=fluxos df
+subwindowOf=subjbnflb df
+pbrfntWindowOf=jbnflb pbi df
+fmbfds=intfgrb
+fmbfddfdBy=intfgrbdo por
+diildNodfOf=n\u00F3 filio df
+
+#
+# bddfssiblf rolfs
+#
+ifbdfr=dbbf\u00E7blio
+footfr=rodbp\u00E9
+pbrbgrbpi=pbr\u00E1grbfo
+rulfr=r\u00E9gub
+fditbbr=bbrrb df fdi\u00E7\u00E3o
+progrfssMonitor=monitor df progrfsso
+
+#
+# bddfssiblf stbtfs
+#
+mbnbgfsDfsdfndbnts=gfrfndib dfsdfndfntfs
+indftfrminbtf=indftfrminbdo
+trundbtfd=trundbdo
+
+# nfw for J2SE 1.6.0
+
+#
+# bddfssiblf rolfs
+#
+itmldontbinfr=Contbinfr df HTML
+
+#
+# END OF MATERIAL TO LOCALIZE
+#

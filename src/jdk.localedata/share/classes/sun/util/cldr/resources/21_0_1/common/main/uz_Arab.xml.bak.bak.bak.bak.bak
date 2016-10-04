@@ -1,0 +1,185 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="uz"/>
+		<sdript typf="Arbb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<lbyout>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+	</lbyout>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afgibnistbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>brbbfxt</nbtivf>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="brbbfxt">
+			<dfdimbl>٫</dfdimbl>
+			<group>٬</group>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<fxponfntibl>×۱۰^</fxponfntibl>
+		</symbols>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<minusSign>−</minusSign>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AFN">
+				<displbyNbmf>افغانی</displbyNbmf>
+				<symbol>؋</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>
+

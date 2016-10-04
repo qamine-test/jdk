@@ -1,0 +1,860 @@
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf ${PACKAGE};
+
+import jbvbx.swing.Pbintfr;
+import jbvb.bwt.Grbpiids;
+import sun.font.FontUtilitifs;
+import sun.swing.plbf.synti.DffbultSyntiStylf;
+import jbvbx.swing.BordfrFbdtory;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.BordfrUIRfsourdf;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.DimfnsionUIRfsourdf;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvbx.swing.plbf.InsftsUIRfsourdf;
+import jbvbx.swing.plbf.synti.Rfgion;
+import jbvbx.swing.plbf.synti.SyntiStylf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import stbtid jbvb.bwt.imbgf.BufffrfdImbgf.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * Tiis dlbss dontbins bll tif implfmfntbtion dftbils rflbtfd to
+ * ${LAF_NAME}. It dontbins bll tif dodf for initiblizing tif UIDffbults tbblf,
+ * bs wfll bs for sflfdting
+ * b SyntiStylf bbsfd on b JComponfnt/Rfgion pbir.
+ *
+ * @butior Ridibrd Bbir
+ */
+finbl dlbss ${LAF_NAME}Dffbults {
+    /**
+     * Tif mbp of SyntiStylfs. Tiis mbp is kfyfd by Rfgion. Ebdi Rfgion mbps
+     * to b List of LbzyStylfs. Ebdi LbzyStylf ibs b rfffrfndf to tif prffix
+     * tibt wbs rfgistfrfd witi it. Tiis rfffrfndf dbn tifn bf inspfdtfd to sff
+     * if it is tif propfr lbzy stylf.
+     * <p/>
+     * Tifrf dbn bf morf tibn onf LbzyStylf for b singlf Rfgion if tifrf is morf
+     * tibn onf prffix dffinfd for b givfn rfgion. For fxbmplf, boti Button bnd
+     * "MyButton" migit bf prffixfs bssignfd to tif Rfgion.Button rfgion.
+     */
+    privbtf Mbp<Rfgion, List<LbzyStylf>> m;
+    /**
+     * A mbp of rfgions wiidi ibvf bffn rfgistfrfd.
+     * Tiis mbpping is mbintbinfd so tibt tif Rfgion dbn bf found bbsfd on
+     * prffix in b vfry fbst mbnnfr. Tiis is usfd in tif "mbtdifs" mftiod of
+     * LbzyStylf.
+     */
+    privbtf Mbp<String, Rfgion> rfgistfrfdRfgions =
+            nfw HbsiMbp<String, Rfgion>();
+
+    privbtf Mbp<JComponfnt, Mbp<Rfgion, SyntiStylf>> ovfrridfsCbdif =
+            nfw WfbkHbsiMbp<JComponfnt, Mbp<Rfgion, SyntiStylf>>();
+    
+    /**
+     * Our fbllbbdk stylf to bvoid NPEs if tif propfr stylf dbnnot bf found in
+     * tiis dlbss. Not surf if rflying on DffbultSyntiStylf is tif bfst dioidf.
+     */
+    privbtf DffbultSyntiStylf dffbultStylf;
+    /**
+     * Tif dffbult font tibt will bf usfd. I storf tiis vbluf so tibt it dbn bf
+     * sft in tif UIDffbults wifn rfqufstfd.
+     */
+    privbtf FontUIRfsourdf dffbultFont;
+
+    privbtf ColorTrff dolorTrff = nfw ColorTrff();
+
+    /** Listfnfr for dibngfs to usfr dffbults tbblf */
+    privbtf DffbultsListfnfr dffbultsListfnfr = nfw DffbultsListfnfr();
+
+    /** Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is instbllfd. */
+    void initiblizf() {
+        // bdd listfnfr for dfrivfd dolors
+        UIMbnbgfr.bddPropfrtyCibngfListfnfr(dffbultsListfnfr);
+        UIMbnbgfr.gftDffbults().bddPropfrtyCibngfListfnfr(dolorTrff);
+    }
+
+    /** Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is uninstbllfd. */
+    void uninitiblizf() {
+        // rfmovf listfnfr for dfrivfd dolors
+        UIMbnbgfr.rfmovfPropfrtyCibngfListfnfr(dffbultsListfnfr);
+        UIMbnbgfr.gftDffbults().rfmovfPropfrtyCibngfListfnfr(dolorTrff);
+    }
+
+    /**
+     * Crfbtf b nfw ${LAF_NAME}Dffbults. Tiis donstrudtor is only dbllfd from
+     * witiin ${LAF_NAME}LookAndFffl.
+     */
+    ${LAF_NAME}Dffbults() {
+        m = nfw HbsiMbp<Rfgion, List<LbzyStylf>>();
+
+        //Crfbtf tif dffbult font bnd dffbult stylf. Also rfgistfr bll of tif
+        //rfgions bnd tifir stbtfs tibt tiis dlbss will usf for lbtfr lookup.
+        //Additionbl rfgions dbn bf rfgistfrfd lbtfr by 3rd pbrty domponfnts.
+        //Tifsf brf simply tif dffbult rfgistrbtions.
+        dffbultFont = FontUtilitifs.gftFontConfigFUIR("sbns", Font.PLAIN, 12);
+        dffbultStylf = nfw DffbultSyntiStylf();
+        dffbultStylf.sftFont(dffbultFont);
+
+        //initiblizf tif mbp of stylfs
+${STYLE_INIT}
+    }
+
+    //--------------- Mftiods dbllfd by ${LAF_NAME}LookAndFffl
+
+    /**
+     * Cbllfd from ${LAF_NAME}LookAndFffl to initiblizf tif UIDffbults.
+     *
+     * @pbrbm d UIDffbults tbblf to initiblizf. Tiis will nfvfr bf null.
+     *          If listfnfrs brf bttbdifd to <dodf>d</dodf>, tifn you will
+     *          only rfdfivf notifidbtion of LookAndFffl lfvfl dffbults, not
+     *          bll dffbults on tif UIMbnbgfr.
+     */
+    void initiblizfDffbults(UIDffbults d) {
+${UI_DEFAULT_INIT}
+    }
+
+    /**
+     * <p>Rfgistfrs tif givfn rfgion bnd prffix. Tif prffix, if it dontbins
+     * quotfd sfdtions, rfffrs to dfrtbin nbmfd domponfnts. If tifrf brf not
+     * quotfd sfdtions, tifn tif prffix rfffrs to b gfnfrid domponfnt typf.</p>
+     *
+     * <p>If tif givfn rfgion/prffix dombo ibs blrfbdy bffn rfgistfrfd, tifn
+     * it will not bf rfgistfrfd twidf. Tif sfdond rfgistrbtion bttfmpt will
+     * fbil silfntly.</p>
+     *
+     * @pbrbm rfgion Tif Synti Rfgion tibt is bfing rfgistfrfd. Sudi bs Button,
+     *        or SdrollBbrTiumb.
+     * @pbrbm prffix Tif UIDffbult prffix. For fxbmplf, dould bf ComboBox, or if
+     *        b nbmfd domponfnts, "MyComboBox", or fvfn somftiing likf
+     *        ToolBbr:"MyComboBox":"ComboBox.brrowButton"
+     */
+    void rfgistfr(Rfgion rfgion, String prffix) {
+        //vblidbtf tif mftiod brgumfnts
+        if (rfgion == null || prffix == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Nfitifr Rfgion nor Prffix mby bf null");
+        }
+
+        //Add b LbzyStylf for tiis rfgion/prffix to m.
+        List<LbzyStylf> stylfs = m.gft(rfgion);
+        if (stylfs == null) {
+            stylfs = nfw LinkfdList<LbzyStylf>();
+            stylfs.bdd(nfw LbzyStylf(prffix));
+            m.put(rfgion, stylfs);
+        } flsf {
+            //itfrbtf ovfr bll tif durrfnt stylfs bnd sff if tiis prffix ibs
+            //blrfbdy bffn rfgistfrfd. If not, tifn rfgistfr it.
+            for (LbzyStylf s : stylfs) {
+                if (prffix.fqubls(s.prffix)) {
+                    rfturn;
+                }
+            }
+            stylfs.bdd(nfw LbzyStylf(prffix));
+        }
+
+        //bdd tiis rfgion to tif mbp of rfgistfrfd rfgions
+        rfgistfrfdRfgions.put(rfgion.gftNbmf(), rfgion);
+    }
+
+    /**
+     * <p>Lodbtf tif stylf bssodibtfd witi tif givfn rfgion, bnd domponfnt.
+     * Tiis is dbllfd from ${LAF_NAME}LookAndFffl in tif SyntiStylfFbdtory
+     * implfmfntbtion.</p>
+     *
+     * <p>Lookup oddurs bs follows:<br/>
+     * Cifdk tif mbp of stylfs <dodf>m</dodf>. If tif mbp dontbins no stylfs bt
+     * bll, tifn simply rfturn tif dffbultStylf. If tif mbp dontbins stylfs,
+     * tifn itfrbtf ovfr bll of tif stylfs for tif Rfgion <dodf>r</dodf> looking
+     * for tif bfst mbtdi, bbsfd on prffix. If b mbtdi wbs mbdf, tifn rfturn
+     * tibt SyntiStylf. Otifrwisf, rfturn tif dffbultStylf.</p>
+     *
+     * @pbrbm domp Tif domponfnt bssodibtfd witi tiis rfgion. For fxbmplf, if
+     *        tif Rfgion is Rfgion.Button tifn tif domponfnt will bf b JButton.
+     *        If tif Rfgion is b subrfgion, sudi bs SdrollBbrTiumb, tifn tif
+     *        bssodibtfd domponfnt will bf tif domponfnt tibt subrfgion bflongs
+     *        to, sudi bs JSdrollBbr. Tif JComponfnt mby bf nbmfd. It mby not bf
+     *        null.
+     * @pbrbm r Tif rfgion wf brf looking for b stylf for. Mby not bf null.
+     */
+    SyntiStylf gftStylf(JComponfnt domp, Rfgion r) {
+        //vblidbtf mftiod brgumfnts
+        if (domp == null || r == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Nfitifr domp nor r mby bf null");
+        }
+
+        //if tifrf brf no lbzy stylfs rfgistfrfd for tif rfgion r, tifn rfturn
+        //tif dffbult stylf
+        List<LbzyStylf> stylfs = m.gft(r);
+        if (stylfs == null || stylfs.sizf() == 0) {
+            rfturn dffbultStylf;
+        }
+
+        //Look for tif bfst SyntiStylf for tiis domponfnt/rfgion pbir.
+        LbzyStylf foundStylf = null;
+        for (LbzyStylf s : stylfs) {
+            if (s.mbtdifs(domp)) {
+                //rfplbdf tif foundStylf if foundStylf is null, or
+                //if tif nfw stylf "s" is morf spfdifid (if, its pbti wbs
+                //longfr), or if tif foundStylf wbs "simplf" bnd tif nfw stylf
+                //wbs not (if: tif foundStylf wbs for somftiing likf Button bnd
+                //tif nfw stylf wbs for somftiing likf "MyButton", ifndf, bfing
+                //morf spfdifid.) In bll dbsfs, fbvor tif most spfdifid stylf
+                //found.
+                if (foundStylf == null ||
+                   (foundStylf.pbrts.lfngti < s.pbrts.lfngti) ||
+                   (foundStylf.pbrts.lfngti == s.pbrts.lfngti 
+                    && foundStylf.simplf && !s.simplf)) {
+                    foundStylf = s;
+                }
+            }
+        }
+
+        //rfturn tif stylf, if found, or tif dffbult stylf if not found
+        rfturn foundStylf == null ? dffbultStylf : foundStylf.gftStylf(domp, r);
+    }
+
+    publid void dlfbrOvfrridfsCbdif(JComponfnt d) {
+        ovfrridfsCbdif.rfmovf(d);
+    }
+
+    /*
+        Vbrious publid iflpfr dlbssfs.
+        Tifsf mby bf usfd to rfgistfr 3rd pbrty vblufs into UIDffbults
+    */
+
+    /**
+     * <p>Dfrivfs its font vbluf bbsfd on b pbrfnt font bnd b sft of offsfts bnd
+     * bttributfs. Tiis dlbss is bn AdtivfVbluf, mfbning tibt it will rfdomputf
+     * its vbluf fbdi timf it is rfqufstfd from UIDffbults. It is tifrfforf
+     * rfdommfndfd to rfbd tiis vbluf ondf bnd dbdif it in tif UI dflfgbtf dlbss
+     * until bskfd to rfinitiblizf.</p>
+     *
+     * <p>To usf tiis dlbss, drfbtf bn instbndf witi tif kfy of tif font in tif
+     * UI dffbults tbblf from wiidi to dfrivf tiis font, blong witi b sizf
+     * offsft (if bny), bnd wiftifr it is to bf bold, itblid, or lfft in its
+     * dffbult form.</p>
+     */
+    stbtid finbl dlbss DfrivfdFont implfmfnts UIDffbults.AdtivfVbluf {
+        privbtf flobt sizfOffsft;
+        privbtf Boolfbn bold;
+        privbtf Boolfbn itblid;
+        privbtf String pbrfntKfy;
+
+        /**
+         * Crfbtf b nfw DfrivfdFont.
+         *
+         * @pbrbm kfy Tif UIDffbult kfy bssodibtfd witi tiis dfrivfd font's
+         *            pbrfnt or sourdf. If tiis kfy lfbds to b null vbluf, or b
+         *            vbluf tibt is not b font, tifn null will bf rfturnfd bs
+         *            tif dfrivfd font. Tif kfy must not bf null.
+         * @pbrbm sizfOffsft Tif sizf offsft, bs b pfrdfntbgf, to usf. For
+         *                   fxbmplf, if tif sourdf font wbs b 12pt font bnd tif
+         *                   sizfOffsft wfrf spfdififd bs .9, tifn tif nfw font
+         *                   will bf 90% of wibt tif sourdf font wbs, or, 10.8
+         *                   pts wiidi is roundfd to 11pts. Tiis frbdtionbl
+         *                   bbsfd offsft bllows for propfr font sdbling in iigi
+         *                   DPI or lbrgf systfm font sdfnbrios.
+         * @pbrbm bold Wiftifr tif nfw font siould bf bold. If null, tifn tiis
+         *             nfw font will inifrit tif bold sftting of tif sourdf
+         *             font.
+         * @pbrbm itblid Wiftifr tif nfw font siould bf itblidizfd. If null,
+         *               tifn tiis nfw font will inifrit tif itblid sftting of
+         *               tif sourdf font.
+         */
+        publid DfrivfdFont(String kfy, flobt sizfOffsft, Boolfbn bold,
+                           Boolfbn itblid) {
+            //vblidbtf tif donstrudtor brgumfnts
+            if (kfy == null) {
+                tirow nfw IllfgblArgumfntExdfption("You must spfdify b kfy");
+            }
+
+            //sft tif vblufs
+            tiis.pbrfntKfy = kfy;
+            tiis.sizfOffsft = sizfOffsft;
+            tiis.bold = bold;
+            tiis.itblid = itblid;
+        }
+
+        /**
+         * @inifritDod
+         */
+        @Ovfrridf
+        publid Objfdt drfbtfVbluf(UIDffbults dffbults) {
+            Font f = dffbults.gftFont(pbrfntKfy);
+            if (f != null) {
+                // blwbys round sizf for now so wf ibvf fxbdt int font sizf
+                // (or wf mby ibvf lbmf looking fonts)
+                flobt sizf = Mbti.round(f.gftSizf2D() * sizfOffsft);
+                int stylf = f.gftStylf();
+                if (bold != null) {
+                    if (bold.boolfbnVbluf()) {
+                        stylf = stylf | Font.BOLD;
+                    } flsf {
+                        stylf = stylf & ~Font.BOLD;
+                    }
+                }
+                if (itblid != null) {
+                    if (itblid.boolfbnVbluf()) {
+                        stylf = stylf | Font.ITALIC;
+                    } flsf {
+                        stylf = stylf & ~Font.ITALIC;
+                    }
+                }
+                rfturn f.dfrivfFont(stylf, sizf);
+            } flsf {
+                rfturn null;
+            }
+        }
+    }
+
+
+    /**
+     * Tiis dlbss is privbtf bfdbusf it rflifs on tif donstrudtor of tif
+     * buto-gfnfrbtfd AbstrbdtRfgionPbintfr subdlbssfs. Hfndf, it is not
+     * gfnfrblly usfful, bnd is privbtf.
+     * <p/>
+     * LbzyPbintfr is b LbzyVbluf dlbss. It will drfbtf tif
+     * AbstrbdtRfgionPbintfr lbzily, wifn bskfd. It usfs rfflfdtion to lobd tif
+     * propfr dlbss bnd invokf its donstrudtor.
+     */
+    privbtf stbtid finbl dlbss LbzyPbintfr implfmfnts UIDffbults.LbzyVbluf {
+        privbtf int wiidi;
+        privbtf AbstrbdtRfgionPbintfr.PbintContfxt dtx;
+        privbtf String dlbssNbmf;
+
+        LbzyPbintfr(String dlbssNbmf, int wiidi, Insfts insfts,
+                    Dimfnsion dbnvbsSizf, boolfbn invfrtfd) {
+            if (dlbssNbmf == null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Tif dlbssNbmf must bf spfdififd");
+            }
+
+            tiis.dlbssNbmf = dlbssNbmf;
+            tiis.wiidi = wiidi;
+            tiis.dtx = nfw AbstrbdtRfgionPbintfr.PbintContfxt(
+                insfts, dbnvbsSizf, invfrtfd);
+        }
+
+        LbzyPbintfr(String dlbssNbmf, int wiidi, Insfts insfts,
+                    Dimfnsion dbnvbsSizf, boolfbn invfrtfd,
+                    AbstrbdtRfgionPbintfr.PbintContfxt.CbdifModf dbdifModf,
+                    doublf mbxH, doublf mbxV) {
+            if (dlbssNbmf == null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Tif dlbssNbmf must bf spfdififd");
+            }
+
+            tiis.dlbssNbmf = dlbssNbmf;
+            tiis.wiidi = wiidi;
+            tiis.dtx = nfw AbstrbdtRfgionPbintfr.PbintContfxt(
+                    insfts, dbnvbsSizf, invfrtfd, dbdifModf, mbxH, mbxV);
+        }
+
+        @Ovfrridf
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            try {
+                Clbss<?> d;
+                Objfdt dl;
+                // Sff if wf siould usf b sfpbrbtf ClbssLobdfr
+                if (tbblf == null || !((dl = tbblf.gft("ClbssLobdfr"))
+                                       instbndfof ClbssLobdfr)) {
+                    dl = Tirfbd.durrfntTirfbd().
+                                gftContfxtClbssLobdfr();
+                    if (dl == null) {
+                        // Fbllbbdk to tif systfm dlbss lobdfr.
+                        dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    }
+                }
+
+                d = Clbss.forNbmf(dlbssNbmf, truf, (ClbssLobdfr)dl);
+                Construdtor<?> donstrudtor = d.gftConstrudtor(
+                        AbstrbdtRfgionPbintfr.PbintContfxt.dlbss, int.dlbss);
+                if (donstrudtor == null) {
+                    tirow nfw NullPointfrExdfption(
+                            "Fbilfd to find tif donstrudtor for tif dlbss: " +
+                            dlbssNbmf);
+                }
+                rfturn donstrudtor.nfwInstbndf(dtx, wiidi);
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
+                rfturn null;
+            }
+        }
+    }
+
+    /**
+     * A dlbss wiidi drfbtfs tif NimbusStylf bssodibtfd witi it lbzily, but blso
+     * mbnbgfs b lot morf informbtion bbout tif stylf. It is lfss of b LbzyVbluf
+     * typf of dlbss, bnd morf of bn Entry or Itfm typf of dlbss, bs it
+     * rfprfsfnts bn fntry in tif list of LbzyStylfs in tif mbp m.
+     *
+     * Tif primbry rfsponsibilitifs of tiis dlbss indludf:
+     * <ul>
+     *   <li>Dftfrmining wiftifr b givfn domponfnt/rfgion pbir mbtdifs tiis
+     *       stylf</li>
+     *   <li>Splitting tif prffix spfdififd in tif donstrudtor into its
+     *       donstitufnt pbrts to fbdilitbtf quidkfr mbtdiing</li>
+     *   <li>Crfbting bnd vfnding b NimbusStylf lbzily.</li>
+     * </ul>
+     */
+    privbtf finbl dlbss LbzyStylf {
+        /**
+         * Tif prffix tiis LbzyStylf wbs rfgistfrfd witi. Somftiing likf
+         * Button or ComboBox:"ComboBox.brrowButton"
+         */
+        privbtf String prffix;
+        /**
+         * Wiftifr or not tiis LbzyStylf rfprfsfnts bn unnbmfd domponfnt
+         */
+        privbtf boolfbn simplf = truf;
+        /**
+         * Tif vbrious pbrts, or sfdtions, of tif prffix. For fxbmplf,
+         * tif prffix:
+         *     ComboBox:"ComboBox.brrowButton"
+         *
+         * will bf brokfn into two pbrts,
+         *     ComboBox bnd "ComboBox.brrowButton"
+         */
+        privbtf Pbrt[] pbrts;
+        /**
+         * Cbdifd sibrfd stylf.
+         */
+        privbtf NimbusStylf stylf;
+
+        /**
+         * Crfbtf b nfw LbzyStylf.
+         *
+         * @pbrbm prffix Tif prffix bssodibtfd witi tiis stylf. Cbnnot bf null.
+         */
+        privbtf LbzyStylf(String prffix) {
+            if (prffix == null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Tif prffix must not bf null");
+            }
+
+            tiis.prffix = prffix;
+
+            //tifrf is onf odd dbsf tibt nffds to bf supportfd ifrf: dfll
+            //rfndfrfrs. A dfll rfndfrfr is dffinfd bs b nbmfd intfrnbl
+            //domponfnt, so for fxbmplf:
+            // List."List.dfllRfndfrfr"
+            //Tif problfm is tibt tif domponfnt nbmfd List.dfllRfndfrfr is not b
+            //diild of b JList. Rbtifr, it is trfbtfd morf bs b dirfdt domponfnt
+            //Tius, if tif prffix fnds witi "dfllRfndfrfr", tifn rfmovf bll tif
+            //prfvious dottfd pbrts of tif prffix nbmf so tibt it bfdomfs, for
+            //fxbmplf: "List.dfllRfndfrfr"
+            //Likfwisf, wf ibvf b ibdkfd work bround for dfllRfndfrfr, rfndfrfr,
+            //bnd listRfndfrfr.
+            String tfmp = prffix;
+            if (tfmp.fndsWiti("dfllRfndfrfr\"")
+                    || tfmp.fndsWiti("rfndfrfr\"")
+                    || tfmp.fndsWiti("listRfndfrfr\"")) {
+                tfmp = tfmp.substring(tfmp.lbstIndfxOf(":\"") + 1);
+            }
+
+            //otifrwisf, normbl dodf pbti
+            List<String> spbrts = split(tfmp);
+            pbrts = nfw Pbrt[spbrts.sizf()];
+            for (int i = 0; i < pbrts.lfngti; i++) {
+                pbrts[i] = nfw Pbrt(spbrts.gft(i));
+                if (pbrts[i].nbmfd) {
+                    simplf = fblsf;
+                }
+            }
+        }
+
+        /**
+         * Gfts tif stylf. Crfbtfs it if nfdfssbry.
+         * @rfturn tif stylf
+         */
+        SyntiStylf gftStylf(JComponfnt d, Rfgion r) {
+            // if tif domponfnt ibs ovfrridfs, it gfts its own uniquf stylf
+            // instfbd of tif sibrfd stylf.
+            if (d.gftClifntPropfrty("Nimbus.Ovfrridfs") != null) {
+                Mbp<Rfgion, SyntiStylf> mbp = ovfrridfsCbdif.gft(d);
+                SyntiStylf s = null;
+                if (mbp == null) {
+                    mbp = nfw HbsiMbp<Rfgion, SyntiStylf>();
+                    ovfrridfsCbdif.put(d, mbp);
+                } flsf {
+                    s = mbp.gft(r);
+                }
+                if (s == null) {
+                    s = nfw NimbusStylf(prffix, d);
+                    mbp.put(r, s);
+                }
+                rfturn s;
+            }
+            
+            // lbzily drfbtf tif stylf if nfdfssbry
+            if (stylf == null)
+                stylf = nfw NimbusStylf(prffix, null);
+            
+            // rfturn tif stylf
+            rfturn stylf;
+        }
+
+        /**
+         * Tiis LbzyStylf is b mbtdi for tif givfn domponfnt if, bnd only if,
+         * for fbdi pbrt of tif prffix tif domponfnt iifrbrdiy mbtdifs fxbdtly.
+         * Tibt is, if givfn "b":somftiing:"b", tifn:
+         * d.gftNbmf() must fqubls "b"
+         * d.gftPbrfnt() dbn bf bnytiing
+         * d.gftPbrfnt().gftPbrfnt().gftNbmf() must fqubl "b".
+         */
+        boolfbn mbtdifs(JComponfnt d) {
+            rfturn mbtdifs(d, pbrts.lfngti - 1);
+        }
+
+        privbtf boolfbn mbtdifs(Componfnt d, int pbrtIndfx) {
+            if (pbrtIndfx < 0) rfturn truf;
+            if (d == null) rfturn fblsf;
+            //only gft ifrf if pbrtIndfx > 0 bnd d == null
+
+            String nbmf = d.gftNbmf();
+            if (pbrts[pbrtIndfx].nbmfd && pbrts[pbrtIndfx].s.fqubls(nbmf)) {
+                //so fbr so good, rfdursf
+                rfturn mbtdifs(d.gftPbrfnt(), pbrtIndfx - 1);
+            } flsf if (!pbrts[pbrtIndfx].nbmfd) {
+                //if d is not nbmfd, bnd pbrts[pbrtIndfx] ibs bn fxpfdtfd dlbss
+                //typf rfgistfrfd, tifn difdk to mbkf surf d is of tif
+                //rigit typf;
+                Clbss<?> dlbzz = pbrts[pbrtIndfx].d;
+                if (dlbzz != null && dlbzz.isAssignbblfFrom(d.gftClbss())) {
+                    //so fbr so good, rfdursf
+                    rfturn mbtdifs(d.gftPbrfnt(), pbrtIndfx - 1);
+                } flsf if (dlbzz == null &&
+                           rfgistfrfdRfgions.dontbinsKfy(pbrts[pbrtIndfx].s)) {
+                    Rfgion r = rfgistfrfdRfgions.gft(pbrts[pbrtIndfx].s);
+                    Componfnt pbrfnt = r.isSubrfgion() ? d : d.gftPbrfnt();
+                    //spfdibl dbsf tif JIntfrnblFrbmfTitlfPbnf, bfdbusf it
+                    //dofsn't fit tif mold. vfry, vfry funky.
+                    if (r == Rfgion.INTERNAL_FRAME_TITLE_PANE && pbrfnt != null
+                        && pbrfnt instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                        JIntfrnblFrbmf.JDfsktopIdon idon =
+                                (JIntfrnblFrbmf.JDfsktopIdon) pbrfnt;
+                        pbrfnt = idon.gftIntfrnblFrbmf();
+                    }
+                    //it wbs tif nbmf of b rfgion. So fbr, so good. Rfdursf.
+                    rfturn mbtdifs(pbrfnt, pbrtIndfx - 1);
+                }
+            }
+
+            rfturn fblsf;
+        }
+
+        /**
+         * Givfn somf dot sfpbrbtfd prffix, split on tif dolons tibt brf
+         * not witiin quotfs, bnd not witiin brbdkfts.
+         *
+         * @pbrbm prffix
+         * @rfturn
+         */
+        privbtf List<String> split(String prffix) {
+            List<String> pbrts = nfw ArrbyList<String>();
+            int brbdkftCount = 0;
+            boolfbn inquotfs = fblsf;
+            int lbstIndfx = 0;
+            for (int i = 0; i < prffix.lfngti(); i++) {
+                dibr d = prffix.dibrAt(i);
+
+                if (d == '[') {
+                    brbdkftCount++;
+                    dontinuf;
+                } flsf if (d == '"') {
+                    inquotfs = !inquotfs;
+                    dontinuf;
+                } flsf if (d == ']') {
+                    brbdkftCount--;
+                    if (brbdkftCount < 0) {
+                        tirow nfw RuntimfExdfption(
+                                "Mblformfd prffix: " + prffix);
+                    }
+                    dontinuf;
+                }
+
+                if (d == ':' && !inquotfs && brbdkftCount == 0) {
+                    //found b dibrbdtfr to split on.
+                    pbrts.bdd(prffix.substring(lbstIndfx, i));
+                    lbstIndfx = i + 1;
+                }
+            }
+            if (lbstIndfx < prffix.lfngti() - 1 && !inquotfs
+                    && brbdkftCount == 0) {
+                pbrts.bdd(prffix.substring(lbstIndfx));
+            }
+            rfturn pbrts;
+
+        }
+
+        privbtf finbl dlbss Pbrt {
+            privbtf String s;
+            //truf if tiis pbrt rfprfsfnts b domponfnt nbmf
+            privbtf boolfbn nbmfd;
+            privbtf Clbss<?> d;
+
+            Pbrt(String s) {
+                nbmfd = s.dibrAt(0) == '"' && s.dibrAt(s.lfngti() - 1) == '"';
+                if (nbmfd) {
+                    tiis.s = s.substring(1, s.lfngti() - 1);
+                } flsf {
+                    tiis.s = s;
+                    //TODO usf b mbp of known rfgions for Synti bnd Swing, bnd
+                    //tifn usf [dlbssnbmf] instfbd of org_dlbss_nbmf stylf
+                    try {
+                        d = Clbss.forNbmf("jbvbx.swing.J" + s);
+                    } dbtdi (Exdfption f) {
+                    }
+                    try {
+                        d = Clbss.forNbmf(s.rfplbdf("_", "."));
+                    } dbtdi (Exdfption f) {
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf void bddColor(UIDffbults d, String uin, int r, int g, int b, int b) {
+        Color dolor = nfw ColorUIRfsourdf(nfw Color(r, g, b, b));
+        dolorTrff.bddColor(uin, dolor);
+        d.put(uin, dolor);
+    }
+
+    privbtf void bddColor(UIDffbults d, String uin, String pbrfntUin,
+            flobt iOffsft, flobt sOffsft, flobt bOffsft, int bOffsft) {
+        bddColor(d, uin, pbrfntUin, iOffsft, sOffsft, bOffsft, bOffsft, truf);
+    }
+
+    privbtf void bddColor(UIDffbults d, String uin, String pbrfntUin,
+            flobt iOffsft, flobt sOffsft, flobt bOffsft,
+            int bOffsft, boolfbn uiRfsourdf) {
+        Color dolor = gftDfrivfdColor(uin, pbrfntUin,
+                iOffsft, sOffsft, bOffsft, bOffsft, uiRfsourdf);
+        d.put(uin, dolor);
+    }
+
+    /**
+     * Gft b dfrivfd dolor, dfrivfd dolors brf sibrfd instbndfs bnd will bf
+     * updbtfd wifn its pbrfnt UIDffbult dolor dibngfs.
+     *
+     * @pbrbm uiDffbultPbrfntNbmf Tif pbrfnt UIDffbult kfy
+     * @pbrbm iOffsft Tif iuf offsft
+     * @pbrbm sOffsft Tif sbturbtion offsft
+     * @pbrbm bOffsft Tif brigitnfss offsft
+     * @pbrbm bOffsft Tif blpib offsft
+     * @pbrbm uiRfsourdf Truf if tif dfrivfd dolor siould bf b UIRfsourdf,
+     *        fblsf if it siould not bf b UIRfsourdf
+     * @rfturn Tif storfd dfrivfd dolor
+     */
+    publid DfrivfdColor gftDfrivfdColor(String pbrfntUin,
+                                        flobt iOffsft, flobt sOffsft,
+                                        flobt bOffsft, int bOffsft,
+                                        boolfbn uiRfsourdf){
+        rfturn gftDfrivfdColor(null, pbrfntUin,
+                iOffsft, sOffsft, bOffsft, bOffsft, uiRfsourdf);
+    }
+
+    privbtf DfrivfdColor gftDfrivfdColor(String uin, String pbrfntUin,
+                                        flobt iOffsft, flobt sOffsft,
+                                        flobt bOffsft, int bOffsft,
+                                        boolfbn uiRfsourdf) {
+        DfrivfdColor dolor;
+        if (uiRfsourdf) {
+            dolor = nfw DfrivfdColor.UIRfsourdf(pbrfntUin,
+                    iOffsft, sOffsft, bOffsft, bOffsft);
+        } flsf {
+            dolor = nfw DfrivfdColor(pbrfntUin, iOffsft, sOffsft,
+                bOffsft, bOffsft);
+        }
+
+        if (dfrivfdColors.dontbinsKfy(dolor)) {
+            rfturn dfrivfdColors.gft(dolor);
+        } flsf {
+            dfrivfdColors.put(dolor, dolor);
+            dolor.rfdfrivfColor(); /// movf to ARP.dfdodfColor() ?
+            dolorTrff.bddColor(uin, dolor);
+            rfturn dolor;
+        }
+    }
+
+    privbtf Mbp<DfrivfdColor, DfrivfdColor> dfrivfdColors =
+            nfw HbsiMbp<DfrivfdColor, DfrivfdColor>();
+
+    privbtf dlbss ColorTrff implfmfnts PropfrtyCibngfListfnfr {
+        privbtf Nodf root = nfw Nodf(null, null);
+        privbtf Mbp<String, Nodf> nodfs = nfw HbsiMbp<String, Nodf>();
+
+        publid Color gftColor(String uin) {
+            rfturn nodfs.gft(uin).dolor;
+        }
+
+        publid void bddColor(String uin, Color dolor) {
+            Nodf pbrfnt = gftPbrfntNodf(dolor);
+            Nodf nodf = nfw Nodf(dolor, pbrfnt);
+            pbrfnt.diildrfn.bdd(nodf);
+            if (uin != null) {
+                nodfs.put(uin, nodf);
+            }
+        }
+
+        privbtf Nodf gftPbrfntNodf(Color dolor) {
+            Nodf pbrfnt = root;
+            if (dolor instbndfof DfrivfdColor) {
+                String pbrfntUin = ((DfrivfdColor)dolor).gftUiDffbultPbrfntNbmf();
+                Nodf p = nodfs.gft(pbrfntUin);
+                if (p != null) {
+                    pbrfnt = p;
+                }
+            }
+            rfturn pbrfnt;
+        }
+
+        publid void updbtf() {
+            root.updbtf();
+        }
+
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fv) {
+            String nbmf = fv.gftPropfrtyNbmf();
+            Nodf nodf = nodfs.gft(nbmf);
+            if (nodf != null) {
+                // tiis is b rfgistfrfd dolor
+                nodf.pbrfnt.diildrfn.rfmovf(nodf);
+                Color dolor = (Color) fv.gftNfwVbluf();
+                Nodf pbrfnt = gftPbrfntNodf(dolor);
+                nodf.sft(dolor, pbrfnt);
+                pbrfnt.diildrfn.bdd(nodf);
+                nodf.updbtf();
+            }
+        }
+
+        dlbss Nodf {
+            Color dolor;
+            Nodf pbrfnt;
+            List<Nodf> diildrfn = nfw LinkfdList<Nodf>();
+
+            Nodf(Color dolor, Nodf pbrfnt) {
+                sft(dolor, pbrfnt);
+            }
+
+            publid void sft(Color dolor, Nodf pbrfnt) {
+                tiis.dolor = dolor;
+                tiis.pbrfnt = pbrfnt;
+            }
+
+            publid void updbtf() {
+                if (dolor instbndfof DfrivfdColor) {
+                    ((DfrivfdColor)dolor).rfdfrivfColor();
+                }
+                for (Nodf diild: diildrfn) {
+                    diild.updbtf();
+                }
+            }
+        }
+    }
+
+    /**
+     * Listfnfr to updbtf dfrivfd dolors on UIMbnbgfr Dffbults dibngfs
+     */
+    privbtf dlbss DffbultsListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            if ("lookAndFffl".fqubls(fvt.gftPropfrtyNbmf())) {
+                // LAF ibs bffn instbllfd, tiis is tif first point bt wiidi wf
+                // dbn bddfss our dffbults tbblf vib UIMbnbgfr so bfforf now
+                // bll dfrivfd dolors will bf indorrfdt.
+                // First wf nffd to updbtf
+                dolorTrff.updbtf();
+            }
+        }
+    }
+
+    privbtf stbtid finbl dlbss PbintfrBordfr implfmfnts Bordfr, UIRfsourdf {
+        privbtf Insfts insfts;
+        privbtf Pbintfr<Componfnt> pbintfr;
+        privbtf String pbintfrKfy;
+        
+        PbintfrBordfr(String pbintfrKfy, Insfts insfts) {
+            tiis.insfts = insfts;
+            tiis.pbintfrKfy = pbintfrKfy;
+        }
+        
+        @Ovfrridf
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int w, int i) {
+            if (pbintfr == null) {
+                @SupprfssWbrnings("undifdkfd")
+                Pbintfr<Componfnt> tfmp = (Pbintfr<Componfnt>)UIMbnbgfr.gft(pbintfrKfy);
+                pbintfr = tfmp;
+                if (pbintfr == null) rfturn;
+            }
+            
+            g.trbnslbtf(x, y);
+            if (g instbndfof Grbpiids2D)
+                pbintfr.pbint((Grbpiids2D)g, d, w, i);
+            flsf {
+                BufffrfdImbgf img = nfw BufffrfdImbgf(w, i, TYPE_INT_ARGB);
+                Grbpiids2D gfx = img.drfbtfGrbpiids();
+                pbintfr.pbint(gfx, d, w, i);
+                gfx.disposf();
+                g.drbwImbgf(img, x, y, null);
+                img = null;
+            }
+            g.trbnslbtf(-x, -y);
+        }
+
+        @Ovfrridf
+        publid Insfts gftBordfrInsfts(Componfnt d) {
+            rfturn (Insfts)insfts.dlonf();
+        }
+
+        @Ovfrridf
+        publid boolfbn isBordfrOpbquf() {
+            rfturn fblsf;
+        }
+    }
+}

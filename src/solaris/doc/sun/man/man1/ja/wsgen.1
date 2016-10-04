@@ -1,228 +1,1140 @@
 '\" t
-.\" Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: wsgen
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java Webサービス・ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: wsgfn
+.\" Titlf: wsgfn
+.\" Titlf: wsgfn
+.\" Titlf: wsgfn
+.\" Titlf: wsgfn
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "wsgen" "1" "2013年11月21日" "JDK 8" "Java Webサービス・ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-wsgen \- Webサービスのエンドポイント実装(SEI)クラスを読取り、Webサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIwsgen\fR [ \fIoptions\fR ] \fISEI\fR
+.nf
+.nf
+.nf
+.nf
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fISEI\fR
+\fISEI\fR
+\fISEI\fR
+\fISEI\fR
+\fISEI\fR
 .RS 4
-読み取るWebサービスのエンドポイント実装クラス(SEI)です。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIwsgen\fRコマンドは、JAX\-WS Webサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Webサービスのエンドポイント・クラスを読取り、Webサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgen\fR
+.PP
+.PP
+.PP
+.PP
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
 Antタスクも提供されます。
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.htmlのJAX\-WS (wsgen)ページのToolsタブを参照してください。
+Antタスクも提供されます。
+Antタスクも提供されます。
+Antタスクも提供されます。
+Antタスクも提供されます。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
 .PP
-\fIwsgen\fRコマンドを起動するには、次を行います。
+.PP
+.PP
+.PP
+.PP
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-export JAXWS_HOME=/pathto/jaxws\-ri
-$JAXWS_HOME/bin/wsgen\&.sh \-help
+.nf
+.nf
+.nf
+.nf
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .PP
-\-classpath \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 入力クラス・ファイルの場所。
-.RE
-.PP
-\-cp \fIpath\fR
-.RS 4
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
 入力クラス・ファイルの場所。
 .RE
+.RE
+.RE
+.RE
+.RE
 .PP
-\-d \fIdirectory\fR
+.PP
+.PP
+.PP
+.PP
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
+入力クラス・ファイルの場所。
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成された出力ファイルを格納する場所。
+生成された出力ファイルを格納する場所。
+生成された出力ファイルを格納する場所。
+生成された出力ファイルを格納する場所。
+生成された出力ファイルを格納する場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-extension
+.PP
+.PP
+.PP
+.PP
+\-fxtfnsion
+\-fxtfnsion
+\-fxtfnsion
+\-fxtfnsion
+\-fxtfnsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-help
+.PP
+.PP
+.PP
+.PP
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
 .RS 4
-\fIwsgen\fRコマンドに関するヘルプ・メッセージを表示します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-keep
+.PP
+.PP
+.PP
+.PP
+\-kffp
+\-kffp
+\-kffp
+\-kffp
+\-kffp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成されたファイルを保存します。
+生成されたファイルを保存します。
+生成されたファイルを保存します。
+生成されたファイルを保存します。
+生成されたファイルを保存します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-r \fIdirectory\fR
+.PP
+.PP
+.PP
+.PP
+\-r \fIdirfdtory\fR
+\-r \fIdirfdtory\fR
+\-r \fIdirfdtory\fR
+\-r \fIdirfdtory\fR
+\-r \fIdirfdtory\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-s \fIdirectory\fR
+.PP
+.PP
+.PP
+.PP
+\-s \fIdirfdtory\fR
+\-s \fIdirfdtory\fR
+\-s \fIdirfdtory\fR
+\-s \fIdirfdtory\fR
+\-s \fIdirfdtory\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成されたソース・ファイルを格納する場所。
+生成されたソース・ファイルを格納する場所。
+生成されたソース・ファイルを格納する場所。
+生成されたソース・ファイルを格納する場所。
+生成されたソース・ファイルを格納する場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-verbose
+.PP
+.PP
+.PP
+.PP
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コンパイラ・メッセージを表示します。
+コンパイラ・メッセージを表示します。
+コンパイラ・メッセージを表示します。
+コンパイラ・メッセージを表示します。
+コンパイラ・メッセージを表示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リリース情報を出力します。
+リリース情報を出力します。
+リリース情報を出力します。
+リリース情報を出力します。
+リリース情報を出力します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-wsdl [ :protocol ]
+.PP
+.PP
+.PP
+.PP
+\-wsdl [ :protodol ]
+\-wsdl [ :protodol ]
+\-wsdl [ :protodol ]
+\-wsdl [ :protodol ]
+\-wsdl [ :protodol ]
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
+エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
+エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
+エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
+エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
 .sp
-デフォルトでは\fIwsgen\fRコマンドはWSDLファイルを生成しません。\fIprotocol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsoap1\&.1\fRと\fIXsoap1\&.2\fRです。デフォルトは\fIsoap1\&.1\fRです。\fIXsoap1\&.2\fRプロトコルは標準ではないため、\fI\-extension\fRオプションとともにのみ使用可能です。
+.sp
+.sp
+.sp
+.sp
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-servicename \fIname\fR
+.PP
+.PP
+.PP
+.PP
+\-sfrvidfnbmf \fInbmf\fR
+\-sfrvidfnbmf \fInbmf\fR
+\-sfrvidfnbmf \fInbmf\fR
+\-sfrvidfnbmf \fInbmf\fR
+\-sfrvidfnbmf \fInbmf\fR
 .RS 4
-\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:service\fR)名を指定します。例:
-\fI\-servicename "{http://mynamespace/}MyService"\fR。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-portname \fIname\fR
+.PP
+.PP
+.PP
+.PP
+\-portnbmf \fInbmf\fR
+\-portnbmf \fInbmf\fR
+\-portnbmf \fInbmf\fR
+\-portnbmf \fInbmf\fR
+\-portnbmf \fInbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
-\fI\-portname "{http://mynamespace/}MyPort"\fR。
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
 .PP
-次の例では、Stockディレクトリ内に\fI@WebService\fR注釈を持つ\fIStockService\fRのラッパー・クラスを生成します。
+.PP
+.PP
+.PP
+.PP
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-wsgen \-d stock \-cp myclasspath stock\&.StockService
+.nf
+.nf
+.nf
+.nf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
-次の例では、SOAP 1\&.1 WSDLおよび\fI@WebService\fR注釈を持つ\fIstock\&.StockService\fRクラスのスキーマを生成します。
+.PP
+.PP
+.PP
+.PP
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-wsgen \-wsdl \-d stock \-cp myclasspath stock\&.StockService
+.nf
+.nf
+.nf
+.nf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次の例では、SOAP 1\&.2 WSDLを生成します。
+次の例では、SOAP 1\&.2 WSDLを生成します。
+次の例では、SOAP 1\&.2 WSDLを生成します。
+次の例では、SOAP 1\&.2 WSDLを生成します。
+次の例では、SOAP 1\&.2 WSDLを生成します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-wsgen \-wsdl:Xsoap1\&.2 \-d stock \-cp myclasspath stock\&.StockService 
+.nf
+.nf
+.nf
+.nf
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
 \fB注意:\fR
 サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-wsimport(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.htmlの
-JAX\-WS (wsgen)ページのToolsタブを参照してください。
+.\}
+.\}
+.\}
+.\}
+wsimport(1)
+wsimport(1)
+wsimport(1)
+wsimport(1)
+wsimport(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

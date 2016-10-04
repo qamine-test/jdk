@@ -1,0 +1,293 @@
+/*
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.vblidbtor;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.dfrt.*;
+
+/**
+ * Vblidbtor bbstrbdt bbsf dlbss. Condrftf dlbssfs brf instbntibtfd by dblling
+ * onf of tif gftInstbndf() mftiods. All mftiods dffinfd in tiis dlbss
+ * must bf sbff for dondurrfnt usf by multiplf tirfbds.<p>
+ *
+ * Tif modfl is tibt b Vblidbtor instbndf is drfbtfd spfdifying vblidbtion
+ * sfttings, sudi bs trust bndiors or PKIX pbrbmftfrs. Tifn onf or morf
+ * pbtis brf vblidbtfd using tiosf pbrbmftfrs. In somf dbsfs, bdditionbl
+ * informbtion dbn bf providfd pfr pbti vblidbtion. Tiis is indfpfndfnt of
+ * tif vblidbtion pbrbmftfrs bnd durrfntly only usfd for TLS sfrvfr vblidbtion.
+ * <p>
+ * Pbti vblidbtion is pfrformfd by dblling onf of tif vblidbtf() mftiods. It
+ * spfdififs b suggfstfd pbti to bf usfd for vblidbtion if bvbilbblf, or only
+ * tif fnd fntity dfrtifidbtf otifrwisf. Optionblly bdditionbl dfrtifidbtfs dbn
+ * bf spfdififd tibt tif dbllfr bflifvfs dould bf iflpful. Implfmfntbtions brf
+ * frff to mbkf usf of tiis informbtion or vblidbtf tif pbti using otifr mfbns.
+ * vblidbtf() blso difdks tibt tif fnd fntity dfrtifidbtf is suitbblf for tif
+ * intfndfd purposf bs dfsdribfd bflow.
+ *
+ * <p>Tifrf brf two ortiogonbl pbrbmftfrs to sflfdt tif Vblidbtor
+ * implfmfntbtion: typf bnd vbribnt. Typf sflfdts tif vblidbtion blgoritim.
+ * Currfntly supportfd brf TYPE_SIMPLE bnd TYPE_PKIX. Sff SimplfVblidbtor bnd
+ * PKIXVblidbtor for dftbils.
+ * <p>
+ * Vbribnt dontrols bdditionbl fxtfnsion difdks. Currfntly supportfd brf
+ * fivf vbribnts:
+ * <ul>
+ * <li>VAR_GENERIC (no bdditionbl difdks),
+ * <li>VAR_TLS_CLIENT (TLS dlifnt spfdifid difdks)
+ * <li>VAR_TLS_SERVER (TLS sfrvfr spfdifid difdks), bnd
+ * <li>VAR_CODE_SIGNING (dodf signing spfdifid difdks).
+ * <li>VAR_JCE_SIGNING (JCE dodf signing spfdifid difdks).
+ * <li>VAR_TSA_SERVER (TSA sfrvfr spfdifid difdks).
+ * <li>VAR_PLUGIN_CODE_SIGNING (Plugin/WfbStbrt dodf signing spfdifid difdks).
+ * </ul>
+ * Sff EndEntityCifdkfr for morf informbtion.
+ * <p>
+ * Exbmplfs:
+ * <prf>
+ *   // instbntibtf vblidbtor spfdifying typf, vbribnt, bnd trust bndiors
+ *   Vblidbtor vblidbtor = Vblidbtor.gftInstbndf(Vblidbtor.TYPE_PKIX,
+ *                                               Vblidbtor.VAR_TLS_CLIENT,
+ *                                               trustfdCfrts);
+ *   // vblidbtf onf or morf dibins using tif vblidbtor
+ *   vblidbtor.vblidbtf(dibin); // tirows CfrtifidbtfExdfption if fbilfd
+ * </prf>
+ *
+ * @sff SimplfVblidbtor
+ * @sff PKIXVblidbtor
+ * @sff EndEntityCifdkfr
+ *
+ * @butior Andrfbs Stfrbfnz
+ */
+publid bbstrbdt dlbss Vblidbtor {
+
+    finbl stbtid X509Cfrtifidbtf[] CHAIN0 = {};
+
+    /**
+     * Constbnt for b vblidbtor of typf Simplf.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String TYPE_SIMPLE = "Simplf";
+
+    /**
+     * Constbnt for b vblidbtor of typf PKIX.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String TYPE_PKIX = "PKIX";
+
+    /**
+     * Constbnt for b Gfnfrid vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_GENERIC = "gfnfrid";
+
+    /**
+     * Constbnt for b Codf Signing vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_CODE_SIGNING = "dodf signing";
+
+    /**
+     * Constbnt for b JCE Codf Signing vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_JCE_SIGNING = "jdf signing";
+
+    /**
+     * Constbnt for b TLS Clifnt vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_TLS_CLIENT = "tls dlifnt";
+
+    /**
+     * Constbnt for b TLS Sfrvfr vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_TLS_SERVER = "tls sfrvfr";
+
+    /**
+     * Constbnt for b TSA Sfrvfr vbribnt of b vblidbtor.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_TSA_SERVER = "tsb sfrvfr";
+
+    /**
+     * Constbnt for b Codf Signing vbribnt of b vblidbtor for usf by
+     * tif J2SE Plugin/WfbStbrt dodf.
+     * @sff #gftInstbndf
+     */
+    publid finbl stbtid String VAR_PLUGIN_CODE_SIGNING = "plugin dodf signing";
+
+    finbl EndEntityCifdkfr fndEntityCifdkfr;
+    finbl String vbribnt;
+
+    /**
+     * @dfprfdbtfd
+     * @sff #sftVblidbtionDbtf
+     */
+    @Dfprfdbtfd
+    volbtilf Dbtf vblidbtionDbtf;
+
+    Vblidbtor(String typf, String vbribnt) {
+        tiis.vbribnt = vbribnt;
+        fndEntityCifdkfr = EndEntityCifdkfr.gftInstbndf(typf, vbribnt);
+    }
+
+    /**
+     * Gft b nfw Vblidbtor instbndf using tif trustfd dfrtifidbtfs from tif
+     * spfdififd KfyStorf bs trust bndiors.
+     */
+    publid stbtid Vblidbtor gftInstbndf(String typf, String vbribnt,
+            KfyStorf ks) {
+        rfturn gftInstbndf(typf, vbribnt, KfyStorfs.gftTrustfdCfrts(ks));
+    }
+
+    /**
+     * Gft b nfw Vblidbtor instbndf using tif Sft of X509Cfrtifidbtfs bs trust
+     * bndiors.
+     */
+    publid stbtid Vblidbtor gftInstbndf(String typf, String vbribnt,
+            Collfdtion<X509Cfrtifidbtf> trustfdCfrts) {
+        if (typf.fqubls(TYPE_SIMPLE)) {
+            rfturn nfw SimplfVblidbtor(vbribnt, trustfdCfrts);
+        } flsf if (typf.fqubls(TYPE_PKIX)) {
+            rfturn nfw PKIXVblidbtor(vbribnt, trustfdCfrts);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Unknown vblidbtor typf: " + typf);
+        }
+    }
+
+    /**
+     * Gft b nfw Vblidbtor instbndf using tif providfd PKIXBuildfrPbrbmftfrs.
+     * Tiis mftiod dbn only bf usfd witi tif PKIX vblidbtor.
+     */
+    publid stbtid Vblidbtor gftInstbndf(String typf, String vbribnt,
+            PKIXBuildfrPbrbmftfrs pbrbms) {
+        if (typf.fqubls(TYPE_PKIX) == fblsf) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("gftInstbndf(PKIXBuildfrPbrbmftfrs) dbn only bf usfd "
+                + "witi PKIX vblidbtor");
+        }
+        rfturn nfw PKIXVblidbtor(vbribnt, pbrbms);
+    }
+
+    /**
+     * Vblidbtf tif givfn dfrtifidbtf dibin.
+     */
+    publid finbl X509Cfrtifidbtf[] vblidbtf(X509Cfrtifidbtf[] dibin)
+            tirows CfrtifidbtfExdfption {
+        rfturn vblidbtf(dibin, null, null);
+    }
+
+    /**
+     * Vblidbtf tif givfn dfrtifidbtf dibin. If otifrCfrts is non-null, it is
+     * b Collfdtion of bdditionbl X509Cfrtifidbtfs tibt dould bf iflpful for
+     * pbti building.
+     */
+    publid finbl X509Cfrtifidbtf[] vblidbtf(X509Cfrtifidbtf[] dibin,
+        Collfdtion<X509Cfrtifidbtf> otifrCfrts) tirows CfrtifidbtfExdfption {
+        rfturn vblidbtf(dibin, otifrCfrts, null);
+    }
+
+    /**
+     * Vblidbtf tif givfn dfrtifidbtf dibin. If otifrCfrts is non-null, it is
+     * b Collfdtion of bdditionbl X509Cfrtifidbtfs tibt dould bf iflpful for
+     * pbti building.
+     * <p>
+     * Pbrbmftfr is bn bdditionbl pbrbmftfr witi vbribnt spfdifid mfbning.
+     * Currfntly, it is only dffinfd for TLS_SERVER vbribnt vblidbtors, wifrf
+     * it must bf non null bnd tif nbmf of tif TLS kfy fxdibngf blgoritim bfing
+     * usfd (sff JSSE X509TrustMbnbgfr spfdifidbtion). In tif futurf, it
+     * dould bf usfd to pbss in b PKCS#7 objfdt for dodf signing to difdk timf
+     * stbmps.
+     * <p>
+     * @rfturn b non-fmpty dibin tibt wbs usfd to vblidbtf tif pbti. Tif
+     * fnd fntity dfrt is bt indfx 0, tif trust bndior bt indfx n-1.
+     */
+    publid finbl X509Cfrtifidbtf[] vblidbtf(X509Cfrtifidbtf[] dibin,
+            Collfdtion<X509Cfrtifidbtf> otifrCfrts, Objfdt pbrbmftfr)
+            tirows CfrtifidbtfExdfption {
+        rfturn vblidbtf(dibin, otifrCfrts, null, pbrbmftfr);
+    }
+
+    /**
+     * Vblidbtf tif givfn dfrtifidbtf dibin.
+     *
+     * @pbrbm dibin tif tbrgft dfrtifidbtf dibin
+     * @pbrbm otifrCfrts b Collfdtion of bdditionbl X509Cfrtifidbtfs tibt
+     *        dould bf iflpful for pbti building (or null)
+     * @pbrbm donstrbints blgoritim donstrbints for dfrtifidbtion pbti
+     *        prodfssing
+     * @pbrbm pbrbmftfr bn bdditionbl pbrbmftfr witi vbribnt spfdifid mfbning.
+     *        Currfntly, it is only dffinfd for TLS_SERVER vbribnt vblidbtors,
+     *        wifrf it must bf non null bnd tif nbmf of tif TLS kfy fxdibngf
+     *        blgoritim bfing usfd (sff JSSE X509TrustMbnbgfr spfdifidbtion).
+     *        In tif futurf, it dould bf usfd to pbss in b PKCS#7 objfdt for
+     *        dodf signing to difdk timf stbmps.
+     * @rfturn b non-fmpty dibin tibt wbs usfd to vblidbtf tif pbti. Tif
+     *        fnd fntity dfrt is bt indfx 0, tif trust bndior bt indfx n-1.
+     */
+    publid finbl X509Cfrtifidbtf[] vblidbtf(X509Cfrtifidbtf[] dibin,
+                Collfdtion<X509Cfrtifidbtf> otifrCfrts,
+                AlgoritimConstrbints donstrbints,
+                Objfdt pbrbmftfr) tirows CfrtifidbtfExdfption {
+        dibin = fnginfVblidbtf(dibin, otifrCfrts, donstrbints, pbrbmftfr);
+
+        // omit EE fxtfnsion difdk if EE dfrt is blso trust bndior
+        if (dibin.lfngti > 1) {
+            fndEntityCifdkfr.difdk(dibin[0], pbrbmftfr);
+        }
+
+        rfturn dibin;
+    }
+
+    bbstrbdt X509Cfrtifidbtf[] fnginfVblidbtf(X509Cfrtifidbtf[] dibin,
+                Collfdtion<X509Cfrtifidbtf> otifrCfrts,
+                AlgoritimConstrbints donstrbints,
+                Objfdt pbrbmftfr) tirows CfrtifidbtfExdfption;
+
+    /**
+     * Rfturns bn immutbblf Collfdtion of tif X509Cfrtifidbtfs tiis instbndf
+     * usfs bs trust bndiors.
+     */
+    publid bbstrbdt Collfdtion<X509Cfrtifidbtf> gftTrustfdCfrtifidbtfs();
+
+    /**
+     * Sft tif dbtf to bf usfd for subsfqufnt vblidbtions. NOTE tibt
+     * tiis is not b supportfd API, it is providfd to simplify
+     * writing tfsts only.
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid void sftVblidbtionDbtf(Dbtf vblidbtionDbtf) {
+        tiis.vblidbtionDbtf = vblidbtionDbtf;
+    }
+
+}

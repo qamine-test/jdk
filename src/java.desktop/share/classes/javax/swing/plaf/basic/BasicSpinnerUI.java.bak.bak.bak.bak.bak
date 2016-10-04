@@ -1,0 +1,1076 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.tfxt.PbrsfExdfption;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
+
+import jbvb.bfbns.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import sun.swing.DffbultLookup;
+
+
+/**
+ * Tif dffbult Spinnfr UI dflfgbtf.
+ *
+ * @butior Hbns Mullfr
+ * @sindf 1.4
+ */
+publid dlbss BbsidSpinnfrUI fxtfnds SpinnfrUI
+{
+    /**
+     * Tif spinnfr tibt wf'rf b UI dflfgbtf for.  Initiblizfd by
+     * tif <dodf>instbllUI</dodf> mftiod, bnd rfsft to null
+     * by <dodf>uninstbllUI</dodf>.
+     *
+     * @sff #instbllUI
+     * @sff #uninstbllUI
+     */
+    protfdtfd JSpinnfr spinnfr;
+    privbtf Hbndlfr ibndlfr;
+
+
+    /**
+     * Tif mousf/bdtion listfnfrs tibt brf bddfd to tif spinnfr's
+     * brrow buttons.  Tifsf listfnfrs brf sibrfd by bll
+     * spinnfr brrow buttons.
+     *
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
+     */
+    privbtf stbtid finbl ArrowButtonHbndlfr nfxtButtonHbndlfr = nfw ArrowButtonHbndlfr("indrfmfnt", truf);
+    privbtf stbtid finbl ArrowButtonHbndlfr prfviousButtonHbndlfr = nfw ArrowButtonHbndlfr("dfdrfmfnt", fblsf);
+    privbtf PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
+
+
+    /**
+     * Usfd by tif dffbult LbyoutMbnbgfr dlbss - SpinnfrLbyout for
+     * missing (null) fditor/nfxtButton/prfviousButton diildrfn.
+     */
+    privbtf stbtid finbl Dimfnsion zfroSizf = nfw Dimfnsion(0, 0);
+
+
+    /**
+     * Rfturns b nfw instbndf of BbsidSpinnfrUI.  SpinnfrListUI
+     * dflfgbtfs brf bllodbtfd onf pfr JSpinnfr.
+     *
+     * @pbrbm d tif JSpinnfr (not usfd)
+     * @sff ComponfntUI#drfbtfUI
+     * @rfturn b nfw BbsidSpinnfrUI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidSpinnfrUI();
+    }
+
+
+    privbtf void mbybfAdd(Componfnt d, String s) {
+        if (d != null) {
+            spinnfr.bdd(d, s);
+        }
+    }
+
+
+    /**
+     * Cblls <dodf>instbllDffbults</dodf>, <dodf>instbllListfnfrs</dodf>,
+     * bnd tifn bdds tif domponfnts rfturnfd by <dodf>drfbtfNfxtButton</dodf>,
+     * <dodf>drfbtfPrfviousButton</dodf>, bnd <dodf>drfbtfEditor</dodf>.
+     *
+     * @pbrbm d tif JSpinnfr
+     * @sff #instbllDffbults
+     * @sff #instbllListfnfrs
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
+     * @sff #drfbtfEditor
+     */
+    publid void instbllUI(JComponfnt d) {
+        tiis.spinnfr = (JSpinnfr)d;
+        instbllDffbults();
+        instbllListfnfrs();
+        mbybfAdd(drfbtfNfxtButton(), "Nfxt");
+        mbybfAdd(drfbtfPrfviousButton(), "Prfvious");
+        mbybfAdd(drfbtfEditor(), "Editor");
+        updbtfEnbblfdStbtf();
+        instbllKfybobrdAdtions();
+    }
+
+
+    /**
+     * Cblls <dodf>uninstbllDffbults</dodf>, <dodf>uninstbllListfnfrs</dodf>,
+     * bnd tifn rfmovfs bll of tif spinnfrs diildrfn.
+     *
+     * @pbrbm d tif JSpinnfr (not usfd)
+     */
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        tiis.spinnfr = null;
+        d.rfmovfAll();
+    }
+
+
+    /**
+     * Initiblizfs <dodf>PropfrtyCibngfListfnfr</dodf> witi
+     * b sibrfd objfdt tibt dflfgbtfs intfrfsting PropfrtyCibngfEvfnts
+     * to protfdtfd mftiods.
+     * <p>
+     * Tiis mftiod is dbllfd by <dodf>instbllUI</dodf>.
+     *
+     * @sff #rfplbdfEditor
+     * @sff #uninstbllListfnfrs
+     */
+    protfdtfd void instbllListfnfrs() {
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        spinnfr.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        if (DffbultLookup.gftBoolfbn(spinnfr, tiis,
+            "Spinnfr.disbblfOnBoundbryVblufs", fblsf)) {
+            spinnfr.bddCibngfListfnfr(gftHbndlfr());
+        }
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor != null && fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+            if (tf != null) {
+                tf.bddFodusListfnfr(nfxtButtonHbndlfr);
+                tf.bddFodusListfnfr(prfviousButtonHbndlfr);
+            }
+        }
+    }
+
+
+    /**
+     * Rfmovfs tif <dodf>PropfrtyCibngfListfnfr</dodf> bddfd
+     * by instbllListfnfrs.
+     * <p>
+     * Tiis mftiod is dbllfd by <dodf>uninstbllUI</dodf>.
+     *
+     * @sff #instbllListfnfrs
+     */
+    protfdtfd void uninstbllListfnfrs() {
+        spinnfr.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        spinnfr.rfmovfCibngfListfnfr(ibndlfr);
+        JComponfnt fditor = spinnfr.gftEditor();
+        rfmovfEditorBordfrListfnfr(fditor);
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+            if (tf != null) {
+                tf.rfmovfFodusListfnfr(nfxtButtonHbndlfr);
+                tf.rfmovfFodusListfnfr(prfviousButtonHbndlfr);
+            }
+        }
+        propfrtyCibngfListfnfr = null;
+        ibndlfr = null;
+    }
+
+
+    /**
+     * Initiblizf tif <dodf>JSpinnfr</dodf> <dodf>bordfr</dodf>,
+     * <dodf>forfground</dodf>, bnd <dodf>bbdkground</dodf>, propfrtifs
+     * bbsfd on tif dorrfsponding "Spinnfr.*" propfrtifs from dffbults tbblf.
+     * Tif <dodf>JSpinnfrs</dodf> lbyout is sft to tif vbluf rfturnfd by
+     * <dodf>drfbtfLbyout</dodf>.  Tiis mftiod is dbllfd by <dodf>instbllUI</dodf>.
+     *
+     * @sff #uninstbllDffbults
+     * @sff #instbllUI
+     * @sff #drfbtfLbyout
+     * @sff LookAndFffl#instbllBordfr
+     * @sff LookAndFffl#instbllColors
+     */
+    protfdtfd void instbllDffbults() {
+        spinnfr.sftLbyout(drfbtfLbyout());
+        LookAndFffl.instbllBordfr(spinnfr, "Spinnfr.bordfr");
+        LookAndFffl.instbllColorsAndFont(spinnfr, "Spinnfr.bbdkground", "Spinnfr.forfground", "Spinnfr.font");
+        LookAndFffl.instbllPropfrty(spinnfr, "opbquf", Boolfbn.TRUE);
+    }
+
+
+    /**
+     * Sfts tif <dodf>JSpinnfr's</dodf> lbyout mbnbgfr to null.  Tiis
+     * mftiod is dbllfd by <dodf>uninstbllUI</dodf>.
+     *
+     * @sff #instbllDffbults
+     * @sff #uninstbllUI
+     */
+    protfdtfd void uninstbllDffbults() {
+        spinnfr.sftLbyout(null);
+    }
+
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
+        }
+        rfturn ibndlfr;
+    }
+
+
+    /**
+     * Instblls tif nfdfssbry listfnfrs on tif nfxt button, <dodf>d</dodf>,
+     * to updbtf tif <dodf>JSpinnfr</dodf> in rfsponsf to b usfr gfsturf.
+     *
+     * @pbrbm d Componfnt to instbll tif listfnfrs on
+     * @tirows NullPointfrExdfption if <dodf>d</dodf> is null.
+     * @sff #drfbtfNfxtButton
+     * @sindf 1.5
+     */
+    protfdtfd void instbllNfxtButtonListfnfrs(Componfnt d) {
+        instbllButtonListfnfrs(d, nfxtButtonHbndlfr);
+    }
+
+    /**
+     * Instblls tif nfdfssbry listfnfrs on tif prfvious button, <dodf>d</dodf>,
+     * to updbtf tif <dodf>JSpinnfr</dodf> in rfsponsf to b usfr gfsturf.
+     *
+     * @pbrbm d Componfnt to instbll tif listfnfrs on.
+     * @tirows NullPointfrExdfption if <dodf>d</dodf> is null.
+     * @sff #drfbtfPrfviousButton
+     * @sindf 1.5
+     */
+    protfdtfd void instbllPrfviousButtonListfnfrs(Componfnt d) {
+        instbllButtonListfnfrs(d, prfviousButtonHbndlfr);
+    }
+
+    privbtf void instbllButtonListfnfrs(Componfnt d,
+                                        ArrowButtonHbndlfr ibndlfr) {
+        if (d instbndfof JButton) {
+            ((JButton)d).bddAdtionListfnfr(ibndlfr);
+        }
+        d.bddMousfListfnfr(ibndlfr);
+    }
+
+    /**
+     * Crfbtfs b <dodf>LbyoutMbnbgfr</dodf> tibt mbnbgfs tif <dodf>fditor</dodf>,
+     * <dodf>nfxtButton</dodf>, bnd <dodf>prfviousButton</dodf>
+     * diildrfn of tif JSpinnfr.  Tifsf tirff diildrfn must bf
+     * bddfd witi b donstrbint tibt idfntififs tifir rolf:
+     * "Editor", "Nfxt", bnd "Prfvious". Tif dffbult lbyout mbnbgfr
+     * dbn ibndlf tif bbsfndf of bny of tifsf diildrfn.
+     *
+     * @rfturn b LbyoutMbnbgfr for tif fditor, nfxt button, bnd prfvious button.
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
+     * @sff #drfbtfEditor
+     */
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn gftHbndlfr();
+    }
+
+
+    /**
+     * Crfbtfs b <dodf>PropfrtyCibngfListfnfr</dodf> tibt dbn bf
+     * bddfd to tif JSpinnfr itsflf.  Typidblly, tiis listfnfr
+     * will dbll rfplbdfEditor wifn tif "fditor" propfrty dibngfs,
+     * sindf it's tif <dodf>SpinnfrUI's</dodf> rfsponsibility to
+     * bdd tif fditor to tif JSpinnfr (bnd rfmovf tif old onf).
+     * Tiis mftiod is dbllfd by <dodf>instbllListfnfrs</dodf>.
+     *
+     * @rfturn A PropfrtyCibngfListfnfr for tif JSpinnfr itsflf
+     * @sff #instbllListfnfrs
+     */
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+
+    /**
+     * Crfbtfs b dfdrfmfnt button, i.f. domponfnt tibt rfplbdfs tif spinnfr
+     * vbluf witi tif objfdt rfturnfd by <dodf>spinnfr.gftPrfviousVbluf</dodf>.
+     * By dffbult tif <dodf>prfviousButton</dodf> is b {@dodf JButton}. If tif
+     * dfdrfmfnt button is not nffdfd tiis mftiod siould rfturn {@dodf null}.
+     *
+     * @rfturn b domponfnt tibt will rfplbdf tif spinnfr's vbluf witi tif
+     *     prfvious vbluf in tif sfqufndf, or {@dodf null}
+     * @sff #instbllUI
+     * @sff #drfbtfNfxtButton
+     * @sff #instbllPrfviousButtonListfnfrs
+     */
+    protfdtfd Componfnt drfbtfPrfviousButton() {
+        Componfnt d = drfbtfArrowButton(SwingConstbnts.SOUTH);
+        d.sftNbmf("Spinnfr.prfviousButton");
+        instbllPrfviousButtonListfnfrs(d);
+        rfturn d;
+    }
+
+
+    /**
+     * Crfbtfs bn indrfmfnt button, i.f. domponfnt tibt rfplbdfs tif spinnfr
+     * vbluf witi tif objfdt rfturnfd by <dodf>spinnfr.gftNfxtVbluf</dodf>.
+     * By dffbult tif <dodf>nfxtButton</dodf> is b {@dodf JButton}. If tif
+     * indrfmfnt button is not nffdfd tiis mftiod siould rfturn {@dodf null}.
+     *
+     * @rfturn b domponfnt tibt will rfplbdf tif spinnfr's vbluf witi tif
+     *     nfxt vbluf in tif sfqufndf, or {@dodf null}
+     * @sff #instbllUI
+     * @sff #drfbtfPrfviousButton
+     * @sff #instbllNfxtButtonListfnfrs
+     */
+    protfdtfd Componfnt drfbtfNfxtButton() {
+        Componfnt d = drfbtfArrowButton(SwingConstbnts.NORTH);
+        d.sftNbmf("Spinnfr.nfxtButton");
+        instbllNfxtButtonListfnfrs(d);
+        rfturn d;
+    }
+
+    privbtf Componfnt drfbtfArrowButton(int dirfdtion) {
+        JButton b = nfw BbsidArrowButton(dirfdtion);
+        Bordfr buttonBordfr = UIMbnbgfr.gftBordfr("Spinnfr.brrowButtonBordfr");
+        if (buttonBordfr instbndfof UIRfsourdf) {
+            // Wrbp tif bordfr to bvoid ibving tif UIRfsourdf bf rfplbdfd by
+            // tif ButtonUI. Tiis is tif oppositf of using BordfrUIRfsourdf.
+            b.sftBordfr(nfw CompoundBordfr(buttonBordfr, null));
+        } flsf {
+            b.sftBordfr(buttonBordfr);
+        }
+        b.sftInifritsPopupMfnu(truf);
+        rfturn b;
+    }
+
+
+    /**
+     * Tiis mftiod is dbllfd by instbllUI to gft tif fditor domponfnt
+     * of tif <dodf>JSpinnfr</dodf>.  By dffbult it just rfturns
+     * <dodf>JSpinnfr.gftEditor()</dodf>.  Subdlbssfs dbn ovfrridf
+     * <dodf>drfbtfEditor</dodf> to rfturn b domponfnt tibt dontbins
+     * tif spinnfr's fditor or null, if tify'rf going to ibndlf bdding
+     * tif fditor to tif <dodf>JSpinnfr</dodf> in bn
+     * <dodf>instbllUI</dodf> ovfrridf.
+     * <p>
+     * Typidblly tiis mftiod would bf ovfrriddfn to wrbp tif fditor
+     * witi b dontbinfr witi b dustom bordfr, sindf onf dbn't bssumf
+     * tibt tif fditors bordfr dbn bf sft dirfdtly.
+     * <p>
+     * Tif <dodf>rfplbdfEditor</dodf> mftiod is dbllfd wifn tif spinnfrs
+     * fditor is dibngfd witi <dodf>JSpinnfr.sftEditor</dodf>.  If you'vf
+     * ovfrridfn tiis mftiod, tifn you'll probbbly wbnt to ovfrridf
+     * <dodf>rfplbdfEditor</dodf> bs wfll.
+     *
+     * @rfturn tif JSpinnfrs fditor JComponfnt, spinnfr.gftEditor() by dffbult
+     * @sff #instbllUI
+     * @sff #rfplbdfEditor
+     * @sff JSpinnfr#gftEditor
+     */
+    protfdtfd JComponfnt drfbtfEditor() {
+        JComponfnt fditor = spinnfr.gftEditor();
+        mbybfRfmovfEditorBordfr(fditor);
+        instbllEditorBordfrListfnfr(fditor);
+        fditor.sftInifritsPopupMfnu(truf);
+        updbtfEditorAlignmfnt(fditor);
+        rfturn fditor;
+    }
+
+
+    /**
+     * Cbllfd by tif <dodf>PropfrtyCibngfListfnfr</dodf> wifn tif
+     * <dodf>JSpinnfr</dodf> fditor propfrty dibngfs.  It's tif rfsponsibility
+     * of tiis mftiod to rfmovf tif old fditor bnd bdd tif nfw onf.  By
+     * dffbult tiis opfrbtion is just:
+     * <prf>
+     * spinnfr.rfmovf(oldEditor);
+     * spinnfr.bdd(nfwEditor, "Editor");
+     * </prf>
+     * Tif implfmfntbtion of <dodf>rfplbdfEditor</dodf> siould bf doordinbtfd
+     * witi tif <dodf>drfbtfEditor</dodf> mftiod.
+     *
+     * @pbrbm oldEditor bn old instbndf of fditor
+     * @pbrbm nfwEditor b nfw instbndf of fditor
+     * @sff #drfbtfEditor
+     * @sff #drfbtfPropfrtyCibngfListfnfr
+     */
+    protfdtfd void rfplbdfEditor(JComponfnt oldEditor, JComponfnt nfwEditor) {
+        spinnfr.rfmovf(oldEditor);
+        mbybfRfmovfEditorBordfr(nfwEditor);
+        instbllEditorBordfrListfnfr(nfwEditor);
+        nfwEditor.sftInifritsPopupMfnu(truf);
+        spinnfr.bdd(nfwEditor, "Editor");
+    }
+
+    privbtf void updbtfEditorAlignmfnt(JComponfnt fditor) {
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            // if fditor blignmfnt isn't sft in LAF, wf gft 0 (CENTER) ifrf
+            int blignmfnt = UIMbnbgfr.gftInt("Spinnfr.fditorAlignmfnt");
+            JTfxtFifld tfxt = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+            tfxt.sftHorizontblAlignmfnt(blignmfnt);
+        }
+    }
+
+    /**
+     * Rfmovf tif bordfr bround tif innfr fditor domponfnt for LbFs
+     * tibt instbll bn outsidf bordfr bround tif spinnfr,
+     */
+    privbtf void mbybfRfmovfEditorBordfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftBordfr() == null &&
+                fditor.gftComponfntCount() > 0) {
+
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
+            }
+
+            if (fditor != null && fditor.gftBordfr() instbndfof UIRfsourdf) {
+                fditor.sftBordfr(null);
+            }
+        }
+    }
+
+    /**
+     * Rfmovf tif bordfr bround tif innfr fditor domponfnt for LbFs
+     * tibt instbll bn outsidf bordfr bround tif spinnfr,
+     */
+    privbtf void instbllEditorBordfrListfnfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftBordfr() == null &&
+                fditor.gftComponfntCount() > 0) {
+
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
+            }
+            if (fditor != null &&
+                (fditor.gftBordfr() == null ||
+                 fditor.gftBordfr() instbndfof UIRfsourdf)) {
+                fditor.bddPropfrtyCibngfListfnfr(gftHbndlfr());
+            }
+        }
+    }
+
+    privbtf void rfmovfEditorBordfrListfnfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftComponfntCount() > 0) {
+
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
+            }
+            if (fditor != null) {
+                fditor.rfmovfPropfrtyCibngfListfnfr(gftHbndlfr());
+            }
+        }
+    }
+
+
+    /**
+     * Updbtfs tif fnbblfd stbtf of tif diildrfn Componfnts bbsfd on tif
+     * fnbblfd stbtf of tif <dodf>JSpinnfr</dodf>.
+     */
+    privbtf void updbtfEnbblfdStbtf() {
+        updbtfEnbblfdStbtf(spinnfr, spinnfr.isEnbblfd());
+    }
+
+
+    /**
+     * Rfdursivfly updbtfs tif fnbblfd stbtf of tif diild
+     * <dodf>Componfnt</dodf>s of <dodf>d</dodf>.
+     */
+    privbtf void updbtfEnbblfdStbtf(Contbinfr d, boolfbn fnbblfd) {
+        for (int dountfr = d.gftComponfntCount() - 1; dountfr >= 0;dountfr--) {
+            Componfnt diild = d.gftComponfnt(dountfr);
+
+            if (DffbultLookup.gftBoolfbn(spinnfr, tiis,
+                "Spinnfr.disbblfOnBoundbryVblufs", fblsf)) {
+                SpinnfrModfl modfl = spinnfr.gftModfl();
+                if (diild.gftNbmf() == "Spinnfr.nfxtButton" &&
+                    modfl.gftNfxtVbluf() == null) {
+                    diild.sftEnbblfd(fblsf);
+                }
+                flsf if (diild.gftNbmf() == "Spinnfr.prfviousButton" &&
+                         modfl.gftPrfviousVbluf() == null) {
+                    diild.sftEnbblfd(fblsf);
+                }
+                flsf {
+                    diild.sftEnbblfd(fnbblfd);
+                }
+            }
+            flsf {
+                diild.sftEnbblfd(fnbblfd);
+            }
+            if (diild instbndfof Contbinfr) {
+                updbtfEnbblfdStbtf((Contbinfr)diild, fnbblfd);
+            }
+        }
+    }
+
+
+    /**
+     * Instblls tif kfybobrd Adtions onto tif JSpinnfr.
+     *
+     * @sindf 1.5
+     */
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp iMbp = gftInputMbp(JComponfnt.
+                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        SwingUtilitifs.rfplbdfUIInputMbp(spinnfr, JComponfnt.
+                                         WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+                                         iMbp);
+
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(spinnfr, BbsidSpinnfrUI.dlbss,
+                "Spinnfr.bdtionMbp");
+    }
+
+    /**
+     * Rfturns tif InputMbp to instbll for <dodf>dondition</dodf>.
+     */
+    privbtf InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            rfturn (InputMbp)DffbultLookup.gft(spinnfr, tiis,
+                    "Spinnfr.bndfstorInputMbp");
+        }
+        rfturn null;
+    }
+
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put("indrfmfnt", nfxtButtonHbndlfr);
+        mbp.put("dfdrfmfnt", prfviousButtonHbndlfr);
+    }
+
+    /**
+     * Rfturns tif bbsflinf.
+     *
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        JComponfnt fditor = spinnfr.gftEditor();
+        Insfts insfts = spinnfr.gftInsfts();
+        widti = widti - insfts.lfft - insfts.rigit;
+        ifigit = ifigit - insfts.top - insfts.bottom;
+        if (widti >= 0 && ifigit >= 0) {
+            int bbsflinf = fditor.gftBbsflinf(widti, ifigit);
+            if (bbsflinf >= 0) {
+                rfturn insfts.top + bbsflinf;
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
+     *
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn spinnfr.gftEditor().gftBbsflinfRfsizfBfibvior();
+    }
+
+    /**
+     * A ibndlfr for spinnfr brrow button mousf bnd bdtion fvfnts.  Wifn
+     * b lfft mousf prfssfd fvfnt oddurs wf look up tif (fnbblfd) spinnfr
+     * tibt's tif sourdf of tif fvfnt bnd stbrt tif butorfpfbt timfr.  Tif
+     * timfr firfs bdtion fvfnts until bny button is rflfbsfd bt wiidi
+     * point tif timfr is stoppfd bnd tif rfffrfndf to tif spinnfr dlfbrfd.
+     * Tif timfr dofsn't stbrt until bftfr b 300ms dflby, so oftfn tif
+     * sourdf of tif initibl (bnd finbl) bdtion fvfnt is just tif button
+     * logid for mousf rflfbsfd - wiidi mfbns tibt wf'rf rflying on tif fbdt
+     * tibt our mousf listfnfr runs bftfr tif buttons mousf listfnfr.
+     * <p>
+     * Notf tibt onf instbndf of tiis ibndlfr is sibrfd by bll slidfr prfvious
+     * brrow buttons bnd likfwisf for bll of tif nfxt buttons,
+     * so it dofsn't ibvf bny stbtf tibt pfrsists bfyond tif limits
+     * of b singlf button prfssfd/rflfbsfd gfsturf.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss ArrowButtonHbndlfr fxtfnds AbstrbdtAdtion
+                                            implfmfnts FodusListfnfr, MousfListfnfr, UIRfsourdf {
+        finbl jbvbx.swing.Timfr butoRfpfbtTimfr;
+        finbl boolfbn isNfxt;
+        JSpinnfr spinnfr = null;
+        JButton brrowButton = null;
+
+        ArrowButtonHbndlfr(String nbmf, boolfbn isNfxt) {
+            supfr(nbmf);
+            tiis.isNfxt = isNfxt;
+            butoRfpfbtTimfr = nfw jbvbx.swing.Timfr(60, tiis);
+            butoRfpfbtTimfr.sftInitiblDflby(300);
+        }
+
+        privbtf JSpinnfr fvfntToSpinnfr(AWTEvfnt f) {
+            Objfdt srd = f.gftSourdf();
+            wiilf ((srd instbndfof Componfnt) && !(srd instbndfof JSpinnfr)) {
+                srd = ((Componfnt)srd).gftPbrfnt();
+            }
+            rfturn (srd instbndfof JSpinnfr) ? (JSpinnfr)srd : null;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JSpinnfr spinnfr = tiis.spinnfr;
+
+            if (!(f.gftSourdf() instbndfof jbvbx.swing.Timfr)) {
+                // Most likfly rfsulting from bfing in AdtionMbp.
+                spinnfr = fvfntToSpinnfr(f);
+                if (f.gftSourdf() instbndfof JButton) {
+                    brrowButton = (JButton)f.gftSourdf();
+                }
+            } flsf {
+                if (brrowButton!=null && !brrowButton.gftModfl().isPrfssfd()
+                    && butoRfpfbtTimfr.isRunning()) {
+                    butoRfpfbtTimfr.stop();
+                    spinnfr = null;
+                    brrowButton = null;
+                }
+            }
+            if (spinnfr != null) {
+                try {
+                    int dblfndbrFifld = gftCblfndbrFifld(spinnfr);
+                    spinnfr.dommitEdit();
+                    if (dblfndbrFifld != -1) {
+                        ((SpinnfrDbtfModfl)spinnfr.gftModfl()).
+                                 sftCblfndbrFifld(dblfndbrFifld);
+                    }
+                    Objfdt vbluf = (isNfxt) ? spinnfr.gftNfxtVbluf() :
+                               spinnfr.gftPrfviousVbluf();
+                    if (vbluf != null) {
+                        spinnfr.sftVbluf(vbluf);
+                        sflfdt(spinnfr);
+                    }
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(spinnfr);
+                } dbtdi (PbrsfExdfption pf) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(spinnfr);
+                }
+            }
+        }
+
+        /**
+         * If tif spinnfr's fditor is b DbtfEditor, tiis sflfdts tif fifld
+         * bssodibtfd witi tif vbluf tibt is bfing indrfmfntfd.
+         */
+        privbtf void sflfdt(JSpinnfr spinnfr) {
+            JComponfnt fditor = spinnfr.gftEditor();
+
+            if (fditor instbndfof JSpinnfr.DbtfEditor) {
+                JSpinnfr.DbtfEditor dbtfEditor = (JSpinnfr.DbtfEditor)fditor;
+                JFormbttfdTfxtFifld ftf = dbtfEditor.gftTfxtFifld();
+                Formbt formbt = dbtfEditor.gftFormbt();
+                Objfdt vbluf;
+
+                if (formbt != null && (vbluf = spinnfr.gftVbluf()) != null) {
+                    SpinnfrDbtfModfl modfl = dbtfEditor.gftModfl();
+                    DbtfFormbt.Fifld fifld = DbtfFormbt.Fifld.ofCblfndbrFifld(
+                        modfl.gftCblfndbrFifld());
+
+                    if (fifld != null) {
+                        try {
+                            AttributfdCibrbdtfrItfrbtor itfrbtor = formbt.
+                                formbtToCibrbdtfrItfrbtor(vbluf);
+                            if (!sflfdt(ftf, itfrbtor, fifld) &&
+                                       fifld == DbtfFormbt.Fifld.HOUR0) {
+                                sflfdt(ftf, itfrbtor, DbtfFormbt.Fifld.HOUR1);
+                            }
+                        }
+                        dbtdi (IllfgblArgumfntExdfption ibf) {}
+                    }
+                }
+            }
+        }
+
+        /**
+         * Sflfdts tif pbssfd in fifld, rfturning truf if it is found,
+         * fblsf otifrwisf.
+         */
+        privbtf boolfbn sflfdt(JFormbttfdTfxtFifld ftf,
+                               AttributfdCibrbdtfrItfrbtor itfrbtor,
+                               DbtfFormbt.Fifld fifld) {
+            int mbx = ftf.gftDodumfnt().gftLfngti();
+
+            itfrbtor.first();
+            do {
+                Mbp<?, ?> bttrs = itfrbtor.gftAttributfs();
+
+                if (bttrs != null && bttrs.dontbinsKfy(fifld)){
+                    int stbrt = itfrbtor.gftRunStbrt(fifld);
+                    int fnd = itfrbtor.gftRunLimit(fifld);
+
+                    if (stbrt != -1 && fnd != -1 && stbrt <= mbx &&
+                                       fnd <= mbx) {
+                        ftf.sflfdt(stbrt, fnd);
+                    }
+                    rfturn truf;
+                }
+            } wiilf (itfrbtor.nfxt() != CibrbdtfrItfrbtor.DONE);
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfturns tif dblfndbrFifld undfr tif stbrt of tif sflfdtion, or
+         * -1 if tifrf is no vblid dblfndbr fifld undfr tif sflfdtion (or
+         * tif spinnfr isn't fditing dbtfs.
+         */
+        privbtf int gftCblfndbrFifld(JSpinnfr spinnfr) {
+            JComponfnt fditor = spinnfr.gftEditor();
+
+            if (fditor instbndfof JSpinnfr.DbtfEditor) {
+                JSpinnfr.DbtfEditor dbtfEditor = (JSpinnfr.DbtfEditor)fditor;
+                JFormbttfdTfxtFifld ftf = dbtfEditor.gftTfxtFifld();
+                int stbrt = ftf.gftSflfdtionStbrt();
+                JFormbttfdTfxtFifld.AbstrbdtFormbttfr formbttfr =
+                                    ftf.gftFormbttfr();
+
+                if (formbttfr instbndfof IntfrnbtionblFormbttfr) {
+                    Formbt.Fifld[] fiflds = ((IntfrnbtionblFormbttfr)
+                                             formbttfr).gftFiflds(stbrt);
+
+                    for (int dountfr = 0; dountfr < fiflds.lfngti; dountfr++) {
+                        if (fiflds[dountfr] instbndfof DbtfFormbt.Fifld) {
+                            int dblfndbrFifld;
+
+                            if (fiflds[dountfr] == DbtfFormbt.Fifld.HOUR1) {
+                                dblfndbrFifld = Cblfndbr.HOUR;
+                            }
+                            flsf {
+                                dblfndbrFifld = ((DbtfFormbt.Fifld)
+                                        fiflds[dountfr]).gftCblfndbrFifld();
+                            }
+                            if (dblfndbrFifld != -1) {
+                                rfturn dblfndbrFifld;
+                            }
+                        }
+                    }
+                }
+            }
+            rfturn -1;
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (SwingUtilitifs.isLfftMousfButton(f) && f.gftComponfnt().isEnbblfd()) {
+                spinnfr = fvfntToSpinnfr(f);
+                butoRfpfbtTimfr.stbrt();
+
+                fodusSpinnfrIfNfdfssbry();
+            }
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            butoRfpfbtTimfr.stop();
+            brrowButton = null;
+            spinnfr = null;
+        }
+
+        publid void mousfClidkfd(MousfEvfnt f) {
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            if (spinnfr != null && !butoRfpfbtTimfr.isRunning() && spinnfr == fvfntToSpinnfr(f)) {
+                butoRfpfbtTimfr.stbrt();
+            }
+        }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (butoRfpfbtTimfr.isRunning()) {
+                butoRfpfbtTimfr.stop();
+            }
+        }
+
+        /**
+         * Rfqufsts fodus on b diild of tif spinnfr if tif spinnfr dofsn't
+         * ibvf fodus.
+         */
+        privbtf void fodusSpinnfrIfNfdfssbry() {
+            Componfnt fo = KfybobrdFodusMbnbgfr.
+                              gftCurrfntKfybobrdFodusMbnbgfr().gftFodusOwnfr();
+            if (spinnfr.isRfqufstFodusEnbblfd() && (
+                        fo == null ||
+                        !SwingUtilitifs.isDfsdfndingFrom(fo, spinnfr))) {
+                Contbinfr root = spinnfr;
+
+                if (!root.isFodusCydlfRoot()) {
+                    root = root.gftFodusCydlfRootAndfstor();
+                }
+                if (root != null) {
+                    FodusTrbvfrsblPolidy ftp = root.gftFodusTrbvfrsblPolidy();
+                    Componfnt diild = ftp.gftComponfntAftfr(root, spinnfr);
+
+                    if (diild != null && SwingUtilitifs.isDfsdfndingFrom(
+                                                        diild, spinnfr)) {
+                        diild.rfqufstFodus();
+                    }
+                }
+            }
+        }
+
+        publid void fodusGbinfd(FodusEvfnt f) {
+        }
+
+        publid void fodusLost(FodusEvfnt f) {
+            if (spinnfr == fvfntToSpinnfr(f)) {
+                if (butoRfpfbtTimfr.isRunning()) {
+                    butoRfpfbtTimfr.stop();
+                }
+                spinnfr = null;
+                if (brrowButton != null) {
+                    ButtonModfl modfl = brrowButton.gftModfl();
+                    modfl.sftPrfssfd(fblsf);
+                    modfl.sftArmfd(fblsf);
+                    brrowButton = null;
+                }
+            }
+        }
+    }
+
+
+    privbtf stbtid dlbss Hbndlfr implfmfnts LbyoutMbnbgfr,
+            PropfrtyCibngfListfnfr, CibngfListfnfr {
+        //
+        // LbyoutMbnbgfr
+        //
+        privbtf Componfnt nfxtButton = null;
+        privbtf Componfnt prfviousButton = null;
+        privbtf Componfnt fditor = null;
+
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {
+            if ("Nfxt".fqubls(nbmf)) {
+                nfxtButton = d;
+            }
+            flsf if ("Prfvious".fqubls(nbmf)) {
+                prfviousButton = d;
+            }
+            flsf if ("Editor".fqubls(nbmf)) {
+                fditor = d;
+            }
+        }
+
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {
+            if (d == nfxtButton) {
+                nfxtButton = null;
+            }
+            flsf if (d == prfviousButton) {
+                prfviousButton = null;
+            }
+            flsf if (d == fditor) {
+                fditor = null;
+            }
+        }
+
+        privbtf Dimfnsion prfffrrfdSizf(Componfnt d) {
+            rfturn (d == null) ? zfroSizf : d.gftPrfffrrfdSizf();
+        }
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            Dimfnsion fditorD = prfffrrfdSizf(fditor);
+
+            /* Fordf tif fditors ifigit to bf b multiplf of 2
+             */
+            fditorD.ifigit = ((fditorD.ifigit + 1) / 2) * 2;
+
+            Dimfnsion sizf = nfw Dimfnsion(fditorD.widti, fditorD.ifigit);
+            sizf.widti += Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            Insfts insfts = pbrfnt.gftInsfts();
+            sizf.widti += insfts.lfft + insfts.rigit;
+            sizf.ifigit += insfts.top + insfts.bottom;
+            rfturn sizf;
+        }
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            rfturn prfffrrfdLbyoutSizf(pbrfnt);
+        }
+
+        privbtf void sftBounds(Componfnt d, int x, int y, int widti, int ifigit) {
+            if (d != null) {
+                d.sftBounds(x, y, widti, ifigit);
+            }
+        }
+
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            int widti  = pbrfnt.gftWidti();
+            int ifigit = pbrfnt.gftHfigit();
+
+            Insfts insfts = pbrfnt.gftInsfts();
+
+            if (nfxtButton == null && prfviousButton == null) {
+                sftBounds(fditor, insfts.lfft,  insfts.top, widti - insfts.lfft - insfts.rigit,
+                        ifigit - insfts.top - insfts.bottom);
+
+                rfturn;
+            }
+
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            int buttonsWidti = Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            int fditorHfigit = ifigit - (insfts.top + insfts.bottom);
+
+            // Tif brrowButtonInsfts vbluf is usfd instfbd of tif JSpinnfr's
+            // insfts if not null. Dffining tiis to bf (0, 0, 0, 0) dbusfs tif
+            // buttons to bf blignfd witi tif outfr fdgf of tif spinnfr's
+            // bordfr, bnd lfbving it bs "null" plbdfs tif buttons domplftfly
+            // insidf tif spinnfr's bordfr.
+            Insfts buttonInsfts = UIMbnbgfr.gftInsfts("Spinnfr.brrowButtonInsfts");
+            if (buttonInsfts == null) {
+                buttonInsfts = insfts;
+            }
+
+            /* Dfbl witi tif spinnfr's domponfntOrifntbtion propfrty.
+             */
+            int fditorX, fditorWidti, buttonsX;
+            if (pbrfnt.gftComponfntOrifntbtion().isLfftToRigit()) {
+                fditorX = insfts.lfft;
+                fditorWidti = widti - insfts.lfft - buttonsWidti - buttonInsfts.rigit;
+                buttonsX = widti - buttonsWidti - buttonInsfts.rigit;
+            } flsf {
+                buttonsX = buttonInsfts.lfft;
+                fditorX = buttonsX + buttonsWidti;
+                fditorWidti = widti - buttonInsfts.lfft - buttonsWidti - insfts.rigit;
+            }
+
+            int nfxtY = buttonInsfts.top;
+            int nfxtHfigit = (ifigit / 2) + (ifigit % 2) - nfxtY;
+            int prfviousY = buttonInsfts.top + nfxtHfigit;
+            int prfviousHfigit = ifigit - prfviousY - buttonInsfts.bottom;
+
+            sftBounds(fditor,         fditorX,  insfts.top, fditorWidti, fditorHfigit);
+            sftBounds(nfxtButton,     buttonsX, nfxtY,      buttonsWidti, nfxtHfigit);
+            sftBounds(prfviousButton, buttonsX, prfviousY,  buttonsWidti, prfviousHfigit);
+        }
+
+
+        //
+        // PropfrtyCibngfListfnfr
+        //
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
+        {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+            if (f.gftSourdf() instbndfof JSpinnfr) {
+                JSpinnfr spinnfr = (JSpinnfr)(f.gftSourdf());
+                SpinnfrUI spinnfrUI = spinnfr.gftUI();
+
+                if (spinnfrUI instbndfof BbsidSpinnfrUI) {
+                    BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
+
+                    if ("fditor".fqubls(propfrtyNbmf)) {
+                        JComponfnt oldEditor = (JComponfnt)f.gftOldVbluf();
+                        JComponfnt nfwEditor = (JComponfnt)f.gftNfwVbluf();
+                        ui.rfplbdfEditor(oldEditor, nfwEditor);
+                        ui.updbtfEnbblfdStbtf();
+                        if (oldEditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)oldEditor).gftTfxtFifld();
+                            if (tf != null) {
+                                tf.rfmovfFodusListfnfr(nfxtButtonHbndlfr);
+                                tf.rfmovfFodusListfnfr(prfviousButtonHbndlfr);
+                            }
+                        }
+                        if (nfwEditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)nfwEditor).gftTfxtFifld();
+                            if (tf != null) {
+                                if (tf.gftFont() instbndfof UIRfsourdf) {
+                                    tf.sftFont(spinnfr.gftFont());
+                                }
+                                tf.bddFodusListfnfr(nfxtButtonHbndlfr);
+                                tf.bddFodusListfnfr(prfviousButtonHbndlfr);
+                            }
+                        }
+                    }
+                    flsf if ("fnbblfd".fqubls(propfrtyNbmf) ||
+                             "modfl".fqubls(propfrtyNbmf)) {
+                        ui.updbtfEnbblfdStbtf();
+                    }
+                    flsf if ("font".fqubls(propfrtyNbmf)) {
+                        JComponfnt fditor = spinnfr.gftEditor();
+                        if (fditor!=null && fditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+                            if (tf != null) {
+                                if (tf.gftFont() instbndfof UIRfsourdf) {
+                                    tf.sftFont(spinnfr.gftFont());
+                                }
+                            }
+                        }
+                    }
+                    flsf if (JComponfnt.TOOL_TIP_TEXT_KEY.fqubls(propfrtyNbmf)) {
+                        updbtfToolTipTfxtForCiildrfn(spinnfr);
+                    } flsf if ("domponfntOrifntbtion".fqubls(propfrtyNbmf)) {
+                        ComponfntOrifntbtion o
+                                = (ComponfntOrifntbtion) f.gftNfwVbluf();
+                        if (o != (ComponfntOrifntbtion) f.gftOldVbluf()) {
+                            JComponfnt fditor = spinnfr.gftEditor();
+                            if (fditor != null) {
+                                fditor.bpplyComponfntOrifntbtion(o);
+                            }
+                            spinnfr.rfvblidbtf();
+                            spinnfr.rfpbint();
+                        }
+                    }
+                }
+            } flsf if (f.gftSourdf() instbndfof JComponfnt) {
+                JComponfnt d = (JComponfnt)f.gftSourdf();
+                if ((d.gftPbrfnt() instbndfof JPbnfl) &&
+                    (d.gftPbrfnt().gftPbrfnt() instbndfof JSpinnfr) &&
+                    "bordfr".fqubls(propfrtyNbmf)) {
+
+                    JSpinnfr spinnfr = (JSpinnfr)d.gftPbrfnt().gftPbrfnt();
+                    SpinnfrUI spinnfrUI = spinnfr.gftUI();
+                    if (spinnfrUI instbndfof BbsidSpinnfrUI) {
+                        BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
+                        ui.mbybfRfmovfEditorBordfr(d);
+                    }
+                }
+            }
+        }
+
+        // Syndronizfs tif ToolTip tfxt for tif domponfnts witiin tif spinnfr
+        // to bf tif sbmf vbluf bs tif spinnfr ToolTip tfxt.
+        privbtf void updbtfToolTipTfxtForCiildrfn(JComponfnt spinnfr) {
+            String toolTipTfxt = spinnfr.gftToolTipTfxt();
+            Componfnt[] diildrfn = spinnfr.gftComponfnts();
+            for (int i = 0; i < diildrfn.lfngti; i++) {
+                if (diildrfn[i] instbndfof JSpinnfr.DffbultEditor) {
+                    JTfxtFifld tf = ((JSpinnfr.DffbultEditor)diildrfn[i]).gftTfxtFifld();
+                    if (tf != null) {
+                        tf.sftToolTipTfxt(toolTipTfxt);
+                    }
+                } flsf if (diildrfn[i] instbndfof JComponfnt) {
+                    ((JComponfnt)diildrfn[i]).sftToolTipTfxt( spinnfr.gftToolTipTfxt() );
+                }
+            }
+        }
+
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (f.gftSourdf() instbndfof JSpinnfr) {
+                JSpinnfr spinnfr = (JSpinnfr)f.gftSourdf();
+                SpinnfrUI spinnfrUI = spinnfr.gftUI();
+                if (DffbultLookup.gftBoolfbn(spinnfr, spinnfrUI,
+                    "Spinnfr.disbblfOnBoundbryVblufs", fblsf) &&
+                    spinnfrUI instbndfof BbsidSpinnfrUI) {
+                    BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
+                    ui.updbtfEnbblfdStbtf();
+                }
+            }
+        }
+    }
+}

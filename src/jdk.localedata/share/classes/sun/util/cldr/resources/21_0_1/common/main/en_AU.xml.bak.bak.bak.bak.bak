@@ -1,0 +1,233 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+	<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6465 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-28 02:47:35 +0900 (Sbt, 28 Jbn 2012) $"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="AU"/>
+	</idfntity>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/MM/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd/MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b">i b - i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i-i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b">i:mm b - i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="b">i:mm b - i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b">i b - i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i-i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">d/MM - d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/MM - d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, d/MM - E, d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d/MM - E, d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d-d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">MM/yy - MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MM/yy - MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d-d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d MMM y - d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d MMM y - E, d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Atlbntid">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<siort>
+					<gfnfrid>ACT</gfnfrid>
+					<stbndbrd>ACST</stbndbrd>
+					<dbyligit>ACDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<siort>
+					<gfnfrid>ACWT</gfnfrid>
+					<stbndbrd>ACWST</stbndbrd>
+					<dbyligit>ACWDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<siort>
+					<gfnfrid>AET</gfnfrid>
+					<stbndbrd>AEST</stbndbrd>
+					<dbyligit>AEDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<siort>
+					<gfnfrid>AWT</gfnfrid>
+					<stbndbrd>AWST</stbndbrd>
+					<dbyligit>AWDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<siort>
+					<gfnfrid>LHT</gfnfrid>
+					<stbndbrd>LHST</stbndbrd>
+					<dbyligit>LHDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<siort>
+					<gfnfrid>NZT</gfnfrid>
+					<stbndbrd>NZST</stbndbrd>
+					<dbyligit>NZDT</dbyligit>
+				</siort>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="AUD">
+				<symbol>$</symbol>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<symbol>US$</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

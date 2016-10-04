@@ -1,0 +1,1661 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.bfbns.*;
+
+import jbvb.util.Hbsitbblf;
+import jbvb.util.HbsiMbp;
+
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+
+
+/**
+ * A Bbsid L&bmp;F implfmfntbtion of ToolBbrUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
+ *
+ * @butior Gforgfs Sbbb
+ * @butior Jfff Sibpiro
+ */
+publid dlbss BbsidToolBbrUI fxtfnds ToolBbrUI implfmfnts SwingConstbnts
+{
+    /**
+     * Tif instbndf of {@dodf JToolBbr}.
+     */
+    protfdtfd JToolBbr toolBbr;
+    privbtf boolfbn flobting;
+    privbtf int flobtingX;
+    privbtf int flobtingY;
+    privbtf JFrbmf flobtingFrbmf;
+    privbtf RootPbnfContbinfr flobtingToolBbr;
+    /**
+     * Tif instbndf of {@dodf DrbgWindow}.
+     */
+    protfdtfd DrbgWindow drbgWindow;
+    privbtf Contbinfr dodkingSourdf;
+    privbtf int dodkingSfnsitivity = 0;
+    /**
+     * Tif indfx of tif fodusfd domponfnt.
+     */
+    protfdtfd int fodusfdCompIndfx = -1;
+
+    /**
+     * Tif bbdkground dolor of tif dodking bordfr.
+     */
+    protfdtfd Color dodkingColor = null;
+    /**
+     * Tif bbdkground dolor of tif not dodking bordfr.
+     */
+    protfdtfd Color flobtingColor = null;
+    /**
+     * Tif dolor of tif dodking bordfr.
+     */
+    protfdtfd Color dodkingBordfrColor = null;
+    /**
+     * Tif dolor of tif not dodking bordfr.
+     */
+    protfdtfd Color flobtingBordfrColor = null;
+
+    /**
+     * Tif instbndf of b {@dodf MousfInputListfnfr}.
+     */
+    protfdtfd MousfInputListfnfr dodkingListfnfr;
+    /**
+     * Tif instbndf of b {@dodf PropfrtyCibngfListfnfr}.
+     */
+    protfdtfd PropfrtyCibngfListfnfr propfrtyListfnfr;
+
+    /**
+     * Tif instbndf of b {@dodf ContbinfrListfnfr}.
+     */
+    protfdtfd ContbinfrListfnfr toolBbrContListfnfr;
+    /**
+     * Tif instbndf of b {@dodf FodusListfnfr}.
+     */
+    protfdtfd FodusListfnfr toolBbrFodusListfnfr;
+    privbtf Hbndlfr ibndlfr;
+
+    /**
+     * Tif lbyout bfforf flobting.
+     */
+    protfdtfd String donstrbintBfforfFlobting = BordfrLbyout.NORTH;
+
+    // Rollovfr button implfmfntbtion.
+    privbtf stbtid String IS_ROLLOVER = "JToolBbr.isRollovfr";
+    privbtf stbtid Bordfr rollovfrBordfr;
+    privbtf stbtid Bordfr nonRollovfrBordfr;
+    privbtf stbtid Bordfr nonRollovfrTogglfBordfr;
+    privbtf boolfbn rollovfrBordfrs = fblsf;
+
+    privbtf HbsiMbp<AbstrbdtButton, Bordfr> bordfrTbblf = nfw HbsiMbp<AbstrbdtButton, Bordfr>();
+    privbtf Hbsitbblf<AbstrbdtButton, Boolfbn> rollovfrTbblf = nfw Hbsitbblf<AbstrbdtButton, Boolfbn>();
+
+
+    /**
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
+     */
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf upKfy;
+    /**
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
+     */
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf downKfy;
+    /**
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
+     */
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf lfftKfy;
+    /**
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
+     */
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf rigitKfy;
+
+
+    privbtf stbtid String FOCUSED_COMP_INDEX = "JToolBbr.fodusfdCompIndfx";
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidToolBbrUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidToolBbrUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
+    {
+        rfturn nfw BbsidToolBbrUI();
+    }
+
+    publid void instbllUI( JComponfnt d )
+    {
+        toolBbr = (JToolBbr) d;
+
+        // Sft dffbults
+        instbllDffbults();
+        instbllComponfnts();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
+
+        // Initiblizf instbndf vbrs
+        dodkingSfnsitivity = 0;
+        flobting = fblsf;
+        flobtingX = flobtingY = 0;
+        flobtingToolBbr = null;
+
+        sftOrifntbtion( toolBbr.gftOrifntbtion() );
+        LookAndFffl.instbllPropfrty(d, "opbquf", Boolfbn.TRUE);
+
+        if ( d.gftClifntPropfrty( FOCUSED_COMP_INDEX ) != null )
+        {
+            fodusfdCompIndfx = ( (Intfgfr) ( d.gftClifntPropfrty( FOCUSED_COMP_INDEX ) ) ).intVbluf();
+        }
+    }
+
+    publid void uninstbllUI( JComponfnt d )
+    {
+
+        // Clfbr dffbults
+        uninstbllDffbults();
+        uninstbllComponfnts();
+        uninstbllListfnfrs();
+        uninstbllKfybobrdAdtions();
+
+        // Clfbr instbndf vbrs
+        if (isFlobting())
+            sftFlobting(fblsf, null);
+
+        flobtingToolBbr = null;
+        drbgWindow = null;
+        dodkingSourdf = null;
+
+        d.putClifntPropfrty( FOCUSED_COMP_INDEX, Intfgfr.vblufOf( fodusfdCompIndfx ) );
+    }
+
+    /**
+     * Instblls dffbult propfrtifs.
+     */
+    protfdtfd void instbllDffbults( )
+    {
+        LookAndFffl.instbllBordfr(toolBbr,"ToolBbr.bordfr");
+        LookAndFffl.instbllColorsAndFont(toolBbr,
+                                              "ToolBbr.bbdkground",
+                                              "ToolBbr.forfground",
+                                              "ToolBbr.font");
+        // Toolbbr spfdifid dffbults
+        if ( dodkingColor == null || dodkingColor instbndfof UIRfsourdf )
+            dodkingColor = UIMbnbgfr.gftColor("ToolBbr.dodkingBbdkground");
+        if ( flobtingColor == null || flobtingColor instbndfof UIRfsourdf )
+            flobtingColor = UIMbnbgfr.gftColor("ToolBbr.flobtingBbdkground");
+        if ( dodkingBordfrColor == null ||
+             dodkingBordfrColor instbndfof UIRfsourdf )
+            dodkingBordfrColor = UIMbnbgfr.gftColor("ToolBbr.dodkingForfground");
+        if ( flobtingBordfrColor == null ||
+             flobtingBordfrColor instbndfof UIRfsourdf )
+            flobtingBordfrColor = UIMbnbgfr.gftColor("ToolBbr.flobtingForfground");
+
+        // ToolBbr rollovfr button bordfrs
+        Objfdt rollovfrProp = toolBbr.gftClifntPropfrty( IS_ROLLOVER );
+        if (rollovfrProp == null) {
+            rollovfrProp = UIMbnbgfr.gft("ToolBbr.isRollovfr");
+        }
+        if ( rollovfrProp != null ) {
+            rollovfrBordfrs = ((Boolfbn)rollovfrProp).boolfbnVbluf();
+        }
+
+        if (rollovfrBordfr == null) {
+            rollovfrBordfr = drfbtfRollovfrBordfr();
+        }
+        if (nonRollovfrBordfr == null) {
+            nonRollovfrBordfr = drfbtfNonRollovfrBordfr();
+        }
+        if (nonRollovfrTogglfBordfr == null) {
+            nonRollovfrTogglfBordfr = drfbtfNonRollovfrTogglfBordfr();
+        }
+
+
+        sftRollovfrBordfrs( isRollovfrBordfrs() );
+    }
+
+    /**
+     * Uninstblls dffbult propfrtifs.
+     */
+    protfdtfd void uninstbllDffbults( )
+    {
+        LookAndFffl.uninstbllBordfr(toolBbr);
+        dodkingColor = null;
+        flobtingColor = null;
+        dodkingBordfrColor = null;
+        flobtingBordfrColor = null;
+
+        instbllNormblBordfrs(toolBbr);
+
+        rollovfrBordfr = null;
+        nonRollovfrBordfr = null;
+        nonRollovfrTogglfBordfr = null;
+    }
+
+    /**
+     * Rfgistfrs domponfnts.
+     */
+    protfdtfd void instbllComponfnts( )
+    {
+    }
+
+    /**
+     * Unrfgistfrs domponfnts.
+     */
+    protfdtfd void uninstbllComponfnts( )
+    {
+    }
+
+    /**
+     * Rfgistfrs listfnfrs.
+     */
+    protfdtfd void instbllListfnfrs( )
+    {
+        dodkingListfnfr = drfbtfDodkingListfnfr( );
+
+        if ( dodkingListfnfr != null )
+        {
+            toolBbr.bddMousfMotionListfnfr( dodkingListfnfr );
+            toolBbr.bddMousfListfnfr( dodkingListfnfr );
+        }
+
+        propfrtyListfnfr = drfbtfPropfrtyListfnfr();  // bddfd in sftFlobting
+        if (propfrtyListfnfr != null) {
+            toolBbr.bddPropfrtyCibngfListfnfr(propfrtyListfnfr);
+        }
+
+        toolBbrContListfnfr = drfbtfToolBbrContListfnfr();
+        if ( toolBbrContListfnfr != null ) {
+            toolBbr.bddContbinfrListfnfr( toolBbrContListfnfr );
+        }
+
+        toolBbrFodusListfnfr = drfbtfToolBbrFodusListfnfr();
+
+        if ( toolBbrFodusListfnfr != null )
+        {
+            // Put fodus listfnfr on bll domponfnts in toolbbr
+            Componfnt[] domponfnts = toolBbr.gftComponfnts();
+
+            for (Componfnt domponfnt : domponfnts) {
+                domponfnt.bddFodusListfnfr(toolBbrFodusListfnfr);
+            }
+        }
+    }
+
+    /**
+     * Unrfgistfrs listfnfrs.
+     */
+    protfdtfd void uninstbllListfnfrs( )
+    {
+        if ( dodkingListfnfr != null )
+        {
+            toolBbr.rfmovfMousfMotionListfnfr(dodkingListfnfr);
+            toolBbr.rfmovfMousfListfnfr(dodkingListfnfr);
+
+            dodkingListfnfr = null;
+        }
+
+        if ( propfrtyListfnfr != null )
+        {
+            toolBbr.rfmovfPropfrtyCibngfListfnfr(propfrtyListfnfr);
+            propfrtyListfnfr = null;  // rfmovfd in sftFlobting
+        }
+
+        if ( toolBbrContListfnfr != null )
+        {
+            toolBbr.rfmovfContbinfrListfnfr( toolBbrContListfnfr );
+            toolBbrContListfnfr = null;
+        }
+
+        if ( toolBbrFodusListfnfr != null )
+        {
+            // Rfmovf fodus listfnfr from bll domponfnts in toolbbr
+            Componfnt[] domponfnts = toolBbr.gftComponfnts();
+
+            for (Componfnt domponfnt : domponfnts) {
+                domponfnt.rfmovfFodusListfnfr(toolBbrFodusListfnfr);
+            }
+
+            toolBbrFodusListfnfr = null;
+        }
+        ibndlfr = null;
+    }
+
+    /**
+     * Rfgistfrs kfybobrd bdtions.
+     */
+    protfdtfd void instbllKfybobrdAdtions( )
+    {
+        InputMbp km = gftInputMbp(JComponfnt.
+                                  WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        SwingUtilitifs.rfplbdfUIInputMbp(toolBbr, JComponfnt.
+                                         WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+                                         km);
+
+    LbzyAdtionMbp.instbllLbzyAdtionMbp(toolBbr, BbsidToolBbrUI.dlbss,
+            "ToolBbr.bdtionMbp");
+    }
+
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            rfturn (InputMbp)DffbultLookup.gft(toolBbr, tiis,
+                    "ToolBbr.bndfstorInputMbp");
+        }
+        rfturn null;
+    }
+
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.NAVIGATE_RIGHT));
+        mbp.put(nfw Adtions(Adtions.NAVIGATE_LEFT));
+        mbp.put(nfw Adtions(Adtions.NAVIGATE_UP));
+        mbp.put(nfw Adtions(Adtions.NAVIGATE_DOWN));
+    }
+
+    /**
+     * Unrfgistfrs kfybobrd bdtions.
+     */
+    protfdtfd void uninstbllKfybobrdAdtions( )
+    {
+        SwingUtilitifs.rfplbdfUIAdtionMbp(toolBbr, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(toolBbr, JComponfnt.
+                                         WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+                                         null);
+    }
+
+    /**
+     * Nbvigbtfs tif fodusfd domponfnt.
+     *
+     * @pbrbm dirfdtion b dirfdtion
+     */
+    protfdtfd void nbvigbtfFodusfdComp(int dirfdtion)
+    {
+        int nComp = toolBbr.gftComponfntCount();
+        int j;
+
+        switdi ( dirfdtion )
+        {
+            dbsf EAST:
+            dbsf SOUTH:
+
+                if ( fodusfdCompIndfx < 0 || fodusfdCompIndfx >= nComp ) brfbk;
+
+                j = fodusfdCompIndfx + 1;
+
+                wiilf ( j != fodusfdCompIndfx )
+                {
+                    if ( j >= nComp ) j = 0;
+                    Componfnt domp = toolBbr.gftComponfntAtIndfx( j++ );
+
+                    if ( domp != null && domp.isFodusTrbvfrsbblf() && domp.isEnbblfd() )
+                    {
+                        domp.rfqufstFodus();
+                        brfbk;
+                    }
+                }
+
+                brfbk;
+
+            dbsf WEST:
+            dbsf NORTH:
+
+                if ( fodusfdCompIndfx < 0 || fodusfdCompIndfx >= nComp ) brfbk;
+
+                j = fodusfdCompIndfx - 1;
+
+                wiilf ( j != fodusfdCompIndfx )
+                {
+                    if ( j < 0 ) j = nComp - 1;
+                    Componfnt domp = toolBbr.gftComponfntAtIndfx( j-- );
+
+                    if ( domp != null && domp.isFodusTrbvfrsbblf() && domp.isEnbblfd() )
+                    {
+                        domp.rfqufstFodus();
+                        brfbk;
+                    }
+                }
+
+                brfbk;
+
+            dffbult:
+                brfbk;
+        }
+    }
+
+    /**
+     * Crfbtfs b rollovfr bordfr for toolbbr domponfnts. Tif
+     * rollovfr bordfr will bf instbllfd if rollovfr bordfrs brf
+     * fnbblfd.
+     * <p>
+     * Ovfrridf tiis mftiod to providf bn bltfrnbtf rollovfr bordfr.
+     *
+     * @rfturn b rollovfr bordfr for toolbbr domponfnts
+     * @sindf 1.4
+     */
+    protfdtfd Bordfr drfbtfRollovfrBordfr() {
+        Objfdt bordfr = UIMbnbgfr.gft("ToolBbr.rollovfrBordfr");
+        if (bordfr != null) {
+            rfturn (Bordfr)bordfr;
+        }
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        rfturn nfw CompoundBordfr(nfw BbsidBordfrs.RollovfrButtonBordfr(
+                                           tbblf.gftColor("dontrolSibdow"),
+                                           tbblf.gftColor("dontrolDkSibdow"),
+                                           tbblf.gftColor("dontrolHigiligit"),
+                                           tbblf.gftColor("dontrolLtHigiligit")),
+                                  nfw BbsidBordfrs.RollovfrMbrginBordfr());
+    }
+
+    /**
+     * Crfbtfs tif non rollovfr bordfr for toolbbr domponfnts. Tiis
+     * bordfr will bf instbllfd bs tif bordfr for domponfnts bddfd
+     * to tif toolbbr if rollovfr bordfrs brf not fnbblfd.
+     * <p>
+     * Ovfrridf tiis mftiod to providf bn bltfrnbtf rollovfr bordfr.
+     *
+     * @rfturn tif non rollovfr bordfr for toolbbr domponfnts
+     * @sindf 1.4
+     */
+    protfdtfd Bordfr drfbtfNonRollovfrBordfr() {
+        Objfdt bordfr = UIMbnbgfr.gft("ToolBbr.nonrollovfrBordfr");
+        if (bordfr != null) {
+            rfturn (Bordfr)bordfr;
+        }
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        rfturn nfw CompoundBordfr(nfw BbsidBordfrs.ButtonBordfr(
+                                           tbblf.gftColor("Button.sibdow"),
+                                           tbblf.gftColor("Button.dbrkSibdow"),
+                                           tbblf.gftColor("Button.ligit"),
+                                           tbblf.gftColor("Button.iigiligit")),
+                                  nfw BbsidBordfrs.RollovfrMbrginBordfr());
+    }
+
+    /**
+     * Crfbtfs b non rollovfr bordfr for Togglf buttons in tif toolbbr.
+     */
+    privbtf Bordfr drfbtfNonRollovfrTogglfBordfr() {
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        rfturn nfw CompoundBordfr(nfw BbsidBordfrs.RbdioButtonBordfr(
+                                           tbblf.gftColor("TogglfButton.sibdow"),
+                                           tbblf.gftColor("TogglfButton.dbrkSibdow"),
+                                           tbblf.gftColor("TogglfButton.ligit"),
+                                           tbblf.gftColor("TogglfButton.iigiligit")),
+                                  nfw BbsidBordfrs.RollovfrMbrginBordfr());
+    }
+
+    /**
+     * No longfr usfd, usf BbsidToolBbrUI.drfbtfFlobtingWindow(JToolBbr)
+     *
+     * @pbrbm toolbbr bn instbndf of {@dodf JToolBbr}
+     * @rfturn bn instbndf of {@dodf JFrbmf}
+     * @sff #drfbtfFlobtingWindow
+     */
+    protfdtfd JFrbmf drfbtfFlobtingFrbmf(JToolBbr toolbbr) {
+        Window window = SwingUtilitifs.gftWindowAndfstor(toolbbr);
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        JFrbmf frbmf = nfw JFrbmf(toolbbr.gftNbmf(),
+                                  (window != null) ? window.gftGrbpiidsConfigurbtion() : null) {
+            // Ovfrridf drfbtfRootPbnf() to butombtidblly rfsizf
+            // tif frbmf wifn dontfnts dibngf
+            protfdtfd JRootPbnf drfbtfRootPbnf() {
+                @SupprfssWbrnings("sfribl") // bnonymous dlbss
+                JRootPbnf rootPbnf = nfw JRootPbnf() {
+                    privbtf boolfbn pbdking = fblsf;
+
+                    publid void vblidbtf() {
+                        supfr.vblidbtf();
+                        if (!pbdking) {
+                            pbdking = truf;
+                            pbdk();
+                            pbdking = fblsf;
+                        }
+                    }
+                };
+                rootPbnf.sftOpbquf(truf);
+                rfturn rootPbnf;
+            }
+        };
+        frbmf.gftRootPbnf().sftNbmf("ToolBbr.FlobtingFrbmf");
+        frbmf.sftRfsizbblf(fblsf);
+        WindowListfnfr wl = drfbtfFrbmfListfnfr();
+        frbmf.bddWindowListfnfr(wl);
+        rfturn frbmf;
+    }
+
+    /**
+     * Crfbtfs b window wiidi dontbins tif toolbbr bftfr it ibs bffn
+     * drbggfd out from its dontbinfr
+     *
+     * @pbrbm toolbbr bn instbndf of {@dodf JToolBbr}
+     * @rfturn b {@dodf RootPbnfContbinfr} objfdt, dontbining tif toolbbr
+     * @sindf 1.4
+     */
+    protfdtfd RootPbnfContbinfr drfbtfFlobtingWindow(JToolBbr toolbbr) {
+        @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+        dlbss ToolBbrDiblog fxtfnds JDiblog {
+            publid ToolBbrDiblog(Frbmf ownfr, String titlf, boolfbn modbl) {
+                supfr(ownfr, titlf, modbl);
+            }
+
+            publid ToolBbrDiblog(Diblog ownfr, String titlf, boolfbn modbl) {
+                supfr(ownfr, titlf, modbl);
+            }
+
+            // Ovfrridf drfbtfRootPbnf() to butombtidblly rfsizf
+            // tif frbmf wifn dontfnts dibngf
+            protfdtfd JRootPbnf drfbtfRootPbnf() {
+                @SupprfssWbrnings("sfribl") // bnonymous dlbss
+                JRootPbnf rootPbnf = nfw JRootPbnf() {
+                    privbtf boolfbn pbdking = fblsf;
+
+                    publid void vblidbtf() {
+                        supfr.vblidbtf();
+                        if (!pbdking) {
+                            pbdking = truf;
+                            pbdk();
+                            pbdking = fblsf;
+                        }
+                    }
+                };
+                rootPbnf.sftOpbquf(truf);
+                rfturn rootPbnf;
+            }
+        }
+
+        JDiblog diblog;
+        Window window = SwingUtilitifs.gftWindowAndfstor(toolbbr);
+        if (window instbndfof Frbmf) {
+            diblog = nfw ToolBbrDiblog((Frbmf)window, toolbbr.gftNbmf(), fblsf);
+        } flsf if (window instbndfof Diblog) {
+            diblog = nfw ToolBbrDiblog((Diblog)window, toolbbr.gftNbmf(), fblsf);
+        } flsf {
+            diblog = nfw ToolBbrDiblog((Frbmf)null, toolbbr.gftNbmf(), fblsf);
+        }
+
+        diblog.gftRootPbnf().sftNbmf("ToolBbr.FlobtingWindow");
+        diblog.sftTitlf(toolbbr.gftNbmf());
+        diblog.sftRfsizbblf(fblsf);
+        WindowListfnfr wl = drfbtfFrbmfListfnfr();
+        diblog.bddWindowListfnfr(wl);
+        rfturn diblog;
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf DrbgWindow}.
+     *
+     * @pbrbm toolbbr bn instbndf of {@dodf JToolBbr}
+     * @rfturn bn instbndf of {@dodf DrbgWindow}
+     */
+    protfdtfd DrbgWindow drfbtfDrbgWindow(JToolBbr toolbbr) {
+        Window frbmf = null;
+        if(toolBbr != null) {
+            Contbinfr p;
+            for(p = toolBbr.gftPbrfnt() ; p != null && !(p instbndfof Window) ;
+                p = p.gftPbrfnt());
+            if(p != null && p instbndfof Window)
+                frbmf = (Window) p;
+        }
+        if(flobtingToolBbr == null) {
+            flobtingToolBbr = drfbtfFlobtingWindow(toolBbr);
+        }
+        if (flobtingToolBbr instbndfof Window) frbmf = (Window) flobtingToolBbr;
+        DrbgWindow drbgWindow = nfw DrbgWindow(frbmf);
+        rfturn drbgWindow;
+    }
+
+    /**
+     * Rfturns b flbg to dftfrminf wiftifr rollovfr button bordfrs
+     * brf fnbblfd.
+     *
+     * @rfturn truf if rollovfr bordfrs brf fnbblfd; fblsf otifrwisf
+     * @sff #sftRollovfrBordfrs
+     * @sindf 1.4
+     */
+    publid boolfbn isRollovfrBordfrs() {
+        rfturn rollovfrBordfrs;
+    }
+
+    /**
+     * Sfts tif flbg for fnbbling rollovfr bordfrs on tif toolbbr bnd it will
+     * blso instbll tif bppropribtf bordfr dfpfnding on tif stbtf of tif flbg.
+     *
+     * @pbrbm rollovfr if truf, rollovfr bordfrs brf instbllfd.
+     *        Otifrwisf non-rollovfr bordfrs brf instbllfd
+     * @sff #isRollovfrBordfrs
+     * @sindf 1.4
+     */
+    publid void sftRollovfrBordfrs( boolfbn rollovfr ) {
+        rollovfrBordfrs = rollovfr;
+
+        if ( rollovfrBordfrs )  {
+            instbllRollovfrBordfrs( toolBbr );
+        } flsf  {
+            instbllNonRollovfrBordfrs( toolBbr );
+        }
+    }
+
+    /**
+     * Instblls rollovfr bordfrs on bll tif diild domponfnts of tif JComponfnt.
+     * <p>
+     * Tiis is b donvfnifndf mftiod to dbll <dodf>sftBordfrToRollovfr</dodf>
+     * for fbdi diild domponfnt.
+     *
+     * @pbrbm d dontbinfr wiidi iolds tif diild domponfnts (usublly b JToolBbr)
+     * @sff #sftBordfrToRollovfr
+     * @sindf 1.4
+     */
+    protfdtfd void instbllRollovfrBordfrs ( JComponfnt d )  {
+        // Put rollovfr bordfrs on buttons
+        Componfnt[] domponfnts = d.gftComponfnts();
+
+        for (Componfnt domponfnt : domponfnts) {
+            if (domponfnt instbndfof JComponfnt) {
+                ((JComponfnt) domponfnt).updbtfUI();
+                sftBordfrToRollovfr(domponfnt);
+            }
+        }
+    }
+
+    /**
+     * Instblls non-rollovfr bordfrs on bll tif diild domponfnts of tif JComponfnt.
+     * A non-rollovfr bordfr is tif bordfr tibt is instbllfd on tif diild domponfnt
+     * wiilf it is in tif toolbbr.
+     * <p>
+     * Tiis is b donvfnifndf mftiod to dbll <dodf>sftBordfrToNonRollovfr</dodf>
+     * for fbdi diild domponfnt.
+     *
+     * @pbrbm d dontbinfr wiidi iolds tif diild domponfnts (usublly b JToolBbr)
+     * @sff #sftBordfrToNonRollovfr
+     * @sindf 1.4
+     */
+    protfdtfd void instbllNonRollovfrBordfrs ( JComponfnt d )  {
+        // Put non-rollovfr bordfrs on buttons. Tifsf bordfrs rfdudf tif mbrgin.
+        Componfnt[] domponfnts = d.gftComponfnts();
+
+        for (Componfnt domponfnt : domponfnts) {
+            if (domponfnt instbndfof JComponfnt) {
+                ((JComponfnt) domponfnt).updbtfUI();
+                sftBordfrToNonRollovfr(domponfnt);
+            }
+        }
+    }
+
+    /**
+     * Instblls normbl bordfrs on bll tif diild domponfnts of tif JComponfnt.
+     * A normbl bordfr is tif originbl bordfr tibt wbs instbllfd on tif diild
+     * domponfnt bfforf it wbs bddfd to tif toolbbr.
+     * <p>
+     * Tiis is b donvfnifndf mftiod to dbll <dodf>sftBordfrNormbl</dodf>
+     * for fbdi diild domponfnt.
+     *
+     * @pbrbm d dontbinfr wiidi iolds tif diild domponfnts (usublly b JToolBbr)
+     * @sff #sftBordfrToNonRollovfr
+     * @sindf 1.4
+     */
+    protfdtfd void instbllNormblBordfrs ( JComponfnt d )  {
+        // Put bbdk tif normbl bordfrs on buttons
+        Componfnt[] domponfnts = d.gftComponfnts();
+
+        for (Componfnt domponfnt : domponfnts) {
+            sftBordfrToNormbl(domponfnt);
+        }
+    }
+
+    /**
+     * Sfts tif bordfr of tif domponfnt to ibvf b rollovfr bordfr wiidi
+     * wbs drfbtfd by tif {@link #drfbtfRollovfrBordfr} mftiod.
+     *
+     * @pbrbm d domponfnt wiidi will ibvf b rollovfr bordfr instbllfd
+     * @sff #drfbtfRollovfrBordfr
+     * @sindf 1.4
+     */
+    protfdtfd void sftBordfrToRollovfr(Componfnt d) {
+        if (d instbndfof AbstrbdtButton) {
+            AbstrbdtButton b = (AbstrbdtButton)d;
+
+            Bordfr bordfr = bordfrTbblf.gft(b);
+            if (bordfr == null || bordfr instbndfof UIRfsourdf) {
+                bordfrTbblf.put(b, b.gftBordfr());
+            }
+
+            // Only sft tif bordfr if its tif dffbult bordfr
+            if (b.gftBordfr() instbndfof UIRfsourdf) {
+                b.sftBordfr(gftRollovfrBordfr(b));
+            }
+
+            rollovfrTbblf.put(b, b.isRollovfrEnbblfd()?
+                              Boolfbn.TRUE: Boolfbn.FALSE);
+            b.sftRollovfrEnbblfd(truf);
+        }
+    }
+
+    /**
+     * Rfturns b rollovfr bordfr for tif button.
+     *
+     * @pbrbm b tif button to dbldulbtf tif rollovfr bordfr for
+     * @rfturn tif rollovfr bordfr
+     * @sff #sftBordfrToRollovfr
+     * @sindf 1.6
+     */
+    protfdtfd Bordfr gftRollovfrBordfr(AbstrbdtButton b) {
+        rfturn rollovfrBordfr;
+    }
+
+    /**
+     * Sfts tif bordfr of tif domponfnt to ibvf b non-rollovfr bordfr wiidi
+     * wbs drfbtfd by tif {@link #drfbtfNonRollovfrBordfr} mftiod.
+     *
+     * @pbrbm d domponfnt wiidi will ibvf b non-rollovfr bordfr instbllfd
+     * @sff #drfbtfNonRollovfrBordfr
+     * @sindf 1.4
+     */
+    protfdtfd void sftBordfrToNonRollovfr(Componfnt d) {
+        if (d instbndfof AbstrbdtButton) {
+            AbstrbdtButton b = (AbstrbdtButton)d;
+
+            Bordfr bordfr = bordfrTbblf.gft(b);
+            if (bordfr == null || bordfr instbndfof UIRfsourdf) {
+                bordfrTbblf.put(b, b.gftBordfr());
+            }
+
+            // Only sft tif bordfr if its tif dffbult bordfr
+            if (b.gftBordfr() instbndfof UIRfsourdf) {
+                b.sftBordfr(gftNonRollovfrBordfr(b));
+            }
+            rollovfrTbblf.put(b, b.isRollovfrEnbblfd()?
+                              Boolfbn.TRUE: Boolfbn.FALSE);
+            b.sftRollovfrEnbblfd(fblsf);
+        }
+    }
+
+    /**
+     * Rfturns b non-rollovfr bordfr for tif button.
+     *
+     * @pbrbm b tif button to dbldulbtf tif non-rollovfr bordfr for
+     * @rfturn tif non-rollovfr bordfr
+     * @sff #sftBordfrToNonRollovfr
+     * @sindf 1.6
+     */
+    protfdtfd Bordfr gftNonRollovfrBordfr(AbstrbdtButton b) {
+        if (b instbndfof JTogglfButton) {
+            rfturn nonRollovfrTogglfBordfr;
+        } flsf {
+            rfturn nonRollovfrBordfr;
+        }
+    }
+
+    /**
+     * Sfts tif bordfr of tif domponfnt to ibvf b normbl bordfr.
+     * A normbl bordfr is tif originbl bordfr tibt wbs instbllfd on tif diild
+     * domponfnt bfforf it wbs bddfd to tif toolbbr.
+     *
+     * @pbrbm d domponfnt wiidi will ibvf b normbl bordfr rf-instbllfd
+     * @sff #drfbtfNonRollovfrBordfr
+     * @sindf 1.4
+     */
+    protfdtfd void sftBordfrToNormbl(Componfnt d) {
+        if (d instbndfof AbstrbdtButton) {
+            AbstrbdtButton b = (AbstrbdtButton)d;
+
+            Bordfr bordfr = bordfrTbblf.rfmovf(b);
+            b.sftBordfr(bordfr);
+
+            Boolfbn vbluf = rollovfrTbblf.rfmovf(b);
+            if (vbluf != null) {
+                b.sftRollovfrEnbblfd(vbluf.boolfbnVbluf());
+            }
+        }
+    }
+
+    /**
+     * Sfts tif flobting lodbtion.
+     *
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     */
+    publid void sftFlobtingLodbtion(int x, int y) {
+        flobtingX = x;
+        flobtingY = y;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tif {@dodf JToolBbr} is flobting
+     *
+     * @rfturn {@dodf truf} if tif {@dodf JToolBbr} is flobting
+     */
+    publid boolfbn isFlobting() {
+        rfturn flobting;
+    }
+
+    /**
+     * Sfts tif flobting propfrty.
+     *
+     * @pbrbm b {@dodf truf} if tif {@dodf JToolBbr} is flobting
+     * @pbrbm p tif position
+     */
+    publid void sftFlobting(boolfbn b, Point p) {
+        if (toolBbr.isFlobtbblf()) {
+            boolfbn visiblf = fblsf;
+            Window bndfstor = SwingUtilitifs.gftWindowAndfstor(toolBbr);
+            if (bndfstor != null) {
+                visiblf = bndfstor.isVisiblf();
+            }
+            if (drbgWindow != null)
+                drbgWindow.sftVisiblf(fblsf);
+            tiis.flobting = b;
+            if (flobtingToolBbr == null) {
+                flobtingToolBbr = drfbtfFlobtingWindow(toolBbr);
+            }
+            if (b == truf)
+            {
+                if (dodkingSourdf == null)
+                {
+                    dodkingSourdf = toolBbr.gftPbrfnt();
+                    dodkingSourdf.rfmovf(toolBbr);
+                }
+                donstrbintBfforfFlobting = dbldulbtfConstrbint();
+                if ( propfrtyListfnfr != null )
+                    UIMbnbgfr.bddPropfrtyCibngfListfnfr( propfrtyListfnfr );
+                flobtingToolBbr.gftContfntPbnf().bdd(toolBbr,BordfrLbyout.CENTER);
+                if (flobtingToolBbr instbndfof Window) {
+                    ((Window)flobtingToolBbr).pbdk();
+                    ((Window)flobtingToolBbr).sftLodbtion(flobtingX, flobtingY);
+                    if (visiblf) {
+                        ((Window)flobtingToolBbr).siow();
+                    } flsf {
+                        bndfstor.bddWindowListfnfr(nfw WindowAdbptfr() {
+                            publid void windowOpfnfd(WindowEvfnt f) {
+                                ((Window)flobtingToolBbr).siow();
+                            }
+                        });
+                    }
+                }
+            } flsf {
+                if (flobtingToolBbr == null)
+                    flobtingToolBbr = drfbtfFlobtingWindow(toolBbr);
+                if (flobtingToolBbr instbndfof Window) ((Window)flobtingToolBbr).sftVisiblf(fblsf);
+                flobtingToolBbr.gftContfntPbnf().rfmovf(toolBbr);
+                String donstrbint = gftDodkingConstrbint(dodkingSourdf,
+                                                         p);
+                if (donstrbint == null) {
+                    donstrbint = BordfrLbyout.NORTH;
+                }
+                int orifntbtion = mbpConstrbintToOrifntbtion(donstrbint);
+                sftOrifntbtion(orifntbtion);
+                if (dodkingSourdf== null)
+                    dodkingSourdf = toolBbr.gftPbrfnt();
+                if ( propfrtyListfnfr != null )
+                    UIMbnbgfr.rfmovfPropfrtyCibngfListfnfr( propfrtyListfnfr );
+                dodkingSourdf.bdd(donstrbint, toolBbr);
+            }
+            dodkingSourdf.invblidbtf();
+            Contbinfr dodkingSourdfPbrfnt = dodkingSourdf.gftPbrfnt();
+            if (dodkingSourdfPbrfnt != null)
+                dodkingSourdfPbrfnt.vblidbtf();
+            dodkingSourdf.rfpbint();
+        }
+    }
+
+    privbtf int mbpConstrbintToOrifntbtion(String donstrbint)
+    {
+        int orifntbtion = toolBbr.gftOrifntbtion();
+
+        if ( donstrbint != null )
+        {
+            if ( donstrbint.fqubls(BordfrLbyout.EAST) || donstrbint.fqubls(BordfrLbyout.WEST) )
+                orifntbtion = JToolBbr.VERTICAL;
+            flsf if ( donstrbint.fqubls(BordfrLbyout.NORTH) || donstrbint.fqubls(BordfrLbyout.SOUTH) )
+                orifntbtion = JToolBbr.HORIZONTAL;
+        }
+
+        rfturn orifntbtion;
+    }
+
+    /**
+     * Sfts tif tool bbr's orifntbtion.
+     *
+     * @pbrbm orifntbtion tif nfw orifntbtion
+     */
+    publid void sftOrifntbtion(int orifntbtion)
+    {
+        toolBbr.sftOrifntbtion( orifntbtion );
+
+        if (drbgWindow !=null)
+            drbgWindow.sftOrifntbtion(orifntbtion);
+    }
+
+    /**
+     * Gfts tif dolor displbyfd wifn ovfr b dodking brfb
+     *
+     * @rfturn tif dolor displbyfd wifn ovfr b dodking brfb
+     */
+    publid Color gftDodkingColor() {
+        rfturn dodkingColor;
+    }
+
+    /**
+     * Sfts tif dolor displbyfd wifn ovfr b dodking brfb
+     *
+     * @pbrbm d tif nfw dolor
+     */
+   publid void sftDodkingColor(Color d) {
+        tiis.dodkingColor = d;
+    }
+
+    /**
+     * Gfts tif dolor displbyfd wifn ovfr b flobting brfb
+     *
+     * @rfturn tif dolor displbyfd wifn ovfr b flobting brfb
+     */
+    publid Color gftFlobtingColor() {
+        rfturn flobtingColor;
+    }
+
+    /**
+     * Sfts tif dolor displbyfd wifn ovfr b flobting brfb
+     *
+     * @pbrbm d tif nfw dolor
+     */
+    publid void sftFlobtingColor(Color d) {
+        tiis.flobtingColor = d;
+    }
+
+    privbtf boolfbn isBlodkfd(Componfnt domp, Objfdt donstrbint) {
+        if (domp instbndfof Contbinfr) {
+            Contbinfr dont = (Contbinfr)domp;
+            LbyoutMbnbgfr lm = dont.gftLbyout();
+            if (lm instbndfof BordfrLbyout) {
+                BordfrLbyout blm = (BordfrLbyout)lm;
+                Componfnt d = blm.gftLbyoutComponfnt(dont, donstrbint);
+                rfturn (d != null && d != toolBbr);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tif {@dodf JToolBbr} dbn dodk bt tif givfn position.
+     *
+     * @pbrbm d b domponfnt
+     * @pbrbm p b position
+     * @rfturn {@dodf truf} if tif {@dodf JToolBbr} dbn dodk bt tif givfn position
+     */
+    publid boolfbn dbnDodk(Componfnt d, Point p) {
+        rfturn (p != null && gftDodkingConstrbint(d, p) != null);
+    }
+
+    privbtf String dbldulbtfConstrbint() {
+        String donstrbint = null;
+        LbyoutMbnbgfr lm = dodkingSourdf.gftLbyout();
+        if (lm instbndfof BordfrLbyout) {
+            donstrbint = (String)((BordfrLbyout)lm).gftConstrbints(toolBbr);
+        }
+        rfturn (donstrbint != null) ? donstrbint : donstrbintBfforfFlobting;
+    }
+
+
+
+    privbtf String gftDodkingConstrbint(Componfnt d, Point p) {
+        if (p == null) rfturn donstrbintBfforfFlobting;
+        if (d.dontbins(p)) {
+            dodkingSfnsitivity = (toolBbr.gftOrifntbtion() == JToolBbr.HORIZONTAL)
+                                                ? toolBbr.gftSizf().ifigit
+                                                : toolBbr.gftSizf().widti;
+            // Norti  (Bbsf distbndf on ifigit for now!)
+            if (p.y < dodkingSfnsitivity && !isBlodkfd(d, BordfrLbyout.NORTH)) {
+                rfturn BordfrLbyout.NORTH;
+            }
+            // Ebst  (Bbsf distbndf on ifigit for now!)
+            if (p.x >= d.gftWidti() - dodkingSfnsitivity && !isBlodkfd(d, BordfrLbyout.EAST)) {
+                rfturn BordfrLbyout.EAST;
+            }
+            // Wfst  (Bbsf distbndf on ifigit for now!)
+            if (p.x < dodkingSfnsitivity && !isBlodkfd(d, BordfrLbyout.WEST)) {
+                rfturn BordfrLbyout.WEST;
+            }
+            if (p.y >= d.gftHfigit() - dodkingSfnsitivity && !isBlodkfd(d, BordfrLbyout.SOUTH)) {
+                rfturn BordfrLbyout.SOUTH;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Tif mftiod is usfd to drbg {@dodf DrbgWindow} during tif {@dodf JToolBbr}
+     * is bfing drbggfd.
+     *
+     * @pbrbm position tif rflbtivf to tif {@dodf JTollBbr} position
+     * @pbrbm origin tif sdrffn position of {@dodf JToolBbr} bfforf drbgging
+     */
+    protfdtfd void drbgTo(Point position, Point origin)
+    {
+        if (toolBbr.isFlobtbblf())
+        {
+          try
+          {
+            if (drbgWindow == null)
+                drbgWindow = drfbtfDrbgWindow(toolBbr);
+            Point offsft = drbgWindow.gftOffsft();
+            if (offsft == null) {
+                Dimfnsion sizf = toolBbr.gftPrfffrrfdSizf();
+                offsft = nfw Point(sizf.widti/2, sizf.ifigit/2);
+                drbgWindow.sftOffsft(offsft);
+            }
+            Point globbl = nfw Point(origin.x+ position.x,
+                                     origin.y+position.y);
+            Point drbgPoint = nfw Point(globbl.x- offsft.x,
+                                        globbl.y- offsft.y);
+            if (dodkingSourdf == null)
+                dodkingSourdf = toolBbr.gftPbrfnt();
+                donstrbintBfforfFlobting = dbldulbtfConstrbint();
+            Point dodkingPosition = dodkingSourdf.gftLodbtionOnSdrffn();
+            Point dompbrisonPoint = nfw Point(globbl.x-dodkingPosition.x,
+                                              globbl.y-dodkingPosition.y);
+            if (dbnDodk(dodkingSourdf, dompbrisonPoint)) {
+                drbgWindow.sftBbdkground(gftDodkingColor());
+                String donstrbint = gftDodkingConstrbint(dodkingSourdf,
+                                                         dompbrisonPoint);
+                int orifntbtion = mbpConstrbintToOrifntbtion(donstrbint);
+                drbgWindow.sftOrifntbtion(orifntbtion);
+                drbgWindow.sftBordfrColor(dodkingBordfrColor);
+            } flsf {
+                drbgWindow.sftBbdkground(gftFlobtingColor());
+                drbgWindow.sftBordfrColor(flobtingBordfrColor);
+                drbgWindow.sftOrifntbtion(toolBbr.gftOrifntbtion());
+            }
+
+            drbgWindow.sftLodbtion(drbgPoint.x, drbgPoint.y);
+            if (drbgWindow.isVisiblf() == fblsf) {
+                Dimfnsion sizf = toolBbr.gftPrfffrrfdSizf();
+                drbgWindow.sftSizf(sizf.widti, sizf.ifigit);
+                drbgWindow.siow();
+            }
+          }
+          dbtdi ( IllfgblComponfntStbtfExdfption f )
+          {
+          }
+        }
+    }
+
+    /**
+     * Tif mftiod is dbllfd bt fnd of drbgging to plbdf tif frbmf in fitifr
+     * its originbl plbdf or in its flobting frbmf.
+     *
+     * @pbrbm position tif rflbtivf to tif {@dodf JTollBbr} position
+     * @pbrbm origin tif sdrffn position of {@dodf JToolBbr} bfforf drbgging
+     */
+    protfdtfd void flobtAt(Point position, Point origin)
+    {
+        if(toolBbr.isFlobtbblf())
+        {
+          try
+          {
+            Point offsft = drbgWindow.gftOffsft();
+            if (offsft == null) {
+                offsft = position;
+                drbgWindow.sftOffsft(offsft);
+            }
+            Point globbl = nfw Point(origin.x+ position.x,
+                                     origin.y+position.y);
+            sftFlobtingLodbtion(globbl.x-offsft.x,
+                                globbl.y-offsft.y);
+            if (dodkingSourdf != null) {
+                Point dodkingPosition = dodkingSourdf.gftLodbtionOnSdrffn();
+                Point dompbrisonPoint = nfw Point(globbl.x-dodkingPosition.x,
+                                                  globbl.y-dodkingPosition.y);
+                if (dbnDodk(dodkingSourdf, dompbrisonPoint)) {
+                    sftFlobting(fblsf, dompbrisonPoint);
+                } flsf {
+                    sftFlobting(truf, null);
+                }
+            } flsf {
+                sftFlobting(truf, null);
+            }
+            drbgWindow.sftOffsft(null);
+          }
+          dbtdi ( IllfgblComponfntStbtfExdfption f )
+          {
+          }
+        }
+    }
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
+        }
+        rfturn ibndlfr;
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf ContbinfrListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf ContbinfrListfnfr}
+     */
+    protfdtfd ContbinfrListfnfr drfbtfToolBbrContListfnfr( )
+    {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf FodusListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf FodusListfnfr}
+     */
+    protfdtfd FodusListfnfr drfbtfToolBbrFodusListfnfr( )
+    {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf PropfrtyCibngfListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf PropfrtyCibngfListfnfr}
+     */
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyListfnfr()
+    {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf MousfInputListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf MousfInputListfnfr}
+     */
+    protfdtfd MousfInputListfnfr drfbtfDodkingListfnfr( ) {
+        gftHbndlfr().tb = toolBbr;
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf WindowListfnfr}.
+     *
+     * @rfturn b nfw instbndf of {@dodf WindowListfnfr}
+     */
+    protfdtfd WindowListfnfr drfbtfFrbmfListfnfr() {
+        rfturn nfw FrbmfListfnfr();
+    }
+
+    /**
+     * Pbints tif dontfnts of tif window usfd for drbgging.
+     *
+     * @pbrbm g Grbpiids to pbint to.
+     * @tirows NullPointfrExdfption is <dodf>g</dodf> is null
+     * @sindf 1.5
+     */
+    protfdtfd void pbintDrbgWindow(Grbpiids g) {
+        g.sftColor(drbgWindow.gftBbdkground());
+        int w = drbgWindow.gftWidti();
+        int i = drbgWindow.gftHfigit();
+        g.fillRfdt(0, 0, w, i);
+        g.sftColor(drbgWindow.gftBordfrColor());
+        g.drbwRfdt(0, 0, w - 1, i - 1);
+    }
+
+
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String NAVIGATE_RIGHT = "nbvigbtfRigit";
+        privbtf stbtid finbl String NAVIGATE_LEFT = "nbvigbtfLfft";
+        privbtf stbtid finbl String NAVIGATE_UP = "nbvigbtfUp";
+        privbtf stbtid finbl String NAVIGATE_DOWN = "nbvigbtfDown";
+
+        publid Adtions(String nbmf) {
+            supfr(nbmf);
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+            String kfy = gftNbmf();
+            JToolBbr toolBbr = (JToolBbr)fvt.gftSourdf();
+            BbsidToolBbrUI ui = (BbsidToolBbrUI)BbsidLookAndFffl.gftUIOfTypf(
+                     toolBbr.gftUI(), BbsidToolBbrUI.dlbss);
+
+            if (NAVIGATE_RIGHT == kfy) {
+                ui.nbvigbtfFodusfdComp(EAST);
+            } flsf if (NAVIGATE_LEFT == kfy) {
+                ui.nbvigbtfFodusfdComp(WEST);
+            } flsf if (NAVIGATE_UP == kfy) {
+                ui.nbvigbtfFodusfdComp(NORTH);
+            } flsf if (NAVIGATE_DOWN == kfy) {
+                ui.nbvigbtfFodusfdComp(SOUTH);
+            }
+        }
+    }
+
+
+    privbtf dlbss Hbndlfr implfmfnts ContbinfrListfnfr,
+            FodusListfnfr, MousfInputListfnfr, PropfrtyCibngfListfnfr {
+
+        //
+        // ContbinfrListfnfr
+        //
+        publid void domponfntAddfd(ContbinfrEvfnt fvt) {
+            Componfnt d = fvt.gftCiild();
+
+            if (toolBbrFodusListfnfr != null) {
+                d.bddFodusListfnfr(toolBbrFodusListfnfr);
+            }
+
+            if (isRollovfrBordfrs()) {
+                sftBordfrToRollovfr(d);
+            } flsf {
+                sftBordfrToNonRollovfr(d);
+            }
+        }
+
+        publid void domponfntRfmovfd(ContbinfrEvfnt fvt) {
+            Componfnt d = fvt.gftCiild();
+
+            if (toolBbrFodusListfnfr != null) {
+                d.rfmovfFodusListfnfr(toolBbrFodusListfnfr);
+            }
+
+            // Rfvfrt tif button bordfr
+            sftBordfrToNormbl(d);
+        }
+
+
+        //
+        // FodusListfnfr
+        //
+        publid void fodusGbinfd(FodusEvfnt fvt) {
+            Componfnt d = fvt.gftComponfnt();
+            fodusfdCompIndfx = toolBbr.gftComponfntIndfx(d);
+        }
+
+        publid void fodusLost(FodusEvfnt fvt) { }
+
+
+        //
+        // MousfInputListfnfr (DodkingListfnfr)
+        //
+        JToolBbr tb;
+        boolfbn isDrbgging = fblsf;
+        Point origin = null;
+
+        publid void mousfPrfssfd(MousfEvfnt fvt) {
+            if (!tb.isEnbblfd()) {
+                rfturn;
+            }
+            isDrbgging = fblsf;
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {
+            if (!tb.isEnbblfd()) {
+                rfturn;
+            }
+            if (isDrbgging) {
+                Point position = fvt.gftPoint();
+                if (origin == null)
+                    origin = fvt.gftComponfnt().gftLodbtionOnSdrffn();
+                flobtAt(position, origin);
+            }
+            origin = null;
+            isDrbgging = fblsf;
+        }
+
+        publid void mousfDrbggfd(MousfEvfnt fvt) {
+            if (!tb.isEnbblfd()) {
+                rfturn;
+            }
+            isDrbgging = truf;
+            Point position = fvt.gftPoint();
+            if (origin == null) {
+                origin = fvt.gftComponfnt().gftLodbtionOnSdrffn();
+            }
+            drbgTo(position, origin);
+        }
+
+        publid void mousfClidkfd(MousfEvfnt fvt) {}
+        publid void mousfEntfrfd(MousfEvfnt fvt) {}
+        publid void mousfExitfd(MousfEvfnt fvt) {}
+        publid void mousfMovfd(MousfEvfnt fvt) {}
+
+
+        //
+        // PropfrtyCibngfListfnfr
+        //
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+            if (propfrtyNbmf == "lookAndFffl") {
+                toolBbr.updbtfUI();
+            } flsf if (propfrtyNbmf == "orifntbtion") {
+                // Sfbrdi for JSfpbrbtor domponfnts bnd dibngf it's orifntbtion
+                // to mbtdi tif toolbbr bnd flip it's orifntbtion.
+                Componfnt[] domponfnts = toolBbr.gftComponfnts();
+                int orifntbtion = ((Intfgfr)fvt.gftNfwVbluf()).intVbluf();
+                JToolBbr.Sfpbrbtor sfpbrbtor;
+
+                for (int i = 0; i < domponfnts.lfngti; ++i) {
+                    if (domponfnts[i] instbndfof JToolBbr.Sfpbrbtor) {
+                        sfpbrbtor = (JToolBbr.Sfpbrbtor)domponfnts[i];
+                        if ((orifntbtion == JToolBbr.HORIZONTAL)) {
+                            sfpbrbtor.sftOrifntbtion(JSfpbrbtor.VERTICAL);
+                        } flsf {
+                            sfpbrbtor.sftOrifntbtion(JSfpbrbtor.HORIZONTAL);
+                        }
+                        Dimfnsion sizf = sfpbrbtor.gftSfpbrbtorSizf();
+                        if (sizf != null && sizf.widti != sizf.ifigit) {
+                            // Flip tif orifntbtion.
+                            Dimfnsion nfwSizf =
+                                nfw Dimfnsion(sizf.ifigit, sizf.widti);
+                            sfpbrbtor.sftSfpbrbtorSizf(nfwSizf);
+                        }
+                    }
+                }
+            } flsf if (propfrtyNbmf == IS_ROLLOVER) {
+                instbllNormblBordfrs(toolBbr);
+                sftRollovfrBordfrs(((Boolfbn)fvt.gftNfwVbluf()).boolfbnVbluf());
+            }
+        }
+    }
+
+    /**
+     * Tif dlbss listfns for window fvfnts.
+     */
+    protfdtfd dlbss FrbmfListfnfr fxtfnds WindowAdbptfr {
+        publid void windowClosing(WindowEvfnt w) {
+            if (toolBbr.isFlobtbblf()) {
+                if (drbgWindow != null)
+                    drbgWindow.sftVisiblf(fblsf);
+                flobting = fblsf;
+                if (flobtingToolBbr == null)
+                    flobtingToolBbr = drfbtfFlobtingWindow(toolBbr);
+                if (flobtingToolBbr instbndfof Window) ((Window)flobtingToolBbr).sftVisiblf(fblsf);
+                flobtingToolBbr.gftContfntPbnf().rfmovf(toolBbr);
+                String donstrbint = donstrbintBfforfFlobting;
+                if (toolBbr.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                    if (donstrbint == "Wfst" || donstrbint == "Ebst") {
+                        donstrbint = "Norti";
+                    }
+                } flsf {
+                    if (donstrbint == "Norti" || donstrbint == "Souti") {
+                        donstrbint = "Wfst";
+                    }
+                }
+                if (dodkingSourdf == null)
+                    dodkingSourdf = toolBbr.gftPbrfnt();
+                if (propfrtyListfnfr != null)
+                    UIMbnbgfr.rfmovfPropfrtyCibngfListfnfr(propfrtyListfnfr);
+                dodkingSourdf.bdd(toolBbr, donstrbint);
+                dodkingSourdf.invblidbtf();
+                Contbinfr dodkingSourdfPbrfnt = dodkingSourdf.gftPbrfnt();
+                if (dodkingSourdfPbrfnt != null)
+                        dodkingSourdfPbrfnt.vblidbtf();
+                dodkingSourdf.rfpbint();
+            }
+        }
+
+    }
+
+    /**
+     * Tif dlbss listfns for domponfnt fvfnts.
+     */
+    protfdtfd dlbss ToolBbrContListfnfr implfmfnts ContbinfrListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void domponfntAddfd( ContbinfrEvfnt f )  {
+            gftHbndlfr().domponfntAddfd(f);
+        }
+
+        publid void domponfntRfmovfd( ContbinfrEvfnt f ) {
+            gftHbndlfr().domponfntRfmovfd(f);
+        }
+
+    }
+
+    /**
+     * Tif dlbss listfns for fodus fvfnts.
+     */
+    protfdtfd dlbss ToolBbrFodusListfnfr implfmfnts FodusListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void fodusGbinfd( FodusEvfnt f ) {
+            gftHbndlfr().fodusGbinfd(f);
+            }
+
+        publid void fodusLost( FodusEvfnt f ) {
+            gftHbndlfr().fodusLost(f);
+            }
+    }
+
+    /**
+     * Tif dlbss listfns for propfrty dibngfd fvfnts.
+     */
+    protfdtfd dlbss PropfrtyListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void propfrtyCibngf( PropfrtyCibngfEvfnt f ) {
+            gftHbndlfr().propfrtyCibngf(f);
+            }
+    }
+
+    /**
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidToolBbrUI.
+     */
+    publid dlbss DodkingListfnfr implfmfnts MousfInputListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        /**
+         * Tif instbndf of {@dodf JToolBbr}.
+         */
+        protfdtfd JToolBbr toolBbr;
+        /**
+         * {@dodf truf} if tif {@dodf JToolBbr} is bfing drbggfd.
+         */
+        protfdtfd boolfbn isDrbgging = fblsf;
+        /**
+         * Tif origin point.
+         */
+        protfdtfd Point origin = null;
+
+        /**
+         * Construdts b nfw instbndf of {@dodf DodkingListfnfr}.
+         *
+         * @pbrbm t bn instbndf of {@dodf JToolBbr}
+         */
+        publid DodkingListfnfr(JToolBbr t) {
+            tiis.toolBbr = t;
+            gftHbndlfr().tb = t;
+        }
+
+        publid void mousfClidkfd(MousfEvfnt f) {
+        gftHbndlfr().mousfClidkfd(f);
+    }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+        gftHbndlfr().tb = toolBbr;
+        gftHbndlfr().mousfPrfssfd(f);
+        isDrbgging = gftHbndlfr().isDrbgging;
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+        gftHbndlfr().tb = toolBbr;
+        gftHbndlfr().isDrbgging = isDrbgging;
+        gftHbndlfr().origin = origin;
+        gftHbndlfr().mousfRflfbsfd(f);
+        isDrbgging = gftHbndlfr().isDrbgging;
+        origin = gftHbndlfr().origin;
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+        gftHbndlfr().mousfEntfrfd(f);
+    }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+        gftHbndlfr().mousfExitfd(f);
+    }
+
+        publid void mousfDrbggfd(MousfEvfnt f) {
+        gftHbndlfr().tb = toolBbr;
+        gftHbndlfr().origin = origin;
+        gftHbndlfr().mousfDrbggfd(f);
+        isDrbgging = gftHbndlfr().isDrbgging;
+        origin = gftHbndlfr().origin;
+        }
+
+        publid void mousfMovfd(MousfEvfnt f) {
+        gftHbndlfr().mousfMovfd(f);
+        }
+    }
+
+    /**
+     * Tif window wiidi bppfbrs during drbgging tif {@dodf JToolBbr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss DrbgWindow fxtfnds Window
+    {
+        Color bordfrColor = Color.grby;
+        int orifntbtion = toolBbr.gftOrifntbtion();
+        Point offsft; // offsft of tif mousf dursor insidf tif DrbgWindow
+
+        DrbgWindow(Window w) {
+            supfr(w);
+        }
+
+    /**
+     * Rfturns tif orifntbtion of tif toolbbr window wifn tif toolbbr is
+     * flobting. Tif orifntbtion is fitifr onf of <dodf>JToolBbr.HORIZONTAL</dodf>
+     * or <dodf>JToolBbr.VERTICAL</dodf>.
+     *
+     * @rfturn tif orifntbtion of tif toolbbr window
+     * @sindf 1.6
+     */
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
+    }
+
+        /**
+         * Sfts tif orifntbtion.
+         *
+         * @pbrbm o tif nfw orifntbtion
+         */
+        publid void sftOrifntbtion(int o) {
+            if(isSiowing()) {
+                if (o == tiis.orifntbtion)
+                    rfturn;
+                tiis.orifntbtion = o;
+                Dimfnsion sizf = gftSizf();
+                sftSizf(nfw Dimfnsion(sizf.ifigit, sizf.widti));
+                if (offsft!=null) {
+                    if( BbsidGrbpiidsUtils.isLfftToRigit(toolBbr) ) {
+                        sftOffsft(nfw Point(offsft.y, offsft.x));
+                    } flsf if( o == JToolBbr.HORIZONTAL ) {
+                        sftOffsft(nfw Point( sizf.ifigit-offsft.y, offsft.x));
+                    } flsf {
+                        sftOffsft(nfw Point(offsft.y, sizf.widti-offsft.x));
+                    }
+                }
+                rfpbint();
+            }
+        }
+
+        /**
+         * Rfturns tif offsft.
+         *
+         * @rfturn tif offsft
+         */
+        publid Point gftOffsft() {
+            rfturn offsft;
+        }
+
+        /**
+         * Sfts tif offsft.
+         *
+         * @pbrbm p tif nfw offsft
+         */
+        publid void sftOffsft(Point p) {
+            tiis.offsft = p;
+        }
+
+        /**
+         * Sfts tif bordfr dolor.
+         *
+         * @pbrbm d tif nfw bordfr dolor
+         */
+        publid void sftBordfrColor(Color d) {
+            if (tiis.bordfrColor == d)
+                rfturn;
+            tiis.bordfrColor = d;
+            rfpbint();
+        }
+
+        /**
+         * Rfturns tif bordfr dolor.
+         *
+         * @rfturn tif bordfr dolor
+         */
+        publid Color gftBordfrColor() {
+            rfturn tiis.bordfrColor;
+        }
+
+        publid void pbint(Grbpiids g) {
+            pbintDrbgWindow(g);
+            // Pbint tif diildrfn
+            supfr.pbint(g);
+        }
+        publid Insfts gftInsfts() {
+            rfturn nfw Insfts(1,1,1,1);
+        }
+    }
+}

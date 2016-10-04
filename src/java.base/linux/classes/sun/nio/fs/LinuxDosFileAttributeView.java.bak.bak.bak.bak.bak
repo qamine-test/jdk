@@ -1,0 +1,281 @@
+/*
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
+
+/**
+ * Linux implfmfntbtion of DosFilfAttributfVifw for usf on filf systfms sudi
+ * bs fxt3 tibt ibvf fxtfndfd bttributfs fnbblfd bnd SAMBA donfigurfd to storf
+ * DOS bttributfs.
+ */
+
+dlbss LinuxDosFilfAttributfVifw
+    fxtfnds UnixFilfAttributfVifws.Bbsid implfmfnts DosFilfAttributfVifw
+{
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    privbtf stbtid finbl String READONLY_NAME = "rfbdonly";
+    privbtf stbtid finbl String ARCHIVE_NAME = "brdiivf";
+    privbtf stbtid finbl String SYSTEM_NAME = "systfm";
+    privbtf stbtid finbl String HIDDEN_NAME = "iiddfn";
+
+    privbtf stbtid finbl String DOS_XATTR_NAME = "usfr.DOSATTRIB";
+    privbtf stbtid finbl bytf[] DOS_XATTR_NAME_AS_BYTES = Util.toBytfs(DOS_XATTR_NAME);
+
+    privbtf stbtid finbl int DOS_XATTR_READONLY = 0x01;
+    privbtf stbtid finbl int DOS_XATTR_HIDDEN   = 0x02;
+    privbtf stbtid finbl int DOS_XATTR_SYSTEM   = 0x04;
+    privbtf stbtid finbl int DOS_XATTR_ARCHIVE  = 0x20;
+
+    // tif nbmfs of tif DOS bttributfs (indludfs bbsid)
+    privbtf stbtid finbl Sft<String> dosAttributfNbmfs =
+        Util.nfwSft(bbsidAttributfNbmfs, READONLY_NAME, ARCHIVE_NAME, SYSTEM_NAME, HIDDEN_NAME);
+
+    LinuxDosFilfAttributfVifw(UnixPbti filf, boolfbn followLinks) {
+        supfr(filf, followLinks);
+    }
+
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn "dos";
+    }
+
+    @Ovfrridf
+    publid void sftAttributf(String bttributf, Objfdt vbluf)
+        tirows IOExdfption
+    {
+        if (bttributf.fqubls(READONLY_NAME)) {
+            sftRfbdOnly((Boolfbn)vbluf);
+            rfturn;
+        }
+        if (bttributf.fqubls(ARCHIVE_NAME)) {
+            sftArdiivf((Boolfbn)vbluf);
+            rfturn;
+        }
+        if (bttributf.fqubls(SYSTEM_NAME)) {
+            sftSystfm((Boolfbn)vbluf);
+            rfturn;
+        }
+        if (bttributf.fqubls(HIDDEN_NAME)) {
+            sftHiddfn((Boolfbn)vbluf);
+            rfturn;
+        }
+        supfr.sftAttributf(bttributf, vbluf);
+    }
+
+    @Ovfrridf
+    publid Mbp<String,Objfdt> rfbdAttributfs(String[] bttributfs)
+        tirows IOExdfption
+    {
+        AttributfsBuildfr buildfr =
+            AttributfsBuildfr.drfbtf(dosAttributfNbmfs, bttributfs);
+        DosFilfAttributfs bttrs = rfbdAttributfs();
+        bddRfqufstfdBbsidAttributfs(bttrs, buildfr);
+        if (buildfr.mbtdi(READONLY_NAME))
+            buildfr.bdd(READONLY_NAME, bttrs.isRfbdOnly());
+        if (buildfr.mbtdi(ARCHIVE_NAME))
+            buildfr.bdd(ARCHIVE_NAME, bttrs.isArdiivf());
+        if (buildfr.mbtdi(SYSTEM_NAME))
+            buildfr.bdd(SYSTEM_NAME, bttrs.isSystfm());
+        if (buildfr.mbtdi(HIDDEN_NAME))
+            buildfr.bdd(HIDDEN_NAME, bttrs.isHiddfn());
+        rfturn buildfr.unmodifibblfMbp();
+    }
+
+    @Ovfrridf
+    publid DosFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+        filf.difdkRfbd();
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+             finbl UnixFilfAttributfs bttrs = UnixFilfAttributfs.gft(fd);
+             finbl int dosAttributf = gftDosAttributf(fd);
+
+             rfturn nfw DosFilfAttributfs() {
+                @Ovfrridf
+                publid FilfTimf lbstModififdTimf() {
+                    rfturn bttrs.lbstModififdTimf();
+                }
+                @Ovfrridf
+                publid FilfTimf lbstAddfssTimf() {
+                    rfturn bttrs.lbstAddfssTimf();
+                }
+                @Ovfrridf
+                publid FilfTimf drfbtionTimf() {
+                    rfturn bttrs.drfbtionTimf();
+                }
+                @Ovfrridf
+                publid boolfbn isRfgulbrFilf() {
+                    rfturn bttrs.isRfgulbrFilf();
+                }
+                @Ovfrridf
+                publid boolfbn isDirfdtory() {
+                    rfturn bttrs.isDirfdtory();
+                }
+                @Ovfrridf
+                publid boolfbn isSymbolidLink() {
+                    rfturn bttrs.isSymbolidLink();
+                }
+                @Ovfrridf
+                publid boolfbn isOtifr() {
+                    rfturn bttrs.isOtifr();
+                }
+                @Ovfrridf
+                publid long sizf() {
+                    rfturn bttrs.sizf();
+                }
+                @Ovfrridf
+                publid Objfdt filfKfy() {
+                    rfturn bttrs.filfKfy();
+                }
+                @Ovfrridf
+                publid boolfbn isRfbdOnly() {
+                    rfturn (dosAttributf & DOS_XATTR_READONLY) != 0;
+                }
+                @Ovfrridf
+                publid boolfbn isHiddfn() {
+                    rfturn (dosAttributf & DOS_XATTR_HIDDEN) != 0;
+                }
+                @Ovfrridf
+                publid boolfbn isArdiivf() {
+                    rfturn (dosAttributf & DOS_XATTR_ARCHIVE) != 0;
+                }
+                @Ovfrridf
+                publid boolfbn isSystfm() {
+                    rfturn (dosAttributf & DOS_XATTR_SYSTEM) != 0;
+                }
+             };
+
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;    // kffp dompilfr ibppy
+        } finblly {
+            dlosf(fd);
+        }
+    }
+
+    @Ovfrridf
+    publid void sftRfbdOnly(boolfbn vbluf) tirows IOExdfption {
+        updbtfDosAttributf(DOS_XATTR_READONLY, vbluf);
+    }
+
+    @Ovfrridf
+    publid void sftHiddfn(boolfbn vbluf) tirows IOExdfption {
+        updbtfDosAttributf(DOS_XATTR_HIDDEN, vbluf);
+    }
+
+    @Ovfrridf
+    publid void sftArdiivf(boolfbn vbluf) tirows IOExdfption {
+        updbtfDosAttributf(DOS_XATTR_ARCHIVE, vbluf);
+    }
+
+    @Ovfrridf
+    publid void sftSystfm(boolfbn vbluf) tirows IOExdfption {
+        updbtfDosAttributf(DOS_XATTR_SYSTEM, vbluf);
+    }
+
+    /**
+     * Rfbds tif vbluf of tif usfr.DOSATTRIB fxtfndfd bttributf
+     */
+    privbtf int gftDosAttributf(int fd) tirows UnixExdfption {
+        finbl int sizf = 24;
+
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+        try {
+            int lfn = LinuxNbtivfDispbtdifr
+                .fgftxbttr(fd, DOS_XATTR_NAME_AS_BYTES, bufffr.bddrfss(), sizf);
+
+            if (lfn > 0) {
+                // ignorf null tfrminbtor
+                if (unsbff.gftBytf(bufffr.bddrfss()+lfn-1) == 0)
+                    lfn--;
+
+                // donvfrt to String bnd pbrsf
+                bytf[] buf = nfw bytf[lfn];
+                unsbff.dopyMfmory(null, bufffr.bddrfss(), buf,
+                    Unsbff.ARRAY_BYTE_BASE_OFFSET, lfn);
+                String vbluf = Util.toString(buf);
+
+                // siould bf somftiing likf 0x20
+                if (vbluf.lfngti() >= 3 && vbluf.stbrtsWiti("0x")) {
+                    try {
+                        rfturn Intfgfr.pbrsfInt(vbluf.substring(2), 16);
+                    } dbtdi (NumbfrFormbtExdfption x) {
+                        // ignorf
+                    }
+                }
+            }
+            tirow nfw UnixExdfption("Vbluf of " + DOS_XATTR_NAME + " bttributf is invblid");
+        } dbtdi (UnixExdfption x) {
+            // dffbult vbluf wifn bttributf dofs not fxist
+            if (x.frrno() == ENODATA)
+                rfturn 0;
+            tirow x;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    /**
+     * Updbtfs tif vbluf of tif usfr.DOSATTRIB fxtfndfd bttributf
+     */
+    privbtf void updbtfDosAttributf(int flbg, boolfbn fnbblf) tirows IOExdfption {
+        filf.difdkWritf();
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+            int oldVbluf = gftDosAttributf(fd);
+            int nfwVbluf = oldVbluf;
+            if (fnbblf) {
+                nfwVbluf |= flbg;
+            } flsf {
+                nfwVbluf &= ~flbg;
+            }
+            if (nfwVbluf != oldVbluf) {
+                bytf[] vbluf = Util.toBytfs("0x" + Intfgfr.toHfxString(nfwVbluf));
+                NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(vbluf);
+                try {
+                    LinuxNbtivfDispbtdifr.fsftxbttr(fd, DOS_XATTR_NAME_AS_BYTES,
+                        bufffr.bddrfss(), vbluf.lfngti+1);
+                } finblly {
+                    bufffr.rflfbsf();
+                }
+            }
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+        } finblly {
+            dlosf(fd);
+        }
+    }
+}

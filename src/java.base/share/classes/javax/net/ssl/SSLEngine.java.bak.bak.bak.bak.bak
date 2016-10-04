@@ -1,0 +1,1256 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.RfbdOnlyBufffrExdfption;
+
+
+/**
+ * A dlbss wiidi fnbblfs sfdurf dommunidbtions using protodols sudi bs
+ * tif Sfdurf Sodkfts Lbyfr (SSL) or
+ * <A HREF="ittp://www.iftf.org/rfd/rfd2246.txt"> IETF RFC 2246 "Trbnsport
+ * Lbyfr Sfdurity" (TLS) </A> protodols, but is trbnsport indfpfndfnt.
+ * <P>
+ * Tif sfdurf dommunidbtions modfs indludf: <UL>
+ *
+ *      <LI> <fm>Intfgrity Protfdtion</fm>.  SSL/TLS protfdts bgbinst
+ *      modifidbtion of mfssbgfs by bn bdtivf wirftbppfr.
+ *
+ *      <LI> <fm>Autifntidbtion</fm>.  In most modfs, SSL/TLS providfs
+ *      pffr butifntidbtion.  Sfrvfrs brf usublly butifntidbtfd, bnd
+ *      dlifnts mby bf butifntidbtfd bs rfqufstfd by sfrvfrs.
+ *
+ *      <LI> <fm>Confidfntiblity (Privbdy Protfdtion)</fm>.  In most
+ *      modfs, SSL/TLS fndrypts dbtb bfing sfnt bftwffn dlifnt bnd
+ *      sfrvfr.  Tiis protfdts tif donfidfntiblity of dbtb, so tibt
+ *      pbssivf wirftbppfrs won't sff sfnsitivf dbtb sudi bs finbndibl
+ *      informbtion or pfrsonbl informbtion of mbny kinds.
+ *
+ *      </UL>
+ *
+ * Tifsf kinds of protfdtion brf spfdififd by b "dipifr suitf", wiidi
+ * is b dombinbtion of dryptogrbpiid blgoritims usfd by b givfn SSL
+ * donnfdtion.  During tif nfgotibtion prodfss, tif two fndpoints must
+ * bgrff on b dipifr suitf tibt is bvbilbblf in boti fnvironmfnts.  If
+ * tifrf is no sudi suitf in dommon, no SSL donnfdtion dbn bf
+ * fstbblisifd, bnd no dbtb dbn bf fxdibngfd.
+ * <P>
+ * Tif dipifr suitf usfd is fstbblisifd by b nfgotibtion prodfss dbllfd
+ * "ibndsibking".  Tif gobl of tiis prodfss is to drfbtf or rfjoin b
+ * "sfssion", wiidi mby protfdt mbny donnfdtions ovfr timf.  Aftfr
+ * ibndsibking ibs domplftfd, you dbn bddfss sfssion bttributfs by
+ * using tif {@link #gftSfssion()} mftiod.
+ * <P>
+ * Tif <dodf>SSLSodkft</dodf> dlbss providfs mudi of tif sbmf sfdurity
+ * fundtionblity, but bll of tif inbound bnd outbound dbtb is
+ * butombtidblly trbnsportfd using tif undfrlying {@link
+ * jbvb.nft.Sodkft Sodkft}, wiidi by dfsign usfs b blodking modfl.
+ * Wiilf tiis is bppropribtf for mbny bpplidbtions, tiis modfl dofs not
+ * providf tif sdblbbility rfquirfd by lbrgf sfrvfrs.
+ * <P>
+ * Tif primbry distindtion of bn <dodf>SSLEnginf</dodf> is tibt it
+ * opfrbtfs on inbound bnd outbound bytf strfbms, indfpfndfnt of tif
+ * trbnsport mfdibnism.  It is tif rfsponsibility of tif
+ * <dodf>SSLEnginf</dodf> usfr to brrbngf for rflibblf I/O trbnsport to
+ * tif pffr.  By sfpbrbting tif SSL/TLS bbstrbdtion from tif I/O
+ * trbnsport mfdibnism, tif <dodf>SSLEnginf</dodf> dbn bf usfd for b
+ * widf vbrifty of I/O typfs, sudi bs {@link
+ * jbvb.nio.dibnnfls.spi.AbstrbdtSflfdtbblfCibnnfl#donfigurfBlodking(boolfbn)
+ * non-blodking I/O (polling)}, {@link jbvb.nio.dibnnfls.Sflfdtor
+ * sflfdtbblf non-blodking I/O}, {@link jbvb.nft.Sodkft Sodkft} bnd tif
+ * trbditionbl Input/OutputStrfbms, lodbl {@link jbvb.nio.BytfBufffr
+ * BytfBufffrs} or bytf brrbys, <A
+ * HREF="ittp://www.jdp.org/fn/jsr/dftbil?id=203"> futurf bsyndironous
+ * I/O modfls </A>, bnd so on.
+ * <P>
+ * At b iigi lfvfl, tif <dodf>SSLEnginf</dodf> bppfbrs tius:
+ *
+ * <prf>
+ *                   bpp dbtb
+ *
+ *                |           ^
+ *                |     |     |
+ *                v     |     |
+ *           +----+-----|-----+----+
+ *           |          |          |
+ *           |       SSL|Enginf    |
+ *   wrbp()  |          |          |  unwrbp()
+ *           | OUTBOUND | INBOUND  |
+ *           |          |          |
+ *           +----+-----|-----+----+
+ *                |     |     ^
+ *                |     |     |
+ *                v           |
+ *
+ *                   nft dbtb
+ * </prf>
+ * Applidbtion dbtb (blso known bs plbintfxt or dlfbrtfxt) is dbtb wiidi
+ * is produdfd or donsumfd by bn bpplidbtion.  Its dountfrpbrt is
+ * nftwork dbtb, wiidi donsists of fitifr ibndsibking bnd/or dipifrtfxt
+ * (fndryptfd) dbtb, bnd dfstinfd to bf trbnsportfd vib bn I/O
+ * mfdibnism.  Inbound dbtb is dbtb wiidi ibs bffn rfdfivfd from tif
+ * pffr, bnd outbound dbtb is dfstinfd for tif pffr.
+ * <P>
+ * (In tif dontfxt of bn <dodf>SSLEnginf</dodf>, tif tfrm "ibndsibkf
+ * dbtb" is tbkfn to mfbn bny dbtb fxdibngfd to fstbblisi bnd dontrol b
+ * sfdurf donnfdtion.  Hbndsibkf dbtb indludfs tif SSL/TLS mfssbgfs
+ * "blfrt", "dibngf_dipifr_spfd," bnd "ibndsibkf.")
+ * <P>
+ * Tifrf brf fivf distindt pibsfs to bn <dodf>SSLEnginf</dodf>.
+ *
+ * <OL>
+ *     <li> Crfbtion - Tif <dodf>SSLEnginf</dodf> ibs bffn drfbtfd bnd
+ *     initiblizfd, but ibs not yft bffn usfd.  During tiis pibsf, bn
+ *     bpplidbtion mby sft bny <dodf>SSLEnginf</dodf>-spfdifid sfttings
+ *     (fnbblfd dipifr suitfs, wiftifr tif <dodf>SSLEnginf</dodf> siould
+ *     ibndsibkf in dlifnt or sfrvfr modf, bnd so on).  Ondf
+ *     ibndsibking ibs bfgun, tiougi, bny nfw sfttings (fxdfpt
+ *     dlifnt/sfrvfr modf, sff bflow) will bf usfd for
+ *     tif nfxt ibndsibkf.
+ *
+ *     <li> Initibl Hbndsibkf - Tif initibl ibndsibkf is b prodfdurf by
+ *     wiidi tif two pffrs fxdibngf dommunidbtion pbrbmftfrs until bn
+ *     SSLSfssion is fstbblisifd.  Applidbtion dbtb dbn not bf sfnt during
+ *     tiis pibsf.
+ *
+ *     <li> Applidbtion Dbtb - Ondf tif dommunidbtion pbrbmftfrs ibvf
+ *     bffn fstbblisifd bnd tif ibndsibkf is domplftf, bpplidbtion dbtb
+ *     mby flow tirougi tif <dodf>SSLEnginf</dodf>.  Outbound
+ *     bpplidbtion mfssbgfs brf fndryptfd bnd intfgrity protfdtfd,
+ *     bnd inbound mfssbgfs rfvfrsf tif prodfss.
+ *
+ *     <li>  Rfibndsibking - Eitifr sidf mby rfqufst b rfnfgotibtion of
+ *     tif sfssion bt bny timf during tif Applidbtion Dbtb pibsf.  Nfw
+ *     ibndsibking dbtb dbn bf intfrmixfd bmong tif bpplidbtion dbtb.
+ *     Bfforf stbrting tif rfibndsibkf pibsf, tif bpplidbtion mby
+ *     rfsft tif SSL/TLS dommunidbtion pbrbmftfrs sudi bs tif list of
+ *     fnbblfd dipifrsuitfs bnd wiftifr to usf dlifnt butifntidbtion,
+ *     but dbn not dibngf bftwffn dlifnt/sfrvfr modfs.  As bfforf, ondf
+ *     ibndsibking ibs bfgun, bny nfw <dodf>SSLEnginf</dodf>
+ *     donfigurbtion sfttings will not bf usfd until tif nfxt
+ *     ibndsibkf.
+ *
+ *     <li>  Closurf - Wifn tif donnfdtion is no longfr nffdfd, tif
+ *     bpplidbtion siould dlosf tif <dodf>SSLEnginf</dodf> bnd siould
+ *     sfnd/rfdfivf bny rfmbining mfssbgfs to tif pffr bfforf
+ *     dlosing tif undfrlying trbnsport mfdibnism.  Ondf bn fnginf is
+ *     dlosfd, it is not rfusbblf:  b nfw <dodf>SSLEnginf</dodf> must
+ *     bf drfbtfd.
+ * </OL>
+ * An <dodf>SSLEnginf</dodf> is drfbtfd by dblling {@link
+ * SSLContfxt#drfbtfSSLEnginf()} from bn initiblizfd
+ * <dodf>SSLContfxt</dodf>.  Any donfigurbtion
+ * pbrbmftfrs siould bf sft bfforf mbking tif first dbll to
+ * <dodf>wrbp()</dodf>, <dodf>unwrbp()</dodf>, or
+ * <dodf>bfginHbndsibkf()</dodf>.  Tifsf mftiods bll triggfr tif
+ * initibl ibndsibkf.
+ * <P>
+ * Dbtb movfs tirougi tif fnginf by dblling {@link #wrbp(BytfBufffr,
+ * BytfBufffr) wrbp()} or {@link #unwrbp(BytfBufffr, BytfBufffr)
+ * unwrbp()} on outbound or inbound dbtb, rfspfdtivfly.  Dfpfnding on
+ * tif stbtf of tif <dodf>SSLEnginf</dodf>, b <dodf>wrbp()</dodf> dbll
+ * mby donsumf bpplidbtion dbtb from tif sourdf bufffr bnd mby produdf
+ * nftwork dbtb in tif dfstinbtion bufffr.  Tif outbound dbtb
+ * mby dontbin bpplidbtion bnd/or ibndsibkf dbtb.  A dbll to
+ * <dodf>unwrbp()</dodf> will fxbminf tif sourdf bufffr bnd mby
+ * bdvbndf tif ibndsibkf if tif dbtb is ibndsibking informbtion, or
+ * mby plbdf bpplidbtion dbtb in tif dfstinbtion bufffr if tif dbtb
+ * is bpplidbtion.  Tif stbtf of tif undfrlying SSL/TLS blgoritim
+ * will dftfrminf wifn dbtb is donsumfd bnd produdfd.
+ * <P>
+ * Cblls to <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> rfturn bn
+ * <dodf>SSLEnginfRfsult</dodf> wiidi indidbtfs tif stbtus of tif
+ * opfrbtion, bnd (optionblly) iow to intfrbdt witi tif fnginf to mbkf
+ * progrfss.
+ * <P>
+ * Tif <dodf>SSLEnginf</dodf> produdfs/donsumfs domplftf SSL/TLS
+ * pbdkfts only, bnd dofs not storf bpplidbtion dbtb intfrnblly bftwffn
+ * dblls to <dodf>wrbp()/unwrbp()</dodf>.  Tius input bnd output
+ * <dodf>BytfBufffr</dodf>s must bf sizfd bppropribtfly to iold tif
+ * mbximum rfdord tibt dbn bf produdfd.  Cblls to {@link
+ * SSLSfssion#gftPbdkftBufffrSizf()} bnd {@link
+ * SSLSfssion#gftApplidbtionBufffrSizf()} siould bf usfd to dftfrminf
+ * tif bppropribtf bufffr sizfs.  Tif sizf of tif outbound bpplidbtion
+ * dbtb bufffr gfnfrblly dofs not mbttfr.  If bufffr donditions do not
+ * bllow for tif propfr donsumption/produdtion of dbtb, tif bpplidbtion
+ * must dftfrminf (vib {@link SSLEnginfRfsult}) bnd dorrfdt tif
+ * problfm, bnd tifn try tif dbll bgbin.
+ * <P>
+ * For fxbmplf, <dodf>unwrbp()</dodf> will rfturn b {@link
+ * SSLEnginfRfsult.Stbtus#BUFFER_OVERFLOW} rfsult if tif fnginf
+ * dftfrminfs tibt tifrf is not fnougi dfstinbtion bufffr spbdf bvbilbblf.
+ * Applidbtions siould dbll {@link SSLSfssion#gftApplidbtionBufffrSizf()}
+ * bnd dompbrf tibt vbluf witi tif spbdf bvbilbblf in tif dfstinbtion bufffr,
+ * fnlbrging tif bufffr if nfdfssbry.  Similbrly, if <dodf>unwrbp()</dodf>
+ * wfrf to rfturn b {@link SSLEnginfRfsult.Stbtus#BUFFER_UNDERFLOW}, tif
+ * bpplidbtion siould dbll {@link SSLSfssion#gftPbdkftBufffrSizf()} to fnsurf
+ * tibt tif sourdf bufffr ibs fnougi room to iold b rfdord (fnlbrging if
+ * nfdfssbry), bnd tifn obtbin morf inbound dbtb.
+ *
+ * <prf>{@dodf
+ *   SSLEnginfRfsult r = fnginf.unwrbp(srd, dst);
+ *   switdi (r.gftStbtus()) {
+ *   BUFFER_OVERFLOW:
+ *       // Could bttfmpt to drbin tif dst bufffr of bny blrfbdy obtbinfd
+ *       // dbtb, but wf'll just indrfbsf it to tif sizf nffdfd.
+ *       int bppSizf = fnginf.gftSfssion().gftApplidbtionBufffrSizf();
+ *       BytfBufffr b = BytfBufffr.bllodbtf(bppSizf + dst.position());
+ *       dst.flip();
+ *       b.put(dst);
+ *       dst = b;
+ *       // rftry tif opfrbtion.
+ *       brfbk;
+ *   BUFFER_UNDERFLOW:
+ *       int nftSizf = fnginf.gftSfssion().gftPbdkftBufffrSizf();
+ *       // Rfsizf bufffr if nffdfd.
+ *       if (nftSizf > dst.dbpbdity()) {
+ *           BytfBufffr b = BytfBufffr.bllodbtf(nftSizf);
+ *           srd.flip();
+ *           b.put(srd);
+ *           srd = b;
+ *       }
+ *       // Obtbin morf inbound nftwork dbtb for srd,
+ *       // tifn rftry tif opfrbtion.
+ *       brfbk;
+ *   // otifr dbsfs: CLOSED, OK.
+ *   }
+ * }</prf>
+ *
+ * <P>
+ * Unlikf <dodf>SSLSodkft</dodf>, bll mftiods of SSLEnginf brf
+ * non-blodking.  <dodf>SSLEnginf</dodf> implfmfntbtions mby
+ * rfquirf tif rfsults of tbsks tibt mby tbkf bn fxtfndfd pfriod of
+ * timf to domplftf, or mby fvfn blodk.  For fxbmplf, b TrustMbnbgfr
+ * mby nffd to donnfdt to b rfmotf dfrtifidbtf vblidbtion sfrvidf,
+ * or b KfyMbnbgfr migit nffd to prompt b usfr to dftfrminf wiidi
+ * dfrtifidbtf to usf bs pbrt of dlifnt butifntidbtion.  Additionblly,
+ * drfbting dryptogrbpiid signbturfs bnd vfrifying tifm dbn bf slow,
+ * sffmingly blodking.
+ * <P>
+ * For bny opfrbtion wiidi mby potfntiblly blodk, tif
+ * <dodf>SSLEnginf</dodf> will drfbtf b {@link jbvb.lbng.Runnbblf}
+ * dflfgbtfd tbsk.  Wifn <dodf>SSLEnginfRfsult</dodf> indidbtfs tibt b
+ * dflfgbtfd tbsk rfsult is nffdfd, tif bpplidbtion must dbll {@link
+ * #gftDflfgbtfdTbsk()} to obtbin bn outstbnding dflfgbtfd tbsk bnd
+ * dbll its {@link jbvb.lbng.Runnbblf#run() run()} mftiod (possibly using
+ * b difffrfnt tirfbd dfpfnding on tif domputf strbtfgy).  Tif
+ * bpplidbtion siould dontinuf obtbining dflfgbtfd tbsks until no morf
+ * fxist, bnd try tif originbl opfrbtion bgbin.
+ * <P>
+ * At tif fnd of b dommunidbtion sfssion, bpplidbtions siould propfrly
+ * dlosf tif SSL/TLS link.  Tif SSL/TLS protodols ibvf dlosurf ibndsibkf
+ * mfssbgfs, bnd tifsf mfssbgfs siould bf dommunidbtfd to tif pffr
+ * bfforf rflfbsing tif <dodf>SSLEnginf</dodf> bnd dlosing tif
+ * undfrlying trbnsport mfdibnism.  A dlosf dbn bf initibtfd by onf of:
+ * bn SSLExdfption, bn inbound dlosurf ibndsibkf mfssbgf, or onf of tif
+ * dlosf mftiods.  In bll dbsfs, dlosurf ibndsibkf mfssbgfs brf
+ * gfnfrbtfd by tif fnginf, bnd <dodf>wrbp()</dodf> siould bf rfpfbtfdly
+ * dbllfd until tif rfsulting <dodf>SSLEnginfRfsult</dodf>'s stbtus
+ * rfturns "CLOSED", or {@link #isOutboundDonf()} rfturns truf.  All
+ * dbtb obtbinfd from tif <dodf>wrbp()</dodf> mftiod siould bf sfnt to tif
+ * pffr.
+ * <P>
+ * {@link #dlosfOutbound()} is usfd to signbl tif fnginf tibt tif
+ * bpplidbtion will not bf sfnding bny morf dbtb.
+ * <P>
+ * A pffr will signbl its intfnt to dlosf by sfnding its own dlosurf
+ * ibndsibkf mfssbgf.  Aftfr tiis mfssbgf ibs bffn rfdfivfd bnd
+ * prodfssfd by tif lodbl <dodf>SSLEnginf</dodf>'s <dodf>unwrbp()</dodf>
+ * dbll, tif bpplidbtion dbn dftfdt tif dlosf by dblling
+ * <dodf>unwrbp()</dodf> bnd looking for b <dodf>SSLEnginfRfsult</dodf>
+ * witi stbtus "CLOSED", or if {@link #isInboundDonf()} rfturns truf.
+ * If for somf rfbson tif pffr dlosfs tif dommunidbtion link witiout
+ * sfnding tif propfr SSL/TLS dlosurf mfssbgf, tif bpplidbtion dbn
+ * dftfdt tif fnd-of-strfbm bnd dbn signbl tif fnginf vib {@link
+ * #dlosfInbound()} tibt tifrf will no morf inbound mfssbgfs to
+ * prodfss.  Somf bpplidbtions migit dioosf to rfquirf ordfrly siutdown
+ * mfssbgfs from b pffr, in wiidi dbsf tify dbn difdk tibt tif dlosurf
+ * wbs gfnfrbtfd by b ibndsibkf mfssbgf bnd not by bn fnd-of-strfbm
+ * dondition.
+ * <P>
+ * Tifrf brf two groups of dipifr suitfs wiidi you will nffd to know
+ * bbout wifn mbnbging dipifr suitfs:
+ *
+ * <UL>
+ *      <LI> <fm>Supportfd</fm> dipifr suitfs:  bll tif suitfs wiidi brf
+ *      supportfd by tif SSL implfmfntbtion.  Tiis list is rfportfd
+ *      using {@link #gftSupportfdCipifrSuitfs()}.
+ *
+ *      <LI> <fm>Enbblfd</fm> dipifr suitfs, wiidi mby bf ffwfr tibn
+ *      tif full sft of supportfd suitfs.  Tiis group is sft using tif
+ *      {@link #sftEnbblfdCipifrSuitfs(String [])} mftiod, bnd
+ *      qufrifd using tif {@link #gftEnbblfdCipifrSuitfs()} mftiod.
+ *      Initiblly, b dffbult sft of dipifr suitfs will bf fnbblfd on b
+ *      nfw fnginf tibt rfprfsfnts tif minimum suggfstfd
+ *      donfigurbtion.
+ * </UL>
+ *
+ * Implfmfntbtion dffbults rfquirf tibt only dipifr suitfs wiidi
+ * butifntidbtf sfrvfrs bnd providf donfidfntiblity bf fnbblfd by
+ * dffbult.  Only if boti sidfs fxpliditly bgrff to unbutifntidbtfd
+ * bnd/or non-privbtf (unfndryptfd) dommunidbtions will sudi b
+ * dipifr suitf bf sflfdtfd.
+ * <P>
+ * Ebdi SSL/TLS donnfdtion must ibvf onf dlifnt bnd onf sfrvfr, tius
+ * fbdi fndpoint must dfdidf wiidi rolf to bssumf.  Tiis dioidf dftfrminfs
+ * wio bfgins tif ibndsibking prodfss bs wfll bs wiidi typf of mfssbgfs
+ * siould bf sfnt by fbdi pbrty.  Tif mftiod {@link
+ * #sftUsfClifntModf(boolfbn)} donfigurfs tif modf.  Ondf tif initibl
+ * ibndsibking ibs stbrtfd, bn <dodf>SSLEnginf</dodf> dbn not switdi
+ * bftwffn dlifnt bnd sfrvfr modfs, fvfn wifn pfrforming rfnfgotibtions.
+ * <P>
+ * Applidbtions migit dioosf to prodfss dflfgbtfd tbsks in difffrfnt
+ * tirfbds.  Wifn bn <dodf>SSLEnginf</dodf>
+ * is drfbtfd, tif durrfnt {@link jbvb.sfdurity.AddfssControlContfxt}
+ * is sbvfd.  All futurf dflfgbtfd tbsks will bf prodfssfd using tiis
+ * dontfxt:  tibt is, bll bddfss dontrol dfdisions will bf mbdf using tif
+ * dontfxt dbpturfd bt fnginf drfbtion.
+ *
+ * <HR>
+ *
+ * <B>Condurrfndy Notfs</B>:
+ * Tifrf brf two dondurrfndy issufs to bf bwbrf of:
+ *
+ * <OL>
+ *      <li>Tif <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> mftiods
+ *      mby fxfdutf dondurrfntly of fbdi otifr.
+ *
+ *      <li> Tif SSL/TLS protodols fmploy ordfrfd pbdkfts.
+ *      Applidbtions must tbkf dbrf to fnsurf tibt gfnfrbtfd pbdkfts
+ *      brf dflivfrfd in sfqufndf.  If pbdkfts brrivf
+ *      out-of-ordfr, unfxpfdtfd or fbtbl rfsults mby oddur.
+ * <P>
+ *      For fxbmplf:
+ *
+ *      <prf>
+ *              syndironizfd (outboundLodk) {
+ *                  sslEnginf.wrbp(srd, dst);
+ *                  outboundQufuf.put(dst);
+ *              }
+ *      </prf>
+ *
+ *      As b dorollbry, two tirfbds must not bttfmpt to dbll tif sbmf mftiod
+ *      (fitifr <dodf>wrbp()</dodf> or <dodf>unwrbp()</dodf>) dondurrfntly,
+ *      bfdbusf tifrf is no wby to gubrbntff tif fvfntubl pbdkft ordfring.
+ * </OL>
+ *
+ * @sff SSLContfxt
+ * @sff SSLSodkft
+ * @sff SSLSfrvfrSodkft
+ * @sff SSLSfssion
+ * @sff jbvb.nft.Sodkft
+ *
+ * @sindf 1.5
+ * @butior Brbd R. Wftmorf
+ */
+
+publid bbstrbdt dlbss SSLEnginf {
+
+    privbtf String pffrHost = null;
+    privbtf int pffrPort = -1;
+
+    /**
+     * Construdtor for bn <dodf>SSLEnginf</dodf> providing no iints
+     * for bn intfrnbl sfssion rfusf strbtfgy.
+     *
+     * @sff     SSLContfxt#drfbtfSSLEnginf()
+     * @sff     SSLSfssionContfxt
+     */
+    protfdtfd SSLEnginf() {
+    }
+
+    /**
+     * Construdtor for bn <dodf>SSLEnginf</dodf>.
+     * <P>
+     * <dodf>SSLEnginf</dodf> implfmfntbtions mby usf tif
+     * <dodf>pffrHost</dodf> bnd <dodf>pffrPort</dodf> pbrbmftfrs bs iints
+     * for tifir intfrnbl sfssion rfusf strbtfgy.
+     * <P>
+     * Somf dipifr suitfs (sudi bs Kfrbfros) rfquirf rfmotf iostnbmf
+     * informbtion. Implfmfntbtions of tiis dlbss siould usf tiis
+     * donstrudtor to usf Kfrbfros.
+     * <P>
+     * Tif pbrbmftfrs brf not butifntidbtfd by tif
+     * <dodf>SSLEnginf</dodf>.
+     *
+     * @pbrbm   pffrHost tif nbmf of tif pffr iost
+     * @pbrbm   pffrPort tif port numbfr of tif pffr
+     * @sff     SSLContfxt#drfbtfSSLEnginf(String, int)
+     * @sff     SSLSfssionContfxt
+     */
+    protfdtfd SSLEnginf(String pffrHost, int pffrPort) {
+        tiis.pffrHost = pffrHost;
+        tiis.pffrPort = pffrPort;
+    }
+
+    /**
+     * Rfturns tif iost nbmf of tif pffr.
+     * <P>
+     * Notf tibt tif vbluf is not butifntidbtfd, bnd siould not bf
+     * rflifd upon.
+     *
+     * @rfturn  tif iost nbmf of tif pffr, or null if notiing is
+     *          bvbilbblf.
+     */
+    publid String gftPffrHost() {
+        rfturn pffrHost;
+    }
+
+    /**
+     * Rfturns tif port numbfr of tif pffr.
+     * <P>
+     * Notf tibt tif vbluf is not butifntidbtfd, bnd siould not bf
+     * rflifd upon.
+     *
+     * @rfturn  tif port numbfr of tif pffr, or -1 if notiing is
+     *          bvbilbblf.
+     */
+    publid int gftPffrPort() {
+        rfturn pffrPort;
+    }
+
+    /**
+     * Attfmpts to fndodf b bufffr of plbintfxt bpplidbtion dbtb into
+     * SSL/TLS nftwork dbtb.
+     * <P>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     *     fnginf.wrbp(nfw BytfBufffr [] { srd }, 0, 1, dst);}
+     * </prf></blodkquotf>
+     *
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining outbound bpplidbtion dbtb
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dst</dodf>
+     *          is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     */
+    publid SSLEnginfRfsult wrbp(BytfBufffr srd,
+            BytfBufffr dst) tirows SSLExdfption {
+        rfturn wrbp(nfw BytfBufffr [] { srd }, 0, 1, dst);
+    }
+
+    /**
+     * Attfmpts to fndodf plbintfxt bytfs from b sfqufndf of dbtb
+     * bufffrs into SSL/TLS nftwork dbtb.
+     * <P>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     *     fnginf.wrbp(srds, 0, srds.lfngti, dst);}
+     * </prf></blodkquotf>
+     *
+     * @pbrbm   srds
+     *          bn brrby of <dodf>BytfBufffrs</dodf> dontbining tif
+     *          outbound bpplidbtion dbtb
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srds</dodf> or <dodf>dst</dodf>
+     *          is null, or if bny flfmfnt in <dodf>srds</dodf> is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     */
+    publid SSLEnginfRfsult wrbp(BytfBufffr [] srds,
+            BytfBufffr dst) tirows SSLExdfption {
+        if (srds == null) {
+            tirow nfw IllfgblArgumfntExdfption("srd == null");
+        }
+        rfturn wrbp(srds, 0, srds.lfngti, dst);
+    }
+
+
+    /**
+     * Attfmpts to fndodf plbintfxt bytfs from b subsfqufndf of dbtb
+     * bufffrs into SSL/TLS nftwork dbtb.  Tiis <i>"gbtifring"</i>
+     * opfrbtion fndodfs, in b singlf invodbtion, b sfqufndf of bytfs
+     * from onf or morf of b givfn sfqufndf of bufffrs.  Gbtifring
+     * wrbps brf oftfn usfful wifn implfmfnting nftwork protodols or
+     * filf formbts tibt, for fxbmplf, group dbtb into sfgmfnts
+     * donsisting of onf or morf fixfd-lfngti ifbdfrs followfd by b
+     * vbribblf-lfngti body.  Sff
+     * {@link jbvb.nio.dibnnfls.GbtifringBytfCibnnfl} for morf
+     * informbtion on gbtifring, bnd {@link
+     * jbvb.nio.dibnnfls.GbtifringBytfCibnnfl#writf(BytfBufffr[],
+     * int, int)} for morf informbtion on tif subsfqufndf
+     * bfibvior.
+     * <P>
+     * Dfpfnding on tif stbtf of tif SSLEnginf, tiis mftiod mby produdf
+     * nftwork dbtb witiout donsuming bny bpplidbtion dbtb (for fxbmplf,
+     * it mby gfnfrbtf ibndsibkf dbtb.)
+     * <P>
+     * Tif bpplidbtion is rfsponsiblf for rflibbly trbnsporting tif
+     * nftwork dbtb to tif pffr, bnd for fnsuring tibt dbtb drfbtfd by
+     * multiplf dblls to wrbp() is trbnsportfd in tif sbmf ordfr in wiidi
+     * it wbs gfnfrbtfd.  Tif bpplidbtion must propfrly syndironizf
+     * multiplf dblls to tiis mftiod.
+     * <P>
+     * If tiis <dodf>SSLEnginf</dodf> ibs not yft stbrtfd its initibl
+     * ibndsibkf, tiis mftiod will butombtidblly stbrt tif ibndsibkf.
+     * <P>
+     * Tiis mftiod will bttfmpt to produdf SSL/TLS rfdords, bnd will
+     * donsumf bs mudi sourdf dbtb bs possiblf, but will nfvfr donsumf
+     * morf tibn tif sum of tif bytfs rfmbining in fbdi bufffr.  Ebdi
+     * <dodf>BytfBufffr</dodf>'s position is updbtfd to rfflfdt tif
+     * bmount of dbtb donsumfd or produdfd.  Tif limits rfmbin tif
+     * sbmf.
+     * <P>
+     * Tif undfrlying mfmory usfd by tif <dodf>srds</dodf> bnd
+     * <dodf>dst BytfBufffr</dodf>s must not bf tif sbmf.
+     * <P>
+     * Sff tif dlbss dfsdription for morf informbtion on fnginf dlosurf.
+     *
+     * @pbrbm   srds
+     *          bn brrby of <dodf>BytfBufffrs</dodf> dontbining tif
+     *          outbound bpplidbtion dbtb
+     * @pbrbm   offsft
+     *          Tif offsft witiin tif bufffr brrby of tif first bufffr from
+     *          wiidi bytfs brf to bf rftrifvfd; it must bf non-nfgbtivf
+     *          bnd no lbrgfr tibn <dodf>srds.lfngti</dodf>
+     * @pbrbm   lfngti
+     *          Tif mbximum numbfr of bufffrs to bf bddfssfd; it must bf
+     *          non-nfgbtivf bnd no lbrgfr tibn
+     *          <dodf>srds.lfngti</dodf>&nbsp;-&nbsp;<dodf>offsft</dodf>
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if tif prfdonditions on tif <dodf>offsft</dodf> bnd
+     *          <dodf>lfngti</dodf> pbrbmftfrs do not iold.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srds</dodf> or <dodf>dst</dodf>
+     *          is null, or if bny flfmfnt in tif <dodf>srds</dodf>
+     *          subsfqufndf spfdififd is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     jbvb.nio.dibnnfls.GbtifringBytfCibnnfl
+     * @sff     jbvb.nio.dibnnfls.GbtifringBytfCibnnfl#writf(
+     *              BytfBufffr[], int, int)
+     */
+    publid bbstrbdt SSLEnginfRfsult wrbp(BytfBufffr [] srds, int offsft,
+            int lfngti, BytfBufffr dst) tirows SSLExdfption;
+
+    /**
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b plbintfxt
+     * bpplidbtion dbtb bufffr.
+     * <P>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     *     fnginf.unwrbp(srd, nfw BytfBufffr [] { dst }, 0, 1);}
+     * </prf></blodkquotf>
+     *
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold inbound bpplidbtion dbtb.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dst</dodf>
+     *          is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     */
+    publid SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr dst) tirows SSLExdfption {
+        rfturn unwrbp(srd, nfw BytfBufffr [] { dst }, 0, 1);
+    }
+
+    /**
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b sfqufndf of plbintfxt
+     * bpplidbtion dbtb bufffrs.
+     * <P>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     *     fnginf.unwrbp(srd, dsts, 0, dsts.lfngti);}
+     * </prf></blodkquotf>
+     *
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <dodf>BytfBufffr</dodf>s to iold inbound
+     *          bpplidbtion dbtb.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if bny of tif <dodf>dst</dodf> bufffrs brf rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dsts</dodf>
+     *          is null, or if bny flfmfnt in <dodf>dsts</dodf> is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     */
+    publid SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr [] dsts) tirows SSLExdfption {
+        if (dsts == null) {
+            tirow nfw IllfgblArgumfntExdfption("dsts == null");
+        }
+        rfturn unwrbp(srd, dsts, 0, dsts.lfngti);
+    }
+
+    /**
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b subsfqufndf of
+     * plbintfxt bpplidbtion dbtb bufffrs.  Tiis <i>"sdbttfring"</i>
+     * opfrbtion dfdodfs, in b singlf invodbtion, b sfqufndf of bytfs
+     * into onf or morf of b givfn sfqufndf of bufffrs.  Sdbttfring
+     * unwrbps brf oftfn usfful wifn implfmfnting nftwork protodols or
+     * filf formbts tibt, for fxbmplf, group dbtb into sfgmfnts
+     * donsisting of onf or morf fixfd-lfngti ifbdfrs followfd by b
+     * vbribblf-lfngti body.  Sff
+     * {@link jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl} for morf
+     * informbtion on sdbttfring, bnd {@link
+     * jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl#rfbd(BytfBufffr[],
+     * int, int)} for morf informbtion on tif subsfqufndf
+     * bfibvior.
+     * <P>
+     * Dfpfnding on tif stbtf of tif SSLEnginf, tiis mftiod mby donsumf
+     * nftwork dbtb witiout produding bny bpplidbtion dbtb (for fxbmplf,
+     * it mby donsumf ibndsibkf dbtb.)
+     * <P>
+     * Tif bpplidbtion is rfsponsiblf for rflibbly obtbining tif nftwork
+     * dbtb from tif pffr, bnd for invoking unwrbp() on tif dbtb in tif
+     * ordfr it wbs rfdfivfd.  Tif bpplidbtion must propfrly syndironizf
+     * multiplf dblls to tiis mftiod.
+     * <P>
+     * If tiis <dodf>SSLEnginf</dodf> ibs not yft stbrtfd its initibl
+     * ibndsibkf, tiis mftiod will butombtidblly stbrt tif ibndsibkf.
+     * <P>
+     * Tiis mftiod will bttfmpt to donsumf onf domplftf SSL/TLS nftwork
+     * pbdkft, but will nfvfr donsumf morf tibn tif sum of tif bytfs
+     * rfmbining in tif bufffrs.  Ebdi <dodf>BytfBufffr</dodf>'s
+     * position is updbtfd to rfflfdt tif bmount of dbtb donsumfd or
+     * produdfd.  Tif limits rfmbin tif sbmf.
+     * <P>
+     * Tif undfrlying mfmory usfd by tif <dodf>srd</dodf> bnd
+     * <dodf>dsts BytfBufffr</dodf>s must not bf tif sbmf.
+     * <P>
+     * Tif inbound nftwork bufffr mby bf modififd bs b rfsult of tiis
+     * dbll:  tifrfforf if tif nftwork dbtb pbdkft is rfquirfd for somf
+     * sfdondbry purposf, tif dbtb siould bf duplidbtfd bfforf dblling tiis
+     * mftiod.  Notf:  tif nftwork dbtb will not bf usfful to b sfdond
+     * SSLEnginf, bs fbdi SSLEnginf dontbins uniquf rbndom stbtf wiidi
+     * influfndfs tif SSL/TLS mfssbgfs.
+     * <P>
+     * Sff tif dlbss dfsdription for morf informbtion on fnginf dlosurf.
+     *
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <dodf>BytfBufffr</dodf>s to iold inbound
+     *          bpplidbtion dbtb.
+     * @pbrbm   offsft
+     *          Tif offsft witiin tif bufffr brrby of tif first bufffr from
+     *          wiidi bytfs brf to bf trbnsffrrfd; it must bf non-nfgbtivf
+     *          bnd no lbrgfr tibn <dodf>dsts.lfngti</dodf>.
+     * @pbrbm   lfngti
+     *          Tif mbximum numbfr of bufffrs to bf bddfssfd; it must bf
+     *          non-nfgbtivf bnd no lbrgfr tibn
+     *          <dodf>dsts.lfngti</dodf>&nbsp;-&nbsp;<dodf>offsft</dodf>.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <dodf>offsft</dodf> bnd
+     *          <dodf>lfngti</dodf> pbrbmftfrs do not iold.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if bny of tif <dodf>dst</dodf> bufffrs brf rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dsts</dodf>
+     *          is null, or if bny flfmfnt in tif <dodf>dsts</dodf>
+     *          subsfqufndf spfdififd is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl
+     * @sff     jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl#rfbd(
+     *              BytfBufffr[], int, int)
+     */
+    publid bbstrbdt SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr [] dsts, int offsft, int lfngti) tirows SSLExdfption;
+
+
+    /**
+     * Rfturns b dflfgbtfd <dodf>Runnbblf</dodf> tbsk for
+     * tiis <dodf>SSLEnginf</dodf>.
+     * <P>
+     * <dodf>SSLEnginf</dodf> opfrbtions mby rfquirf tif rfsults of
+     * opfrbtions tibt blodk, or mby tbkf bn fxtfndfd pfriod of timf to
+     * domplftf.  Tiis mftiod is usfd to obtbin bn outstbnding {@link
+     * jbvb.lbng.Runnbblf} opfrbtion (tbsk).  Ebdi tbsk must bf bssignfd
+     * b tirfbd (possibly tif durrfnt) to pfrform tif {@link
+     * jbvb.lbng.Runnbblf#run() run} opfrbtion.  Ondf tif
+     * <dodf>run</dodf> mftiod rfturns, tif <dodf>Runnbblf</dodf> objfdt
+     * is no longfr nffdfd bnd mby bf disdbrdfd.
+     * <P>
+     * Dflfgbtfd tbsks run in tif <dodf>AddfssControlContfxt</dodf>
+     * in plbdf wifn tiis objfdt wbs drfbtfd.
+     * <P>
+     * A dbll to tiis mftiod will rfturn fbdi outstbnding tbsk
+     * fxbdtly ondf.
+     * <P>
+     * Multiplf dflfgbtfd tbsks dbn bf run in pbrbllfl.
+     *
+     * @rfturn  b dflfgbtfd <dodf>Runnbblf</dodf> tbsk, or null
+     *          if nonf brf bvbilbblf.
+     */
+    publid bbstrbdt Runnbblf gftDflfgbtfdTbsk();
+
+
+    /**
+     * Signbls tibt no morf inbound nftwork dbtb will bf sfnt
+     * to tiis <dodf>SSLEnginf</dodf>.
+     * <P>
+     * If tif bpplidbtion initibtfd tif dlosing prodfss by dblling
+     * {@link #dlosfOutbound()}, undfr somf dirdumstbndfs it is not
+     * rfquirfd tibt tif initibtor wbit for tif pffr's dorrfsponding
+     * dlosf mfssbgf.  (Sff sfdtion 7.2.1 of tif TLS spfdifidbtion (<A
+     * HREF="ittp://www.iftf.org/rfd/rfd2246.txt">RFC 2246</A>) for morf
+     * informbtion on wbiting for dlosurf blfrts.)  In sudi dbsfs, tiis
+     * mftiod nffd not bf dbllfd.
+     * <P>
+     * But if tif bpplidbtion did not initibtf tif dlosurf prodfss, or
+     * if tif dirdumstbndfs bbovf do not bpply, tiis mftiod siould bf
+     * dbllfd wifnfvfr tif fnd of tif SSL/TLS dbtb strfbm is rfbdifd.
+     * Tiis fnsurfs dlosurf of tif inbound sidf, bnd difdks tibt tif
+     * pffr followfd tif SSL/TLS dlosf prodfdurf propfrly, tius
+     * dftfdting possiblf trundbtion bttbdks.
+     * <P>
+     * Tiis mftiod is idfmpotfnt:  if tif inbound sidf ibs blrfbdy
+     * bffn dlosfd, tiis mftiod dofs not do bnytiing.
+     * <P>
+     * {@link #wrbp(BytfBufffr, BytfBufffr) wrbp()} siould bf
+     * dbllfd to flusi bny rfmbining ibndsibkf dbtb.
+     *
+     * @tirows  SSLExdfption
+     *          if tiis fnginf ibs not rfdfivfd tif propfr SSL/TLS dlosf
+     *          notifidbtion mfssbgf from tif pffr.
+     *
+     * @sff     #isInboundDonf()
+     * @sff     #isOutboundDonf()
+     */
+    publid bbstrbdt void dlosfInbound() tirows SSLExdfption;
+
+
+    /**
+     * Rfturns wiftifr {@link #unwrbp(BytfBufffr, BytfBufffr)} will
+     * bddfpt bny morf inbound dbtb mfssbgfs.
+     *
+     * @rfturn  truf if tif <dodf>SSLEnginf</dodf> will not
+     *          donsumf bnymorf nftwork dbtb (bnd by implidbtion,
+     *          will not produdf bny morf bpplidbtion dbtb.)
+     * @sff     #dlosfInbound()
+     */
+    publid bbstrbdt boolfbn isInboundDonf();
+
+
+    /**
+     * Signbls tibt no morf outbound bpplidbtion dbtb will bf sfnt
+     * on tiis <dodf>SSLEnginf</dodf>.
+     * <P>
+     * Tiis mftiod is idfmpotfnt:  if tif outbound sidf ibs blrfbdy
+     * bffn dlosfd, tiis mftiod dofs not do bnytiing.
+     * <P>
+     * {@link #wrbp(BytfBufffr, BytfBufffr)} siould bf
+     * dbllfd to flusi bny rfmbining ibndsibkf dbtb.
+     *
+     * @sff     #isOutboundDonf()
+     */
+    publid bbstrbdt void dlosfOutbound();
+
+
+    /**
+     * Rfturns wiftifr {@link #wrbp(BytfBufffr, BytfBufffr)} will
+     * produdf bny morf outbound dbtb mfssbgfs.
+     * <P>
+     * Notf tibt during tif dlosurf pibsf, b <dodf>SSLEnginf</dodf> mby
+     * gfnfrbtf ibndsibkf dlosurf dbtb tibt must bf sfnt to tif pffr.
+     * <dodf>wrbp()</dodf> must bf dbllfd to gfnfrbtf tiis dbtb.  Wifn
+     * tiis mftiod rfturns truf, no morf outbound dbtb will bf drfbtfd.
+     *
+     * @rfturn  truf if tif <dodf>SSLEnginf</dodf> will not produdf
+     *          bny morf nftwork dbtb
+     *
+     * @sff     #dlosfOutbound()
+     * @sff     #dlosfInbound()
+     */
+    publid bbstrbdt boolfbn isOutboundDonf();
+
+
+    /**
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on tiis fnginf.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not mfft qublity of sfrvidf rfquirfmfnts for tiosf dffbults.  Sudi
+     * dipifr suitfs migit bf usfful in spfdiblizfd bpplidbtions.
+     *
+     * @rfturn  bn brrby of dipifr suitf nbmfs
+     * @sff     #gftEnbblfdCipifrSuitfs()
+     * @sff     #sftEnbblfdCipifrSuitfs(String [])
+     */
+    publid bbstrbdt String [] gftSupportfdCipifrSuitfs();
+
+
+    /**
+     * Rfturns tif nbmfs of tif SSL dipifr suitfs wiidi brf durrfntly
+     * fnbblfd for usf on tiis fnginf.  Wifn bn SSLEnginf is first
+     * drfbtfd, bll fnbblfd dipifr suitfs support b minimum qublity of
+     * sfrvidf.  Tius, in somf fnvironmfnts tiis vbluf migit bf fmpty.
+     * <P>
+     * Evfn if b suitf ibs bffn fnbblfd, it migit nfvfr bf usfd.  (For
+     * fxbmplf, tif pffr dofs not support it, tif rfquisitf
+     * dfrtifidbtfs/privbtf kfys for tif suitf brf not bvbilbblf, or bn
+     * bnonymous suitf is fnbblfd but butifntidbtion is rfquirfd.)
+     *
+     * @rfturn  bn brrby of dipifr suitf nbmfs
+     * @sff     #gftSupportfdCipifrSuitfs()
+     * @sff     #sftEnbblfdCipifrSuitfs(String [])
+     */
+    publid bbstrbdt String [] gftEnbblfdCipifrSuitfs();
+
+
+    /**
+     * Sfts tif dipifr suitfs fnbblfd for usf on tiis fnginf.
+     * <P>
+     * Ebdi dipifr suitf in tif <dodf>suitfs</dodf> pbrbmftfr must ibvf
+     * bffn listfd by gftSupportfdCipifrSuitfs(), or tif mftiod will
+     * fbil.  Following b suddfssful dbll to tiis mftiod, only suitfs
+     * listfd in tif <dodf>suitfs</dodf> pbrbmftfr brf fnbblfd for usf.
+     * <P>
+     * Sff {@link #gftEnbblfdCipifrSuitfs()} for morf informbtion
+     * on wiy b spfdifid dipifr suitf mby nfvfr bf usfd on b fnginf.
+     *
+     * @pbrbm   suitfs Nbmfs of bll tif dipifr suitfs to fnbblf
+     * @tirows  IllfgblArgumfntExdfption wifn onf or morf of tif dipifrs
+     *          nbmfd by tif pbrbmftfr is not supportfd, or wifn tif
+     *          pbrbmftfr is null.
+     * @sff     #gftSupportfdCipifrSuitfs()
+     * @sff     #gftEnbblfdCipifrSuitfs()
+     */
+    publid bbstrbdt void sftEnbblfdCipifrSuitfs(String suitfs []);
+
+
+    /**
+     * Rfturns tif nbmfs of tif protodols wiidi dould bf fnbblfd for usf
+     * witi tiis <dodf>SSLEnginf</dodf>.
+     *
+     * @rfturn  bn brrby of protodols supportfd
+     */
+    publid bbstrbdt String [] gftSupportfdProtodols();
+
+
+    /**
+     * Rfturns tif nbmfs of tif protodol vfrsions wiidi brf durrfntly
+     * fnbblfd for usf witi tiis <dodf>SSLEnginf</dodf>.
+     *
+     * @rfturn  bn brrby of protodols
+     * @sff     #sftEnbblfdProtodols(String [])
+     */
+    publid bbstrbdt String [] gftEnbblfdProtodols();
+
+
+    /**
+     * Sft tif protodol vfrsions fnbblfd for usf on tiis fnginf.
+     * <P>
+     * Tif protodols must ibvf bffn listfd by gftSupportfdProtodols()
+     * bs bfing supportfd.  Following b suddfssful dbll to tiis mftiod,
+     * only protodols listfd in tif <dodf>protodols</dodf> pbrbmftfr
+     * brf fnbblfd for usf.
+     *
+     * @pbrbm   protodols Nbmfs of bll tif protodols to fnbblf.
+     * @tirows  IllfgblArgumfntExdfption wifn onf or morf of
+     *          tif protodols nbmfd by tif pbrbmftfr is not supportfd or
+     *          wifn tif protodols pbrbmftfr is null.
+     * @sff     #gftEnbblfdProtodols()
+     */
+    publid bbstrbdt void sftEnbblfdProtodols(String protodols[]);
+
+
+    /**
+     * Rfturns tif <dodf>SSLSfssion</dodf> in usf in tiis
+     * <dodf>SSLEnginf</dodf>.
+     * <P>
+     * Tifsf dbn bf long livfd, bnd frfqufntly dorrfspond to bn fntirf
+     * login sfssion for somf usfr.  Tif sfssion spfdififs b pbrtidulbr
+     * dipifr suitf wiidi is bfing bdtivfly usfd by bll donnfdtions in
+     * tibt sfssion, bs wfll bs tif idfntitifs of tif sfssion's dlifnt
+     * bnd sfrvfr.
+     * <P>
+     * Unlikf {@link SSLSodkft#gftSfssion()}
+     * tiis mftiod dofs not blodk until ibndsibking is domplftf.
+     * <P>
+     * Until tif initibl ibndsibkf ibs domplftfd, tiis mftiod rfturns
+     * b sfssion objfdt wiidi rfports bn invblid dipifr suitf of
+     * "SSL_NULL_WITH_NULL_NULL".
+     *
+     * @rfturn  tif <dodf>SSLSfssion</dodf> for tiis <dodf>SSLEnginf</dodf>
+     * @sff     SSLSfssion
+     */
+    publid bbstrbdt SSLSfssion gftSfssion();
+
+
+    /**
+     * Rfturns tif {@dodf SSLSfssion} bfing donstrudtfd during b SSL/TLS
+     * ibndsibkf.
+     * <p>
+     * TLS protodols mby nfgotibtf pbrbmftfrs tibt brf nffdfd wifn using
+     * bn instbndf of tiis dlbss, but bfforf tif {@dodf SSLSfssion} ibs
+     * bffn domplftfly initiblizfd bnd mbdf bvbilbblf vib {@dodf gftSfssion}.
+     * For fxbmplf, tif list of vblid signbturf blgoritims mby rfstridt
+     * tif typf of dfrtifidbtfs tibt dbn usfd during TrustMbnbgfr
+     * dfdisions, or tif mbximum TLS frbgmfnt pbdkft sizfs dbn bf
+     * rfsizfd to bfttfr support tif nftwork fnvironmfnt.
+     * <p>
+     * Tiis mftiod providfs fbrly bddfss to tif {@dodf SSLSfssion} bfing
+     * donstrudtfd.  Dfpfnding on iow fbr tif ibndsibkf ibs progrfssfd,
+     * somf dbtb mby not yft bf bvbilbblf for usf.  For fxbmplf, if b
+     * rfmotf sfrvfr will bf sfnding b Cfrtifidbtf dibin, but tibt dibin
+     * ibs yft not bffn prodfssfd, tif {@dodf gftPffrCfrtifidbtfs}
+     * mftiod of {@dodf SSLSfssion} will tirow b
+     * SSLPffrUnvfrififdExdfption.  Ondf tibt dibin ibs bffn prodfssfd,
+     * {@dodf gftPffrCfrtifidbtfs} will rfturn tif propfr vbluf.
+     *
+     * @sff SSLSodkft
+     * @sff SSLSfssion
+     * @sff ExtfndfdSSLSfssion
+     * @sff X509ExtfndfdKfyMbnbgfr
+     * @sff X509ExtfndfdTrustMbnbgfr
+     *
+     * @rfturn null if tiis instbndf is not durrfntly ibndsibking, or
+     *         if tif durrfnt ibndsibkf ibs not progrfssfd fbr fnougi to
+     *         drfbtf b bbsid SSLSfssion.  Otifrwisf, tiis mftiod rfturns tif
+     *         {@dodf SSLSfssion} durrfntly bfing nfgotibtfd.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif undfrlying providfr
+     *         dofs not implfmfnt tif opfrbtion.
+     *
+     * @sindf 1.7
+     */
+    publid SSLSfssion gftHbndsibkfSfssion() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+
+    /**
+     * Initibtfs ibndsibking (initibl or rfnfgotibtion) on tiis SSLEnginf.
+     * <P>
+     * Tiis mftiod is not nffdfd for tif initibl ibndsibkf, bs tif
+     * <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> mftiods will
+     * impliditly dbll tiis mftiod if ibndsibking ibs not blrfbdy bfgun.
+     * <P>
+     * Notf tibt tif pffr mby blso rfqufst b sfssion rfnfgotibtion witi
+     * tiis <dodf>SSLEnginf</dodf> by sfnding tif bppropribtf
+     * sfssion rfnfgotibtf ibndsibkf mfssbgf.
+     * <P>
+     * Unlikf tif {@link SSLSodkft#stbrtHbndsibkf()
+     * SSLSodkft#stbrtHbndsibkf()} mftiod, tiis mftiod dofs not blodk
+     * until ibndsibking is domplftfd.
+     * <P>
+     * To fordf b domplftf SSL/TLS sfssion rfnfgotibtion, tif durrfnt
+     * sfssion siould bf invblidbtfd prior to dblling tiis mftiod.
+     * <P>
+     * Somf protodols mby not support multiplf ibndsibkfs on bn fxisting
+     * fnginf bnd mby tirow bn <dodf>SSLExdfption</dodf>.
+     *
+     * @tirows  SSLExdfption
+     *          if b problfm wbs fndountfrfd wiilf signbling tif
+     *          <dodf>SSLEnginf</dodf> to bfgin b nfw ibndsibkf.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     SSLSfssion#invblidbtf()
+     */
+    publid bbstrbdt void bfginHbndsibkf() tirows SSLExdfption;
+
+
+    /**
+     * Rfturns tif durrfnt ibndsibkf stbtus for tiis <dodf>SSLEnginf</dodf>.
+     *
+     * @rfturn  tif durrfnt <dodf>SSLEnginfRfsult.HbndsibkfStbtus</dodf>.
+     */
+    publid bbstrbdt SSLEnginfRfsult.HbndsibkfStbtus gftHbndsibkfStbtus();
+
+
+    /**
+     * Configurfs tif fnginf to usf dlifnt (or sfrvfr) modf wifn
+     * ibndsibking.
+     * <P>
+     * Tiis mftiod must bf dbllfd bfforf bny ibndsibking oddurs.
+     * Ondf ibndsibking ibs bfgun, tif modf dbn not bf rfsft for tif
+     * liff of tiis fnginf.
+     * <P>
+     * Sfrvfrs normblly butifntidbtf tifmsflvfs, bnd dlifnts
+     * brf not rfquirfd to do so.
+     *
+     * @pbrbm   modf truf if tif fnginf siould stbrt its ibndsibking
+     *          in "dlifnt" modf
+     * @tirows  IllfgblArgumfntExdfption if b modf dibngf is bttfmptfd
+     *          bftfr tif initibl ibndsibkf ibs bfgun.
+     * @sff     #gftUsfClifntModf()
+     */
+    publid bbstrbdt void sftUsfClifntModf(boolfbn modf);
+
+
+    /**
+     * Rfturns truf if tif fnginf is sft to usf dlifnt modf wifn
+     * ibndsibking.
+     *
+     * @rfturn  truf if tif fnginf siould do ibndsibking
+     *          in "dlifnt" modf
+     * @sff     #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftUsfClifntModf();
+
+
+    /**
+     * Configurfs tif fnginf to <i>rfquirf</i> dlifnt butifntidbtion.  Tiis
+     * option is only usfful for fnginfs in tif sfrvfr modf.
+     * <P>
+     * An fnginf's dlifnt butifntidbtion sftting is onf of tif following:
+     * <ul>
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
+     * </ul>
+     * <P>
+     * Unlikf {@link #sftWbntClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will stop bnd tif fnginf will
+     * bfgin its dlosurf prodfdurf</i>.
+     * <P>
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftWbntClifntAuti(boolfbn)}.
+     *
+     * @pbrbm   nffd sft to truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt void sftNffdClifntAuti(boolfbn nffd);
+
+
+    /**
+     * Rfturns truf if tif fnginf will <i>rfquirf</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful to fnginfs in tif sfrvfr modf.
+     *
+     * @rfturn  truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftNffdClifntAuti();
+
+
+    /**
+     * Configurfs tif fnginf to <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for fnginfs in tif sfrvfr modf.
+     * <P>
+     * An fnginf's dlifnt butifntidbtion sftting is onf of tif following:
+     * <ul>
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
+     * </ul>
+     * <P>
+     * Unlikf {@link #sftNffdClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will dontinuf</i>.
+     * <P>
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftNffdClifntAuti(boolfbn)}.
+     *
+     * @pbrbm   wbnt sft to truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt void sftWbntClifntAuti(boolfbn wbnt);
+
+
+    /**
+     * Rfturns truf if tif fnginf will <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for fnginfs in tif sfrvfr modf.
+     *
+     * @rfturn  truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #sftUsfClifntModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftWbntClifntAuti();
+
+
+    /**
+     * Controls wiftifr nfw SSL sfssions mby bf fstbblisifd by tiis fnginf.
+     * If sfssion drfbtions brf not bllowfd, bnd tifrf brf no
+     * fxisting sfssions to rfsumf, tifrf will bf no suddfssful
+     * ibndsibking.
+     *
+     * @pbrbm   flbg truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff     #gftEnbblfSfssionCrfbtion()
+     */
+    publid bbstrbdt void sftEnbblfSfssionCrfbtion(boolfbn flbg);
+
+
+    /**
+     * Rfturns truf if nfw SSL sfssions mby bf fstbblisifd by tiis fnginf.
+     *
+     * @rfturn  truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff     #sftEnbblfSfssionCrfbtion(boolfbn)
+     */
+    publid bbstrbdt boolfbn gftEnbblfSfssionCrfbtion();
+
+    /**
+     * Rfturns tif SSLPbrbmftfrs in ffffdt for tiis SSLEnginf.
+     * Tif dipifrsuitfs bnd protodols of tif rfturnfd SSLPbrbmftfrs
+     * brf blwbys non-null.
+     *
+     * @rfturn tif SSLPbrbmftfrs in ffffdt for tiis SSLEnginf.
+     * @sindf 1.6
+     */
+    publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCipifrSuitfs(gftEnbblfdCipifrSuitfs());
+        pbrbms.sftProtodols(gftEnbblfdProtodols());
+        if (gftNffdClifntAuti()) {
+            pbrbms.sftNffdClifntAuti(truf);
+        } flsf if (gftWbntClifntAuti()) {
+            pbrbms.sftWbntClifntAuti(truf);
+        }
+        rfturn pbrbms;
+    }
+
+    /**
+     * Applifs SSLPbrbmftfrs to tiis fnginf.
+     *
+     * <p>Tiis mfbns:
+     * <ul>
+     * <li>If {@dodf pbrbms.gftCipifrSuitfs()} is non-null,
+     *   {@dodf sftEnbblfdCipifrSuitfs()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftProtodols()} is non-null,
+     *   {@dodf sftEnbblfdProtodols()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftNffdClifntAuti()} or
+     *   {@dodf pbrbms.gftWbntClifntAuti()} rfturn {@dodf truf},
+     *   {@dodf sftNffdClifntAuti(truf)} bnd
+     *   {@dodf sftWbntClifntAuti(truf)} brf dbllfd, rfspfdtivfly;
+     *   otifrwisf {@dodf sftWbntClifntAuti(fblsf)} is dbllfd.</li>
+     * <li>If {@dodf pbrbms.gftSfrvfrNbmfs()} is non-null, tif fnginf will
+     *   donfigurf its sfrvfr nbmfs witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftSNIMbtdifrs()} is non-null, tif fnginf will
+     *   donfigurf its SNI mbtdifrs witi tibt vbluf.</li>
+     * </ul>
+     *
+     * @pbrbm pbrbms tif pbrbmftfrs
+     * @tirows IllfgblArgumfntExdfption if tif sftEnbblfdCipifrSuitfs() or
+     *    tif sftEnbblfdProtodols() dbll fbils
+     * @sindf 1.6
+     */
+    publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        String[] s;
+        s = pbrbms.gftCipifrSuitfs();
+        if (s != null) {
+            sftEnbblfdCipifrSuitfs(s);
+        }
+        s = pbrbms.gftProtodols();
+        if (s != null) {
+            sftEnbblfdProtodols(s);
+        }
+        if (pbrbms.gftNffdClifntAuti()) {
+            sftNffdClifntAuti(truf);
+        } flsf if (pbrbms.gftWbntClifntAuti()) {
+            sftWbntClifntAuti(truf);
+        } flsf {
+            sftWbntClifntAuti(fblsf);
+        }
+    }
+
+}

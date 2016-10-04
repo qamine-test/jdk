@@ -1,0 +1,248 @@
+/*
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWWindowPffr;
+import sun.lwbwt.PlbtformEvfntNotififr;
+
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfWifflEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+/**
+ * Trbnslbtfs NSEvfnts/NPCodobEvfnts into AWT fvfnts.
+ */
+finbl dlbss CPlbtformRfspondfr {
+
+    privbtf finbl PlbtformEvfntNotififr fvfntNotififr;
+    privbtf finbl boolfbn isNpbpiCbllbbdk;
+    privbtf int lbstKfyPrfssCodf = KfyEvfnt.VK_UNDEFINED;
+
+    CPlbtformRfspondfr(finbl PlbtformEvfntNotififr fvfntNotififr,
+                       finbl boolfbn isNpbpiCbllbbdk) {
+        tiis.fvfntNotififr = fvfntNotififr;
+        tiis.isNpbpiCbllbbdk = isNpbpiCbllbbdk;
+    }
+
+    /**
+     * Hbndlfs mousf fvfnts.
+     */
+    void ibndlfMousfEvfnt(int fvfntTypf, int modififrFlbgs, int buttonNumbfr,
+                          int dlidkCount, int x, int y, int bbsolutfX,
+                          int bbsolutfY) {
+        finbl SunToolkit tk = (SunToolkit)Toolkit.gftDffbultToolkit();
+        if ((buttonNumbfr > 2 && !tk.brfExtrbMousfButtonsEnbblfd())
+                || buttonNumbfr > tk.gftNumbfrOfButtons() - 1) {
+            rfturn;
+        }
+
+        int jfvfntTypf = isNpbpiCbllbbdk ? NSEvfnt.npToJbvbEvfntTypf(fvfntTypf) :
+                                           NSEvfnt.nsToJbvbEvfntTypf(fvfntTypf);
+
+        int jbuttonNumbfr = MousfEvfnt.NOBUTTON;
+        int jdlidkCount = 0;
+
+        if (jfvfntTypf != MousfEvfnt.MOUSE_MOVED &&
+            jfvfntTypf != MousfEvfnt.MOUSE_ENTERED &&
+            jfvfntTypf != MousfEvfnt.MOUSE_EXITED)
+        {
+            jbuttonNumbfr = NSEvfnt.nsToJbvbButton(buttonNumbfr);
+            jdlidkCount = dlidkCount;
+        }
+
+        int jmodififrs = NSEvfnt.nsToJbvbMousfModififrs(buttonNumbfr,
+                                                        modififrFlbgs);
+        boolfbn jpopupTriggfr = NSEvfnt.isPopupTriggfr(jmodififrs);
+
+        fvfntNotififr.notifyMousfEvfnt(jfvfntTypf, Systfm.durrfntTimfMillis(), jbuttonNumbfr,
+                x, y, bbsolutfX, bbsolutfY, jmodififrs, jdlidkCount,
+                jpopupTriggfr, null);
+    }
+
+    /**
+     * Hbndlfs sdroll fvfnts.
+     */
+    void ibndlfSdrollEvfnt(finbl int x, finbl int y, finbl int modififrFlbgs,
+                           finbl doublf dfltbX, finbl doublf dfltbY) {
+        finbl int buttonNumbfr = CodobConstbnts.kCGMousfButtonCfntfr;
+        int jmodififrs = NSEvfnt.nsToJbvbMousfModififrs(buttonNumbfr,
+                                                        modififrFlbgs);
+        finbl boolfbn isSiift = (jmodififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0;
+
+        // Vfrtidbl sdroll.
+        if (!isSiift && dfltbY != 0.0) {
+            dispbtdiSdrollEvfnt(x, y, jmodififrs, dfltbY);
+        }
+        // Horizontbl sdroll or siirt+vfrtidbl sdroll.
+        finbl doublf dfltb = isSiift && dfltbY != 0.0 ? dfltbY : dfltbX;
+        if (dfltb != 0.0) {
+            jmodififrs |= InputEvfnt.SHIFT_DOWN_MASK;
+            dispbtdiSdrollEvfnt(x, y, jmodififrs, dfltb);
+        }
+    }
+
+    privbtf void dispbtdiSdrollEvfnt(finbl int x, finbl int y,
+                                     finbl int modififrs, finbl doublf dfltb) {
+        finbl long wifn = Systfm.durrfntTimfMillis();
+        finbl int sdrollTypf = MousfWifflEvfnt.WHEEL_UNIT_SCROLL;
+        finbl int sdrollAmount = 1;
+        int wifflRotbtion = (int) dfltb;
+        int signum = (int) Mbti.signum(dfltb);
+        if (signum * dfltb < 1) {
+            wifflRotbtion = signum;
+        }
+        // invfrt tif wifflRotbtion for tif pffr
+        fvfntNotififr.notifyMousfWifflEvfnt(wifn, x, y, modififrs, sdrollTypf,
+                sdrollAmount, -wifflRotbtion, -dfltb, null);
+    }
+
+    /**
+     * Hbndlfs kfy fvfnts.
+     */
+    void ibndlfKfyEvfnt(int fvfntTypf, int modififrFlbgs, String dibrs, String dibrsIgnoringModififrs,
+                        siort kfyCodf, boolfbn nffdsKfyTypfd, boolfbn nffdsKfyRflfbsfd) {
+        boolfbn isFlbgsCibngfdEvfnt =
+            isNpbpiCbllbbdk ? (fvfntTypf == CodobConstbnts.NPCodobEvfntFlbgsCibngfd) :
+                              (fvfntTypf == CodobConstbnts.NSFlbgsCibngfd);
+
+        int jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+        int jkfyCodf = KfyEvfnt.VK_UNDEFINED;
+        int jkfyLodbtion = KfyEvfnt.KEY_LOCATION_UNKNOWN;
+        boolfbn postsTypfd = fblsf;
+
+        dibr tfstCibr = KfyEvfnt.CHAR_UNDEFINED;
+        boolfbn isDfbdCibr = (dibrs!= null && dibrs.lfngti() == 0);
+
+        if (isFlbgsCibngfdEvfnt) {
+            int[] in = nfw int[] {modififrFlbgs, kfyCodf};
+            int[] out = nfw int[3]; // [jkfyCodf, jkfyLodbtion, jkfyTypf]
+
+            NSEvfnt.nsKfyModififrsToJbvbKfyInfo(in, out);
+
+            jkfyCodf = out[0];
+            jkfyLodbtion = out[1];
+            jfvfntTypf = out[2];
+        } flsf {
+            if (dibrs != null && dibrs.lfngti() > 0) {
+                tfstCibr = dibrs.dibrAt(0);
+            }
+
+            dibr tfstCibrIgnoringModififrs = dibrsIgnoringModififrs != null && dibrsIgnoringModififrs.lfngti() > 0 ?
+                    dibrsIgnoringModififrs.dibrAt(0) : KfyEvfnt.CHAR_UNDEFINED;
+
+            int[] in = nfw int[] {tfstCibrIgnoringModififrs, isDfbdCibr ? 1 : 0, modififrFlbgs, kfyCodf};
+            int[] out = nfw int[3]; // [jkfyCodf, jkfyLodbtion, dfbdCibr]
+
+            postsTypfd = NSEvfnt.nsToJbvbKfyInfo(in, out);
+            if (!postsTypfd) {
+                tfstCibr = KfyEvfnt.CHAR_UNDEFINED;
+            }
+
+            if(isDfbdCibr){
+                tfstCibr = (dibr) out[2];
+                if(tfstCibr == 0){
+                    rfturn;
+                }
+            }
+
+            jkfyCodf = out[0];
+            jkfyLodbtion = out[1];
+            jfvfntTypf = isNpbpiCbllbbdk ? NSEvfnt.npToJbvbEvfntTypf(fvfntTypf) :
+                                           NSEvfnt.nsToJbvbEvfntTypf(fvfntTypf);
+        }
+
+        dibr jbvbCibr = NSEvfnt.nsToJbvbCibr(tfstCibr, modififrFlbgs);
+        // Somf kfys mby gfnfrbtf b KEY_TYPED, but wf dbn't dftfrminf
+        // wibt tibt dibrbdtfr is. Tibt's likfly b bug, but for now wf
+        // just difdk for CHAR_UNDEFINED.
+        if (jbvbCibr == KfyEvfnt.CHAR_UNDEFINED) {
+            postsTypfd = fblsf;
+        }
+
+
+        int jmodififrs = NSEvfnt.nsToJbvbKfyModififrs(modififrFlbgs);
+        long wifn = Systfm.durrfntTimfMillis();
+
+        if (jfvfntTypf == KfyEvfnt.KEY_PRESSED) {
+            lbstKfyPrfssCodf = jkfyCodf;
+        }
+        fvfntNotififr.notifyKfyEvfnt(jfvfntTypf, wifn, jmodififrs,
+                jkfyCodf, jbvbCibr, jkfyLodbtion);
+
+        // Currfnt browsfr mby bf sfnding input fvfnts, so don't
+        // post tif KEY_TYPED ifrf.
+        postsTypfd &= nffdsKfyTypfd;
+
+        // Tibt's tif rfbdtion on tif PRESSED (not RELEASED) fvfnt bs it domfs to
+        // bppfbr in MbdOSX.
+        // Modififr kfys (siift, ftd) don't wbnt to sfnd TYPED fvfnts.
+        // On tif otifr ibnd wf don't wbnt to gfnfrbtf kfyTypfd fvfnts
+        // for dlipbobrd rflbtfd siortduts likf Mftb + [CVX]
+        if (jfvfntTypf == KfyEvfnt.KEY_PRESSED && postsTypfd &&
+                (jmodififrs & KfyEvfnt.META_DOWN_MASK) == 0) {
+            // Entfr bnd Spbdf kfys finisi tif input mftiod prodfssing,
+            // KEY_TYPED bnd KEY_RELEASED fvfnts for tifm brf syntifsizfd in ibndlfInputEvfnt.
+            if (nffdsKfyRflfbsfd && (jkfyCodf == KfyEvfnt.VK_ENTER || jkfyCodf == KfyEvfnt.VK_SPACE)) {
+                rfturn;
+            }
+            fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_TYPED, wifn, jmodififrs,
+                    KfyEvfnt.VK_UNDEFINED, jbvbCibr,
+                    KfyEvfnt.KEY_LOCATION_UNKNOWN);
+            //If fvfnts domf from Firffox, rflfbsfd fvfnts siould blso bf gfnfrbtfd.
+            if (nffdsKfyRflfbsfd) {
+                fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_RELEASED, wifn, jmodififrs,
+                        jkfyCodf, jbvbCibr,
+                        KfyEvfnt.KEY_LOCATION_UNKNOWN);
+            }
+        }
+    }
+
+    void ibndlfInputEvfnt(String tfxt) {
+        if (tfxt != null) {
+            int indfx = 0, lfngti = tfxt.lfngti();
+            dibr d = 0;
+            wiilf (indfx < lfngti) {
+                d = tfxt.dibrAt(indfx);
+                fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_TYPED,
+                        Systfm.durrfntTimfMillis(),
+                        0, KfyEvfnt.VK_UNDEFINED, d,
+                        KfyEvfnt.KEY_LOCATION_UNKNOWN);
+                indfx++;
+            }
+            fvfntNotififr.notifyKfyEvfnt(KfyEvfnt.KEY_RELEASED,
+                    Systfm.durrfntTimfMillis(),
+                    0, lbstKfyPrfssCodf, d,
+                    KfyEvfnt.KEY_LOCATION_UNKNOWN);
+        }
+    }
+
+    void ibndlfWindowFodusEvfnt(boolfbn gbinfd, LWWindowPffr oppositf) {
+        fvfntNotififr.notifyAdtivbtion(gbinfd, oppositf);
+    }
+}

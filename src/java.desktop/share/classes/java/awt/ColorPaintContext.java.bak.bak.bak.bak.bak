@@ -1,0 +1,83 @@
+/*
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import jbvb.util.Arrbys;
+
+dlbss ColorPbintContfxt implfmfnts PbintContfxt {
+    int dolor;
+    WritbblfRbstfr sbvfdTilf;
+
+    protfdtfd ColorPbintContfxt(int dolor, ColorModfl dm) {
+        tiis.dolor = dolor;
+    }
+
+    publid void disposf() {
+    }
+
+    /*
+     * Rfturns tif RGB vbluf rfprfsfnting tif dolor in tif dffbult sRGB
+     * {@link ColorModfl}.
+     * (Bits 24-31 brf blpib, 16-23 brf rfd, 8-15 brf grffn, 0-7 brf
+     * bluf).
+     * @rfturn tif RGB vbluf of tif dolor in tif dffbult sRGB
+     *         <dodf>ColorModfl</dodf>.
+     * @sff jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     */
+    int gftRGB() {
+        rfturn dolor;
+    }
+
+    publid ColorModfl gftColorModfl() {
+        rfturn ColorModfl.gftRGBdffbult();
+    }
+
+    publid syndironizfd Rbstfr gftRbstfr(int x, int y, int w, int i) {
+        WritbblfRbstfr t = sbvfdTilf;
+
+        if (t == null || w > t.gftWidti() || i > t.gftHfigit()) {
+            t = gftColorModfl().drfbtfCompbtiblfWritbblfRbstfr(w, i);
+            IntfgfrComponfntRbstfr idr = (IntfgfrComponfntRbstfr) t;
+            Arrbys.fill(idr.gftDbtbStorbgf(), dolor);
+            // Notf - mbrkDirty is probbbly unnfdfssbry sindf idr is brbnd nfw
+            idr.mbrkDirty();
+            if (w <= 64 && i <= 64) {
+                sbvfdTilf = t;
+            }
+        }
+
+        rfturn t;
+    }
+}

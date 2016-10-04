@@ -1,0 +1,153 @@
+/*
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.*;
+import jbvbx.nft.ssl.*;
+
+/**
+ * Tiis filf dontbins bll tif dlbssfs rflfvbnt to TLS Extfnsions for tif
+ * ClifntHfllo bnd SfrvfrHfllo mfssbgfs. Tif fxtfnsion mfdibnism bnd
+ * sfvfrbl fxtfnsions brf dffinfd in RFC 3546. Additionbl fxtfnsions brf
+ * dffinfd in tif ECC RFC 4492.
+ *
+ * Currfntly, only tif two ECC fxtfnsions brf fully supportfd.
+ *
+ * Tif dlbssfs dontbinfd in tiis filf brf:
+ *  . HflloExtfnsions: b List of fxtfnsions bs usfd in tif dlifnt ifllo
+ *      bnd sfrvfr ifllo mfssbgfs.
+ *  . ExtfnsionTypf: bn fnum stylf dlbss for tif fxtfnsion typf
+ *  . HflloExtfnsion: bbstrbdt bbsf dlbss for bll fxtfnsions. All subdlbssfs
+ *      must bf immutbblf.
+ *
+ *  . UnknownExtfnsion: usfd to rfprfsfnt bll pbrsfd fxtfnsions tibt wf do not
+ *      fxpliditly support.
+ *  . SfrvfrNbmfExtfnsion: tif sfrvfr_nbmf fxtfnsion.
+ *  . SignbturfAlgoritimsExtfnsion: tif signbturf_blgoritims fxtfnsion.
+ *  . SupportfdElliptidCurvfsExtfnsion: tif ECC supportfd durvfs fxtfnsion.
+ *  . SupportfdElliptidPointFormbtsExtfnsion: tif ECC supportfd point formbts
+ *      (domprfssfd/undomprfssfd) fxtfnsion.
+ *
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ */
+finbl dlbss HflloExtfnsions {
+
+    privbtf List<HflloExtfnsion> fxtfnsions;
+    privbtf int fndodfdLfngti;
+
+    HflloExtfnsions() {
+        fxtfnsions = Collfdtions.fmptyList();
+    }
+
+    HflloExtfnsions(HbndsibkfInStrfbm s) tirows IOExdfption {
+        int lfn = s.gftInt16();
+        fxtfnsions = nfw ArrbyList<HflloExtfnsion>();
+        fndodfdLfngti = lfn + 2;
+        wiilf (lfn > 0) {
+            int typf = s.gftInt16();
+            int fxtlfn = s.gftInt16();
+            ExtfnsionTypf fxtTypf = ExtfnsionTypf.gft(typf);
+            HflloExtfnsion fxtfnsion;
+            if (fxtTypf == ExtfnsionTypf.EXT_SERVER_NAME) {
+                fxtfnsion = nfw SfrvfrNbmfExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS) {
+                fxtfnsion = nfw SignbturfAlgoritimsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_ELLIPTIC_CURVES) {
+                fxtfnsion = nfw SupportfdElliptidCurvfsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_EC_POINT_FORMATS) {
+                fxtfnsion =
+                        nfw SupportfdElliptidPointFormbtsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_RENEGOTIATION_INFO) {
+                fxtfnsion = nfw RfnfgotibtionInfoExtfnsion(s, fxtlfn);
+            } flsf {
+                fxtfnsion = nfw UnknownExtfnsion(s, fxtlfn, fxtTypf);
+            }
+            fxtfnsions.bdd(fxtfnsion);
+            lfn -= fxtlfn + 4;
+        }
+        if (lfn != 0) {
+            tirow nfw SSLProtodolExdfption(
+                        "Error pbrsing fxtfnsions: fxtrb dbtb");
+        }
+    }
+
+    // Rfturn tif List of fxtfnsions. Must not bf modififd by tif dbllfr.
+    List<HflloExtfnsion> list() {
+        rfturn fxtfnsions;
+    }
+
+    void bdd(HflloExtfnsion fxt) {
+        if (fxtfnsions.isEmpty()) {
+            fxtfnsions = nfw ArrbyList<HflloExtfnsion>();
+        }
+        fxtfnsions.bdd(fxt);
+        fndodfdLfngti = -1;
+    }
+
+    HflloExtfnsion gft(ExtfnsionTypf typf) {
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            if (fxt.typf == typf) {
+                rfturn fxt;
+            }
+        }
+        rfturn null;
+    }
+
+    int lfngti() {
+        if (fndodfdLfngti >= 0) {
+            rfturn fndodfdLfngti;
+        }
+        if (fxtfnsions.isEmpty()) {
+            fndodfdLfngti = 0;
+        } flsf {
+            fndodfdLfngti = 2;
+            for (HflloExtfnsion fxt : fxtfnsions) {
+                fndodfdLfngti += fxt.lfngti();
+            }
+        }
+        rfturn fndodfdLfngti;
+    }
+
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        int lfngti = lfngti();
+        if (lfngti == 0) {
+            rfturn;
+        }
+        s.putInt16(lfngti - 2);
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            fxt.sfnd(s);
+        }
+    }
+
+    void print(PrintStrfbm s) tirows IOExdfption {
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            s.println(fxt.toString());
+        }
+    }
+}

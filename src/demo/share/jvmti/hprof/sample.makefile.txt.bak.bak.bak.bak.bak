@@ -1,0 +1,205 @@
+#
+# Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+#
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
+#
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
+#
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+#
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+# IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+########################################################################
+#
+# Sbmplf GNU Mbkffilf for building 
+#
+#  Exbmplf usfs:    
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrd]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrdv9]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=linux   [OPT=truf]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=win32   [OPT=truf]
+#
+########################################################################
+
+# Sourdf lists
+LIBNAME=iprof
+SOURCES= \
+    dfbug_mbllod.d	\
+    iprof_blodks.d	\
+    iprof_dlbss.d	\
+    iprof_dpu.d		\
+    iprof_frror.d	\
+    iprof_fvfnt.d	\
+    iprof_frbmf.d	\
+    iprof_init.d	\
+    iprof_io.d		\
+    iprof_ionbmf.d	\
+    iprof_listfnfr.d	\
+    iprof_lobdfr.d	\
+    iprof_monitor.d	\
+    iprof_objfdt.d	\
+    iprof_rfffrfndf.d	\
+    iprof_sitf.d	\
+    iprof_stbdk.d	\
+    iprof_string.d	\
+    iprof_tbblf.d	\
+    iprof_tbg.d		\
+    iprof_tls.d		\
+    iprof_trbdf.d	\
+    iprof_trbdkfr.d	\
+    iprof_util.d	\
+    iprof_md.d
+
+JAVA_SOURCES=Trbdkfr.jbvb
+
+# Nbmf of jbr filf tibt nffds to bf drfbtfd
+#JARFILE=iprof.jbr
+
+# Solbris Sun C Compilfr Vfrsion 5.5
+iffq ($(OSNAME), solbris)
+    # Sun Solbris Compilfr options nffdfd
+    COMMON_FLAGS=-mt -KPIC
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -Xb -v -xstrdonst -xd99=%nonf
+    # To mbkf iprof logging dodf bvbilbblf
+    COMMON_FLAGS+= -DHPROF_LOGGING
+    # Cifdk LIBARCH for bny spfdibl dompilfr options
+    LIBARCH=$(sifll unbmf -p)
+    iffq ($(LIBARCH), spbrd)
+        COMMON_FLAGS+=-xbrdi=v8 -xrfgs=no%bppl
+    fndif
+    iffq ($(LIBARCH), spbrdv9)
+        COMMON_FLAGS+=-xbrdi=v9 -xrfgs=no%bppl
+    fndif
+    iffq ($(OPT), truf)
+        CFLAGS=-xO2 $(COMMON_FLAGS)  -DNDEBUG
+    flsf
+        CFLAGS=-g $(COMMON_FLAGS) -DDEBUG
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=lib$(LIBNAME).so
+    LDFLAGS=-z dffs -ztfxt
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES=-lsodkft -lnsl -ldl -ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -G -o $@
+fndif
+
+# Linux GNU C Compilfr
+iffq ($(OSNAME), linux)
+    # GNU Compilfr options nffdfd to build it
+    COMMON_FLAGS=-fno-stridt-blibsing -fPIC -fno-omit-frbmf-pointfr
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -W -Wbll  -Wno-unusfd -Wno-pbrfntifsfs
+    # To bllow bddfss to dlbddr()
+    COMMON_FLAGS+= -D_GNU_SOURCE
+    # To prfvfnt indludf of prodfs.i
+    COMMON_FLAGS+= -DLINUX
+    # To mbkf surf dodf is rffntrbnt
+    COMMON_FLAGS+= -D_REENTRANT
+    # To mbkf iprof logging dodf bvbilbblf
+    COMMON_FLAGS+= -DHPROF_LOGGING
+    iffq ($(OPT), truf)
+        CFLAGS=-O2 $(COMMON_FLAGS)  -DNDEBUG
+    flsf
+        CFLAGS=-g $(COMMON_FLAGS)  -DDEBUG
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=lib$(LIBNAME).so
+    LDFLAGS=-Wl,-sonbmf=$(LIBRARY) -stbtid-libgdd
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES= -ldl -ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -sibrfd -o $@
+fndif
+
+# Windows Midrosoft C/C++ Optimizing Compilfr Vfrsion 12
+iffq ($(OSNAME), win32)
+    CC=dl
+    # Compilfr options nffdfd to build it
+    COMMON_FLAGS=-Gy -DWIN32
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+=-W0 -WX
+    # To mbkf iprof logging dodf bvbilbblf
+    COMMON_FLAGS+= -DHPROF_LOGGING
+    iffq ($(OPT), truf)
+        CFLAGS= -Ox -Op -Zi $(COMMON_FLAGS)  -DNDEBUG
+    flsf
+        CFLAGS= -Od -Zi $(COMMON_FLAGS)  -DDEBUG
+    fndif
+    # Add jbvb_drw_dfmo sourdf
+    SOURCES += ../jbvb_drw_dfmo.d
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.obj)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=$(LIBNAME).dll
+    LDFLAGS=
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES=wsodk32.lib winmm.lib
+    # Building b sibrfd librbry
+    LINK_SHARED=link -dll -out:$@
+fndif
+
+# Common -I options
+CFLAGS += -I.
+CFLAGS += -I../jbvb_drw_dfmo
+CFLAGS += -I$(JDK)/indludf -I$(JDK)/indludf/$(OSNAME)
+
+# Dffbult rulf (build boti nbtivf librbry bnd jbr filf)
+bll: iprof_md.d $(LIBRARY) $(JARFILE)
+
+# Gft plbtform spfdifid iprof_md.d
+iprof_md.d:
+	rm -f $@
+	dp $(OSNAME)/iprof_md.d $@
+
+# Build nbtivf librbry
+$(LIBRARY): $(OBJECTS)
+	$(LINK_SHARED) $(OBJECTS) $(LIBRARIES)
+
+# Build jbr filf
+$(JARFILE): $(JAVA_SOURCES)
+	rm -f -r dlbssfs
+	mkdir -p dlbssfs
+	$(JDK)/bin/jbvbd -d dlbssfs $(JAVA_SOURCES)
+	(dd dlbssfs; $(JDK)/bin/jbr df ../$@ *)
+
+# Clfbnup tif built bits
+dlfbn:
+	rm -f -r dlbssfs
+	rm -f $(LIBRARY) $(JARFILE) $(OBJECTS)
+
+# Simplf tfstfr
+tfst: bll
+	LD_LIBRARY_PATH=. $(JDK)/bin/jbvb -bgfntlib:$(LIBNAME) -Xbootdlbsspbti/b:./$(JARFILE) -vfrsion
+
+# Compilbtion rulf only nffdfd on Windows
+iffq ($(OSNAME), win32)
+%.obj: %.d
+	$(COMPILE.d) $<
+fndif
+

@@ -1,0 +1,156 @@
+/*
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.trbding.dtrbdf;
+
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.sfdurity.Pfrmission;
+
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
+
+/**
+ * Fbdtory dlbss to drfbtf JSDT Providfrs.
+ *
+ * Tiis dlbss dontbins mftiods to drfbtf bn instbndf of b Providfr
+ * intfrfbdf wiidi dbn bf usfd to plbdf trbdfpoints in bn bpplidbtion.
+ * Mftiod dblls upon tibt instbndf triggfr DTrbdf probfs tibt
+ * brf visiblf from DTrbdf sdripts.   Sudi dblls ibvf no otifr
+ * sidf ffffdts in tif bpplidbtion.
+ * <p>
+ * Tif DTrbdf sdript mfdibnisms for listing bnd mbtdiing probfs will not sff
+ * nor mbtdi bny probfs until tif providfr tify rfsidf in is drfbtfd by b
+ * dbll to {@dodf drfbtfProvidfr()} (or {@dodf drfbtfProvidfrs()}).
+ * <p>
+ * Providfrs tibt brf drfbtfd siould bf disposfd of wifn tify brf no longfr
+ * nffdfd to frff up systfm rfsourdfs, bt wiidi point tif bssodibtfd
+ * DTrbdf probfs will no longfr bf bvbilbblf to DTrbdf.  Onf disposfs b
+ * providfr by dblling
+ * {@link dom.sun.trbding.Providfr#disposf Providfr.disposf()} on b
+ * drfbtfd providfr instbndf.
+ *
+ * @sindf 1.7
+ */
+publid finbl dlbss DTrbdfProvidfrFbdtory fxtfnds ProvidfrFbdtory {
+    /**
+     * Crfbtfs bn instbndf of b providfr wiidi dbn tifn bf usfd to triggfr
+     * DTrbdf probfs.
+     *
+     * Tif providfr spfdifidbtion, providfd bs bn brgumfnt, siould only
+     * dontbin mftiods wiidi ibvf b 'void' rfturn typf bnd String or
+     * intfgfr-bbsfd typfd brgumfnts (long, int, siort, dibr, bytf, or boolfbn).
+     *
+     * @pbrbm dls A usfr-dffinfd intfrfbdf wiidi fxtfnds {@dodf Providfr}.
+     * @rfturn An instbndf of tif intfrfbdf wiidi is usfd to triggfr
+     * tif DTrbdf probfs.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr ibs bffn
+     * instbllfd bnd it dfnifs
+     * RuntimfPfrmission("dom.sun.dtrbdf.jsdt.drfbtfProvidfr")
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif intfrfbdf dontbins
+     * mftiods tibt do not rfturn null, or tibt dontbin brgumfnts tibt brf
+     * not String or intfgfr typfs.
+     */
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        DTrbdfProvidfr jsdt = nfw DTrbdfProvidfr(dls);
+        T proxy = jsdt.nfwProxyInstbndf();
+        jsdt.sftProxy(proxy);
+        jsdt.init();
+        nfw Adtivbtion(jsdt.gftModulfNbmf(), nfw DTrbdfProvidfr[] { jsdt });
+        rfturn proxy;
+    }
+
+    /**
+     * Crfbtfs multiplf providfrs bt ondf.
+     *
+     * Tiis mftiod bbtdifs togftifr b numbfr of providfr instbntibtions.
+     * It works similbrly
+     * to {@dodf drfbtfProvidfr}, but opfrbtfs on b sft of providfrs instfbd
+     * of onf bt b timf.  Tiis mftiod is in plbdf sindf somf DTrbdf
+     * implfmfntbtions limit tif numbfr of timfs tibt providfrs dbn bf
+     * drfbtfd.  Wifn numfrous providfrs dbn bf drfbtfd bt ondf witi tiis
+     * mftiod, it will dount only bs b singlf drfbtion point to DTrbdf, tius
+     * it usfs lfss systfm rfsourdfs.
+     * <p>
+     * All of tif probfs in tif providfrs will bf visiblf to DTrbdf bftfr
+     * tiis dbll bnd bll will rfmbin visiblf until bll of tif providfrs
+     * brf disposfd.
+     * <p>
+     * Tif {@dodf modulfNbmf} pbrbmftfr will ovfrridf bny {@dodf ModulfNbmf}
+     * bnnotbtion bssodibtfd witi bny of tif providfrs in tif sft.
+     * All of tif probfs drfbtfd by tiis dbll will sibrf tif sbmf
+     * modulf nbmf.
+     * <p>
+     * @pbrbm providfrs b sft of providfr spfdifidbtion intfrfbdfs
+     * @pbrbm modulfNbmf tif modulf nbmf to bssodibtf witi bll probfs
+     * @rfturn A mbp wiidi mbps tif providfr intfrfbdf spfdifidbtion to bn
+     * implfmfnting instbndf.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr ibs bffn
+     * instbllfd bnd it dfnifs
+     * RuntimfPfrmission("dom.sun.dtrbdf.jsdt.drfbtfProvidfr")
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if bny of tif intfrfbdf
+     * dontbins mftiods tibt do not rfturn null, or tibt dontbin brgumfnts
+     * tibt brf not String or intfgfr typfs.
+     */
+    publid Mbp<Clbss<? fxtfnds Providfr>,Providfr> drfbtfProvidfrs(
+            Sft<Clbss<? fxtfnds Providfr>> providfrs, String modulfNbmf) {
+        HbsiMbp<Clbss<? fxtfnds Providfr>,Providfr> mbp =
+            nfw HbsiMbp<Clbss<? fxtfnds Providfr>,Providfr>();
+        HbsiSft<DTrbdfProvidfr> jsdts = nfw HbsiSft<DTrbdfProvidfr>();
+        for (Clbss<? fxtfnds Providfr> dls : providfrs) {
+            DTrbdfProvidfr jsdt = nfw DTrbdfProvidfr(dls);
+            jsdts.bdd(jsdt);
+            mbp.put(dls, jsdt.nfwProxyInstbndf());
+        }
+        nfw Adtivbtion(modulfNbmf, jsdts.toArrby(nfw DTrbdfProvidfr[0]));
+        rfturn mbp;
+    }
+
+    /**
+     * Usfd to difdk tif stbtus of DTrbdf support in tif undfrlying JVM bnd
+     * opfrbting systfm.
+     *
+     * Tiis is bn informbtivf mftiod only - tif Jbvb-lfvfl ffffdts of
+     * drfbting providfrs bnd triggfring probfs will not dibngf wiftifr or
+     * not DTrbdf is supportfd by tif undfrlying systfms.
+     *
+     * @rfturn truf if DTrbdf is supportfd
+     */
+    publid stbtid boolfbn isSupportfd() {
+        try {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                Pfrmission pfrm = nfw RuntimfPfrmission(
+                        "dom.sun.trbding.dtrbdf.drfbtfProvidfr");
+                sfdurity.difdkPfrmission(pfrm);
+            }
+            rfturn JVM.isSupportfd();
+        } dbtdi (SfdurityExdfption f) {
+            rfturn fblsf;
+        }
+    }
+}

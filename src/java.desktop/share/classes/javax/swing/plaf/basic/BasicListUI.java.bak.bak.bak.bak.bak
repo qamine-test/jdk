@@ -1,0 +1,2970 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.Position;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.gfom.Point2D;
+
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+
+import sun.swing.SwingUtilitifs2;
+import jbvbx.swing.plbf.bbsid.DrbgRfdognitionSupport.BfforfDrbg;
+
+/**
+ * An fxtfnsiblf implfmfntbtion of {@dodf ListUI}.
+ * <p>
+ * {@dodf BbsidListUI} instbndfs dbnnot bf sibrfd bftwffn multiplf
+ * lists.
+ *
+ * @butior Hbns Mullfr
+ * @butior Piilip Milnf
+ * @butior Sibnnon Hidkfy (drbg bnd drop)
+ */
+publid dlbss BbsidListUI fxtfnds ListUI
+{
+    privbtf stbtid finbl StringBuildfr BASELINE_COMPONENT_KEY =
+        nfw StringBuildfr("List.bbsflinfComponfnt");
+
+    /**
+     * Tif instbndf of {@dodf JList}.
+     */
+    protfdtfd JList<Objfdt> list = null;
+    /**
+     * Tif instbndf of {@dodf CfllRfndfrfrPbnf}.
+     */
+    protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
+
+    // Listfnfrs tibt tiis UI bttbdifs to tif JList
+    /**
+     * {@dodf FodusListfnfr} tibt bttbdifd to {@dodf JList}.
+     */
+    protfdtfd FodusListfnfr fodusListfnfr;
+    /**
+     * {@dodf MousfInputListfnfr} tibt bttbdifd to {@dodf JList}.
+     */
+    protfdtfd MousfInputListfnfr mousfInputListfnfr;
+    /**
+     * {@dodf ListSflfdtionListfnfr} tibt bttbdifd to {@dodf JList}.
+     */
+    protfdtfd ListSflfdtionListfnfr listSflfdtionListfnfr;
+    /**
+     * {@dodf ListDbtbListfnfr} tibt bttbdifd to {@dodf JList}.
+     */
+    protfdtfd ListDbtbListfnfr listDbtbListfnfr;
+    /**
+     * {@dodf PropfrtyCibngfListfnfr} tibt bttbdifd to {@dodf JList}.
+     */
+    protfdtfd PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
+    privbtf Hbndlfr ibndlfr;
+
+    /**
+     * Tif brrby of dflls' ifigit
+     */
+    protfdtfd int[] dfllHfigits = null;
+    /**
+     * Tif ifigit of dfll.
+     */
+    protfdtfd int dfllHfigit = -1;
+    /**
+     * Tif widti of dfll.
+     */
+    protfdtfd int dfllWidti = -1;
+    /**
+     * Tif vbluf rfprfsfnts dibngfs to {@dodf JList} modfl.
+     */
+    protfdtfd int updbtfLbyoutStbtfNffdfd = modflCibngfd;
+    /**
+     * Hfigit of tif list. Wifn bskfd to pbint, if tif durrfnt sizf of
+     * tif list difffrs, tiis will updbtf tif lbyout stbtf.
+     */
+    privbtf int listHfigit;
+
+    /**
+     * Widti of tif list. Wifn bskfd to pbint, if tif durrfnt sizf of
+     * tif list difffrs, tiis will updbtf tif lbyout stbtf.
+     */
+    privbtf int listWidti;
+
+    /**
+     * Tif lbyout orifntbtion of tif list.
+     */
+    privbtf int lbyoutOrifntbtion;
+
+    // Following ivbrs brf usfd if tif list is lbying out iorizontblly
+
+    /**
+     * Numbfr of dolumns to drfbtf.
+     */
+    privbtf int dolumnCount;
+    /**
+     * Prfffrrfd ifigit to mbkf tif list, tiis is only usfd if tif
+     * tif list is lbyfd out iorizontblly.
+     */
+    privbtf int prfffrrfdHfigit;
+    /**
+     * Numbfr of rows pfr dolumn. Tiis is only usfd if tif row ifigit is
+     * fixfd.
+     */
+    privbtf int rowsPfrColumn;
+
+    /**
+     * Tif timf fbdtor to trfbtf tif sfrifs of typfd blpibnumfrid kfy
+     * bs prffix for first lfttfr nbvigbtion.
+     */
+    privbtf long timfFbdtor = 1000L;
+
+    /**
+     * Lodbl dbdif of JList's dlifnt propfrty "List.isFilfList"
+     */
+    privbtf boolfbn isFilfList = fblsf;
+
+    /**
+     * Lodbl dbdif of JList's domponfnt orifntbtion propfrty
+     */
+    privbtf boolfbn isLfftToRigit = truf;
+
+    /* Tif bits bflow dffinf JList propfrty dibngfs tibt bfffdt lbyout.
+     * Wifn onf of tifsf propfrtifs dibngfs wf sft b bit in
+     * updbtfLbyoutStbtfNffdfd.  Tif dibngf is dfblt witi lbzily, sff
+     * mbybfUpdbtfLbyoutStbtf.  Cibngfs to tif JLists modfl, f.g. tif
+     * modfls lfngti dibngfd, brf ibndlfd similbrly, sff DbtbListfnfr.
+     */
+
+    /**
+     * Tif bit rflbtfs to modfl dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int modflCibngfd = 1 << 0;
+    /**
+     * Tif bit rflbtfs to sflfdtion modfl dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int sflfdtionModflCibngfd = 1 << 1;
+    /**
+     * Tif bit rflbtfs to font dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int fontCibngfd = 1 << 2;
+    /**
+     * Tif bit rflbtfs to fixfd dfll widti dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int fixfdCfllWidtiCibngfd = 1 << 3;
+    /**
+     * Tif bit rflbtfs to fixfd dfll ifigit dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int fixfdCfllHfigitCibngfd = 1 << 4;
+    /**
+     * Tif bit rflbtfs to prototypf dfll vbluf dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int prototypfCfllVblufCibngfd = 1 << 5;
+    /**
+     * Tif bit rflbtfs to dfll rfndfrfr dibngfd propfrty.
+     */
+    protfdtfd finbl stbtid int dfllRfndfrfrCibngfd = 1 << 6;
+    privbtf finbl stbtid int lbyoutOrifntbtionCibngfd = 1 << 7;
+    privbtf finbl stbtid int ifigitCibngfd = 1 << 8;
+    privbtf finbl stbtid int widtiCibngfd = 1 << 9;
+    privbtf finbl stbtid int domponfntOrifntbtionCibngfd = 1 << 10;
+
+    privbtf stbtid finbl int DROP_LINE_THICKNESS = 2;
+
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_COLUMN));
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_COLUMN_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_COLUMN_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_COLUMN));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_COLUMN_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_COLUMN_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_ROW));
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_ROW_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_PREVIOUS_ROW_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_ROW));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_ROW_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_NEXT_ROW_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_FIRST_ROW));
+        mbp.put(nfw Adtions(Adtions.SELECT_FIRST_ROW_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_FIRST_ROW_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_LAST_ROW));
+        mbp.put(nfw Adtions(Adtions.SELECT_LAST_ROW_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SELECT_LAST_ROW_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SCROLL_UP));
+        mbp.put(nfw Adtions(Adtions.SCROLL_UP_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SCROLL_UP_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SCROLL_DOWN));
+        mbp.put(nfw Adtions(Adtions.SCROLL_DOWN_EXTEND));
+        mbp.put(nfw Adtions(Adtions.SCROLL_DOWN_CHANGE_LEAD));
+        mbp.put(nfw Adtions(Adtions.SELECT_ALL));
+        mbp.put(nfw Adtions(Adtions.CLEAR_SELECTION));
+        mbp.put(nfw Adtions(Adtions.ADD_TO_SELECTION));
+        mbp.put(nfw Adtions(Adtions.TOGGLE_AND_ANCHOR));
+        mbp.put(nfw Adtions(Adtions.EXTEND_TO));
+        mbp.put(nfw Adtions(Adtions.MOVE_SELECTION_TO));
+
+        mbp.put(TrbnsffrHbndlfr.gftCutAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCutAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftCopyAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCopyAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftPbstfAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftPbstfAdtion());
+    }
+
+    /**
+     * Pbint onf List dfll: domputf tif rflfvbnt stbtf, gft tif "rubbfr stbmp"
+     * dfll rfndfrfr domponfnt, bnd tifn usf tif {@dodf CfllRfndfrfrPbnf} to pbint it.
+     * Subdlbssfs mby wbnt to ovfrridf tiis mftiod rbtifr tibn {@dodf pbint()}.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm row b row
+     * @pbrbm rowBounds b bounding rfdtbnglf to rfndfr to
+     * @pbrbm dfllRfndfrfr b list of {@dodf ListCfllRfndfrfr}
+     * @pbrbm dbtbModfl b list modfl
+     * @pbrbm sflModfl b sflfdtion modfl
+     * @pbrbm lfbdIndfx b lfbd indfx
+     * @sff #pbint
+     */
+    protfdtfd void pbintCfll(
+        Grbpiids g,
+        int row,
+        Rfdtbnglf rowBounds,
+        ListCfllRfndfrfr<Objfdt> dfllRfndfrfr,
+        ListModfl<Objfdt> dbtbModfl,
+        ListSflfdtionModfl sflModfl,
+        int lfbdIndfx)
+    {
+        Objfdt vbluf = dbtbModfl.gftElfmfntAt(row);
+        boolfbn dfllHbsFodus = list.ibsFodus() && (row == lfbdIndfx);
+        boolfbn isSflfdtfd = sflModfl.isSflfdtfdIndfx(row);
+
+        Componfnt rfndfrfrComponfnt =
+            dfllRfndfrfr.gftListCfllRfndfrfrComponfnt(list, vbluf, row, isSflfdtfd, dfllHbsFodus);
+
+        int dx = rowBounds.x;
+        int dy = rowBounds.y;
+        int dw = rowBounds.widti;
+        int di = rowBounds.ifigit;
+
+        if (isFilfList) {
+            // Sirink rfndfrfr to prfffrrfd sizf. Tiis is mostly usfd on Windows
+            // wifrf sflfdtion is only siown bround tif filf nbmf, instfbd of
+            // bdross tif wiolf list dfll.
+            int w = Mbti.min(dw, rfndfrfrComponfnt.gftPrfffrrfdSizf().widti + 4);
+            if (!isLfftToRigit) {
+                dx += (dw - w);
+            }
+            dw = w;
+        }
+
+        rfndfrfrPbnf.pbintComponfnt(g, rfndfrfrComponfnt, list, dx, dy, dw, di, truf);
+    }
+
+
+    /**
+     * Pbint tif rows tibt intfrsfdt tif Grbpiids objfdts dlipRfdt.  Tiis
+     * mftiod dblls pbintCfll bs nfdfssbry.  Subdlbssfs
+     * mby wbnt to ovfrridf tifsf mftiods.
+     *
+     * @sff #pbintCfll
+     */
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        Sibpf dlip = g.gftClip();
+        pbintImpl(g, d);
+        g.sftClip(dlip);
+
+        pbintDropLinf(g);
+    }
+
+    privbtf void pbintImpl(Grbpiids g, JComponfnt d)
+    {
+        switdi (lbyoutOrifntbtion) {
+        dbsf JList.VERTICAL_WRAP:
+            if (list.gftHfigit() != listHfigit) {
+                updbtfLbyoutStbtfNffdfd |= ifigitCibngfd;
+                rfdrbwList();
+            }
+            brfbk;
+        dbsf JList.HORIZONTAL_WRAP:
+            if (list.gftWidti() != listWidti) {
+                updbtfLbyoutStbtfNffdfd |= widtiCibngfd;
+                rfdrbwList();
+            }
+            brfbk;
+        dffbult:
+            brfbk;
+        }
+        mbybfUpdbtfLbyoutStbtf();
+
+        ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+        ListModfl<Objfdt> dbtbModfl = list.gftModfl();
+        ListSflfdtionModfl sflModfl = list.gftSflfdtionModfl();
+        int sizf;
+
+        if ((rfndfrfr == null) || (sizf = dbtbModfl.gftSizf()) == 0) {
+            rfturn;
+        }
+
+        // Dftfrminf iow mbny dolumns wf nffd to pbint
+        Rfdtbnglf pbintBounds = g.gftClipBounds();
+
+        int stbrtColumn, fndColumn;
+        if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+            stbrtColumn = donvfrtLodbtionToColumn(pbintBounds.x,
+                                                  pbintBounds.y);
+            fndColumn = donvfrtLodbtionToColumn(pbintBounds.x +
+                                                pbintBounds.widti,
+                                                pbintBounds.y);
+        } flsf {
+            stbrtColumn = donvfrtLodbtionToColumn(pbintBounds.x +
+                                                pbintBounds.widti,
+                                                pbintBounds.y);
+            fndColumn = donvfrtLodbtionToColumn(pbintBounds.x,
+                                                  pbintBounds.y);
+        }
+        int mbxY = pbintBounds.y + pbintBounds.ifigit;
+        int lfbdIndfx = bdjustIndfx(list.gftLfbdSflfdtionIndfx(), list);
+        int rowIndrfmfnt = (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP) ?
+                           dolumnCount : 1;
+
+
+        for (int dolCountfr = stbrtColumn; dolCountfr <= fndColumn;
+             dolCountfr++) {
+            // And tifn iow mbny rows in tiis dolumnn
+            int row = donvfrtLodbtionToRowInColumn(pbintBounds.y, dolCountfr);
+            int rowCount = gftRowCount(dolCountfr);
+            int indfx = gftModflIndfx(dolCountfr, row);
+            Rfdtbnglf rowBounds = gftCfllBounds(list, indfx, indfx);
+
+            if (rowBounds == null) {
+                // Not vblid, bbil!
+                rfturn;
+            }
+            wiilf (row < rowCount && rowBounds.y < mbxY &&
+                   indfx < sizf) {
+                rowBounds.ifigit = gftHfigit(dolCountfr, row);
+                g.sftClip(rowBounds.x, rowBounds.y, rowBounds.widti,
+                          rowBounds.ifigit);
+                g.dlipRfdt(pbintBounds.x, pbintBounds.y, pbintBounds.widti,
+                           pbintBounds.ifigit);
+                pbintCfll(g, indfx, rowBounds, rfndfrfr, dbtbModfl, sflModfl,
+                          lfbdIndfx);
+                rowBounds.y += rowBounds.ifigit;
+                indfx += rowIndrfmfnt;
+                row++;
+            }
+        }
+        // Empty out tif rfndfrfr pbnf, bllowing rfndfrfrs to bf gd'fd.
+        rfndfrfrPbnf.rfmovfAll();
+    }
+
+    privbtf void pbintDropLinf(Grbpiids g) {
+        JList.DropLodbtion lod = list.gftDropLodbtion();
+        if (lod == null || !lod.isInsfrt()) {
+            rfturn;
+        }
+
+        Color d = DffbultLookup.gftColor(list, tiis, "List.dropLinfColor", null);
+        if (d != null) {
+            g.sftColor(d);
+            Rfdtbnglf rfdt = gftDropLinfRfdt(lod);
+            g.fillRfdt(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
+        }
+    }
+
+    privbtf Rfdtbnglf gftDropLinfRfdt(JList.DropLodbtion lod) {
+        int sizf = list.gftModfl().gftSizf();
+
+        if (sizf == 0) {
+            Insfts insfts = list.gftInsfts();
+            if (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP) {
+                if (isLfftToRigit) {
+                    rfturn nfw Rfdtbnglf(insfts.lfft, insfts.top, DROP_LINE_THICKNESS, 20);
+                } flsf {
+                    rfturn nfw Rfdtbnglf(list.gftWidti() - DROP_LINE_THICKNESS - insfts.rigit,
+                                         insfts.top, DROP_LINE_THICKNESS, 20);
+                }
+            } flsf {
+                rfturn nfw Rfdtbnglf(insfts.lfft, insfts.top,
+                                     list.gftWidti() - insfts.lfft - insfts.rigit,
+                                     DROP_LINE_THICKNESS);
+            }
+        }
+
+        Rfdtbnglf rfdt = null;
+        int indfx = lod.gftIndfx();
+        boolfbn dfdr = fblsf;
+
+        if (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP) {
+            if (indfx == sizf) {
+                dfdr = truf;
+            } flsf if (indfx != 0 && donvfrtModflToRow(indfx)
+                                         != donvfrtModflToRow(indfx - 1)) {
+
+                Rfdtbnglf prfv = gftCfllBounds(list, indfx - 1);
+                Rfdtbnglf mf = gftCfllBounds(list, indfx);
+                Point p = lod.gftDropPoint();
+
+                if (isLfftToRigit) {
+                    dfdr = Point2D.distbndf(prfv.x + prfv.widti,
+                                            prfv.y + (int)(prfv.ifigit / 2.0),
+                                            p.x, p.y)
+                           < Point2D.distbndf(mf.x,
+                                              mf.y + (int)(mf.ifigit / 2.0),
+                                              p.x, p.y);
+                } flsf {
+                    dfdr = Point2D.distbndf(prfv.x,
+                                            prfv.y + (int)(prfv.ifigit / 2.0),
+                                            p.x, p.y)
+                           < Point2D.distbndf(mf.x + mf.widti,
+                                              mf.y + (int)(prfv.ifigit / 2.0),
+                                              p.x, p.y);
+                }
+            }
+
+            if (dfdr) {
+                indfx--;
+                rfdt = gftCfllBounds(list, indfx);
+                if (isLfftToRigit) {
+                    rfdt.x += rfdt.widti;
+                } flsf {
+                    rfdt.x -= DROP_LINE_THICKNESS;
+                }
+            } flsf {
+                rfdt = gftCfllBounds(list, indfx);
+                if (!isLfftToRigit) {
+                    rfdt.x += rfdt.widti - DROP_LINE_THICKNESS;
+                }
+            }
+
+            if (rfdt.x >= list.gftWidti()) {
+                rfdt.x = list.gftWidti() - DROP_LINE_THICKNESS;
+            } flsf if (rfdt.x < 0) {
+                rfdt.x = 0;
+            }
+
+            rfdt.widti = DROP_LINE_THICKNESS;
+        } flsf if (lbyoutOrifntbtion == JList.VERTICAL_WRAP) {
+            if (indfx == sizf) {
+                indfx--;
+                rfdt = gftCfllBounds(list, indfx);
+                rfdt.y += rfdt.ifigit;
+            } flsf if (indfx != 0 && donvfrtModflToColumn(indfx)
+                                         != donvfrtModflToColumn(indfx - 1)) {
+
+                Rfdtbnglf prfv = gftCfllBounds(list, indfx - 1);
+                Rfdtbnglf mf = gftCfllBounds(list, indfx);
+                Point p = lod.gftDropPoint();
+                if (Point2D.distbndf(prfv.x + (int)(prfv.widti / 2.0),
+                                     prfv.y + prfv.ifigit,
+                                     p.x, p.y)
+                        < Point2D.distbndf(mf.x + (int)(mf.widti / 2.0),
+                                           mf.y,
+                                           p.x, p.y)) {
+
+                    indfx--;
+                    rfdt = gftCfllBounds(list, indfx);
+                    rfdt.y += rfdt.ifigit;
+                } flsf {
+                    rfdt = gftCfllBounds(list, indfx);
+                }
+            } flsf {
+                rfdt = gftCfllBounds(list, indfx);
+            }
+
+            if (rfdt.y >= list.gftHfigit()) {
+                rfdt.y = list.gftHfigit() - DROP_LINE_THICKNESS;
+            }
+
+            rfdt.ifigit = DROP_LINE_THICKNESS;
+        } flsf {
+            if (indfx == sizf) {
+                indfx--;
+                rfdt = gftCfllBounds(list, indfx);
+                rfdt.y += rfdt.ifigit;
+            } flsf {
+                rfdt = gftCfllBounds(list, indfx);
+            }
+
+            if (rfdt.y >= list.gftHfigit()) {
+                rfdt.y = list.gftHfigit() - DROP_LINE_THICKNESS;
+            }
+
+            rfdt.ifigit = DROP_LINE_THICKNESS;
+        }
+
+        rfturn rfdt;
+    }
+
+    /**
+     * Rfturns tif bbsflinf.
+     *
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        int rowHfigit = list.gftFixfdCfllHfigit();
+        UIDffbults lbfDffbults = UIMbnbgfr.gftLookAndFfflDffbults();
+        Componfnt rfndfrfr = (Componfnt)lbfDffbults.gft(
+                BASELINE_COMPONENT_KEY);
+        if (rfndfrfr == null) {
+            @SupprfssWbrnings("undifdkfd")
+            ListCfllRfndfrfr<Objfdt> ldr = (ListCfllRfndfrfr)UIMbnbgfr.gft(
+                    "List.dfllRfndfrfr");
+
+            // fix for 6711072 somf LAFs likf Nimbus do not providf tiis
+            // UIMbnbgfr kfy bnd wf siould not tirougi b NPE ifrf bfdbusf of it
+            if (ldr == null) {
+                ldr = nfw DffbultListCfllRfndfrfr();
+            }
+            rfndfrfr = ldr.gftListCfllRfndfrfrComponfnt(
+                    list, "b", -1, fblsf, fblsf);
+            lbfDffbults.put(BASELINE_COMPONENT_KEY, rfndfrfr);
+        }
+        rfndfrfr.sftFont(list.gftFont());
+        // JList bdtublly ibs mudi morf domplfx bfibvior ifrf.
+        // If rowHfigit != -1 tif rowHfigit is fitifr tif mbx of bll dfll
+        // ifigits (lbyout orifntbtion != VERTICAL), or is vbribblf dfpfnding
+        // upon tif dfll.  Wf bssumf b dffbult sizf.
+        // Wf dould tiforftidblly qufry tif rfbl rfndfrfr, but tibt would
+        // not work for bn fmpty modfl bnd tif rfsults mby vbry witi
+        // tif dontfnt.
+        if (rowHfigit == -1) {
+            rowHfigit = rfndfrfr.gftPrfffrrfdSizf().ifigit;
+        }
+        rfturn rfndfrfr.gftBbsflinf(Intfgfr.MAX_VALUE, rowHfigit) +
+                list.gftInsfts().top;
+    }
+
+    /**
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
+     *
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_ASCENT;
+    }
+
+    /**
+     * Tif prfffrrfdSizf of tif list dfpfnds upon tif lbyout orifntbtion.
+     * <tbblf summbry="Dfsdribfs tif prfffrrfd sizf for fbdi lbyout orifntbtion">
+     * <tr><ti>Lbyout Orifntbtion</ti><ti>Prfffrrfd Sizf</ti></tr>
+     * <tr>
+     *   <td>JList.VERTICAL
+     *   <td>Tif prfffrrfdSizf of tif list is totbl ifigit of tif rows
+     *       bnd tif mbximum widti of tif dflls.  If JList.fixfdCfllHfigit
+     *       is spfdififd tifn tif totbl ifigit of tif rows is just
+     *       (dfllVfrtidblMbrgins + fixfdCfllHfigit) * modfl.gftSizf() wifrf
+     *       rowVfrtidblMbrgins is tif spbdf wf bllodbtf for drbwing
+     *       tif yfllow fodus outlinf.  Similbrly if fixfdCfllWidti is
+     *       spfdififd tifn wf just usf tibt.
+     *   </td>
+     * <tr>
+     *   <td>JList.VERTICAL_WRAP
+     *   <td>If tif visiblf row dount is grfbtfr tibn zfro, tif prfffrrfdHfigit
+     *       is tif mbximum dfll ifigit * visiblfRowCount. If tif visiblf row
+     *       dount is &lt;= 0, tif prfffrrfd ifigit is fitifr tif durrfnt ifigit
+     *       of tif list, or tif mbximum dfll ifigit, wiidifvfr is
+     *       biggfr. Tif prfffrrfd widti is tibn tif mbximum dfll widti *
+     *       numbfr of dolumns nffdfd. Wifrf tif numbfr of dolumns nffds is
+     *       list.ifigit / mbx dfll ifigit. Mbx dfll ifigit is fitifr tif fixfd
+     *       dfll ifigit, or is dftfrminfd by itfrbting tirougi bll tif dflls
+     *       to find tif mbximum ifigit from tif ListCfllRfndfrfr.
+     * <tr>
+     *   <td>JList.HORIZONTAL_WRAP
+     *   <td>If tif visiblf row dount is grfbtfr tibn zfro, tif prfffrrfdHfigit
+     *       is tif mbximum dfll ifigit * bdjustfdRowCount.  Wifrf
+     *       visiblfRowCount is usfd to dftfrminf tif numbfr of dolumns.
+     *       Bfdbusf tiis lbys out iorizontblly tif numbfr of rows is
+     *       tifn dftfrminfd from tif dolumn dount.  For fxbmplf, lfts sby
+     *       you ibvf b modfl witi 10 itfms bnd tif visiblf row dount is 8.
+     *       Tif numbfr of dolumns nffdfd to displby tiis is 2, but you no
+     *       longfr nffd 8 rows to displby tiis, you only nffd 5, tius
+     *       tif bdjustfdRowCount is 5.
+     *       <p>If tif visiblf row
+     *       dount is &lt;= 0, tif prfffrrfd ifigit is didtbtfd by tif
+     *       numbfr of dolumns, wiidi will bf bs mbny bs dbn fit in tif widti
+     *       of tif <dodf>JList</dodf> (widti / mbx dfll widti), witi bt
+     *       lfbst onf dolumn.  Tif prfffrrfd ifigit tifn bfdomfs tif
+     *       modfl sizf / numbfr of dolumns * mbximum dfll ifigit.
+     *       Mbx dfll ifigit is fitifr tif fixfd
+     *       dfll ifigit, or is dftfrminfd by itfrbting tirougi bll tif dflls
+     *       to find tif mbximum ifigit from tif ListCfllRfndfrfr.
+     * </tbblf>
+     * Tif bbovf spfdififs tif rbw prfffrrfd widti bnd ifigit. Tif rfsulting
+     * prfffrrfd widti is tif bbovf widti + insfts.lfft + insfts.rigit bnd
+     * tif rfsulting prfffrrfd ifigit is tif bbovf ifigit + insfts.top +
+     * insfts.bottom. Wifrf tif <dodf>Insfts</dodf> brf dftfrminfd from
+     * <dodf>list.gftInsfts()</dodf>.
+     *
+     * @pbrbm d Tif JList domponfnt.
+     * @rfturn Tif totbl sizf of tif list.
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        mbybfUpdbtfLbyoutStbtf();
+
+        int lbstRow = list.gftModfl().gftSizf() - 1;
+        if (lbstRow < 0) {
+            rfturn nfw Dimfnsion(0, 0);
+        }
+
+        Insfts insfts = list.gftInsfts();
+        int widti = dfllWidti * dolumnCount + insfts.lfft + insfts.rigit;
+        int ifigit;
+
+        if (lbyoutOrifntbtion != JList.VERTICAL) {
+            ifigit = prfffrrfdHfigit;
+        }
+        flsf {
+            Rfdtbnglf bounds = gftCfllBounds(list, lbstRow);
+
+            if (bounds != null) {
+                ifigit = bounds.y + bounds.ifigit + insfts.bottom;
+            }
+            flsf {
+                ifigit = 0;
+            }
+        }
+        rfturn nfw Dimfnsion(widti, ifigit);
+    }
+
+
+    /**
+     * Sflfdtfd tif prfvious row bnd fordf it to bf visiblf.
+     *
+     * @sff JList#fnsurfIndfxIsVisiblf
+     */
+    protfdtfd void sflfdtPrfviousIndfx() {
+        int s = list.gftSflfdtfdIndfx();
+        if(s > 0) {
+            s -= 1;
+            list.sftSflfdtfdIndfx(s);
+            list.fnsurfIndfxIsVisiblf(s);
+        }
+    }
+
+
+    /**
+     * Sflfdtfd tif prfvious row bnd fordf it to bf visiblf.
+     *
+     * @sff JList#fnsurfIndfxIsVisiblf
+     */
+    protfdtfd void sflfdtNfxtIndfx()
+    {
+        int s = list.gftSflfdtfdIndfx();
+        if((s + 1) < list.gftModfl().gftSizf()) {
+            s += 1;
+            list.sftSflfdtfdIndfx(s);
+            list.fnsurfIndfxIsVisiblf(s);
+        }
+    }
+
+
+    /**
+     * Rfgistfrs tif kfybobrd bindings on tif <dodf>JList</dodf> tibt tif
+     * <dodf>BbsidListUI</dodf> is bssodibtfd witi. Tiis mftiod is dbllfd bt
+     * instbllUI() timf.
+     *
+     * @sff #instbllUI
+     */
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+
+        SwingUtilitifs.rfplbdfUIInputMbp(list, JComponfnt.WHEN_FOCUSED,
+                                           inputMbp);
+
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(list, BbsidListUI.dlbss,
+                                           "List.bdtionMbp");
+    }
+
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_FOCUSED) {
+            InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(
+                             list, tiis, "List.fodusInputMbp");
+            InputMbp rtlKfyMbp;
+
+            if (isLfftToRigit ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(list, tiis,
+                              "List.fodusInputMbp.RigitToLfft")) == null)) {
+                    rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Unrfgistfrs kfybobrd bdtions instbllfd from
+     * <dodf>instbllKfybobrdAdtions</dodf>.
+     * Tiis mftiod is dbllfd bt uninstbllUI() timf - subdlbssfss siould
+     * fnsurf tibt bll of tif kfybobrd bdtions rfgistfrfd bt instbllUI
+     * timf brf rfmovfd ifrf.
+     *
+     * @sff #instbllUI
+     */
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIAdtionMbp(list, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(list, JComponfnt.WHEN_FOCUSED, null);
+    }
+
+
+    /**
+     * Crfbtfs bnd instblls tif listfnfrs for tif JList, its modfl, bnd its
+     * sflfdtionModfl.  Tiis mftiod is dbllfd bt instbllUI() timf.
+     *
+     * @sff #instbllUI
+     * @sff #uninstbllListfnfrs
+     */
+    protfdtfd void instbllListfnfrs()
+    {
+        TrbnsffrHbndlfr ti = list.gftTrbnsffrHbndlfr();
+        if (ti == null || ti instbndfof UIRfsourdf) {
+            list.sftTrbnsffrHbndlfr(dffbultTrbnsffrHbndlfr);
+            // dffbult TrbnsffrHbndlfr dofsn't support drop
+            // so wf don't wbnt drop ibndling
+            if (list.gftDropTbrgft() instbndfof UIRfsourdf) {
+                list.sftDropTbrgft(null);
+            }
+        }
+
+        fodusListfnfr = drfbtfFodusListfnfr();
+        mousfInputListfnfr = drfbtfMousfInputListfnfr();
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        listSflfdtionListfnfr = drfbtfListSflfdtionListfnfr();
+        listDbtbListfnfr = drfbtfListDbtbListfnfr();
+
+        list.bddFodusListfnfr(fodusListfnfr);
+        list.bddMousfListfnfr(mousfInputListfnfr);
+        list.bddMousfMotionListfnfr(mousfInputListfnfr);
+        list.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        list.bddKfyListfnfr(gftHbndlfr());
+
+        ListModfl<Objfdt> modfl = list.gftModfl();
+        if (modfl != null) {
+            modfl.bddListDbtbListfnfr(listDbtbListfnfr);
+        }
+
+        ListSflfdtionModfl sflfdtionModfl = list.gftSflfdtionModfl();
+        if (sflfdtionModfl != null) {
+            sflfdtionModfl.bddListSflfdtionListfnfr(listSflfdtionListfnfr);
+        }
+    }
+
+
+    /**
+     * Rfmovfs tif listfnfrs from tif JList, its modfl, bnd its
+     * sflfdtionModfl.  All of tif listfnfr fiflds, brf rfsft to
+     * null ifrf.  Tiis mftiod is dbllfd bt uninstbllUI() timf,
+     * it siould bf kfpt in synd witi instbllListfnfrs.
+     *
+     * @sff #uninstbllUI
+     * @sff #instbllListfnfrs
+     */
+    protfdtfd void uninstbllListfnfrs()
+    {
+        list.rfmovfFodusListfnfr(fodusListfnfr);
+        list.rfmovfMousfListfnfr(mousfInputListfnfr);
+        list.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        list.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        list.rfmovfKfyListfnfr(gftHbndlfr());
+
+        ListModfl<Objfdt> modfl = list.gftModfl();
+        if (modfl != null) {
+            modfl.rfmovfListDbtbListfnfr(listDbtbListfnfr);
+        }
+
+        ListSflfdtionModfl sflfdtionModfl = list.gftSflfdtionModfl();
+        if (sflfdtionModfl != null) {
+            sflfdtionModfl.rfmovfListSflfdtionListfnfr(listSflfdtionListfnfr);
+        }
+
+        fodusListfnfr = null;
+        mousfInputListfnfr  = null;
+        listSflfdtionListfnfr = null;
+        listDbtbListfnfr = null;
+        propfrtyCibngfListfnfr = null;
+        ibndlfr = null;
+    }
+
+
+    /**
+     * Initiblizfs list propfrtifs sudi bs font, forfground, bnd bbdkground,
+     * bnd bdds tif CfllRfndfrfrPbnf. Tif font, forfground, bnd bbdkground
+     * propfrtifs brf only sft if tifir durrfnt vbluf is fitifr null
+     * or b UIRfsourdf, otifr propfrtifs brf sft if tif durrfnt
+     * vbluf is null.
+     *
+     * @sff #uninstbllDffbults
+     * @sff #instbllUI
+     * @sff CfllRfndfrfrPbnf
+     */
+    protfdtfd void instbllDffbults()
+    {
+        list.sftLbyout(null);
+
+        LookAndFffl.instbllBordfr(list, "List.bordfr");
+
+        LookAndFffl.instbllColorsAndFont(list, "List.bbdkground", "List.forfground", "List.font");
+
+        LookAndFffl.instbllPropfrty(list, "opbquf", Boolfbn.TRUE);
+
+        if (list.gftCfllRfndfrfr() == null) {
+            @SupprfssWbrnings("undifdkfd")
+            ListCfllRfndfrfr<Objfdt> tmp = (ListCfllRfndfrfr)(UIMbnbgfr.gft("List.dfllRfndfrfr"));
+            list.sftCfllRfndfrfr(tmp);
+        }
+
+        Color sbg = list.gftSflfdtionBbdkground();
+        if (sbg == null || sbg instbndfof UIRfsourdf) {
+            list.sftSflfdtionBbdkground(UIMbnbgfr.gftColor("List.sflfdtionBbdkground"));
+        }
+
+        Color sfg = list.gftSflfdtionForfground();
+        if (sfg == null || sfg instbndfof UIRfsourdf) {
+            list.sftSflfdtionForfground(UIMbnbgfr.gftColor("List.sflfdtionForfground"));
+        }
+
+        Long l = (Long)UIMbnbgfr.gft("List.timfFbdtor");
+        timfFbdtor = (l!=null) ? l.longVbluf() : 1000L;
+
+        updbtfIsFilfList();
+    }
+
+    privbtf void updbtfIsFilfList() {
+        boolfbn b = Boolfbn.TRUE.fqubls(list.gftClifntPropfrty("List.isFilfList"));
+        if (b != isFilfList) {
+            isFilfList = b;
+            Font oldFont = list.gftFont();
+            if (oldFont == null || oldFont instbndfof UIRfsourdf) {
+                Font nfwFont = UIMbnbgfr.gftFont(b ? "FilfCioosfr.listFont" : "List.font");
+                if (nfwFont != null && nfwFont != oldFont) {
+                    list.sftFont(nfwFont);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Sfts tif list propfrtifs tibt ibvf not bffn fxpliditly ovfrriddfn to
+     * {@dodf null}. A propfrty is donsidfrfd ovfrriddfn if its durrfnt vbluf
+     * is not b {@dodf UIRfsourdf}.
+     *
+     * @sff #instbllDffbults
+     * @sff #uninstbllUI
+     * @sff CfllRfndfrfrPbnf
+     */
+    protfdtfd void uninstbllDffbults()
+    {
+        LookAndFffl.uninstbllBordfr(list);
+        if (list.gftFont() instbndfof UIRfsourdf) {
+            list.sftFont(null);
+        }
+        if (list.gftForfground() instbndfof UIRfsourdf) {
+            list.sftForfground(null);
+        }
+        if (list.gftBbdkground() instbndfof UIRfsourdf) {
+            list.sftBbdkground(null);
+        }
+        if (list.gftSflfdtionBbdkground() instbndfof UIRfsourdf) {
+            list.sftSflfdtionBbdkground(null);
+        }
+        if (list.gftSflfdtionForfground() instbndfof UIRfsourdf) {
+            list.sftSflfdtionForfground(null);
+        }
+        if (list.gftCfllRfndfrfr() instbndfof UIRfsourdf) {
+            list.sftCfllRfndfrfr(null);
+        }
+        if (list.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            list.sftTrbnsffrHbndlfr(null);
+        }
+    }
+
+
+    /**
+     * Initiblizfs <dodf>tiis.list</dodf> by dblling <dodf>instbllDffbults()</dodf>,
+     * <dodf>instbllListfnfrs()</dodf>, bnd <dodf>instbllKfybobrdAdtions()</dodf>
+     * in ordfr.
+     *
+     * @sff #instbllDffbults
+     * @sff #instbllListfnfrs
+     * @sff #instbllKfybobrdAdtions
+     */
+    publid void instbllUI(JComponfnt d)
+    {
+        @SupprfssWbrnings("undifdkfd")
+        JList<Objfdt> tmp = (JList)d;
+        list = tmp;
+
+        lbyoutOrifntbtion = list.gftLbyoutOrifntbtion();
+
+        rfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+        list.bdd(rfndfrfrPbnf);
+
+        dolumnCount = 1;
+
+        updbtfLbyoutStbtfNffdfd = modflCibngfd;
+        isLfftToRigit = list.gftComponfntOrifntbtion().isLfftToRigit();
+
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
+    }
+
+
+    /**
+     * Uninitiblizfs <dodf>tiis.list</dodf> by dblling <dodf>uninstbllListfnfrs()</dodf>,
+     * <dodf>uninstbllKfybobrdAdtions()</dodf>, bnd <dodf>uninstbllDffbults()</dodf>
+     * in ordfr.  Sfts tiis.list to null.
+     *
+     * @sff #uninstbllListfnfrs
+     * @sff #uninstbllKfybobrdAdtions
+     * @sff #uninstbllDffbults
+     */
+    publid void uninstbllUI(JComponfnt d)
+    {
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        uninstbllKfybobrdAdtions();
+
+        dfllWidti = dfllHfigit = -1;
+        dfllHfigits = null;
+
+        listWidti = listHfigit = -1;
+
+        list.rfmovf(rfndfrfrPbnf);
+        rfndfrfrPbnf = null;
+        list = null;
+    }
+
+
+    /**
+     * Rfturns b nfw instbndf of {@dodf BbsidListUI}.
+     * {@dodf BbsidListUI} dflfgbtfs brf bllodbtfd onf pfr {@dodf JList}.
+     *
+     * @pbrbm list b domponfnt
+     * @rfturn b nfw {@dodf ListUI} implfmfntbtion for tif Windows look bnd fffl.
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt list) {
+        rfturn nfw BbsidListUI();
+    }
+
+
+    /**
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     */
+    publid int lodbtionToIndfx(JList<?> list, Point lodbtion) {
+        mbybfUpdbtfLbyoutStbtf();
+        rfturn donvfrtLodbtionToModfl(lodbtion.x, lodbtion.y);
+    }
+
+
+    /**
+     * {@inifritDod}
+     */
+    publid Point indfxToLodbtion(JList<?> list, int indfx) {
+        mbybfUpdbtfLbyoutStbtf();
+        Rfdtbnglf rfdt = gftCfllBounds(list, indfx, indfx);
+
+        if (rfdt != null) {
+            rfturn nfw Point(rfdt.x, rfdt.y);
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * {@inifritDod}
+     */
+    publid Rfdtbnglf gftCfllBounds(JList<?> list, int indfx1, int indfx2) {
+        mbybfUpdbtfLbyoutStbtf();
+
+        int minIndfx = Mbti.min(indfx1, indfx2);
+        int mbxIndfx = Mbti.mbx(indfx1, indfx2);
+
+        if (minIndfx >= list.gftModfl().gftSizf()) {
+            rfturn null;
+        }
+
+        Rfdtbnglf minBounds = gftCfllBounds(list, minIndfx);
+
+        if (minBounds == null) {
+            rfturn null;
+        }
+        if (minIndfx == mbxIndfx) {
+            rfturn minBounds;
+        }
+        Rfdtbnglf mbxBounds = gftCfllBounds(list, mbxIndfx);
+
+        if (mbxBounds != null) {
+            if (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP) {
+                int minRow = donvfrtModflToRow(minIndfx);
+                int mbxRow = donvfrtModflToRow(mbxIndfx);
+
+                if (minRow != mbxRow) {
+                    minBounds.x = 0;
+                    minBounds.widti = list.gftWidti();
+                }
+            }
+            flsf if (minBounds.x != mbxBounds.x) {
+                // Difffrfnt dolumns
+                minBounds.y = 0;
+                minBounds.ifigit = list.gftHfigit();
+            }
+            minBounds.bdd(mbxBounds);
+        }
+        rfturn minBounds;
+    }
+
+    /**
+     * Gfts tif bounds of tif spfdififd modfl indfx, rfturning tif rfsulting
+     * bounds, or null if <dodf>indfx</dodf> is not vblid.
+     */
+    privbtf Rfdtbnglf gftCfllBounds(JList<?> list, int indfx) {
+        mbybfUpdbtfLbyoutStbtf();
+
+        int row = donvfrtModflToRow(indfx);
+        int dolumn = donvfrtModflToColumn(indfx);
+
+        if (row == -1 || dolumn == -1) {
+            rfturn null;
+        }
+
+        Insfts insfts = list.gftInsfts();
+        int x;
+        int w = dfllWidti;
+        int y = insfts.top;
+        int i;
+        switdi (lbyoutOrifntbtion) {
+        dbsf JList.VERTICAL_WRAP:
+        dbsf JList.HORIZONTAL_WRAP:
+            if (isLfftToRigit) {
+                x = insfts.lfft + dolumn * dfllWidti;
+            } flsf {
+                x = list.gftWidti() - insfts.rigit - (dolumn+1) * dfllWidti;
+            }
+            y += dfllHfigit * row;
+            i = dfllHfigit;
+            brfbk;
+        dffbult:
+            x = insfts.lfft;
+            if (dfllHfigits == null) {
+                y += (dfllHfigit * row);
+            }
+            flsf if (row >= dfllHfigits.lfngti) {
+                y = 0;
+            }
+            flsf {
+                for(int i = 0; i < row; i++) {
+                    y += dfllHfigits[i];
+                }
+            }
+            w = list.gftWidti() - (insfts.lfft + insfts.rigit);
+            i = gftRowHfigit(indfx);
+            brfbk;
+        }
+        rfturn nfw Rfdtbnglf(x, y, w, i);
+    }
+
+    /**
+     * Rfturns tif ifigit of tif spfdififd row bbsfd on tif durrfnt lbyout.
+     *
+     * @pbrbm row b row
+     * @rfturn tif spfdififd row ifigit or -1 if row isn't vblid
+     * @sff #donvfrtYToRow
+     * @sff #donvfrtRowToY
+     * @sff #updbtfLbyoutStbtf
+     */
+    protfdtfd int gftRowHfigit(int row)
+    {
+        rfturn gftHfigit(0, row);
+    }
+
+
+    /**
+     * Convfrt tif {@dodf JList} rflbtivf doordinbtf to tif row tibt dontbins it,
+     * bbsfd on tif durrfnt lbyout. If {@dodf y0} dofsn't fbll witiin bny row,
+     * rfturn -1.
+     *
+     * @pbrbm y0 b rflbtivf Y doordinbtf
+     * @rfturn tif row tibt dontbins y0, or -1
+     * @sff #gftRowHfigit
+     * @sff #updbtfLbyoutStbtf
+     */
+    protfdtfd int donvfrtYToRow(int y0)
+    {
+        rfturn donvfrtLodbtionToRow(0, y0, fblsf);
+    }
+
+
+    /**
+     * Rfturn tif {@dodf JList} rflbtivf Y doordinbtf of tif origin of tif spfdififd
+     * row or -1 if row isn't vblid.
+     *
+     * @pbrbm row b row
+     * @rfturn tif Y doordinbtf of tif origin of row, or -1
+     * @sff #gftRowHfigit
+     * @sff #updbtfLbyoutStbtf
+     */
+    protfdtfd int donvfrtRowToY(int row)
+    {
+        if (row >= gftRowCount(0) || row < 0) {
+            rfturn -1;
+        }
+        Rfdtbnglf bounds = gftCfllBounds(list, row, row);
+        rfturn bounds.y;
+    }
+
+    /**
+     * Rfturns tif ifigit of tif dfll bt tif pbssfd in lodbtion.
+     */
+    privbtf int gftHfigit(int dolumn, int row) {
+        if (dolumn < 0 || dolumn > dolumnCount || row < 0) {
+            rfturn -1;
+        }
+        if (lbyoutOrifntbtion != JList.VERTICAL) {
+            rfturn dfllHfigit;
+        }
+        if (row >= list.gftModfl().gftSizf()) {
+            rfturn -1;
+        }
+        rfturn (dfllHfigits == null) ? dfllHfigit :
+                           ((row < dfllHfigits.lfngti) ? dfllHfigits[row] : -1);
+    }
+
+    /**
+     * Rfturns tif row bt lodbtion x/y.
+     *
+     * @pbrbm dlosfst If truf bnd tif lodbtion dofsn't fxbdtly mbtdi b
+     *                pbrtidulbr lodbtion, tiis will rfturn tif dlosfst row.
+     */
+    privbtf int donvfrtLodbtionToRow(int x, int y0, boolfbn dlosfst) {
+        int sizf = list.gftModfl().gftSizf();
+
+        if (sizf <= 0) {
+            rfturn -1;
+        }
+        Insfts insfts = list.gftInsfts();
+        if (dfllHfigits == null) {
+            int row = (dfllHfigit == 0) ? 0 :
+                           ((y0 - insfts.top) / dfllHfigit);
+            if (dlosfst) {
+                if (row < 0) {
+                    row = 0;
+                }
+                flsf if (row >= sizf) {
+                    row = sizf - 1;
+                }
+            }
+            rfturn row;
+        }
+        flsf if (sizf > dfllHfigits.lfngti) {
+            rfturn -1;
+        }
+        flsf {
+            int y = insfts.top;
+            int row = 0;
+
+            if (dlosfst && y0 < y) {
+                rfturn 0;
+            }
+            int i;
+            for (i = 0; i < sizf; i++) {
+                if ((y0 >= y) && (y0 < y + dfllHfigits[i])) {
+                    rfturn row;
+                }
+                y += dfllHfigits[i];
+                row += 1;
+            }
+            rfturn i - 1;
+        }
+    }
+
+    /**
+     * Rfturns tif dlosfst row tibt stbrts bt tif spfdififd y-lodbtion
+     * in tif pbssfd in dolumn.
+     */
+    privbtf int donvfrtLodbtionToRowInColumn(int y, int dolumn) {
+        int x = 0;
+
+        if (lbyoutOrifntbtion != JList.VERTICAL) {
+            if (isLfftToRigit) {
+                x = dolumn * dfllWidti;
+            } flsf {
+                x = list.gftWidti() - (dolumn+1)*dfllWidti - list.gftInsfts().rigit;
+            }
+        }
+        rfturn donvfrtLodbtionToRow(x, y, truf);
+    }
+
+    /**
+     * Rfturns tif dlosfst lodbtion to tif modfl indfx of tif pbssfd in
+     * lodbtion.
+     */
+    privbtf int donvfrtLodbtionToModfl(int x, int y) {
+        int row = donvfrtLodbtionToRow(x, y, truf);
+        int dolumn = donvfrtLodbtionToColumn(x, y);
+
+        if (row >= 0 && dolumn >= 0) {
+            rfturn gftModflIndfx(dolumn, row);
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns tif numbfr of rows in tif givfn dolumn.
+     */
+    privbtf int gftRowCount(int dolumn) {
+        if (dolumn < 0 || dolumn >= dolumnCount) {
+            rfturn -1;
+        }
+        if (lbyoutOrifntbtion == JList.VERTICAL ||
+                  (dolumn == 0 && dolumnCount == 1)) {
+            rfturn list.gftModfl().gftSizf();
+        }
+        if (dolumn >= dolumnCount) {
+            rfturn -1;
+        }
+        if (lbyoutOrifntbtion == JList.VERTICAL_WRAP) {
+            if (dolumn < (dolumnCount - 1)) {
+                rfturn rowsPfrColumn;
+            }
+            rfturn list.gftModfl().gftSizf() - (dolumnCount - 1) *
+                        rowsPfrColumn;
+        }
+        // JList.HORIZONTAL_WRAP
+        int diff = dolumnCount - (dolumnCount * rowsPfrColumn -
+                                  list.gftModfl().gftSizf());
+
+        if (dolumn >= diff) {
+            rfturn Mbti.mbx(0, rowsPfrColumn - 1);
+        }
+        rfturn rowsPfrColumn;
+    }
+
+    /**
+     * Rfturns tif modfl indfx for tif spfdififd displby lodbtion.
+     * If <dodf>dolumn</dodf>x<dodf>row</dodf> is bfyond tif lfngti of tif
+     * modfl, tiis will rfturn tif modfl sizf - 1.
+     */
+    privbtf int gftModflIndfx(int dolumn, int row) {
+        switdi (lbyoutOrifntbtion) {
+        dbsf JList.VERTICAL_WRAP:
+            rfturn Mbti.min(list.gftModfl().gftSizf() - 1, rowsPfrColumn *
+                            dolumn + Mbti.min(row, rowsPfrColumn-1));
+        dbsf JList.HORIZONTAL_WRAP:
+            rfturn Mbti.min(list.gftModfl().gftSizf() - 1, row * dolumnCount +
+                            dolumn);
+        dffbult:
+            rfturn row;
+        }
+    }
+
+    /**
+     * Rfturns tif dlosfst dolumn to tif pbssfd in lodbtion.
+     */
+    privbtf int donvfrtLodbtionToColumn(int x, int y) {
+        if (dfllWidti > 0) {
+            if (lbyoutOrifntbtion == JList.VERTICAL) {
+                rfturn 0;
+            }
+            Insfts insfts = list.gftInsfts();
+            int dol;
+            if (isLfftToRigit) {
+                dol = (x - insfts.lfft) / dfllWidti;
+            } flsf {
+                dol = (list.gftWidti() - x - insfts.rigit - 1) / dfllWidti;
+            }
+            if (dol < 0) {
+                rfturn 0;
+            }
+            flsf if (dol >= dolumnCount) {
+                rfturn dolumnCount - 1;
+            }
+            rfturn dol;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns tif row tibt tif modfl indfx <dodf>indfx</dodf> will bf
+     * displbyfd in..
+     */
+    privbtf int donvfrtModflToRow(int indfx) {
+        int sizf = list.gftModfl().gftSizf();
+
+        if ((indfx < 0) || (indfx >= sizf)) {
+            rfturn -1;
+        }
+
+        if (lbyoutOrifntbtion != JList.VERTICAL && dolumnCount > 1 &&
+                                                   rowsPfrColumn > 0) {
+            if (lbyoutOrifntbtion == JList.VERTICAL_WRAP) {
+                rfturn indfx % rowsPfrColumn;
+            }
+            rfturn indfx / dolumnCount;
+        }
+        rfturn indfx;
+    }
+
+    /**
+     * Rfturns tif dolumn tibt tif modfl indfx <dodf>indfx</dodf> will bf
+     * displbyfd in.
+     */
+    privbtf int donvfrtModflToColumn(int indfx) {
+        int sizf = list.gftModfl().gftSizf();
+
+        if ((indfx < 0) || (indfx >= sizf)) {
+            rfturn -1;
+        }
+
+        if (lbyoutOrifntbtion != JList.VERTICAL && rowsPfrColumn > 0 &&
+                                                   dolumnCount > 1) {
+            if (lbyoutOrifntbtion == JList.VERTICAL_WRAP) {
+                rfturn indfx / rowsPfrColumn;
+            }
+            rfturn indfx % dolumnCount;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * If updbtfLbyoutStbtfNffdfd is non zfro, dbll updbtfLbyoutStbtf() bnd rfsft
+     * updbtfLbyoutStbtfNffdfd.  Tiis mftiod siould bf dbllfd by mftiods
+     * bfforf doing bny domputbtion bbsfd on tif gfomftry of tif list.
+     * For fxbmplf it's tif first dbll in pbint() bnd gftPrfffrrfdSizf().
+     *
+     * @sff #updbtfLbyoutStbtf
+     */
+    protfdtfd void mbybfUpdbtfLbyoutStbtf()
+    {
+        if (updbtfLbyoutStbtfNffdfd != 0) {
+            updbtfLbyoutStbtf();
+            updbtfLbyoutStbtfNffdfd = 0;
+        }
+    }
+
+
+    /**
+     * Rfdomputf tif vbluf of dfllHfigit or dfllHfigits bbsfd
+     * bnd dfllWidti, bbsfd on tif durrfnt font bnd tif durrfnt
+     * vblufs of fixfdCfllWidti, fixfdCfllHfigit, bnd prototypfCfllVbluf.
+     *
+     * @sff #mbybfUpdbtfLbyoutStbtf
+     */
+    protfdtfd void updbtfLbyoutStbtf()
+    {
+        /* If boti JList fixfdCfllWidti bnd fixfdCfllHfigit ibvf bffn
+         * sft, tifn initiblizf dfllWidti bnd dfllHfigit, bnd sft
+         * dfllHfigits to null.
+         */
+
+        int fixfdCfllHfigit = list.gftFixfdCfllHfigit();
+        int fixfdCfllWidti = list.gftFixfdCfllWidti();
+
+        dfllWidti = (fixfdCfllWidti != -1) ? fixfdCfllWidti : -1;
+
+        if (fixfdCfllHfigit != -1) {
+            dfllHfigit = fixfdCfllHfigit;
+            dfllHfigits = null;
+        }
+        flsf {
+            dfllHfigit = -1;
+            dfllHfigits = nfw int[list.gftModfl().gftSizf()];
+        }
+
+        /* If fitifr of  JList fixfdCfllWidti bnd fixfdCfllHfigit ibvfn't
+         * bffn sft, tifn initiblizf dfllWidti bnd dfllHfigits by
+         * sdbnning tirougi tif fntirf modfl.  Notf: if tif rfndfrfr is
+         * null, wf just sft dfllWidti bnd dfllHfigits[*] to zfro,
+         * if tify'rf not sft blrfbdy.
+         */
+
+        if ((fixfdCfllWidti == -1) || (fixfdCfllHfigit == -1)) {
+
+            ListModfl<Objfdt> dbtbModfl = list.gftModfl();
+            int dbtbModflSizf = dbtbModfl.gftSizf();
+            ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+
+            if (rfndfrfr != null) {
+                for(int indfx = 0; indfx < dbtbModflSizf; indfx++) {
+                    Objfdt vbluf = dbtbModfl.gftElfmfntAt(indfx);
+                    Componfnt d = rfndfrfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx, fblsf, fblsf);
+                    rfndfrfrPbnf.bdd(d);
+                    Dimfnsion dfllSizf = d.gftPrfffrrfdSizf();
+                    if (fixfdCfllWidti == -1) {
+                        dfllWidti = Mbti.mbx(dfllSizf.widti, dfllWidti);
+                    }
+                    if (fixfdCfllHfigit == -1) {
+                        dfllHfigits[indfx] = dfllSizf.ifigit;
+                    }
+                }
+            }
+            flsf {
+                if (dfllWidti == -1) {
+                    dfllWidti = 0;
+                }
+                if (dfllHfigits == null) {
+                    dfllHfigits = nfw int[dbtbModflSizf];
+                }
+                for(int indfx = 0; indfx < dbtbModflSizf; indfx++) {
+                    dfllHfigits[indfx] = 0;
+                }
+            }
+        }
+
+        dolumnCount = 1;
+        if (lbyoutOrifntbtion != JList.VERTICAL) {
+            updbtfHorizontblLbyoutStbtf(fixfdCfllWidti, fixfdCfllHfigit);
+        }
+    }
+
+    /**
+     * Invokfd wifn tif list is lbyfd out iorizontblly to dftfrminf iow
+     * mbny dolumns to drfbtf.
+     * <p>
+     * Tiis updbtfs tif <dodf>rowsPfrColumn, </dodf><dodf>dolumnCount</dodf>,
+     * <dodf>prfffrrfdHfigit</dodf> bnd potfntiblly <dodf>dfllHfigit</dodf>
+     * instbndf vbribblfs.
+     */
+    privbtf void updbtfHorizontblLbyoutStbtf(int fixfdCfllWidti,
+                                             int fixfdCfllHfigit) {
+        int visRows = list.gftVisiblfRowCount();
+        int dbtbModflSizf = list.gftModfl().gftSizf();
+        Insfts insfts = list.gftInsfts();
+
+        listHfigit = list.gftHfigit();
+        listWidti = list.gftWidti();
+
+        if (dbtbModflSizf == 0) {
+            rowsPfrColumn = dolumnCount = 0;
+            prfffrrfdHfigit = insfts.top + insfts.bottom;
+            rfturn;
+        }
+
+        int ifigit;
+
+        if (fixfdCfllHfigit != -1) {
+            ifigit = fixfdCfllHfigit;
+        }
+        flsf {
+            // Dftfrminf tif mbx of tif rfndfrfr ifigits.
+            int mbxHfigit = 0;
+            if (dfllHfigits.lfngti > 0) {
+                mbxHfigit = dfllHfigits[dfllHfigits.lfngti - 1];
+                for (int dountfr = dfllHfigits.lfngti - 2;
+                     dountfr >= 0; dountfr--) {
+                    mbxHfigit = Mbti.mbx(mbxHfigit, dfllHfigits[dountfr]);
+                }
+            }
+            ifigit = dfllHfigit = mbxHfigit;
+            dfllHfigits = null;
+        }
+        // Tif numbfr of rows is fitifr dftfrminfd by tif visiblf row
+        // dount, or by tif ifigit of tif list.
+        rowsPfrColumn = dbtbModflSizf;
+        if (visRows > 0) {
+            rowsPfrColumn = visRows;
+            dolumnCount = Mbti.mbx(1, dbtbModflSizf / rowsPfrColumn);
+            if (dbtbModflSizf > 0 && dbtbModflSizf > rowsPfrColumn &&
+                dbtbModflSizf % rowsPfrColumn != 0) {
+                dolumnCount++;
+            }
+            if (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP) {
+                // Bfdbusf HORIZONTAL_WRAP flows difffrfntly, tif
+                // rowsPfrColumn nffds to bf bdjustfd.
+                rowsPfrColumn = (dbtbModflSizf / dolumnCount);
+                if (dbtbModflSizf % dolumnCount > 0) {
+                    rowsPfrColumn++;
+                }
+            }
+        }
+        flsf if (lbyoutOrifntbtion == JList.VERTICAL_WRAP && ifigit != 0) {
+            rowsPfrColumn = Mbti.mbx(1, (listHfigit - insfts.top -
+                                         insfts.bottom) / ifigit);
+            dolumnCount = Mbti.mbx(1, dbtbModflSizf / rowsPfrColumn);
+            if (dbtbModflSizf > 0 && dbtbModflSizf > rowsPfrColumn &&
+                dbtbModflSizf % rowsPfrColumn != 0) {
+                dolumnCount++;
+            }
+        }
+        flsf if (lbyoutOrifntbtion == JList.HORIZONTAL_WRAP && dfllWidti > 0 &&
+                 listWidti > 0) {
+            dolumnCount = Mbti.mbx(1, (listWidti - insfts.lfft -
+                                       insfts.rigit) / dfllWidti);
+            rowsPfrColumn = dbtbModflSizf / dolumnCount;
+            if (dbtbModflSizf % dolumnCount > 0) {
+                rowsPfrColumn++;
+            }
+        }
+        prfffrrfdHfigit = rowsPfrColumn * dfllHfigit + insfts.top +
+                              insfts.bottom;
+    }
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
+        }
+        rfturn ibndlfr;
+    }
+
+    /**
+     * Mousf input, bnd fodus ibndling for JList.  An instbndf of tiis
+     * dlbss is bddfd to tif bppropribtf jbvb.bwt.Componfnt lists
+     * bt instbllUI() timf.  Notf kfybobrd input is ibndlfd witi JComponfnt
+     * KfybobrdAdtions, sff instbllKfybobrdAdtions().
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     *
+     * @sff #drfbtfMousfInputListfnfr
+     * @sff #instbllKfybobrdAdtions
+     * @sff #instbllUI
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr
+    {
+        publid void mousfClidkfd(MousfEvfnt f) {
+            gftHbndlfr().mousfClidkfd(f);
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            gftHbndlfr().mousfEntfrfd(f);
+        }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+            gftHbndlfr().mousfExitfd(f);
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            gftHbndlfr().mousfPrfssfd(f);
+        }
+
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            gftHbndlfr().mousfDrbggfd(f);
+        }
+
+        publid void mousfMovfd(MousfEvfnt f) {
+            gftHbndlfr().mousfMovfd(f);
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            gftHbndlfr().mousfRflfbsfd(f);
+        }
+    }
+
+
+    /**
+     * Crfbtfs b dflfgbtf tibt implfmfnts {@dodf MousfInputListfnfr}.
+     * Tif dflfgbtf is bddfd to tif dorrfsponding {@dodf jbvb.bwt.Componfnt} listfnfr
+     * lists bt {@dodf instbllUI()} timf. Subdlbssfs dbn ovfrridf tiis mftiod to rfturn
+     * b dustom {@dodf MousfInputListfnfr}, f.g.
+     * <prf>
+     * dlbss MyListUI fxtfnds BbsidListUI {
+     *    protfdtfd MousfInputListfnfr <b>drfbtfMousfInputListfnfr</b>() {
+     *        rfturn nfw MyMousfInputHbndlfr();
+     *    }
+     *    publid dlbss MyMousfInputHbndlfr fxtfnds MousfInputHbndlfr {
+     *        publid void mousfMovfd(MousfEvfnt f) {
+     *            // do somf fxtrb work wifn tif mousf movfs
+     *            supfr.mousfMovfd(f);
+     *        }
+     *    }
+     * }
+     * </prf>
+     *
+     * @rfturn bn instbndf of {@dodf MousfInputListfnfr}
+     * @sff MousfInputHbndlfr
+     * @sff #instbllUI
+     */
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidListUI}.
+     */
+    publid dlbss FodusHbndlfr implfmfnts FodusListfnfr
+    {
+        /**
+         * Rfpbints fodusfd dflls.
+         */
+        protfdtfd void rfpbintCfllFodus()
+        {
+            gftHbndlfr().rfpbintCfllFodus();
+        }
+
+        /* Tif fodusGbinfd() fodusLost() mftiods run wifn tif JList
+         * fodus dibngfs.
+         */
+
+        publid void fodusGbinfd(FodusEvfnt f) {
+            gftHbndlfr().fodusGbinfd(f);
+        }
+
+        publid void fodusLost(FodusEvfnt f) {
+            gftHbndlfr().fodusLost(f);
+        }
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf FodusListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf FodusListfnfr}
+     */
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Tif ListSflfdtionListfnfr tibt's bddfd to tif JLists sflfdtion
+     * modfl bt instbllUI timf, bnd wifnfvfr tif JList.sflfdtionModfl propfrty
+     * dibngfs.  Wifn tif sflfdtion dibngfs wf rfpbint tif bfffdtfd rows.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     *
+     * @sff #drfbtfListSflfdtionListfnfr
+     * @sff #gftCfllBounds
+     * @sff #instbllUI
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss ListSflfdtionHbndlfr implfmfnts ListSflfdtionListfnfr
+    {
+        publid void vblufCibngfd(ListSflfdtionEvfnt f)
+        {
+            gftHbndlfr().vblufCibngfd(f);
+        }
+    }
+
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf ListSflfdtionHbndlfr} tibt's bddfd to
+     * tif {@dodf JLists} by sflfdtionModfl bs nffdfd.  Subdlbssfs dbn ovfrridf
+     * tiis mftiod to rfturn b dustom {@dodf ListSflfdtionListfnfr}, f.g.
+     * <prf>
+     * dlbss MyListUI fxtfnds BbsidListUI {
+     *    protfdtfd ListSflfdtionListfnfr <b>drfbtfListSflfdtionListfnfr</b>() {
+     *        rfturn nfw MySflfdtionListfnfr();
+     *    }
+     *    publid dlbss MySflfdtionListfnfr fxtfnds ListSflfdtionHbndlfr {
+     *        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+     *            // do somf fxtrb work wifn tif sflfdtion dibngfs
+     *            supfr.vblufCibngf(f);
+     *        }
+     *    }
+     * }
+     * </prf>
+     *
+     * @rfturn bn instbndf of {@dodf ListSflfdtionHbndlfr}
+     * @sff ListSflfdtionHbndlfr
+     * @sff #instbllUI
+     */
+    protfdtfd ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+
+    privbtf void rfdrbwList() {
+        list.rfvblidbtf();
+        list.rfpbint();
+    }
+
+
+    /**
+     * Tif {@dodf ListDbtbListfnfr} tibt's bddfd to tif {@dodf JLists} modfl bt
+     * {@dodf instbllUI timf}, bnd wifnfvfr tif JList.modfl propfrty dibngfs.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     *
+     * @sff JList#gftModfl
+     * @sff #mbybfUpdbtfLbyoutStbtf
+     * @sff #drfbtfListDbtbListfnfr
+     * @sff #instbllUI
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss ListDbtbHbndlfr implfmfnts ListDbtbListfnfr
+    {
+        publid void intfrvblAddfd(ListDbtbEvfnt f) {
+            gftHbndlfr().intfrvblAddfd(f);
+        }
+
+
+        publid void intfrvblRfmovfd(ListDbtbEvfnt f)
+        {
+            gftHbndlfr().intfrvblRfmovfd(f);
+        }
+
+
+        publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+            gftHbndlfr().dontfntsCibngfd(f);
+        }
+    }
+
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf ListDbtbListfnfr} tibt's bddfd to
+     * tif {@dodf JLists} by modfl bs nffdfd. Subdlbssfs dbn ovfrridf
+     * tiis mftiod to rfturn b dustom {@dodf ListDbtbListfnfr}, f.g.
+     * <prf>
+     * dlbss MyListUI fxtfnds BbsidListUI {
+     *    protfdtfd ListDbtbListfnfr <b>drfbtfListDbtbListfnfr</b>() {
+     *        rfturn nfw MyListDbtbListfnfr();
+     *    }
+     *    publid dlbss MyListDbtbListfnfr fxtfnds ListDbtbHbndlfr {
+     *        publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+     *            // do somf fxtrb work wifn tif modfls dontfnts dibngf
+     *            supfr.dontfntsCibngf(f);
+     *        }
+     *    }
+     * }
+     * </prf>
+     *
+     * @rfturn bn instbndf of {@dodf ListDbtbListfnfr}
+     * @sff ListDbtbListfnfr
+     * @sff JList#gftModfl
+     * @sff #instbllUI
+     */
+    protfdtfd ListDbtbListfnfr drfbtfListDbtbListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+
+    /**
+     * Tif PropfrtyCibngfListfnfr tibt's bddfd to tif JList bt
+     * instbllUI timf.  Wifn tif vbluf of b JList propfrty tibt
+     * bfffdts lbyout dibngfs, wf sft b bit in updbtfLbyoutStbtfNffdfd.
+     * If tif JLists modfl dibngfs wf bdditionblly rfmovf our listfnfrs
+     * from tif old modfl.  Likfwisf for tif JList sflfdtionModfl.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     *
+     * @sff #mbybfUpdbtfLbyoutStbtf
+     * @sff #drfbtfPropfrtyCibngfListfnfr
+     * @sff #instbllUI
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr
+    {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
+        {
+            gftHbndlfr().propfrtyCibngf(f);
+        }
+    }
+
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PropfrtyCibngfHbndlfr} tibt's bddfd to
+     * tif {@dodf JList} by {@dodf instbllUI()}. Subdlbssfs dbn ovfrridf tiis mftiod
+     * to rfturn b dustom {@dodf PropfrtyCibngfListfnfr}, f.g.
+     * <prf>
+     * dlbss MyListUI fxtfnds BbsidListUI {
+     *    protfdtfd PropfrtyCibngfListfnfr <b>drfbtfPropfrtyCibngfListfnfr</b>() {
+     *        rfturn nfw MyPropfrtyCibngfListfnfr();
+     *    }
+     *    publid dlbss MyPropfrtyCibngfListfnfr fxtfnds PropfrtyCibngfHbndlfr {
+     *        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+     *            if (f.gftPropfrtyNbmf().fqubls("modfl")) {
+     *                // do somf fxtrb work wifn tif modfl dibngfs
+     *            }
+     *            supfr.propfrtyCibngf(f);
+     *        }
+     *    }
+     * }
+     * </prf>
+     *
+     * @rfturn bn instbndf of {@dodf PropfrtyCibngfHbndlfr}
+     * @sff PropfrtyCibngfListfnfr
+     * @sff #instbllUI
+     */
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /** Usfd by IndrfmfntLfbdSflfdtionAdtion. Indidbtfs tif bdtion siould
+     * dibngf tif lfbd, bnd not sflfdt it. */
+    privbtf stbtid finbl int CHANGE_LEAD = 0;
+    /** Usfd by IndrfmfntLfbdSflfdtionAdtion. Indidbtfs tif bdtion siould
+     * dibngf tif sflfdtion bnd lfbd. */
+    privbtf stbtid finbl int CHANGE_SELECTION = 1;
+    /** Usfd by IndrfmfntLfbdSflfdtionAdtion. Indidbtfs tif bdtion siould
+     * fxtfnd tif sflfdtion from tif bndior to tif nfxt indfx. */
+    privbtf stbtid finbl int EXTEND_SELECTION = 2;
+
+
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String SELECT_PREVIOUS_COLUMN =
+                                    "sflfdtPrfviousColumn";
+        privbtf stbtid finbl String SELECT_PREVIOUS_COLUMN_EXTEND =
+                                    "sflfdtPrfviousColumnExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_PREVIOUS_COLUMN_CHANGE_LEAD =
+                                    "sflfdtPrfviousColumnCibngfLfbd";
+        privbtf stbtid finbl String SELECT_NEXT_COLUMN = "sflfdtNfxtColumn";
+        privbtf stbtid finbl String SELECT_NEXT_COLUMN_EXTEND =
+                                    "sflfdtNfxtColumnExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_NEXT_COLUMN_CHANGE_LEAD =
+                                    "sflfdtNfxtColumnCibngfLfbd";
+        privbtf stbtid finbl String SELECT_PREVIOUS_ROW = "sflfdtPrfviousRow";
+        privbtf stbtid finbl String SELECT_PREVIOUS_ROW_EXTEND =
+                                     "sflfdtPrfviousRowExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_PREVIOUS_ROW_CHANGE_LEAD =
+                                     "sflfdtPrfviousRowCibngfLfbd";
+        privbtf stbtid finbl String SELECT_NEXT_ROW = "sflfdtNfxtRow";
+        privbtf stbtid finbl String SELECT_NEXT_ROW_EXTEND =
+                                     "sflfdtNfxtRowExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_NEXT_ROW_CHANGE_LEAD =
+                                     "sflfdtNfxtRowCibngfLfbd";
+        privbtf stbtid finbl String SELECT_FIRST_ROW = "sflfdtFirstRow";
+        privbtf stbtid finbl String SELECT_FIRST_ROW_EXTEND =
+                                     "sflfdtFirstRowExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_FIRST_ROW_CHANGE_LEAD =
+                                     "sflfdtFirstRowCibngfLfbd";
+        privbtf stbtid finbl String SELECT_LAST_ROW = "sflfdtLbstRow";
+        privbtf stbtid finbl String SELECT_LAST_ROW_EXTEND =
+                                     "sflfdtLbstRowExtfndSflfdtion";
+        privbtf stbtid finbl String SELECT_LAST_ROW_CHANGE_LEAD =
+                                     "sflfdtLbstRowCibngfLfbd";
+        privbtf stbtid finbl String SCROLL_UP = "sdrollUp";
+        privbtf stbtid finbl String SCROLL_UP_EXTEND =
+                                     "sdrollUpExtfndSflfdtion";
+        privbtf stbtid finbl String SCROLL_UP_CHANGE_LEAD =
+                                     "sdrollUpCibngfLfbd";
+        privbtf stbtid finbl String SCROLL_DOWN = "sdrollDown";
+        privbtf stbtid finbl String SCROLL_DOWN_EXTEND =
+                                     "sdrollDownExtfndSflfdtion";
+        privbtf stbtid finbl String SCROLL_DOWN_CHANGE_LEAD =
+                                     "sdrollDownCibngfLfbd";
+        privbtf stbtid finbl String SELECT_ALL = "sflfdtAll";
+        privbtf stbtid finbl String CLEAR_SELECTION = "dlfbrSflfdtion";
+
+        // bdd tif lfbd itfm to tif sflfdtion witiout dibnging lfbd or bndior
+        privbtf stbtid finbl String ADD_TO_SELECTION = "bddToSflfdtion";
+
+        // togglf tif sflfdtfd stbtf of tif lfbd itfm bnd movf tif bndior to it
+        privbtf stbtid finbl String TOGGLE_AND_ANCHOR = "togglfAndAndior";
+
+        // fxtfnd tif sflfdtion to tif lfbd itfm
+        privbtf stbtid finbl String EXTEND_TO = "fxtfndTo";
+
+        // movf tif bndior to tif lfbd bnd fnsurf only tibt itfm is sflfdtfd
+        privbtf stbtid finbl String MOVE_SELECTION_TO = "movfSflfdtionTo";
+
+        Adtions(String nbmf) {
+            supfr(nbmf);
+        }
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            String nbmf = gftNbmf();
+            @SupprfssWbrnings("undifdkfd")
+            JList<Objfdt> list = (JList)f.gftSourdf();
+            BbsidListUI ui = (BbsidListUI)BbsidLookAndFffl.gftUIOfTypf(
+                     list.gftUI(), BbsidListUI.dlbss);
+
+            if (nbmf == SELECT_PREVIOUS_COLUMN) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtColumnIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_PREVIOUS_COLUMN_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtColumnIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtColumnIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_NEXT_COLUMN) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtColumnIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_NEXT_COLUMN_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtColumnIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_NEXT_COLUMN_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtColumnIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_PREVIOUS_ROW) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_PREVIOUS_ROW_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_PREVIOUS_ROW_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtIndfx(list, ui, -1), -1);
+            }
+            flsf if (nbmf == SELECT_NEXT_ROW) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_NEXT_ROW_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_NEXT_ROW_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtIndfx(list, ui, 1), 1);
+            }
+            flsf if (nbmf == SELECT_FIRST_ROW) {
+                dibngfSflfdtion(list, CHANGE_SELECTION, 0, -1);
+            }
+            flsf if (nbmf == SELECT_FIRST_ROW_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION, 0, -1);
+            }
+            flsf if (nbmf == SELECT_FIRST_ROW_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD, 0, -1);
+            }
+            flsf if (nbmf == SELECT_LAST_ROW) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                list.gftModfl().gftSizf() - 1, 1);
+            }
+            flsf if (nbmf == SELECT_LAST_ROW_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                list.gftModfl().gftSizf() - 1, 1);
+            }
+            flsf if (nbmf == SELECT_LAST_ROW_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                list.gftModfl().gftSizf() - 1, 1);
+            }
+            flsf if (nbmf == SCROLL_UP) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtPbgfIndfx(list, -1), -1);
+            }
+            flsf if (nbmf == SCROLL_UP_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtPbgfIndfx(list, -1), -1);
+            }
+            flsf if (nbmf == SCROLL_UP_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtPbgfIndfx(list, -1), -1);
+            }
+            flsf if (nbmf == SCROLL_DOWN) {
+                dibngfSflfdtion(list, CHANGE_SELECTION,
+                                gftNfxtPbgfIndfx(list, 1), 1);
+            }
+            flsf if (nbmf == SCROLL_DOWN_EXTEND) {
+                dibngfSflfdtion(list, EXTEND_SELECTION,
+                                gftNfxtPbgfIndfx(list, 1), 1);
+            }
+            flsf if (nbmf == SCROLL_DOWN_CHANGE_LEAD) {
+                dibngfSflfdtion(list, CHANGE_LEAD,
+                                gftNfxtPbgfIndfx(list, 1), 1);
+            }
+            flsf if (nbmf == SELECT_ALL) {
+                sflfdtAll(list);
+            }
+            flsf if (nbmf == CLEAR_SELECTION) {
+                dlfbrSflfdtion(list);
+            }
+            flsf if (nbmf == ADD_TO_SELECTION) {
+                int indfx = bdjustIndfx(
+                    list.gftSflfdtionModfl().gftLfbdSflfdtionIndfx(), list);
+
+                if (!list.isSflfdtfdIndfx(indfx)) {
+                    int oldAndior = list.gftSflfdtionModfl().gftAndiorSflfdtionIndfx();
+                    list.sftVblufIsAdjusting(truf);
+                    list.bddSflfdtionIntfrvbl(indfx, indfx);
+                    list.gftSflfdtionModfl().sftAndiorSflfdtionIndfx(oldAndior);
+                    list.sftVblufIsAdjusting(fblsf);
+                }
+            }
+            flsf if (nbmf == TOGGLE_AND_ANCHOR) {
+                int indfx = bdjustIndfx(
+                    list.gftSflfdtionModfl().gftLfbdSflfdtionIndfx(), list);
+
+                if (list.isSflfdtfdIndfx(indfx)) {
+                    list.rfmovfSflfdtionIntfrvbl(indfx, indfx);
+                } flsf {
+                    list.bddSflfdtionIntfrvbl(indfx, indfx);
+                }
+            }
+            flsf if (nbmf == EXTEND_TO) {
+                dibngfSflfdtion(
+                    list, EXTEND_SELECTION,
+                    bdjustIndfx(list.gftSflfdtionModfl().gftLfbdSflfdtionIndfx(), list),
+                    0);
+            }
+            flsf if (nbmf == MOVE_SELECTION_TO) {
+                dibngfSflfdtion(
+                    list, CHANGE_SELECTION,
+                    bdjustIndfx(list.gftSflfdtionModfl().gftLfbdSflfdtionIndfx(), list),
+                    0);
+            }
+        }
+
+        publid boolfbn isEnbblfd(Objfdt d) {
+            Objfdt nbmf = gftNbmf();
+            if (nbmf == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD ||
+                    nbmf == SELECT_NEXT_COLUMN_CHANGE_LEAD ||
+                    nbmf == SELECT_PREVIOUS_ROW_CHANGE_LEAD ||
+                    nbmf == SELECT_NEXT_ROW_CHANGE_LEAD ||
+                    nbmf == SELECT_FIRST_ROW_CHANGE_LEAD ||
+                    nbmf == SELECT_LAST_ROW_CHANGE_LEAD ||
+                    nbmf == SCROLL_UP_CHANGE_LEAD ||
+                    nbmf == SCROLL_DOWN_CHANGE_LEAD) {
+
+                // disdontinuous sflfdtion bdtions brf only fnbblfd for
+                // DffbultListSflfdtionModfl
+                rfturn d != null && ((JList)d).gftSflfdtionModfl()
+                                        instbndfof DffbultListSflfdtionModfl;
+            }
+
+            rfturn truf;
+        }
+
+        privbtf void dlfbrSflfdtion(JList<?> list) {
+            list.dlfbrSflfdtion();
+        }
+
+        privbtf void sflfdtAll(JList<?> list) {
+            int sizf = list.gftModfl().gftSizf();
+            if (sizf > 0) {
+                ListSflfdtionModfl lsm = list.gftSflfdtionModfl();
+                int lfbd = bdjustIndfx(lsm.gftLfbdSflfdtionIndfx(), list);
+
+                if (lsm.gftSflfdtionModf() == ListSflfdtionModfl.SINGLE_SELECTION) {
+                    if (lfbd == -1) {
+                        int min = bdjustIndfx(list.gftMinSflfdtionIndfx(), list);
+                        lfbd = (min == -1 ? 0 : min);
+                    }
+
+                    list.sftSflfdtionIntfrvbl(lfbd, lfbd);
+                    list.fnsurfIndfxIsVisiblf(lfbd);
+                } flsf {
+                    list.sftVblufIsAdjusting(truf);
+
+                    int bndior = bdjustIndfx(lsm.gftAndiorSflfdtionIndfx(), list);
+
+                    list.sftSflfdtionIntfrvbl(0, sizf - 1);
+
+                    // tiis is donf to rfstorf tif bndior bnd lfbd
+                    SwingUtilitifs2.sftLfbdAndiorWitioutSflfdtion(lsm, bndior, lfbd);
+
+                    list.sftVblufIsAdjusting(fblsf);
+                }
+            }
+        }
+
+        privbtf int gftNfxtPbgfIndfx(JList<?> list, int dirfdtion) {
+            if (list.gftModfl().gftSizf() == 0) {
+                rfturn -1;
+            }
+
+            int indfx = -1;
+            Rfdtbnglf visRfdt = list.gftVisiblfRfdt();
+            ListSflfdtionModfl lsm = list.gftSflfdtionModfl();
+            int lfbd = bdjustIndfx(lsm.gftLfbdSflfdtionIndfx(), list);
+            Rfdtbnglf lfbdRfdt =
+                (lfbd==-1) ? nfw Rfdtbnglf() : list.gftCfllBounds(lfbd, lfbd);
+
+            if (list.gftLbyoutOrifntbtion() == JList.VERTICAL_WRAP &&
+                list.gftVisiblfRowCount() <= 0) {
+                if (!list.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    dirfdtion = -dirfdtion;
+                }
+                // bpply for iorizontbl sdrolling: tif stfp for nfxt
+                // pbgf indfx is numbfr of visiblf dolumns
+                if (dirfdtion < 0) {
+                    // lfft
+                    visRfdt.x = lfbdRfdt.x + lfbdRfdt.widti - visRfdt.widti;
+                    Point p = nfw Point(visRfdt.x - 1, lfbdRfdt.y);
+                    indfx = list.lodbtionToIndfx(p);
+                    Rfdtbnglf dfllBounds = list.gftCfllBounds(indfx, indfx);
+                    if (visRfdt.intfrsfdts(dfllBounds)) {
+                        p.x = dfllBounds.x - 1;
+                        indfx = list.lodbtionToIndfx(p);
+                        dfllBounds = list.gftCfllBounds(indfx, indfx);
+                    }
+                    // tiis is nfdfssbry for rigit-to-lfft orifntbtion only
+                    if (dfllBounds.y != lfbdRfdt.y) {
+                        p.x = dfllBounds.x + dfllBounds.widti;
+                        indfx = list.lodbtionToIndfx(p);
+                    }
+                }
+                flsf {
+                    // rigit
+                    visRfdt.x = lfbdRfdt.x;
+                    Point p = nfw Point(visRfdt.x + visRfdt.widti, lfbdRfdt.y);
+                    indfx = list.lodbtionToIndfx(p);
+                    Rfdtbnglf dfllBounds = list.gftCfllBounds(indfx, indfx);
+                    if (visRfdt.intfrsfdts(dfllBounds)) {
+                        p.x = dfllBounds.x + dfllBounds.widti;
+                        indfx = list.lodbtionToIndfx(p);
+                        dfllBounds = list.gftCfllBounds(indfx, indfx);
+                    }
+                    if (dfllBounds.y != lfbdRfdt.y) {
+                        p.x = dfllBounds.x - 1;
+                        indfx = list.lodbtionToIndfx(p);
+                    }
+                }
+            }
+            flsf {
+                if (dirfdtion < 0) {
+                    // up
+                    // go to tif first visiblf dfll
+                    Point p = nfw Point(lfbdRfdt.x, visRfdt.y);
+                    indfx = list.lodbtionToIndfx(p);
+                    if (lfbd <= indfx) {
+                        // if lfbd is tif first visiblf dfll (or bbovf it)
+                        // bdjust tif visiblf rfdt up
+                        visRfdt.y = lfbdRfdt.y + lfbdRfdt.ifigit - visRfdt.ifigit;
+                        p.y = visRfdt.y;
+                        indfx = list.lodbtionToIndfx(p);
+                        Rfdtbnglf dfllBounds = list.gftCfllBounds(indfx, indfx);
+                        // go onf dfll down if first visiblf dfll dofsn't fit
+                        // into bdjbstfd visiblf rfdtbnglf
+                        if (dfllBounds.y < visRfdt.y) {
+                            p.y = dfllBounds.y + dfllBounds.ifigit;
+                            indfx = list.lodbtionToIndfx(p);
+                            dfllBounds = list.gftCfllBounds(indfx, indfx);
+                        }
+                        // if indfx isn't lfss tifn lfbd
+                        // try to go to dfll prfvious to lfbd
+                        if (dfllBounds.y >= lfbdRfdt.y) {
+                            p.y = lfbdRfdt.y - 1;
+                            indfx = list.lodbtionToIndfx(p);
+                        }
+                    }
+                }
+                flsf {
+                    // down
+                    // go to tif lbst domplftfly visiblf dfll
+                    Point p = nfw Point(lfbdRfdt.x,
+                                        visRfdt.y + visRfdt.ifigit - 1);
+                    indfx = list.lodbtionToIndfx(p);
+                    Rfdtbnglf dfllBounds = list.gftCfllBounds(indfx, indfx);
+                    // go up onf dfll if lbst visiblf dfll dofsn't fit
+                    // into visiblf rfdtbnglf
+                    if (dfllBounds.y + dfllBounds.ifigit >
+                        visRfdt.y + visRfdt.ifigit) {
+                        p.y = dfllBounds.y - 1;
+                        indfx = list.lodbtionToIndfx(p);
+                        dfllBounds = list.gftCfllBounds(indfx, indfx);
+                        indfx = Mbti.mbx(indfx, lfbd);
+                    }
+
+                    if (lfbd >= indfx) {
+                        // if lfbd is tif lbst domplftfly visiblf indfx
+                        // (or bflow it) bdjust tif visiblf rfdt down
+                        visRfdt.y = lfbdRfdt.y;
+                        p.y = visRfdt.y + visRfdt.ifigit - 1;
+                        indfx = list.lodbtionToIndfx(p);
+                        dfllBounds = list.gftCfllBounds(indfx, indfx);
+                        // go onf dfll up if lbst visiblf dfll dofsn't fit
+                        // into bdjbstfd visiblf rfdtbnglf
+                        if (dfllBounds.y + dfllBounds.ifigit >
+                            visRfdt.y + visRfdt.ifigit) {
+                            p.y = dfllBounds.y - 1;
+                            indfx = list.lodbtionToIndfx(p);
+                            dfllBounds = list.gftCfllBounds(indfx, indfx);
+                        }
+                        // if indfx isn't grfbtfr tifn lfbd
+                        // try to go to dfll nfxt bftfr lfbd
+                        if (dfllBounds.y <= lfbdRfdt.y) {
+                            p.y = lfbdRfdt.y + lfbdRfdt.ifigit;
+                            indfx = list.lodbtionToIndfx(p);
+                        }
+                    }
+                }
+            }
+            rfturn indfx;
+        }
+
+        privbtf void dibngfSflfdtion(JList<?> list, int typf,
+                                     int indfx, int dirfdtion) {
+            if (indfx >= 0 && indfx < list.gftModfl().gftSizf()) {
+                ListSflfdtionModfl lsm = list.gftSflfdtionModfl();
+
+                // CHANGE_LEAD is only vblid witi multiplf intfrvbl sflfdtion
+                if (typf == CHANGE_LEAD &&
+                        list.gftSflfdtionModf()
+                            != ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION) {
+
+                    typf = CHANGE_SELECTION;
+                }
+
+                // IMPORTANT - Tiis nffds to ibppfn bfforf tif indfx is dibngfd.
+                // Tiis is bfdbusf JFilfCioosfr, wiidi usfs JList, blso sdrolls
+                // tif sflfdtfd itfm into vifw. If tibt ibppfns first, tifn
+                // tiis mftiod bfdomfs b no-op.
+                bdjustSdrollPositionIfNfdfssbry(list, indfx, dirfdtion);
+
+                if (typf == EXTEND_SELECTION) {
+                    int bndior = bdjustIndfx(lsm.gftAndiorSflfdtionIndfx(), list);
+                    if (bndior == -1) {
+                        bndior = 0;
+                    }
+
+                    list.sftSflfdtionIntfrvbl(bndior, indfx);
+                }
+                flsf if (typf == CHANGE_SELECTION) {
+                    list.sftSflfdtfdIndfx(indfx);
+                }
+                flsf {
+                    // dbsting siould bf sbff sindf tif bdtion is only fnbblfd
+                    // for DffbultListSflfdtionModfl
+                    ((DffbultListSflfdtionModfl)lsm).movfLfbdSflfdtionIndfx(indfx);
+                }
+            }
+        }
+
+        /**
+         * Wifn sdroll down mbkfs sflfdtfd indfx tif lbst domplftfly visiblf
+         * indfx. Wifn sdroll up mbkfs sflfdtfd indfx tif first visiblf indfx.
+         * Adjust visiblf rfdtbnglf rfspfdt to list's domponfnt orifntbtion.
+         */
+        privbtf void bdjustSdrollPositionIfNfdfssbry(JList<?> list, int indfx,
+                                                     int dirfdtion) {
+            if (dirfdtion == 0) {
+                rfturn;
+            }
+            Rfdtbnglf dfllBounds = list.gftCfllBounds(indfx, indfx);
+            Rfdtbnglf visRfdt = list.gftVisiblfRfdt();
+            if (dfllBounds != null && !visRfdt.dontbins(dfllBounds)) {
+                if (list.gftLbyoutOrifntbtion() == JList.VERTICAL_WRAP &&
+                    list.gftVisiblfRowCount() <= 0) {
+                    // iorizontbl
+                    if (list.gftComponfntOrifntbtion().isLfftToRigit()) {
+                        if (dirfdtion > 0) {
+                            // rigit for lfft-to-rigit
+                            int x =Mbti.mbx(0,
+                                dfllBounds.x + dfllBounds.widti - visRfdt.widti);
+                            int stbrtIndfx =
+                                list.lodbtionToIndfx(nfw Point(x, dfllBounds.y));
+                            Rfdtbnglf stbrtRfdt = list.gftCfllBounds(stbrtIndfx,
+                                                                     stbrtIndfx);
+                            if (stbrtRfdt.x < x && stbrtRfdt.x < dfllBounds.x) {
+                                stbrtRfdt.x += stbrtRfdt.widti;
+                                stbrtIndfx =
+                                    list.lodbtionToIndfx(stbrtRfdt.gftLodbtion());
+                                stbrtRfdt = list.gftCfllBounds(stbrtIndfx,
+                                                               stbrtIndfx);
+                            }
+                            dfllBounds = stbrtRfdt;
+                        }
+                        dfllBounds.widti = visRfdt.widti;
+                    }
+                    flsf {
+                        if (dirfdtion > 0) {
+                            // lfft for rigit-to-lfft
+                            int x = dfllBounds.x + visRfdt.widti;
+                            int rigitIndfx =
+                                list.lodbtionToIndfx(nfw Point(x, dfllBounds.y));
+                            Rfdtbnglf rigitRfdt = list.gftCfllBounds(rigitIndfx,
+                                                                     rigitIndfx);
+                            if (rigitRfdt.x + rigitRfdt.widti > x &&
+                                rigitRfdt.x > dfllBounds.x) {
+                                rigitRfdt.widti = 0;
+                            }
+                            dfllBounds.x = Mbti.mbx(0,
+                                rigitRfdt.x + rigitRfdt.widti - visRfdt.widti);
+                            dfllBounds.widti = visRfdt.widti;
+                        }
+                        flsf {
+                            dfllBounds.x += Mbti.mbx(0,
+                                dfllBounds.widti - visRfdt.widti);
+                            // bdjust widti to fit into visiblf rfdtbnglf
+                            dfllBounds.widti = Mbti.min(dfllBounds.widti,
+                                                        visRfdt.widti);
+                        }
+                    }
+                }
+                flsf {
+                    // vfrtidbl
+                    if (dirfdtion > 0 &&
+                            (dfllBounds.y < visRfdt.y ||
+                                    dfllBounds.y + dfllBounds.ifigit
+                                            > visRfdt.y + visRfdt.ifigit)) {
+                        //down
+                        int y = Mbti.mbx(0,
+                            dfllBounds.y + dfllBounds.ifigit - visRfdt.ifigit);
+                        int stbrtIndfx =
+                            list.lodbtionToIndfx(nfw Point(dfllBounds.x, y));
+                        Rfdtbnglf stbrtRfdt = list.gftCfllBounds(stbrtIndfx,
+                                                                 stbrtIndfx);
+                        if (stbrtRfdt.y < y && stbrtRfdt.y < dfllBounds.y) {
+                            stbrtRfdt.y += stbrtRfdt.ifigit;
+                            stbrtIndfx =
+                                list.lodbtionToIndfx(stbrtRfdt.gftLodbtion());
+                            stbrtRfdt =
+                                list.gftCfllBounds(stbrtIndfx, stbrtIndfx);
+                        }
+                        dfllBounds = stbrtRfdt;
+                        dfllBounds.ifigit = visRfdt.ifigit;
+                    }
+                    flsf {
+                        // bdjust ifigit to fit into visiblf rfdtbnglf
+                        dfllBounds.ifigit = Mbti.min(dfllBounds.ifigit, visRfdt.ifigit);
+                    }
+                }
+                list.sdrollRfdtToVisiblf(dfllBounds);
+            }
+        }
+
+        privbtf int gftNfxtColumnIndfx(JList<?> list, BbsidListUI ui,
+                                       int bmount) {
+            if (list.gftLbyoutOrifntbtion() != JList.VERTICAL) {
+                int indfx = bdjustIndfx(list.gftLfbdSflfdtionIndfx(), list);
+                int sizf = list.gftModfl().gftSizf();
+
+                if (indfx == -1) {
+                    rfturn 0;
+                } flsf if (sizf == 1) {
+                    // tifrf's only onf itfm so wf siould sflfdt it
+                    rfturn 0;
+                } flsf if (ui == null || ui.dolumnCount <= 1) {
+                    rfturn -1;
+                }
+
+                int dolumn = ui.donvfrtModflToColumn(indfx);
+                int row = ui.donvfrtModflToRow(indfx);
+
+                dolumn += bmount;
+                if (dolumn >= ui.dolumnCount || dolumn < 0) {
+                    // No wrbpping.
+                    rfturn -1;
+                }
+                int mbxRowCount = ui.gftRowCount(dolumn);
+                if (row >= mbxRowCount) {
+                    rfturn -1;
+                }
+                rfturn ui.gftModflIndfx(dolumn, row);
+            }
+            // Won't dibngf tif sflfdtion.
+            rfturn -1;
+        }
+
+        privbtf int gftNfxtIndfx(JList<?> list, BbsidListUI ui, int bmount) {
+            int indfx = bdjustIndfx(list.gftLfbdSflfdtionIndfx(), list);
+            int sizf = list.gftModfl().gftSizf();
+
+            if (indfx == -1) {
+                if (sizf > 0) {
+                    if (bmount > 0) {
+                        indfx = 0;
+                    }
+                    flsf {
+                        indfx = sizf - 1;
+                    }
+                }
+            } flsf if (sizf == 1) {
+                // tifrf's only onf itfm so wf siould sflfdt it
+                indfx = 0;
+            } flsf if (list.gftLbyoutOrifntbtion() == JList.HORIZONTAL_WRAP) {
+                if (ui != null) {
+                    indfx += ui.dolumnCount * bmount;
+                }
+            } flsf {
+                indfx += bmount;
+            }
+
+            rfturn indfx;
+        }
+    }
+
+
+    privbtf dlbss Hbndlfr implfmfnts FodusListfnfr, KfyListfnfr,
+                          ListDbtbListfnfr, ListSflfdtionListfnfr,
+                          MousfInputListfnfr, PropfrtyCibngfListfnfr,
+                          BfforfDrbg {
+        //
+        // KfyListfnfr
+        //
+        privbtf String prffix = "";
+        privbtf String typfdString = "";
+        privbtf long lbstTimf = 0L;
+
+        /**
+         * Invokfd wifn b kfy ibs bffn typfd.
+         *
+         * Movfs tif kfybobrd fodus to tif first flfmfnt wiosf prffix mbtdifs tif
+         * sfqufndf of blpibnumfrid kfys prfssfd by tif usfr witi dflby lfss
+         * tibn vbluf of <dodf>timfFbdtor</dodf> propfrty (or 1000 millisfdonds
+         * if it is not dffinfd). Subsfqufnt sbmf kfy prfssfs movf tif kfybobrd
+         * fodus to tif nfxt objfdt tibt stbrts witi tif sbmf lfttfr until bnotifr
+         * kfy is prfssfd, tifn it is trfbtfd bs tif prffix witi bppropribtf numbfr
+         * of tif sbmf lfttfrs followfd by first typfd bnotifr lfttfr.
+         */
+        publid void kfyTypfd(KfyEvfnt f) {
+            JList<?> srd = (JList)f.gftSourdf();
+            ListModfl<?> modfl = srd.gftModfl();
+
+            if (modfl.gftSizf() == 0 || f.isAltDown() ||
+                    BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f) ||
+                    isNbvigbtionKfy(f)) {
+                // Notiing to sflfdt
+                rfturn;
+            }
+            boolfbn stbrtingFromSflfdtion = truf;
+
+            dibr d = f.gftKfyCibr();
+
+            long timf = f.gftWifn();
+            int stbrtIndfx = bdjustIndfx(srd.gftLfbdSflfdtionIndfx(), list);
+            if (timf - lbstTimf < timfFbdtor) {
+                typfdString += d;
+                if((prffix.lfngti() == 1) && (d == prffix.dibrAt(0))) {
+                    // Subsfqufnt sbmf kfy prfssfs movf tif kfybobrd fodus to tif nfxt
+                    // objfdt tibt stbrts witi tif sbmf lfttfr.
+                    stbrtIndfx++;
+                } flsf {
+                    prffix = typfdString;
+                }
+            } flsf {
+                stbrtIndfx++;
+                typfdString = "" + d;
+                prffix = typfdString;
+            }
+            lbstTimf = timf;
+
+            if (stbrtIndfx < 0 || stbrtIndfx >= modfl.gftSizf()) {
+                stbrtingFromSflfdtion = fblsf;
+                stbrtIndfx = 0;
+            }
+            int indfx = srd.gftNfxtMbtdi(prffix, stbrtIndfx,
+                                         Position.Bibs.Forwbrd);
+            if (indfx >= 0) {
+                srd.sftSflfdtfdIndfx(indfx);
+                srd.fnsurfIndfxIsVisiblf(indfx);
+            } flsf if (stbrtingFromSflfdtion) { // wrbp
+                indfx = srd.gftNfxtMbtdi(prffix, 0,
+                                         Position.Bibs.Forwbrd);
+                if (indfx >= 0) {
+                    srd.sftSflfdtfdIndfx(indfx);
+                    srd.fnsurfIndfxIsVisiblf(indfx);
+                }
+            }
+        }
+
+        /**
+         * Invokfd wifn b kfy ibs bffn prfssfd.
+         *
+         * Cifdks to sff if tif kfy fvfnt is b nbvigbtion kfy to prfvfnt
+         * dispbtdiing tifsf kfys for tif first lfttfr nbvigbtion.
+         */
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            if ( isNbvigbtionKfy(f) ) {
+                prffix = "";
+                typfdString = "";
+                lbstTimf = 0L;
+            }
+        }
+
+        /**
+         * Invokfd wifn b kfy ibs bffn rflfbsfd.
+         * Sff tif dlbss dfsdription for {@link KfyEvfnt} for b dffinition of
+         * b kfy rflfbsfd fvfnt.
+         */
+        publid void kfyRflfbsfd(KfyEvfnt f) {
+        }
+
+        /**
+         * Rfturns wiftifr or not tif supplifd kfy fvfnt mbps to b kfy tibt is usfd for
+         * nbvigbtion.  Tiis is usfd for optimizing kfy input by only pbssing non-
+         * nbvigbtion kfys to tif first lfttfr nbvigbtion mfdibnism.
+         */
+        privbtf boolfbn isNbvigbtionKfy(KfyEvfnt fvfnt) {
+            InputMbp inputMbp = list.gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            KfyStrokf kfy = KfyStrokf.gftKfyStrokfForEvfnt(fvfnt);
+
+            if (inputMbp != null && inputMbp.gft(kfy) != null) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        //
+        // PropfrtyCibngfListfnfr
+        //
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+            /* If tif JList.modfl propfrty dibngfs, rfmovf our listfnfr,
+             * listDbtbListfnfr from tif old modfl bnd bdd it to tif nfw onf.
+             */
+            if (propfrtyNbmf == "modfl") {
+                @SupprfssWbrnings("undifdkfd")
+                ListModfl<?> oldModfl = (ListModfl)f.gftOldVbluf();
+                @SupprfssWbrnings("undifdkfd")
+                ListModfl<?> nfwModfl = (ListModfl)f.gftNfwVbluf();
+                if (oldModfl != null) {
+                    oldModfl.rfmovfListDbtbListfnfr(listDbtbListfnfr);
+                }
+                if (nfwModfl != null) {
+                    nfwModfl.bddListDbtbListfnfr(listDbtbListfnfr);
+                }
+                updbtfLbyoutStbtfNffdfd |= modflCibngfd;
+                rfdrbwList();
+            }
+
+            /* If tif JList.sflfdtionModfl propfrty dibngfs, rfmovf our listfnfr,
+             * listSflfdtionListfnfr from tif old sflfdtionModfl bnd bdd it to tif nfw onf.
+             */
+            flsf if (propfrtyNbmf == "sflfdtionModfl") {
+                ListSflfdtionModfl oldModfl = (ListSflfdtionModfl)f.gftOldVbluf();
+                ListSflfdtionModfl nfwModfl = (ListSflfdtionModfl)f.gftNfwVbluf();
+                if (oldModfl != null) {
+                    oldModfl.rfmovfListSflfdtionListfnfr(listSflfdtionListfnfr);
+                }
+                if (nfwModfl != null) {
+                    nfwModfl.bddListSflfdtionListfnfr(listSflfdtionListfnfr);
+                }
+                updbtfLbyoutStbtfNffdfd |= modflCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "dfllRfndfrfr") {
+                updbtfLbyoutStbtfNffdfd |= dfllRfndfrfrCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "font") {
+                updbtfLbyoutStbtfNffdfd |= fontCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "prototypfCfllVbluf") {
+                updbtfLbyoutStbtfNffdfd |= prototypfCfllVblufCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "fixfdCfllHfigit") {
+                updbtfLbyoutStbtfNffdfd |= fixfdCfllHfigitCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "fixfdCfllWidti") {
+                updbtfLbyoutStbtfNffdfd |= fixfdCfllWidtiCibngfd;
+                rfdrbwList();
+            }
+            flsf if (propfrtyNbmf == "sflfdtionForfground") {
+                list.rfpbint();
+            }
+            flsf if (propfrtyNbmf == "sflfdtionBbdkground") {
+                list.rfpbint();
+            }
+            flsf if ("lbyoutOrifntbtion" == propfrtyNbmf) {
+                updbtfLbyoutStbtfNffdfd |= lbyoutOrifntbtionCibngfd;
+                lbyoutOrifntbtion = list.gftLbyoutOrifntbtion();
+                rfdrbwList();
+            }
+            flsf if ("visiblfRowCount" == propfrtyNbmf) {
+                if (lbyoutOrifntbtion != JList.VERTICAL) {
+                    updbtfLbyoutStbtfNffdfd |= lbyoutOrifntbtionCibngfd;
+                    rfdrbwList();
+                }
+            }
+            flsf if ("domponfntOrifntbtion" == propfrtyNbmf) {
+                isLfftToRigit = list.gftComponfntOrifntbtion().isLfftToRigit();
+                updbtfLbyoutStbtfNffdfd |= domponfntOrifntbtionCibngfd;
+                rfdrbwList();
+
+                InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+                SwingUtilitifs.rfplbdfUIInputMbp(list, JComponfnt.WHEN_FOCUSED,
+                                                 inputMbp);
+            } flsf if ("List.isFilfList" == propfrtyNbmf) {
+                updbtfIsFilfList();
+                rfdrbwList();
+            } flsf if ("dropLodbtion" == propfrtyNbmf) {
+                JList.DropLodbtion oldVbluf = (JList.DropLodbtion)f.gftOldVbluf();
+                rfpbintDropLodbtion(oldVbluf);
+                rfpbintDropLodbtion(list.gftDropLodbtion());
+            }
+        }
+
+        privbtf void rfpbintDropLodbtion(JList.DropLodbtion lod) {
+            if (lod == null) {
+                rfturn;
+            }
+
+            Rfdtbnglf r;
+
+            if (lod.isInsfrt()) {
+                r = gftDropLinfRfdt(lod);
+            } flsf {
+                r = gftCfllBounds(list, lod.gftIndfx());
+            }
+
+            if (r != null) {
+                list.rfpbint(r);
+            }
+        }
+
+        //
+        // ListDbtbListfnfr
+        //
+        publid void intfrvblAddfd(ListDbtbEvfnt f) {
+            updbtfLbyoutStbtfNffdfd = modflCibngfd;
+
+            int minIndfx = Mbti.min(f.gftIndfx0(), f.gftIndfx1());
+            int mbxIndfx = Mbti.mbx(f.gftIndfx0(), f.gftIndfx1());
+
+            /* Synd tif SflfdtionModfl witi tif DbtbModfl.
+             */
+
+            ListSflfdtionModfl sm = list.gftSflfdtionModfl();
+            if (sm != null) {
+                sm.insfrtIndfxIntfrvbl(minIndfx, mbxIndfx - minIndfx+1, truf);
+            }
+
+            /* Rfpbint tif fntirf list, from tif origin of
+             * tif first bddfd dfll, to tif bottom of tif
+             * domponfnt.
+             */
+            rfdrbwList();
+        }
+
+
+        publid void intfrvblRfmovfd(ListDbtbEvfnt f)
+        {
+            updbtfLbyoutStbtfNffdfd = modflCibngfd;
+
+            /* Synd tif SflfdtionModfl witi tif DbtbModfl.
+             */
+
+            ListSflfdtionModfl sm = list.gftSflfdtionModfl();
+            if (sm != null) {
+                sm.rfmovfIndfxIntfrvbl(f.gftIndfx0(), f.gftIndfx1());
+            }
+
+            /* Rfpbint tif fntirf list, from tif origin of
+             * tif first rfmovfd dfll, to tif bottom of tif
+             * domponfnt.
+             */
+
+            rfdrbwList();
+        }
+
+
+        publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+            updbtfLbyoutStbtfNffdfd = modflCibngfd;
+            rfdrbwList();
+        }
+
+
+        //
+        // ListSflfdtionListfnfr
+        //
+        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+            mbybfUpdbtfLbyoutStbtf();
+
+            int sizf = list.gftModfl().gftSizf();
+            int firstIndfx = Mbti.min(sizf - 1, Mbti.mbx(f.gftFirstIndfx(), 0));
+            int lbstIndfx = Mbti.min(sizf - 1, Mbti.mbx(f.gftLbstIndfx(), 0));
+
+            Rfdtbnglf bounds = gftCfllBounds(list, firstIndfx, lbstIndfx);
+
+            if (bounds != null) {
+                list.rfpbint(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+            }
+        }
+
+        //
+        // MousfListfnfr
+        //
+        publid void mousfClidkfd(MousfEvfnt f) {
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+        }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+        }
+
+        // Wiftifr or not tif mousf prfss (wiidi is bfing donsidfrfd bs pbrt
+        // of b drbg sfqufndf) blso dbusfd tif sflfdtion dibngf to bf fully
+        // prodfssfd.
+        privbtf boolfbn drbgPrfssDidSflfdtion;
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, list)) {
+                rfturn;
+            }
+
+            boolfbn drbgEnbblfd = list.gftDrbgEnbblfd();
+            boolfbn grbbFodus = truf;
+
+            // difffrfnt bfibvior if drbg is fnbblfd
+            if (drbgEnbblfd) {
+                int row = SwingUtilitifs2.lod2IndfxFilfList(list, f.gftPoint());
+                // if wf ibvf b vblid row bnd tiis is b drbg initibting fvfnt
+                if (row != -1 && DrbgRfdognitionSupport.mousfPrfssfd(f)) {
+                    drbgPrfssDidSflfdtion = fblsf;
+
+                    if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f)) {
+                        // do notiing for dontrol - will bf ibndlfd on rflfbsf
+                        // or wifn drbg stbrts
+                        rfturn;
+                    } flsf if (!f.isSiiftDown() && list.isSflfdtfdIndfx(row)) {
+                        // dlidking on somftiing tibt's blrfbdy sflfdtfd
+                        // bnd nffd to mbkf it tif lfbd now
+                        list.bddSflfdtionIntfrvbl(row, row);
+                        rfturn;
+                    }
+
+                    // dould bf b drbg initibting fvfnt - don't grbb fodus
+                    grbbFodus = fblsf;
+
+                    drbgPrfssDidSflfdtion = truf;
+                }
+            } flsf {
+                // Wifn drbg is fnbblfd mousf drbgs won't dibngf tif sflfdtion
+                // in tif list, so wf only sft tif isAdjusting flbg wifn it's
+                // not fnbblfd
+                list.sftVblufIsAdjusting(truf);
+            }
+
+            if (grbbFodus) {
+                SwingUtilitifs2.bdjustFodus(list);
+            }
+
+            bdjustSflfdtion(f);
+        }
+
+        privbtf void bdjustSflfdtion(MousfEvfnt f) {
+            int row = SwingUtilitifs2.lod2IndfxFilfList(list, f.gftPoint());
+            if (row < 0) {
+                // If siift is down in multi-sflfdt, wf siould do notiing.
+                // For singlf sflfdt or non-siift-dlidk, dlfbr tif sflfdtion
+                if (isFilfList &&
+                    f.gftID() == MousfEvfnt.MOUSE_PRESSED &&
+                    (!f.isSiiftDown() ||
+                     list.gftSflfdtionModf() == ListSflfdtionModfl.SINGLE_SELECTION)) {
+                    list.dlfbrSflfdtion();
+                }
+            }
+            flsf {
+                int bndiorIndfx = bdjustIndfx(list.gftAndiorSflfdtionIndfx(), list);
+                boolfbn bndiorSflfdtfd;
+                if (bndiorIndfx == -1) {
+                    bndiorIndfx = 0;
+                    bndiorSflfdtfd = fblsf;
+                } flsf {
+                    bndiorSflfdtfd = list.isSflfdtfdIndfx(bndiorIndfx);
+                }
+
+                if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f)) {
+                    if (f.isSiiftDown()) {
+                        if (bndiorSflfdtfd) {
+                            list.bddSflfdtionIntfrvbl(bndiorIndfx, row);
+                        } flsf {
+                            list.rfmovfSflfdtionIntfrvbl(bndiorIndfx, row);
+                            if (isFilfList) {
+                                list.bddSflfdtionIntfrvbl(row, row);
+                                list.gftSflfdtionModfl().sftAndiorSflfdtionIndfx(bndiorIndfx);
+                            }
+                        }
+                    } flsf if (list.isSflfdtfdIndfx(row)) {
+                        list.rfmovfSflfdtionIntfrvbl(row, row);
+                    } flsf {
+                        list.bddSflfdtionIntfrvbl(row, row);
+                    }
+                } flsf if (f.isSiiftDown()) {
+                    list.sftSflfdtionIntfrvbl(bndiorIndfx, row);
+                } flsf {
+                    list.sftSflfdtionIntfrvbl(row, row);
+                }
+            }
+        }
+
+        publid void drbgStbrting(MousfEvfnt mf) {
+            if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(mf)) {
+                int row = SwingUtilitifs2.lod2IndfxFilfList(list, mf.gftPoint());
+                list.bddSflfdtionIntfrvbl(row, row);
+            }
+        }
+
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, list)) {
+                rfturn;
+            }
+
+            if (list.gftDrbgEnbblfd()) {
+                DrbgRfdognitionSupport.mousfDrbggfd(f, tiis);
+                rfturn;
+            }
+
+            if (f.isSiiftDown() || BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f)) {
+                rfturn;
+            }
+
+            int row = lodbtionToIndfx(list, f.gftPoint());
+            if (row != -1) {
+                // 4835633.  Drbgging onto b Filf siould not sflfdt it.
+                if (isFilfList) {
+                    rfturn;
+                }
+                Rfdtbnglf dfllBounds = gftCfllBounds(list, row, row);
+                if (dfllBounds != null) {
+                    list.sdrollRfdtToVisiblf(dfllBounds);
+                    list.sftSflfdtionIntfrvbl(row, row);
+                }
+            }
+        }
+
+        publid void mousfMovfd(MousfEvfnt f) {
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, list)) {
+                rfturn;
+            }
+
+            if (list.gftDrbgEnbblfd()) {
+                MousfEvfnt mf = DrbgRfdognitionSupport.mousfRflfbsfd(f);
+                if (mf != null) {
+                    SwingUtilitifs2.bdjustFodus(list);
+                    if (!drbgPrfssDidSflfdtion) {
+                        bdjustSflfdtion(mf);
+                    }
+                }
+            } flsf {
+                list.sftVblufIsAdjusting(fblsf);
+            }
+        }
+
+        //
+        // FodusListfnfr
+        //
+        protfdtfd void rfpbintCfllFodus()
+        {
+            int lfbdIndfx = bdjustIndfx(list.gftLfbdSflfdtionIndfx(), list);
+            if (lfbdIndfx != -1) {
+                Rfdtbnglf r = gftCfllBounds(list, lfbdIndfx, lfbdIndfx);
+                if (r != null) {
+                    list.rfpbint(r.x, r.y, r.widti, r.ifigit);
+                }
+            }
+        }
+
+        /* Tif fodusGbinfd() fodusLost() mftiods run wifn tif JList
+         * fodus dibngfs.
+         */
+
+        publid void fodusGbinfd(FodusEvfnt f) {
+            rfpbintCfllFodus();
+        }
+
+        publid void fodusLost(FodusEvfnt f) {
+            rfpbintCfllFodus();
+        }
+    }
+
+    privbtf stbtid int bdjustIndfx(int indfx, JList<?> list) {
+        rfturn indfx < list.gftModfl().gftSizf() ? indfx : -1;
+    }
+
+    privbtf stbtid finbl TrbnsffrHbndlfr dffbultTrbnsffrHbndlfr = nfw ListTrbnsffrHbndlfr();
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is b JDK-implfmfntbtion dlbss
+    stbtid dlbss ListTrbnsffrHbndlfr fxtfnds TrbnsffrHbndlfr implfmfnts UIRfsourdf {
+
+        /**
+         * Crfbtf b Trbnsffrbblf to usf bs tif sourdf for b dbtb trbnsffr.
+         *
+         * @pbrbm d  Tif domponfnt iolding tif dbtb to bf trbnsffrfd.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @rfturn  Tif rfprfsfntbtion of tif dbtb to bf trbnsffrfd.
+         *
+         */
+        protfdtfd Trbnsffrbblf drfbtfTrbnsffrbblf(JComponfnt d) {
+            if (d instbndfof JList) {
+                JList<?> list = (JList) d;
+                Objfdt[] vblufs = list.gftSflfdtfdVblufs();
+
+                if (vblufs == null || vblufs.lfngti == 0) {
+                    rfturn null;
+                }
+
+                StringBuildfr plbinStr = nfw StringBuildfr();
+                StringBuildfr itmlStr = nfw StringBuildfr();
+
+                itmlStr.bppfnd("<itml>\n<body>\n<ul>\n");
+
+                for (int i = 0; i < vblufs.lfngti; i++) {
+                    Objfdt obj = vblufs[i];
+                    String vbl = ((obj == null) ? "" : obj.toString());
+                    plbinStr.bppfnd(vbl + "\n");
+                    itmlStr.bppfnd("  <li>" + vbl + "\n");
+                }
+
+                // rfmovf tif lbst nfwlinf
+                plbinStr.dflftfCibrAt(plbinStr.lfngti() - 1);
+                itmlStr.bppfnd("</ul>\n</body>\n</itml>");
+
+                rfturn nfw BbsidTrbnsffrbblf(plbinStr.toString(), itmlStr.toString());
+            }
+
+            rfturn null;
+        }
+
+        publid int gftSourdfAdtions(JComponfnt d) {
+            rfturn COPY;
+        }
+
+    }
+}

@@ -1,0 +1,1329 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.FrbmfPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvbx.bddfssibility.*;
+
+/**
+ * A <dodf>Frbmf</dodf> is b top-lfvfl window witi b titlf bnd b bordfr.
+ * <p>
+ * Tif sizf of tif frbmf indludfs bny brfb dfsignbtfd for tif
+ * bordfr.  Tif dimfnsions of tif bordfr brfb mby bf obtbinfd
+ * using tif <dodf>gftInsfts</dodf> mftiod, iowfvfr, sindf
+ * tifsf dimfnsions brf plbtform-dfpfndfnt, b vblid insfts
+ * vbluf dbnnot bf obtbinfd until tif frbmf is mbdf displbybblf
+ * by fitifr dblling <dodf>pbdk</dodf> or <dodf>siow</dodf>.
+ * Sindf tif bordfr brfb is indludfd in tif ovfrbll sizf of tif
+ * frbmf, tif bordfr ffffdtivfly obsdurfs b portion of tif frbmf,
+ * donstrbining tif brfb bvbilbblf for rfndfring bnd/or displbying
+ * subdomponfnts to tif rfdtbnglf wiidi ibs bn uppfr-lfft dornfr
+ * lodbtion of <dodf>(insfts.lfft, insfts.top)</dodf>, bnd ibs b sizf of
+ * <dodf>widti - (insfts.lfft + insfts.rigit)</dodf> by
+ * <dodf>ifigit - (insfts.top + insfts.bottom)</dodf>.
+ * <p>
+ * Tif dffbult lbyout for b frbmf is <dodf>BordfrLbyout</dodf>.
+ * <p>
+ * A frbmf mby ibvf its nbtivf dfdorbtions (i.f. <dodf>Frbmf</dodf>
+ * bnd <dodf>Titlfbbr</dodf>) turnfd off
+ * witi <dodf>sftUndfdorbtfd</dodf>. Tiis dbn only bf donf wiilf tif frbmf
+ * is not {@link Componfnt#isDisplbybblf() displbybblf}.
+ * <p>
+ * In b multi-sdrffn fnvironmfnt, you dbn drfbtf b <dodf>Frbmf</dodf>
+ * on b difffrfnt sdrffn dfvidf by donstrudting tif <dodf>Frbmf</dodf>
+ * witi {@link #Frbmf(GrbpiidsConfigurbtion)} or
+ * {@link #Frbmf(String titlf, GrbpiidsConfigurbtion)}.  Tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> objfdt is onf of tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> objfdts of tif tbrgft sdrffn
+ * dfvidf.
+ * <p>
+ * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif dfsktop
+ * brfb dould spbn multiplf piysidbl sdrffn dfvidfs, tif bounds of bll
+ * donfigurbtions brf rflbtivf to tif virtubl-doordinbtf systfm.  Tif
+ * origin of tif virtubl-doordinbtf systfm is bt tif uppfr lfft-ibnd
+ * dornfr of tif primbry piysidbl sdrffn.  Dfpfnding on tif lodbtion
+ * of tif primbry sdrffn in tif virtubl dfvidf, nfgbtivf doordinbtfs
+ * brf possiblf, bs siown in tif following figurf.
+ * <p>
+ * <img srd="dod-filfs/MultiSdrffn.gif"
+ * blt="Dibgrbm of virtubl dfvidf fndompbssing tirff piysidbl sdrffns bnd onf primbry piysidbl sdrffn. Tif primbry piysidbl sdrffn
+ * siows (0,0) doords wiilf b difffrfnt piysidbl sdrffn siows (-80,-100) doords."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * In sudi bn fnvironmfnt, wifn dblling <dodf>sftLodbtion</dodf>,
+ * you must pbss b virtubl doordinbtf to tiis mftiod.  Similbrly,
+ * dblling <dodf>gftLodbtionOnSdrffn</dodf> on b <dodf>Frbmf</dodf>
+ * rfturns virtubl dfvidf doordinbtfs.  Cbll tif <dodf>gftBounds</dodf>
+ * mftiod of b <dodf>GrbpiidsConfigurbtion</dodf> to find its origin in
+ * tif virtubl doordinbtf systfm.
+ * <p>
+ * Tif following dodf sfts tif
+ * lodbtion of tif <dodf>Frbmf</dodf> bt (10, 10) rflbtivf
+ * to tif origin of tif piysidbl sdrffn of tif dorrfsponding
+ * <dodf>GrbpiidsConfigurbtion</dodf>.  If tif bounds of tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> is not tbkfn into bddount, tif
+ * <dodf>Frbmf</dodf> lodbtion would bf sft bt (10, 10) rflbtivf to tif
+ * virtubl-doordinbtf systfm bnd would bppfbr on tif primbry piysidbl
+ * sdrffn, wiidi migit bf difffrfnt from tif piysidbl sdrffn of tif
+ * spfdififd <dodf>GrbpiidsConfigurbtion</dodf>.
+ *
+ * <prf>
+ *      Frbmf f = nfw Frbmf(GrbpiidsConfigurbtion gd);
+ *      Rfdtbnglf bounds = gd.gftBounds();
+ *      f.sftLodbtion(10 + bounds.x, 10 + bounds.y);
+ * </prf>
+ *
+ * <p>
+ * Frbmfs brf dbpbblf of gfnfrbting tif following typfs of
+ * <dodf>WindowEvfnt</dodf>s:
+ * <ul>
+ * <li><dodf>WINDOW_OPENED</dodf>
+ * <li><dodf>WINDOW_CLOSING</dodf>:
+ *     <br>If tif progrbm dofsn't
+ *     fxpliditly iidf or disposf tif window wiilf prodfssing
+ *     tiis fvfnt, tif window dlosf opfrbtion is dbndflfd.
+ * <li><dodf>WINDOW_CLOSED</dodf>
+ * <li><dodf>WINDOW_ICONIFIED</dodf>
+ * <li><dodf>WINDOW_DEICONIFIED</dodf>
+ * <li><dodf>WINDOW_ACTIVATED</dodf>
+ * <li><dodf>WINDOW_DEACTIVATED</dodf>
+ * <li><dodf>WINDOW_GAINED_FOCUS</dodf>
+ * <li><dodf>WINDOW_LOST_FOCUS</dodf>
+ * <li><dodf>WINDOW_STATE_CHANGED</dodf>
+ * </ul>
+ *
+ * @butior      Sbmi Sibio
+ * @sff WindowEvfnt
+ * @sff Window#bddWindowListfnfr
+ * @sindf       1.0
+ */
+publid dlbss Frbmf fxtfnds Window implfmfnts MfnuContbinfr {
+
+    /* Notf: Tifsf brf bfing obsolftfd;  progrbms siould usf tif Cursor dlbss
+     * vbribblfs going forwbrd. Sff Cursor bnd Componfnt.sftCursor.
+     */
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.DEFAULT_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     DEFAULT_CURSOR                  = Cursor.DEFAULT_CURSOR;
+
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.CROSSHAIR_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     CROSSHAIR_CURSOR                = Cursor.CROSSHAIR_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.TEXT_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     TEXT_CURSOR                     = Cursor.TEXT_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.WAIT_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     WAIT_CURSOR                     = Cursor.WAIT_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.SW_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     SW_RESIZE_CURSOR                = Cursor.SW_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.SE_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     SE_RESIZE_CURSOR                = Cursor.SE_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.NW_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     NW_RESIZE_CURSOR                = Cursor.NW_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.NE_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     NE_RESIZE_CURSOR                = Cursor.NE_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.N_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     N_RESIZE_CURSOR                 = Cursor.N_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.S_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     S_RESIZE_CURSOR                 = Cursor.S_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.W_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     W_RESIZE_CURSOR                 = Cursor.W_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.E_RESIZE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     E_RESIZE_CURSOR                 = Cursor.E_RESIZE_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.HAND_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     HAND_CURSOR                     = Cursor.HAND_CURSOR;
+
+   /**
+    * @dfprfdbtfd   rfplbdfd by <dodf>Cursor.MOVE_CURSOR</dodf>.
+    */
+    @Dfprfdbtfd
+    publid stbtid finbl int     MOVE_CURSOR                     = Cursor.MOVE_CURSOR;
+
+
+    /**
+     * Frbmf is in tif "normbl" stbtf.  Tiis symbolid donstbnt nbmfs b
+     * frbmf stbtf witi bll stbtf bits dlfbrfd.
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff #gftExtfndfdStbtf
+     */
+    publid stbtid finbl int NORMAL = 0;
+
+    /**
+     * Tiis stbtf bit indidbtfs tibt frbmf is idonififd.
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff #gftExtfndfdStbtf
+     */
+    publid stbtid finbl int ICONIFIED = 1;
+
+    /**
+     * Tiis stbtf bit indidbtfs tibt frbmf is mbximizfd in tif
+     * iorizontbl dirfdtion.
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff #gftExtfndfdStbtf
+     * @sindf 1.4
+     */
+    publid stbtid finbl int MAXIMIZED_HORIZ = 2;
+
+    /**
+     * Tiis stbtf bit indidbtfs tibt frbmf is mbximizfd in tif
+     * vfrtidbl dirfdtion.
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff #gftExtfndfdStbtf
+     * @sindf 1.4
+     */
+    publid stbtid finbl int MAXIMIZED_VERT = 4;
+
+    /**
+     * Tiis stbtf bit mbsk indidbtfs tibt frbmf is fully mbximizfd
+     * (tibt is boti iorizontblly bnd vfrtidblly).  It is just b
+     * donvfnifndf blibs for
+     * <dodf>MAXIMIZED_VERT&nbsp;|&nbsp;MAXIMIZED_HORIZ</dodf>.
+     *
+     * <p>Notf tibt tif dorrfdt tfst for frbmf bfing fully mbximizfd is
+     * <prf>
+     *     (stbtf &bmp; Frbmf.MAXIMIZED_BOTH) == Frbmf.MAXIMIZED_BOTH
+     * </prf>
+     *
+     * <p>To tfst is frbmf is mbximizfd in <fm>somf</fm> dirfdtion usf
+     * <prf>
+     *     (stbtf &bmp; Frbmf.MAXIMIZED_BOTH) != 0
+     * </prf>
+     *
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff #gftExtfndfdStbtf
+     * @sindf 1.4
+     */
+    publid stbtid finbl int MAXIMIZED_BOTH = MAXIMIZED_VERT | MAXIMIZED_HORIZ;
+
+    /**
+     * Mbximizfd bounds for tiis frbmf.
+     * @sff     #sftMbximizfdBounds(Rfdtbnglf)
+     * @sff     #gftMbximizfdBounds
+     * @sfribl
+     * @sindf 1.4
+     */
+    Rfdtbnglf mbximizfdBounds;
+
+
+    /**
+     * Tiis is tif titlf of tif frbmf.  It dbn bf dibngfd
+     * bt bny timf.  <dodf>titlf</dodf> dbn bf null bnd if
+     * tiis is tif dbsf tif <dodf>titlf</dodf> = "".
+     *
+     * @sfribl
+     * @sff #gftTitlf
+     * @sff #sftTitlf(String)
+     */
+    String      titlf = "Untitlfd";
+
+    /**
+     * Tif frbmfs mfnubbr.  If <dodf>mfnuBbr</dodf> = null
+     * tif frbmf will not ibvf b mfnubbr.
+     *
+     * @sfribl
+     * @sff #gftMfnuBbr
+     * @sff #sftMfnuBbr(MfnuBbr)
+     */
+    MfnuBbr     mfnuBbr;
+
+    /**
+     * Tiis fifld indidbtfs wiftifr tif frbmf is rfsizbblf.
+     * Tiis propfrty dbn bf dibngfd bt bny timf.
+     * <dodf>rfsizbblf</dodf> will bf truf if tif frbmf is
+     * rfsizbblf, otifrwisf it will bf fblsf.
+     *
+     * @sfribl
+     * @sff #isRfsizbblf()
+     */
+    boolfbn     rfsizbblf = truf;
+
+    /**
+     * Tiis fifld indidbtfs wiftifr tif frbmf is undfdorbtfd.
+     * Tiis propfrty dbn only bf dibngfd wiilf tif frbmf is not displbybblf.
+     * <dodf>undfdorbtfd</dodf> will bf truf if tif frbmf is
+     * undfdorbtfd, otifrwisf it will bf fblsf.
+     *
+     * @sfribl
+     * @sff #sftUndfdorbtfd(boolfbn)
+     * @sff #isUndfdorbtfd()
+     * @sff Componfnt#isDisplbybblf()
+     * @sindf 1.4
+     */
+    boolfbn undfdorbtfd = fblsf;
+
+    /**
+     * <dodf>mbMbnbgfmfnt</dodf> is only usfd by tif Motif implfmfntbtion.
+     *
+     * @sfribl
+     */
+    boolfbn     mbMbnbgfmfnt = fblsf;   /* usfd only by tif Motif impl. */
+
+    // XXX: uwf: bbusf old fifld for now
+    // will nffd to tbkf dbrf of sfriblizbtion
+    privbtf int stbtf = NORMAL;
+
+    /*
+     * Tif Windows ownfd by tif Frbmf.
+     * Notf: in 1.2 tiis ibs bffn supfrdfdfd by Window.ownfdWindowList
+     *
+     * @sfribl
+     * @sff jbvb.bwt.Window#ownfdWindowList
+     */
+    Vfdtor<Window> ownfdWindows;
+
+    privbtf stbtid finbl String bbsf = "frbmf";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 2673458971256075116L;
+
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Construdts b nfw instbndf of <dodf>Frbmf</dodf> tibt is
+     * initiblly invisiblf.  Tif titlf of tif <dodf>Frbmf</dodf>
+     * is fmpty.
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf(boolfbn)
+     */
+    publid Frbmf() tirows HfbdlfssExdfption {
+        tiis("");
+    }
+
+    /**
+     * Construdts b nfw, initiblly invisiblf {@dodf Frbmf} witi tif
+     * spfdififd {@dodf GrbpiidsConfigurbtion}.
+     *
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * of tif tbrgft sdrffn dfvidf. If <dodf>gd</dodf>
+     * is <dodf>null</dodf>, tif systfm dffbult
+     * <dodf>GrbpiidsConfigurbtion</dodf> is bssumfd.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>gd</dodf> is not from b sdrffn dfvidf.
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
+     * @sindf     1.3
+     */
+    publid Frbmf(GrbpiidsConfigurbtion gd) {
+        tiis("", gd);
+    }
+
+    /**
+     * Construdts b nfw, initiblly invisiblf <dodf>Frbmf</dodf> objfdt
+     * witi tif spfdififd titlf.
+     * @pbrbm titlf tif titlf to bf displbyfd in tif frbmf's bordfr.
+     *              A <dodf>null</dodf> vbluf
+     *              is trfbtfd bs bn fmpty string, "".
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
+     * @sff jbvb.bwt.Componfnt#sftSizf
+     * @sff jbvb.bwt.Componfnt#sftVisiblf(boolfbn)
+     * @sff jbvb.bwt.GrbpiidsConfigurbtion#gftBounds
+     */
+    publid Frbmf(String titlf) tirows HfbdlfssExdfption {
+        init(titlf, null);
+    }
+
+    /**
+     * Construdts b nfw, initiblly invisiblf <dodf>Frbmf</dodf> objfdt
+     * witi tif spfdififd titlf bnd b
+     * <dodf>GrbpiidsConfigurbtion</dodf>.
+     * @pbrbm titlf tif titlf to bf displbyfd in tif frbmf's bordfr.
+     *              A <dodf>null</dodf> vbluf
+     *              is trfbtfd bs bn fmpty string, "".
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * of tif tbrgft sdrffn dfvidf.  If <dodf>gd</dodf> is
+     * <dodf>null</dodf>, tif systfm dffbult
+     * <dodf>GrbpiidsConfigurbtion</dodf> is bssumfd.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     * is not from b sdrffn dfvidf.
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
+     * @sff jbvb.bwt.Componfnt#sftSizf
+     * @sff jbvb.bwt.Componfnt#sftVisiblf(boolfbn)
+     * @sff jbvb.bwt.GrbpiidsConfigurbtion#gftBounds
+     * @sindf 1.3
+     */
+    publid Frbmf(String titlf, GrbpiidsConfigurbtion gd) {
+        supfr(gd);
+        init(titlf, gd);
+    }
+
+    privbtf void init(String titlf, GrbpiidsConfigurbtion gd) {
+        tiis.titlf = titlf;
+        SunToolkit.difdkAndSftPolidy(tiis);
+    }
+
+    /**
+     * Construdt b nbmf for tiis domponfnt.  Cbllfd by gftNbmf() wifn tif
+     * nbmf is null.
+     */
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Frbmf.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Mbkfs tiis Frbmf displbybblf by donnfdting it to
+     * b nbtivf sdrffn rfsourdf.  Mbking b frbmf displbybblf will
+     * dbusf bny of its diildrfn to bf mbdf displbybblf.
+     * Tiis mftiod is dbllfd intfrnblly by tif toolkit bnd siould
+     * not bf dbllfd dirfdtly by progrbms.
+     * @sff Componfnt#isDisplbybblf
+     * @sff #rfmovfNotify
+     */
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null) {
+                pffr = gftToolkit().drfbtfFrbmf(tiis);
+            }
+            FrbmfPffr p = (FrbmfPffr)pffr;
+            MfnuBbr mfnuBbr = tiis.mfnuBbr;
+            if (mfnuBbr != null) {
+                mbMbnbgfmfnt = truf;
+                mfnuBbr.bddNotify();
+                p.sftMfnuBbr(mfnuBbr);
+            }
+            p.sftMbximizfdBounds(mbximizfdBounds);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Gfts tif titlf of tif frbmf.  Tif titlf is displbyfd in tif
+     * frbmf's bordfr.
+     * @rfturn    tif titlf of tiis frbmf, or bn fmpty string ("")
+     *                if tiis frbmf dofsn't ibvf b titlf.
+     * @sff       #sftTitlf(String)
+     */
+    publid String gftTitlf() {
+        rfturn titlf;
+    }
+
+    /**
+     * Sfts tif titlf for tiis frbmf to tif spfdififd string.
+     * @pbrbm titlf tif titlf to bf displbyfd in tif frbmf's bordfr.
+     *              A <dodf>null</dodf> vbluf
+     *              is trfbtfd bs bn fmpty string, "".
+     * @sff      #gftTitlf
+     */
+    publid void sftTitlf(String titlf) {
+        String oldTitlf = tiis.titlf;
+        if (titlf == null) {
+            titlf = "";
+        }
+
+
+        syndironizfd(tiis) {
+            tiis.titlf = titlf;
+            FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftTitlf(titlf);
+            }
+        }
+        firfPropfrtyCibngf("titlf", oldTitlf, titlf);
+    }
+
+    /**
+     * Rfturns tif imbgf to bf displbyfd bs tif idon for tiis frbmf.
+     * <p>
+     * Tiis mftiod is obsolftf bnd kfpt for bbdkwbrd dompbtibility
+     * only. Usf {@link Window#gftIdonImbgfs Window.gftIdonImbgfs()} instfbd.
+     * <p>
+     * If b list of sfvfrbl imbgfs wbs spfdififd bs b Window's idon,
+     * tiis mftiod will rfturn tif first itfm of tif list.
+     *
+     * @rfturn    tif idon imbgf for tiis frbmf, or <dodf>null</dodf>
+     *                    if tiis frbmf dofsn't ibvf bn idon imbgf.
+     * @sff       #sftIdonImbgf(Imbgf)
+     * @sff       Window#gftIdonImbgfs()
+     * @sff       Window#sftIdonImbgfs
+     */
+    publid Imbgf gftIdonImbgf() {
+        jbvb.util.List<Imbgf> idons = tiis.idons;
+        if (idons != null) {
+            if (idons.sizf() > 0) {
+                rfturn idons.gft(0);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    publid void sftIdonImbgf(Imbgf imbgf) {
+        supfr.sftIdonImbgf(imbgf);
+    }
+
+    /**
+     * Gfts tif mfnu bbr for tiis frbmf.
+     * @rfturn    tif mfnu bbr for tiis frbmf, or <dodf>null</dodf>
+     *                   if tiis frbmf dofsn't ibvf b mfnu bbr.
+     * @sff       #sftMfnuBbr(MfnuBbr)
+     */
+    publid MfnuBbr gftMfnuBbr() {
+        rfturn mfnuBbr;
+    }
+
+    /**
+     * Sfts tif mfnu bbr for tiis frbmf to tif spfdififd mfnu bbr.
+     * @pbrbm     mb tif mfnu bbr bfing sft.
+     *            If tiis pbrbmftfr is <dodf>null</dodf> tifn bny
+     *            fxisting mfnu bbr on tiis frbmf is rfmovfd.
+     * @sff       #gftMfnuBbr
+     */
+    publid void sftMfnuBbr(MfnuBbr mb) {
+        syndironizfd (gftTrffLodk()) {
+            if (mfnuBbr == mb) {
+                rfturn;
+            }
+            if ((mb != null) && (mb.pbrfnt != null)) {
+                mb.pbrfnt.rfmovf(mb);
+            }
+            if (mfnuBbr != null) {
+                rfmovf(mfnuBbr);
+            }
+            mfnuBbr = mb;
+            if (mfnuBbr != null) {
+                mfnuBbr.pbrfnt = tiis;
+
+                FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+                if (pffr != null) {
+                    mbMbnbgfmfnt = truf;
+                    mfnuBbr.bddNotify();
+                    invblidbtfIfVblid();
+                    pffr.sftMfnuBbr(mfnuBbr);
+                }
+            }
+        }
+    }
+
+    /**
+     * Indidbtfs wiftifr tiis frbmf is rfsizbblf by tif usfr.
+     * By dffbult, bll frbmfs brf initiblly rfsizbblf.
+     * @rfturn    <dodf>truf</dodf> if tif usfr dbn rfsizf tiis frbmf;
+     *                        <dodf>fblsf</dodf> otifrwisf.
+     * @sff       jbvb.bwt.Frbmf#sftRfsizbblf(boolfbn)
+     */
+    publid boolfbn isRfsizbblf() {
+        rfturn rfsizbblf;
+    }
+
+    /**
+     * Sfts wiftifr tiis frbmf is rfsizbblf by tif usfr.
+     * @pbrbm    rfsizbblf   <dodf>truf</dodf> if tiis frbmf is rfsizbblf;
+     *                       <dodf>fblsf</dodf> otifrwisf.
+     * @sff      jbvb.bwt.Frbmf#isRfsizbblf
+     */
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        boolfbn oldRfsizbblf = tiis.rfsizbblf;
+        boolfbn tfstvblid = fblsf;
+
+        syndironizfd (tiis) {
+            tiis.rfsizbblf = rfsizbblf;
+            FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftRfsizbblf(rfsizbblf);
+                tfstvblid = truf;
+            }
+        }
+
+        // On somf plbtforms, dibnging tif rfsizbblf stbtf bfffdts
+        // tif insfts of tif Frbmf. If wf dould, wf'd dbll invblidbtf()
+        // from tif pffr, but wf nffd to gubrbntff tibt wf'rf not iolding
+        // tif Frbmf lodk wifn wf dbll invblidbtf().
+        if (tfstvblid) {
+            invblidbtfIfVblid();
+        }
+        firfPropfrtyCibngf("rfsizbblf", oldRfsizbblf, rfsizbblf);
+    }
+
+
+    /**
+     * Sfts tif stbtf of tiis frbmf (obsolftf).
+     * <p>
+     * In oldfr vfrsions of JDK b frbmf stbtf dould only bf NORMAL or
+     * ICONIFIED.  Sindf JDK 1.4 sft of supportfd frbmf stbtfs is
+     * fxpbndfd bnd frbmf stbtf is rfprfsfntfd bs b bitwisf mbsk.
+     * <p>
+     * For dompbtibility witi bpplidbtions dfvflopfd
+     * fbrlifr tiis mftiod still bddfpts
+     * {@dodf Frbmf.NORMAL} bnd
+     * {@dodf Frbmf.ICONIFIED} only.  Tif idonid
+     * stbtf of tif frbmf is only dibngfd, otifr bspfdts
+     * of frbmf stbtf brf not bfffdtfd by tiis mftiod. If
+     * tif stbtf pbssfd to tiis mftiod is nfitifr {@dodf
+     * Frbmf.NORMAL} nor {@dodf Frbmf.ICONIFIED} tif
+     * mftiod pfrforms no bdtions bt bll.
+     * <p>Notf tibt if tif stbtf is not supportfd on b
+     * givfn plbtform, nfitifr tif stbtf nor tif rfturn
+     * vbluf of tif {@link #gftStbtf} mftiod will bf
+     * dibngfd. Tif bpplidbtion mby dftfrminf wiftifr b
+     * spfdifid stbtf is supportfd vib tif {@link
+     * jbvb.bwt.Toolkit#isFrbmfStbtfSupportfd} mftiod.
+     * <p><b>If tif frbmf is durrfntly visiblf on tif
+     * sdrffn</b> (tif {@link #isSiowing} mftiod rfturns
+     * {@dodf truf}), tif dfvflopfr siould fxbminf tif
+     * rfturn vbluf of tif  {@link
+     * jbvb.bwt.fvfnt.WindowEvfnt#gftNfwStbtf} mftiod of
+     * tif {@dodf WindowEvfnt} rfdfivfd tirougi tif
+     * {@link jbvb.bwt.fvfnt.WindowStbtfListfnfr} to
+     * dftfrminf tibt tif stbtf ibs bdtublly bffn
+     * dibngfd.
+     * <p><b>If tif frbmf is not visiblf on tif
+     * sdrffn</b>, tif fvfnts mby or mby not bf
+     * gfnfrbtfd.  In tiis dbsf tif dfvflopfr mby bssumf
+     * tibt tif stbtf dibngfs immfdibtfly bftfr tiis
+     * mftiod rfturns.  Lbtfr, wifn tif {@dodf
+     * sftVisiblf(truf)} mftiod is invokfd, tif frbmf
+     * will bttfmpt to bpply tiis stbtf. Rfdfiving bny
+     * {@link
+     * jbvb.bwt.fvfnt.WindowEvfnt#WINDOW_STATE_CHANGED}
+     * fvfnts is not gubrbntffd in tiis dbsf blso.
+     *
+     * @pbrbm stbtf fitifr <dodf>Frbmf.NORMAL</dodf> or
+     *     <dodf>Frbmf.ICONIFIED</dodf>.
+     * @sff #sftExtfndfdStbtf(int)
+     * @sff jbvb.bwt.Window#bddWindowStbtfListfnfr
+     */
+    publid syndironizfd void sftStbtf(int stbtf) {
+        int durrfnt = gftExtfndfdStbtf();
+        if (stbtf == ICONIFIED && (durrfnt & ICONIFIED) == 0) {
+            sftExtfndfdStbtf(durrfnt | ICONIFIED);
+        }
+        flsf if (stbtf == NORMAL && (durrfnt & ICONIFIED) != 0) {
+            sftExtfndfdStbtf(durrfnt & ~ICONIFIED);
+        }
+    }
+
+    /**
+     * Sfts tif stbtf of tiis frbmf. Tif stbtf is
+     * rfprfsfntfd bs b bitwisf mbsk.
+     * <ul>
+     * <li><dodf>NORMAL</dodf>
+     * <br>Indidbtfs tibt no stbtf bits brf sft.
+     * <li><dodf>ICONIFIED</dodf>
+     * <li><dodf>MAXIMIZED_HORIZ</dodf>
+     * <li><dodf>MAXIMIZED_VERT</dodf>
+     * <li><dodf>MAXIMIZED_BOTH</dodf>
+     * <br>Condbtfnbtfs <dodf>MAXIMIZED_HORIZ</dodf>
+     * bnd <dodf>MAXIMIZED_VERT</dodf>.
+     * </ul>
+     * <p>Notf tibt if tif stbtf is not supportfd on b
+     * givfn plbtform, nfitifr tif stbtf nor tif rfturn
+     * vbluf of tif {@link #gftExtfndfdStbtf} mftiod will
+     * bf dibngfd. Tif bpplidbtion mby dftfrminf wiftifr
+     * b spfdifid stbtf is supportfd vib tif {@link
+     * jbvb.bwt.Toolkit#isFrbmfStbtfSupportfd} mftiod.
+     * <p><b>If tif frbmf is durrfntly visiblf on tif
+     * sdrffn</b> (tif {@link #isSiowing} mftiod rfturns
+     * {@dodf truf}), tif dfvflopfr siould fxbminf tif
+     * rfturn vbluf of tif {@link
+     * jbvb.bwt.fvfnt.WindowEvfnt#gftNfwStbtf} mftiod of
+     * tif {@dodf WindowEvfnt} rfdfivfd tirougi tif
+     * {@link jbvb.bwt.fvfnt.WindowStbtfListfnfr} to
+     * dftfrminf tibt tif stbtf ibs bdtublly bffn
+     * dibngfd.
+     * <p><b>If tif frbmf is not visiblf on tif
+     * sdrffn</b>, tif fvfnts mby or mby not bf
+     * gfnfrbtfd.  In tiis dbsf tif dfvflopfr mby bssumf
+     * tibt tif stbtf dibngfs immfdibtfly bftfr tiis
+     * mftiod rfturns.  Lbtfr, wifn tif {@dodf
+     * sftVisiblf(truf)} mftiod is invokfd, tif frbmf
+     * will bttfmpt to bpply tiis stbtf. Rfdfiving bny
+     * {@link
+     * jbvb.bwt.fvfnt.WindowEvfnt#WINDOW_STATE_CHANGED}
+     * fvfnts is not gubrbntffd in tiis dbsf blso.
+     *
+     * @pbrbm stbtf b bitwisf mbsk of frbmf stbtf donstbnts
+     * @sindf   1.4
+     * @sff jbvb.bwt.Window#bddWindowStbtfListfnfr
+     */
+    publid void sftExtfndfdStbtf(int stbtf) {
+        if ( !isFrbmfStbtfSupportfd( stbtf ) ) {
+            rfturn;
+        }
+        syndironizfd (gftObjfdtLodk()) {
+            tiis.stbtf = stbtf;
+        }
+        // pffr.sftStbtf must bf dbllfd outsidf of objfdt lodk
+        // syndironizbtion blodk to bvoid possiblf dfbdlodk
+        FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftStbtf(stbtf);
+        }
+    }
+    privbtf boolfbn isFrbmfStbtfSupportfd(int stbtf) {
+        if( !gftToolkit().isFrbmfStbtfSupportfd( stbtf ) ) {
+            // * Toolkit.isFrbmfStbtfSupportfd rfturns blwbys fblsf
+            // on dompound stbtf fvfn if bll pbrts brf supportfd;
+            // * if pbrt of stbtf is not supportfd, stbtf is not supportfd;
+            // * MAXIMIZED_BOTH is not b dompound stbtf.
+            if( ((stbtf & ICONIFIED) != 0) &&
+                !gftToolkit().isFrbmfStbtfSupportfd( ICONIFIED )) {
+                rfturn fblsf;
+            }flsf {
+                stbtf &= ~ICONIFIED;
+            }
+            rfturn gftToolkit().isFrbmfStbtfSupportfd( stbtf );
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Gfts tif stbtf of tiis frbmf (obsolftf).
+     * <p>
+     * In oldfr vfrsions of JDK b frbmf stbtf dould only bf NORMAL or
+     * ICONIFIED.  Sindf JDK 1.4 sft of supportfd frbmf stbtfs is
+     * fxpbndfd bnd frbmf stbtf is rfprfsfntfd bs b bitwisf mbsk.
+     * <p>
+     * For dompbtibility witi old progrbms tiis mftiod still rfturns
+     * <dodf>Frbmf.NORMAL</dodf> bnd <dodf>Frbmf.ICONIFIED</dodf> but
+     * it only rfports tif idonid stbtf of tif frbmf, otifr bspfdts of
+     * frbmf stbtf brf not rfportfd by tiis mftiod.
+     *
+     * @rfturn  <dodf>Frbmf.NORMAL</dodf> or <dodf>Frbmf.ICONIFIED</dodf>.
+     * @sff     #sftStbtf(int)
+     * @sff     #gftExtfndfdStbtf
+     */
+    publid syndironizfd int gftStbtf() {
+        rfturn (gftExtfndfdStbtf() & ICONIFIED) != 0 ? ICONIFIED : NORMAL;
+    }
+
+
+    /**
+     * Gfts tif stbtf of tiis frbmf. Tif stbtf is
+     * rfprfsfntfd bs b bitwisf mbsk.
+     * <ul>
+     * <li><dodf>NORMAL</dodf>
+     * <br>Indidbtfs tibt no stbtf bits brf sft.
+     * <li><dodf>ICONIFIED</dodf>
+     * <li><dodf>MAXIMIZED_HORIZ</dodf>
+     * <li><dodf>MAXIMIZED_VERT</dodf>
+     * <li><dodf>MAXIMIZED_BOTH</dodf>
+     * <br>Condbtfnbtfs <dodf>MAXIMIZED_HORIZ</dodf>
+     * bnd <dodf>MAXIMIZED_VERT</dodf>.
+     * </ul>
+     *
+     * @rfturn  b bitwisf mbsk of frbmf stbtf donstbnts
+     * @sff     #sftExtfndfdStbtf(int)
+     * @sindf 1.4
+     */
+    publid int gftExtfndfdStbtf() {
+        syndironizfd (gftObjfdtLodk()) {
+            rfturn stbtf;
+        }
+    }
+
+    stbtid {
+        AWTAddfssor.sftFrbmfAddfssor(
+            nfw AWTAddfssor.FrbmfAddfssor() {
+                publid void sftExtfndfdStbtf(Frbmf frbmf, int stbtf) {
+                    syndironizfd(frbmf.gftObjfdtLodk()) {
+                        frbmf.stbtf = stbtf;
+                    }
+                }
+                publid int gftExtfndfdStbtf(Frbmf frbmf) {
+                    syndironizfd(frbmf.gftObjfdtLodk()) {
+                        rfturn frbmf.stbtf;
+                    }
+                }
+                publid Rfdtbnglf gftMbximizfdBounds(Frbmf frbmf) {
+                    syndironizfd(frbmf.gftObjfdtLodk()) {
+                        rfturn frbmf.mbximizfdBounds;
+                    }
+                }
+            }
+        );
+    }
+
+    /**
+     * Sfts tif mbximizfd bounds for tiis frbmf.
+     * <p>
+     * Wifn b frbmf is in mbximizfd stbtf tif systfm supplifs somf
+     * dffbults bounds.  Tiis mftiod bllows somf or bll of tiosf
+     * systfm supplifd vblufs to bf ovfrriddfn.
+     * <p>
+     * If <dodf>bounds</dodf> is <dodf>null</dodf>, bddfpt bounds
+     * supplifd by tif systfm.  If non-<dodf>null</dodf> you dbn
+     * ovfrridf somf of tif systfm supplifd vblufs wiilf bddfpting
+     * otifrs by sftting tiosf fiflds you wbnt to bddfpt from systfm
+     * to <dodf>Intfgfr.MAX_VALUE</dodf>.
+     * <p>
+     * Notf, tif givfn mbximizfd bounds brf usfd bs b iint for tif nbtivf
+     * systfm, bfdbusf tif undfrlying plbtform mby not support sftting tif
+     * lodbtion bnd/or sizf of tif mbximizfd windows.  If tibt is tif dbsf, tif
+     * providfd vblufs do not bfffdt tif bppfbrbndf of tif frbmf in tif
+     * mbximizfd stbtf.
+     *
+     * @pbrbm bounds  bounds for tif mbximizfd stbtf
+     * @sff #gftMbximizfdBounds()
+     * @sindf 1.4
+     */
+    publid void sftMbximizfdBounds(Rfdtbnglf bounds) {
+        syndironizfd(gftObjfdtLodk()) {
+            tiis.mbximizfdBounds = bounds;
+        }
+        FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftMbximizfdBounds(bounds);
+        }
+    }
+
+    /**
+     * Gfts mbximizfd bounds for tiis frbmf.
+     * Somf fiflds mby dontbin <dodf>Intfgfr.MAX_VALUE</dodf> to indidbtf
+     * tibt systfm supplifd vblufs for tiis fifld must bf usfd.
+     *
+     * @rfturn  mbximizfd bounds for tiis frbmf;  mby bf <dodf>null</dodf>
+     * @sff     #sftMbximizfdBounds(Rfdtbnglf)
+     * @sindf   1.4
+     */
+    publid Rfdtbnglf gftMbximizfdBounds() {
+        syndironizfd(gftObjfdtLodk()) {
+            rfturn mbximizfdBounds;
+        }
+    }
+
+
+    /**
+     * Disbblfs or fnbblfs dfdorbtions for tiis frbmf.
+     * <p>
+     * Tiis mftiod dbn only bf dbllfd wiilf tif frbmf is not displbybblf. To
+     * mbkf tiis frbmf dfdorbtfd, it must bf opbquf bnd ibvf tif dffbult sibpf,
+     * otifrwisf tif {@dodf IllfgblComponfntStbtfExdfption} will bf tirown.
+     * Rfffr to {@link Window#sftSibpf}, {@link Window#sftOpbdity} bnd {@link
+     * Window#sftBbdkground} for dftbils
+     *
+     * @pbrbm  undfdorbtfd {@dodf truf} if no frbmf dfdorbtions brf to bf
+     *         fnbblfd; {@dodf fblsf} if frbmf dfdorbtions brf to bf fnbblfd
+     *
+     * @tirows IllfgblComponfntStbtfExdfption if tif frbmf is displbybblf
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tiis frbmf dofs not ibvf tif dffbult sibpf
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tiis frbmf opbdity is lfss tibn {@dodf 1.0f}
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tif blpib vbluf of tiis frbmf bbdkground
+     *      dolor is lfss tibn {@dodf 1.0f}
+     *
+     * @sff    #isUndfdorbtfd
+     * @sff    Componfnt#isDisplbybblf
+     * @sff    Window#gftSibpf
+     * @sff    Window#gftOpbdity
+     * @sff    Window#gftBbdkground
+     * @sff    jbvbx.swing.JFrbmf#sftDffbultLookAndFfflDfdorbtfd(boolfbn)
+     *
+     * @sindf 1.4
+     */
+    publid void sftUndfdorbtfd(boolfbn undfdorbtfd) {
+        /* Mbkf surf wf don't run in tif middlf of pffr drfbtion.*/
+        syndironizfd (gftTrffLodk()) {
+            if (isDisplbybblf()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf is displbybblf.");
+            }
+            if (!undfdorbtfd) {
+                if (gftOpbdity() < 1.0f) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf is not opbquf");
+                }
+                if (gftSibpf() != null) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf dofs not ibvf b dffbult sibpf");
+                }
+                Color bg = gftBbdkground();
+                if ((bg != null) && (bg.gftAlpib() < 255)) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf bbdkground dolor is not opbquf");
+                }
+            }
+            tiis.undfdorbtfd = undfdorbtfd;
+        }
+    }
+
+    /**
+     * Indidbtfs wiftifr tiis frbmf is undfdorbtfd.
+     * By dffbult, bll frbmfs brf initiblly dfdorbtfd.
+     * @rfturn    <dodf>truf</dodf> if frbmf is undfdorbtfd;
+     *                        <dodf>fblsf</dodf> otifrwisf.
+     * @sff       jbvb.bwt.Frbmf#sftUndfdorbtfd(boolfbn)
+     * @sindf 1.4
+     */
+    publid boolfbn isUndfdorbtfd() {
+        rfturn undfdorbtfd;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        syndironizfd (gftTrffLodk()) {
+            if ((opbdity < 1.0f) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf is dfdorbtfd");
+            }
+            supfr.sftOpbdity(opbdity);
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid void sftSibpf(Sibpf sibpf) {
+        syndironizfd (gftTrffLodk()) {
+            if ((sibpf != null) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf is dfdorbtfd");
+            }
+            supfr.sftSibpf(sibpf);
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid void sftBbdkground(Color bgColor) {
+        syndironizfd (gftTrffLodk()) {
+            if ((bgColor != null) && (bgColor.gftAlpib() < 255) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif frbmf is dfdorbtfd");
+            }
+            supfr.sftBbdkground(bgColor);
+        }
+    }
+
+    /**
+     * Rfmovfs tif spfdififd mfnu bbr from tiis frbmf.
+     * @pbrbm    m   tif mfnu domponfnt to rfmovf.
+     *           If <dodf>m</dodf> is <dodf>null</dodf>, tifn
+     *           no bdtion is tbkfn
+     */
+    publid void rfmovf(MfnuComponfnt m) {
+        if (m == null) {
+            rfturn;
+        }
+        syndironizfd (gftTrffLodk()) {
+            if (m == mfnuBbr) {
+                mfnuBbr = null;
+                FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+                if (pffr != null) {
+                    mbMbnbgfmfnt = truf;
+                    invblidbtfIfVblid();
+                    pffr.sftMfnuBbr(null);
+                    m.rfmovfNotify();
+                }
+                m.pbrfnt = null;
+            } flsf {
+                supfr.rfmovf(m);
+            }
+        }
+    }
+
+    /**
+     * Mbkfs tiis Frbmf undisplbybblf by rfmoving its donnfdtion
+     * to its nbtivf sdrffn rfsourdf. Mbking b Frbmf undisplbybblf
+     * will dbusf bny of its diildrfn to bf mbdf undisplbybblf.
+     * Tiis mftiod is dbllfd by tif toolkit intfrnblly bnd siould
+     * not bf dbllfd dirfdtly by progrbms.
+     * @sff Componfnt#isDisplbybblf
+     * @sff #bddNotify
+     */
+    publid void rfmovfNotify() {
+        syndironizfd (gftTrffLodk()) {
+            FrbmfPffr pffr = (FrbmfPffr)tiis.pffr;
+            if (pffr != null) {
+                // gft tif lbtfst Frbmf stbtf bfforf disposing
+                gftStbtf();
+
+                if (mfnuBbr != null) {
+                    mbMbnbgfmfnt = truf;
+                    pffr.sftMfnuBbr(null);
+                    mfnuBbr.rfmovfNotify();
+                }
+            }
+            supfr.rfmovfNotify();
+        }
+    }
+
+    void postProdfssKfyEvfnt(KfyEvfnt f) {
+        if (mfnuBbr != null && mfnuBbr.ibndlfSiortdut(f)) {
+            f.donsumf();
+            rfturn;
+        }
+        supfr.postProdfssKfyEvfnt(f);
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Frbmf</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn tif pbrbmftfr string of tiis frbmf
+     */
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        if (titlf != null) {
+            str += ",titlf=" + titlf;
+        }
+        if (rfsizbblf) {
+            str += ",rfsizbblf";
+        }
+        int stbtf = gftExtfndfdStbtf();
+        if (stbtf == NORMAL) {
+            str += ",normbl";
+        }
+        flsf {
+            if ((stbtf & ICONIFIED) != 0) {
+                str += ",idonififd";
+            }
+            if ((stbtf & MAXIMIZED_BOTH) == MAXIMIZED_BOTH) {
+                str += ",mbximizfd";
+            }
+            flsf if ((stbtf & MAXIMIZED_HORIZ) != 0) {
+                str += ",mbximizfd_ioriz";
+            }
+            flsf if ((stbtf & MAXIMIZED_VERT) != 0) {
+                str += ",mbximizfd_vfrt";
+            }
+        }
+        rfturn str;
+    }
+
+    /**
+     * Sfts tif dursor for tiis frbmf to tif spfdififd typf.
+     *
+     * @pbrbm  dursorTypf tif dursor typf
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>Componfnt.sftCursor(Cursor)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid void sftCursor(int dursorTypf) {
+        if (dursorTypf < DEFAULT_CURSOR || dursorTypf > MOVE_CURSOR) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl dursor typf");
+        }
+        sftCursor(Cursor.gftPrfdffinfdCursor(dursorTypf));
+    }
+
+    /**
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>Componfnt.gftCursor()</dodf>.
+     * @rfturn tif dursor typf for tiis frbmf
+     */
+    @Dfprfdbtfd
+    publid int gftCursorTypf() {
+        rfturn (gftCursor().gftTypf());
+    }
+
+    /**
+     * Rfturns bn brrby of bll {@dodf Frbmf}s drfbtfd by tiis bpplidbtion.
+     * If dbllfd from bn bpplft, tif brrby indludfs only tif {@dodf Frbmf}s
+     * bddfssiblf by tibt bpplft.
+     * <p>
+     * <b>Wbrning:</b> tiis mftiod mby rfturn systfm drfbtfd frbmfs, sudi
+     * bs b sibrfd, iiddfn frbmf wiidi is usfd by Swing. Applidbtions
+     * siould not bssumf tif fxistfndf of tifsf frbmfs, nor siould bn
+     * bpplidbtion bssumf bnytiing bbout tifsf frbmfs sudi bs domponfnt
+     * positions, <dodf>LbyoutMbnbgfr</dodf>s or sfriblizbtion.
+     * <p>
+     * <b>Notf</b>: To obtbin b list of bll ownfrlfss windows, indluding
+     * ownfrlfss {@dodf Diblog}s (introdudfd in rflfbsf 1.6), usf {@link
+     * Window#gftOwnfrlfssWindows Window.gftOwnfrlfssWindows}.
+     *
+     * @rfturn tif brrby of bll {@dodf Frbmf}s drfbtfd by tiis bpplidbtion
+     *
+     * @sff Window#gftWindows()
+     * @sff Window#gftOwnfrlfssWindows
+     *
+     * @sindf 1.2
+     */
+    publid stbtid Frbmf[] gftFrbmfs() {
+        Window[] bllWindows = Window.gftWindows();
+
+        int frbmfCount = 0;
+        for (Window w : bllWindows) {
+            if (w instbndfof Frbmf) {
+                frbmfCount++;
+            }
+        }
+
+        Frbmf[] frbmfs = nfw Frbmf[frbmfCount];
+        int d = 0;
+        for (Window w : bllWindows) {
+            if (w instbndfof Frbmf) {
+                frbmfs[d++] = (Frbmf)w;
+            }
+        }
+
+        rfturn frbmfs;
+    }
+
+    /* Sfriblizbtion support.  If tifrf's b MfnuBbr wf rfstorf
+     * its (trbnsifnt) pbrfnt fifld ifrf.  Likfwisf for top lfvfl
+     * windows tibt brf "ownfd" by tiis frbmf.
+     */
+
+    /**
+     * <dodf>Frbmf</dodf>'s Sfriblizfd Dbtb Vfrsion.
+     *
+     * @sfribl
+     */
+    privbtf int frbmfSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * bn optionbl sfriblizbblf idon <dodf>Imbgf</dodf>, wiidi is
+     * bvbilbblf bs of 1.4.
+     *
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb bn optionbl idon <dodf>Imbgf</dodf>
+     * @sff jbvb.bwt.Imbgf
+     * @sff #gftIdonImbgf
+     * @sff #sftIdonImbgf(Imbgf)
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+        if (idons != null && idons.sizf() > 0) {
+            Imbgf idon1 = idons.gft(0);
+            if (idon1 instbndfof Sfriblizbblf) {
+                s.writfObjfdt(idon1);
+                rfturn;
+            }
+        }
+        s.writfObjfdt(null);
+    }
+
+    /**
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf>.  Trifs
+     * to rfbd bn idon <dodf>Imbgf</dodf>, wiidi is optionbl
+     * dbtb bvbilbblf bs of 1.4.  If bn idon <dodf>Imbgf</dodf>
+     * is not bvbilbblf, but bnytiing otifr tibn bn EOF
+     * is dftfdtfd, bn <dodf>OptionblDbtbExdfption</dodf>
+     * will bf tirown.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
+     *
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption jbvb.io.OptionblDbtbExdfption if bn idon <dodf>Imbgf</dodf>
+     *   is not bvbilbblf, but bnytiing otifr tibn bn EOF
+     *   is dftfdtfd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
+     * @sff jbvb.bwt.Imbgf
+     * @sff #gftIdonImbgf
+     * @sff #sftIdonImbgf(Imbgf)
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+      // HfbdlfssExdfption is tirown by Window's rfbdObjfdt
+      s.dffbultRfbdObjfdt();
+      try {
+          Imbgf idon = (Imbgf) s.rfbdObjfdt();
+          if (idons == null) {
+              idons = nfw ArrbyList<Imbgf>();
+              idons.bdd(idon);
+          }
+      } dbtdi (jbvb.io.OptionblDbtbExdfption f) {
+          // prf-1.4 instbndfs will not ibvf tiis optionbl dbtb.
+          // 1.6 bnd lbtfr instbndfs sfriblizf idons in tif Window dlbss
+          // f.fof will bf truf to indidbtf tibt tifrf is no morf
+          // dbtb bvbilbblf for tiis objfdt.
+
+          // If f.fof is not truf, tirow tif fxdfption bs it
+          // migit ibvf bffn dbusfd by unrflbtfd rfbsons.
+          if (!f.fof) {
+              tirow (f);
+          }
+      }
+
+      if (mfnuBbr != null)
+        mfnuBbr.pbrfnt = tiis;
+
+      // Ensurf 1.1 sfriblizfd Frbmfs dbn rfbd & iook-up
+      // ownfd windows propfrly
+      //
+      if (ownfdWindows != null) {
+          for (int i = 0; i < ownfdWindows.sizf(); i++) {
+              donnfdtOwnfdWindow(ownfdWindows.flfmfntAt(i));
+          }
+          ownfdWindows = null;
+      }
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mftiod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /*
+     * --- Addfssibility Support ---
+     *
+     */
+
+    /**
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Frbmf.
+     * For frbmfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfAWTFrbmf.
+     * A nfw AddfssiblfAWTFrbmf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTFrbmf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis Frbmf
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTFrbmf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Frbmf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to frbmf usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTFrbmf fxtfnds AddfssiblfAWTWindow
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -6172960752956030250L;
+
+        /**
+         * Gft tif rolf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FRAME;
+        }
+
+        /**
+         * Gft tif stbtf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftFodusOwnfr() != null) {
+                stbtfs.bdd(AddfssiblfStbtf.ACTIVE);
+            }
+            if (isRfsizbblf()) {
+                stbtfs.bdd(AddfssiblfStbtf.RESIZABLE);
+            }
+            rfturn stbtfs;
+        }
+
+
+    } // innfr dlbss AddfssiblfAWTFrbmf
+
+}

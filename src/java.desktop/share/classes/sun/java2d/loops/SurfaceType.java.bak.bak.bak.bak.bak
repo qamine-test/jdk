@@ -1,0 +1,460 @@
+/*
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.imbgf.PixflConvfrtfr;
+import jbvb.util.HbsiMbp;
+
+/**
+ * A SurfbdfTypf objfdt providfs b dibinfd dfsdription of b typf of
+ * drbwing surfbdf.  Tif objfdt will providf b singlf String donstbnt
+ * dfsdriptor wiidi is onf wby of vifwing or bddfssing b pbrtidulbr
+ * drbwing surfbdf bs wfll bs b pointfr to bnotifr SurfbdfTypf wiidi
+ * dfsdribfs tif sbmf drbwing surfbdf in b difffrfnt (typidblly morf
+ * gfnfrblizfd) wby.
+ * <p>
+ * A morf spfdifid dfsdription of b surfbdf is donsidfrfd b "subtypf"
+ * bnd b morf gfnfrbl dfsdription is donsidfrfd b "supfrtypf".  Tius,
+ * tif dfrivfSubTypf mftiod providfs b wby to drfbtf b nfw SurfbdfTypf
+ * tibt is rflbtfd to but morf spfdifid tibn bn fxisting SurfbdfTypf bnd
+ * tif gftSupfrTypf mftiod providfs b wby to bsk b givfn SurfbdfTypf
+ * for b morf gfnfrbl wby to dfsdribf tif sbmf surfbdf.
+ * <p>
+ * Notf tibt you dbnnot donstrudt b brbnd nfw root for b dibin sindf
+ * tif donstrudtor is privbtf.  Evfry dibin of typfs must bt somf point
+ * dfrivf from tif Any nodf providfd ifrf using tif dfrivfSubTypf()
+ * mftiod.  Tif prfsfndf of tiis dommon Any nodf on fvfry dibin
+ * fnsurfs tibt bll dibins fnd witi tif DESC_ANY dfsdriptor so tibt
+ * b suitbblf Gfnfrbl GrbpiidsPrimitivf objfdt dbn bf obtbinfd for
+ * tif indidbtfd surfbdf if bll of tif morf spfdifid sfbrdifs fbil.
+ */
+publid finbl dlbss SurfbdfTypf {
+
+    privbtf stbtid int unusfdUID = 1;
+    privbtf stbtid HbsiMbp<String, Intfgfr> surfbdfUIDMbp = nfw HbsiMbp<>(100);
+
+    /*
+     * CONSTANTS USED BY ALL PRIMITIVES TO DESCRIBE THE SURFACES
+     * THEY CAN OPERATE ON
+     */
+
+    /**
+     * surfbdf is unknown dolor modfl or sbmplf modfl.
+     */
+    publid stbtid finbl String
+        DESC_ANY            = "Any Surfbdf";
+
+    /**
+     * dommon surfbdf formbts dffinfd in BufffrfdImbgf
+     */
+    publid stbtid finbl String
+        DESC_INT_RGB        = "Intfgfr RGB";
+    publid stbtid finbl String
+        DESC_INT_ARGB       = "Intfgfr ARGB";
+    publid stbtid finbl String
+        DESC_INT_ARGB_PRE   = "Intfgfr ARGB Prfmultiplifd";
+    publid stbtid finbl String
+        DESC_INT_BGR        = "Intfgfr BGR";
+    publid stbtid finbl String
+        DESC_3BYTE_BGR      = "3 Bytf BGR";
+    publid stbtid finbl String
+        DESC_4BYTE_ABGR     = "4 Bytf ABGR";
+    publid stbtid finbl String
+        DESC_4BYTE_ABGR_PRE = "4 Bytf ABGR Prfmultiplifd";
+    publid stbtid finbl String
+        DESC_USHORT_565_RGB = "Siort 565 RGB";
+    publid stbtid finbl String
+        DESC_USHORT_555_RGB = "Siort 555 RGB";
+    publid stbtid finbl String
+        DESC_USHORT_555_RGBx= "Siort 555 RGBx";
+    publid stbtid finbl String
+        DESC_USHORT_4444_ARGB= "Siort 4444 ARGB";
+    publid stbtid finbl String
+        DESC_BYTE_GRAY      = "8-bit Grby";
+    publid stbtid finbl String
+        DESC_USHORT_INDEXED = "16-bit Indfxfd";
+    publid stbtid finbl String
+        DESC_USHORT_GRAY    = "16-bit Grby";
+    publid stbtid finbl String
+        DESC_BYTE_BINARY    = "Pbdkfd Binbry Bitmbp";
+    publid stbtid finbl String
+        DESC_BYTE_INDEXED   = "8-bit Indfxfd";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * is indfpfndfnt of tif dolor modfl on bn IntfgfrComponfnt
+     * sbmplf modfl surfbdf
+     */
+    publid stbtid finbl String DESC_ANY_INT = "Any Disdrftf Intfgfr";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * is indfpfndfnt of tif dolor modfl on b SiortComponfnt
+     * sbmplf modfl surfbdf
+     */
+    publid stbtid finbl String DESC_ANY_SHORT = "Any Disdrftf Siort";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * is indfpfndfnt of tif dolor modfl on b BytfComponfnt
+     * sbmplf modfl surfbdf
+     */
+    publid stbtid finbl String DESC_ANY_BYTE = "Any Disdrftf Bytf";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * opfrbtfs on b surfbdf witi 3 domponfnt intfrlfbvfd Rbstfr bnd
+     * sbmplf modfl bnd b ComponfntColorModfl witi bn brbitrbry ordfring
+     * of tif RGB dibnnfls
+     */
+    publid stbtid finbl String DESC_ANY_3BYTE = "Any 3 Bytf Componfnt";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * opfrbtfs on b surfbdf witi 4 domponfnt intfrlfbvfd Rbstfr bnd
+     * sbmplf modfl bnd b ComponfntColorModfl witi bn brbitrbry ordfring
+     * of tif ARGB dibnnfls
+     */
+    publid stbtid finbl String DESC_ANY_4BYTE = "Any 4 Bytf Componfnt";
+
+    /**
+     * wilddbrd formbt wiidi indidbtfs tibt tif GrbpiidsPrimitivf
+     * opfrbtfs on b surfbdf witi b singlf domponfnt IntfgfrComponfnt
+     * sbmplf modfl bnd b DirfdtColorModfl witi bn brbitrbry ordfring
+     * of tif RGB dibnnfls
+     */
+    publid stbtid finbl String DESC_ANY_INT_DCM = "Any Intfgfr DCM";
+
+    /**
+     * bdditionbl IntfgfrComponfnt typfs dommon on Windows
+     */
+    publid stbtid finbl String DESC_INT_RGBx = "Intfgfr RGBx";
+    publid stbtid finbl String DESC_INT_BGRx = "Intfgfr BGRx";
+
+    /**
+     * bdditionbl 3 bytf formbt dommon on Windows
+     */
+    publid stbtid finbl String DESC_3BYTE_RGB = "3 Bytf RGB";
+
+    /**
+     * dommon formbts for BITMASK trbnspbrfndy.
+     */
+    publid stbtid finbl String DESC_INT_ARGB_BM     = "Int ARGB (Bitmbsk)";
+    publid stbtid finbl String DESC_BYTE_INDEXED_BM = "8-bit Indfxfd (Bitmbsk)";
+
+    /**
+     * Opbquf 8-bit indfxfd imbgfs
+     */
+    publid stbtid finbl String
+        DESC_BYTE_INDEXED_OPAQUE = "8-bit Indfxfd (Opbquf)";
+
+    /**
+     * Spfdibl Grby Sdblf typfs for rfndfring loops.  Rfblly indfxfd
+     * typfs, but dolormbp ibs bll grby vblufs.
+     */
+    publid stbtid finbl String DESC_INDEX8_GRAY  = "8-bit Pblfttizfd Grby";
+    publid stbtid finbl String DESC_INDEX12_GRAY = "12-bit Pblfttizfd Grby";
+
+    publid stbtid finbl String
+        DESC_BYTE_BINARY_1BIT = "Pbdkfd Binbry 1-bit Bitmbp";
+    publid stbtid finbl String
+        DESC_BYTE_BINARY_2BIT = "Pbdkfd Binbry 2-bit Bitmbp";
+    publid stbtid finbl String
+        DESC_BYTE_BINARY_4BIT = "Pbdkfd Binbry 4-bit Bitmbp";
+
+    /**
+     * Spfdibl typf for dfsdribing tif sourdfs of loops tibt rfndfr tif
+     * durrfnt forfground dolor or pbint instfbd of dopying dolors from
+     * b sourdf surfbdf.
+     */
+    publid stbtid finbl String DESC_ANY_PAINT      = "Pbint Objfdt";
+    publid stbtid finbl String DESC_ANY_COLOR      = "Singlf Color";
+    publid stbtid finbl String DESC_OPAQUE_COLOR   = "Opbquf Color";
+    publid stbtid finbl String
+        DESC_GRADIENT_PAINT        = "Grbdifnt Pbint";
+    publid stbtid finbl String
+        DESC_OPAQUE_GRADIENT_PAINT = "Opbquf Grbdifnt Pbint";
+    publid stbtid finbl String
+        DESC_TEXTURE_PAINT         = "Tfxturf Pbint";
+    publid stbtid finbl String
+        DESC_OPAQUE_TEXTURE_PAINT  = "Opbquf Tfxturf Pbint";
+    publid stbtid finbl String
+        DESC_LINEAR_GRADIENT_PAINT        = "Linfbr Grbdifnt Pbint";
+    publid stbtid finbl String
+        DESC_OPAQUE_LINEAR_GRADIENT_PAINT = "Opbquf Linfbr Grbdifnt Pbint";
+    publid stbtid finbl String
+        DESC_RADIAL_GRADIENT_PAINT        = "Rbdibl Grbdifnt Pbint";
+    publid stbtid finbl String
+        DESC_OPAQUE_RADIAL_GRADIENT_PAINT = "Opbquf Rbdibl Grbdifnt Pbint";
+
+    /*
+     * END OF SURFACE TYPE CONSTANTS
+     */
+
+
+    /**
+     * Tif root SurfbdfTypf objfdt for bll dibins of surfbdf dfsdriptions.
+     * Tif root usfs tif dffbult PixflConvfrtfr objfdt, wiidi usfs b givfn
+     * ColorModfl objfdt to dbldulbtf its pixflFor() vblufs wifn bskfd.
+     * Any SurfbdfTypf objfdts tibt brf not drfbtfd witi b spfdifid
+     * PixflConvfrtfr objfdt will inifrit tiis bfibvior from tif root.
+     */
+    publid stbtid finbl SurfbdfTypf Any =
+        nfw SurfbdfTypf(null, DESC_ANY, PixflConvfrtfr.instbndf);
+
+    /*
+     * START OF SurfbdfTypf OBJECTS FOR THE VARIOUS CONSTANTS
+     */
+
+    publid stbtid finbl SurfbdfTypf
+        AnyInt            = Any.dfrivfSubTypf(DESC_ANY_INT);
+    publid stbtid finbl SurfbdfTypf
+        AnySiort          = Any.dfrivfSubTypf(DESC_ANY_SHORT);
+    publid stbtid finbl SurfbdfTypf
+        AnyBytf           = Any.dfrivfSubTypf(DESC_ANY_BYTE);
+    publid stbtid finbl SurfbdfTypf
+        AnyBytfBinbry     = Any.dfrivfSubTypf(DESC_BYTE_BINARY);
+    publid stbtid finbl SurfbdfTypf
+        Any3Bytf          = Any.dfrivfSubTypf(DESC_ANY_3BYTE);
+    publid stbtid finbl SurfbdfTypf
+        Any4Bytf          = Any.dfrivfSubTypf(DESC_ANY_4BYTE);
+    publid stbtid finbl SurfbdfTypf
+        AnyDdm            = AnyInt.dfrivfSubTypf(DESC_ANY_INT_DCM);
+
+    publid stbtid finbl SurfbdfTypf
+        Custom            = Any;
+    publid stbtid finbl SurfbdfTypf IntRgb =
+        AnyDdm.dfrivfSubTypf(DESC_INT_RGB, PixflConvfrtfr.Xrgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf IntArgb =
+        AnyDdm.dfrivfSubTypf(DESC_INT_ARGB, PixflConvfrtfr.Argb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf IntArgbPrf =
+        AnyDdm.dfrivfSubTypf(DESC_INT_ARGB_PRE,
+                             PixflConvfrtfr.ArgbPrf.instbndf);
+
+    publid stbtid finbl SurfbdfTypf IntBgr =
+        AnyDdm.dfrivfSubTypf(DESC_INT_BGR, PixflConvfrtfr.Xbgr.instbndf);
+
+    publid stbtid finbl SurfbdfTypf TirffBytfBgr =
+        Any3Bytf.dfrivfSubTypf(DESC_3BYTE_BGR, PixflConvfrtfr.Xrgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf FourBytfAbgr =
+        Any4Bytf.dfrivfSubTypf(DESC_4BYTE_ABGR, PixflConvfrtfr.Rgbb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf FourBytfAbgrPrf =
+        Any4Bytf.dfrivfSubTypf(DESC_4BYTE_ABGR_PRE,
+                               PixflConvfrtfr.RgbbPrf.instbndf);
+
+    publid stbtid finbl SurfbdfTypf Usiort565Rgb =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_565_RGB,
+                               PixflConvfrtfr.Usiort565Rgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf Usiort555Rgb =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_555_RGB,
+                               PixflConvfrtfr.Usiort555Rgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf Usiort555Rgbx =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_555_RGBx,
+                               PixflConvfrtfr.Usiort555Rgbx.instbndf);
+
+    publid stbtid finbl SurfbdfTypf Usiort4444Argb =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_4444_ARGB,
+                               PixflConvfrtfr.Usiort4444Argb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf UsiortIndfxfd =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_INDEXED);
+
+    publid stbtid finbl SurfbdfTypf BytfGrby =
+        AnyBytf.dfrivfSubTypf(DESC_BYTE_GRAY,
+                              PixflConvfrtfr.BytfGrby.instbndf);
+
+    publid stbtid finbl SurfbdfTypf UsiortGrby =
+        AnySiort.dfrivfSubTypf(DESC_USHORT_GRAY,
+                               PixflConvfrtfr.UsiortGrby.instbndf);
+
+    publid stbtid finbl SurfbdfTypf BytfBinbry1Bit =
+        AnyBytfBinbry.dfrivfSubTypf(DESC_BYTE_BINARY_1BIT);
+    publid stbtid finbl SurfbdfTypf BytfBinbry2Bit =
+        AnyBytfBinbry.dfrivfSubTypf(DESC_BYTE_BINARY_2BIT);
+    publid stbtid finbl SurfbdfTypf BytfBinbry4Bit =
+        AnyBytfBinbry.dfrivfSubTypf(DESC_BYTE_BINARY_4BIT);
+
+    publid stbtid finbl SurfbdfTypf BytfIndfxfd =
+        AnyBytf.dfrivfSubTypf(DESC_BYTE_INDEXED);
+
+    publid stbtid finbl SurfbdfTypf IntRgbx =
+        AnyDdm.dfrivfSubTypf(DESC_INT_RGBx, PixflConvfrtfr.Rgbx.instbndf);
+
+    publid stbtid finbl SurfbdfTypf IntBgrx =
+        AnyDdm.dfrivfSubTypf(DESC_INT_BGRx, PixflConvfrtfr.Bgrx.instbndf);
+
+    publid stbtid finbl SurfbdfTypf TirffBytfRgb =
+        Any3Bytf.dfrivfSubTypf(DESC_3BYTE_RGB, PixflConvfrtfr.Xbgr.instbndf);
+
+    publid stbtid finbl SurfbdfTypf IntArgbBm =
+        AnyDdm.dfrivfSubTypf(DESC_INT_ARGB_BM, PixflConvfrtfr.ArgbBm.instbndf);
+
+    publid stbtid finbl SurfbdfTypf BytfIndfxfdBm =
+        BytfIndfxfd.dfrivfSubTypf(DESC_BYTE_INDEXED_BM);
+
+    publid stbtid finbl SurfbdfTypf BytfIndfxfdOpbquf =
+        BytfIndfxfdBm.dfrivfSubTypf(DESC_BYTE_INDEXED_OPAQUE);
+
+    publid stbtid finbl SurfbdfTypf Indfx8Grby =
+        BytfIndfxfdOpbquf.dfrivfSubTypf(DESC_INDEX8_GRAY);
+
+    publid stbtid finbl SurfbdfTypf Indfx12Grby =
+        Any.dfrivfSubTypf(DESC_INDEX12_GRAY);
+
+    publid stbtid finbl SurfbdfTypf AnyPbint =
+        Any.dfrivfSubTypf(DESC_ANY_PAINT);
+
+    publid stbtid finbl SurfbdfTypf AnyColor =
+        AnyPbint.dfrivfSubTypf(DESC_ANY_COLOR);
+
+    publid stbtid finbl SurfbdfTypf OpbqufColor =
+        AnyColor.dfrivfSubTypf(DESC_OPAQUE_COLOR);
+
+    publid stbtid finbl SurfbdfTypf GrbdifntPbint =
+        AnyPbint.dfrivfSubTypf(DESC_GRADIENT_PAINT);
+    publid stbtid finbl SurfbdfTypf OpbqufGrbdifntPbint =
+        GrbdifntPbint.dfrivfSubTypf(DESC_OPAQUE_GRADIENT_PAINT);
+
+    publid stbtid finbl SurfbdfTypf LinfbrGrbdifntPbint =
+        AnyPbint.dfrivfSubTypf(DESC_LINEAR_GRADIENT_PAINT);
+    publid stbtid finbl SurfbdfTypf OpbqufLinfbrGrbdifntPbint =
+        LinfbrGrbdifntPbint.dfrivfSubTypf(DESC_OPAQUE_LINEAR_GRADIENT_PAINT);
+
+    publid stbtid finbl SurfbdfTypf RbdiblGrbdifntPbint =
+        AnyPbint.dfrivfSubTypf(DESC_RADIAL_GRADIENT_PAINT);
+    publid stbtid finbl SurfbdfTypf OpbqufRbdiblGrbdifntPbint =
+        RbdiblGrbdifntPbint.dfrivfSubTypf(DESC_OPAQUE_RADIAL_GRADIENT_PAINT);
+
+    publid stbtid finbl SurfbdfTypf TfxturfPbint =
+        AnyPbint.dfrivfSubTypf(DESC_TEXTURE_PAINT);
+    publid stbtid finbl SurfbdfTypf OpbqufTfxturfPbint =
+        TfxturfPbint.dfrivfSubTypf(DESC_OPAQUE_TEXTURE_PAINT);
+
+    /*
+     * END OF SurfbdfTypf OBJECTS FOR THE VARIOUS CONSTANTS
+     */
+
+    /**
+     * Rfturn b nfw SurfbdfTypf objfdt wiidi usfs tiis objfdt bs its
+     * morf gfnfrbl "supfrtypf" dfsdriptor.  If no opfrbtion dbn bf
+     * found tibt mbnipulbtfs tif typf of surfbdf dfsdribfd morf fxbdtly
+     * by dfsd, tifn tiis objfdt will dffinf tif morf rflbxfd spfdifidbtion
+     * of tif surfbdf tibt dbn bf usfd to find b morf gfnfrbl opfrbtor.
+     */
+    publid SurfbdfTypf dfrivfSubTypf(String dfsd) {
+        rfturn nfw SurfbdfTypf(tiis, dfsd);
+    }
+
+    publid SurfbdfTypf dfrivfSubTypf(String dfsd,
+                                     PixflConvfrtfr pixflConvfrtfr) {
+        rfturn nfw SurfbdfTypf(tiis, dfsd, pixflConvfrtfr);
+    }
+
+    privbtf int uniqufID;
+    privbtf String dfsd;
+    privbtf SurfbdfTypf nfxt;
+    protfdtfd PixflConvfrtfr pixflConvfrtfr;
+
+    privbtf SurfbdfTypf(SurfbdfTypf pbrfnt, String dfsd,
+                        PixflConvfrtfr pixflConvfrtfr) {
+        nfxt = pbrfnt;
+        tiis.dfsd = dfsd;
+        tiis.uniqufID = mbkfUniqufID(dfsd);
+        tiis.pixflConvfrtfr = pixflConvfrtfr;
+    }
+
+    privbtf SurfbdfTypf(SurfbdfTypf pbrfnt, String dfsd) {
+        nfxt = pbrfnt;
+        tiis.dfsd = dfsd;
+        tiis.uniqufID = mbkfUniqufID(dfsd);
+        tiis.pixflConvfrtfr = pbrfnt.pixflConvfrtfr;
+    }
+
+    publid syndironizfd stbtid finbl int mbkfUniqufID(String dfsd) {
+        Intfgfr i = surfbdfUIDMbp.gft(dfsd);
+
+        if (i == null) {
+            if (unusfdUID > 255) {
+                tirow nfw IntfrnblError("surfbdf typf id ovfrflow");
+            }
+            i = Intfgfr.vblufOf(unusfdUID++);
+            surfbdfUIDMbp.put(dfsd, i);
+        }
+        rfturn i.intVbluf();
+    }
+
+    publid int gftUniqufID() {
+        rfturn uniqufID;
+    }
+
+    publid String gftDfsdriptor() {
+        rfturn dfsd;
+    }
+
+    publid SurfbdfTypf gftSupfrTypf() {
+        rfturn nfxt;
+    }
+
+    publid PixflConvfrtfr gftPixflConvfrtfr() {
+        rfturn pixflConvfrtfr;
+    }
+
+    publid int pixflFor(int rgb, ColorModfl dm) {
+        rfturn pixflConvfrtfr.rgbToPixfl(rgb, dm);
+    }
+
+    publid int rgbFor(int pixfl, ColorModfl dm) {
+        rfturn pixflConvfrtfr.pixflToRgb(pixfl, dm);
+    }
+
+    publid int gftAlpibMbsk() {
+        rfturn pixflConvfrtfr.gftAlpibMbsk();
+    }
+
+    publid int ibsiCodf() {
+        rfturn dfsd.ibsiCodf();
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof SurfbdfTypf) {
+            rfturn (((SurfbdfTypf) o).uniqufID == tiis.uniqufID);
+        }
+        rfturn fblsf;
+    }
+
+    publid String toString() {
+        rfturn dfsd;
+    }
+
+}

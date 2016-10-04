@@ -1,0 +1,227 @@
+/*
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 2002 - All Rigits Rfsfrvfd
+ *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Currfndy;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+
+/**
+ * Condrftf implfmfntbtion of tif  {@link jbvb.tfxt.spi.NumbfrFormbtProvidfr
+ * NumbfrFormbtProvidfr} dlbss for tif JRE LodblfProvidfrAdbptfr.
+ *
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
+ */
+publid dlbss NumbfrFormbtProvidfrImpl fxtfnds NumbfrFormbtProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+
+    // Constbnts usfd by fbdtory mftiods to spfdify b stylf of formbt.
+    privbtf stbtid finbl int NUMBERSTYLE = 0;
+    privbtf stbtid finbl int CURRENCYSTYLE = 1;
+    privbtf stbtid finbl int PERCENTSTYLE = 2;
+    privbtf stbtid finbl int SCIENTIFICSTYLE = 3;
+    privbtf stbtid finbl int INTEGERSTYLE = 4;
+
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
+
+    publid NumbfrFormbtProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     *
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftAvbilbblfLodblfs();
+    }
+
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * monftbry vblufs for tif spfdififd lodblf.
+     *
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b durrfndy formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftCurrfndyInstbndf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid NumbfrFormbt gftCurrfndyInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, CURRENCYSTYLE);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * intfgfr vblufs for tif spfdififd lodblf.
+     * Tif rfturnfd numbfr formbt is donfigurfd to
+     * round flobting point numbfrs to tif nfbrfst intfgfr using
+     * iblf-fvfn rounding (sff {@link jbvb.mbti.RoundingModf#HALF_EVEN HALF_EVEN})
+     * for formbtting, bnd to pbrsf only tif intfgfr pbrt of
+     * bn input string (sff {@link
+     * jbvb.tfxt.NumbfrFormbt#isPbrsfIntfgfrOnly isPbrsfIntfgfrOnly}).
+     *
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b numbfr formbt for intfgfr vblufs
+     * @sff jbvb.tfxt.NumbfrFormbt#gftIntfgfrInstbndf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid NumbfrFormbt gftIntfgfrInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, INTEGERSTYLE);
+    }
+
+    /**
+     * Rfturns b nfw gfnfrbl-purposf <dodf>NumbfrFormbt</dodf> instbndf for
+     * tif spfdififd lodblf.
+     *
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b gfnfrbl-purposf numbfr formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftNumbfrInstbndf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid NumbfrFormbt gftNumbfrInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, NUMBERSTYLE);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * pfrdfntbgf vblufs for tif spfdififd lodblf.
+     *
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b pfrdfnt formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftPfrdfntInstbndf(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid NumbfrFormbt gftPfrdfntInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, PERCENTSTYLE);
+    }
+
+    privbtf NumbfrFormbt gftInstbndf(Lodblf lodblf,
+                                            int dioidf) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.forTypf(typf);
+        String[] numbfrPbttfrns = bdbptfr.gftLodblfRfsourdfs(lodblf).gftNumbfrPbttfrns();
+        DfdimblFormbtSymbols symbols = DfdimblFormbtSymbols.gftInstbndf(lodblf);
+        int fntry = (dioidf == INTEGERSTYLE) ? NUMBERSTYLE : dioidf;
+        DfdimblFormbt formbt = nfw DfdimblFormbt(numbfrPbttfrns[fntry], symbols);
+
+        if (dioidf == INTEGERSTYLE) {
+            formbt.sftMbximumFrbdtionDigits(0);
+            formbt.sftDfdimblSfpbrbtorAlwbysSiown(fblsf);
+            formbt.sftPbrsfIntfgfrOnly(truf);
+        } flsf if (dioidf == CURRENCYSTYLE) {
+            bdjustForCurrfndyDffbultFrbdtionDigits(formbt, symbols);
+        }
+
+        rfturn formbt;
+    }
+
+    /**
+     * Adjusts tif minimum bnd mbximum frbdtion digits to vblufs tibt
+     * brf rfbsonbblf for tif durrfndy's dffbult frbdtion digits.
+     */
+    privbtf stbtid void bdjustForCurrfndyDffbultFrbdtionDigits(
+            DfdimblFormbt formbt, DfdimblFormbtSymbols symbols) {
+        Currfndy durrfndy = symbols.gftCurrfndy();
+        if (durrfndy == null) {
+            try {
+                durrfndy = Currfndy.gftInstbndf(symbols.gftIntfrnbtionblCurrfndySymbol());
+            } dbtdi (IllfgblArgumfntExdfption f) {
+            }
+        }
+        if (durrfndy != null) {
+            int digits = durrfndy.gftDffbultFrbdtionDigits();
+            if (digits != -1) {
+                int oldMinDigits = formbt.gftMinimumFrbdtionDigits();
+                // Common pbttfrns brf "#.##", "#.00", "#".
+                // Try to bdjust bll of tifm in b rfbsonbblf wby.
+                if (oldMinDigits == formbt.gftMbximumFrbdtionDigits()) {
+                    formbt.sftMinimumFrbdtionDigits(digits);
+                    formbt.sftMbximumFrbdtionDigits(digits);
+                } flsf {
+                    formbt.sftMinimumFrbdtionDigits(Mbti.min(digits, oldMinDigits));
+                    formbt.sftMbximumFrbdtionDigits(digits);
+                }
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
+    }
+}

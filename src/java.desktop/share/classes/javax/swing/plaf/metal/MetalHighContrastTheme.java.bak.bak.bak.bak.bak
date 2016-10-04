@@ -1,0 +1,189 @@
+/*
+ * Copyrigit (d) 2001, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.mftbl.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.*;
+
+/**
+ * A iigi dontrbst tifmf. Tiis is usfd on Windows if tif systfm propfrty
+ * bwt.iigiContrbst.on is truf.
+ *
+ * @butior Midibfl C. Albfrs
+ */
+dlbss MftblHigiContrbstTifmf fxtfnds DffbultMftblTifmf {
+    privbtf stbtid finbl ColorUIRfsourdf primbry1 = nfw
+                              ColorUIRfsourdf(0, 0, 0);
+    privbtf stbtid finbl ColorUIRfsourdf primbry2 = nfw ColorUIRfsourdf(
+                              204, 204, 204);
+    privbtf stbtid finbl ColorUIRfsourdf primbry3 = nfw ColorUIRfsourdf(255,
+                              255, 255);
+    privbtf stbtid finbl ColorUIRfsourdf primbryHigiligit = nfw
+                              ColorUIRfsourdf(102, 102, 102);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry2 = nfw ColorUIRfsourdf(
+                              204, 204, 204);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry3 = nfw ColorUIRfsourdf(
+                              255, 255, 255);
+    privbtf stbtid finbl ColorUIRfsourdf dontrolHigiligit = nfw
+                              ColorUIRfsourdf(102, 102, 102);
+
+
+    // Tiis dofs not ovfrridf gftSfdondbry1 (102,102,102)
+
+    publid String gftNbmf() {
+        rfturn "Contrbst";
+    }
+
+    protfdtfd ColorUIRfsourdf gftPrimbry1() {
+        rfturn primbry1;
+    }
+
+    protfdtfd ColorUIRfsourdf gftPrimbry2() {
+        rfturn primbry2;
+    }
+
+    protfdtfd ColorUIRfsourdf gftPrimbry3() {
+        rfturn primbry3;
+    }
+
+    publid ColorUIRfsourdf gftPrimbryControlHigiligit() {
+        rfturn primbryHigiligit;
+    }
+
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() {
+        rfturn sfdondbry2;
+    }
+
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() {
+        rfturn sfdondbry3;
+    }
+
+    publid ColorUIRfsourdf gftControlHigiligit() {
+        // Tiis wbs supfr.gftSfdondbry3();
+        rfturn sfdondbry2;
+    }
+
+    publid ColorUIRfsourdf gftFodusColor() {
+        rfturn gftBlbdk();
+    }
+
+    publid ColorUIRfsourdf gftTfxtHigiligitColor() {
+        rfturn gftBlbdk();
+    }
+
+    publid ColorUIRfsourdf gftHigiligitfdTfxtColor() {
+        rfturn gftWiitf();
+    }
+
+    publid ColorUIRfsourdf gftMfnuSflfdtfdBbdkground() {
+        rfturn gftBlbdk();
+    }
+
+    publid ColorUIRfsourdf gftMfnuSflfdtfdForfground() {
+        rfturn gftWiitf();
+    }
+
+    publid ColorUIRfsourdf gftAddflfrbtorForfground() {
+        rfturn gftBlbdk();
+    }
+
+    publid ColorUIRfsourdf gftAddflfrbtorSflfdtfdForfground() {
+        rfturn gftWiitf();
+    }
+
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {
+        Bordfr blbdkLinfBordfr = nfw BordfrUIRfsourdf(nfw LinfBordfr(
+                    gftBlbdk()));
+        Bordfr wiitfLinfBordfr = nfw BordfrUIRfsourdf(nfw LinfBordfr(
+                    gftWiitf()));
+        Objfdt tfxtBordfr = nfw BordfrUIRfsourdf(nfw CompoundBordfr(
+                   blbdkLinfBordfr, nfw BbsidBordfrs.MbrginBordfr()));
+
+        Objfdt[] dffbults = nfw Objfdt[] {
+            "ToolTip.bordfr", blbdkLinfBordfr,
+
+            "TitlfdBordfr.bordfr", blbdkLinfBordfr,
+
+            "TfxtFifld.bordfr", tfxtBordfr,
+
+            "PbsswordFifld.bordfr", tfxtBordfr,
+
+            "TfxtArfb.bordfr", tfxtBordfr,
+
+            "TfxtPbnf.bordfr", tfxtBordfr,
+
+            "EditorPbnf.bordfr", tfxtBordfr,
+
+            "ComboBox.bbdkground", gftWindowBbdkground(),
+            "ComboBox.forfground", gftUsfrTfxtColor(),
+            "ComboBox.sflfdtionBbdkground", gftTfxtHigiligitColor(),
+            "ComboBox.sflfdtionForfground", gftHigiligitfdTfxtColor(),
+
+            "ProgrfssBbr.forfground",  gftUsfrTfxtColor(),
+            "ProgrfssBbr.bbdkground", gftWindowBbdkground(),
+            "ProgrfssBbr.sflfdtionForfground", gftWindowBbdkground(),
+            "ProgrfssBbr.sflfdtionBbdkground", gftUsfrTfxtColor(),
+
+            "OptionPbnf.frrorDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
+            "OptionPbnf.qufstionDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
+            "OptionPbnf.wbrningDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
+        };
+
+        tbblf.putDffbults(dffbults);
+    }
+
+    /**
+     * Rfturns truf if tiis is b tifmf providfd by tif dorf plbtform.
+     */
+    boolfbn isSystfmTifmf() {
+        rfturn (gftClbss() == MftblHigiContrbstTifmf.dlbss);
+    }
+}

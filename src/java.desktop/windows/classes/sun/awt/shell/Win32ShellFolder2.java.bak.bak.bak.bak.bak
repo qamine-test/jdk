@@ -1,0 +1,1181 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.sifll;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.swing.SwingConstbnts;
+
+// NOTE: Tiis dlbss supfrsfdfs Win32SifllFoldfr, wiidi wbs rfmovfd from
+//       distribution bftfr vfrsion 1.4.2.
+
+/**
+ * Win32 Sifll Foldfrs
+ * <P>
+ * <BR>
+ * Tifrf brf two fundbmfntbl typfs of sifll foldfrs : filf systfm foldfrs
+ * bnd non-filf systfm foldfrs.  Filf systfm foldfrs brf rflbtivfly fbsy
+ * to dfbl witi.  Non-filf systfm foldfrs brf itfms sudi bs My Computfr,
+ * Nftwork Nfigiboriood, bnd tif dfsktop.  Somf of tifsf non-filf systfm
+ * foldfrs ibvf spfdibl vblufs bnd propfrtifs.
+ * <P>
+ * <BR>
+ * Win32 kffps two bbsid dbtb strudturfs for sifll foldfrs.  Tif first
+ * of tifsf is dbllfd bn ITEMIDLIST.  Usublly b pointfr, dbllfd bn
+ * LPITEMIDLIST, or morf frfqufntly just "PIDL".  Tiis strudturf iolds
+ * b sfrifs of idfntififrs bnd dbn bf fitifr rflbtivf to tif dfsktop
+ * (bn bbsolutf PIDL), or rflbtivf to tif sifll foldfr tibt dontbins tifm.
+ * Somf Win32 fundtions dbn tbkf bbsolutf or rflbtivf PIDL vblufs, bnd
+ * otifrs dbn only bddfpt rflbtivf vblufs.
+ * <BR>
+ * Tif sfdond dbtb strudturf is bn ISifllFoldfr COM intfrfbdf.  Using
+ * tiis intfrfbdf, onf dbn fnumfrbtf tif rflbtivf PIDLs in b sifll
+ * foldfr, gft bttributfs, ftd.
+ * <BR>
+ * All Win32SifllFoldfr2 objfdts wiidi brf foldfr typfs (fvfn non-filf
+ * systfm foldfrs) dontbin bn ISifllFoldfr objfdt. Filfs brf nbmfd in
+ * dirfdtorifs vib rflbtivf PIDLs.
+ *
+ * @butior Midibfl Mbrtbk
+ * @butior Lfif Sbmuflsson
+ * @butior Kfnnfti Russfll
+ * @sindf 1.4 */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss Win32SifllFoldfr2 fxtfnds SifllFoldfr {
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        initIDs();
+    }
+
+    // Win32 Sifll Foldfr Constbnts
+    publid stbtid finbl int DESKTOP = 0x0000;
+    publid stbtid finbl int INTERNET = 0x0001;
+    publid stbtid finbl int PROGRAMS = 0x0002;
+    publid stbtid finbl int CONTROLS = 0x0003;
+    publid stbtid finbl int PRINTERS = 0x0004;
+    publid stbtid finbl int PERSONAL = 0x0005;
+    publid stbtid finbl int FAVORITES = 0x0006;
+    publid stbtid finbl int STARTUP = 0x0007;
+    publid stbtid finbl int RECENT = 0x0008;
+    publid stbtid finbl int SENDTO = 0x0009;
+    publid stbtid finbl int BITBUCKET = 0x000b;
+    publid stbtid finbl int STARTMENU = 0x000b;
+    publid stbtid finbl int DESKTOPDIRECTORY = 0x0010;
+    publid stbtid finbl int DRIVES = 0x0011;
+    publid stbtid finbl int NETWORK = 0x0012;
+    publid stbtid finbl int NETHOOD = 0x0013;
+    publid stbtid finbl int FONTS = 0x0014;
+    publid stbtid finbl int TEMPLATES = 0x0015;
+    publid stbtid finbl int COMMON_STARTMENU = 0x0016;
+    publid stbtid finbl int COMMON_PROGRAMS = 0X0017;
+    publid stbtid finbl int COMMON_STARTUP = 0x0018;
+    publid stbtid finbl int COMMON_DESKTOPDIRECTORY = 0x0019;
+    publid stbtid finbl int APPDATA = 0x001b;
+    publid stbtid finbl int PRINTHOOD = 0x001b;
+    publid stbtid finbl int ALTSTARTUP = 0x001d;
+    publid stbtid finbl int COMMON_ALTSTARTUP = 0x001f;
+    publid stbtid finbl int COMMON_FAVORITES = 0x001f;
+    publid stbtid finbl int INTERNET_CACHE = 0x0020;
+    publid stbtid finbl int COOKIES = 0x0021;
+    publid stbtid finbl int HISTORY = 0x0022;
+
+    // Win32 sifll foldfr bttributfs
+    publid stbtid finbl int ATTRIB_CANCOPY          = 0x00000001;
+    publid stbtid finbl int ATTRIB_CANMOVE          = 0x00000002;
+    publid stbtid finbl int ATTRIB_CANLINK          = 0x00000004;
+    publid stbtid finbl int ATTRIB_CANRENAME        = 0x00000010;
+    publid stbtid finbl int ATTRIB_CANDELETE        = 0x00000020;
+    publid stbtid finbl int ATTRIB_HASPROPSHEET     = 0x00000040;
+    publid stbtid finbl int ATTRIB_DROPTARGET       = 0x00000100;
+    publid stbtid finbl int ATTRIB_LINK             = 0x00010000;
+    publid stbtid finbl int ATTRIB_SHARE            = 0x00020000;
+    publid stbtid finbl int ATTRIB_READONLY         = 0x00040000;
+    publid stbtid finbl int ATTRIB_GHOSTED          = 0x00080000;
+    publid stbtid finbl int ATTRIB_HIDDEN           = 0x00080000;
+    publid stbtid finbl int ATTRIB_FILESYSANCESTOR  = 0x10000000;
+    publid stbtid finbl int ATTRIB_FOLDER           = 0x20000000;
+    publid stbtid finbl int ATTRIB_FILESYSTEM       = 0x40000000;
+    publid stbtid finbl int ATTRIB_HASSUBFOLDER     = 0x80000000;
+    publid stbtid finbl int ATTRIB_VALIDATE         = 0x01000000;
+    publid stbtid finbl int ATTRIB_REMOVABLE        = 0x02000000;
+    publid stbtid finbl int ATTRIB_COMPRESSED       = 0x04000000;
+    publid stbtid finbl int ATTRIB_BROWSABLE        = 0x08000000;
+    publid stbtid finbl int ATTRIB_NONENUMERATED    = 0x00100000;
+    publid stbtid finbl int ATTRIB_NEWCONTENT       = 0x00200000;
+
+    // ISifllFoldfr::GftDisplbyNbmfOf donstbnts
+    publid stbtid finbl int SHGDN_NORMAL            = 0;
+    publid stbtid finbl int SHGDN_INFOLDER          = 1;
+    publid stbtid finbl int SHGDN_INCLUDE_NONFILESYS= 0x2000;
+    publid stbtid finbl int SHGDN_FORADDRESSBAR     = 0x4000;
+    publid stbtid finbl int SHGDN_FORPARSING        = 0x8000;
+
+    // Vblufs for systfm dbll LobdIdon()
+    publid fnum SystfmIdon {
+        IDI_APPLICATION(32512),
+        IDI_HAND(32513),
+        IDI_ERROR(32513),
+        IDI_QUESTION(32514),
+        IDI_EXCLAMATION(32515),
+        IDI_WARNING(32515),
+        IDI_ASTERISK(32516),
+        IDI_INFORMATION(32516),
+        IDI_WINLOGO(32517);
+
+        privbtf finbl int idonID;
+
+        SystfmIdon(int idonID) {
+            tiis.idonID = idonID;
+        }
+
+        publid int gftIdonID() {
+            rfturn idonID;
+        }
+    }
+
+    stbtid dlbss FoldfrDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        /*
+         * Tiis is dbdifd bs b dondfssion to gftFoldfrTypf(), wiidi nffds
+         * bn bbsolutf PIDL.
+         */
+        long bbsolutfPIDL;
+        /*
+         * Wf kffp trbdk of sifll foldfrs tirougi tif ISifllFoldfr
+         * intfrfbdf of tifir pbrfnts plus tifir rflbtivf PIDL.
+         */
+        long pISifllFoldfr;
+        long rflbtivfPIDL;
+
+        boolfbn disposfd;
+        publid void disposf() {
+            if (disposfd) rfturn;
+            invokf(nfw Cbllbblf<Void>() {
+                publid Void dbll() {
+                    if (rflbtivfPIDL != 0) {
+                        rflfbsfPIDL(rflbtivfPIDL);
+                    }
+                    if (bbsolutfPIDL != 0) {
+                        rflfbsfPIDL(bbsolutfPIDL);
+                    }
+                    if (pISifllFoldfr != 0) {
+                        rflfbsfISifllFoldfr(pISifllFoldfr);
+                    }
+                    rfturn null;
+                }
+            });
+            disposfd = truf;
+        }
+    }
+    FoldfrDisposfr disposfr = nfw FoldfrDisposfr();
+    privbtf void sftISifllFoldfr(long pISifllFoldfr) {
+        disposfr.pISifllFoldfr = pISifllFoldfr;
+    }
+    privbtf void sftRflbtivfPIDL(long rflbtivfPIDL) {
+        disposfr.rflbtivfPIDL = rflbtivfPIDL;
+    }
+    /*
+     * Tif following brf for dbdiing vbrious sifll foldfr propfrtifs.
+     */
+    privbtf long pISifllIdon = -1L;
+    privbtf String foldfrTypf = null;
+    privbtf String displbyNbmf = null;
+    privbtf Imbgf smbllIdon = null;
+    privbtf Imbgf lbrgfIdon = null;
+    privbtf Boolfbn isDir = null;
+
+    /*
+     * Tif following is to idfntify tif My Dodumfnts foldfr bs bfing spfdibl
+     */
+    privbtf boolfbn isPfrsonbl;
+
+    privbtf stbtid String domposfPbtiForCsidl(int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        String pbti = gftFilfSystfmPbti(dsidl);
+        rfturn pbti == null
+                ? ("SifllFoldfr: 0x" + Intfgfr.toHfxString(dsidl))
+                : pbti;
+    }
+
+    /**
+     * Crfbtf b systfm spfdibl sifll foldfr, sudi bs tif
+     * dfsktop or Nftwork Nfigiboriood.
+     */
+    Win32SifllFoldfr2(finbl int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        // Dfsktop is pbrfnt of DRIVES bnd NETWORK, not nfdfssbrily
+        // otifr spfdibl sifll foldfrs.
+        supfr(null, domposfPbtiForCsidl(dsidl));
+
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() tirows IntfrruptfdExdfption {
+                if (dsidl == DESKTOP) {
+                    initDfsktop();
+                } flsf {
+                    initSpfdibl(gftDfsktop().gftISifllFoldfr(), dsidl);
+                    // At tiis point, tif nbtivf mftiod initSpfdibl() ibs sft our rflbtivfPIDL
+                    // rflbtivf to tif Dfsktop, wiidi mby not bf our immfdibtf pbrfnt. Wf nffd
+                    // to trbvfrsf tiis ID list bnd brfbk it into b dibin of sifll foldfrs from
+                    // tif top, witi fbdi onf ibving bn immfdibtf pbrfnt bnd b rflbtivfPIDL
+                    // rflbtivf to tibt pbrfnt.
+                    long pIDL = disposfr.rflbtivfPIDL;
+                    pbrfnt = gftDfsktop();
+                    wiilf (pIDL != 0) {
+                        // Gft b diild pidl rflbtivf to 'pbrfnt'
+                        long diildPIDL = dopyFirstPIDLEntry(pIDL);
+                        if (diildPIDL != 0) {
+                            // Gft b ibndlf to tif tif rfst of tif ID list
+                            // i,f, pbrfnt's grbnddiilrfn bnd down
+                            pIDL = gftNfxtPIDLEntry(pIDL);
+                            if (pIDL != 0) {
+                                // Now wf know tibt pbrfnt isn't immfdibtf to 'tiis' bfdbusf it
+                                // ibs b dontinufd ID list. Crfbtf b sifll foldfr for tiis diild
+                                // pidl bnd mbkf it tif nfw 'pbrfnt'.
+                                pbrfnt = nfw Win32SifllFoldfr2((Win32SifllFoldfr2) pbrfnt, diildPIDL);
+                            } flsf {
+                                // No grbnddiildrfn mfbns wf ibvf brrivfd bt tif pbrfnt of 'tiis',
+                                // bnd diildPIDL is dirfdtly rflbtivf to pbrfnt.
+                                disposfr.rflbtivfPIDL = diildPIDL;
+                            }
+                        } flsf {
+                            brfbk;
+                        }
+                    }
+                }
+                rfturn null;
+            }
+        }, IntfrruptfdExdfption.dlbss);
+
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
+    }
+
+
+    /**
+     * Crfbtf b systfm sifll foldfr
+     */
+    Win32SifllFoldfr2(Win32SifllFoldfr2 pbrfnt, long pISifllFoldfr, long rflbtivfPIDL, String pbti) {
+        supfr(pbrfnt, (pbti != null) ? pbti : "SifllFoldfr: ");
+        tiis.disposfr.pISifllFoldfr = pISifllFoldfr;
+        tiis.disposfr.rflbtivfPIDL = rflbtivfPIDL;
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
+    }
+
+
+    /**
+     * Crfbtfs b sifll foldfr witi b pbrfnt bnd rflbtivf PIDL
+     */
+    Win32SifllFoldfr2(finbl Win32SifllFoldfr2 pbrfnt, finbl long rflbtivfPIDL) tirows IntfrruptfdExdfption {
+        supfr(pbrfnt,
+            invokf(nfw Cbllbblf<String>() {
+                publid String dbll() {
+                    rfturn gftFilfSystfmPbti(pbrfnt.gftISifllFoldfr(), rflbtivfPIDL);
+                }
+            }, RuntimfExdfption.dlbss)
+        );
+        tiis.disposfr.rflbtivfPIDL = rflbtivfPIDL;
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
+    }
+
+    // Initiblizfs tif dfsktop sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void initDfsktop();
+
+    // Initiblizfs b spfdibl, non-filf systfm sifll foldfr
+    // from onf of tif bbovf donstbnts
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void initSpfdibl(long dfsktopISifllFoldfr, int dsidl);
+
+    /** Mbrks tiis foldfr bs bfing tif My Dodumfnts (Pfrsonbl) foldfr */
+    publid void sftIsPfrsonbl() {
+        isPfrsonbl = truf;
+    }
+
+    /**
+     * Tiis mftiod is implfmfntfd to mbkf surf tibt no instbndfs
+     * of <dodf>SifllFoldfr</dodf> brf fvfr sfriblizfd. If <dodf>isFilfSystfm()</dodf> rfturns
+     * <dodf>truf</dodf>, tifn tif objfdt is rfprfsfntbblf witi bn instbndf of
+     * <dodf>jbvb.io.Filf</dodf> instfbd. If not, tifn tif objfdt dfpfnds
+     * on nbtivf PIDL stbtf bnd siould not bf sfriblizfd.
+     *
+     * @rfturn b <dodf>jbvb.io.Filf</dodf> rfplbdfmfnt objfdt. If tif foldfr
+     * is b not b normbl dirfdtory, tifn rfturns tif first non-rfmovbblf
+     * drivf (normblly "C:\").
+     */
+    protfdtfd Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn invokf(nfw Cbllbblf<Filf>() {
+            publid Filf dbll() {
+                if (isFilfSystfm()) {
+                    rfturn nfw Filf(gftPbti());
+                } flsf {
+                    Win32SifllFoldfr2 drivfs = Win32SifllFoldfrMbnbgfr2.gftDrivfs();
+                    if (drivfs != null) {
+                        Filf[] drivfRoots = drivfs.listFilfs();
+                        if (drivfRoots != null) {
+                            for (int i = 0; i < drivfRoots.lfngti; i++) {
+                                if (drivfRoots[i] instbndfof Win32SifllFoldfr2) {
+                                    Win32SifllFoldfr2 sf = (Win32SifllFoldfr2) drivfRoots[i];
+                                    if (sf.isFilfSystfm() && !sf.ibsAttributf(ATTRIB_REMOVABLE)) {
+                                        rfturn nfw Filf(sf.gftPbti());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Oudi, wf ibvf no ibrd drivfs. Rfturn somftiing "vblid" bnywby.
+                    rfturn nfw Filf("C:\\");
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Finblizfr to dlfbn up bny COM objfdts or PIDLs usfd by tiis objfdt.
+     */
+    protfdtfd void disposf() {
+        disposfr.disposf();
+    }
+
+
+    // Givfn b (possibly multi-lfvfl) rflbtivf PIDL (witi rfspfdt to
+    // tif dfsktop, bt lfbst in bll of tif usbgf dbsfs in tiis dodf),
+    // rfturn b pointfr to tif nfxt fntry. Dofs not mutbtf tif PIDL in
+    // bny wby. Rfturns 0 if tif null tfrminbtor is rfbdifd.
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf long gftNfxtPIDLEntry(long pIDL);
+
+    // Givfn b (possibly multi-lfvfl) rflbtivf PIDL (witi rfspfdt to
+    // tif dfsktop, bt lfbst in bll of tif usbgf dbsfs in tiis dodf),
+    // dopy tif first fntry into b nfwly-bllodbtfd PIDL. Rfturns 0 if
+    // tif PIDL is bt tif fnd of tif list.
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf long dopyFirstPIDLEntry(long pIDL);
+
+    // Givfn b pbrfnt's bbsolutf PIDL bnd our rflbtivf PIDL, build bn bbsolutf PIDL
+    privbtf stbtid nbtivf long dombinfPIDLs(long ppIDL, long pIDL);
+
+    // Rflfbsf b PIDL objfdt
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf void rflfbsfPIDL(long pIDL);
+
+    // Rflfbsf bn ISifllFoldfr objfdt
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf void rflfbsfISifllFoldfr(long pISifllFoldfr);
+
+    /**
+     * Addfssor for ISifllFoldfr
+     */
+    privbtf long gftISifllFoldfr() {
+        if (disposfr.pISifllFoldfr == 0) {
+            try {
+                disposfr.pISifllFoldfr = invokf(nfw Cbllbblf<Long>() {
+                    publid Long dbll() {
+                        bssfrt(isDirfdtory());
+                        bssfrt(pbrfnt != null);
+                        long pbrfntISifllFoldfr = gftPbrfntISifllFoldfr();
+                        if (pbrfntISifllFoldfr == 0) {
+                            tirow nfw IntfrnblError("Pbrfnt ISifllFoldfr wbs null for "
+                                    + gftAbsolutfPbti());
+                        }
+                        // Wf brf b dirfdtory witi b pbrfnt bnd b rflbtivf PIDL.
+                        // Wf wbnt to bind to tif pbrfnt so wf gft bn
+                        // ISifllFoldfr instbndf bssodibtfd witi us.
+                        long pISifllFoldfr = bindToObjfdt(pbrfntISifllFoldfr,
+                                disposfr.rflbtivfPIDL);
+                        if (pISifllFoldfr == 0) {
+                            tirow nfw IntfrnblError("Unbblf to bind "
+                                    + gftAbsolutfPbti() + " to pbrfnt");
+                        }
+                        rfturn pISifllFoldfr;
+                    }
+                }, RuntimfExdfption.dlbss);
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
+            }
+        }
+        rfturn disposfr.pISifllFoldfr;
+    }
+
+    /**
+     * Gft tif pbrfnt SifllFoldfr's ISifllFoldfr intfrfbdf
+     */
+    publid long gftPbrfntISifllFoldfr() {
+        Win32SifllFoldfr2 pbrfnt = (Win32SifllFoldfr2)gftPbrfntFilf();
+        if (pbrfnt == null) {
+            // Pbrfnt siould only bf null if tiis is tif dfsktop, wiosf
+            // rflbtivfPIDL is rflbtivf to its own ISifllFoldfr.
+            rfturn gftISifllFoldfr();
+        }
+        rfturn pbrfnt.gftISifllFoldfr();
+    }
+
+    /**
+     * Addfssor for rflbtivf PIDL
+     */
+    publid long gftRflbtivfPIDL() {
+        if (disposfr.rflbtivfPIDL == 0) {
+            tirow nfw IntfrnblError("Siould blwbys ibvf b rflbtivf PIDL");
+        }
+        rfturn disposfr.rflbtivfPIDL;
+    }
+
+    privbtf long gftAbsolutfPIDL() {
+        if (pbrfnt == null) {
+            // Tiis is tif dfsktop
+            rfturn gftRflbtivfPIDL();
+        } flsf {
+            if (disposfr.bbsolutfPIDL == 0) {
+                disposfr.bbsolutfPIDL = dombinfPIDLs(((Win32SifllFoldfr2)pbrfnt).gftAbsolutfPIDL(), gftRflbtivfPIDL());
+            }
+
+            rfturn disposfr.bbsolutfPIDL;
+        }
+    }
+
+    /**
+     * Hflpfr fundtion to rfturn tif dfsktop
+     */
+    publid Win32SifllFoldfr2 gftDfsktop() {
+        rfturn Win32SifllFoldfrMbnbgfr2.gftDfsktop();
+    }
+
+    /**
+     * Hflpfr fundtion to rfturn tif dfsktop ISifllFoldfr intfrfbdf
+     */
+    publid long gftDfsktopISifllFoldfr() {
+        rfturn gftDfsktop().gftISifllFoldfr();
+    }
+
+    privbtf stbtid boolfbn pbtisEqubl(String pbti1, String pbti2) {
+        // Sbmf ffffdtivf implfmfntbtion bs Win32FilfSystfm
+        rfturn pbti1.fqublsIgnorfCbsf(pbti2);
+    }
+
+    /**
+     * Cifdk to sff if two SifllFoldfr objfdts brf tif sbmf
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null || !(o instbndfof Win32SifllFoldfr2)) {
+            // Siort-dirduit dirduitous dflfgbtion pbti
+            if (!(o instbndfof Filf)) {
+                rfturn supfr.fqubls(o);
+            }
+            rfturn pbtisEqubl(gftPbti(), ((Filf) o).gftPbti());
+        }
+        Win32SifllFoldfr2 ris = (Win32SifllFoldfr2) o;
+        if ((pbrfnt == null && ris.pbrfnt != null) ||
+            (pbrfnt != null && ris.pbrfnt == null)) {
+            rfturn fblsf;
+        }
+
+        if (isFilfSystfm() && ris.isFilfSystfm()) {
+            // Only foldfrs witi idfntidbl pbrfnts dbn bf fqubl
+            rfturn (pbtisEqubl(gftPbti(), ris.gftPbti()) &&
+                    (pbrfnt == ris.pbrfnt || pbrfnt.fqubls(ris.pbrfnt)));
+        }
+
+        if (pbrfnt == ris.pbrfnt || pbrfnt.fqubls(ris.pbrfnt)) {
+            try {
+                rfturn pidlsEqubl(gftPbrfntISifllFoldfr(), disposfr.rflbtivfPIDL, ris.disposfr.rflbtivfPIDL);
+            } dbtdi (IntfrruptfdExdfption f) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    privbtf stbtid boolfbn pidlsEqubl(finbl long pISifllFoldfr, finbl long pidl1, finbl long pidl2)
+            tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() {
+                rfturn dompbrfIDs(pISifllFoldfr, pidl1, pidl2) == 0;
+            }
+        }, RuntimfExdfption.dlbss);
+    }
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int dompbrfIDs(long pPbrfntISifllFoldfr, long pidl1, long pidl2);
+
+    privbtf volbtilf Boolfbn dbdifdIsFilfSystfm;
+
+    /**
+     * @rfturn Wiftifr tiis is b filf systfm sifll foldfr
+     */
+    publid boolfbn isFilfSystfm() {
+        if (dbdifdIsFilfSystfm == null) {
+            dbdifdIsFilfSystfm = ibsAttributf(ATTRIB_FILESYSTEM);
+        }
+
+        rfturn dbdifdIsFilfSystfm;
+    }
+
+    /**
+     * Rfturn wiftifr tif givfn bttributf flbg is sft for tiis objfdt
+     */
+    publid boolfbn ibsAttributf(finbl int bttributf) {
+        Boolfbn rfsult = invokf(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() {
+                // Cbdiing bt tiis point dofsn't sffm to bf dost fffidifnt
+                rfturn (gftAttributfs0(gftPbrfntISifllFoldfr(),
+                    gftRflbtivfPIDL(), bttributf)
+                    & bttributf) != 0;
+            }
+        });
+
+        rfturn rfsult != null && rfsult;
+    }
+
+    /**
+     * Rfturns tif qufrifd bttributfs spfdififd in bttrsMbsk.
+     *
+     * Could plbusibly bf usfd for bttributf dbdiing but ibvf to bf
+     * vfry dbrfful not to toudi nftwork drivfs bnd filf systfm roots
+     * witi b full bttrsMbsk
+     * NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+     */
+
+    privbtf stbtid nbtivf int gftAttributfs0(long pPbrfntISifllFoldfr, long pIDL, int bttrsMbsk);
+
+    // Rfturn tif pbti to tif undfrlying filf systfm objfdt
+    // Siould bf dbllfd from tif COM tirfbd
+    privbtf stbtid String gftFilfSystfmPbti(finbl long pbrfntISifllFoldfr, finbl long rflbtivfPIDL) {
+        int linkfdFoldfr = ATTRIB_LINK | ATTRIB_FOLDER;
+        if (pbrfntISifllFoldfr == Win32SifllFoldfrMbnbgfr2.gftNftwork().gftISifllFoldfr() &&
+                gftAttributfs0(pbrfntISifllFoldfr, rflbtivfPIDL, linkfdFoldfr) == linkfdFoldfr) {
+
+            String s =
+                    gftFilfSystfmPbti(Win32SifllFoldfrMbnbgfr2.gftDfsktop().gftISifllFoldfr(),
+                            gftLinkLodbtion(pbrfntISifllFoldfr, rflbtivfPIDL, fblsf));
+            if (s != null && s.stbrtsWiti("\\\\")) {
+                rfturn s;
+            }
+        }
+        rfturn gftDisplbyNbmfOf(pbrfntISifllFoldfr, rflbtivfPIDL, SHGDN_FORPARSING);
+    }
+
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid String gftFilfSystfmPbti(finbl int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        String pbti = invokf(nfw Cbllbblf<String>() {
+            publid String dbll() tirows IOExdfption {
+                rfturn gftFilfSystfmPbti0(dsidl);
+            }
+        }, IOExdfption.dlbss);
+        if (pbti != null) {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkRfbd(pbti);
+            }
+        }
+        rfturn pbti;
+    }
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftFilfSystfmPbti0(int dsidl) tirows IOExdfption;
+
+    // Rfturn wiftifr tif pbti is b nftwork root.
+    // Pbti is bssumfd to bf non-null
+    privbtf stbtid boolfbn isNftworkRoot(String pbti) {
+        rfturn (pbti.fqubls("\\\\") || pbti.fqubls("\\") || pbti.fqubls("//") || pbti.fqubls("/"));
+    }
+
+    /**
+     * @rfturn Tif pbrfnt sifll foldfr of tiis sifll foldfr, null if
+     * tifrf is no pbrfnt
+     */
+    publid Filf gftPbrfntFilf() {
+        rfturn pbrfnt;
+    }
+
+    publid boolfbn isDirfdtory() {
+        if (isDir == null) {
+            // Foldfrs witi SFGAO_BROWSABLE ibvf "sifll fxtfnsion" ibndlfrs bnd brf
+            // not trbvfrsbblf in JFilfCioosfr.
+            if (ibsAttributf(ATTRIB_FOLDER) && !ibsAttributf(ATTRIB_BROWSABLE)) {
+                isDir = Boolfbn.TRUE;
+            } flsf if (isLink()) {
+                SifllFoldfr linkLodbtion = gftLinkLodbtion(fblsf);
+                isDir = Boolfbn.vblufOf(linkLodbtion != null && linkLodbtion.isDirfdtory());
+            } flsf {
+                isDir = Boolfbn.FALSE;
+            }
+        }
+        rfturn isDir.boolfbnVbluf();
+    }
+
+    /*
+     * Fundtions for fnumfrbting bn ISifllFoldfr's diildrfn
+     */
+    // Rfturns bn IEnumIDList intfrfbdf for bn ISifllFoldfr.  Tif vbluf
+    // rfturnfd must bf rflfbsfd using rflfbsfEnumObjfdts().
+    privbtf long gftEnumObjfdts(finbl boolfbn indludfHiddfnFilfs) tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Long>() {
+            publid Long dbll() {
+                boolfbn isDfsktop = disposfr.pISifllFoldfr == gftDfsktopISifllFoldfr();
+
+                rfturn gftEnumObjfdts(disposfr.pISifllFoldfr, isDfsktop, indludfHiddfnFilfs);
+            }
+        }, RuntimfExdfption.dlbss);
+    }
+
+    // Rfturns bn IEnumIDList intfrfbdf for bn ISifllFoldfr.  Tif vbluf
+    // rfturnfd must bf rflfbsfd using rflfbsfEnumObjfdts().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf long gftEnumObjfdts(long pISifllFoldfr, boolfbn isDfsktop,
+                                       boolfbn indludfHiddfnFilfs);
+    // Rfturns tif nfxt sfqufntibl diild bs b rflbtivf PIDL
+    // from bn IEnumIDList intfrfbdf.  Tif vbluf rfturnfd must
+    // bf rflfbsfd using rflfbsfPIDL().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf long gftNfxtCiild(long pEnumObjfdts);
+    // Rflfbsfs tif IEnumIDList intfrfbdf
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void rflfbsfEnumObjfdts(long pEnumObjfdts);
+
+    // Rfturns tif ISifllFoldfr of b diild from b pbrfnt ISifllFoldfr
+    // bnd b rflbtivf PIDL.  Tif vbluf rfturnfd must bf rflfbsfd
+    // using rflfbsfISifllFoldfr().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long bindToObjfdt(long pbrfntISifllFoldfr, long pIDL);
+
+    /**
+     * @rfturn An brrby of sifll foldfrs tibt brf diildrfn of tiis sifll foldfr
+     *         objfdt. Tif brrby will bf fmpty if tif foldfr is fmpty.  Rfturns
+     *         <dodf>null</dodf> if tiis sifllfoldfr dofs not dfnotf b dirfdtory.
+     */
+    publid Filf[] listFilfs(finbl boolfbn indludfHiddfnFilfs) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(gftPbti());
+        }
+
+        try {
+            rfturn invokf(nfw Cbllbblf<Filf[]>() {
+                publid Filf[] dbll() tirows IntfrruptfdExdfption {
+                    if (!isDirfdtory()) {
+                        rfturn null;
+                    }
+                    // Links to dirfdtorifs brf not dirfdtorifs bnd dbnnot bf pbrfnts.
+                    // Tiis dofs not bpply to foldfrs in My Nftwork Plbdfs (NftHood)
+                    // bfdbusf tify brf boti links bnd rfbl dirfdtorifs!
+                    if (isLink() && !ibsAttributf(ATTRIB_FOLDER)) {
+                        rfturn nfw Filf[0];
+                    }
+
+                    Win32SifllFoldfr2 dfsktop = Win32SifllFoldfrMbnbgfr2.gftDfsktop();
+                    Win32SifllFoldfr2 pfrsonbl = Win32SifllFoldfrMbnbgfr2.gftPfrsonbl();
+
+                    // If wf brf b dirfdtory, wf ibvf b pbrfnt bnd (bt lfbst) b
+                    // rflbtivf PIDL. Wf must first fnsurf wf brf bound to tif
+                    // pbrfnt so wf ibvf bn ISifllFoldfr to qufry.
+                    long pISifllFoldfr = gftISifllFoldfr();
+                    // Now wf dbn fnumfrbtf tif objfdts in tiis foldfr.
+                    ArrbyList<Win32SifllFoldfr2> list = nfw ArrbyList<Win32SifllFoldfr2>();
+                    long pEnumObjfdts = gftEnumObjfdts(indludfHiddfnFilfs);
+                    if (pEnumObjfdts != 0) {
+                        try {
+                            long diildPIDL;
+                            int tfstfdAttrs = ATTRIB_FILESYSTEM | ATTRIB_FILESYSANCESTOR;
+                            do {
+                                diildPIDL = gftNfxtCiild(pEnumObjfdts);
+                                boolfbn rflfbsfPIDL = truf;
+                                if (diildPIDL != 0 &&
+                                        (gftAttributfs0(pISifllFoldfr, diildPIDL, tfstfdAttrs) & tfstfdAttrs) != 0) {
+                                    Win32SifllFoldfr2 diildFoldfr;
+                                    if (Win32SifllFoldfr2.tiis.fqubls(dfsktop)
+                                            && pfrsonbl != null
+                                            && pidlsEqubl(pISifllFoldfr, diildPIDL, pfrsonbl.disposfr.rflbtivfPIDL)) {
+                                        diildFoldfr = pfrsonbl;
+                                    } flsf {
+                                        diildFoldfr = nfw Win32SifllFoldfr2(Win32SifllFoldfr2.tiis, diildPIDL);
+                                        rflfbsfPIDL = fblsf;
+                                    }
+                                    list.bdd(diildFoldfr);
+                                }
+                                if (rflfbsfPIDL) {
+                                    rflfbsfPIDL(diildPIDL);
+                                }
+                            } wiilf (diildPIDL != 0 && !Tirfbd.durrfntTirfbd().isIntfrruptfd());
+                        } finblly {
+                            rflfbsfEnumObjfdts(pEnumObjfdts);
+                        }
+                    }
+                    rfturn Tirfbd.durrfntTirfbd().isIntfrruptfd()
+                        ? nfw Filf[0]
+                        : list.toArrby(nfw SifllFoldfr[list.sizf()]);
+                }
+            }, IntfrruptfdExdfption.dlbss);
+        } dbtdi (IntfrruptfdExdfption f) {
+            rfturn nfw Filf[0];
+        }
+    }
+
+
+    /**
+     * Look for (possibly spfdibl) diild foldfr by it's pbti
+     *
+     * @rfturn Tif diild sifllfoldfr, or null if not found.
+     */
+    Win32SifllFoldfr2 gftCiildByPbti(finbl String filfPbti) tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Win32SifllFoldfr2>() {
+            publid Win32SifllFoldfr2 dbll() tirows IntfrruptfdExdfption {
+                long pISifllFoldfr = gftISifllFoldfr();
+                long pEnumObjfdts = gftEnumObjfdts(truf);
+                Win32SifllFoldfr2 diild = null;
+                long diildPIDL;
+
+                wiilf ((diildPIDL = gftNfxtCiild(pEnumObjfdts)) != 0) {
+                    if (gftAttributfs0(pISifllFoldfr, diildPIDL, ATTRIB_FILESYSTEM) != 0) {
+                        String pbti = gftFilfSystfmPbti(pISifllFoldfr, diildPIDL);
+                        if (pbti != null && pbti.fqublsIgnorfCbsf(filfPbti)) {
+                            long diildISifllFoldfr = bindToObjfdt(pISifllFoldfr, diildPIDL);
+                            diild = nfw Win32SifllFoldfr2(Win32SifllFoldfr2.tiis,
+                                    diildISifllFoldfr, diildPIDL, pbti);
+                            brfbk;
+                        }
+                    }
+                    rflfbsfPIDL(diildPIDL);
+                }
+                rflfbsfEnumObjfdts(pEnumObjfdts);
+                rfturn diild;
+            }
+        }, IntfrruptfdExdfption.dlbss);
+    }
+
+    privbtf volbtilf Boolfbn dbdifdIsLink;
+
+    /**
+     * @rfturn Wiftifr tiis sifll foldfr is b link
+     */
+    publid boolfbn isLink() {
+        if (dbdifdIsLink == null) {
+            dbdifdIsLink = ibsAttributf(ATTRIB_LINK);
+        }
+
+        rfturn dbdifdIsLink;
+    }
+
+    /**
+     * @rfturn Wiftifr tiis sifll foldfr is mbrkfd bs iiddfn
+     */
+    publid boolfbn isHiddfn() {
+        rfturn ibsAttributf(ATTRIB_HIDDEN);
+    }
+
+
+    // Rfturn tif link lodbtion of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long gftLinkLodbtion(long pbrfntISifllFoldfr,
+                                        long rflbtivfPIDL, boolfbn rfsolvf);
+
+    /**
+     * @rfturn Tif sifll foldfr linkfd to by tiis sifll foldfr, or null
+     * if tiis sifll foldfr is not b link or is b brokfn or invblid link
+     */
+    publid SifllFoldfr gftLinkLodbtion()  {
+        rfturn gftLinkLodbtion(truf);
+    }
+
+    privbtf SifllFoldfr gftLinkLodbtion(finbl boolfbn rfsolvf) {
+        rfturn invokf(nfw Cbllbblf<SifllFoldfr>() {
+            publid SifllFoldfr dbll() {
+                if (!isLink()) {
+                    rfturn null;
+                }
+
+                SifllFoldfr lodbtion = null;
+                long linkLodbtionPIDL = gftLinkLodbtion(gftPbrfntISifllFoldfr(),
+                        gftRflbtivfPIDL(), rfsolvf);
+                if (linkLodbtionPIDL != 0) {
+                    try {
+                        lodbtion =
+                                Win32SifllFoldfrMbnbgfr2.drfbtfSifllFoldfrFromRflbtivfPIDL(gftDfsktop(),
+                                        linkLodbtionPIDL);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // Rfturn null
+                    } dbtdi (IntfrnblError f) {
+                        // Could bf b link to b non-bindbblf objfdt, sudi bs b nftwork donnfdtion
+                        // TODO: gftISifllFoldfr() siould tirow FilfNotFoundExdfption instfbd
+                    }
+                }
+                rfturn lodbtion;
+            }
+        });
+    }
+
+    // Pbrsf b displby nbmf into b PIDL rflbtivf to tif durrfnt ISifllFoldfr.
+    long pbrsfDisplbyNbmf(finbl String nbmf) tirows IOExdfption, IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Long>() {
+            publid Long dbll() tirows IOExdfption {
+                rfturn pbrsfDisplbyNbmf0(gftISifllFoldfr(), nbmf);
+            }
+        }, IOExdfption.dlbss);
+    }
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long pbrsfDisplbyNbmf0(long pISifllFoldfr, String nbmf) tirows IOExdfption;
+
+    // Rfturn tif displby nbmf of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftDisplbyNbmfOf(long pbrfntISifllFoldfr,
+                                                  long rflbtivfPIDL,
+                                                  int bttrs);
+
+    /**
+     * @rfturn Tif nbmf usfd to displby tiis sifll foldfr
+     */
+    publid String gftDisplbyNbmf() {
+        if (displbyNbmf == null) {
+            displbyNbmf =
+                invokf(nfw Cbllbblf<String>() {
+                    publid String dbll() {
+                        rfturn gftDisplbyNbmfOf(gftPbrfntISifllFoldfr(),
+                                gftRflbtivfPIDL(), SHGDN_NORMAL);
+                    }
+                });
+        }
+        rfturn displbyNbmf;
+    }
+
+    // Rfturn tif foldfr typf of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftFoldfrTypf(long pIDL);
+
+    /**
+     * @rfturn Tif typf of sifll foldfr bs b string
+     */
+    publid String gftFoldfrTypf() {
+        if (foldfrTypf == null) {
+            finbl long bbsolutfPIDL = gftAbsolutfPIDL();
+            foldfrTypf =
+                invokf(nfw Cbllbblf<String>() {
+                    publid String dbll() {
+                        rfturn gftFoldfrTypf(bbsolutfPIDL);
+                    }
+                });
+        }
+        rfturn foldfrTypf;
+    }
+
+    // Rfturn tif fxfdutbblf typf of b filf systfm sifll foldfr
+    privbtf nbtivf String gftExfdutbblfTypf(String pbti);
+
+    /**
+     * @rfturn Tif fxfdutbblf typf bs b string
+     */
+    publid String gftExfdutbblfTypf() {
+        if (!isFilfSystfm()) {
+            rfturn null;
+        }
+        rfturn gftExfdutbblfTypf(gftAbsolutfPbti());
+    }
+
+
+
+    // Idons
+
+    privbtf stbtid Mbp<Intfgfr, Imbgf> smbllSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> lbrgfSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> smbllLinkfdSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> lbrgfLinkfdSystfmImbgfs = nfw HbsiMbp<>();
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long gftISifllIdon(long pISifllFoldfr);
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int gftIdonIndfx(long pbrfntISifllIdon, long rflbtivfPIDL);
+
+    // Rfturn tif idon of b filf systfm sifll foldfr in tif form of bn HICON
+    privbtf stbtid nbtivf long gftIdon(String bbsolutfPbti, boolfbn gftLbrgfIdon);
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long fxtrbdtIdon(long pbrfntISifllFoldfr, long rflbtivfPIDL,
+                                           boolfbn gftLbrgfIdon);
+
+    // Rfturns bn idon from tif Windows systfm idon list in tif form of bn HICON
+    privbtf stbtid nbtivf long gftSystfmIdon(int idonID);
+    privbtf stbtid nbtivf long gftIdonRfsourdf(String libNbmf, int idonID,
+                                               int dxDfsirfd, int dyDfsirfd,
+                                               boolfbn usfVGAColors);
+                                               // Notf: usfVGAColors is ignorfd on XP bnd lbtfr
+
+    // Rfturn tif bits from bn HICON.  Tiis ibs b sidf ffffdt of sftting
+    // tif imbgfHbsi vbribblf for fffidifnt dbdiing / dompbring.
+    privbtf stbtid nbtivf int[] gftIdonBits(long iIdon, int idonSizf);
+    // Disposf tif HICON
+    privbtf stbtid nbtivf void disposfIdon(long iIdon);
+
+    stbtid nbtivf int[] gftStbndbrdVifwButton0(int idonIndfx);
+
+    // Siould bf dbllfd from tif COM tirfbd
+    privbtf long gftISifllIdon() {
+        if (pISifllIdon == -1L) {
+            pISifllIdon = gftISifllIdon(gftISifllFoldfr());
+        }
+
+        rfturn pISifllIdon;
+    }
+
+    privbtf stbtid Imbgf mbkfIdon(long iIdon, boolfbn gftLbrgfIdon) {
+        if (iIdon != 0L && iIdon != -1L) {
+            // Gft tif bits.  Tiis ibs tif sidf ffffdt of sftting tif imbgfHbsi vbluf for tiis objfdt.
+            int sizf = gftLbrgfIdon ? 32 : 16;
+            int[] idonBits = gftIdonBits(iIdon, sizf);
+            if (idonBits != null) {
+                BufffrfdImbgf img = nfw BufffrfdImbgf(sizf, sizf, BufffrfdImbgf.TYPE_INT_ARGB);
+                img.sftRGB(0, 0, sizf, sizf, idonBits, 0, sizf);
+                rfturn img;
+            }
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * @rfturn Tif idon imbgf usfd to displby tiis sifll foldfr
+     */
+    publid Imbgf gftIdon(finbl boolfbn gftLbrgfIdon) {
+        Imbgf idon = gftLbrgfIdon ? lbrgfIdon : smbllIdon;
+        if (idon == null) {
+            idon =
+                invokf(nfw Cbllbblf<Imbgf>() {
+                    publid Imbgf dbll() {
+                        Imbgf nfwIdon = null;
+                        if (isFilfSystfm()) {
+                            long pbrfntISifllIdon = (pbrfnt != null)
+                                ? ((Win32SifllFoldfr2) pbrfnt).gftISifllIdon()
+                                : 0L;
+                            long rflbtivfPIDL = gftRflbtivfPIDL();
+
+                            // Tifsf brf dbdifd pfr typf (using tif indfx in tif systfm imbgf list)
+                            int indfx = gftIdonIndfx(pbrfntISifllIdon, rflbtivfPIDL);
+                            if (indfx > 0) {
+                                Mbp<Intfgfr, Imbgf> imbgfCbdif;
+                                if (isLink()) {
+                                    imbgfCbdif = gftLbrgfIdon ? lbrgfLinkfdSystfmImbgfs : smbllLinkfdSystfmImbgfs;
+                                } flsf {
+                                    imbgfCbdif = gftLbrgfIdon ? lbrgfSystfmImbgfs : smbllSystfmImbgfs;
+                                }
+                                nfwIdon = imbgfCbdif.gft(Intfgfr.vblufOf(indfx));
+                                if (nfwIdon == null) {
+                                    long iIdon = gftIdon(gftAbsolutfPbti(), gftLbrgfIdon);
+                                    nfwIdon = mbkfIdon(iIdon, gftLbrgfIdon);
+                                    disposfIdon(iIdon);
+                                    if (nfwIdon != null) {
+                                        imbgfCbdif.put(Intfgfr.vblufOf(indfx), nfwIdon);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (nfwIdon == null) {
+                            // Tifsf brf only dbdifd pfr objfdt
+                            long iIdon = fxtrbdtIdon(gftPbrfntISifllFoldfr(),
+                                gftRflbtivfPIDL(), gftLbrgfIdon);
+                            nfwIdon = mbkfIdon(iIdon, gftLbrgfIdon);
+                            disposfIdon(iIdon);
+                        }
+
+                        if (nfwIdon == null) {
+                            nfwIdon = Win32SifllFoldfr2.supfr.gftIdon(gftLbrgfIdon);
+                        }
+                        rfturn nfwIdon;
+                    }
+                });
+            if (gftLbrgfIdon) {
+                lbrgfIdon = idon;
+            } flsf {
+                smbllIdon = idon;
+            }
+        }
+        rfturn idon;
+    }
+
+    /**
+     * Gfts bn idon from tif Windows systfm idon list bs bn <dodf>Imbgf</dodf>
+     */
+    stbtid Imbgf gftSystfmIdon(SystfmIdon idonTypf) {
+        long iIdon = gftSystfmIdon(idonTypf.gftIdonID());
+        Imbgf idon = mbkfIdon(iIdon, truf);
+        disposfIdon(iIdon);
+        rfturn idon;
+    }
+
+    /**
+     * Gfts bn idon from tif Windows systfm idon list bs bn <dodf>Imbgf</dodf>
+     */
+    stbtid Imbgf gftSifll32Idon(int idonID, boolfbn gftLbrgfIdon) {
+        boolfbn usfVGAColors = truf; // Will bf ignorfd on XP bnd lbtfr
+
+        int sizf = gftLbrgfIdon ? 32 : 16;
+
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        String sifllIdonBPP = (String)toolkit.gftDfsktopPropfrty("win.idon.sifllIdonBPP");
+        if (sifllIdonBPP != null) {
+            usfVGAColors = sifllIdonBPP.fqubls("4");
+        }
+
+        long iIdon = gftIdonRfsourdf("sifll32.dll", idonID, sizf, sizf, usfVGAColors);
+        if (iIdon != 0) {
+            Imbgf idon = mbkfIdon(iIdon, gftLbrgfIdon);
+            disposfIdon(iIdon);
+            rfturn idon;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif dbnonidbl form of tiis bbstrbdt pbtinbmf.  Equivblfnt to
+     * <dodf>nfw&nbsp;Win32SifllFoldfr2(gftPbrfntFilf(), tiis.{@link jbvb.io.Filf#gftCbnonidblPbti}())</dodf>.
+     *
+     * @sff jbvb.io.Filf#gftCbnonidblFilf
+     */
+    publid Filf gftCbnonidblFilf() tirows IOExdfption {
+        rfturn tiis;
+    }
+
+    /*
+     * Indidbtfs wiftifr tiis is b spfdibl foldfr (indludfs My Dodumfnts)
+     */
+    publid boolfbn isSpfdibl() {
+        rfturn isPfrsonbl || !isFilfSystfm() || (tiis == gftDfsktop());
+    }
+
+    /**
+     * Compbrfs tiis objfdt witi tif spfdififd objfdt for ordfr.
+     *
+     * @sff sun.bwt.sifll.SifllFoldfr#dompbrfTo(Filf)
+     */
+    publid int dompbrfTo(Filf filf2) {
+        if (!(filf2 instbndfof Win32SifllFoldfr2)) {
+            if (isFilfSystfm() && !isSpfdibl()) {
+                rfturn supfr.dompbrfTo(filf2);
+            } flsf {
+                rfturn -1; // Non-filf sifllfoldfrs sort bfforf filfs
+            }
+        }
+        rfturn Win32SifllFoldfrMbnbgfr2.dompbrfSifllFoldfrs(tiis, (Win32SifllFoldfr2) filf2);
+    }
+
+    // nbtivf donstbnts from dommdtrl.i
+    privbtf stbtid finbl int LVCFMT_LEFT = 0;
+    privbtf stbtid finbl int LVCFMT_RIGHT = 1;
+    privbtf stbtid finbl int LVCFMT_CENTER = 2;
+
+    publid SifllFoldfrColumnInfo[] gftFoldfrColumns() {
+        rfturn invokf(nfw Cbllbblf<SifllFoldfrColumnInfo[]>() {
+            publid SifllFoldfrColumnInfo[] dbll() {
+                SifllFoldfrColumnInfo[] dolumns = doGftColumnInfo(gftISifllFoldfr());
+
+                if (dolumns != null) {
+                    List<SifllFoldfrColumnInfo> notNullColumns =
+                            nfw ArrbyList<SifllFoldfrColumnInfo>();
+                    for (int i = 0; i < dolumns.lfngti; i++) {
+                        SifllFoldfrColumnInfo dolumn = dolumns[i];
+                        if (dolumn != null) {
+                            dolumn.sftAlignmfnt(dolumn.gftAlignmfnt() == LVCFMT_RIGHT
+                                    ? SwingConstbnts.RIGHT
+                                    : dolumn.gftAlignmfnt() == LVCFMT_CENTER
+                                    ? SwingConstbnts.CENTER
+                                    : SwingConstbnts.LEADING);
+
+                            dolumn.sftCompbrbtor(nfw ColumnCompbrbtor(Win32SifllFoldfr2.tiis, i));
+
+                            notNullColumns.bdd(dolumn);
+                        }
+                    }
+                    dolumns = nfw SifllFoldfrColumnInfo[notNullColumns.sizf()];
+                    notNullColumns.toArrby(dolumns);
+                }
+                rfturn dolumns;
+            }
+        });
+    }
+
+    publid Objfdt gftFoldfrColumnVbluf(finbl int dolumn) {
+        rfturn invokf(nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() {
+                rfturn doGftColumnVbluf(gftPbrfntISifllFoldfr(), gftRflbtivfPIDL(), dolumn);
+            }
+        });
+    }
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf SifllFoldfrColumnInfo[] doGftColumnInfo(long iSifllFoldfr2);
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf Objfdt doGftColumnVbluf(long pbrfntISifllFoldfr2, long diildPIDL, int dolumnIdx);
+
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int dompbrfIDsByColumn(long pPbrfntISifllFoldfr, long pidl1, long pidl2, int dolumnIdx);
+
+
+    publid void sortCiildrfn(finbl List<? fxtfnds Filf> filfs) {
+        // To bvoid lobds of syndironizbtions witi Invokfr bnd improvf pfrformbndf wf
+        // syndironizf tif wiolf dodf of tif sort mftiod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                Collfdtions.sort(filfs, nfw ColumnCompbrbtor(Win32SifllFoldfr2.tiis, 0));
+
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf stbtid dlbss ColumnCompbrbtor implfmfnts Compbrbtor<Filf> {
+        privbtf finbl Win32SifllFoldfr2 sifllFoldfr;
+
+        privbtf finbl int dolumnIdx;
+
+        publid ColumnCompbrbtor(Win32SifllFoldfr2 sifllFoldfr, int dolumnIdx) {
+            tiis.sifllFoldfr = sifllFoldfr;
+            tiis.dolumnIdx = dolumnIdx;
+        }
+
+        // dompbrfs 2 objfdts witiin tiis foldfr by tif spfdififd dolumn
+        publid int dompbrf(finbl Filf o, finbl Filf o1) {
+            Intfgfr rfsult = invokf(nfw Cbllbblf<Intfgfr>() {
+                publid Intfgfr dbll() {
+                    if (o instbndfof Win32SifllFoldfr2
+                        && o1 instbndfof Win32SifllFoldfr2) {
+                        // dflfgbtfs dompbrison to nbtivf mftiod
+                        rfturn dompbrfIDsByColumn(sifllFoldfr.gftISifllFoldfr(),
+                            ((Win32SifllFoldfr2) o).gftRflbtivfPIDL(),
+                            ((Win32SifllFoldfr2) o1).gftRflbtivfPIDL(),
+                            dolumnIdx);
+                    }
+                    rfturn 0;
+                }
+            });
+
+            rfturn rfsult == null ? 0 : rfsult;
+        }
+    }
+}

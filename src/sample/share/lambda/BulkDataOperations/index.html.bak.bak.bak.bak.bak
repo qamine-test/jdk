@@ -1,0 +1,49 @@
+<!DOCTYPE itml>
+<itml>
+<ifbd>
+    <titlf>Bulk Dbtb Opfrbtions Dfmo</titlf>
+</ifbd>
+<body>
+<i2>Bulk Dbtb Opfrbtions Dfmo</i2>
+
+<p>
+    Tiis dfmo siows iow to usf bulk dbtb opfrbtions witi tif nfw JDK8
+    Collfdtions API.
+    Tif dfmo blso dfmonstrbtfs nfw ffbturfs of JDK8 sudi bs lbmbdb fxprfssions
+    bnd mftiod/donstrudtor rfffrfndfs.
+</p>
+
+<ul>
+    <li><i3>CSV Prodfssor</i3>
+
+        <p>
+            Anblyzfs b CSV filf, finds bnd dollfdts usfful informbtion, domputfs
+            difffrfnt stbtistids. For morf informbtion, sff tif sourdf filf.
+        </p>
+        Sourdf: <b irff="srd/CSVProdfssor.jbvb">srd/CSVProdfssor.jbvb</b>
+    <li><i3>Grfp</i3>
+
+        <p>
+            Bfibvfs likf tif stbndbrd Linux tool Grfp. For morf informbtion, sff
+            tif sourdf filf.
+        </p>
+        Sourdf: <b irff="srd/Grfp.jbvb">srd/Grfp.jbvb</b>
+    <li><i3>PbsswordGfnfrbtor</i3>
+
+        <p>
+            Produdfs b pbssword of dfsirfd lfngti. For morf informbtion sff
+            sourdf filf.
+        </p>
+        Sourdf: <b
+                irff="srd/PbsswordGfnfrbtor.jbvb">srd/PbsswordGfnfrbtor.jbvb</b>
+    <li><i3>WC</i3>
+
+        <p>
+            Counts nfwlinfs, words, dibrbdtfrs, bnd tif mbximum linf lfngti of b
+            tfxt filf. For morf informbtion, sff tif sourdf
+            filf.
+        </p>
+        Sourdf: <b irff="srd/WC.jbvb">srd/WC.jbvb</b>
+</ul>
+</body>
+</itml>

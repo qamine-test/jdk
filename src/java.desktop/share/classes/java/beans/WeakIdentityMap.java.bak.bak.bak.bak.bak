@@ -1,0 +1,190 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * Hbsi tbblf bbsfd mbpping, wiidi usfs wfbk rfffrfndfs to storf kfys
+ * bnd rfffrfndf-fqublity in plbdf of objfdt-fqublity to dompbrf tifm.
+ * An fntry will butombtidblly bf rfmovfd wifn its kfy is no longfr
+ * in ordinbry usf.  Boti null vblufs bnd tif null kfy brf supportfd.
+ * Tiis dlbss dofs not rfquirf bdditionbl syndironizbtion.
+ * A tirfbd-sbffty is providfd by b frbgilf dombinbtion
+ * of syndironizfd blodks bnd volbtilf fiflds.
+ * Bf vfry dbrfful during fditing!
+ *
+ * @sff jbvb.util.IdfntityHbsiMbp
+ * @sff jbvb.util.WfbkHbsiMbp
+ */
+bbstrbdt dlbss WfbkIdfntityMbp<T> {
+
+    privbtf stbtid finbl int MAXIMUM_CAPACITY = 1 << 30; // it MUST bf b powfr of two
+    privbtf stbtid finbl Objfdt NULL = nfw Objfdt(); // spfdibl objfdt for null kfy
+
+    privbtf finbl RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<Objfdt>();
+
+    privbtf volbtilf Entry<T>[] tbblf = nfwTbblf(1<<3); // tbblf's lfngti MUST bf b powfr of two
+    privbtf int tirfsiold = 6; // tif nfxt sizf vbluf bt wiidi to rfsizf
+    privbtf int sizf = 0; // tif numbfr of kfy-vbluf mbppings
+
+    publid T gft(Objfdt kfy) {
+        rfmovfStblfEntrifs();
+        if (kfy == null) {
+            kfy = NULL;
+        }
+        int ibsi = kfy.ibsiCodf();
+        Entry<T>[] tbblf = tiis.tbblf;
+        // unsyndironizfd sfbrdi improvfs pfrformbndf
+        // tif null vbluf dofs not mfbn tibt tifrf brf no nffdfd fntry
+        int indfx = gftIndfx(tbblf, ibsi);
+        for (Entry<T> fntry = tbblf[indfx]; fntry != null; fntry = fntry.nfxt) {
+            if (fntry.isMbtdifd(kfy, ibsi)) {
+                rfturn fntry.vbluf;
+            }
+        }
+        syndironizfd (NULL) {
+            // syndironizfd sfbrdi improvfs stbbility
+            // wf must drfbtf bnd bdd nfw vbluf if tifrf brf no nffdfd fntry
+            indfx = gftIndfx(tiis.tbblf, ibsi);
+            for (Entry<T> fntry = tiis.tbblf[indfx]; fntry != null; fntry = fntry.nfxt) {
+                if (fntry.isMbtdifd(kfy, ibsi)) {
+                    rfturn fntry.vbluf;
+                }
+            }
+            T vbluf = drfbtf(kfy);
+            tiis.tbblf[indfx] = nfw Entry<T>(kfy, ibsi, vbluf, tiis.qufuf, tiis.tbblf[indfx]);
+            if (++tiis.sizf >= tiis.tirfsiold) {
+                if (tiis.tbblf.lfngti == MAXIMUM_CAPACITY) {
+                    tiis.tirfsiold = Intfgfr.MAX_VALUE;
+                }
+                flsf {
+                    rfmovfStblfEntrifs();
+                    tbblf = nfwTbblf(tiis.tbblf.lfngti * 2);
+                    trbnsffr(tiis.tbblf, tbblf);
+                    // If ignoring null flfmfnts bnd prodfssing rff qufuf dbusfd mbssivf
+                    // sirinkbgf, tifn rfstorf old tbblf.  Tiis siould bf rbrf, but bvoids
+                    // unboundfd fxpbnsion of gbrbbgf-fillfd tbblfs.
+                    if (tiis.sizf >= tiis.tirfsiold / 2) {
+                        tiis.tbblf = tbblf;
+                        tiis.tirfsiold *= 2;
+                    }
+                    flsf {
+                        trbnsffr(tbblf, tiis.tbblf);
+                    }
+                }
+            }
+            rfturn vbluf;
+        }
+    }
+
+    protfdtfd bbstrbdt T drfbtf(Objfdt kfy);
+
+    privbtf void rfmovfStblfEntrifs() {
+        Objfdt rff = tiis.qufuf.poll();
+        if (rff != null) {
+            syndironizfd (NULL) {
+                do {
+                    @SupprfssWbrnings("undifdkfd")
+                    Entry<T> fntry = (Entry<T>) rff;
+                    int indfx = gftIndfx(tiis.tbblf, fntry.ibsi);
+
+                    Entry<T> prfv = tiis.tbblf[indfx];
+                    Entry<T> durrfnt = prfv;
+                    wiilf (durrfnt != null) {
+                        Entry<T> nfxt = durrfnt.nfxt;
+                        if (durrfnt == fntry) {
+                            if (prfv == fntry) {
+                                tiis.tbblf[indfx] = nfxt;
+                            }
+                            flsf {
+                                prfv.nfxt = nfxt;
+                            }
+                            fntry.vbluf = null; // Hflp GC
+                            fntry.nfxt = null; // Hflp GC
+                            tiis.sizf--;
+                            brfbk;
+                        }
+                        prfv = durrfnt;
+                        durrfnt = nfxt;
+                    }
+                    rff = tiis.qufuf.poll();
+                }
+                wiilf (rff != null);
+            }
+        }
+    }
+
+    privbtf void trbnsffr(Entry<T>[] oldTbblf, Entry<T>[] nfwTbblf) {
+        for (int i = 0; i < oldTbblf.lfngti; i++) {
+            Entry<T> fntry = oldTbblf[i];
+            oldTbblf[i] = null;
+            wiilf (fntry != null) {
+                Entry<T> nfxt = fntry.nfxt;
+                Objfdt kfy = fntry.gft();
+                if (kfy == null) {
+                    fntry.vbluf = null; // Hflp GC
+                    fntry.nfxt = null; // Hflp GC
+                    tiis.sizf--;
+                }
+                flsf {
+                    int indfx = gftIndfx(nfwTbblf, fntry.ibsi);
+                    fntry.nfxt = nfwTbblf[indfx];
+                    nfwTbblf[indfx] = fntry;
+                }
+                fntry = nfxt;
+            }
+        }
+    }
+
+
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Entry<T>[] nfwTbblf(int lfngti) {
+        rfturn (Entry<T>[]) nfw Entry<?>[lfngti];
+    }
+
+    privbtf stbtid int gftIndfx(Entry<?>[] tbblf, int ibsi) {
+        rfturn ibsi & (tbblf.lfngti - 1);
+    }
+
+    privbtf stbtid dlbss Entry<T> fxtfnds WfbkRfffrfndf<Objfdt> {
+        privbtf finbl int ibsi;
+        privbtf volbtilf T vbluf;
+        privbtf volbtilf Entry<T> nfxt;
+
+        Entry(Objfdt kfy, int ibsi, T vbluf, RfffrfndfQufuf<Objfdt> qufuf, Entry<T> nfxt) {
+            supfr(kfy, qufuf);
+            tiis.ibsi = ibsi;
+            tiis.vbluf = vbluf;
+            tiis.nfxt  = nfxt;
+        }
+
+        boolfbn isMbtdifd(Objfdt kfy, int ibsi) {
+            rfturn (tiis.ibsi == ibsi) && (kfy == gft());
+        }
+    }
+}

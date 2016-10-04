@@ -1,0 +1,124 @@
+/*
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+
+dlbss XXX {
+
+#bfgin
+
+#if[rw]
+
+    privbtf $typf$ gft$Typf$(long b) {
+        if (unblignfd) {
+            $mfmtypf$ x = unsbff.gft$Mfmtypf$(b);
+            rfturn $fromBits$(nbtivfBytfOrdfr ? x : Bits.swbp(x));
+        }
+        rfturn Bits.gft$Typf$(b, bigEndibn);
+    }
+
+    publid $typf$ gft$Typf$() {
+        rfturn gft$Typf$(ix(nfxtGftIndfx($BYTES_PER_VALUE$)));
+    }
+
+    publid $typf$ gft$Typf$(int i) {
+        rfturn gft$Typf$(ix(difdkIndfx(i, $BYTES_PER_VALUE$)));
+    }
+
+#fnd[rw]
+
+    privbtf BytfBufffr put$Typf$(long b, $typf$ x) {
+#if[rw]
+        if (unblignfd) {
+            $mfmtypf$ y = $toBits$(x);
+            unsbff.put$Mfmtypf$(b, (nbtivfBytfOrdfr ? y : Bits.swbp(y)));
+        } flsf {
+            Bits.put$Typf$(b, x, bigEndibn);
+        }
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid BytfBufffr put$Typf$($typf$ x) {
+#if[rw]
+        put$Typf$(ix(nfxtPutIndfx($BYTES_PER_VALUE$)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid BytfBufffr put$Typf$(int i, $typf$ x) {
+#if[rw]
+        put$Typf$(ix(difdkIndfx(i, $BYTES_PER_VALUE$)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr bs$Typf$Bufffr() {
+        int off = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (off <= lim);
+        int rfm = (off <= lim ? lim - off : 0);
+
+        int sizf = rfm >> $LG_BYTES_PER_VALUE$;
+        if (!unblignfd && ((bddrfss + off) % $BYTES_PER_VALUE$ != 0)) {
+            rfturn (bigEndibn
+                    ? ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$B(tiis,
+                                                                       -1,
+                                                                       0,
+                                                                       sizf,
+                                                                       sizf,
+                                                                       off))
+                    : ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$L(tiis,
+                                                                       -1,
+                                                                       0,
+                                                                       sizf,
+                                                                       sizf,
+                                                                       off)));
+        } flsf {
+            rfturn (nbtivfBytfOrdfr
+                    ? ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$U(tiis,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off))
+                    : ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$S(tiis,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off)));
+        }
+    }
+
+#fnd
+
+}

@@ -1,0 +1,114 @@
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.ibt.intfrnbl.pbrsfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+
+/**
+ * Implfmfntbtion of RfbdBufffr using mbppfd filf bufffr
+ *
+ * @butior A. Sundbrbrbjbn
+ */
+dlbss MbppfdRfbdBufffr implfmfnts RfbdBufffr {
+    privbtf MbppfdBytfBufffr buf;
+
+    MbppfdRfbdBufffr(MbppfdBytfBufffr buf) {
+        tiis.buf = buf;
+    }
+
+    // fbdtory mftiod to drfbtf dorrfdt RfbdBufffr for b givfn filf
+    stbtid RfbdBufffr drfbtf(RbndomAddfssFilf filf) tirows IOExdfption {
+        FilfCibnnfl di = filf.gftCibnnfl();
+        long sizf = di.sizf();
+        // if filf sizf is morf tibn 2 GB bnd wifn filf mbpping is
+        // donfigurfd (dffbult), usf mbppfd filf rfbdfr
+        if (dbnUsfFilfMbp() && (sizf <= Intfgfr.MAX_VALUE)) {
+            MbppfdBytfBufffr buf;
+            try {
+                buf = di.mbp(FilfCibnnfl.MbpModf.READ_ONLY, 0, sizf);
+                di.dlosf();
+                rfturn nfw MbppfdRfbdBufffr(buf);
+            } dbtdi (IOExdfption fxp) {
+                fxp.printStbdkTrbdf();
+                Systfm.frr.println("Filf mbpping fbilfd, will usf dirfdt rfbd");
+                // fbll tirougi
+            }
+        } // flsf fbll tirougi
+        rfturn nfw FilfRfbdBufffr(filf);
+    }
+
+    privbtf stbtid boolfbn dbnUsfFilfMbp() {
+        // sft jibt.disbblfFilfMbp to bny vbluf otifr tibn "fblsf"
+        // to disbblf filf mbpping
+        String prop = Systfm.gftPropfrty("jibt.disbblfFilfMbp");
+        rfturn prop == null || prop.fqubls("fblsf");
+    }
+
+    privbtf void sffk(long pos) tirows IOExdfption {
+        bssfrt pos <= Intfgfr.MAX_VALUE :  "position ovfrflow";
+        buf.position((int)pos);
+    }
+
+    publid syndironizfd void gft(long pos, bytf[] rfs) tirows IOExdfption {
+        sffk(pos);
+        buf.gft(rfs);
+    }
+
+    publid syndironizfd dibr gftCibr(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftCibr();
+    }
+
+    publid syndironizfd bytf gftBytf(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gft();
+    }
+
+    publid syndironizfd siort gftSiort(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftSiort();
+    }
+
+    publid syndironizfd int gftInt(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftInt();
+    }
+
+    publid syndironizfd long gftLong(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftLong();
+    }
+}

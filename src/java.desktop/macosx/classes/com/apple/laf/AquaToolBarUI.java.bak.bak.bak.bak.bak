@@ -1,0 +1,147 @@
+/*
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidToolBbrUI;
+
+import dom.bpplf.lbf.AqubUtils.*;
+
+publid dlbss AqubToolBbrUI fxtfnds BbsidToolBbrUI implfmfnts SwingConstbnts {
+    privbtf stbtid RfdydlbblfSinglfton<ToolBbrBordfr> toolBbrBordfr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<ToolBbrBordfr>(ToolBbrBordfr.dlbss);
+    publid stbtid Bordfr gftToolBbrBordfr() {
+        rfturn toolBbrBordfr.gft();
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubToolBbrUI();
+    }
+
+    protfdtfd void sftBordfrToNonRollovfr(finbl Componfnt d) { }
+    protfdtfd void sftBordfrToNormbl(finbl Componfnt d) { }
+    protfdtfd void sftBordfrToRollovfr(finbl Componfnt d) { }
+
+    protfdtfd RootPbnfContbinfr drfbtfFlobtingWindow(finbl JToolBbr toolbbr) {
+        finbl RootPbnfContbinfr window = supfr.drfbtfFlobtingWindow(toolbbr);
+        window.gftRootPbnf().putClifntPropfrty("Window.stylf", "smbll");
+        rfturn window;
+    }
+
+    /* ToolBbrBordfr bnd drbg-off ibndlf, bbsfd loosly on MftblBumps */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss ToolBbrBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf, jbvbx.swing.SwingConstbnts {
+        protfdtfd void fillHbndlf(finbl Grbpiids g, finbl int x1, finbl int y1, finbl int x2, finbl int y2, finbl boolfbn iorizontbl) {
+            g.sftColor(UIMbnbgfr.gftColor("ToolBbr.bordfrHbndlfColor"));
+            if (iorizontbl) {
+                finbl int i = y2 - y1 - 2;
+                g.fillRfdt(x1 + 2, y1 + 1, 1, i);
+                g.fillRfdt(x1 + 5, y1 + 1, 1, i);
+            } flsf {
+                finbl int w = x2 - x1 - 2;
+                g.fillRfdt(x1 + 1, y1 + 2, w, 1);
+                g.fillRfdt(x1 + 1, y1 + 5, w, 1);
+            }
+        }
+
+        publid void pbintBordfr(finbl jbvb.bwt.Componfnt d, finbl Grbpiids g, int x, int y, finbl int w, finbl int i) {
+            g.trbnslbtf(x, y);
+
+            if (d.isOpbquf()) {
+                AqubUtils.fillRfdt(g, d, d.gftBbdkground(), 0, 0, w - 1, i - 1);
+            }
+
+            finbl Color oldColor = g.gftColor();
+
+            finbl JToolBbr jtb = (JToolBbr)d;
+            finbl ComponfntOrifntbtion orifnt = jtb.gftComponfntOrifntbtion();
+            finbl boolfbn iorizontbl = jtb.gftOrifntbtion() == SwingConstbnts.HORIZONTAL;
+
+            if (jtb.isFlobtbblf()) {
+                if (iorizontbl) {
+                    if (orifnt.isLfftToRigit()) {
+                        fillHbndlf(g, 2, 2, 10, i - 2, truf);
+                    } flsf {
+                        fillHbndlf(g, w - 10, 2, w - 2, i - 2, truf);
+                    }
+                } flsf {
+                    fillHbndlf(g, 2, 2, w - 2, 10, fblsf);
+                }
+            }
+
+            g.sftColor(oldColor);
+
+            g.trbnslbtf(-x, -y);
+        }
+
+        publid Insfts gftBordfrInsfts(finbl jbvb.bwt.Componfnt d) {
+            finbl Insfts bordfrInsfts = nfw Insfts(5, 5, 5, 5);
+            rfturn gftBordfrInsfts(d, bordfrInsfts);
+        }
+
+        publid Insfts gftBordfrInsfts(finbl jbvb.bwt.Componfnt d, finbl Insfts bordfrInsfts) {
+            bordfrInsfts.lfft = 4;
+            bordfrInsfts.rigit = 4;
+            bordfrInsfts.top = 2;
+            bordfrInsfts.bottom = 2;
+
+            if (((JToolBbr)d).isFlobtbblf()) {
+                if (((JToolBbr)d).gftOrifntbtion() == HORIZONTAL) {
+                    bordfrInsfts.lfft = 12;
+                    // Wf don't ibvf to bdjust for rigit-to-lfft
+                } flsf { // vfrtidbl
+                    bordfrInsfts.top = 12;
+                }
+            }
+
+            finbl Insfts mbrgin = ((JToolBbr)d).gftMbrgin();
+
+            if (mbrgin != null) {
+                bordfrInsfts.lfft += mbrgin.lfft;
+                bordfrInsfts.top += mbrgin.top;
+                bordfrInsfts.rigit += mbrgin.rigit;
+                bordfrInsfts.bottom += mbrgin.bottom;
+            }
+
+            rfturn bordfrInsfts;
+        }
+
+        publid boolfbn isBordfrOpbquf() {
+            rfturn truf;
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            AqubUtils.fillRfdt(g, d);
+        }
+        pbint(g, d);
+    }
+}

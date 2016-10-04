@@ -1,0 +1,204 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Hbsitbblf;
+
+/**
+ * Tiis bbstrbdt dlbss is usfd to rfprfsfnt b rfffrrbl fxdfption,
+ * wiidi is gfnfrbtfd in rfsponsf to b <fm>rfffrrbl</fm>
+ * sudi bs tibt rfturnfd by LDAP v3 sfrvfrs.
+ * <p>
+ * A sfrvidf providfr providfs
+ * b subdlbss of <tt>RfffrrblExdfption</tt> by providing implfmfntbtions
+ * for <tt>gftRfffrrblInfo()</tt> bnd <tt>gftRfffrrblContfxt()</tt> (bnd bppropribtf
+ * donstrudtors bnd/or dorrfsponding "sft" mftiods).
+ * <p>
+ * Tif following dodf sbmplf siows iow <tt>RfffrrblExdfption</tt> dbn bf usfd.
+ * <blodkquotf>{@dodf
+ *      wiilf (truf) {
+ *          try {
+ *              bindings = dtx.listBindings(nbmf);
+ *              wiilf (bindings.ibsMorf()) {
+ *                  b = bindings.nfxt();
+ *                  ...
+ *              }
+ *              brfbk;
+ *          } dbtdi (RfffrrblExdfption f) {
+ *              dtx = f.gftRfffrrblContfxt();
+ *          }
+ *      }
+ * }</blodkquotf>
+ *<p>
+ * <tt>RfffrrblExdfption</tt> is bn bbstrbdt dlbss. Condrftf implfmfntbtions
+ * dftfrminf its syndironizbtion bnd sfriblizbtion propfrtifs.
+ *<p>
+ * An fnvironmfnt pbrbmftfr pbssfd to tif <tt>gftRfffrrblContfxt()</tt>
+ * mftiod is ownfd by tif dbllfr.
+ * Tif sfrvidf providfr will not modify tif objfdt or kffp b rfffrfndf to it,
+ * but mby kffp b rfffrfndf to b dlonf of it.
+ *
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ *
+ * @sindf 1.3
+ *
+ */
+
+publid bbstrbdt dlbss RfffrrblExdfption fxtfnds NbmingExdfption {
+    /**
+     * Construdts b nfw instbndf of RfffrrblExdfption using tif
+     * fxplbnbtion supplifd. All otifr fiflds brf sft to null.
+     *
+     * @pbrbm   fxplbnbtion     Additionbl dftbil bbout tiis fxdfption. Cbn bf null.
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     */
+    protfdtfd RfffrrblExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+    }
+
+    /**
+      * Construdts b nfw instbndf of RfffrrblExdfption.
+      * All fiflds brf sft to null.
+      */
+    protfdtfd RfffrrblExdfption() {
+        supfr();
+    }
+
+    /**
+     * Rftrifvfs informbtion (sudi bs URLs) rflbtfd to tiis rfffrrbl.
+     * Tif progrbm mby fxbminf or displby tiis informbtion
+     * to tif usfr to dftfrminf wiftifr to dontinuf witi tif rfffrrbl,
+     * or to dftfrminf bdditionbl informbtion nffds to bf supplifd in ordfr
+     * to dontinuf witi tif rfffrrbl.
+     *
+     * @rfturn Non-null rfffrrbl informbtion rflbtfd to tiis rfffrrbl.
+     */
+    publid bbstrbdt Objfdt gftRfffrrblInfo();
+
+    /**
+     * Rftrifvfs tif dontfxt bt wiidi to dontinuf tif mftiod.
+     * Rfgbrdlfss of wiftifr b rfffrrbl is fndountfrfd dirfdtly during b
+     * dontfxt opfrbtion, or indirfdtly, for fxbmplf, during b sfbrdi
+     * fnumfrbtion, tif rfffrrbl fxdfption siould providf b dontfxt
+     * bt wiidi to dontinuf tif opfrbtion. Tif rfffrrbl dontfxt is
+     * drfbtfd using tif fnvironmfnt propfrtifs of tif dontfxt
+     * tibt tirfw tif RfffrrblExdfption.
+     *
+     *<p>
+     * To dontinuf tif opfrbtion, tif dlifnt progrbm siould rf-invokf
+     * tif mftiod using tif sbmf brgumfnts bs tif originbl invodbtion.
+     *
+     * @rfturn Tif non-null dontfxt bt wiidi to dontinuf tif mftiod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fitifr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
+     */
+    publid bbstrbdt Contfxt gftRfffrrblContfxt() tirows NbmingExdfption;
+
+    /**
+     * Rftrifvfs tif dontfxt bt wiidi to dontinuf tif mftiod using
+     * fnvironmfnt propfrtifs.
+     * Rfgbrdlfss of wiftifr b rfffrrbl is fndountfrfd dirfdtly during b
+     * dontfxt opfrbtion, or indirfdtly, for fxbmplf, during b sfbrdi
+     * fnumfrbtion, tif rfffrrbl fxdfption siould providf b dontfxt
+     * bt wiidi to dontinuf tif opfrbtion.
+     *<p>
+     * Tif rfffrrbl dontfxt is drfbtfd using <tt>fnv</tt> bs its fnvironmfnt
+     * propfrtifs.
+     * Tiis mftiod siould bf usfd instfbd of tif no-brg ovfrlobdfd form
+     * wifn tif dbllfr nffds to usf difffrfnt fnvironmfnt propfrtifs for
+     * tif rfffrrbl dontfxt. It migit nffd to do tiis, for fxbmplf, wifn
+     * it nffds to supply difffrfnt butifntidbtion informbtion to tif rfffrrfd
+     * sfrvfr in ordfr to drfbtf tif rfffrrbl dontfxt.
+     *<p>
+     * To dontinuf tif opfrbtion, tif dlifnt progrbm siould rf-invokf
+     * tif mftiod using tif sbmf brgumfnts bs tif originbl invodbtion.
+     *
+     * @pbrbm fnv Tif possibly null fnvironmfnt to usf wifn rftrifving tif
+     *          rfffrrbl dontfxt. If null, no fnvironmfnt propfrtifs will bf usfd.
+     *
+     * @rfturn Tif non-null dontfxt bt wiidi to dontinuf tif mftiod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fitifr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
+     */
+    publid bbstrbdt Contfxt
+        gftRfffrrblContfxt(Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption;
+
+    /**
+     * Disdbrds tif rfffrrbl bbout to bf prodfssfd.
+     * A dbll to tiis mftiod siould bf followfd by b dbll to
+     * <dodf>gftRfffrrblContfxt</dodf> to bllow tif prodfssing of
+     * otifr rfffrrbls to dontinuf.
+     * Tif following dodf frbgmfnt siows b typidbl usbgf pbttfrn.
+     * <blodkquotf><prf>
+     *  } dbtdi (RfffrrblExdfption f) {
+     *      if (!sibllIFollow(f.gftRfffrrblInfo())) {
+     *          if (!f.skipRfffrrbl()) {
+     *              rfturn;
+     *          }
+     *      }
+     *      dtx = f.gftRfffrrblContfxt();
+     *  }
+     * </prf></blodkquotf>
+     *
+     * @rfturn truf If morf rfffrrbl prodfssing is pfnding; fblsf otifrwisf.
+     */
+    publid bbstrbdt boolfbn skipRfffrrbl();
+
+    /**
+     * Rftrifs tif rfffrrbl durrfntly bfing prodfssfd.
+     * A dbll to tiis mftiod siould bf followfd by b dbll to
+     * <dodf>gftRfffrrblContfxt</dodf> to bllow tif durrfnt
+     * rfffrrbl to bf rftrifd.
+     * Tif following dodf frbgmfnt siows b typidbl usbgf pbttfrn.
+     * <blodkquotf><prf>
+     *  } dbtdi (RfffrrblExdfption f) {
+     *      wiilf (truf) {
+     *          try {
+     *              dtx = f.gftRfffrrblContfxt(fnv);
+     *              brfbk;
+     *          } dbtdi (NbmingExdfption nf) {
+     *              if (! sibllIRftry()) {
+     *                  rfturn;
+     *              }
+     *              // modify fnvironmfnt propfrtifs (fnv), if nfdfssbry
+     *              f.rftryRfffrrbl();
+     *          }
+     *      }
+     *  }
+     * </prf></blodkquotf>
+     *
+     */
+    publid bbstrbdt void rftryRfffrrbl();
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2881363844695698876L;
+}

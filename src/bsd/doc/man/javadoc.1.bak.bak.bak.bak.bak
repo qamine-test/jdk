@@ -1,0 +1,2997 @@
+'\" t
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 10 Mby 2011
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbdod.1
+.\"
+.if n .pl 99999
+.TH jbvbdod 1 "10 Mby 2011" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvbdod \- Gfnfrbtfs HTML pbgfs of API dodumfntbtion from Jbvb sourdf filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvbdod\fR {\fIpbdkbgfs\fR|\fIsourdf\-filfs\fR} [\fIoptions\fR] [\fI@brgfilfs\fR]
+.fi     
+.sp     
+.TP     
+\fIpbdkbgfs\fR
+Nbmfs of pbdkbgfs tibt you wbnt to dodumfnt, sfpbrbtfd by spbdfs, for fxbmplf \f3jbvb\&.lbng jbvb\&.lbng\&.rfflfdt jbvb\&.bwt\fR\&. If you wbnt to blso dodumfnt tif subpbdkbgfs, usf tif \f3-subpbdkbgfs\fR option to spfdify tif pbdkbgfs\&.
+
+By dffbult, \f3jbvbdod\fR looks for tif spfdififd pbdkbgfs in tif durrfnt dirfdtory bnd subdirfdtorifs\&. Usf tif \f3-sourdfpbti\fR option to spfdify tif list of dirfdtorifs wifrf to look for pbdkbgfs\&.
+.TP     
+\fIsourdf-filfs\fR
+Nbmfs of Jbvb sourdf filfs tibt you wbnt to dodumfnt, sfpbrbtfd by spbdfs, for fxbmplf \f3Clbss\&.jbvb Objfdt\&.jbvb Button\&.jbvb\fR\&. By dffbult, \f3jbvbdod\fR looks for tif spfdififd dlbssfs in tif durrfnt dirfdtory\&. Howfvfr, you dbn spfdify tif full pbti to tif dlbss filf bnd usf wilddbrd dibrbdtfrs, for fxbmplf \f3/iomf/srd/jbvb/bwt/Grbpiids*\&.jbvb\fR\&. You dbn blso spfdify tif pbti rflbtivf to tif durrfnt dirfdtory\&.
+.TP     
+\fIoptions\fR
+Commbnd-linf options, sfpbrbtfd by spbdfs\&. Sff Options\&.
+.TP     
+\fI@brgfilfs\fR
+Nbmfs of filfs tibt dontbin b list of \f3jbvbdod\fR dommbnd options, pbdkbgf nbmfs bnd sourdf filf nbmfs in bny ordfr\&.
+.SH DESCRIPTION    
+Tif \f3jbvbdod\fR dommbnd pbrsfs tif dfdlbrbtions bnd dodumfntbtion dommfnts in b sft of Jbvb sourdf filfs bnd produdfs b dorrfsponding sft of HTML pbgfs tibt dfsdribf (by dffbult) tif publid bnd protfdtfd dlbssfs, nfstfd dlbssfs (but not bnonymous innfr dlbssfs), intfrfbdfs, donstrudtors, mftiods, bnd fiflds\&. You dbn usf tif \f3jbvbdod\fR dommbnd to gfnfrbtf tif API dodumfntbtion or tif implfmfntbtion dodumfntbtion for b sft of sourdf filfs\&.
+.PP
+You dbn run tif \f3jbvbdod\fR dommbnd on fntirf pbdkbgfs, individubl sourdf filfs, or boti\&. Wifn dodumfnting fntirf pbdkbgfs, you dbn fitifr usf tif \f3-subpbdkbgfs\fR option to rfdursivfly trbvfrsf b dirfdtory bnd its subdirfdtorifs, or to pbss in bn fxplidit list of pbdkbgf nbmfs\&. Wifn you dodumfnt individubl sourdf filfs, pbss in b list of Jbvb sourdf filf nbmfs\&. Sff Simplf Exbmplfs\&.
+.SS PROCESS\ SOURCE\ FILES    
+Tif \f3jbvbdod\fR dommbnd prodfssfs filfs tibt fnd in sourdf bnd otifr filfs dfsdribfd in Sourdf Filfs\&. If you run tif \f3jbvbdod\fR dommbnd by pbssing in individubl sourdf filf nbmfs, tifn you dbn dftfrminf fxbdtly wiidi sourdf filfs brf prodfssfd\&. Howfvfr, tibt is not iow most dfvflopfrs wbnt to work, bfdbusf it is simplfr to pbss in pbdkbgf nbmfs\&. Tif \f3jbvbdod\fR dommbnd dbn bf run tirff wbys witiout fxpliditly spfdifying tif sourdf filf nbmfs\&. You dbn pbss in pbdkbgf nbmfs, usf tif \f3-subpbdkbgfs\fR option, or usf wild dbrds witi sourdf filf nbmfs\&. In tifsf dbsfs, tif \f3jbvbdod\fR dommbnd prodfssfs b sourdf filf only wifn tif filf fulfills bll of tif following rfquirfmfnts:
+.TP 0.2i    
+\(bu
+Tif filf nbmf prffix (witi \f3\&.jbvb\fR rfmovfd) is b vblid dlbss nbmf\&.
+.TP 0.2i    
+\(bu
+Tif pbti nbmf rflbtivf to tif root of tif sourdf trff is b vblid pbdkbgf nbmf bftfr tif sfpbrbtors brf donvfrtfd to dots\&.
+.TP 0.2i    
+\(bu
+Tif pbdkbgf stbtfmfnt dontbins tif vblid pbdkbgf nbmf\&.
+.PP
+Prodfssing Links
+
+During b run, tif \f3jbvbdod\fR dommbnd bdds dross-rfffrfndf links to pbdkbgf, dlbss, bnd mfmbfr nbmfs tibt brf bfing dodumfntfd bs pbrt of tibt run\&. Links bppfbr in tif following plbdfs\&. Sff Jbvbdod Tbgs for b dfsdription of tif @ tbgs\&.
+.TP 0.2i    
+\(bu
+Dfdlbrbtions (rfturn typfs, brgumfnt typfs, bnd fifld typfs)\&.
+.TP 0.2i    
+\(bu
+\fISff Also\fR sfdtions tibt brf gfnfrbtfd from \f3@sff\fR tbgs\&.
+.TP 0.2i    
+\(bu
+Inlinf tfxt gfnfrbtfd from \f3{@link}\fR tbgs\&.
+.TP 0.2i    
+\(bu
+Exdfption nbmfs gfnfrbtfd from \f3@tirows\fR tbgs\&.
+.TP 0.2i    
+\(bu
+\fISpfdififd by\fR links to intfrfbdf mfmbfrs bnd \fIOvfrridfs\fR links to dlbss mfmbfrs\&. Sff Mftiod Commfnt Inifritbndf\&.
+.TP 0.2i    
+\(bu
+Summbry tbblfs listing pbdkbgfs, dlbssfs bnd mfmbfrs\&.
+.TP 0.2i    
+\(bu
+Pbdkbgf bnd dlbss inifritbndf trffs\&.
+.TP 0.2i    
+\(bu
+Tif indfx\&.
+.PP
+You dbn bdd links to fxisting tfxt for dlbssfs not indludfd on tif dommbnd linf (but gfnfrbtfd sfpbrbtfly) by wby of tif \f3-link\fR bnd \f3-linkofflinf\fR options\&.
+.PP
+Prodfssing Dftbils
+
+Tif \f3jbvbdod\fR dommbnd produdfs onf domplftf dodumfnt fvfry timf it runs\&. It dofs not do indrfmfntbl builds tibt modify or dirfdtly indorporbtf tif rfsults from fbrlifr runs\&. Howfvfr, tif \f3jbvbdod\fR dommbnd dbn link to rfsults from otifr runs\&.
+.PP
+Tif \f3jbvbdod\fR dommbnd implfmfntbtion rfquirfs bnd rflifs on tif Jbvb dompilfr\&. Tif \f3jbvbdod\fR dommbnd dblls pbrt of tif \f3jbvbd\fR dommbnd to dompilf tif dfdlbrbtions bnd ignorf tif mfmbfr implfmfntbtions\&. Tif \f3jbvbdod\fR dommbnd builds b ridi intfrnbl rfprfsfntbtion of tif dlbssfs tibt indludfs tif dlbss iifrbrdiy bnd usf rflbtionsiips to gfnfrbtf tif HTML\&. Tif \f3jbvbdod\fR dommbnd blso pidks up usfr-supplifd dodumfntbtion from dodumfntbtion dommfnts in tif sourdf dodf\&. Sff Dodumfntbtion Commfnts\&.
+.PP
+Tif \f3jbvbdod\fR dommbnd runs on sourdf filfs tibt brf purf stub filfs witi no mftiod bodifs\&. Tiis mfbns you dbn writf dodumfntbtion dommfnts bnd run tif \f3jbvbdod\fR dommbnd in tif fbrly stbgfs of dfsign bfforf API implfmfntbtion\&.
+.PP
+Rflying on tif dompilfr fnsurfs tibt tif HTML output dorrfsponds fxbdtly witi tif bdtubl implfmfntbtion, wiidi mby rfly on implidit, rbtifr tibn fxplidit, sourdf dodf\&. For fxbmplf, tif \f3jbvbdod\fR dommbnd dodumfnts dffbult donstrudtors tibt brf prfsfnt in tif dompilfd dlbss filfs but not in tif sourdf dodf\&.
+.PP
+In mbny dbsfs, tif \f3jbvbdod\fR dommbnd lfts you gfnfrbtf dodumfntbtion for sourdf filfs witi indomplftf or frronfous dodf\&. You dbn gfnfrbtf dodumfntbtion bfforf bll dfbugging bnd troublfsiooting is donf\&. Tif \f3jbvbdod\fR dommbnd dofs primitivf difdking of dodumfntbtion dommfnts\&.
+.PP
+Wifn tif \f3jbvbdod\fR dommbnd builds its intfrnbl strudturf for tif dodumfntbtion, it lobds bll rfffrfndfd dlbssfs\&. Bfdbusf of tiis, tif \f3jbvbdod\fR dommbnd must bf bblf to find bll rfffrfndfd dlbssfs, wiftifr bootstrbp dlbssfs, fxtfnsions, or usfr dlbssfs\&. Sff How Clbssfs Arf Found bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/findingdlbssfs\&.itml
+.PP
+Typidblly, dlbssfs you drfbtf must fitifr bf lobdfd bs bn fxtfnsion or in tif \f3jbvbdod\fR dommbnd dlbss pbti\&.
+.SS JAVADOC\ DOCLETS    
+You dbn dustomizf tif dontfnt bnd formbt of tif \f3jbvbdod\fR dommbnd output witi dodlfts\&. Tif \f3jbvbdod\fR dommbnd ibs b dffbult built-in dodlft, dbllfd tif stbndbrd dodlft, tibt gfnfrbtfs HTML-formbttfd API dodumfntbtion\&. You dbn modify or mbkf b subdlbss of tif stbndbrd dodlft, or writf your own dodlft to gfnfrbtf HTML, XML, MIF, RTF or wibtfvfr output formbt you wbnt\&.
+.PP
+Wifn b dustom dodlft is not spfdififd witi tif \f3-dodlft\fR option, tif \f3jbvbdod\fR dommbnd usfs tif dffbult stbndbrd dodlft\&. Tif \f3jbvbdod\fR dommbnd ibs sfvfrbl options tibt brf bvbilbblf rfgbrdlfss of wiidi dodlft is bfing usfd\&. Tif stbndbrd dodlft bdds b supplfmfntbry sft of dommbnd-linf options\&. Sff Options\&.
+.SH SOURCE\ FILES    
+Tif \f3jbvbdod\fR dommbnd gfnfrbtfs output tibt originbtfs from tif following typfs of sourdf filfs: Jbvb lbngubgf sourdf filfs for dlbssfs (\f3\&.jbvb\fR), pbdkbgf dommfnt filfs, ovfrvifw dommfnt filfs, bnd misdfllbnfous unprodfssfd filfs\&. Tiis sfdtion blso dfsdribfs tfst filfs bnd tfmplbtf filfs tibt dbn blso bf in tif sourdf trff, but tibt you wbnt to bf surf not to dodumfnt\&.
+.SS CLASS\ SOURCE\ FILES    
+Ebdi dlbss or intfrfbdf bnd its mfmbfrs dbn ibvf tifir own dodumfntbtion dommfnts dontbinfd in b sourdf filf\&. Sff Dodumfntbtion Commfnts\&.
+.SS PACKAGE\ COMMENT\ FILES    
+Ebdi pbdkbgf dbn ibvf its own dodumfntbtion dommfnt, dontbinfd in its own sourdf filf, tibt tif \f3jbvbdod\fR dommbnd mfrgfs into tif gfnfrbtfd pbdkbgf summbry pbgf\&. You typidblly indludf in tiis dommfnt bny dodumfntbtion tibt bpplifs to tif fntirf pbdkbgf\&.
+.PP
+To drfbtf b pbdkbgf dommfnt filf, you dbn plbdf your dommfnts in onf of tif following filfs:
+.TP 0.2i    
+\(bu
+Tif \f3pbdkbgf-info\&.jbvb\fR filf dbn dontbin tif pbdkbgf dfdlbrbtion, pbdkbgf bnnotbtions, pbdkbgf dommfnts, bnd Jbvbdod tbgs\&. Tiis filf is prfffrrfd\&.
+.TP 0.2i    
+\(bu
+Tif \f3pbdkbgf\&.itml\fR filf dontbins only pbdkbgf dommfnts bnd Jbvbdod tbgs\&. No pbdkbgf bnnotbtions\&.
+.PP
+A pbdkbgf dbn ibvf b singlf \f3pbdkbgf\&.itml\fR filf or b singlf \f3pbdkbgf-info\&.jbvb\fR filf, but not boti\&. Plbdf fitifr filf in tif pbdkbgf dirfdtory in tif sourdf trff witi your sourdf filfs\&.
+.PP
+Tif pbdkbgf-info\&.jbvb Filf
+
+Tif \f3pbdkbgf-info\&.jbvb\fR filf dbn dontbin b pbdkbgf dommfnt of tif following strudturf\&. Tif dommfnt is plbdfd bfforf tif pbdkbgf dfdlbrbtion\&.
+.PP
+\fINotf:\fR Tif dommfnt sfpbrbtors \f3/**\fR bnd \f3*/\fR must bf prfsfnt, but tif lfbding bstfrisks on tif intfrmfdibtf linfs dbn bf lfft off\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Providfs tif dlbssfs nfdfssbry to drfbtf bn  \fP
+.fi     
+.nf     
+\f3 * bpplft bnd tif dlbssfs bn bpplft usfs \fP
+.fi     
+.nf     
+\f3 * to dommunidbtf witi its bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3 * <p>\fP
+.fi     
+.nf     
+\f3 * Tif bpplft frbmfwork involvfs two fntitifs:\fP
+.fi     
+.nf     
+\f3 * tif bpplft bnd tif bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3 * An bpplft is bn fmbfddbblf window (sff tif\fP
+.fi     
+.nf     
+\f3 * {@link jbvb\&.bwt\&.Pbnfl} dlbss) witi b ffw fxtrb\fP
+.fi     
+.nf     
+\f3 * mftiods tibt tif bpplft dontfxt dbn usf to \fP
+.fi     
+.nf     
+\f3 * initiblizf, stbrt, bnd stop tif bpplft\&.\fP
+.fi     
+.nf     
+\f3 *\fP
+.fi     
+.nf     
+\f3 * @sindf 1\&.0\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3pbdkbgf jbvb\&.lbng\&.bpplft;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Tif pbdkbgf\&.itml Filf
+
+Tif \f3pbdkbgf\&.itml\fR filf dbn dontbin b pbdkbgf dommfnt of tif following strudturf\&. Tif dommfnt is plbdfd in tif \f3<body>\fR flfmfnt\&.
+.PP
+Filf: \f3jbvb/bpplft/pbdkbgf\&.itml\fR
+.sp     
+.nf     
+\f3<HTML>\fP
+.fi     
+.nf     
+\f3<BODY>\fP
+.fi     
+.nf     
+\f3Providfs tif dlbssfs nfdfssbry to drfbtf bn bpplft bnd tif \fP
+.fi     
+.nf     
+\f3dlbssfs bn bpplft usfs to dommunidbtf witi its bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3<p>\fP
+.fi     
+.nf     
+\f3Tif bpplft frbmfwork involvfs two fntitifs: tif bpplft\fP
+.fi     
+.nf     
+\f3bnd tif bpplft dontfxt\&. An bpplft is bn fmbfddbblf\fP
+.fi     
+.nf     
+\f3window (sff tif {@link jbvb\&.bwt\&.Pbnfl} dlbss) witi b\fP
+.fi     
+.nf     
+\f3ffw fxtrb mftiods tibt tif bpplft dontfxt dbn usf to\fP
+.fi     
+.nf     
+\f3initiblizf, stbrt, bnd stop tif bpplft\&. \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3@sindf 1\&.0 \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3</BODY>\fP
+.fi     
+.nf     
+\f3</HTML>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif \f3pbdkbgf\&.itml\fR filf is b typidbl HTML filf bnd dofs not indludf b pbdkbgf dfdlbrbtion\&. Tif dontfnt of tif pbdkbgf dommfnt filf is writtfn in HTML witi onf fxdfption\&. Tif dodumfntbtion dommfnt siould not indludf tif dommfnt sfpbrbtors \f3/**\fR bnd \f3*/\fR or lfbding bstfrisks\&. Wifn writing tif dommfnt, mbkf tif first sfntfndf b summbry bbout tif pbdkbgf, bnd do not put b titlf or bny otifr tfxt bftwffn tif \f3<body>\fR tbg bnd tif first sfntfndf\&. You dbn indludf pbdkbgf tbgs\&. All blodk tbgs must bppfbr bftfr tif mbin dfsdription\&. If you bdd bn \f3@sff\fR tbg in b pbdkbgf dommfnt filf, tifn it must ibvf b fully qublififd nbmf\&.
+.PP
+Prodfssing tif Commfnt Filf
+
+Wifn tif \f3jbvbdod\fR dommbnd runs, it sfbrdifs for tif pbdkbgf dommfnt filf\&. If tif pbdkbgf dommfnt filf is found, tifn tif \f3jbvbdod\fR dommbnd dofs tif following:
+.TP 0.2i    
+\(bu
+Copifs tif dommfnt for prodfssing\&. For pbdkbgf\&.itml, tif \f3jbvbdod\fR dommbnd dopifs bll dontfnt bftwffn tif \f3<body>\fR bnd \f3</body>\fR HTML tbgs\&. You dbn indludf b \f3<ifbd>\fR sfdtion to put b \f3<titlf>\fR tbg, sourdf filf dopyrigit stbtfmfnt, or otifr informbtion, but nonf of tifsf bppfbr in tif gfnfrbtfd dodumfntbtion\&.
+.TP 0.2i    
+\(bu
+Prodfssfs tif pbdkbgf tbgs\&. Sff Pbdkbgf Tbgs\&.
+.TP 0.2i    
+\(bu
+Insfrts tif prodfssfd tfxt bt tif bottom of tif gfnfrbtfd pbdkbgf summbry pbgf\&. Sff Jbvb Plbtform, Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.itml
+.TP 0.2i    
+\(bu
+Copifs tif first sfntfndf of tif pbdkbgf dommfnt to tif top of tif pbdkbgf summbry pbgf\&. Tif \f3jbvbdod\fR dommbnd blso bdds tif pbdkbgf nbmf bnd tiis first sfntfndf to tif list of pbdkbgfs on tif ovfrvifw pbgf\&. Sff Jbvb Plbtform, Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.itml
+
+Tif fnd of tif sfntfndf is dftfrminfd by tif sbmf rulfs usfd for tif fnd of tif first sfntfndf of dlbss bnd mfmbfr mbin dfsdriptions\&.
+.SS OVERVIEW\ COMMENT\ FILES    
+Ebdi bpplidbtion or sft of pbdkbgfs tibt you brf dodumfnting dbn ibvf its own ovfrvifw dodumfntbtion dommfnt tibt is kfpt in its own sourdf filf, tibt tif \f3jbvbdod\fR dommbnd mfrgfs into tif gfnfrbtfd ovfrvifw pbgf\&. You typidblly indludf in tiis dommfnt bny dodumfntbtion tibt bpplifs to tif fntirf bpplidbtion or sft of pbdkbgfs\&.
+.PP
+You dbn nbmf tif filf bnytiing you wbnt sudi bs ovfrvifw\&.itml bnd plbdf it bnywifrf\&. A typidbl lodbtion is bt tif top of tif sourdf trff\&.
+.PP
+For fxbmplf, if tif sourdf filfs for tif \f3jbvb\&.bpplft\fR pbdkbgf brf dontbinfd in tif /iomf/usfr/srd/jbvb/bpplft dirfdtory, tifn you dould drfbtf bn ovfrvifw dommfnt filf bt /iomf/usfr/srd/ovfrvifw\&.itml\&.
+.PP
+You dbn ibvf multiplf ovfrvifw dommfnt filfs for tif sbmf sft of sourdf filfs in dbsf you wbnt to run tif \f3jbvbdod\fR dommbnd multiplf timfs on difffrfnt sfts of pbdkbgfs\&. For fxbmplf, you dould run tif \f3jbvbdod\fR dommbnd ondf witi \f3-privbtf\fR for intfrnbl dodumfntbtion bnd bgbin witiout tibt option for publid dodumfntbtion\&. In tiis dbsf, you dould dfsdribf tif dodumfntbtion bs publid or intfrnbl in tif first sfntfndf of fbdi ovfrvifw dommfnt filf\&.
+.PP
+Tif dontfnt of tif ovfrvifw dommfnt filf is onf big dodumfntbtion dommfnt tibt is writtfn in HTML\&. Mbkf tif first sfntfndf b summbry bbout tif bpplidbtion or sft of pbdkbgfs\&. Do not put b titlf or bny otifr tfxt bftwffn tif \f3<body>\fR tbg bnd tif first sfntfndf\&. All tbgs fxdfpt inlinf tbgs, sudi bs bn {\f3@link}\fR tbg, must bppfbr bftfr tif mbin dfsdription\&. If you bdd bn \f3@sff\fR tbg, tifn it must ibvf b fully qublififd nbmf\&.
+.PP
+Wifn you run tif \f3jbvbdod\fR dommbnd, spfdify tif ovfrvifw dommfnt filf nbmf witi tif \f3-ovfrvifw\fR option\&. Tif filf is tifn prodfssfd similbrly to tibt of b pbdkbgf dommfnt filf\&. Tif \f3jbvbdod\fR dommbnd dofs tif following:
+.TP 0.2i    
+\(bu
+Copifs bll dontfnt bftwffn tif \f3<body>\fR bnd \f3</body>\fR tbgs for prodfssing\&.
+.TP 0.2i    
+\(bu
+Prodfssfs tif ovfrvifw tbgs tibt brf prfsfnt\&. Sff Ovfrvifw Tbgs\&.
+.TP 0.2i    
+\(bu
+Insfrts tif prodfssfd tfxt bt tif bottom of tif gfnfrbtfd ovfrvifw pbgf\&. Sff Jbvb Plbtform Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.itml
+.TP 0.2i    
+\(bu
+Copifs tif first sfntfndf of tif ovfrvifw dommfnt to tif top of tif ovfrvifw summbry pbgf\&.
+.SS UNPROCESSED\ FILES    
+Your sourdf filfs dbn indludf bny filfs tibt you wbnt tif \f3jbvbdod\fR dommbnd to dopy to tif dfstinbtion dirfdtory\&. Tifsf filfs usublly indludf grbpiid filfs, fxbmplf Jbvb sourdf bnd dlbss filfs, bnd sflf-stbnding HTML filfs witi b lot of dontfnt tibt would ovfrwiflm tif dodumfntbtion dommfnt of b typidbl Jbvb sourdf filf\&.
+.PP
+To indludf unprodfssfd filfs, put tifm in b dirfdtory dbllfd dod-filfs\&. Tif dod-filfs dirfdtory dbn bf b subdirfdtory of bny pbdkbgf dirfdtory tibt dontbins sourdf filfs\&. You dbn ibvf onf dod-filfs subdirfdtory for fbdi pbdkbgf\&.
+.PP
+For fxbmplf, if you wbnt to indludf tif imbgf of b button in tif \f3jbvb\&.bwt\&.Button\fR dlbss dodumfntbtion, tifn plbdf tif imbgf filf in tif /iomf/usfr/srd/jbvb/bwt/dod-filfs/ dirfdtory\&. Do not plbdf tif dod-filfs dirfdtory bt /iomf/usfr/srd/jbvb/dod-filfs, bfdbusf jbvb is not b pbdkbgf\&. It dofs not dontbin bny sourdf filfs\&.
+.PP
+All links to tif unprodfssfd filfs must bf indludfd in tif dodf bfdbusf tif \f3jbvbdod\fR dommbnd dofs not look bt tif filfs\&. Tif \f3jbvbdod\fR dommbnd dopifs tif dirfdtory bnd bll of its dontfnts to tif dfstinbtion\&. Tif following fxbmplf siows iow tif link in tif Button\&.jbvb dodumfntbtion dommfnt migit look:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tiis button looks likf tiis: \fP
+.fi     
+.nf     
+\f3 * <img srd="dod\-filfs/Button\&.gif">\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS TEST\ AND\ TEMPLATE\ FILES    
+You dbn storf tfst bnd tfmplbtf filfs in tif sourdf trff in tif sbmf dirfdtory witi or in b subdirfdtory of tif dirfdtory wifrf tif sourdf filfs rfsidf\&. To prfvfnt tfst bnd tfmplbtf filfs from bfing prodfssfd, run tif \f3jbvbdod\fR dommbnd bnd fxpliditly pbss in individubl sourdf filf nbmfs\&.
+.PP
+Tfst filfs brf vblid, dompilbblf sourdf filfs\&. Tfmplbtf filfs brf not vblid, dompbtiblf sourdf filfs, but tify oftfn ibvf tif \f3\&.jbvb\fR suffix\&.
+.PP
+Tfst Filfs
+
+If you wbnt your tfst filfs to bflong to fitifr bn unnbmfd pbdkbgf or to b pbdkbgf otifr tibn tif pbdkbgf tibt tif sourdf filfs brf in, tifn put tif tfst filfs in b subdirfdtory undfrnfbti tif sourdf filfs bnd givf tif dirfdtory bn invblid nbmf\&. If you put tif tfst filfs in tif sbmf dirfdtory witi tif sourdf bnd dbll tif \f3jbvbdod\fR dommbnd witi b dommbnd-linf brgumfnt tibt indidbtfs its pbdkbgf nbmf, tifn tif tfst filfs dbusf wbrnings or frrors\&. If tif filfs brf in b subdirfdtory witi bn invblid nbmf, tifn tif tfst filf dirfdtory is skippfd bnd no frrors or wbrnings brf issufd\&. For fxbmplf, to bdd tfst filfs for sourdf filfs in dom\&.pbdkbgf1, put tifm in b subdirfdtory in bn invblid pbdkbgf nbmf\&. Tif following dirfdtory nbmf is invblid bfdbusf it dontbins b iypifn:
+.sp     
+.nf     
+\f3dom/pbdkbgf1/tfst\-filfs/\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If your tfst filfs dontbin dodumfntbtion dommfnts, tifn you dbn sft up b sfpbrbtf run of tif \f3jbvbdod\fR dommbnd to produdf tfst filf dodumfntbtion by pbssing in tifir tfst sourdf filf nbmfs witi wild dbrds, sudi bs \f3dom/pbdkbgf1/tfst-filfs/*\&.jbvb\fR\&.
+.PP
+Tfmplbtf Filfs
+
+If you wbnt b tfmplbtf filf to bf in tif sourdf dirfdtory, but not gfnfrbtf frrors wifn you fxfdutf tif \f3jbvbdod\fR dommbnd, tifn givf it bn invblid filf nbmf sudi bs \f3Bufffr-Tfmplbtf\&.jbvb\fR to prfvfnt it from bfing prodfssfd\&. Tif \f3jbvbdod\fR dommbnd only prodfssfs sourdf filfs witi nbmfs, wifn strippfd of tif \f3\&.jbvb\fR suffix, tibt brf vblid dlbss nbmfs\&.
+.SH GENERATED\ FILES    
+By dffbult, tif \f3jbvbdod\fR dommbnd usfs b stbndbrd dodlft tibt gfnfrbtfs HTML-formbttfd dodumfntbtion\&. Tif stbndbrd dodlft gfnfrbtfs bbsid dontfnt, dross-rfffrfndf, bnd support pbgfs dfsdribfd ifrf\&. Ebdi HTML pbgf dorrfsponds to b sfpbrbtf filf\&. Tif \f3jbvbdod\fR dommbnd gfnfrbtfs two typfs of filfs\&. Tif first typf is nbmfd bftfr dlbssfs bnd intfrfbdfs\&. Tif sfdond typf dontbin iypifns (sudi bs pbdkbgf-summbry\&.itml) to prfvfnt donflidts witi tif first typf of filf\&.
+.SS BASIC\ CONTENT\ PAGES    
+.TP 0.2i    
+\(bu
+Onf dlbss or intfrfbdf pbgf (dlbssnbmf\&.itml) for fbdi dlbss or intfrfbdf bfing dodumfntfd\&.
+.TP 0.2i    
+\(bu
+Onf pbdkbgf pbgf (pbdkbgf-summbry\&.itml) for fbdi pbdkbgf bfing dodumfntfd\&. Tif \f3jbvbdod\fR dommbnd indludfs bny HTML tfxt providfd in b filf witi tif nbmf pbdkbgf\&.itml or pbdkbgf-info\&.jbvb in tif pbdkbgf dirfdtory of tif sourdf trff\&.
+.TP 0.2i    
+\(bu
+Onf ovfrvifw pbgf (ovfrvifw-summbry\&.itml) for tif fntirf sft of pbdkbgfs\&. Tif ovfrvifw pbgf is tif front pbgf of tif gfnfrbtfd dodumfnt\&. Tif \f3jbvbdod\fR dommbnd indludfs bny HTML tfxt providfd in b filf spfdififd by tif \f3-ovfrvifw\fR option\&. Tif Ovfrvifw pbgf is drfbtfd only wifn you pbss two or morf pbdkbgf nbmfs into tif \f3jbvbdod\fR dommbnd\&. Sff HTML Frbmfs bnd Options\&.
+.SS CROSS-REFERENCE\ PAGES    
+.TP 0.2i    
+\(bu
+Onf dlbss iifrbrdiy pbgf for tif fntirf sft of pbdkbgfs (ovfrvifw-trff\&.itml)\&. To vifw tif iifrbrdiy pbgf, dlidk \fIOvfrvifw\fR in tif nbvigbtion bbr bnd dlidk \fITrff\fR\&.
+.TP 0.2i    
+\(bu
+Onf dlbss iifrbrdiy pbgf for fbdi pbdkbgf (pbdkbgf-trff\&.itml) To vifw tif iifrbrdiy pbgf, go to b pbrtidulbr pbdkbgf, dlbss, or intfrfbdf pbgf, bnd dlidk \fITrff\fR to displby tif iifrbrdiy for tibt pbdkbgf\&.
+.TP 0.2i    
+\(bu
+Onf usf pbgf for fbdi pbdkbgf (pbdkbgf-usf\&.itml) bnd b sfpbrbtf usf pbgf for fbdi dlbss bnd intfrfbdf (dlbss-usf/dlbssnbmf\&.itml)\&. Tif usf pbgf dfsdribfs wibt pbdkbgfs, dlbssfs, mftiods, donstrudtors bnd fiflds usf bny pbrt of tif spfdififd dlbss, intfrfbdf, or pbdkbgf\&. For fxbmplf, givfn b dlbss or intfrfbdf A, its usf pbgf indludfs subdlbssfs of A, fiflds dfdlbrfd bs A, mftiods tibt rfturn A, bnd mftiods bnd donstrudtors witi pbrbmftfrs of typf A\&. To vifw tif usf pbgf, go to tif pbdkbgf, dlbss, or intfrfbdf bnd dlidk tif \fIUsf\fR link in tif nbvigbtion bbr\&.
+.TP 0.2i    
+\(bu
+A dfprfdbtfd API pbgf (dfprfdbtfd-list\&.itml) tibt lists bll dfprfdbtfd APIs bnd tifir suggfstfd rfplbdfmfnts\&. Avoid dfprfdbtfd APIs bfdbusf tify dbn bf rfmovfd in futurf implfmfntbtions\&.
+.TP 0.2i    
+\(bu
+A donstbnt fifld vblufs pbgf (donstbnt-vblufs\&.itml) for tif vblufs of stbtid fiflds\&.
+.TP 0.2i    
+\(bu
+A sfriblizfd form pbgf (sfriblizfd-form\&.itml) tibt providfs informbtion bbout sfriblizbblf bnd fxtfrnblizbblf dlbssfs witi fifld bnd mftiod dfsdriptions\&. Tif informbtion on tiis pbgf is of intfrfst to rfimplfmfntors, bnd not to dfvflopfrs wio wbnt to usf tif API\&. To bddfss tif sfriblizfd form pbgf, go to bny sfriblizfd dlbss bnd dlidk \fISfriblizfd Form\fR in tif Sff Also sfdtion of tif dlbss dommfnt\&. Tif stbndbrd dodlft gfnfrbtfs b sfriblizfd form pbgf tibt lists bny dlbss (publid or non-publid) tibt implfmfnts Sfriblizbblf witi its \f3rfbdObjfdt\fR bnd \f3writfObjfdt\fR mftiods, tif fiflds tibt brf sfriblizfd, bnd tif dodumfntbtion dommfnts from tif \f3@sfribl\fR, \f3@sfriblFifld\fR, bnd \f3@sfriblDbtb\fR tbgs\&. Publid sfriblizbblf dlbssfs dbn bf fxdludfd by mbrking tifm (or tifir pbdkbgf) witi \f3@sfribl\fR fxdludf, bnd pbdkbgf-privbtf sfriblizbblf dlbssfs dbn bf indludfd by mbrking tifm (or tifir pbdkbgf) witi bn \f3@sfribl\fR indludf\&. As of Rflfbsf 1\&.4, you dbn gfnfrbtf tif domplftf sfriblizfd form for publid bnd privbtf dlbssfs by running tif \f3jbvbdod\fR dommbnd witiout spfdifying tif \f3-privbtf\fR option\&. Sff Options\&.
+.TP 0.2i    
+\(bu
+An indfx pbgf (\f3indfx-*\&.itml\fR) of bll dlbss, intfrfbdf, donstrudtor, fifld bnd mftiod nbmfs, in blpibbftidbl ordfr\&. Tif indfx pbgf is intfrnbtionblizfd for Unidodf bnd dbn bf gfnfrbtfd bs b singlf filf or bs b sfpbrbtf filf for fbdi stbrting dibrbdtfr (sudi bs A\(fnZ for Englisi)\&.
+.SS SUPPORT\ PAGES    
+.TP 0.2i    
+\(bu
+A iflp pbgf (iflp-dod\&.itml) tibt dfsdribfs tif nbvigbtion bbr bnd tif prfvious pbgfs\&. Usf \f3-iflpfilf\fR to ovfrridf tif dffbult iflp filf witi your own dustom iflp filf\&.
+.TP 0.2i    
+\(bu
+Onf indfx\&.itml filf tibt drfbtfs tif HTML frbmfs for displby\&. Lobd tiis filf to displby tif front pbgf witi frbmfs\&. Tif indfx\&.itml filf dontbins no tfxt dontfnt\&.
+.TP 0.2i    
+\(bu
+Sfvfrbl frbmf filfs (\f3*-frbmf\&.itml\fR) tibt dontbins lists of pbdkbgfs, dlbssfs, bnd intfrfbdfs\&. Tif frbmf filfs displby tif HTML frbmfs\&.
+.TP 0.2i    
+\(bu
+A pbdkbgf list filf (pbdkbgf-list) tibt is usfd by tif \f3-link\fR bnd \f3-linkofflinf\fR options\&. Tif pbdkbgf list filf is b tfxt filf tibt is not rfbdibblf tirougi links\&.
+.TP 0.2i    
+\(bu
+A stylf sifft filf (stylfsifft\&.dss) tibt dontrols b limitfd bmount of dolor, font fbmily, font sizf, font stylf, bnd positioning informbtion on tif gfnfrbtfd pbgfs\&.
+.TP 0.2i    
+\(bu
+A dod-filfs dirfdtory tibt iolds imbgf, fxbmplf, sourdf dodf, or otifr filfs tibt you wbnt dopifd to tif dfstinbtion dirfdtory\&. Tifsf filfs brf not prodfssfd by tif \f3jbvbdod\fR dommbnd\&. Tiis dirfdtory is not prodfssfd unlfss it fxists in tif sourdf trff\&.
+.PP
+Sff Options\&.
+.SS HTML\ FRAMES    
+Tif \f3jbvbdod\fR dommbnd gfnfrbtfs tif minimum numbfr of frbmfs (two or tirff) nfdfssbry bbsfd on tif vblufs pbssfd to tif dommbnd\&. It omits tif list of pbdkbgfs wifn you pbss b singlf pbdkbgf nbmf or sourdf filfs tibt bflong to b singlf pbdkbgf bs bn brgumfnt to tif \f3jbvbdod\fR dommbnd\&. Instfbd, tif \f3jbvbdod\fR dommbnd drfbtfs onf frbmf in tif lfft-ibnd dolumn tibt displbys tif list of dlbssfs\&. Wifn you pbss two or morf pbdkbgf nbmfs, tif \f3jbvbdod\fR dommbnd drfbtfs b tiird frbmf tibt lists bll pbdkbgfs bnd bn ovfrvifw pbgf (ovfrvifw-summbry\&.itml)\&. To bypbss frbmfs, dlidk tif \fINo Frbmfs\fR link or fntfr tif pbgf sft from tif ovfrvifw-summbry\&.itml pbgf\&.
+.SS GENERATED\ FILE\ STRUCTURE    
+Tif gfnfrbtfd dlbss bnd intfrfbdf filfs brf orgbnizfd in tif sbmf dirfdtory iifrbrdiy tibt Jbvb sourdf filfs bnd dlbss filfs brf orgbnizfd\&. Tiis strudturf is onf dirfdtory pfr subpbdkbgf\&.
+.PP
+For fxbmplf, tif dodumfnt gfnfrbtfd for tif \f3jbvb\&.bpplft\&.Applft\fR dlbss would bf lodbtfd bt jbvb/bpplft/Applft\&.itml\&.
+.PP
+Tif filf strudturf for tif \f3jbvb\&.bpplft\fR pbdkbgf follows, bssuming tibt tif dfstinbtion dirfdtory is nbmfd \f3bpidods\fR\&. All filfs tibt dontbin tif word \fIfrbmf\fR bppfbr in tif uppfr-lfft or lowfr-lfft frbmfs, bs notfd\&. All otifr HTML filfs bppfbr in tif rigit-ibnd frbmf\&.
+.PP
+Dirfdtorifs brf bold\&. Tif bstfrisks (*) indidbtf tif filfs bnd dirfdtorifs tibt brf omittfd wifn tif brgumfnts to tif \f3jbvbdod\fR dommbnd brf sourdf filf nbmfs rbtifr tibn pbdkbgf nbmfs\&. Wifn brgumfnts brf sourdf filf nbmfs, bn fmpty pbdkbgf list is drfbtfd\&. Tif dod-filfs dirfdtory is not drfbtfd in tif dfstinbtion unlfss it fxists in tif sourdf trff\&. Sff Gfnfrbtfd Filfs\&.
+.TP 0.2i    
+\(bu
+\fIbpidods\fR: Top-lfvfl dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+indfx\&.itml: Initibl Pbgf tibt sfts up HTML frbmfs
+.TP 0.2i    
+\(bu
+*ovfrvifw-summbry\&.itml: Pbdkbgf list witi summbrifs
+.TP 0.2i    
+\(bu
+ovfrvifw-trff\&.itml: Clbss iifrbrdiy for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+dfprfdbtfd-list\&.itml: Dfprfdbtfd APIs for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+donstbnt-vblufs\&.itml: Stbtid fifld vblufs for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+sfriblizfd-form\&.itml: Sfriblizfd forms for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+*ovfrvifw-frbmf\&.itml: All pbdkbgfs for displby in uppfr-lfft frbmf
+.TP 0.2i    
+\(bu
+blldlbssfs-frbmf\&.itml: All dlbssfs for displby in lowfr-lfft frbmf
+.TP 0.2i    
+\(bu
+iflp-dod\&.itml: Hflp bbout Jbvbdod pbgf orgbnizbtion
+.TP 0.2i    
+\(bu
+indfx-bll\&.itml: Dffbult indfx drfbtfd witiout \f3-splitindfx\fR option
+.TP 0.2i    
+\(bu
+\fIindfx-filfs\fR: Dirfdtory drfbtfd witi \f3-splitindfx\fR option
+.RS     
+.TP 0.2i    
+\(bu
+indfx-<numbfr>\&.itml: Indfx filfs drfbtfd witi \f3-splitindfx\fR option
+.RE     
+
+.TP 0.2i    
+\(bu
+pbdkbgf-list: Pbdkbgf nbmfs for rfsolving fxtfrnbl rfffrfndfs
+.TP 0.2i    
+\(bu
+stylfsifft\&.dss: Dffinfs fonts, dolors, positions, bnd so on
+.RE     
+
+.TP 0.2i    
+\(bu
+\fIjbvb\fR: Pbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIbpplft\fR: Subpbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+Applft\&.itml: \f3Applft\fR dlbss pbgf
+.TP 0.2i    
+\(bu
+ApplftContfxt\&.itml: \f3ApplftContfxt\fR intfrfbdf
+.TP 0.2i    
+\(bu
+ApplftStub\&.itml: \f3ApplftStub\fR intfrfbdf
+.TP 0.2i    
+\(bu
+AudioClip\&.itml: \f3AudioClip\fR intfrfbdf
+.TP 0.2i    
+\(bu
+pbdkbgf-summbry\&.itml: Clbssfs witi summbrifs
+.TP 0.2i    
+\(bu
+pbdkbgf-frbmf\&.itml: Pbdkbgf dlbssfs for displby in lowfr-lfft frbmf
+.TP 0.2i    
+\(bu
+pbdkbgf-trff\&.itml: Clbss iifrbrdiy for tiis pbdkbgf
+.TP 0.2i    
+\(bu
+pbdkbgf-usf\&.itml: Wifrf tiis pbdkbgf is usfd
+.TP 0.2i    
+\(bu
+\fIdod-filfs\fR: Imbgf bnd fxbmplf filfs dirfdtory
+.TP 0.2i    
+\(bu
+\fIdlbss-usf\fR: Imbgf bnd fxbmplfs filf lodbtion
+
+- Applft\&.itml: Usfs of tif Applft dlbss
+
+- ApplftContfxt\&.itml: Usfs of tif \f3ApplftContfxt\fR intfrfbdf
+
+- ApplftStub\&.itml: Usfs of tif \f3ApplftStub\fR intfrfbdf
+
+- AudioClip\&.itml: Usfs of tif \f3AudioClip\fR intfrfbdf
+.RE     
+
+.RE     
+
+.TP 0.2i    
+\(bu
+\fIsrd-itml\fR: Sourdf dodf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIjbvb\fR: Pbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIbpplft\fR: Subpbdkbgf dirfdtory
+
+- Applft\&.itml: Applft sourdf dodf
+
+- ApplftContfxt\&.itml: \f3ApplftContfxt\fR sourdf dodf
+
+- ApplftStub\&.itml: \f3ApplftStub\fR sourdf dodf
+
+- AudioClip\&.itml: \f3AudioClip\fR sourdf dodf
+.RE     
+
+.RE     
+
+.SS GENERATED\ API\ DECLARATIONS    
+Tif \f3jbvbdod\fR dommbnd gfnfrbtfs b dfdlbrbtion bt tif stbrt of fbdi dlbss, intfrfbdf, fifld, donstrudtor, bnd mftiod dfsdription for tibt API itfm\&. For fxbmplf, tif dfdlbrbtion for tif \f3Boolfbn\fR dlbss is:
+.sp     
+.nf     
+\f3publid finbl dlbss Boolfbn\fP
+.fi     
+.nf     
+\f3fxtfnds Objfdt\fP
+.fi     
+.nf     
+\f3implfmfnts Sfriblizbblf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif dfdlbrbtion for tif \f3Boolfbn\&.vblufOf\fR mftiod is:
+.sp     
+.nf     
+\f3publid stbtid Boolfbn vblufOf(String s)\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif \f3jbvbdod\fR dommbnd dbn indludf tif modififrs \f3publid\fR, \f3protfdtfd\fR, \f3privbtf\fR, \f3bbstrbdt\fR, \f3finbl\fR, \f3stbtid\fR, \f3trbnsifnt\fR, bnd \f3volbtilf\fR, but not \f3syndironizfd\fR or \f3nbtivf\fR\&. Tif \f3syndironizfd\fR bnd \f3nbtivf\fR modififrs brf donsidfrfd implfmfntbtion dftbil bnd not pbrt of tif API spfdifidbtion\&.
+.PP
+Rbtifr tibn rflying on tif kfyword \f3syndironizfd\fR, APIs siould dodumfnt tifir dondurrfndy sfmbntids in tif mbin dfsdription of tif dommfnt\&. For fxbmplf, b dfsdription migit bf: A singlf fnumfrbtion dbnnot bf usfd by multiplf tirfbds dondurrfntly\&. Tif dodumfnt siould not dfsdribf iow to bdiifvf tifsf sfmbntids\&. As bnotifr fxbmplf, wiilf tif \f3Hbsitbblf\fR option siould bf tirfbd-sbff, tifrf is no rfbson to spfdify tibt it is bdiifvfd by syndironizing bll of its fxportfd mftiods\&. It is bfttfr to rfsfrvf tif rigit to syndironizf intfrnblly bt tif budkft lfvfl for iigifr dondurrfndy\&.
+.SH DOCUMENTATION\ COMMENTS    
+Tiis sfdtion dfsdribfs sourdf dodf dommfnts bnd dommfnt inifritbndf\&.
+.SS SOURCE\ CODE\ COMMENTS    
+You dbn indludf dodumfntbtion dommfnts in tif sourdf dodf, bifbd of dfdlbrbtions for bny dlbss, intfrfbdf, mftiod, donstrudtor, or fifld\&. You dbn blso drfbtf dodumfntbtion dommfnts for fbdi pbdkbgf bnd bnotifr onf for tif ovfrvifw, tiougi tifir syntbx is sligitly difffrfnt\&. A dodumfntbtion dommfnt donsists of tif dibrbdtfrs bftwffn \f3/**\fR bnd \f3*/\fR tibt fnd it\&. Lfbding bstfrisks brf bllowfd on fbdi linf bnd brf dfsdribfd furtifr in tif following sfdtion\&. Tif tfxt in b dommfnt dbn dontinuf onto multiplf linfs\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tiis is tif typidbl formbt of b simplf dodumfntbtion dommfnt\fP
+.fi     
+.nf     
+\f3 * tibt spbns two linfs\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+To sbvf spbdf you dbn put b dommfnt on onf linf:
+.sp     
+.nf     
+\f3/** Tiis dommfnt tbkfs up only onf linf\&. */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Plbdfmfnt of Commfnts
+
+Dodumfntbtion dommfnts brf rfdognizfd only wifn plbdfd immfdibtfly bfforf dlbss, intfrfbdf, donstrudtor, mftiod, or fifld dfdlbrbtions\&. Dodumfntbtion dommfnts plbdfd in tif body of b mftiod brf ignorfd\&. Tif \f3jbvbdod\fR dommbnd rfdognizfs only onf dodumfntbtion dommfnt pfr dfdlbrbtion stbtfmfnt\&. Sff Wifrf Tbgs Cbn Bf Usfd\&.
+.PP
+A dommon mistbkf is to put bn \f3import\fR stbtfmfnt bftwffn tif dlbss dommfnt bnd tif dlbss dfdlbrbtion\&. Do not put bn \f3import\fR stbtfmfnt bt tiis lodbtion bfdbusf tif \f3jbvbdod\fR dommbnd ignorfs tif dlbss dommfnt\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tiis is tif dlbss dommfnt for tif dlbss Wibtfvfr\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3import dom\&.fxbmplf;   // MISTAKE \- Importbnt not to put import stbtfmfnt ifrf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3publid dlbss Wibtfvfr{ }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Pbrts of Commfnts
+
+A dodumfntbtion dommfnt ibs b mbin dfsdription followfd by b tbg sfdtion\&. Tif mbin dfsdription bfgins bftfr tif stbrting dflimitfr \f3/**\fR bnd dontinufs until tif tbg sfdtion\&. Tif tbg sfdtion stbrts witi tif first blodk tbg, wiidi is dffinfd by tif first \f3@\fR dibrbdtfr tibt bfgins b linf (ignoring lfbding bstfrisks, wiitf spbdf, bnd lfbding sfpbrbtor \f3/**\fR)\&. It is possiblf to ibvf b dommfnt witi only b tbg sfdtion bnd no mbin dfsdription\&. Tif mbin dfsdription dbnnot dontinuf bftfr tif tbg sfdtion bfgins\&. Tif brgumfnt to b tbg dbn spbn multiplf linfs\&. Tifrf dbn bf bny numbfr of tbgs, bnd somf typfs of tbgs dbn bf rfpfbtfd wiilf otifrs dbnnot\&. For fxbmplf, tiis \f3@sff\fR tbg stbrts tif tbg sfdtion:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tiis sfntfndf iolds tif mbin dfsdription for tiis dodumfntbtion dommfnt\&.\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.lbng\&.Objfdt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Blodk bnd inlinf Tbgs
+
+A tbg is b spfdibl kfyword witiin b dodumfntbtion dommfnt tibt tif \f3jbvbdod\fR dommbnd prodfssfs\&. Tifrf brf two kinds of tbgs: blodk tbgs, wiidi bppfbr bs bn \f3@tbg\fR tbg (blso known bs stbndblonf tbgs), bnd inlinf tbgs, wiidi bppfbr witiin brbdfs, bs bn \f3{@tbg}\fR tbg\&. To bf intfrprftfd, b blodk tbg must bppfbr bt tif bfginning of b linf, ignoring lfbding bstfrisks, wiitf spbdf, bnd tif sfpbrbtor (\f3/**\fR)\&. Tiis mfbns you dbn usf tif \f3@\fR dibrbdtfr flsfwifrf in tif tfxt bnd it will not bf intfrprftfd bs tif stbrt of b tbg\&. If you wbnt to stbrt b linf witi tif \f3@\fR dibrbdtfr bnd not ibvf it bf intfrprftfd, tifn usf tif HTML fntity \f3&#064;\fR\&. Ebdi blodk tbg ibs bssodibtfd tfxt, wiidi indludfs bny tfxt following tif tbg up to, but not indluding, fitifr tif nfxt tbg, or tif fnd of tif dodumfntbtion dommfnt\&. Tiis bssodibtfd tfxt dbn spbn multiplf linfs\&. An inlinf tbg is bllowfd bnd intfrprftfd bnywifrf tibt tfxt is bllowfd\&. Tif following fxbmplf dontbins tif \f3@dfprfdbtfd\fR blodk tbg bnd tif \f3{@link}\fR inlinf tbg\&. Sff Jbvbdod Tbgs\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @dfprfdbtfd  As of JDK 1\&.1, rfplbdfd by {@link #sftBounds(int,int,int,int)}\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Writf Commfnts in HTML
+
+Tif tfxt must bf writtfn in HTML witi HTML fntitifs bnd HTML tbgs\&. You dbn usf wiidifvfr vfrsion of HTML your browsfr supports\&. Tif stbndbrd dodlft gfnfrbtfs HTML 3\&.2-domplibnt dodf flsfwifrf (outsidf of tif dodumfntbtion dommfnts) witi tif indlusion of dbsdbding stylf siffts bnd frbmfs\&. HTML 4\&.0 is prfffrrfd for gfnfrbtfd filfs bfdbusf of tif frbmf sfts\&.
+.PP
+For fxbmplf, fntitifs for tif lfss tibn symbol (<) bnd tif grfbtfr tibn symbol (>) siould bf writtfn bs \f3&lt;\fR bnd \f3&gt;\fR\&. Similbrly, tif bmpfrsbnd (&) siould bf writtfn bs \f3&bmp;\fR\&. Tif bold HTML tbg \f3<b>\fR is siown in tif following fxbmplf\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tiis is b <b>dod</b> dommfnt\&.\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.lbng\&.Objfdt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Lfbding Astfrisks
+
+Wifn tif \f3jbvbdod\fR dommbnd pbrsfs b dodumfntbtion dommfnt, lfbding bstfrisks (*) on fbdi linf brf disdbrdfd, bnd blbnks bnd tbbs tibt prfdfdf tif initibl bstfrisks (*) brf blso disdbrdfd\&. If you omit tif lfbding bstfrisk on b linf, tifn tif lfbding wiitf spbdf is no longfr rfmovfd so tibt you dbn pbstf dodf fxbmplfs dirfdtly into b dodumfntbtion dommfnt insidf b \f3<PRE>\fR tbg witi its indfntbtion prfsfrvfd\&. Spbdfs brf intfrprftfd by browsfrs morf uniformly tibn tbbs\&. Indfntbtion is rflbtivf to tif lfft mbrgin (rbtifr tibn tif sfpbrbtor \f3/**\fR or \f3<PRE>\fR tbg)\&.
+.PP
+First Sfntfndf
+
+Tif first sfntfndf of fbdi dodumfntbtion dommfnt siould bf b summbry sfntfndf tibt dontbins b dondisf but domplftf dfsdription of tif dfdlbrfd fntity\&. Tiis sfntfndf fnds bt tif first pfriod tibt is followfd by b blbnk, tbb, or linf tfrminbtor, or bt tif first blodk tbg\&. Tif \f3jbvbdod\fR dommbnd dopifs tiis first sfntfndf to tif mfmbfr summbry bt tif top of tif HTML pbgf\&.
+.PP
+Multiplf-Fifld Dfdlbrbtions
+
+Tif Jbvb plbtform lfts you dfdlbrf multiplf fiflds in b singlf stbtfmfnt, but tiis stbtfmfnt dbn ibvf only onf dodumfntbtion dommfnt tibt is dopifd for bll fiflds\&. If you wbnt individubl dodumfntbtion dommfnts for fbdi fifld, tifn dfdlbrf fbdi fifld in b sfpbrbtf stbtfmfnt\&. For fxbmplf, tif following dodumfntbtion dommfnt dofs not mbkf sfnsf writtfn bs b singlf dfdlbrbtion bnd would bf bfttfr ibndlfd bs two dfdlbrbtions:
+.sp     
+.nf     
+\f3/** \fP
+.fi     
+.nf     
+\f3 * Tif iorizontbl bnd vfrtidbl distbndfs of point (x,y)\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid int x, y;      // Avoid tiis \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif \f3jbvbdod\fR dommbnd gfnfrbtfs tif following dodumfntbtion from tif prfvious dodf:
+.sp     
+.nf     
+\f3publid int x\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif iorizontbl bnd vfrtidbl distbndfs of point (x, y)\&.
+.sp     
+.nf     
+\f3publid int y\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif iorizontbl bnd vfrtidbl distbndfs of point (x, y)\&.
+.PP
+Usf of Hfbdfr Tbgs
+
+Wifn writing dodumfntbtion dommfnts for mfmbfrs, it is bfst not to usf HTML ifbding tbgs sudi bs \f3<H1>\fR bnd \f3<H2>\fR, bfdbusf tif \f3jbvbdod\fR dommbnd drfbtfs bn fntirf strudturfd dodumfnt, bnd tifsf strudturbl tbgs migit intfrffrf witi tif formbtting of tif gfnfrbtfd dodumfnt\&. Howfvfr, you dbn usf tifsf ifbdings in dlbss bnd pbdkbgf dommfnts to providf your own strudturf\&.
+.SS METHOD\ COMMENT\ INHERITANCE    
+Tif \f3jbvbdod\fR dommbnd bllows mftiod dommfnt inifritbndf in dlbssfs bnd intfrfbdfs to fill in missing tfxt or to fxpliditly inifrit mftiod dommfnts\&. Construdtors, fiflds, bnd nfstfd dlbssfs do not inifrit dodumfntbtion dommfnts\&.
+.PP
+\fINotf:\fR Tif sourdf filf for bn inifritfd mftiod must bf on tif pbti spfdififd by tif \f3-sourdfpbti\fR option for tif dodumfntbtion dommfnt to bf bvbilbblf to dopy\&. Nfitifr tif dlbss nor its pbdkbgf nffds to bf pbssfd in on tif dommbnd linf\&. Tiis dontrbsts witi Rflfbsf 1\&.3\&.\fIn\fR bnd fbrlifr rflfbsfs, wifrf tif dlbss ibd to bf b dodumfntfd dlbss\&.
+.PP
+Fill in Missing Tfxt
+
+Wifn b mbin dfsdription, or \f3@rfturn\fR, \f3@pbrbm\fR, or \f3@tirows\fR tbg is missing from b mftiod dommfnt, tif \f3jbvbdod\fR dommbnd dopifs tif dorrfsponding mbin dfsdription or tbg dommfnt from tif mftiod it ovfrridfs or implfmfnts (if bny)\&. Sff Mftiod Commfnt Inifritbndf\&.
+.PP
+Wifn bn \f3@pbrbm\fR tbg for b pbrtidulbr pbrbmftfr is missing, tif dommfnt for tibt pbrbmftfr is dopifd from tif mftiod furtifr up tif inifritbndf iifrbrdiy\&. Wifn bn \f3@tirows\fR tbg for b pbrtidulbr fxdfption is missing, tif \f3@tirows\fR tbg is dopifd only wifn tibt fxdfption is dfdlbrfd\&.
+.PP
+Tiis bfibvior dontrbsts witi Rflfbsf 1\&.3 bnd fbrlifr, wifrf tif prfsfndf of bny mbin dfsdription or tbg would prfvfnt bll dommfnts from bfing inifritfd\&.
+.PP
+Sff Jbvbdod Tbgs bnd Options\&.
+.PP
+Explidit Inifritbndf
+
+Insfrt tif \f3{@inifritDod}\fR inlinf tbg in b mftiod mbin dfsdription or \f3@rfturn\fR, \f3@pbrbm\fR, or \f3@tirows\fR tbg dommfnt\&. Tif dorrfsponding inifritfd mbin dfsdription or tbg dommfnt is dopifd into tibt spot\&.
+.SS CLASS\ AND\ INTERFACE\ INHERITANCE    
+Commfnt inifritbndf oddurs in bll possiblf dbsfs of inifritbndf from dlbssfs bnd intfrfbdfs:
+.TP 0.2i    
+\(bu
+Wifn b mftiod in b dlbss ovfrridfs b mftiod in b supfrdlbss
+.TP 0.2i    
+\(bu
+Wifn b mftiod in bn intfrfbdf ovfrridfs b mftiod in b supfrintfrfbdf
+.TP 0.2i    
+\(bu
+Wifn b mftiod in b dlbss implfmfnts b mftiod in bn intfrfbdf
+.PP
+In tif first two dbsfs, tif \f3jbvbdod\fR dommbnd gfnfrbtfs tif subifbding \fIOvfrridfs\fR in tif dodumfntbtion for tif ovfrriding mftiod\&. A link to tif mftiod bfing ovfrriddfn is indludfd, wiftifr or not tif dommfnt is inifritfd\&.
+.PP
+In tif tiird dbsf, wifn b mftiod in b spfdififd dlbss implfmfnts b mftiod in bn intfrfbdf, tif \f3jbvbdod\fR dommbnd gfnfrbtfs tif subifbding \fISpfdififd by\fR in tif dodumfntbtion for tif ovfrriding mftiod\&. A link to tif mftiod bfing implfmfntfd is indludfd, wiftifr or not tif dommfnt is inifritfd\&.
+.SS METHOD\ COMMENTS\ ALGORITHM    
+If b mftiod dofs not ibvf b dodumfntbtion dommfnt, or ibs bn \f3{@inifritDod}\fR tbg, tifn tif \f3jbvbdod\fR dommbnd usfs tif following blgoritim to sfbrdi for bn bpplidbblf dommfnt\&. Tif blgoritim is dfsignfd to find tif most spfdifid bpplidbblf dodumfntbtion dommfnt, bnd to givf prfffrfndf to intfrfbdfs ovfr supfrdlbssfs:
+.TP 0.4i    
+1\&.
+Look in fbdi dirfdtly implfmfntfd (or fxtfndfd) intfrfbdf in tif ordfr tify bppfbr following tif word \f3implfmfnts\fR (or \f3fxtfnds\fR) in tif mftiod dfdlbrbtion\&. Usf tif first dodumfntbtion dommfnt found for tiis mftiod\&.
+.TP 0.4i    
+2\&.
+If Stfp 1 fbilfd to find b dodumfntbtion dommfnt, tifn rfdursivfly bpply tiis fntirf blgoritim to fbdi dirfdtly implfmfntfd (or fxtfndfd) intfrfbdf in tif sbmf ordfr tify wfrf fxbminfd in Stfp 1\&.
+.TP 0.4i    
+3\&.
+Wifn Stfp 2 fbils to find b dodumfntbtion dommfnt bnd tiis is b dlbss otifr tibn tif \f3Objfdt\fR dlbss, but not bn intfrfbdf:
+.RS     
+.TP 0.4i    
+1\&.
+If tif supfrdlbss ibs b dodumfntbtion dommfnt for tiis mftiod, tifn usf it\&.
+.TP 0.4i    
+2\&.
+If Stfp 3b fbilfd to find b dodumfntbtion dommfnt, tifn rfdursivfly bpply tiis fntirf blgoritim to tif supfrdlbss\&.
+.RE     
+
+.SH JAVADOC\ TAGS    
+Tif \f3jbvbdod\fR dommbnd pbrsfs spfdibl tbgs wifn tify brf fmbfddfd witiin b Jbvb dodumfntbtion dommfnt\&. Tif \f3jbvbdod\fR tbgs lft you butogfnfrbtf b domplftf, wfll-formbttfd API from your sourdf dodf\&. Tif tbgs stbrt witi bn bt sign (\f3@\fR) bnd brf dbsf-sfnsitivf\&. Tify must bf typfd witi tif uppfrdbsf bnd lowfrdbsf lfttfrs bs siown\&. A tbg must stbrt bt tif bfginning of b linf (bftfr bny lfbding spbdfs bnd bn optionbl bstfrisk), or it is trfbtfd bs tfxt\&. By donvfntion, tbgs witi tif sbmf nbmf brf groupfd togftifr\&. For fxbmplf, put bll \f3@sff\fR tbgs togftifr\&. For morf informbtion, sff Wifrf Tbgs Cbn Bf Usfd\&.
+.PP
+Tbgs ibvf tif following typfs:
+.TP 0.2i    
+\(bu
+Bodk tbgs: Plbdf blodk tbgs only in tif tbg sfdtion tibt follows tif dfsdription\&. Blodk tbgs ibvf tif form: \fI@tbg\fR\&.
+.TP 0.2i    
+\(bu
+Inlinf tbgs: Plbdf inlinf tbgs bnywifrf in tif mbin dfsdription or in tif dommfnts for blodk tbgs\&. Inlinf tbgs brf fndlosfd witiin brbdfs: \fI{@tbg}\fR\&.
+.PP
+For dustom tbgs, sff -tbg tbgnbmf:Xboptdmf:"tbgifbd"\&. Sff blso Wifrf Tbgs Cbn Bf Usfd\&.
+.SS TAG\ DESCRIPTIONS    
+.TP     
+@butior \fInbmf-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds bn Autior fntry witi tif spfdififd nbmf tfxt to tif gfnfrbtfd dodumfnts wifn tif \f3-butior\fR option is usfd\&. A dodumfntbtion dommfnt dbn dontbin multiplf \f3@butior\fR tbgs\&. You dbn spfdify onf nbmf pfr \f3@butior\fR tbg or multiplf nbmfs pfr tbg\&. In tif formfr dbsf, tif \f3jbvbdod\fR dommbnd insfrts b dommb (,) bnd spbdf bftwffn nbmfs\&. In tif lbttfr dbsf, tif fntirf tfxt is dopifd to tif gfnfrbtfd dodumfnt witiout bfing pbrsfd\&. Tifrfforf, you dbn usf multiplf nbmfs pfr linf if you wbnt b lodblizfd nbmf sfpbrbtor otifr tibn b dommb\&. Sff @butior in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@butior
+.TP     
+{@dodf \fItfxt\fR}
+Introdudfd in JDK 1\&.5
+
+Equivblfnt to \f3<dodf>{@litfrbl}</dodf>\fR\&.
+
+Displbys tfxt in dodf font witiout intfrprfting tif tfxt bs HTML mbrkup or nfstfd Jbvbdod tbgs\&. Tiis fnbblfs you to usf rfgulbr bnglf brbdkfts (< bnd >) instfbd of tif HTML fntitifs (\f3&lt;\fR bnd \f3&gt;\fR) in dodumfntbtion dommfnts, sudi bs in pbrbmftfr typfs (\f3<Objfdt>\fR), infqublitifs (\f33 < 4\fR), or brrows (\f3<-\fR)\&. For fxbmplf, tif dodumfntbtion dommfnt tfxt \f3{@dodf A<B>C}\fR displbyfd in tif gfnfrbtfd HTML pbgf undibngfd bs \f3A<B>C\fR\&. Tiis mfbns tibt tif \f3<B>\fR is not intfrprftfd bs bold bnd is in dodf font\&. If you wbnt tif sbmf fundtionblity witiout tif dodf font, tifn usf tif \f3{@litfrbl}\fR tbg\&.
+.TP     
+@dfprfdbtfd \fIdfprfdbtfd-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds b dommfnt indidbting tibt tiis API siould no longfr bf usfd (fvfn tiougi it mby dontinuf to work)\&. Tif \f3jbvbdod\fR dommbnd movfs \f3dfprfdbtfd-tfxt\fRbifbd of tif mbin dfsdription, plbding it in itblids bnd prfdfding it witi b bold wbrning: Dfprfdbtfd\&. Tiis tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod bnd fifld\&.
+
+Tif first sfntfndf of dfprfdbtfd tfxt siould tfll tif usfr wifn tif API wbs dfprfdbtfd bnd wibt to usf bs b rfplbdfmfnt\&. Tif \f3jbvbdod\fR dommbnd dopifs tif first sfntfndf to tif summbry sfdtion bnd indfx\&. Subsfqufnt sfntfndfs dbn blso fxplbin wiy it wbs dfprfdbtfd\&. You siould indludf bn \f3{@link}\fR tbg (for Jbvbdod 1\&.2 or lbtfr) tibt points to tif rfplbdfmfnt API\&.
+
+Usf tif \fI@dfprfdbtfd bnnotbtion\fR tbg to dfprfdbtf b progrbm flfmfnt\&. Sff How bnd Wifn to Dfprfdbtf APIs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/dfprfdbtion/dfprfdbtion\&.itml
+
+Sff blso @dfprfdbtfd in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@dfprfdbtfd
+.TP     
+{@dodRoot}
+Introdudfd in JDK 1\&.3
+
+Rfprfsfnts tif rflbtivf pbti to tif gfnfrbtfd dodumfnt\&'s (dfstinbtion) root dirfdtory from bny gfnfrbtfd pbgf\&. Tiis tbg is usfful wifn you wbnt to indludf b filf, sudi bs b dopyrigit pbgf or dompbny logo, tibt you wbnt to rfffrfndf from bll gfnfrbtfd pbgfs\&. Linking to tif dopyrigit pbgf from tif bottom of fbdi pbgf is dommon\&.
+
+Tiis \f3{@dodRoot}\fR tbg dbn bf usfd boti on tif dommbnd linf bnd in b dodumfntbtion dommfnt\&. Tiis tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod bnd fifld, bnd indludfs tif tfxt portion of bny tbg (sudi bs tif \f3@rfturn\fR, \f3@pbrbm\fR bnd \f3@dfprfdbtfd\fR tbgs)\&.
+.RS     
+.TP 0.2i    
+\(bu
+On tif dommbnd linf, wifrf tif ifbdfr, footfr, or bottom brf dffinfd: \f3jbvbdod -bottom \&'<b irff="{@dodRoot}/dopyrigit\&.itml">Copyrigit</b>\&'\fR\&.
+
+Wifn you usf tif \f3{@dodRoot}\fR tbg tiis wby in b mbkf filf, somf \f3mbkffilf\fR progrbms rfquirf b spfdibl wby to fsdbpf for tif brbdf \f3{}\fR dibrbdtfrs\&. For fxbmplf, tif Inprisf MAKE vfrsion 5\&.2 running on Windows rfquirfs doublf brbdfs: \f3{{@dodRoot}}\fR\&. It blso rfquirfs doublf (rbtifr tibn singlf) quotbtion mbrks to fndlosf brgumfnts to options sudi bs tif \f3-bottom\fR option (witi tif quotbtion mbrks bround tif \f3irff\fR brgumfnt omittfd)\&.
+.TP 0.2i    
+\(bu
+In b dodumfntbtion dommfnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Sff tif <b irff="{@dodRoot}/dopyrigit\&.itml">Copyrigit</b>\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tiis tbg is nffdfd bfdbusf tif gfnfrbtfd dodumfnts brf in iifrbrdiidbl dirfdtorifs, bs dffp bs tif numbfr of subpbdkbgfs\&. Tif fxprfssion: \f3<b irff="{@dodRoot}/dopyrigit\&.itml">\fR rfsolvfs to \f3<b irff="\&.\&./\&.\&./dopyrigit\&.itml">\fR for \f3jbvb/lbng/Objfdt\&.jbvb\fR bnd \f3<b irff="\&.\&./\&.\&./\&.\&./dopyrigit\&.itml">\fR for \f3jbvb/lbng/rff/Rfffrfndf\&.jbvb\fR\&.
+.RE     
+
+.TP     
+@fxdfption \fIdlbss-nbmf dfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Idfntidbl to tif \f3@tirows\fR tbg\&. Sff @tirows dlbss-nbmf dfsdription\&.
+.TP     
+{@inifritDod}
+Introdudfd in JDK 1\&.4
+
+Inifrits (dopifs) dodumfntbtion from tif nfbrfst inifritbblf dlbss or implfmfntbblf intfrfbdf into tif durrfnt dodumfntbtion dommfnt bt tiis tbg\&'s lodbtion\&. Tiis fnbblfs you to writf morf gfnfrbl dommfnts iigifr up tif inifritbndf trff bnd to writf bround tif dopifd tfxt\&.
+
+Tiis tbg is vblid only in tifsf plbdfs in b dodumfntbtion dommfnt:
+.RS     
+.TP 0.2i    
+\(bu
+In tif mbin dfsdription blodk of b mftiod\&. In tiis dbsf, tif mbin dfsdription is dopifd from b dlbss or intfrfbdf up tif iifrbrdiy\&.
+.TP 0.2i    
+\(bu
+In tif tfxt brgumfnts of tif \f3@rfturn\fR, \f3@pbrbm,\fR bnd \f3@tirows\fR tbgs of b mftiod\&. In tiis dbsf, tif tbg tfxt is dopifd from tif dorrfsponding tbg up tif iifrbrdiy\&.
+.RE
+.RS
+Sff Mftiod Commfnt Inifritbndf for b dfsdription of iow dommfnts brf found in tif inifritbndf iifrbrdiy\&. Notf tibt if tiis tbg is missing, tifn tif dommfnt is or is not butombtidblly inifritfd bddording to rulfs dfsdribfd in tibt sfdtion\&.
+
+.RE
+.TP     
+{@link \fIpbdkbgf\&.dlbss#mfmbfr lbbfl\fR}
+Introdudfd in JDK 1\&.2
+
+Insfrts bn inlinf link witi b visiblf tfxt lbbfl tibt points to tif dodumfntbtion for tif spfdififd pbdkbgf, dlbss, or mfmbfr nbmf of b rfffrfndfd dlbss\&. Tiis tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod bnd fifld, indluding tif tfxt portion of bny tbg, sudi bs tif \f3@rfturn\fR, \f3@pbrbm\fR bnd \f3@dfprfdbtfd\fR tbgs\&. Sff @link in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#{@link
+
+Tiis tbg is similbr to tif \f3@sff\fR tbg\&. Boti tbgs rfquirf tif sbmf rfffrfndfs bnd bddfpt tif sbmf syntbx for \f3pbdkbgf\&.dlbss#mfmbfr\fR bnd \f3lbbfl\fR\&. Tif mbin difffrfndf is tibt tif \f3{@link}\fR tbg gfnfrbtfs bn inlinf link rbtifr tibn plbding tif link in tif Sff Also sfdtion\&. Tif \f3{@link}\fR tbg bfgins bnd fnds witi brbdfs to sfpbrbtf it from tif rfst of tif inlinf tfxt\&. If you nffd to usf tif rigit brbdf (\f3}\fR) insidf tif lbbfl, tifn usf tif HTML fntity notbtion \f3&#125;\fR\&.
+
+Tifrf is no limit to tif numbfr of \f3{@link}\fR tbgs bllowfd in b sfntfndf\&. You dbn usf tiis tbg in tif mbin dfsdription pbrt of bny dodumfntbtion dommfnt or in tif tfxt portion of bny tbg, sudi bs tif \f3@dfprfdbtfd\fR, \f3@rfturn\fR or \f3@pbrbm\fR tbgs\&.
+
+For fxbmplf, ifrf is b dommfnt tibt rfffrs to tif \f3gftComponfntAt(int, int)\fR mftiod:
+.sp     
+.nf     
+\f3Usf tif {@link #gftComponfntAt(int, int) gftComponfntAt} mftiod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+From tiis dodf, tif stbndbrd dodlft gfnfrbtfs tif following HTML (bssuming it rfffrs to bnotifr dlbss in tif sbmf pbdkbgf):
+.sp     
+.nf     
+\f3Usf tif <b irff="Componfnt\&.itml#gftComponfntAt(int, int)">gftComponfntAt</b> mftiod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif prfvious linf bppfbrs on tif wfb pbgf bs:
+.sp     
+.nf     
+\f3Usf tif gftComponfntAt mftiod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP     
+{@linkplbin \fIpbdkbgf\&.dlbss#mfmbfr lbbfl\fR}
+Introdudfd in JDK 1\&.4
+
+Bfibvfs tif sbmf bs tif \f3{@link}\fR tbg, fxdfpt tif link lbbfl is displbyfd in plbin tfxt rbtifr tibn dodf font\&. Usfful wifn tif lbbfl is plbin tfxt\&. For fxbmplf, \f3Rfffr to {@linkplbin bdd() tif ovfrriddfn mftiod}\fR\&. displbys bs: Rfffr to tif ovfrriddfn mftiod\&.
+.TP     
+{@litfrbl \fItfxt\fR}
+Introdudfd in JDK 1\&.5
+
+Displbys tfxt witiout intfrprfting tif tfxt bs HTML mbrkup or nfstfd Jbvbdod tbgs\&. Tiis fnbblfs you to usf bnglf brbdkfts (\f3< bnd >\fR) instfbd of tif HTML fntitifs (\f3&lt;\fR bnd \f3&gt;\fR) in dodumfntbtion dommfnts, sudi bs in pbrbmftfr typfs (\f3<Objfdt>\fR), infqublitifs (\f33 < 4\fR), or brrows (<-)\&. For fxbmplf, tif dodumfntbtion dommfnt tfxt \f3{@litfrbl A<B>C}\fR displbys undibngfd in tif gfnfrbtfd HTML pbgf in your browsfr, bs \f3A<B>C\fR\&. Tif \f3<B>\fR is not intfrprftfd bs bold (bnd it is not in dodf font)\&. If you wbnt tif sbmf fundtionblity witi tif tfxt in dodf font, tifn usf tif \f3{@dodf}\fR tbg\&.
+.TP     
+@pbrbm \fIpbrbmftfr-nbmf dfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Adds b pbrbmftfr witi tif spfdififd \f3pbrbmftfr-nbmf\fR followfd by tif spfdififd dfsdription to tif Pbrbmftfrs sfdtion\&. Wifn writing tif dodumfntbtion dommfnt, you dbn dontinuf tif dfsdription onto multiplf linfs\&. Tiis tbg is vblid only in b dodumfntbtion dommfnt for b mftiod, donstrudtor, or dlbss\&. Sff @pbrbm in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@pbrbm
+
+Tif \f3pbrbmftfr-nbmf\fR dbn bf tif nbmf of b pbrbmftfr in b mftiod or donstrudtor, or tif nbmf of b typf pbrbmftfr of b dlbss, mftiod, or donstrudtor\&. Usf bnglf brbdkfts bround tiis pbrbmftfr nbmf to spfdify tif usf of b typf pbrbmftfr\&.
+
+Exbmplf of b typf pbrbmftfr of b dlbss:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @pbrbm <E> Typf of flfmfnt storfd in b list\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid intfrfbdf List<E> fxtfnds Collfdtion<E> {\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Exbmplf of b typf pbrbmftfr of b mftiod:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @pbrbm string  tif string to bf donvfrtfd\fP
+.fi     
+.nf     
+\f3 * @pbrbm typf    tif typf to donvfrt tif string to\fP
+.fi     
+.nf     
+\f3 * @pbrbm <T>     tif typf of tif flfmfnt\fP
+.fi     
+.nf     
+\f3 * @pbrbm <V>     tif vbluf of tif flfmfnt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3<T, V fxtfnds T> V donvfrt(String string, Clbss<T> typf) {\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP     
+@rfturn \fIdfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Adds b Rfturns sfdtion witi tif dfsdription tfxt\&. Tiis tfxt siould dfsdribf tif rfturn typf bnd pfrmissiblf rbngf of vblufs\&. Tiis tbg is vblid only in b dodumfntbtion dommfnt for b mftiod\&. Sff @rfturn in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@rfturn
+.TP     
+@sff \fIrfffrfndf\fR
+Introdudfd in JDK 1\&.0
+
+Adds b \fISff Also\fR ifbding witi b link or tfxt fntry tibt points to b rfffrfndf\&. A dodumfntbtion dommfnt dbn dontbin bny numbfr of \f3@sff\fR tbgs, wiidi brf bll groupfd undfr tif sbmf ifbding\&. Tif \f3@sff\fR tbg ibs tirff vbribtions\&. Tif form is tif most dommon\&. Tiis tbg is vblid in bny dodumfntbtion dommfnt: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod, or fifld\&. For insfrting bn inlinf link witiin b sfntfndf to b pbdkbgf, dlbss, or mfmbfr, sff \f3{@link}\fR\&.
+
+\fIForm 1\fR\&. Tif @sff \f3string\fR tbg form bdds b tfxt fntry for \fIstring\fR\&. No link is gfnfrbtfd\&. Tif string is b book or otifr rfffrfndf to informbtion not bvbilbblf by URL\&. Tif \f3jbvbdod\fR dommbnd distinguisifs tiis from tif prfvious dbsfs by sfbrdiing for b doublf quotbtion mbrk (") bs tif first dibrbdtfr\&. For fxbmplf, \f3@sff "Tif Jbvb Progrbmming Lbngubgf"\fR tibt gfnfrbtfs tif following tfxt:
+
+\fISff Also\fR:
+
+"Tif Jbvb Progrbmming Lbngubgf"
+
+\fIForm 2\fR\&. Tif \f3@sff <b irff="URL#vbluf">lbbfl</b>\fR form bdds b link bs dffinfd by \f3URL#vbluf\fR\&. Tif \f3URL#vbluf\fR pbrbmftfr is b rflbtivf or bbsolutf URL\&. Tif \f3jbvbdod\fR dommbnd distinguisifs tiis from otifr dbsfs by sfbrdiing for b lfss-tibn symbol (\f3<\fR) bs tif first dibrbdtfr\&. For fxbmplf, \f3@sff <b irff="spfd\&.itml#sfdtion">Jbvb Spfd</b>\fR gfnfrbtfs tif following link:
+
+\fISff Also\fR:
+
+Jbvb Spfd
+
+\fIForm 3\fR\&. Tif \f3@sff pbdkbgf\&.dlbss#mfmbfr lbbfl\fR form bdds b link witi b visiblf tfxt lbbfl tibt points to tif dodumfntbtion for tif spfdififd nbmf in tif Jbvb Lbngubgf tibt is rfffrfndfd\&. Tif lbbfl is optionbl\&. If tif lbbfl is omittfd, tifn tif nbmf bppfbrs instfbd bs visiblf tfxt, suitbbly siortfnfd\&. Usf tif \f3-noqublififr\fR option to globblly rfmovf tif pbdkbgf nbmf from tiis visiblf tfxt\&. Usf tif lbbfl wifn you wbnt tif visiblf tfxt to bf difffrfnt from tif butogfnfrbtfd visiblf tfxt\&. Sff How b Nbmf Appfbrs\&.
+
+In Jbvb SE 1\&.2 only, tif nbmf but not tif lbbfl butombtidblly bppfbrs in \f3<dodf>\fR HTML tbgs\&. Stbrting witi Jbvb SE 1\&.2\&.2, tif \f3<dodf>\fR tbg is blwbys indludfd bround tif visiblf tfxt, wiftifr or not b lbbfl is usfd\&.
+.RS     
+.TP 0.2i    
+\(bu
+\f3pbdkbgf\&.dlbss#mfmbfr\fR is bny vblid progrbm flfmfnt nbmf tibt is rfffrfndfd, sudi bs b pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod or fifld nbmf, fxdfpt tibt tif dibrbdtfr bifbd of tif mfmbfr nbmf siould bf b numbfr sign (\f3#\fR)\&. Tif dlbss rfprfsfnts bny top-lfvfl or nfstfd dlbss or intfrfbdf\&. Tif mfmbfr rfprfsfnts bny donstrudtor, mftiod, or fifld (not b nfstfd dlbss or intfrfbdf)\&. If tiis nbmf is in tif dodumfntfd dlbssfs, tifn tif \f3jbvbdod\fR dommbnd drfbtf b link to it\&. To drfbtf links to fxtfrnbl rfffrfndfd dlbssfs, usf tif \f3-link\fR option\&. Usf fitifr of tif otifr two \f3@sff\fR tbg forms to rfffr to tif dodumfntbtion of b nbmf tibt dofs not bflong to b rfffrfndfd dlbss\&. Sff Spfdify b Nbmf\&.
+
+\fINotf:\fR Extfrnbl rfffrfndfd dlbssfs brf dlbssfs tibt brf not pbssfd into tif \f3jbvbdod\fR dommbnd on tif dommbnd linf\&. Links in tif gfnfrbtfd dodumfntbtion to fxtfrnbl rfffrfndfd dlbssfs brf dbllfd fxtfrnbl rfffrfndfs or fxtfrnbl links\&. For fxbmplf, if you run tif \f3jbvbdod\fR dommbnd on only tif \f3jbvb\&.bwt pbdkbgf\fR, tifn bny dlbss in \f3jbvb\&.lbng\fR, sudi bs \f3Objfdt\fR, is bn fxtfrnbl rfffrfndfd dlbss\&. Usf tif \f3-link\fR bnd \f3-linkofflinf\fR options to link to fxtfrnbl rfffrfndfd dlbssfs\&. Tif sourdf dommfnts of fxtfrnbl rfffrfndfd dlbssfs brf not bvbilbblf to tif \f3jbvbdod\fR dommbnd run\&.
+.TP 0.2i    
+\(bu
+\f3lbbfl\fR is optionbl tfxt tibt is visiblf bs tif link lbbfl\&. Tif lbbfl dbn dontbin wiitf spbdf\&. If \f3lbbfl\fR is omittfd, tifn \f3pbdkbgf\&.dlbss\&.mfmbfr\fR bppfbrs, suitbbly siortfnfd rflbtivf to tif durrfnt dlbss bnd pbdkbgf\&. Sff How b Nbmf Appfbrs\&.
+.TP 0.2i    
+\(bu
+A spbdf is tif dflimitfr bftwffn \f3pbdkbgf\&.dlbss#mfmbfr\fR bnd \f3lbbfl\fR\&. A spbdf insidf pbrfntifsfs dofs not indidbtf tif stbrt of b lbbfl, so spbdfs dbn bf usfd bftwffn pbrbmftfrs in b mftiod\&.
+.RE     
+
+
+\fI\fRIn tif following fxbmplf, bn \f3@sff\fR tbg (in tif \f3Cibrbdtfr\fR dlbss) rfffrs to tif fqubls mftiod in tif \f3String\fR dlbss\&. Tif tbg indludfs boti brgumfnts: tif nbmf \f3String#fqubls(Objfdt)\fR bnd tif lbbfl \f3fqubls\fR\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @sff String#fqubls(Objfdt) fqubls\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif stbndbrd dodlft produdfs HTML tibt is similbr to:
+.sp     
+.nf     
+\f3<dl>\fP
+.fi     
+.nf     
+\f3<dt><b>Sff Also:</b>\fP
+.fi     
+.nf     
+\f3<dd><b irff="\&.\&./\&.\&./jbvb/lbng/String#fqubls(jbvb\&.lbng\&.Objfdt)"><dodf>fqubls<dodf></b>\fP
+.fi     
+.nf     
+\f3</dl>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif prfvious dodf looks similbr to tif following in b browsfr, wifrf tif lbbfl is tif visiblf link tfxt:
+
+\fISff Also\fR:
+
+fqubls
+.PP
+Spfdify b Nbmf
+
+\fI\fRTiis \f3pbdkbgf\&.dlbss#mfmbfr\fR nbmf dbn bf fitifr fully qublififd, sudi bs \f3jbvb\&.lbng\&.String#toUppfrCbsf()\fR or not, sudi bs \f3String#toUppfrCbsf()\fR or \f3#toUppfrCbsf()\fR\&. If tif nbmf is lfss tibn fully qublififd, tifn tif \f3jbvbdod\fR dommbnd usfs tif stbndbrd Jbvb dompilfr sfbrdi ordfr to find it\&. Sff Sfbrdi Ordfr for tif @sff Tbg\&. Tif nbmf dbn dontbin wiitf spbdf witiin pbrfntifsfs, sudi bs bftwffn mftiod brgumfnts\&.Tif bdvbntbgf to providing siortfr, pbrtiblly qublififd nbmfs is tibt tify brf siortfr to typf bnd tifrf is lfss dluttfr in tif sourdf dodf\&. Tif following listing siows tif difffrfnt forms of tif nbmf, wifrf \f3Clbss\fR dbn bf b dlbss or intfrfbdf; Typf dbn bf b dlbss, intfrfbdf, brrby, or primitivf; bnd mftiod dbn bf b mftiod or donstrudtor\&.
+.sp     
+.nf     
+\f3\fITypidbl forms for\fR\fI @sff pbdkbgf\&.dlbss#mfmbfr\fR\fP
+.fi     
+.nf     
+\f3\fIRfffrfnding b mfmbfr of tif durrfnt dlbss\fR\fP
+.fi     
+.nf     
+\f3@sff #fifld\fP
+.fi     
+.nf     
+\f3@sff #mftiod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #mftiod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.) \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3\fIRfffrfnding bnotifr dlbss in tif durrfnt or importfd pbdkbgfs\fR\fP
+.fi     
+.nf     
+\f3@sff Clbss#fifld\fP
+.fi     
+.nf     
+\f3@sff Clbss#mftiod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#mftiod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss\&.NfstfdClbss\fP
+.fi     
+.nf     
+\f3@sff Clbss \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3\fIRfffrfnding bn flfmfnt in bnotifr pbdkbgf (fully qublififd)\fR\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#fifld\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#mftiod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#mftiod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss\&.NfstfdClbss\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3\fRNotfs bbout tif prfvious listing:
+.TP 0.2i    
+\(bu
+Tif first sft of forms witi no dlbss or pbdkbgf dbusfs tif \f3jbvbdod\fR dommbnd to sfbrdi only tirougi tif durrfnt dlbss iifrbrdiy\&. It finds b mfmbfr of tif durrfnt dlbss or intfrfbdf, onf of its supfrdlbssfs or supfrintfrfbdfs, or onf of its fndlosing dlbssfs or intfrfbdfs (sfbrdi Itfms 1\(fn3)\&. It dofs not sfbrdi tif rfst of tif durrfnt pbdkbgf or otifr pbdkbgfs (sfbrdi Itfms 4\(fn5)\&. Sff Sfbrdi Ordfr for tif @sff Tbg\&.
+.TP 0.2i    
+\(bu
+If bny mftiod or donstrudtor is fntfrfd bs b nbmf witi no pbrfntifsfs, sudi bs \f3gftVbluf\fR, bnd if tifrf is no fifld witi tif sbmf nbmf, tifn tif \f3jbvbdod\fR dommbnd still drfbtfs b link to tif mftiod\&. If tiis mftiod is ovfrlobdfd, tifn tif \f3jbvbdod\fR dommbnd links to tif first mftiod its sfbrdi fndountfrs, wiidi is unspfdififd\&.
+.TP 0.2i    
+\(bu
+Nfstfd dlbssfs must bf spfdififd bs \f3outfr\&.innfr\fR, not simply \f3innfr\fR, for bll forms\&.
+.TP 0.2i    
+\(bu
+As stbtfd, tif numbfr sign (\f3#\fR), rbtifr tibn b dot (\f3\&.\fR) sfpbrbtfs b mfmbfr from its dlbss\&. Tiis fnbblfs tif \f3jbvbdod\fR dommbnd to rfsolvf bmbiguitifs, bfdbusf tif dot blso sfpbrbtfs dlbssfs, nfstfd dlbssfs, pbdkbgfs, bnd subpbdkbgfs\&. Howfvfr, tif \f3jbvbdod\fR dommbnd propfrly pbrsfs b dot wifn tifrf is no bmbiguity, but prints b wbrning to blfrt you\&.
+.PP
+Sfbrdi Ordfr for tif @sff Tbg
+
+\fI\fRTif \f3jbvbdod\fR dommbnd prodfssfs bn \f3@sff\fR tbg tibt bppfbrs in b sourdf filf, pbdkbgf filf, or ovfrvifw filf\&. In tif lbttfr two filfs, you must fully qublify tif nbmf you supply witi tif \f3@sff\fR tbg\&. In b sourdf filf, you dbn spfdify b nbmf tibt is fully qublififd or pbrtiblly qublififd\&.
+.PP
+Tif following is tif sfbrdi ordfr for tif \f3@sff\fR tbg\&.
+.TP 0.4i    
+1\&.
+Tif durrfnt dlbss or intfrfbdf\&.
+.TP 0.4i    
+2\&.
+Any fndlosing dlbssfs bnd intfrfbdfs sfbrdiing tif dlosfst first\&.
+.TP 0.4i    
+3\&.
+Any supfrdlbssfs bnd supfrontfrfbdfs, sfbrdiing tif dlosfst first\&.
+.TP 0.4i    
+4\&.
+Tif durrfnt pbdkbgf\&.
+.TP 0.4i    
+5\&.
+Any importfd pbdkbgfs, dlbssfs, bnd intfrfbdfs, sfbrdiing in tif ordfr of tif \f3import\fR stbtfmfnt\&.
+.PP
+Tif \f3jbvbdod\fR dommbnd dontinufs to sfbrdi rfdursivfly tirougi Itfms 1-3 for fbdi dlbss it fndountfrs until it finds b mbtdi\&. Tibt is, bftfr it sfbrdifs tirougi tif durrfnt dlbss bnd its fndlosing dlbss E, it sfbrdifs tirougi tif supfrdlbssfs of E bfforf tif fndlosing dlbssfs of E\&. In Itfms 4 bnd 5, tif \f3jbvbdod\fR dommbnd dofs not sfbrdi dlbssfs or intfrfbdfs witiin b pbdkbgf in bny spfdififd ordfr (tibt ordfr dfpfnds on tif pbrtidulbr dompilfr)\&. In Itfm 5, tif \f3jbvbdod\fR dommbnd sfbrdifs in \fIjbvb\&.lbng\fR bfdbusf tibt is importfd by bll progrbms\&.
+.PP
+Wifn tif \f3jbvbdod\fR dommbnd fndountfrs bn \f3@sff\fR tbg in b sourdf filf tibt is not fully qublififd, it sfbrdifs for tif spfdififd nbmf in tif sbmf ordfr bs tif Jbvb dompilfr would, fxdfpt tif \f3jbvbdod\fR dommbnd dofs not dftfdt dfrtbin nbmf spbdf bmbiguitifs bfdbusf it bssumfs tif sourdf dodf is frff of tifsf frrors\&. Tiis sfbrdi ordfr is formblly dffinfd in tif Jbvb Lbngubgf Spfdifidbtion\&. Tif \f3jbvbdod\fR dommbnd sfbrdifs for tibt nbmf tirougi bll rflbtfd bnd importfd dlbssfs bnd pbdkbgfs\&. In pbrtidulbr, it sfbrdifs in tiis ordfr:
+.TP 0.4i    
+1\&.
+Tif durrfnt dlbss or intfrfbdf\&.
+.TP 0.4i    
+2\&.
+Any fndlosing dlbssfs bnd intfrfbdfs, sfbrdiing tif dlosfst first\&.
+.TP 0.4i    
+3\&.
+Any supfrdlbssfs bnd supfrintfrfbdfs, sfbrdiing tif dlosfst first\&.
+.TP 0.4i    
+4\&.
+Tif durrfnt pbdkbgf\&.
+.TP 0.4i    
+5\&.
+Any importfd pbdkbgfs, dlbssfs, bnd intfrfbdfs, sfbrdiing in tif ordfr of tif \f3import\fR stbtfmfnts\&.
+.PP
+Tif \f3jbvbdod\fR dommbnd dofs not nfdfssbrily look in subdlbssfs, nor will it look in otifr pbdkbgfs fvfn wifn tifir dodumfntbtion is bfing gfnfrbtfd in tif sbmf run\&. For fxbmplf, if tif \f3@sff\fR tbg is in tif \f3jbvb\&.bwt\&.fvfnt\&.KfyEvfnt\fR dlbss bnd rfffrs to b nbmf in tif \f3jbvb\&.bwt pbdkbgf\fR, tifn tif \f3jbvbdod\fR dommbnd dofs not look in tibt pbdkbgf unlfss tibt dlbss imports it\&.
+.PP
+How b Nbmf Appfbrs
+
+\fI\fRIf \f3lbbfl\fR is omittfd, tifn \f3pbdkbgf\&.dlbss\&.mfmbfr\fR bppfbrs\&. In gfnfrbl, it is suitbbly siortfnfd rflbtivf to tif durrfnt dlbss bnd pbdkbgf\&. Siortfnfd mfbns tif \f3jbvbdod\fR dommbnd displbys only tif minimum nbmf nfdfssbry\&. For fxbmplf, if tif \f3String\&.toUppfrCbsf()\fR mftiod dontbins rfffrfndfs to b mfmbfr of tif sbmf dlbss bnd to b mfmbfr of b difffrfnt dlbss, tifn tif dlbss nbmf is displbyfd only in tif lbttfr dbsf, bs siown in tif following listing\&. Usf tif \f3-noqublififr\fR option to globblly rfmovf tif pbdkbgf nbmfs\&.
+.PP
+\fITypf of rfffrfndf\fR: Tif \f3@sff\fR tbg rfffrs to b mfmbfr of tif sbmf dlbss, sbmf pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff String#toLowfrCbsf()\fR
+.br     
+\fIAppfbrs bs\fR: \f3toLowfrCbsf()\fR - omits tif pbdkbgf bnd dlbss nbmfs
+.br     
+
+.PP
+\fITypf of rfffrfndf\fR: Tif \f3@sff\fR tbg rfffrs to b mfmbfr of b difffrfnt dlbss, sbmf pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff Cibrbdtfr#toLowfrCbsf(dibr)\fR
+.br     
+\fIAppfbrs bs\fR: \f3Cibrbdtfr\&.toLowfrCbsf(dibr)\fR - omits tif pbdkbgf nbmf, indludfs tif dlbss nbmf
+.br     
+
+.PP
+\fITypf of rfffrfndf\fR: Tif \f3@sff\fR tbg rfffrs to b mfmbfr of b difffrfnt dlbss, difffrfnt pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff jbvb\&.io\&.Filf#fxists()\fR
+.br     
+\fIAppfbrs bs\fR: \f3jbvb\&.io\&.Filf\&.fxists()\fR - indludfs tif pbdkbgf bnd dlbss nbmfs
+.br     
+
+.PP
+Exbmplfs of tif @sff Tbg
+
+Tif dommfnt to tif rigit siows iow tif nbmf bppfbrs wifn tif \f3@sff\fR tbg is in b dlbss in bnotifr pbdkbgf, sudi bs \f3jbvb\&.bpplft\&.Applft\fR\&. Sff @sff in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@sff
+.sp     
+.nf     
+\f3                                            Sff blso:\fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.String                   //  String                           \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.String Tif String dlbss  //  Tif String dlbss                 \fP
+.fi     
+.nf     
+\f3@sff String                             //  String                           \fP
+.fi     
+.nf     
+\f3@sff String#fqubls(Objfdt)              //  String\&.fqubls(Objfdt)            \fP
+.fi     
+.nf     
+\f3@sff String#fqubls                      //  String\&.fqubls(jbvb\&.lbng\&.Objfdt)   \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.Objfdt#wbit(long)        //  jbvb\&.lbng\&.Objfdt\&.wbit(long)      \fP
+.fi     
+.nf     
+\f3@sff Cibrbdtfr#MAX_RADIX                //  Cibrbdtfr\&.MAX_RADIX              \fP
+.fi     
+.nf     
+\f3@sff <b irff="spfd\&.itml">Jbvb Spfd</b>  //  Jbvb Spfd            \fP
+.fi     
+.nf     
+\f3@sff "Tif Jbvb Progrbmming Lbngubgf"    //  "Tif Jbvb Progrbmming Lbngubgf" \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\fINotf:\fR You dbn fxtfnd tif \f3@sf\fR\f3f\fR tbg to link to dlbssfs not bfing dodumfntfd witi tif \f3-link\fR option\&.
+.TP     
+@sfribl \fIfifld-dfsdription\fR | indludf | fxdludf
+Introdudfd in JDK 1\&.2
+
+Usfd in tif dodumfntbtion dommfnt for b dffbult sfriblizbblf fifld\&. Sff Dodumfnting Sfriblizbblf Fiflds bnd Dbtb for b Clbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/plbtform/sfriblizbtion/spfd/sfribl-brdi\&.itml#5251
+
+Sff blso Orbdlf\(dqs Critfrib for Indluding Clbssfs in tif Sfriblilzfd Form Spfdifidbtion bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/sfriblizfd-dritfrib-137781\&.itml
+
+An optionbl \f3fifld-dfsdription\fR siould fxplbin tif mfbning of tif fifld bnd list tif bddfptbblf vblufs\&. Wifn nffdfd, tif dfsdription dbn spbn multiplf linfs\&. Tif stbndbrd dodlft bdds tiis informbtion to tif sfriblizfd form pbgf\&. Sff Cross-Rfffrfndf Pbgfs\&.
+
+If b sfriblizbblf fifld wbs bddfd to b dlbss bftfr tif dlbss wbs mbdf sfriblizbblf, tifn b stbtfmfnt siould bf bddfd to its mbin dfsdription to idfntify bt wiidi vfrsion it wbs bddfd\&.
+
+Tif \f3indludf\fR bnd \f3fxdludf\fR brgumfnts idfntify wiftifr b dlbss or pbdkbgf siould bf indludfd or fxdludfd from tif sfriblizfd form pbgf\&. Tify work bs follows:
+.RS     
+.TP 0.2i    
+\(bu
+A publid or protfdtfd dlbss tibt implfmfnts \f3Sfriblizbblf\fR is indludfd unlfss tibt dlbss (or its pbdkbgf) is mbrkfd witi tif \f3@sfribl fxdludf\fR tbg\&.
+.TP 0.2i    
+\(bu
+A privbtf or pbdkbgf-privbtf dlbss tibt implfmfnts \f3Sfriblizbblf\fR is fxdludfd unlfss tibt dlbss (or its pbdkbgf) is mbrkfd witi tif \f3@sfribl indludf\fR tbg\&.
+.RE
+.RS
+For fxbmplf, tif \f3jbvbx\&.swing\fR pbdkbgf is mbrkfd witi tif \f3@sfribl\fR\f3fxdludf\fR tbg in pbdkbgf\&.itml or pbdkbgf-info\&.jbvb\&. Tif publid dlbss \f3jbvb\&.sfdurity\&.BbsidPfrmission\fR is mbrkfd witi tif \f3@sfribl fxdludf\fR tbg\&. Tif pbdkbgf-privbtf dlbss \f3jbvb\&.util\&.PropfrtyPfrmissionCollfdtion\fR is mbrkfd witi tif \f3@sfribl indludf\fR tbg\&.
+
+Tif \f3@sfribl\fR tbg bt tif dlbss lfvfl ovfrridfs tif \f3@sfribl\fR tbg bt tif pbdkbgf lfvfl\&.
+
+.RE
+.TP     
+@sfriblDbtb \fIdbtb-dfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Usfs tif dbtb dfsdription vbluf to dodumfnt tif typfs bnd ordfr of dbtb in tif sfriblizfd form\&. Tiis dbtb indludfs tif optionbl dbtb writtfn by tif \f3writfObjfdt\fR mftiod bnd bll dbtb (indluding bbsf dlbssfs) writtfn by tif \f3Extfrnblizbblf\&.writfExtfrnbl\fR mftiod\&.
+
+Tif \f3@sfriblDbtb\fR tbg dbn bf usfd in tif dodumfntbtion dommfnt for tif \f3writfObjfdt\fR, \f3rfbdObjfdt\fR, \f3writfExtfrnbl\fR, \f3rfbdExtfrnbl\fR, \f3writfRfplbdf\fR, bnd \f3rfbdRfsolvf\fR mftiods\&.
+.TP     
+@sfriblFifld \fIfifld-nbmf\fR\fIfifld-typf\fR\fIfifld-dfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Dodumfnts bn \f3ObjfdtStrfbmFifld\fR domponfnt of tif \f3sfriblPfrsistfntFiflds\fR mfmbfr of b \f3Sfriblizbblf\fR dlbss\&. Usf onf \f3@sfriblFifld\fR tbg for fbdi \f3ObjfdtStrfbmFifld\fR domponfnt\&.
+.TP     
+@sindf \fIsindf-tfxt\fR
+Introdudfd in JDK 1\&.1
+
+Adds b \fISindf\fR ifbding witi tif spfdififd \f3sindf-tfxt\fR vbluf to tif gfnfrbtfd dodumfntbtion\&. Tif tfxt ibs no spfdibl intfrnbl strudturf\&. Tiis tbg is vblid in bny dodumfntbtion dommfnt: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mftiod, or fifld\&. Tiis tbg mfbns tibt tiis dibngf or ffbturf ibs fxistfd sindf tif softwbrf rflfbsf spfdififd by tif \f3sindf-tfxt\fR vbluf, for fxbmplf: \f3@sindf 1\&.5\fR\&.
+
+For Jbvb plbtform sourdf dodf, tif \f3@sindf\fR tbg indidbtfs tif vfrsion of tif Jbvb plbtform API spfdifidbtion, wiidi is not nfdfssbrily wifn tif sourdf dodf wbs bddfd to tif rfffrfndf implfmfntbtion\&. Multiplf \f3@sindf\fR tbgs brf bllowfd bnd brf trfbtfd likf multiplf \f3@butior\fR tbgs\&. You dould usf multiplf tbgs wifn tif progrbm flfmfnt is usfd by morf tibn onf API\&.
+.TP     
+@tirows \fIdlbss-nbmf\fR\fIdfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Bfibvfs tif sbmf bs tif \f3@fxdfption\fR tbg\&. Sff @tirows in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@fxdfption
+
+Tif \f3@tirows\fR tbg bdds b \fITirows\fR subifbding to tif gfnfrbtfd dodumfntbtion, witi tif \f3dlbss-nbmf\fR bnd \f3dfsdription\fR tfxt\&. Tif \fIdlbss-nbmf\fR is tif nbmf of tif fxdfption tibt migit bf tirown by tif mftiod\&. Tiis tbg is vblid only in tif dodumfntbtion dommfnt for b mftiod or donstrudtor\&. If tiis dlbss is not fully spfdififd, tifn tif \f3jbvbdod\fR dommbnd usfs tif sfbrdi ordfr to look up tiis dlbss\&. Multiplf \f3@tirows\fR tbgs dbn bf usfd in b spfdififd dodumfntbtion dommfnt for tif sbmf or difffrfnt fxdfptions\&. Sff Sfbrdi Ordfr for tif @sff Tbg\&.
+
+To fnsurf tibt bll difdkfd fxdfptions brf dodumfntfd, wifn bn \f3@tirows\fR tbg dofs not fxist for bn fxdfption in tif tirows dlbusf, tif \f3jbvbdod\fR dommbnd bdds tibt fxdfption to tif HTML output (witi no dfsdription) bs tiougi it wfrf dodumfntfd witi tif \f3@tirows\fR tbg\&.
+
+Tif \f3@tirows\fR dodumfntbtion is dopifd from bn ovfrriddfn mftiod to b subdlbss only wifn tif fxdfption is fxpliditly dfdlbrfd in tif ovfrriddfn mftiod\&. Tif sbmf is truf for dopying from bn intfrfbdf mftiod to bn implfmfnting mftiod\&. You dbn usf tif \f3{@inifritDod}\fR tbg to fordf tif \f3@tirows\fR tbg to inifrit dodumfntbtion\&.
+.TP     
+{@vbluf \fIpbdkbgf\&.dlbss#fifld\fR}
+Introdudfd in JDK 1\&.4
+
+Displbys donstbnt vblufs\&. Wifn tif \f3{@vbluf}\fR tbg is usfd witiout bn brgumfnt in tif dodumfntbtion dommfnt of b stbtid fifld, it displbys tif vbluf of tibt donstbnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Tif vbluf of tiis donstbnt is {@vbluf}\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid stbtid finbl String SCRIPT_START = "<sdript>"\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Wifn usfd witi tif brgumfnt \f3pbdkbgf\&.dlbss#fifld\fR in bny dodumfntbtion dommfnt, if \f3{@vbluf}\fR tbg displbys tif vbluf of tif spfdififd donstbnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Evblubtfs tif sdript stbrting witi {@vbluf #SCRIPT_START}\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid String fvblSdript(String sdript) {}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif brgumfnt \f3pbdkbgf\&.dlbss#fifld\fR tbkfs b form similbr to tibt of tif \f3@sff\fR tbg brgumfnt, fxdfpt tibt tif mfmbfr must bf b stbtid fifld\&.
+
+Tif vblufs of tifsf donstbnts brf blso displbyfd in Constbnt Fifld Vblufs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/donstbnt-vblufs\&.itml
+.TP     
+@vfrsion \fIvfrsion-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds b \fIVfrsion\fR subifbding witi tif spfdififd \f3vfrsion-tfxt\fR vbluf to tif gfnfrbtfd dodumfnts wifn tif \f3-vfrsion\fR option is usfd\&. Tiis tbg is intfndfd to iold tif durrfnt rflfbsf numbfr of tif softwbrf tibt tiis dodf is pbrt of, bs opposfd to tif\f3@sindf\fR tbg, wiidi iolds tif rflfbsf numbfr wifrf tiis dodf wbs introdudfd\&. Tif \f3vfrsion-tfxt\fR vbluf ibs no spfdibl intfrnbl strudturf\&. Sff @vfrsion in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#@vfrsion
+
+A dodumfntbtion dommfnt dbn dontbin multiplf \f3@vfrsion\fR tbgs\&. Wifn it mbkfs sfnsf, you dbn spfdify onf rflfbsf numbfr pfr \f3@vfrsion\fR tbg or multiplf rflfbsf numbfrs pfr tbg\&. In tif formfr dbsf, tif \f3jbvbdod\fR dommbnd insfrts b dommb (,) bnd b spbdf bftwffn tif nbmfs\&. In tif lbttfr dbsf, tif fntirf tfxt is dopifd to tif gfnfrbtfd dodumfnt witiout bfing pbrsfd\&. Tifrfforf, you dbn usf multiplf nbmfs pfr linf wifn you wbnt b lodblizfd nbmf sfpbrbtor otifr tibn b dommb\&.
+.SH WHERE\ TAGS\ CAN\ BE\ USED    
+Tif following sfdtions dfsdribf wifrf tbgs dbn bf usfd\&. Notf tibt tif following tbgs dbn bf usfd in bll dodumfntbtion dommfnts: \f3@sff\fR, \f3@sindf\fR, \f3@dfprfdbtfd\fR, \f3{@link}\fR, \f3{@linkplbin}\fR, bnd \f3{@dodroot}\fR\&.
+.SS OVERVIEW\ TAGS    
+Ovfrvifw tbgs brf tbgs tibt dbn bppfbr in tif dodumfntbtion dommfnt for tif ovfrvifw pbgf (wiidi rfsidfs in tif sourdf filf typidblly nbmfd ovfrvifw\&.itml)\&. Similbr to bny otifr dodumfntbtion dommfnts, tifsf tbgs must bppfbr bftfr tif mbin dfsdription
+.PP
+\fINotf:\fR Tif \f3{@link}\fR tbg ibs b bug in ovfrvifw dodumfnts in Jbvb SE 1\&.2\&. Tif tfxt bppfbrs dorrfdtly but ibs no link\&. Tif \f3{@dodRoot}\fR tbg dofs not durrfntly work in ovfrvifw dodumfnts\&.
+.PP
+Tif ovfrvifw tbgs brf tif following:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @sfriblFifld fifld-nbmf fifld-typf fifld-dfsdription || @butior nbmf-tfxt || @vfrsion vfrsion-tfxt || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.SS PACKAGE\ TAGS    
+Pbdkbgf tbgs brf tbgs tibt dbn bppfbr in tif dodumfntbtion dommfnt for b pbdkbgf, tibt rfsidfs in tif sourdf filf nbmfd pbdkbgf\&.itml or pbdkbgf-info\&.jbvb\&. Tif \f3@sfribl\fR tbg dbn only bf usfd ifrf witi tif \f3indludf\fR or \f3fxdludf\fR brgumfnt\&.
+.PP
+Tif pbdkbgf tbgs brf tif following:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @butior nbmf-tfxt || @vfrsion vfrsion-tfxt || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.SS CLASS\ AND\ INTERFACE\ TAGS    
+Tif following brf tbgs tibt dbn bppfbr in tif dodumfntbtion dommfnt for b dlbss or intfrfbdf\&. Tif \f3@sfribl\fR tbg dbn only bf usfd witiin tif dodumfntbtion for b dlbss or intfrfbdf witi bn \f3indludf\fR or \f3fxdludf\fR brgumfnt\&.
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @butior nbmf-tfxt || @vfrsion vfrsion-tfxt || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.PP
+Clbss dommfnt fxbmplf:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * A dlbss rfprfsfnting b window on tif sdrffn\&.\fP
+.fi     
+.nf     
+\f3 * For fxbmplf:\fP
+.fi     
+.nf     
+\f3 * <prf>\fP
+.fi     
+.nf     
+\f3 *    Window win = nfw Window(pbrfnt);\fP
+.fi     
+.nf     
+\f3 *    win\&.siow();\fP
+.fi     
+.nf     
+\f3 * </prf>\fP
+.fi     
+.nf     
+\f3 *\fP
+.fi     
+.nf     
+\f3 * @butior  Sbmi Sibio\fP
+.fi     
+.nf     
+\f3 * @vfrsion 1\&.13, 06/08/06\fP
+.fi     
+.nf     
+\f3 * @sff     jbvb\&.bwt\&.BbsfWindow\fP
+.fi     
+.nf     
+\f3 * @sff     jbvb\&.bwt\&.Button\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3dlbss Window fxtfnds BbsfWindow {\fP
+.fi     
+.nf     
+\f3   \&.\&.\&.\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS FIELD\ TAGS    
+Tifsf tbgs dbn bppfbr in fiflds:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @sfriblFifld fifld-nbmf fifld-typf fifld-dfsdription || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} || {@vbluf pbdkbgf\&.dlbss#fifld}
+.PP
+Fifld dommfnt fxbmplf:
+.sp     
+.nf     
+\f3    /**\fP
+.fi     
+.nf     
+\f3     * Tif X\-doordinbtf of tif domponfnt\&.\fP
+.fi     
+.nf     
+\f3     *\fP
+.fi     
+.nf     
+\f3     * @sff #gftLodbtion()\fP
+.fi     
+.nf     
+\f3     */\fP
+.fi     
+.nf     
+\f3    int x = 1263732;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS CONSTRUCTOR\ AND\ METHOD\ TAGS    
+Tif following tbgs dbn bppfbr in tif dodumfntbtion dommfnt for b donstrudtor or b mftiod, fxdfpt for tif \f3@rfturn\fR tbg, wiidi dbnnot bppfbr in b donstrudtor, bnd tif \f3{@inifritDod}\fR tbg, wiidi ibs rfstridtions\&.
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @pbrbm pbrbmftfr-nbmf dfsdription || @rfturn dfsdription || @tirows dlbss-nbmf dfsdription || @fxdfption dlbss-nbmf dfsdription || @sfriblDbtb dbtb-dfsdription || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@inifritDod} || {@dodRoot}
+.PP
+\fINotf:\fR Tif \f3@sfriblDbtb\fR tbg dbn only bf usfd in tif dodumfntbtion dommfnt for tif \f3writfObjfdt\fR, \f3rfbdObjfdt\fR, \f3writfExtfrnbl\fR, \f3rfbdExtfrnbl\fR, \f3writfRfplbdf\fR, bnd \f3rfbdRfsolvf\fR mftiods\&.
+.PP
+Mftiod dommfnt fxbmplf:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3     * Rfturns tif dibrbdtfr bt tif spfdififd indfx\&. An indfx \fP
+.fi     
+.nf     
+\f3     * rbngfs from <dodf>0</dodf> to <dodf>lfngti() \- 1</dodf>\fP
+.fi     
+.nf     
+\f3     *\fP
+.fi     
+.nf     
+\f3     * @pbrbm     indfx tif indfx of tif dfsirfd dibrbdtfr\&.\fP
+.fi     
+.nf     
+\f3     * @rfturn    tif dfsirfd dibrbdtfr\&.\fP
+.fi     
+.nf     
+\f3     * @fxdfption StringIndfxOutOfRbngfExdfption \fP
+.fi     
+.nf     
+\f3     *              if tif indfx is not in tif rbngf <dodf>0</dodf> \fP
+.fi     
+.nf     
+\f3     *              to <dodf>lfngti()\-1</dodf>\fP
+.fi     
+.nf     
+\f3     * @sff       jbvb\&.lbng\&.Cibrbdtfr#dibrVbluf()\fP
+.fi     
+.nf     
+\f3     */\fP
+.fi     
+.nf     
+\f3    publid dibr dibrAt(int indfx) {\fP
+.fi     
+.nf     
+\f3       \&.\&.\&.\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SH OPTIONS    
+Tif \f3jbvbdod\fR dommbnd usfs dodlfts to dftfrminf its output\&. Tif \f3jbvbdod\fR dommbnd usfs tif dffbult stbndbrd dodlft unlfss b dustom dodlft is spfdififd witi tif \f3-dodlft\fR option\&. Tif \f3jbvbdod\fR dommbnd providfs b sft of dommbnd-linf options tibt dbn bf usfd witi bny dodlft\&. Tifsf options brf dfsdribfd in Jbvbdod Options\&. Tif stbndbrd dodlft providfs bn bdditionbl sft of dommbnd-linf options tibt brf dfsdribfd in Stbndbrd Dodlft Options\&. All option nbmfs brf not dbsf-sfnsitivf, but tifir brgumfnts brf dbsf-sfnsitivf\&.
+.TP 0.2i    
+\(bu
+Sff blso Jbvbdod Options
+.TP 0.2i    
+\(bu
+Sff blso Stbndbrd Dodlft Options
+.PP
+Tif options brf:
+.PP
+-1\&.1 || -butior || -bootdlbsspbti dlbsspbtilist || -bottom tfxt || -brfbkitfrbtor || -dibrsft nbmf || -dlbsspbti dlbsspbtilist || -d dirfdtory || -dodfndoding nbmf || -dodfilfsubdirs || -dodlft dlbss || -dodlftpbti dlbsspbtilist || -dodtitlf titlf || -fndoding || -fxdludf pbdkbgfnbmf1:pbdkbgfnbmf2:\&.\&.\&. || -fxdludfdodfilfssubdir nbmf1:nbmf2 || -fxtdirs dirist || -footfr footfr || -group groupifbding pbdkbgfpbttfrn:pbdkbgfpbttfrn || -ifbdfr ifbdfr || -iflp || -iflpfilf pbti\ffilfnbmf || -Jflbg || -kfywords || -link fxtdodURL || -linkofflinf fxtdodURL pbdkbgflistLod || -linksourdf || -lodblf lbngubgf_dountry_vbribnt || -nodommfnt || -nodfprfdbtfd || -nodfprfdbtfdlist || -noiflp || -noindfx || -nonbvbbr || -noqublififr bll | pbdkbgfnbmf1:pbdkbgfnbmf2\&.\&.\&. || -nosindf || -notimfstbmp || -notrff || -ovfrvifw pbti/filfnbmf || -pbdkbgf || -privbtf || -protfdtfd || -publid || -quift || -sfriblwbrn || -sourdf rflfbsf || -sourdfpbti sourdfpbtilist || -sourdftbb tbblfngti || -splitindfx || -stylfsifft pbti/filfnbmf || -subpbdkbgfs pbdkbgf1:pbdkbgf2:\&.\&.\&. || -tbg tbgnbmf:Xboptdmf:"tbgifbd" || -tbglft dlbss || -tbglftpbti tbglftpbtilist || -titlf titlf || -top || -usf || -vfrbosf || -vfrsion || -windowtitlf titlf
+.PP
+Tif following options brf tif dorf Jbvbdod options tibt brf bvbilbblf to bll dodlfts\&. Tif stbndbrd dodlft providfs tif rfst of tif dodlfts: \f3-bootdlbsspbti\fR, \f3-brfbkitfrbtor\fR, \f3-dlbsspbti\fR, \f3-dodlft\fR, \f3-dodlftpbti\fR, \f3-fndoding\fR, -\f3fxdludf\fR, \f3-fxtdirs\fR, \f3-iflp\fR, \f3-lodblf\fR, \f3-\fR\f3ovfrvifw\fR, \f3-pbdkbgf\fR, \f3-privbtf\fR, \f3-protfdtfd\fR, \f3-publid\fR, \f3-quift\fR, \f3-sourdf\fR, \f3-sourdfpbti\fR, \f3-subpbdkbgfs\fR, bnd \f3-vfrbosf\fR\&.
+.SS JAVADOC\ OPTIONS    
+.TP
+-ovfrvifw \fIpbti/filfnbmf\fR
+.br
+Spfdififs tibt tif \f3jbvbdod\fR dommbnd siould rftrifvf tif tfxt for tif ovfrvifw dodumfntbtion from tif sourdf filf spfdififd by tif \fIpbti/filfnbmf\fRbnd plbdf it on tif Ovfrvifw pbgf (ovfrvifw-summbry\&.itml)\&. Tif \fIpbti/filfnbmf\fRis rflbtivf to tif durrfnt dirfdtory\&.
+
+Wiilf you dbn usf bny nbmf you wbnt for tif \f3filfnbmf\fR vbluf bnd plbdf it bnywifrf you wbnt for tif pbti, it is typidbl to nbmf it ovfrvifw\&.itml bnd plbdf it in tif sourdf trff bt tif dirfdtory tibt dontbins tif topmost pbdkbgf dirfdtorifs\&. In tiis lodbtion, no pbti is nffdfd wifn dodumfnting pbdkbgfs, bfdbusf tif \f3-sourdfpbti\fR option points to tiis filf\&.
+
+For fxbmplf, if tif sourdf trff for tif \f3jbvb\&.lbng\fR pbdkbgf is /srd/dlbssfs/jbvb/lbng/, tifn you dould plbdf tif ovfrvifw filf bt /srd/dlbssfs/ovfrvifw\&.itml
+
+Sff Rfbl-World Exbmplfs\&.
+
+For informbtion bbout tif filf spfdififd by \fIpbti/filfnbmf,\fRsff Ovfrvifw Commfnt Filfs\&.
+
+Tif ovfrvifw pbgf is drfbtfd only wifn you pbss two or morf pbdkbgf nbmfs to tif \f3jbvbdod\fR dommbnd\&. For b furtifr fxplbnbtion, sff HTML Frbmfs\&. Tif titlf on tif ovfrvifw pbgf is sft by \f3-dodtitlf\fR\&.
+.TP
+-Xdodlint:(bll|nonf|[-]\fI<group>\fR)
+.br
+Rfports wbrnings for bbd rfffrfndfs, lbdk of bddfssibility bnd missing Jbvbdod dommfnts, bnd rfports frrors for invblid Jbvbdod syntbx bnd missing HTML tbgs\&.
+
+Tiis option fnbblfs tif \f3jbvbdod\fR dommbnd to difdk for bll dodumfntbtion dommfnts indludfd in tif gfnfrbtfd output\&. As blwbys, you dbn sflfdt wiidi itfms to indludf in tif gfnfrbtfd output witi tif stbndbrd options \f3-publid\fR, \f3-protfdtfd\fR, \f3-pbdkbgf\fR bnd \f3-privbtf\fR\&.
+
+Wifn tif \f3-Xdodlint\fR is fnbblfd, it rfports issufs witi mfssbgfs similbr to tif \f3jbvbd\fR dommbnd\&. Tif \f3jbvbdod\fR dommbnd prints b mfssbgf, b dopy of tif sourdf linf, bnd b dbrft pointing bt tif fxbdt position wifrf tif frror wbs dftfdtfd\&. Mfssbgfs mby bf fitifr wbrnings or frrors, dfpfnding on tifir sfvfrity bnd tif likfliiood to dbusf bn frror if tif gfnfrbtfd dodumfntbtion wfrf run tirougi b vblidbtor\&. For fxbmplf, bbd rfffrfndfs or missing Jbvbdod dommfnts do not dbusf tif \f3jbvbdod\fR dommbnd to gfnfrbtf invblid HTML, so tifsf issufs brf rfportfd bs wbrnings\&. Syntbx frrors or missing HTML fnd tbgs dbusf tif \f3jbvbdod\fR dommbnd to gfnfrbtf invblid output, so tifsf issufs brf rfportfd bs frrors\&.
+
+By dffbult, tif \f3-Xdodlint\fR option is fnbblfd\&. Disbblf it witi tif option \f3-Xdodlint:nonf\fR\&.
+
+Cibngf wibt tif \f3-Xdodlint\fR option rfports witi tif following options:
+.RS     
+.TP 0.2i    
+\(bu
+\f3-Xdodlint nonf\fR : disbblf tif \f3-Xdodlint\fR option
+.TP 0.2i    
+\(bu
+\f3-Xdodlint\fR\fIgroup\fR : fnbblf \fIgroup\fR difdks
+.TP 0.2i    
+\(bu
+\f3-Xdodlint bll\fR : fnbblf bll groups of difdks
+.TP 0.2i    
+\(bu
+\f3-Xdodlint bll,\fR\fI-group\fR : fnbblf bll fxdfpt \fIgroup\fR difdks
+.RE
+.RS
+Tif vbribblf \fIgroup\fR ibs onf of tif following vblufs:
+.RS     
+
+.RE
+.TP 0.2i    
+\(bu
+\f3bddfssibility\fR : Cifdks for tif issufs to bf dftfdtfd by bn bddfssibility difdkfr (for fxbmplf, no dbption or summbry bttributfs spfdififd in b \f3<tbblf>\fR tbg)\&.
+.TP 0.2i    
+\(bu
+\f3itml\fR : Dftfdts iigi-lfvfl HTML issufs, likf putting blodk flfmfnts insidf inlinf flfmfnts, or not dlosing flfmfnts tibt rfquirf bn fnd tbg\&. Tif rulfs brf dfrivfd from tifHTML 4\&.01 Spfdifidbtion\&. Tiis typf of difdk fnbblfs tif \f3jbvbdod\fR dommbnd to dftfdt HTML issufs tibt mbny browsfrs migit bddfpt\&.
+.TP 0.2i    
+\(bu
+\f3missing\fR : Cifdks for missing Jbvbdod dommfnts or tbgs (for fxbmplf, b missing dommfnt or dlbss, or b missing \f3@rfturn\fR tbg or similbr tbg on b mftiod)\&.
+.TP 0.2i    
+\(bu
+\f3rfffrfndf\fR : Cifdks for issufs rflbting to tif rfffrfndfs to Jbvb API flfmfnts from Jbvbdod tbgs (for fxbmplf, itfm not found in \f3@sff\fR , or b bbd nbmf bftfr \f3@pbrbm)\fR\&.
+.TP 0.2i    
+\(bu
+\f3syntbx\fR : Cifdks for low lfvfl issufs likf unfsdbpfd bnglf brbdkfts (\f3<\fR bnd \f3>\fR) bnd bmpfrsbnds (\f3&\fR) bnd invblid Jbvbdod tbgs\&.
+.RE
+.RS
+You dbn spfdify tif \f3-Xdodlint\fR option multiplf timfs to fnbblf tif option to difdk frrors bnd wbrnings in multiplf dbtfgorifs\&. Altfrnbtivfly, you dbn spfdify multiplf frror bnd wbrning dbtfgorifs by using tif prfdfding options\&. For fxbmplf, usf fitifr of tif following dommbnds to difdk for tif HTML, syntbx, bnd bddfssibility issufs in tif filf \fIfilfnbmf\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-Xdodlint:itml \-Xdodlint:syntbx \-Xdodlint:bddfssibility \fIfilfnbmf\fR\fP
+.fi     
+.nf     
+\f3jbvbdod \-Xdodlint:itml,syntbx,bddfssibility \fIfilfnbmf\fR\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fINotf:\fR Tif \f3jbvbdod\fR dommbnd dofs not gubrbntff tif domplftfnfss of tifsf difdks\&. In pbrtidulbr, it is not b full HTML domplibndf difdkfr\&. Tif gobl of tif -\f3Xdodlint\fR option is to fnbblf tif \f3jbvbdod\fR dommbnd to rfport mbjority of dommon frrors\&.
+
+Tif \f3jbvbdod\fR dommbnd dofs not bttfmpt to fix invblid input, it just rfports it\&.
+
+.RE
+.TP
+-publid
+.br
+Siows only publid dlbssfs bnd mfmbfrs\&.
+.TP
+-protfdtfd
+.br
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&. Tiis is tif dffbult\&.
+.TP
+-pbdkbgf
+.br
+Siows only pbdkbgf, protfdtfd, bnd publid dlbssfs bnd mfmbfrs\&.
+.TP
+-privbtf
+.br
+Siows bll dlbssfs bnd mfmbfrs\&.
+.TP
+-iflp
+.br
+Displbys tif onlinf iflp, wiidi lists bll of tif \f3jbvbdod\fR bnd \f3dodlft\fR dommbnd-linf options\&.
+.TP
+-dodlft \fIdlbss\fR
+.br
+Spfdififs tif dlbss filf tibt stbrts tif dodlft usfd in gfnfrbting tif dodumfntbtion\&. Usf tif fully qublififd nbmf\&. Tiis dodlft dffinfs tif dontfnt bnd formbts tif output\&. If tif \f3-dodlft\fR option is not usfd, tifn tif \f3jbvbdod\fR dommbnd usfs tif stbndbrd dodlft for gfnfrbting tif dffbult HTML formbt\&. Tiis dlbss must dontbin tif \f3stbrt(Root)\fR mftiod\&. Tif pbti to tiis stbrting dlbss is dffinfd by tif \f3-dodlftpbti\fR option\&. Sff Dodlft Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.itml
+.TP
+-dodlftpbti \fIdlbsspbtilist\fR
+.br
+Spfdififs tif pbti to tif dodlft stbrting dlbss filf (spfdififd witi tif \f3-dodlft\fR option) bnd bny JAR filfs it dfpfnds on\&. If tif stbrting dlbss filf is in b JAR filf, tifn tiis option spfdififs tif pbti to tibt JAR filf\&. You dbn spfdify bn bbsolutf pbti or b pbti rflbtivf to tif durrfnt dirfdtory\&. If \f3dlbsspbtilist\fR dontbins multiplf pbtis or JAR filfs, tifn tify siould bf sfpbrbtfd witi b dolon (:) on Orbdlf Solbris bnd b sfmi-dolon (;) on Windows\&. Tiis option is not nfdfssbry wifn tif dodlft stbrting dlbss is blrfbdy in tif sfbrdi pbti\&. Sff Dodlft Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.itml
+.TP
+-1\&.1
+.br
+Rfmovfd from Jbvbdod 1\&.4 witi no rfplbdfmfnt\&. Tiis option drfbtfd dodumfntbtion witi tif bppfbrbndf bnd fundtionblity of dodumfntbtion gfnfrbtfd by Jbvbdod 1\&.1 (it nfvfr supportfd nfstfd dlbssfs)\&. If you nffd tiis option, tifn usf Jbvbdod 1\&.2 or 1\&.3 instfbd\&.
+.TP
+-sourdf \fIrflfbsf\fR
+.br
+Spfdififs tif rflfbsf of sourdf dodf bddfptfd\&. Tif following vblufs for tif \f3rflfbsf\fR pbrbmftfr brf bllowfd\&. Usf tif vbluf of \f3rflfbsf\fR tibt dorrfsponds to tif vbluf usfd wifn you dompilf dodf witi tif \f3jbvbd\fR dommbnd\&.
+.RS     
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.5\fR\&. Tif \f3jbvbdod\fR dommbnd bddfpts dodf dontbining gfnfrids bnd otifr lbngubgf ffbturfs introdudfd in JDK 1\&.5\&. Tif dompilfr dffbults to tif 1\&.5 bfibvior wifn tif \f3-sourdf\fR option is not usfd\&.
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.4\fR\&. Tif \f3jbvbdod\fR dommbnd bddfpts dodf dontbining bssfrtions, wiidi wfrf introdudfd in JDK 1\&.4\&.
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.3\fR\&. Tif \f3jbvbdod\fR dommbnd dofs not support bssfrtions, gfnfrids, or otifr lbngubgf ffbturfs introdudfd bftfr JDK 1\&.3\&.
+.RE     
+
+.TP
+-sourdfpbti \fIsourdfpbtilist\fR
+.br
+Spfdififs tif sfbrdi pbtis for finding sourdf filfs wifn pbssing pbdkbgf nbmfs or tif \f3-subpbdkbgfs\fR option into tif \f3jbvbdod\fR dommbnd\&. Sfpbrbtf multiplf pbtis witi b dolon (:)\&. Tif \f3jbvbdod\fR dommbnd sfbrdifs bll subdirfdtorifs of tif spfdififd pbtis\&. Notf tibt tiis option is not only usfd to lodbtf tif sourdf filfs bfing dodumfntfd, but blso to find sourdf filfs tibt brf not bfing dodumfntfd, but wiosf dommfnts brf inifritfd by tif sourdf filfs bfing dodumfntfd\&.
+
+You dbn usf tif \f3-sourdfpbti\fR option only wifn pbssing pbdkbgf nbmfs into tif \f3jbvbdod\fR dommbnd\&. Tiis will not lodbtf sourdf filfs pbssfd into tif \f3jbvbdod\fR dommbnd\&. To lodbtf sourdf filfs, \f3\fRdibngf to tibt dirfdtory or indludf tif pbti bifbd of fbdi filf, bs siown bt Dodumfnt Onf or Morf Clbssfs\&. If you omit \f3-sourdfpbti\fR, tifn tif \f3jbvbdod\fR dommbnd usfs tif dlbss pbti to find tif sourdf filfs (sff \f3-dlbsspbti\fR)\&. Tif dffbult \f3-sourdfpbti\fR is tif vbluf of dlbss pbti\&. If \f3-dlbsspbti\fR is omittfd bnd you pbss pbdkbgf nbmfs into tif \f3jbvbdod\fR dommbnd, tifn tif \f3jbvbdod\fR dommbnd sfbrdifs in tif durrfnt dirfdtory bnd subdirfdtorifs for tif sourdf filfs\&.
+
+Sft \f3sourdfpbtilist\fR to tif root dirfdtory of tif sourdf trff for tif pbdkbgf you brf dodumfnting\&.
+
+For fxbmplf, supposf you wbnt to dodumfnt b pbdkbgf dbllfd \f3dom\&.mypbdkbgf\fR, wiosf sourdf filfs brf lodbtfd bt:/iomf/usfr/srd/dom/mypbdkbgf/*\&.jbvb\&. Spfdify tif sourdfpbti to /iomf/usfr/srd, tif dirfdtory tibt dontbins dom\fmypbdkbgf, bnd tifn supply tif pbdkbgf nbmf, bs follows:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti /iomf/usfr/srd/ dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Notidf tibt if you dondbtfnbtf tif vbluf of sourdfpbti bnd tif pbdkbgf nbmf togftifr bnd dibngf tif dot to b slbsi (/), tifn you ibvf tif full pbti to tif pbdkbgf:
+
+/iomf/usfr/srd/dom/mypbdkbgf
+
+To point to two sourdf pbtis:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti /iomf/usfr1/srd:/iomf/usfr2/srd dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-dlbsspbti \fIdlbsspbtilist\fR
+.br
+Spfdififs tif pbtis wifrf tif \f3jbvbdod\fR dommbnd sfbrdifs for rfffrfndfd dlbssfs Tifsf brf tif dodumfntfd dlbssfs plus bny dlbssfs rfffrfndfd by tiosf dlbssfs\&. Sfpbrbtf multiplf pbtis witi b dolon (:)\&. Tif \f3jbvbdod\fR dommbnd sfbrdifs bll subdirfdtorifs of tif spfdififd pbtis\&. Follow tif instrudtions in tif dlbss pbti dodumfntbtion for spfdifying tif \f3dlbsspbtilist\fR vbluf\&.
+
+If you omit \f3-sourdfpbti\fR, tifn tif \f3jbvbdod\fR dommbnd usfs \f3-dlbsspbti\fR to find tif sourdf filfs bnd dlbss filfs (for bbdkwbrd dompbtibility)\&. If you wbnt to sfbrdi for sourdf bnd dlbss filfs in sfpbrbtf pbtis, tifn usf boti \f3-sourdfpbti\fR bnd \f3-dlbsspbti\fR\&.
+
+For fxbmplf, if you wbnt to dodumfnt \f3dom\&.mypbdkbgf\fR, wiosf sourdf filfs rfsidf in tif dirfdtory /iomf/usfr/srd/dom/mypbdkbgf, bnd if tiis pbdkbgf rflifs on b librbry in /iomf/usfr/libtifn you would usf tif following dommbnd:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti /iomf/usfr/lib \-dlbsspbti /iomf/usfr/srd dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Similbr to otifr tools, if you do not spfdify \f3-dlbsspbti\fR, tifn tif \f3jbvbdod\fR dommbnd usfs tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. If boti brf not sft, tifn tif \f3jbvbdod\fR dommbnd sfbrdifs for dlbssfs from tif durrfnt dirfdtory\&.
+
+For bn in-dfpti dfsdription of iow tif \f3jbvbdod\fR dommbnd usfs \f3-dlbsspbti\fR to find usfr dlbssfs bs it rflbtfs to fxtfnsion dlbssfs bnd bootstrbp dlbssfs, sff How Clbssfs Arf Found bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/findingdlbssfs\&.itml
+
+A dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JA\fRR, tifn tif dlbss pbti flfmfnt \f3foo/*\fR is fxpbndfd to b \f3A\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of JAR filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory indluding iiddfn filfs brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif jbr filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf is similbrly fxpbndfd\&. Any dlbss pbti wilddbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) stbrts\&. No Jbvb progrbm fvfr sffs unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt, for fxbmplf, by dblling Systfm\&.gftfnv(\f3"CLASSPATH"\fR)\&.
+.TP
+-subpbdkbgfs \fIpbdkbgf1:pbdkbgf2:\&.\&.\&.\fR
+.br
+Gfnfrbtfs dodumfntbtion from sourdf filfs in tif spfdififd pbdkbgfs bnd rfdursivfly in tifir subpbdkbgfs\&. Tiis option is usfful wifn bdding nfw subpbdkbgfs to tif sourdf dodf bfdbusf tify brf butombtidblly indludfd\&. Ebdi pbdkbgf brgumfnt is bny top-lfvfl subpbdkbgf (sudi bs \f3jbvb\fR) or fully qublififd pbdkbgf (sudi bs \f3jbvbx\&.swing\fR) tibt dofs not nffd to dontbin sourdf filfs\&. Argumfnts brf sfpbrbtfd by dolons on bll opfrbting systfms\&. Wild dbrds brf not bllowfd\&. Usf \f3-sourdfpbti\fR to spfdify wifrf to find tif pbdkbgfs\&. Tiis option dofs not prodfss sourdf filfs tibt brf in tif sourdf trff but do not bflong to tif pbdkbgfs\&. Sff Prodfss Sourdf Filfs\&.
+
+For fxbmplf, tif following dommbnd gfnfrbtfs dodumfntbtion for pbdkbgfs nbmfd \f3jbvb\fR bnd \f3jbvbx\&.swing\fR bnd bll of tifir subpbdkbgfs\&.
+.sp     
+.nf     
+\f3jbvbdod \-d dods \-sourdfpbti /iomf/usfr/srd  \-subpbdkbgfs jbvb:jbvbx\&.swing \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-fxdludf \fIpbdkbgfnbmf1:pbdkbgfnbmf2:\&.\&.\&.\fR
+.br
+Undonditionblly fxdludfs tif spfdififd pbdkbgfs bnd tifir subpbdkbgfs from tif list formfd by \f3-subpbdkbgfs\fR\&. It fxdludfs tiosf pbdkbgfs fvfn wifn tify would otifrwisf bf indludfd by somf fbrlifr or lbtfr \f3-subpbdkbgfs\fR option\&.
+
+Tif following fxbmplf would indludf \f3jbvb\&.io\fR, \f3jbvb\&.util\fR, bnd \f3jbvb\&.mbti\fR (bmong otifrs), but would fxdludf pbdkbgfs rootfd bt \f3jbvb\&.nft\fR bnd \f3jbvb\&.lbng\fR\&. Notidf tibt tiis fxbmplf fxdludfs \f3jbvb\&.lbng\&.rff\fR, wiidi is b subpbdkbgf of \f3jbvb\&.lbng\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti /iomf/usfr/srd \-subpbdkbgfs jbvb \-fxdludf \fP
+.fi     
+.nf     
+\f3    jbvb\&.nft:jbvb\&.lbng\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-bootdlbsspbti \fIdlbsspbtilist\fR
+.br
+Spfdififs tif pbtis wifrf tif boot dlbssfs rfsidf\&. Tifsf brf typidblly tif Jbvb plbtform dlbssfs\&. Tif \f3bootdlbsspbti\fR is pbrt of tif sfbrdi pbti tif \f3jbvbdod\fR dommbnd usfs to look up sourdf bnd dlbss filfs\&. For morf informbtion, sff How Clbssfs Arf Found bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/findingdlbssfs\&.itml
+
+Sfpbrbtf dirfdtorifs in tif \f3dlbsspbtilist\fR pbrbmftfrs witi sfmidolons (;) for Windows bnd dolons (:) for Orbdlf Solbris\&.
+.TP
+-fxtdirs \fIdirist\fR
+.br
+Spfdififs tif dirfdtorifs wifrf fxtfnsion dlbssfs rfsidf\&. Tifsf brf bny dlbssfs tibt usf tif Jbvb Extfnsion mfdibnism\&. Tif \f3fxtdirs\fR option is pbrt of tif sfbrdi pbti tif \f3jbvbdod\fR dommbnd usfs to look up sourdf bnd dlbss filfs\&. Sff tif \f3-dlbsspbti\fR option for morf informbtion\&. Sfpbrbtf dirfdtorifs in \f3dirlist\fR witi sfmidolons (;) for Windows bnd dolons (:) for Orbdlf Solbris\&.
+.TP
+-vfrbosf
+.br
+Providfs morf dftbilfd mfssbgfs wiilf tif \f3jbvbdod\fR dommbnd runs\&. Witiout tif \f3vfrbosf\fR option, mfssbgfs bppfbr for lobding tif sourdf filfs, gfnfrbting tif dodumfntbtion (onf mfssbgf pfr sourdf filf), bnd sorting\&. Tif vfrbosf option dbusfs tif printing of bdditionbl mfssbgfs tibt spfdify tif numbfr of millisfdonds to pbrsf fbdi Jbvb sourdf filf\&.
+.TP
+-quift
+.br
+Siuts off mfssbgfs so tibt only tif wbrnings bnd frrors bppfbr to mbkf tifm fbsifr to vifw\&. It blso supprfssfs tif \f3vfrsion\fR string\&.
+.TP
+-brfbkitfrbtor
+.br
+Usfs tif intfrnbtionblizfd sfntfndf boundbry of \f3jbvb\&.tfxt\&.BrfbkItfrbtor\fR to dftfrminf tif fnd of tif first sfntfndf in tif mbin dfsdription of b pbdkbgf, dlbss, or mfmbfr for Englisi\&. All otifr lodblfs blrfbdy usf tif \f3BrfbkItfrbtor\fR dlbss, rbtifr tibn bn Englisi lbngubgf, lodblf-spfdifid blgoritim\&. Tif first sfntfndf is dopifd to tif pbdkbgf, dlbss, or mfmbfr summbry bnd to tif blpibbftid indfx\&. From JDK 1\&.2 bnd lbtfr, tif \f3BrfbkItfrbtor\fR dlbss is usfd to dftfrminf tif fnd of b sfntfndf for bll lbngubgfs fxdfpt for Englisi\&. Tifrfforf, tif \f3-brfbkitfrbtor\fR option ibs no ffffdt fxdfpt for Englisi from 1\&.2 bnd lbtfr\&. Englisi ibs its own dffbult blgoritim:
+.RS     
+.TP 0.2i    
+\(bu
+Englisi dffbult sfntfndf-brfbk blgoritim\&. Stops bt b pfriod followfd by b spbdf or bn HTML blodk tbg, sudi bs \f3<P>\fR\&.
+.TP 0.2i    
+\(bu
+Brfbkitfrbtor sfntfndf-brfbk blgoritim\&. Stops bt b pfriod, qufstion mbrk, or fxdlbmbtion point followfd by b spbdf wifn tif nfxt word stbrts witi b dbpitbl lfttfr\&. Tiis is mfbnt to ibndlf most bbbrfvibtions (sudi bs "Tif sfribl no\&. is vblid", but will not ibndlf "Mr\&. Smiti")\&. Tif \f3-brfbkitfrbtor\fR option dofs not stop bt HTML tbgs or sfntfndfs tibt bfgin witi numbfrs or symbols\&. Tif blgoritim stops bt tif lbst pfriod in \&.\&./filfnbmf, fvfn wifn fmbfddfd in bn HTML tbg\&.
+.RE
+.RS
+In Jbvb SE 1\&.5 tif \f3-brfbkitfrbtor\fR option wbrning mfssbgfs brf rfmovfd, bnd tif dffbult sfntfndf-brfbk blgoritim is undibngfd\&. If you ibvf not modififd your sourdf dodf to fliminbtf tif \f3-brfbkitfrbtor\fR option wbrnings in Jbvb SE 1\&.4\&.x, tifn you do not ibvf to do bnytiing\&. Tif wbrnings go bwby stbrting witi Jbvb SE 1\&.5\&.0\&.
+
+.RE
+.TP
+-lodblf \fIlbngubgf_dountry_vbribnt\fR
+.br
+Spfdififs tif lodblf tibt tif \f3jbvbdod\fR dommbnd usfs wifn it gfnfrbtfs dodumfntbtion\&. Tif brgumfnt is tif nbmf of tif lodblf, bs dfsdribfd in \f3j\fR\f3bvb\&.util\&.Lodblf\fR dodumfntbtion, sudi bs \f3fn_US\fR (Englisi, Unitfd Stbtfs) or \f3fn_US_WIN\fR (Windows vbribnt)\&.
+
+\fINotf:\fR Tif \f3-lodblf\fR option must bf plbdfd bifbd (to tif lfft) of bny options providfd by tif stbndbrd dodlft or bny otifr dodlft\&. Otifrwisf, tif nbvigbtion bbrs bppfbr in Englisi\&. Tiis is tif only dommbnd-linf option tibt dfpfnds on ordfr\&. Sff Stbndbrd Dodlft Options\&.
+
+Spfdifying b lodblf dbusfs tif \f3jbvbdod\fR dommbnd to dioosf tif rfsourdf filfs of tibt lodblf for mfssbgfs sudi bs strings in tif nbvigbtion bbr, ifbdings for lists bnd tbblfs, iflp filf dontfnts, dommfnts in tif stylfsifft\&.dss filf, bnd so on\&. It blso spfdififs tif sorting ordfr for lists sortfd blpibbftidblly, bnd tif sfntfndf sfpbrbtor to dftfrminf tif fnd of tif first sfntfndf\&. Tif \f3-lodblf\fR option dofs not dftfrminf tif lodblf of tif dodumfntbtion dommfnt tfxt spfdififd in tif sourdf filfs of tif dodumfntfd dlbssfs\&.
+.TP
+-fndoding
+.br
+Spfdififs tif fndoding nbmf of tif sourdf filfs, sudi bs \f3EUCJIS/SJIS\fR\&. If tiis option is not spfdififd, tifn tif plbtform dffbult donvfrtfr is usfd\&. Sff blso tif\f3-dodfndoding nbmf\fR bnd \f3-dibrsft nbmf\fR options\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR dirfdtly to tif Jbvb Runtimf Environmfnt (JRE) tibt runs tif \f3jbvbdod\fR dommbnd\&. For fxbmplf, if you must fnsurf tibt tif systfm sfts bsidf 32 MB of mfmory in wiidi to prodfss tif gfnfrbtfd dodumfntbtion, tifn you would dbll tif \f3-Xmx\fR option bs follows: \f3jbvbdod -J-Xmx32m -J-Xms32m dom\&.mypbdkbgf\fR\&. Bf bwbrf tibt \f3-Xms\fR is optionbl bfdbusf it only sfts tif sizf of initibl mfmory, wiidi is usfful wifn you know tif minimum bmount of mfmory rfquirfd\&.
+
+Tifrf is no spbdf bftwffn tif \f3J\fR bnd tif \f3flbg\fR\&.
+
+Usf tif \f3-vfrsion\fR option to find out wibt vfrsion of tif \f3jbvbdod\fR dommbnd you brf using\&. Tif vfrsion numbfr of tif stbndbrd dodlft bppfbrs in its output strfbm\&. Sff Running tif Jbvbdod Commbnd\&.
+.sp     
+.nf     
+\f3jbvbdod \-J\-vfrsion\fP
+.fi     
+.nf     
+\f3jbvb vfrsion "1\&.7\&.0_09"\fP
+.fi     
+.nf     
+\f3Jbvb(TM) SE Runtimf Environmfnt (build 1\&.7\&.0_09\-b05)\fP
+.fi     
+.nf     
+\f3Jbvb HotSpot(TM) 64\-Bit Sfrvfr VM (build 23\&.5\-b02, mixfd modf)\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.SS STANDARD\ DOCLET\ OPTIONS    
+.TP
+-d \fIdirfdtory\fR
+.br
+Spfdififs tif dfstinbtion dirfdtory wifrf tif \f3jbvbdod\fR dommbnd sbvfs tif gfnfrbtfd HTML filfs\&. If you omit tif \f3-d\fR option, tifn tif filfs brf sbvfd to tif durrfnt dirfdtory\&. Tif \f3dirfdtory\fR vbluf dbn bf bbsolutf or rflbtivf to tif durrfnt working dirfdtory\&. As of Jbvb SE 1\&.4, tif dfstinbtion dirfdtory is butombtidblly drfbtfd wifn tif \f3jbvbdod\fR dommbnd runs\&.
+
+For fxbmplf, tif following dommbnd gfnfrbtfs tif dodumfntbtion for tif pbdkbgf \f3dom\&.mypbdkbgf\fR bnd sbvfs tif rfsults in tif /usfr/dod/ dirfdtory: \f3jbvbdod -d\fR\f3/usfr/dod/\fR\f3dom\&.mypbdkbgf\fR\&.
+.TP
+-usf
+.br
+Indludfs onf Usf pbgf for fbdi dodumfntfd dlbss bnd pbdkbgf\&. Tif pbgf dfsdribfs wibt pbdkbgfs, dlbssfs, mftiods, donstrudtors bnd fiflds usf bny API of tif spfdififd dlbss or pbdkbgf\&. Givfn dlbss C, tiings tibt usf dlbss C would indludf subdlbssfs of C, fiflds dfdlbrfd bs C, mftiods tibt rfturn C, bnd mftiods bnd donstrudtors witi pbrbmftfrs of typf C\&. For fxbmplf, you dbn look bt tif Usf pbgf for tif \f3String\fR typf\&. Bfdbusf tif \f3gftNbmf\fR mftiod in tif \f3jbvb\&.bwt\&.Font\fR dlbss rfturns typf \f3String\fR, tif \f3gftNbmf\fR mftiod usfs \f3String\fR bnd so tif \f3gftNbmf\fR mftiod bppfbrs on tif Usf pbgf for \f3String\fR\&.Tiis dodumfnts only usfs of tif API, not tif implfmfntbtion\&. Wifn b mftiod usfs \f3String\fR in its implfmfntbtion, but dofs not tbkf b string bs bn brgumfnt or rfturn b string, tibt is not donsidfrfd b usf of \f3String\fR\&.To bddfss tif gfnfrbtfd Usf pbgf, go to tif dlbss or pbdkbgf bnd dlidk tif \fIUsf link\fR in tif nbvigbtion bbr\&.
+.TP
+-vfrsion
+.br
+Indludfs tif @vfrsion tfxt in tif gfnfrbtfd dods\&. Tiis tfxt is omittfd by dffbult\&. To find out wibt vfrsion of tif \f3jbvbdod\fR dommbnd you brf using, usf tif \f3-J-vfrsion\fR option\&.
+.TP
+-butior
+.br
+Indludfs tif \f3@butior\fR tfxt in tif gfnfrbtfd dods\&.
+.TP
+-splitindfx
+.br
+Splits tif indfx filf into multiplf filfs, blpibbftidblly, onf filf pfr lfttfr, plus b filf for bny indfx fntrifs tibt stbrt witi non-blpibbftidbl symbols\&.
+.TP
+-windowtitlf \fItitlf\fR
+.br
+Spfdififs tif titlf to bf plbdfd in tif HTML \f3<titlf>\fR tbg\&. Tif tfxt spfdififd in tif \f3titlf\fR tbg bppfbrs in tif window titlf bnd in bny browsfr bookmbrks (fbvoritf plbdfs) tibt somfonf drfbtfs for tiis pbgf\&. Tiis titlf siould not dontbin bny HTML tbgs bfdbusf tif browsfr dofs not intfrprft tifm dorrfdtly\&. Usf fsdbpf dibrbdtfrs on bny intfrnbl quotbtion mbrks witiin tif \f3titlf\fR tbg\&. If tif \f3-windowtitlf\fR option is omittfd, tifn tif \f3jbvbdod\fR dommbnd usfs tif vbluf of tif \f3-dodtitlf\fR option for tif \f3-windowtitlf\fR option\&. For fxbmplf, \f3jbvbdod -windowtitlf "Jbvb SE Plbtform" dom\&.mypbdkbgf\fR\&.
+.TP
+-dodtitlf \fItitlf\fR
+.br
+Spfdififs tif titlf to plbdf nfbr tif top of tif ovfrvifw summbry filf\&. Tif tfxt spfdififd in tif \f3titlf\fR tbg is plbdfd bs b dfntfrfd, lfvfl-onf ifbding dirfdtly bfnfbti tif top nbvigbtion bbr\&. Tif \f3titlf\fR tbg dbn dontbin HTML tbgs bnd wiitf spbdf, but wifn it dofs, you must fndlosf tif titlf in quotbtion mbrks\&. Intfrnbl quotbtion mbrks witiin tif \f3titlf\fR tbg must bf fsdbpfd\&. For fxbmplf, \f3jbvbdod -ifbdfr "<b>Jbvb Plbtform </b><br>v1\&.4" dom\&.mypbdkbgf\&.\fR
+.TP
+-titlf \fItitlf\fR
+.br
+No longfr fxists\&. It fxistfd only in Bftb rflfbsfs of Jbvbdod 1\&.2\&. It wbs rfnbmfd to \f3-dodtitlf\fR\&. Tiis option wbs rfnbmfd to mbkf it dlfbr tibt it dffinfs tif dodumfnt titlf, rbtifr tibn tif window titlf\&.
+.TP
+-ifbdfr \fIifbdfr\fR
+.br
+Spfdififs tif ifbdfr tfxt to bf plbdfd bt tif top of fbdi output filf\&. Tif ifbdfr is plbdfd to tif rigit of tif uppfr nbvigbtion bbr\&. Tif \f3ifbdfr\fR dbn dontbin HTML tbgs bnd wiitf spbdf, but wifn it dofs, tif \f3ifbdfr\fR must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dibrbdtfrs for intfrnbl quotbtion mbrks witiin b ifbdfr\&. For fxbmplf, \f3jbvbdod -ifbdfr "<b>Jbvb Plbtform </b><br>v1\&.4" dom\&.mypbdkbgf\&.\fR
+.TP
+-footfr \fIfootfr\fR
+.br
+Spfdififs tif footfr tfxt to bf plbdfd bt tif bottom of fbdi output filf\&. Tif \fIfootfr\fR vbluf is plbdfd to tif rigit of tif lowfr nbvigbtion bbr\&. Tif \f3footfr\fR vbluf dbn dontbin HTML tbgs bnd wiitf spbdf, but wifn it dofs, tif \f3footfr\fR vbluf must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dibrbdtfrs for bny intfrnbl quotbtion mbrks witiin b footfr\&.
+.TP
+-top
+.br
+Spfdififs tif tfxt to bf plbdfd bt tif top of fbdi output filf\&.
+.TP
+-bottom \fItfxt\fR
+.br
+Spfdififs tif tfxt to bf plbdfd bt tif bottom of fbdi output filf\&. Tif tfxt is plbdfd bt tif bottom of tif pbgf, undfrnfbti tif lowfr nbvigbtion bbr\&. Tif tfxt dbn dontbin HTML tbgs bnd wiitf spbdf, but wifn it dofs, tif tfxt must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dibrbdtfrs for bny intfrnbl quotbtion mbrks witiin tfxt\&.
+.TP
+-link \fIfxtdodURL\fR
+.br
+Crfbtfs links to fxisting Jbvbdod-gfnfrbtfd dodumfntbtion of fxtfrnblly rfffrfndfd dlbssfs\&. Tif \fIfxtdodURL\fR brgumfnt is tif bbsolutf or rflbtivf URL of tif dirfdtory tibt dontbins tif fxtfrnbl Jbvbdod-gfnfrbtfd dodumfntbtion you wbnt to link to\&. You dbn spfdify multiplf \f3-link\fR options in b spfdififd \f3jbvbdod\fR dommbnd run to link to multiplf dodumfnts\&.
+
+Tif pbdkbgf-list filf must bf found in tiis dirfdtory (otifrwisf, usf tif \f3-linkofflinf\fR option)\&. Tif \f3jbvbdod\fR dommbnd rfbds tif pbdkbgf nbmfs from tif pbdkbgf-list filf bnd links to tiosf pbdkbgfs bt tibt URL\&. Wifn tif \f3jbvbdod\fR dommbnd runs, tif \f3fxtdodURL\fR vbluf is dopifd into tif \f3<A HREF>\fR links tibt brf drfbtfd\&. Tifrfforf, \f3fxtdodURL\fR must bf tif URL to tif dirfdtory, bnd not to b filf\&. You dbn usf bn bbsolutf link for \fIfxtdodURL\fR to fnbblf your dodumfnts to link to b dodumfnt on bny wfb sitf, or you dbn usf b rflbtivf link to link only to b rflbtivf lodbtion\&. If you usf b rflbtivf link, tifn tif vbluf you pbss in siould bf tif rflbtivf pbti from tif dfstinbtion dirfdtory (spfdififd witi tif \f3-d\fR option) to tif dirfdtory dontbining tif pbdkbgfs bfing linkfd to\&.Wifn you spfdify bn bbsolutf link, you usublly usf bn HTTP link\&. Howfvfr, if you wbnt to link to b filf systfm tibt ibs no wfb sfrvfr, tifn you dbn usf b filf link\&. Usf b filf link only wifn fvfryonf wio wbnts to bddfss tif gfnfrbtfd dodumfntbtion sibrfs tif sbmf filf systfm\&.In bll dbsfs, bnd on bll opfrbting systfms, usf b slbsi bs tif sfpbrbtor, wiftifr tif URL is bbsolutf or rflbtivf, bnd \f3i\fR\f3ttp:\fR or \f3f\fR\f3ilf:\fR bs spfdififd in tif URL Mfmo: Uniform Rfsourdf Lodbtors bt ittp://www\&.iftf\&.org/rfd/rfd1738\&.txt
+.sp     
+.nf     
+\f3\-link  ittp://<iost>/<dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\-link filf://<iost>/<dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\-link <dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Difffrfndfs bftwffn tif -linkofflinf bnd -link options
+
+Usf tif \f3-link\fR option in tif following dbsfs:
+.TP 0.2i    
+\(bu
+Wifn you usf b rflbtivf pbti to tif fxtfrnbl API dodumfnt\&.
+.TP 0.2i    
+\(bu
+Wifn you usf bn bbsolutf URL to tif fxtfrnbl API dodumfnt if your sifll lfts you opfn b donnfdtion to tibt URL for rfbding\&.
+.PP
+Usf tif \f3-linkofflinf\fR option wifn you usf bn bbsolutf URL to tif fxtfrnbl API dodumfnt, if your sifll dofs not bllow b progrbm to opfn b donnfdtion to tibt URL for rfbding\&. Tiis dbn oddur wifn you brf bfiind b firfwbll bnd tif dodumfnt you wbnt to link to is on tif otifr sidf\&.
+.PP
+\f3Exbmplf 1 Absolutf Link to Extfrnbl Dodumfnts\fR
+.PP
+Usf tif following dommbnd if you wbnt to link to tif \f3jbvb\&.lbng\fR, \f3jbvb\&.io\fR bnd otifr Jbvb plbtform pbdkbgfs, siown bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/indfx\&.itml
+.sp     
+.nf     
+\f3jbvbdod \-link ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif dommbnd gfnfrbtfs dodumfntbtion for tif pbdkbgf \f3dom\&.mypbdkbgf\fR witi links to tif Jbvb SE pbdkbgfs\&. Tif gfnfrbtfd dodumfntbtion dontbins links to tif \f3Objfdt\fR dlbss, for fxbmplf, in tif dlbss \f3trffs\fR\&. Otifr options, sudi bs tif \f3-sourdfpbti\fR bnd \f3-d\fR options, brf not siown\&.
+.PP
+\f3Exbmplf 2 Rflbtivf Link to Extfrnbl Dodumfnts\fR
+.PP
+In tiis fxbmplf, tifrf brf two pbdkbgfs witi dodumfnts tibt brf gfnfrbtfd in difffrfnt runs of tif \f3jbvbdod\fR dommbnd, bnd tiosf dodumfnts brf sfpbrbtfd by b rflbtivf pbti\&. Tif pbdkbgfs brf \f3dom\&.bpipbdkbgf\fR, bn API, bnd d\f3om\&.spipbdkbgf\fR, bn Sfrvidf Providf Intfrfbdf (SPI)\&. You wbnt tif dodumfntbtion to rfsidf in dods/bpi/dom/bpipbdkbgf bnd dods/spi/dom/spipbdkbgf\&. Assuming tibt tif API pbdkbgf dodumfntbtion is blrfbdy gfnfrbtfd, bnd tibt dods is tif durrfnt dirfdtory, you dodumfnt tif SPI pbdkbgf witi links to tif API dodumfntbtion by running: \f3jbvbdod -d \&./spi -link \&.\&./bpi dom\&.spipbdkbgf\fR\&.
+.PP
+Notidf tif \f3-link\fR option is rflbtivf to tif dfstinbtion dirfdtory (dods/spi)\&.
+.PP
+Notfs
+
+Tif \f3-link\fR option lfts you link to dlbssfs rfffrfndfd to by your dodf, but not dodumfntfd in tif durrfnt \f3jbvbdod\fR dommbnd run\&. For tifsf links to go to vblid pbgfs, you must know wifrf tiosf HTML pbgfs brf lodbtfd bnd spfdify tibt lodbtion witi \f3fxtdodURL\fR\&. Tiis bllows tiird-pbrty dodumfntbtion to link to jbvb\&.* dodumfntbtion bt ittp://dods\&.orbdlf\&.dom\&.Omit tif \f3-link\fR option wifn you wbnt tif \f3jbvbdod\fR dommbnd to drfbtf links only to APIs witiin tif dodumfntbtion it is gfnfrbting in tif durrfnt run\&. Witiout tif \f3-link\fR option, tif \f3jbvbdod\fR dommbnd dofs not drfbtf links to dodumfntbtion for fxtfrnbl rfffrfndfs bfdbusf it dofs not know wiftifr or wifrf tibt dodumfntbtion fxists\&.Tif \f3-link\fR option dbn drfbtf links in sfvfrbl plbdfs in tif gfnfrbtfd dodumfntbtion\&. Sff Prodfss Sourdf Filfs\&. Anotifr usf is for dross-links bftwffn sfts of pbdkbgfs: Exfdutf tif \f3jbvbdod\fR dommbnd on onf sft of pbdkbgfs, tifn run tif \f3jbvbdod\fR dommbnd bgbin on bnotifr sft of pbdkbgfs, drfbting links boti wbys bftwffn boti sfts\&.
+.PP
+How to Rfffrfndf b Clbss
+
+For b link to bn fxtfrnblly rfffrfndfd dlbss to bppfbr (bnd not just its tfxt lbbfl), tif dlbss must bf rfffrfndfd in tif following wby\&. It is not suffidifnt for it to bf rfffrfndfd in tif body of b mftiod\&. It must bf rfffrfndfd in fitifr bn \f3import\fR stbtfmfnt or in b dfdlbrbtion\&. Hfrf brf fxbmplfs of iow tif dlbss \f3jbvb\&.io\&.Filf\fR dbn bf rfffrfndfd:
+.PP
+\fI\fRIn bny kind of import stbtfmfnt\&. By wilddbrd import, import fxpliditly by nbmf, or butombtidblly import for \f3jbvb\&.lbng\&.*\fR\&.
+.PP
+In Jbvb SE 1\&.3\&.\fIn\fR bnd 1\&.2\&.\fIn\fR, only bn fxplidit import by nbmf works\&. A wilddbrd \f3import\fR stbtfmfnt dofs not work, nor dofs tif butombtid \f3import jbvb\&.lbng\&.*\fR\&.
+.PP
+\fI\fRIn b dfdlbrbtion: \f3void mymftiod(Filf f) {}\fR
+.PP
+Tif rfffrfndf dbn bf in tif rfturn typf or pbrbmftfr typf of b mftiod, donstrudtor, fifld, dlbss, or intfrfbdf, or in bn implfmfnts, fxtfnds, or tirows stbtfmfnt\&.
+.PP
+An importbnt dorollbry is tibt wifn you usf tif \f3-link\fR option, tifrf dbn bf mbny links tibt unintfntionblly do not bppfbr duf to tiis donstrbint\&. Tif tfxt would bppfbr witiout bfing b link\&. You dbn dftfdt tifsf by tif wbrnings tify fmit\&. Tif simplfst wby to propfrly rfffrfndf b dlbss bnd bdd tif link would bf to import tibt dlbss\&.
+.PP
+Pbdkbgf List
+
+Tif \f3-link\fR option rfquirfs tibt b filf nbmfd pbdkbgf-list, wiidi is gfnfrbtfd by tif \f3jbvbdod\fR dommbnd, fxists bt tif URL you spfdify witi tif \f3-link\fR option\&. Tif pbdkbgf-list filf is b simplf tfxt filf tibt lists tif nbmfs of pbdkbgfs dodumfntfd bt tibt lodbtion\&. In tif fbrlifr fxbmplf, tif \f3jbvbdod\fR dommbnd sfbrdifs for b filf nbmfd pbdkbgf-list bt tif spfdififd URL, rfbds in tif pbdkbgf nbmfs, bnd links to tiosf pbdkbgfs bt tibt URL\&.
+.PP
+For fxbmplf, tif pbdkbgf list for tif Jbvb SE API is lodbtfd bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/pbdkbgf-list
+.PP
+Tif pbdkbgf list stbrts bs follows:
+.sp     
+.nf     
+\f3jbvb\&.bpplft\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dolor\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dbtbtrbnsffr\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dnd\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.font\fP
+.fi     
+.nf     
+\f3bnd so on \&.\&.\&.\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Wifn \f3jbvbdod\fR is run witiout tif \f3-link\fR option bnd fndountfrs b nbmf tibt bflongs to bn fxtfrnblly rfffrfndfd dlbss, it prints tif nbmf witi no link\&. Howfvfr, wifn tif \f3-link\fR option is usfd, tif \f3jbvbdod\fR dommbnd sfbrdifs tif pbdkbgf-list filf bt tif spfdififd \fIfxtdodURL\fR lodbtion for tibt pbdkbgf nbmf\&. Wifn it finds tif pbdkbgf nbmf, it prffixfs tif nbmf witi \fIfxtdodURL\fR\&.
+.PP
+For tifrf to bf no brokfn links, bll of tif dodumfntbtion for tif fxtfrnbl rfffrfndfs must fxist bt tif spfdififd URLs\&. Tif \f3jbvbdod\fR dommbnd dofs not difdk tibt tifsf pbgfs fxist, but only tibt tif pbdkbgf-list fxists\&.
+.PP
+Multiplf Links
+
+You dbn supply multiplf \f3-link\fR options to link to bny numbfr of fxtfrnblly gfnfrbtfd dodumfnts\&. Jbvbdod 1\&.2 ibs b known bug tibt prfvfnts you from supplying morf tibn onf \f3-link\fR options\&. Tiis wbs fixfd in Jbvbdod 1\&.2\&.2\&. Spfdify b difffrfnt link option for fbdi fxtfrnbl dodumfnt to link to \f3jbvbdod -link fxtdodURL1 -link fxtdodURL2 \&.\&.\&. -link fxtdodURLn dom\&.mypbdkbgf\fR wifrf \fIfxtdodURL1\fR, \fIfxtdodURL2\fR, \&.\f3\&.\&. fxtdodURLn\fR point rfspfdtivfly to tif roots of fxtfrnbl dodumfnts, fbdi of wiidi dontbins b filf nbmfd pbdkbgf-list\&.
+.PP
+Cross Links
+
+Notf tibt bootstrbpping migit bf rfquirfd wifn dross-linking two or morf dodumfnts tibt wfrf prfviously gfnfrbtfd\&. If pbdkbgf-list dofs not fxist for fitifr dodumfnt wifn you run tif \f3jbvbdod\fR dommbnd on tif first dodumfnt, tifn tif pbdkbgf-list dofs not yft fxist for tif sfdond dodumfnt\&. Tifrfforf, to drfbtf tif fxtfrnbl links, you must rfgfnfrbtf tif first dodumfnt bftfr you gfnfrbtf tif sfdond dodumfnt\&.
+.PP
+In tiis dbsf, tif purposf of first gfnfrbting b dodumfnt is to drfbtf its pbdkbgf-list (or you dbn drfbtf it by ibnd if you brf dfrtbin of tif pbdkbgf nbmfs)\&. Tifn, gfnfrbtf tif sfdond dodumfnt witi its fxtfrnbl links\&. Tif \f3jbvbdod\fR dommbnd prints b wbrning wifn b nffdfd fxtfrnbl pbdkbgf-list filf dofs not fxist\&.
+.TP
+-linkofflinf \fIfxtdodURL pbdkbgflistLod\fR
+.br
+Tiis option is b vbribtion of tif \f3-link\fR option\&. Tify boti drfbtf links to Jbvbdod-gfnfrbtfd dodumfntbtion for fxtfrnblly rfffrfndfd dlbssfs\&. Usf tif \f3-link\fRo\f3fflinf\fR option wifn linking to b dodumfnt on tif wfb wifn tif \f3jbvbdod\fR dommbnd dbnnot bddfss tif dodumfnt tirougi b wfb donnfdtion\&. Usf tif \f3-linkofflinf\fR option wifn pbdkbgf-list filf of tif fxtfrnbl dodumfnt is not bddfssiblf or dofs not fxist bt tif \f3fxtdodURL\fR lodbtion, but dofs fxist bt b difffrfnt lodbtion tibt dbn bf spfdififd by \f3pbdkbgfListLod\fR (typidblly lodbl)\&. If \f3fxtdodURL\fR is bddfssiblf only on tif World Widf Wfb, tifn tif \f3-linkofflinf\fR option rfmovfs tif donstrbint tibt tif \f3jbvbdod\fR dommbnd must ibvf b wfb donnfdtion to gfnfrbtf dodumfntbtion\&. Anotifr usf is bs b work-bround to updbtf dodumfnts: Aftfr you ibvf run tif \f3jbvbdod\fR dommbnd on b full sft of pbdkbgfs, you dbn run tif \f3jbvbdod\fR dommbnd bgbin on b smbllfr sft of dibngfd pbdkbgfs, so tibt tif updbtfd filfs dbn bf insfrtfd bbdk into tif originbl sft\&. Exbmplfs follow\&. Tif \f3-linkofflinf\fR option tbkfs two brgumfnts\&. Tif first is for tif string to bf fmbfddfd in tif \f3<b irff>\fR links, bnd tif sfdond tflls tif \f3-linkofflinf\fR option wifrf to find pbdkbgf-list:
+.RS     
+.TP 0.2i    
+\(bu
+Tif \f3fxtdodURL\fR vbluf is tif bbsolutf or rflbtivf URL of tif dirfdtory tibt dontbins tif fxtfrnbl Jbvbdod-gfnfrbtfd dodumfntbtion you wbnt to link to\&. Wifn rflbtivf, tif vbluf siould bf tif rflbtivf pbti from tif dfstinbtion dirfdtory (spfdififd witi tif \f3-d\fR option) to tif root of tif pbdkbgfs bfing linkfd to\&. For morf informbtion, sff \fIfxtdodURL\fR in tif \f3-link\fR option\&.
+.TP 0.2i    
+\(bu
+Tif \f3pbdkbgflistLod\fR vbluf is tif pbti or URL to tif dirfdtory tibt dontbins tif pbdkbgf-list filf for tif fxtfrnbl dodumfntbtion\&. Tiis dbn bf b URL (ittp: or filf:) or filf pbti, bnd dbn bf bbsolutf or rflbtivf\&. Wifn rflbtivf, mbkf it rflbtivf to tif durrfnt dirfdtory from wifrf tif \f3jbvbdod\fR dommbnd wbs run\&. Do not indludf tif pbdkbgf-list filf nbmf\&.
+
+You dbn spfdify multiplf \f3-linkofflinf\fR options in b spfdififd \f3jbvbdod\fR dommbnd run\&. Bfforf Jbvbdod 1\&.2\&.2, tif \f3-linkfilf\fR options dould bf spfdififd ondf\&.
+.RE     
+
+.PP
+Absolutf Links to Extfrnbl Dodumfnts
+
+You migit ibvf b situbtion wifrf you wbnt to link to tif \f3jbvb\&.lbng\fR, \f3jbvb\&.io\fR bnd otifr Jbvb SE pbdkbgfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/indfx\&.itml
+.PP
+Howfvfr, your sifll dofs not ibvf wfb bddfss\&. In tiis dbsf, do tif following:
+.TP 0.4i    
+1\&.
+Opfn tif pbdkbgf-list filf in b browsfr bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/pbdkbgf-list
+.TP 0.4i    
+2\&.
+Sbvf tif filf to b lodbl dirfdtory, bnd point to tiis lodbl dopy witi tif sfdond brgumfnt, \f3pbdkbgflistLod\fR\&. In tiis fxbmplf, tif pbdkbgf list filf wbs sbvfd to tif durrfnt dirfdtory (\&.)\&.
+.PP
+Tif following dommbnd gfnfrbtfs dodumfntbtion for tif pbdkbgf d\f3om\&.mypbdkbgf\fR witi links to tif Jbvb SE pbdkbgfs\&. Tif gfnfrbtfd dodumfntbtion will dontbin links to tif \f3Objfdt\fR dlbss, for fxbmplf, in tif dlbss \f3trffs\fR\&. Otifr nfdfssbry options, sudi bs \f3-sourdfpbti\fR, brf not siown\&.
+.sp     
+.nf     
+\f3jbvbdod \-linkofflinf ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ \&.  dom\&.mypbdkbgf \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Rflbtivf Links to Extfrnbl Dodumfnts
+
+It is not vfry dommon to usf \f3-linkofflinf\fR witi rflbtivf pbtis, for tif simplf rfbson tibt tif \f3-link\fR option is usublly fnougi\&. Wifn you usf tif \f3-linkofflinf\fR option, tif pbdkbgf-list filf is usublly lodbl, bnd wifn you usf rflbtivf links, tif filf you brf linking to is blso lodbl, so it is usublly unnfdfssbry to givf b difffrfnt pbti for tif two brgumfnts to tif \f3-linkofflinf\fR option Wifn tif two brgumfnts brf idfntidbl, you dbn usf tif \f3-link\fR option\&.
+.PP
+Crfbtf b pbdkbgf-list Filf Mbnublly
+
+If b pbdkbgf-list filf dofs not fxist yft, but you know wibt pbdkbgf nbmfs your dodumfnt will link to, tifn you dbn mbnublly drfbtf your own dopy of tiis filf bnd spfdify its pbti witi \f3pbdkbgflistLod\fR\&. An fxbmplf would bf tif prfvious dbsf wifrf tif pbdkbgf list for \f3dom\&.spipbdkbgf\fR did not fxist wifn \f3dom\&.bpipbdkbgf\fR wbs first gfnfrbtfd\&. Tiis tfdiniquf is usfful wifn you nffd to gfnfrbtf dodumfntbtion tibt links to nfw fxtfrnbl dodumfntbtion wiosf pbdkbgf nbmfs you know, but wiidi is not yft publisifd\&. Tiis is blso b wby of drfbting pbdkbgf-list filfs for pbdkbgfs gfnfrbtfd witi Jbvbdod 1\&.0 or 1\&.1, wifrf pbdkbgf-list filfs wfrf not gfnfrbtfd\&. Similbrly, two dompbnifs dbn sibrf tifir unpublisifd pbdkbgf-list filfs so tify dbn rflfbsf tifir dross-linkfd dodumfntbtion simultbnfously\&.
+.PP
+Link to Multiplf Dodumfnts
+
+You dbn indludf tif \f3-linkofflinf\fR option ondf for fbdi gfnfrbtfd dodumfnt you wbnt to rfffr to:
+.sp     
+.nf     
+\f3jbvbdod \-linkofflinf fxtdodURL1 pbdkbgflistLod1 \-linkofflinf fxtdodURL2\fP
+.fi     
+.nf     
+\f3pbdkbgflistLod2 \&.\&.\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Updbtf Dodumfnts
+
+You dbn blso usf tif \f3-linkofflinf\fR option wifn your projfdt ibs dozfns or iundrfds of pbdkbgfs\&. If you ibvf blrfbdy run tif \f3jbvbdod\fR dommbnd on tif fntirf sourdf trff, tifn you dbn quidkly mbkf smbll dibngfs to dodumfntbtion dommfnts bnd rfrun tif \f3jbvbdod\fR dommbnd on b portion of tif sourdf trff\&. Bf bwbrf tibt tif sfdond run works propfrly only wifn your dibngfs brf to dodumfntbtion dommfnts bnd not to dfdlbrbtions\&. If you wfrf to bdd, rfmovf, or dibngf bny dfdlbrbtions from tif sourdf dodf, tifn brokfn links dould siow up in tif indfx, pbdkbgf trff, inifritfd mfmbfr lists, Usf pbgf, bnd otifr plbdfs\&.
+.PP
+First, drfbtf b nfw dfstinbtion dirfdtory, sudi bs updbtf, for tiis nfw smbll run\&. In tiis fxbmplf, tif originbl dfstinbtion dirfdtory is nbmfd itml\&. In tif simplfst fxbmplf, dibngf dirfdtory to tif pbrfnt of itml\&. Sft tif first brgumfnt of tif \f3-linkofflinf\fR option to tif durrfnt dirfdtory (\&.) bnd sft tif sfdond brgumfnt to tif rflbtivf pbti to itml, wifrf it dbn find pbdkbgf-list bnd pbss in only tif pbdkbgf nbmfs of tif pbdkbgfs you wbnt to updbtf:
+.sp     
+.nf     
+\f3jbvbdod \-d updbtf \-linkofflinf \&. itml dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Wifn tif \f3jbvbdod\fR dommbnd domplftfs, dopy tifsf gfnfrbtfd dlbss pbgfs in updbtf/dom/pbdkbgf (not tif ovfrvifw or indfx) to tif originbl filfs in itml/dom/pbdkbgf\&.
+.TP
+-linksourdf
+.br
+Crfbtfs bn HTML vfrsion of fbdi sourdf filf (witi linf numbfrs) bnd bdds links to tifm from tif stbndbrd HTML dodumfntbtion\&. Links brf drfbtfd for dlbssfs, intfrfbdfs, donstrudtors, mftiods, bnd fiflds wiosf dfdlbrbtions brf in b sourdf filf\&. Otifrwisf, links brf not drfbtfd, sudi bs for dffbult donstrudtors bnd gfnfrbtfd dlbssfs\&.
+
+Tiis option fxposfs bll privbtf implfmfntbtion dftbils in tif indludfd sourdf filfs, indluding privbtf dlbssfs, privbtf fiflds, bnd tif bodifs of privbtf mftiods, rfgbrdlfss of tif \f3-publid\fR, \f3-pbdkbgf\fR, \f3-protfdtfd\fR, bnd \f3-privbtf\fR options\&. Unlfss you blso usf tif \f3-privbtf\fR option, not bll privbtf dlbssfs or intfrfbdfs brf bddfssiblf tirougi links\&.
+
+Ebdi link bppfbrs on tif nbmf of tif idfntififr in its dfdlbrbtion\&. For fxbmplf, tif link to tif sourdf dodf of tif \f3Button\fR dlbss would bf on tif word \f3Button\fR:
+.sp     
+.nf     
+\f3publid dlbss Button fxtfnds Componfnt implfmfnts Addfssiblf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif link to tif sourdf dodf of tif \f3gftLbbfl\fR mftiod in tif \f3Button\fR dlbss is on tif word \f3gftLbbfl\fR:
+.sp     
+.nf     
+\f3publid String gftLbbfl()\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-group groupifbding \fIpbdkbgfpbttfrn:pbdkbgfpbttfrn\fR
+.br
+Sfpbrbtfs pbdkbgfs on tif ovfrvifw pbgf into wibtfvfr groups you spfdify, onf group pfr tbblf\&. You spfdify fbdi group witi b difffrfnt \f3-group\fR option\&. Tif groups bppfbr on tif pbgf in tif ordfr spfdififd on tif dommbnd linf\&. Pbdkbgfs brf blpibbftizfd witiin b group\&. For b spfdififd \f3-group\fR option, tif pbdkbgfs mbtdiing tif list of \f3pbdkbgfpbttfrn\fR fxprfssions bppfbr in b tbblf witi tif ifbding \fIgroupifbding\fR\&.
+.RS     
+.TP 0.2i    
+\(bu
+Tif \f3groupifbding\fR dbn bf bny tfxt bnd dbn indludf wiitf spbdf\&. Tiis tfxt is plbdfd in tif tbblf ifbding for tif group\&.
+.TP 0.2i    
+\(bu
+Tif \f3pbdkbgfpbttfrn\fR vbluf dbn bf bny pbdkbgf nbmf bt tif stbrt of bny pbdkbgf nbmf followfd by bn bstfrisk (*)\&. Tif bstfrisk is tif only wilddbrd bllowfd bnd mfbns mbtdi bny dibrbdtfrs\&. Multiplf pbttfrns dbn bf indludfd in b group by sfpbrbting tifm witi dolons (:)\&. If you usf bn bstfrisk in b pbttfrn or pbttfrn list, tifn tif pbttfrn list must bf insidf quotbtion mbrks, sudi bs \f3"jbvb\&.lbng*:jbvb\&.util"\fR\&.
+.RE
+.RS
+Wifn you do not supply b \f3-group\fR option, bll pbdkbgfs brf plbdfd in onf group witi tif ifbding \fIPbdkbgfs\fR bnd bppropribtf subifbdings\&. If tif subifbdings do not indludf bll dodumfntfd pbdkbgfs (bll groups), tifn tif rfmbining pbdkbgfs bppfbr in b sfpbrbtf group witi tif subifbding Otifr Pbdkbgfs\&.
+
+For fxbmplf, tif following \f3jbvbdod\fR dommbnd sfpbrbtfs tif tirff dodumfntfd pbdkbgfs into \fICorf\fR, \fIExtfnsion\fR, bnd \fIOtifr Pbdkbgfs\fR\&. Tif trbiling dot (\&.) dofs not bppfbr in \f3jbvb\&.lbng*\fR\&. Indluding tif dot, sudi bs \f3jbvb\&.lbng\&.*\fR omits tif\f3jbvb\&.lbng\fR pbdkbgf\&.
+.sp     
+.nf     
+\f3jbvbdod \-group "Corf Pbdkbgfs" "jbvb\&.lbng*:jbvb\&.util"\fP
+.fi     
+.nf     
+\f3        \-group "Extfnsion Pbdkbgfs" "jbvbx\&.*"\fP
+.fi     
+.nf     
+\f3        jbvb\&.lbng jbvb\&.lbng\&.rfflfdt jbvb\&.util jbvbx\&.sfrvlft jbvb\&.nfw\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fICorf Pbdkbgfs\fR
+
+\f3jbvb\&.lbng\fR
+
+\f3jbvb\&.lbng\&.rfflfdt\fR
+
+\f3jbvb\&.util\fR
+
+\fIExtfnsion Pbdkbgfs\fR
+
+\f3jbvbx\&.sfrvlft\fR
+
+\fIOtifr Pbdkbgfs\fR
+
+\f3jbvb\&.nfw\fR
+
+.RE
+.TP
+-nodfprfdbtfd
+.br
+Prfvfnts tif gfnfrbtion of bny dfprfdbtfd API in tif dodumfntbtion\&. Tiis dofs wibt tif \f3-nodfprfdbtfdlist\fR option dofs, bnd it dofs not gfnfrbtf bny dfprfdbtfd API tirougiout tif rfst of tif dodumfntbtion\&. Tiis is usfful wifn writing dodf wifn you do not wbnt to bf distrbdtfd by tif dfprfdbtfd dodf\&.
+.TP
+-nodfprfdbtfdlist
+.br
+Prfvfnts tif gfnfrbtion of tif filf tibt dontbins tif list of dfprfdbtfd APIs (dfprfdbtfd-list\&.itml) bnd tif link in tif nbvigbtion bbr to tibt pbgf\&. Tif \f3jbvbdod\fR dommbnd dontinufs to gfnfrbtf tif dfprfdbtfd API tirougiout tif rfst of tif dodumfnt\&. Tiis is usfful wifn your sourdf dodf dontbins no dfprfdbtfd APIs, bnd you wbnt to mbkf tif nbvigbtion bbr dlfbnfr\&.
+.TP
+-nosindf
+.br
+Omits from tif gfnfrbtfd dodumfnts tif \f3Sindf\fR sfdtions bssodibtfd witi tif \f3@sindf\fR tbgs\&.
+.TP
+-notrff
+.br
+Omits tif dlbss/intfrfbdf iifrbrdiy pbgfs from tif gfnfrbtfd dodumfnts\&. Tifsf brf tif pbgfs you rfbdi using tif Trff button in tif nbvigbtion bbr\&. Tif iifrbrdiy is produdfd by dffbult\&.
+.TP
+-noindfx
+.br
+Omits tif indfx from tif gfnfrbtfd dodumfnts\&. Tif indfx is produdfd by dffbult\&.
+.TP
+-noiflp
+.br
+Omits tif HELP link in tif nbvigbtion bbrs bt tif top bnd bottom of fbdi pbgf of output\&.
+.TP
+-nonbvbbr
+.br
+Prfvfnts tif gfnfrbtion of tif nbvigbtion bbr, ifbdfr, bnd footfr, tibt brf usublly found bt tif top bnd bottom of tif gfnfrbtfd pbgfs\&. Tif \f3-nonbvbbr\fR option ibs no bfffdt on tif \f3-bottom\fR option\&. Tif \f3-nonbvbbr\fR option is usfful wifn you brf intfrfstfd only in tif dontfnt bnd ibvf no nffd for nbvigbtion, sudi bs wifn you brf donvfrting tif filfs to PostSdript or PDF for printing only\&.
+.TP
+-iflpfilf \fIpbti\ffilfnbmf\fR
+.br
+Spfdififs tif pbti of bn bltfrnbtf iflp filf pbti\ffilfnbmf tibt tif HELP link in tif top bnd bottom nbvigbtion bbrs link to\&. Witiout tiis option, tif \f3jbvbdod\fR dommbnd drfbtfs b iflp filf iflp-dod\&.itml tibt is ibrd-dodfd in tif \f3jbvbdod\fR dommbnd\&. Tiis option lfts you ovfrridf tif dffbult\&. Tif filf nbmf dbn bf bny nbmf bnd is not rfstridtfd to iflp-dod\&.itml\&. Tif \f3jbvbdod\fR dommbnd bdjusts tif links in tif nbvigbtion bbr bddordingly, for fxbmplf:
+.sp     
+.nf     
+\f3jbvbdod \-iflpfilf /iomf/usfr/myiflp\&.itml jbvb\&.bwt\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-stylfsifft \fIpbti/filfnbmf\fR
+.br
+Spfdififs tif pbti of bn bltfrnbtf HTML stylfsifft filf\&. Witiout tiis option, tif \f3jbvbdod\fR dommbnd butombtidblly drfbtfs b stylfsifft filf stylfsifft\&.dss tibt is ibrd-dodfd in tif \f3jbvbdod\fR dommbnd\&. Tiis option lfts you ovfrridf tif dffbult\&. Tif filf nbmf dbn bf bny nbmf bnd is not rfstridtfd to stylfsifft\&.dss, for fxbmplf:
+.sp     
+.nf     
+\f3jbvbdod \-stylfsifft filf /iomf/usfr/mystylfsifft\&.dss dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-sfriblwbrn
+.br
+Gfnfrbtfs dompilf-timf wbrnings for missing \f3@sfribl\fR tbgs\&. By dffbult, Jbvbdod 1\&.2\&.2 bnd lbtfr vfrsions gfnfrbtf no sfribl wbrnings\&. Tiis is b rfvfrsbl from fbrlifr rflfbsfs\&. Usf tiis option to displby tif sfribl wbrnings, wiidi iflps to propfrly dodumfnt dffbult sfriblizbblf fiflds bnd \f3writfExtfrnbl\fR mftiods\&.
+.TP
+-dibrsft \fInbmf\fR
+.br
+Spfdififs tif HTML dibrbdtfr sft for tiis dodumfnt\&. Tif nbmf siould bf b prfffrrfd MIME nbmf bs spfdififd in tif IANA Rfgistry, Cibrbdtfr Sfts bt ittp://www\&.ibnb\&.org/bssignmfnts/dibrbdtfr-sfts
+
+For fxbmplf, \f3jbvbdod -dibrsft "iso-8859-1" mypbdkbgf\fR insfrts tif following linf in tif ifbd of fvfry gfnfrbtfd pbgf:
+.sp     
+.nf     
+\f3<META ittp\-fquiv="Contfnt\-Typf" dontfnt="tfxt/itml; dibrsft=ISO\-8859\-1">\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tiis \f3META\fR tbg is dfsdribfd in tif HTML stbndbrd (4197265 bnd 4137321), HTML Dodumfnt Rfprfsfntbtion, bt ittp://www\&.w3\&.org/TR/REC-itml40/dibrsft\&.itml#i-5\&.2\&.2
+
+Sff blso tif \f3-fndoding\fR bnd \f3-dodfndoding nbmf\fR options\&.
+.TP
+-dodfndoding \fInbmf\fR
+.br
+Spfdififs tif fndoding of tif gfnfrbtfd HTML filfs\&. Tif nbmf siould bf b prfffrrfd MIME nbmf bs spfdififd in tif IANA Rfgistry, Cibrbdtfr Sfts bt ittp://www\&.ibnb\&.org/bssignmfnts/dibrbdtfr-sfts
+
+If you omit tif \f3-dodfndoding\fR option but usf tif \f3-fndoding\fR option, tifn tif fndoding of tif gfnfrbtfd HTML filfs is dftfrminfd by tif \f3-fndoding\fR option, for fxbmplf: \f3jbvbdod -dodfndoding"iso-8859-1" mypbdkbgf\fR\&. Sff blso tif \f3-fndoding\fR bnd \f3-dodfndoding nbmf\fR options\&.
+.TP
+-kfywords
+.br
+Adds HTML kfyword <META> tbgs to tif gfnfrbtfd filf for fbdi dlbss\&. Tifsf tbgs dbn iflp sfbrdi fnginfs tibt look for <META> tbgs find tif pbgfs\&. Most sfbrdi fnginfs tibt sfbrdi tif fntirf Intfrnft do not look bt <META> tbgs, bfdbusf pbgfs dbn misusf tifm\&. Sfbrdi fnginfs offfrfd by dompbnifs tibt donfinf tifir sfbrdifs to tifir own wfbsitf dbn bfnffit by looking bt <META> tbgs\&. Tif <META> tbgs indludf tif fully qublififd nbmf of tif dlbss bnd tif unqublififd nbmfs of tif fiflds bnd mftiods\&. Construdtors brf not indludfd bfdbusf tify brf idfntidbl to tif dlbss nbmf\&. For fxbmplf, tif dlbss \f3String\fR stbrts witi tifsf kfywords:
+.sp     
+.nf     
+\f3<META NAME="kfywords" CONTENT="jbvb\&.lbng\&.String dlbss">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="CASE_INSENSITIVE_ORDER">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="lfngti()">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="dibrAt()">\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-tbg \fItbgnbmf\fR:Xboptdmf:"\fItbgifbd\fR"
+.br
+Enbblfs tif \f3jbvbdod\fR dommbnd to intfrprft b simplf, onf-brgumfnt \f3@tbgnbmf\fR dustom blodk tbg in dodumfntbtion dommfnts\&. For tif \f3jbvbdod\fR dommbnd to spfll-difdk tbg nbmfs, it is importbnt to indludf b \f3-tbg\fR option for fvfry dustom tbg tibt is prfsfnt in tif sourdf dodf, disbbling (witi \f3X\fR) tiosf tibt brf not bfing output in tif durrfnt run\&.Tif dolon (:) is blwbys tif sfpbrbtor\&. Tif \f3-tbg\fR option outputs tif tbg ifbding \fItbgifbd\fR in bold, followfd on tif nfxt linf by tif tfxt from its singlf brgumfnt\&. Similbr to bny blodk tbg, tif brgumfnt tfxt dbn dontbin inlinf tbgs, wiidi brf blso intfrprftfd\&. Tif output is similbr to stbndbrd onf-brgumfnt tbgs, sudi bs tif \f3@rfturn\fR bnd \f3@butior\fR tbgs\&. Omitting b vbluf for \fItbgifbd\fR dbusfs \f3tbgnbmf\fR to bf tif ifbding\&.
+
+\fIPlbdfmfnt of tbgs\fR: Tif \f3Xboptdmf\fR brgumfnts dftfrminf wifrf in tif sourdf dodf tif tbg is bllowfd to bf plbdfd, bnd wiftifr tif tbg dbn bf disbblfd (using \f3X\fR)\&. You dbn supply fitifr \f3b\fR, to bllow tif tbg in bll plbdfs, or bny dombinbtion of tif otifr lfttfrs:
+
+\f3X\fR (disbblf tbg)
+
+\f3b\fR (bll)
+
+\f3o\fR (ovfrvifw)
+
+\f3p\fR (pbdkbgfs)
+
+\f3t\fR (typfs, tibt is dlbssfs bnd intfrfbdfs)
+
+\f3d\fR (donstrudtors)
+
+\f3m\fR (mftiods)
+
+\f3f\fR (fiflds)
+
+\fIExbmplfs of singlf tbgs\fR: An fxbmplf of b tbg option for b tbg tibt dbn bf usfd bnywifrf in tif sourdf dodf is: \f3-tbg todo:b:"To Do:"\fR\&.
+
+If you wbnt tif \f3@todo\fR tbg to bf usfd only witi donstrudtors, mftiods, bnd fiflds, tifn you usf: \f3-tbg todo:dmf:"To Do:"\fR\&.
+
+Notidf tif lbst dolon (:) is not b pbrbmftfr sfpbrbtor, but is pbrt of tif ifbding tfxt\&. You would usf fitifr tbg option for sourdf dodf tibt dontbins tif \f3@todo\fR tbg, sudi bs: \f3@todo Tif dodumfntbtion for tiis mftiod nffds work\fR\&.
+
+\fIColons in tbg nbmfs\fR: Usf b bbdkslbsi to fsdbpf b dolon tibt you wbnt to usf in b tbg nbmf\&. Usf tif \f3-tbg fjb\f\f:bfbn:b:"EJB Bfbn:"\fR option for tif following dodumfntbtion dommfnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @fjb:bfbn\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fISpfll-difdking tbg nbmfs\fR: Somf dfvflopfrs put dustom tbgs in tif sourdf dodf tibt tify do not blwbys wbnt to output\&. In tifsf dbsfs, it is importbnt to list bll tbgs tibt brf in tif sourdf dodf, fnbbling tif onfs you wbnt to output bnd disbbling tif onfs you do not wbnt to output\&. Tif prfsfndf of \f3X\fR disbblfs tif tbg, wiilf its bbsfndf fnbblfs tif tbg\&. Tiis givfs tif \f3jbvbdod\fR dommbnd fnougi informbtion to know wiftifr b tbg it fndountfrs is unknown, wiidi is probbbly tif rfsults of b typogrbpiidbl frror or b misspflling\&. Tif \f3jbvbdod\fR dommbnd prints b wbrning in tifsf dbsfs\&. You dbn bdd \f3X\fR to tif plbdfmfnt vblufs blrfbdy prfsfnt, so tibt wifn you wbnt to fnbblf tif tbg, you dbn simply dflftf tif \f3X\fR\&. For fxbmplf, if tif \f3@todo\fR tbg is b tbg tibt you wbnt to supprfss on output, tifn you would usf: \f3-tbg todo:Xdmf:"To Do:"\fR\&. If you would rbtifr kffp it simplf, tifn usf tiis: \f3-tbg todo:X\fR\&. Tif syntbx \f3-tbg todo:X\fR works fvfn wifn tif \f3@todo\fR tbg is dffinfd by b tbglft\&.
+
+\fIOrdfr of tbgs\fR: Tif ordfr of tif \f3-tb\fR\f3g\fR bnd \f3-tbglft\fR options dftfrminfs tif ordfr tif tbgs brf output\&. You dbn mix tif dustom tbgs witi tif stbndbrd tbgs to intfrspfrsf tifm\&. Tif tbg options for stbndbrd tbgs brf plbdfioldfrs only for dftfrmining tif ordfr\&. Tify tbkf only tif stbndbrd tbg\&'s nbmf\&. Subifbdings for stbndbrd tbgs dbnnot bf bltfrfd\&. Tiis is illustrbtfd in tif following fxbmplf\&.If tif \f3-tbg\fR option is missing, tifn tif position of tif \f3-tbglf\fR\f3t\fR option dftfrminfs its ordfr\&. If tify brf boti prfsfnt, tifn wiidifvfr bppfbrs lbst on tif dommbnd linf dftfrminfs its ordfr\&. Tiis ibppfns bfdbusf tif tbgs bnd tbglfts brf prodfssfd in tif ordfr tibt tify bppfbr on tif dommbnd linf\&. For fxbmplf, if tif \f3-tbglft\fR bnd \f3-tbg\fR options ibvf tif nbmf \f3todo\fR vbluf, tifn tif onf tibt bppfbrs lbst on tif dommbnd linf dftfrminfs tif ordfr\&.
+
+\fIExbmplf of b domplftf sft of tbgs\fR: Tiis fxbmplf insfrts To Do bftfr Pbrbmftfrs bnd bfforf Tirows in tif output\&. By using \f3X\fR, it blso spfdififs tibt tif \f3@fxbmplf\fR tbg migit bf fndountfrfd in tif sourdf dodf tibt siould not bf output during tiis run\&. If you usf tif \f3@brgfilf\fR tbg, tifn you dbn put tif tbgs on sfpbrbtf linfs in bn brgumfnt filf similbr to tiis (no linf dontinubtion dibrbdtfrs nffdfd):
+.sp     
+.nf     
+\f3\-tbg pbrbm\fP
+.fi     
+.nf     
+\f3\-tbg rfturn\fP
+.fi     
+.nf     
+\f3\-tbg todo:b:"To Do:"\fP
+.fi     
+.nf     
+\f3\-tbg tirows\fP
+.fi     
+.nf     
+\f3\-tbg sff\fP
+.fi     
+.nf     
+\f3\-tbg fxbmplf:X\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Wifn tif \f3jbvbdod\fR dommbnd pbrsfs tif dodumfntbtion dommfnts, bny tbg fndountfrfd tibt is nfitifr b stbndbrd tbg nor pbssfd in witi tif \f3-tbg\fR or \f3-tbglft\fR options is donsidfrfd unknown, bnd b wbrning is tirown\&.
+
+Tif stbndbrd tbgs brf initiblly storfd intfrnblly in b list in tifir dffbult ordfr\&. Wifnfvfr tif \f3-tbg\fR options brf usfd, tiosf tbgs gft bppfndfd to tiis list\&. Stbndbrd tbgs brf movfd from tifir dffbult position\&. Tifrfforf, if b \f3-tbg\fR option is omittfd for b stbndbrd tbg, tifn it rfmbins in its dffbult position\&.
+
+\fIAvoiding donflidts\fR: If you wbnt to drfbtf your own nbmfspbdf, tifn you dbn usf b dot-sfpbrbtfd nbming donvfntion similbr to tibt usfd for pbdkbgfs: \f3dom\&.mydompbny\&.todo\fR\&. Orbdlf will dontinuf to drfbtf stbndbrd tbgs wiosf nbmfs do not dontbin dots\&. Any tbg you drfbtf will ovfrridf tif bfibvior of b tbg by tif sbmf nbmf dffinfd by Orbdlf\&. If you drfbtf b \f3@todo\fR tbg or tbglft, tifn it blwbys ibs tif sbmf bfibvior you dffinf, fvfn wifn Orbdlf lbtfr drfbtfs b stbndbrd tbg of tif sbmf nbmf\&.
+
+\fIAnnotbtions vs\&. Jbvbdod tbgs\fR: In gfnfrbl, if tif mbrkup you wbnt to bdd is intfndfd to bfffdt or produdf dodumfntbtion, tifn it siould bf b Jbvbdod tbg\&. Otifrwisf, it siould bf bn bnnotbtion\&. Sff Custom Tbgs bnd Annotbtions in How to Writf Dod Commfnts for tif Jbvbdod Tool bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml#bnnotbtions
+
+You dbn blso drfbtf morf domplfx blodk tbgs or dustom inlinf tbgs witi tif \f3-tbglft\fR option\&.
+.TP
+-tbglft \fIdlbss\fR
+.br
+Spfdififs tif dlbss filf tibt stbrts tif tbglft usfd in gfnfrbting tif dodumfntbtion for tibt tbg\&. Usf tif fully qublififd nbmf for tif \f3dlbss\fR vbluf\&. Tiis tbglft blso dffinfs tif numbfr of tfxt brgumfnts tibt tif dustom tbg ibs\&. Tif tbglft bddfpts tiosf brgumfnts, prodfssfs tifm, bnd gfnfrbtfs tif output\&. For fxtfnsivf dodumfntbtion witi fxbmplf tbglfts, sff: Tbglft Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/tbglft/ovfrvifw\&.itml
+
+Tbglfts brf usfful for blodk or inlinf tbgs\&. Tify dbn ibvf bny numbfr of brgumfnts bnd implfmfnt dustom bfibvior, sudi bs mbking tfxt bold, formbtting bullfts, writing out tif tfxt to b filf, or stbrting otifr prodfssfs\&. Tbglfts dbn only dftfrminf wifrf b tbg siould bppfbr bnd in wibt form\&. All otifr dfdisions brf mbdf by tif dodlft\&. A tbglft dbnnot do tiings sudi bs rfmovf b dlbss nbmf from tif list of indludfd dlbssfs\&. Howfvfr, it dbn fxfdutf sidf ffffdts, sudi bs printing tif tbg\&'s tfxt to b filf or triggfring bnotifr prodfss\&. Usf tif \f3-tbglftpbti\fR option to spfdify tif pbti to tif tbglft\&. Tif following fxbmplf insfrts tif To Do tbglft bftfr Pbrbmftfrs bnd bifbd of Tirows in tif gfnfrbtfd pbgfs\&. Altfrnbtfly, you dbn usf tif \f3-tbglft\fR option in plbdf of its \f3-tbg\fR option, but tibt migit bf diffidult to rfbd\&.
+.sp     
+.nf     
+\f3\-tbglft dom\&.sun\&.tools\&.dodlfts\&.ToDoTbglft\fP
+.fi     
+.nf     
+\f3\-tbglftpbti /iomf/tbglfts \fP
+.fi     
+.nf     
+\f3\-tbg rfturn\fP
+.fi     
+.nf     
+\f3\-tbg pbrbm\fP
+.fi     
+.nf     
+\f3\-tbg todo\fP
+.fi     
+.nf     
+\f3\-tbg tirows\fP
+.fi     
+.nf     
+\f3\-tbg sff\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-tbglftpbti \fItbglftpbtilist\fR
+.br
+Spfdififs tif sfbrdi pbtis for finding tbglft dlbss filfs\&. Tif \f3tbglftpbtilist\fR dbn dontbin multiplf pbtis by sfpbrbting tifm witi b dolon (:)\&. Tif \f3jbvbdod\fR dommbnd sfbrdifs bll subdirfdtorifs of tif spfdififd pbtis\&.
+.TP
+-dodfilfsubdirs
+.br
+Enbblfs dffp dopying of dod-filfs dirfdtorifs\&. Subdirfdtorifs bnd bll dontfnts brf rfdursivfly dopifd to tif dfstinbtion\&. For fxbmplf, tif dirfdtory dod-filfs/fxbmplf/imbgfs bnd bll of its dontfnts would bf dopifd\&. Tifrf is blso bn option to fxdludf subdirfdtorifs\&.
+.TP
+-fxdludfdodfilfssubdir \fInbmf1:nbmf2\fR
+.br
+Exdludfs bny dod-filfs subdirfdtorifs witi tif spfdififd nbmfs\&. Tiis prfvfnts tif dopying of SCCS bnd otifr sourdf-dodf-dontrol subdirfdtorifs\&.
+.TP
+-noqublififr bll | \fIpbdkbgfnbmf1\fR:\fIpbdkbgfnbmf2\&.\&.\&.\fR
+.br
+Omits qublifying pbdkbgf nbmfs from dlbss nbmfs in output\&. Tif brgumfnt to tif \f3-noqublififr\fR option is fitifr \f3bll\fR (bll pbdkbgf qublififrs brf omittfd) or b dolon-sfpbrbtf list of pbdkbgfs, witi wild dbrds, to bf rfmovfd bs qublififrs\&. Tif pbdkbgf nbmf is rfmovfd from plbdfs wifrf dlbss or intfrfbdf nbmfs bppfbr\&. Sff Prodfss Sourdf Filfs\&.
+
+Tif following fxbmplf omits bll pbdkbgf qublififrs: \f3-noqublififr bll\fR\&.
+
+Tif following fxbmplf omits \f3jbvb\&.lbng\fR bnd \f3jbvb\&.io\fR pbdkbgf qublififrs: \f3-noqublififr jbvb\&.lbng:jbvb\&.io\fR\&.
+
+Tif following fxbmplf omits pbdkbgf qublififrs stbrting witi \f3jbvb\fR, bnd \f3dom\&.sun\fR subpbdkbgfs, but not \f3jbvbx\fR: \f3-noqublififr jbvb\&.*:dom\&.sun\&.*\fR\&.
+
+Wifrf b pbdkbgf qublififr would bppfbr duf to tif prfvious bfibvior, tif nbmf dbn bf suitbbly siortfnfd\&. Sff How b Nbmf Appfbrs\&. Tiis rulf is in ffffdt wiftifr or not tif \f3-noqublififr\fR option is usfd\&.
+.TP
+-notimfstbmp
+.br
+Supprfssfs tif timf stbmp, wiidi is iiddfn in bn HTML dommfnt in tif gfnfrbtfd HTML nfbr tif top of fbdi pbgf\&. Tif \f3-notimfstbmp\fR option is usfful wifn you wbnt to run tif \f3jbvbdod\fR dommbnd on two sourdf bbsfs bnd gft tif difffrfndfs bftwffn \f3diff\fR tifm, bfdbusf it prfvfnts timf stbmps from dbusing b \f3diff\fR (wiidi would otifrwisf bf b \f3diff\fR on fvfry pbgf)\&. Tif timf stbmp indludfs tif \f3jbvbdod\fR dommbnd rflfbsf numbfr, bnd durrfntly bppfbrs similbr to tiis: \f3<!-- Gfnfrbtfd by jbvbdod (build 1\&.5\&.0_01) on Tiu Apr 02 14:04:52 IST 2009 -->\fR\&.
+.TP
+-nodommfnt
+.br
+Supprfssfs tif fntirf dommfnt body, indluding tif mbin dfsdription bnd bll tbgs, bnd gfnfrbtf only dfdlbrbtions\&. Tiis option lfts you rfusf sourdf filfs tibt wfrf originblly intfndfd for b difffrfnt purposf so tibt you dbn produdf skflfton HTML dodumfntbtion bt tif fbrly stbgfs of b nfw projfdt\&.
+.TP
+-sourdftbb \fItbblfngti\fR
+.br
+Spfdififs tif numbfr of spbdfs fbdi tbb usfs in tif sourdf\&.
+.SH COMMAND-LINE\ ARGUMENT\ FILES    
+To siortfn or simplify tif \f3jbvbdod\fR dommbnd, you dbn spfdify onf or morf filfs tibt dontbin brgumfnts to tif \f3jbvbdod\fR dommbnd (fxdfpt \f3-J\fR options)\&. Tiis fnbblfs you to drfbtf \f3jbvbdod\fR dommbnds of bny lfngti on bny opfrbting systfm\&.
+.PP
+An brgumfnt filf dbn indludf \f3jbvbd\fR options bnd sourdf filf nbmfs in bny dombinbtion\&. Tif brgumfnts witiin b filf dbn bf spbdf-sfpbrbtfd or nfwlinf-sfpbrbtfd\&. If b filf nbmf dontbins fmbfddfd spbdfs, tifn put tif wiolf filf nbmf in doublf quotbtion mbrks\&.
+.PP
+Filf Nbmfs witiin bn brgumfnt filf brf rflbtivf to tif durrfnt dirfdtory, not tif lodbtion of tif brgumfnt filf\&. Wild dbrds (\f3*\fR) brf not bllowfd in tifsf lists (sudi bs for spfdifying *\&.jbvb)\&. Using tif bt sign (@) to rfdursivfly intfrprft filfs is not supportfd\&. Tif \f3-J\fR options brf not supportfd bfdbusf tify brf pbssfd to tif lbundifr, wiidi dofs not support brgumfnt filfs\&.
+.PP
+Wifn you run tif \f3jbvbdod\fR dommbnd, pbss in tif pbti bnd nbmf of fbdi brgumfnt filf witi tif @ lfbding dibrbdtfr\&. Wifn tif \f3jbvbdod\fR dommbnd fndountfrs bn brgumfnt bfginning witi tif bt sign (@), it fxpbnds tif dontfnts of tibt filf into tif brgumfnt list\&.
+.PP
+\f3Exbmplf 1 Singlf Argumfnt Filf\fR
+.PP
+You dould usf b singlf brgumfnt filf nbmfd \f3brgfilf\fR to iold bll \f3jbvbdod\fR dommbnd brgumfnts: \f3jbvbdod @brgfilf\fR\&. Tif brgumfnt filf \f3\fRdontbins tif dontfnts of boti filfs, bs siown in tif nfxt fxbmplf\&.
+.PP
+\f3Exbmplf 2 Two Argumfnt Filfs\fR
+.PP
+You dbn drfbtf two brgumfnt filfs: Onf for tif \f3jbvbdod\fR dommbnd options bnd tif otifr for tif pbdkbgf nbmfs or sourdf filf nbmfs\&. Notidf tif following lists ibvf no linf-dontinubtion dibrbdtfrs\&.
+.PP
+Crfbtf b filf nbmfd options tibt dontbins:
+.sp     
+.nf     
+\f3\-d dods\-filflist \fP
+.fi     
+.nf     
+\f3\-usf \fP
+.fi     
+.nf     
+\f3\-splitindfx\fP
+.fi     
+.nf     
+\f3\-windowtitlf \&'Jbvb SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3\-dodtitlf \&'Jbvb SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3\-ifbdfr \&'<b>Jbvb\(tm SE 7</b>\&'\fP
+.fi     
+.nf     
+\f3\-bottom \&'Copyrigit &dopy; 1993\-2011 Orbdlf bnd/or its bffilibtfs\&. All rigits rfsfrvfd\&.\&'\fP
+.fi     
+.nf     
+\f3\-group "Corf Pbdkbgfs" "jbvb\&.*"\fP
+.fi     
+.nf     
+\f3\-ovfrvifw /jbvb/pubs/ws/1\&.7\&.0/srd/sibrf/dlbssfs/ovfrvifw\-dorf\&.itml\fP
+.fi     
+.nf     
+\f3\-sourdfpbti /jbvb/pubs/ws/1\&.7\&.0/srd/sibrf/dlbssfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Crfbtf b filf nbmfd pbdkbgfs tibt dontbins:
+.sp     
+.nf     
+\f3dom\&.mypbdkbgf1\fP
+.fi     
+.nf     
+\f3dom\&.mypbdkbgf2\fP
+.fi     
+.nf     
+\f3dom\&.mypbdkbgf3\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Run tif \f3jbvbdod\fR dommbnd bs follows:
+.sp     
+.nf     
+\f3jbvbdod @options @pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 3 Argumfnt Filfs witi Pbtis\fR
+.PP
+Tif brgumfnt filfs dbn ibvf pbtis, but bny filf nbmfs insidf tif filfs brf rflbtivf to tif durrfnt working dirfdtory (not \f3pbti1\fR or \f3pbti2\fR):
+.sp     
+.nf     
+\f3jbvbdod @pbti1/options @pbti2/pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 4 Option Argumfnts\fR
+.PP
+Tif following fxbmplf sbvfs bn brgumfnt to b \f3jbvbdod\fR dommbnd option in bn brgumfnt filf\&. Tif \f3-bottom\fR option is usfd bfdbusf it dbn ibvf b lfngtiy brgumfnt\&. You dould drfbtf b filf nbmfd bottom to dontbin tif tfxt brgumfnt:
+.sp     
+.nf     
+\f3<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3    <b irff="ittp://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3    Copyrigit &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rigits rfsfrvfd\&. <br/>\fP
+.fi     
+.nf     
+\f3    Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3    Otifr nbmfs mby bf trbdfmbrks of tifir rfspfdtivf ownfrs\&.</font>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Run tif \f3jbvbdod\fR dommbnd bs follows:\f3jbvbdod -bottom @bottom @pbdkbgfs\fR\&.
+.PP
+You dbn blso indludf tif \f3-bottom\fR option bt tif stbrt of tif brgumfnt filf bnd run tif \f3jbvbdod\fR dommbnd bs follows: \f3jbvbdod @bottom @pbdkbgfs\fR\&.
+.SH RUNNING\ THE\ JAVADOC\ COMMAND    
+Tif rflfbsf numbfr of tif \f3jbvbdod\fR dommbnd dbn bf dftfrminfd witi tif \f3jbvbdod -J-vfrsion\fR option\&. Tif rflfbsf numbfr of tif stbndbrd dodlft bppfbrs in tif output strfbm\&. It dbn bf turnfd off witi tif \f3-quift\fR option\&.
+.PP
+Usf tif publid progrbmmbtid intfrfbdf to dbll tif \f3jbvbdod\fR dommbnd from witiin progrbms writtfn in tif Jbvb lbngubgf\&. Tiis intfrfbdf is in \f3dom\&.sun\&.tools\&.jbvbdod\&.Mbin\fR (bnd tif \f3jbvbdod\fR dommbnd is rffntrbnt)\&. For morf informbtion, sff Tif Stbndbrd Dodlft bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/stbndbrd-dodlft\&.itml#runningprogrbmmbtidblly
+.PP
+Tif following instrudtions dbll tif stbndbrd HTML dodlft\&. To dbll b dustom dodlft, usf tif \f3-dodlft\fR bnd \f3-dodlftpbti\fR options\&. Sff Dodlft Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.itml
+.SS SIMPLE\ EXAMPLES    
+You dbn run tif \f3jbvbdod\fR dommbnd on fntirf pbdkbgfs or individubl sourdf filfs\&. Ebdi pbdkbgf nbmf ibs b dorrfsponding dirfdtory nbmf\&.
+.PP
+In tif following fxbmplfs, tif sourdf filfs brf lodbtfd bt /iomf/srd/jbvb/bwt/*\&.jbvb\&. Tif dfstinbtion dirfdtory is /iomf/itml\&.
+.PP
+Dodumfnt Onf or Morf Pbdkbgfs
+
+To dodumfnt b pbdkbgf, tif sourdf filfs for tibt pbdkbgf must bf lodbtfd in b dirfdtory tibt ibs tif sbmf nbmf bs tif pbdkbgf\&.
+.PP
+If b pbdkbgf nbmf ibs sfvfrbl idfntififrs (sfpbrbtfd by dots, sudi bs \f3jbvb\&.bwt\&.dolor\fR), tifn fbdi subsfqufnt idfntififr must dorrfspond to b dffpfr subdirfdtory (sudi bs jbvb/bwt/dolor)\&.
+.PP
+You dbn split tif sourdf filfs for b singlf pbdkbgf bmong two sudi dirfdtory trffs lodbtfd bt difffrfnt plbdfs, bs long bs \f3-sourdfpbti\fR points to tifm boti\&. For fxbmplf, srd1/jbvb/bwt/dolor bnd srd2/jbvb/bwt/dolor\&.
+.PP
+You dbn run tif \f3jbvbdod\fR dommbnd fitifr by dibnging dirfdtorifs (witi tif \f3dd\fR dommbnd) or by using tif \f3-sourdfpbti\fR option\&. Tif following fxbmplfs illustrbtf boti bltfrnbtivfs\&.
+.PP
+\f3Exbmplf 1 Rfdursivf Run from Onf or Morf Pbdkbgfs\fR
+.PP
+Tiis fxbmplf usfs \f3-sourdfpbti\fR so tif \f3jbvbdod\fR dommbnd dbn bf run from bny dirfdtory bnd \f3-subpbdkbgfs\fR (b nfw 1\&.4 option) for rfdursion\&. It trbvfrsfs tif subpbdkbgfs of tif jbvb dirfdtory fxdluding pbdkbgfs rootfd bt \f3jbvb\&.nft\fR bnd \f3jbvb\&.lbng\fR\&. Notidf tiis fxdludfs \f3jbvb\&.lbng\&.rff\fR, b subpbdkbgf of \f3jbvb\&.lbng\fR\&. To blso trbvfrsf down otifr pbdkbgf trffs, bppfnd tifir nbmfs to tif \f3-subpbdkbgfs\fR brgumfnt, sudi bs \f3jbvb:jbvbx:org\&.xml\&.sbx\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /iomf/itml \-sourdfpbti /iomf/srd \-subpbdkbgfs jbvb \-fxdludf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 2 Cibngf to Root bnd Run Explidit Pbdkbgfs\fR
+.PP
+Cibngf to tif pbrfnt dirfdtory of tif fully qublififd pbdkbgf\&. Tifn, run tif \f3jbvbdod\fR dommbnd witi tif nbmfs of onf or morf pbdkbgfs tibt you wbnt to dodumfnt:
+.sp     
+.nf     
+\f3dd /iomf/srd/\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /iomf/itml jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+To blso trbvfrsf down otifr pbdkbgf trffs, bppfnd tifir nbmfs to tif \f3-subpbdkbgfs\fR brgumfnt, sudi bs j\f3bvb:jbvbx:org\&.xml\&.sbx\fR\&.
+.PP
+\f3Exbmplf 3 Run from Any Dirfdtory on Explidit Pbdkbgfs in Onf Trff\fR
+.PP
+In tiis dbsf, it dofs not mbttfr wibt tif durrfnt dirfdtory is\&. Run tif \f3jbvbdod\fR dommbnd bnd usf tif \f3-sourdfpbti\fR option witi tif pbrfnt dirfdtory of tif top-lfvfl pbdkbgf\&. Providf tif nbmfs of onf or morf pbdkbgfs tibt you wbnt to dodumfnt:
+.sp     
+.nf     
+\f3jbvbdod \-d /iomf/itml \-sourdfpbti /iomf/srd jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 4 Run from Any Dirfdtory on Explidit Pbdkbgfs in Multiplf Trffs\fR
+.PP
+Run tif \f3jbvbdod\fR dommbnd bnd usf tif \f3-sourdfpbti\fR option witi b dolon-sfpbrbtfd list of tif pbtis to fbdi trff\&'s root\&. Providf tif nbmfs of onf or morf pbdkbgfs tibt you wbnt to dodumfnt\&. All sourdf filfs for b spfdififd pbdkbgf do not nffd to bf lodbtfd undfr b singlf root dirfdtory, but tify must bf found somfwifrf blong tif sourdf pbti\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /iomf/itml \-sourdfpbti /iomf/srd1:/iomf/srd2 jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif rfsult is tibt bll dbsfs gfnfrbtf HTML-formbttfd dodumfntbtion for tif \f3publid\fR bnd \f3protfdtfd\fR dlbssfs bnd intfrfbdfs in pbdkbgfs j\f3bvb\&.bwt\fR bnd \f3jbvb\&.bwt\&.fvfn\fRt bnd sbvf tif HTML filfs in tif spfdififd dfstinbtion dirfdtory\&. Bfdbusf two or morf pbdkbgfs brf bfing gfnfrbtfd, tif dodumfnt ibs tirff HTML frbmfs: onf for tif list of pbdkbgfs, bnotifr for tif list of dlbssfs, bnd tif tiird for tif mbin dlbss pbgfs\&.
+.PP
+Dodumfnt Onf or Morf Clbssfs
+
+Tif sfdond wby to run tif \f3jbvbdod\fR dommbnd is to pbss onf or morf sourdf filfs\&. You dbn run \f3jbvbdod\fR fitifr of tif following two wbys: by dibnging dirfdtorifs (witi tif \f3dd\fR dommbnd) or by fully spfdifying tif pbti to tif sourdf filfs\&. Rflbtivf pbtis brf rflbtivf to tif durrfnt dirfdtory\&. Tif \f3-sourdfpbti\fR option is ignorfd wifn pbssing sourdf filfs\&. You dbn usf dommbnd-linf wild dbrds, sudi bs bn bstfrisk (*), to spfdify groups of dlbssfs\&.
+.PP
+\f3Exbmplf 1 Cibngf to tif Sourdf Dirfdtory\fR
+.PP
+Cibngf to tif dirfdtory tibt iolds tif sourdf filfs\&. Tifn run tif \f3jbvbdod\fR dommbnd witi tif nbmfs of onf or morf sourdf filfs you wbnt to dodumfnt\&.
+.PP
+Tiis fxbmplf gfnfrbtfs HTML-formbttfd dodumfntbtion for tif dlbssfs \f3Button\fR, \f3Cbnvbs,\fR bnd dlbssfs tibt bfgin witi \f3Grbpiids\fR\&. Bfdbusf sourdf filfs rbtifr tibn pbdkbgf nbmfs wfrf pbssfd in bs brgumfnts to tif \f3jbvbdod\fR dommbnd, tif dodumfnt ibs two frbmfs: onf for tif list of dlbssfs bnd tif otifr for tif mbin pbgf\&.
+.sp     
+.nf     
+\f3dd /iomf/srd/jbvb/bwt\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /iomf/itml Button\&.jbvb Cbnvbs\&.jbvb Grbpiids*\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 2 Cibngf to tif Root Dirfdtory of tif Pbdkbgf\fR
+.PP
+Tiis is usfful for dodumfnting individubl sourdf filfs from difffrfnt subpbdkbgfs off of tif sbmf root\&. Cibngf to tif pbdkbgf root dirfdtory, bnd supply tif sourdf filfs witi pbtis from tif root\&.
+.sp     
+.nf     
+\f3dd /iomf/srd/\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /iomf/itml jbvb/bwt/Button\&.jbvb jbvb/bpplft/Applft\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 3 Dodumfnt Filfs from Any Dirfdtory\fR
+.PP
+In tiis dbsf, it dofs not mbttfr wibt tif durrfnt dirfdtory is\&. Run tif \f3jbvbdod\fR dommbnd witi tif bbsolutf pbti (or pbti rflbtivf to tif durrfnt dirfdtory) to tif sourdf filfs you wbnt to dodumfnt\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /iomf/itml /iomf/srd/jbvb/bwt/Button\&.jbvb\fP
+.fi     
+.nf     
+\f3/iomf/srd/jbvb/bwt/Grbpiids*\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Dodumfnt Pbdkbgfs bnd Clbssfs
+
+You dbn dodumfnt fntirf pbdkbgfs bnd individubl dlbssfs bt tif sbmf timf\&. Hfrf is bn fxbmplf tibt mixfs two of tif prfvious fxbmplfs\&. You dbn usf tif \f3-sourdfpbti\fR option for tif pbti to tif pbdkbgfs but not for tif pbti to tif individubl dlbssfs\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /iomf/itml \-sourdfpbti /iomf/srd jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3/iomf/srd/jbvb/bpplft/Applft\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS REAL-WORLD\ EXAMPLES    
+Tif following dommbnd-linf bnd \f3mbkffilf\fR vfrsions of tif \f3jbvbdod\fR dommbnd run on tif Jbvb plbtform APIs\&. It usfs 180 MB of mfmory to gfnfrbtf tif dodumfntbtion for tif 1500 (bpproximbtfly) publid bnd protfdtfd dlbssfs in tif Jbvb SE 1\&.2\&. Boti fxbmplfs usf bbsolutf pbtis in tif option brgumfnts, so tibt tif sbmf \f3jbvbdod\fR dommbnd dbn bf run from bny dirfdtory\&.
+.PP
+Commbnd-Linf Exbmplf
+
+Tif following dommbnd migit bf too long for somf siflls\&. You dbn usf b dommbnd-linf brgumfnt filf (or writf b sifll sdript) to ovfrdomf tiis limitbtion\&.
+.PP
+In tif fxbmplf, \f3pbdkbgfs\fR is tif nbmf of b filf tibt dontbins tif pbdkbgfs to prodfss, sudi bs \f3jbvb\&.bpplft\fR\f3jbvb\&.lbng\fR\&. Nonf of tif options siould dontbin bny nfwlinf dibrbdtfrs bftwffn tif singlf quotbtion mbrks\&. For fxbmplf, if you dopy bnd pbstf tiis fxbmplf, tifn dflftf tif nfwlinf dibrbdtfrs from tif \f3-bottom\fR option\&.
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti /jbvb/jdk/srd/sibrf/dlbssfs \f\fP
+.fi     
+.nf     
+\f3\-ovfrvifw /jbvb/jdk/srd/sibrf/dlbssfs/ovfrvifw\&.itml \f\fP
+.fi     
+.nf     
+\f3\-d /jbvb/jdk/build/bpi \f\fP
+.fi     
+.nf     
+\f3\-usf \f\fP
+.fi     
+.nf     
+\f3\-splitIndfx \f\fP
+.fi     
+.nf     
+\f3\-windowtitlf \&'Jbvb Plbtform, Stbndbrd Edition 7 API Spfdifidbtion\&' \f\fP
+.fi     
+.nf     
+\f3\-dodtitlf \&'Jbvb Plbtform, Stbndbrd Edition 7 API Spfdifidbtion\&' \f\fP
+.fi     
+.nf     
+\f3\-ifbdfr \&'<b>Jbvb\(tm SE 7</b>\&' \f\fP
+.fi     
+.nf     
+\f3\-bottom \&'<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3<b irff="ittp://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3Copyrigit &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rigits rfsfrvfd\&.<br/>\fP
+.fi     
+.nf     
+\f3Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3Otifr nbmfs mby bf trbdfmbrks of tifir rfspfdtivf ownfrs\&.</font>\&' \f\fP
+.fi     
+.nf     
+\f3\-group "Corf Pbdkbgfs" "jbvb\&.*:dom\&.sun\&.jbvb\&.*:org\&.omg\&.*" \f\fP
+.fi     
+.nf     
+\f3\-group "Extfnsion Pbdkbgfs" "jbvbx\&.*" \f\fP
+.fi     
+.nf     
+\f3\-J\-Xmx180m \f  \fP
+.fi     
+.nf     
+\f3@pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Progrbmmbtid Intfrfbdf
+
+Tif Jbvbdod Addfss API fnbblfs tif usfr to invokf tif Jbvbdod tool dirfdtly from b Jbvb bpplidbtion witiout fxfduting b nfw prodfss\&.
+.PP
+For fxbmplf, tif following stbtfmfnts brf fquivblfnt to tif dommbnd \f3jbvbdod -d /iomf/itml -sourdfpbti /iomf/srd -subpbdkbgfs jbvb -fxdludf jbvb\&.nft:jbvb\&.lbng dom\&.fxbmplf\fR:
+.sp     
+.nf     
+\f3import jbvbx\&.tools\&.DodumfntbtionTool;\fP
+.fi     
+.nf     
+\f3import jbvbx\&.tools\&.ToolProvidfr;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3publid dlbss JbvbAddfssSbmplf{\fP
+.fi     
+.nf     
+\f3    publid stbtid void mbin(String[] brgs){\fP
+.fi     
+.nf     
+\f3        DodumfntbtionTool jbvbdod = ToolProvidfr\&.gftSystfmDodumfntbtionTool();\fP
+.fi     
+.nf     
+\f3        int rd = jbvbdod\&.run( null, null, null,\fP
+.fi     
+.nf     
+\f3                 "\-d", "/iomf/itml",\fP
+.fi     
+.nf     
+\f3                 "\-sourdfpbti", "iomf/srd",\fP
+.fi     
+.nf     
+\f3                 "\-subpbdkbgfs", "jbvb",\fP
+.fi     
+.nf     
+\f3                 "\-fxdludf", "jbvb\&.nft:jbvb\&.lbng",\fP
+.fi     
+.nf     
+\f3                 "dom\&.fxbmplf");\fP
+.fi     
+.nf     
+\f3     }\fP
+.fi     
+.nf     
+\f3 }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif first tirff brgumfnts of tif \f3run\fR mftiod spfdify input, stbndbrd output, bnd stbndbrd frror strfbms\&. \f3Null\fR is tif dffbult vbluf for \f3Systfm\&.in\fR, \f3Systfm\&.out\fR, bnd \f3Systfm\&.frr\fR, rfspfdtivfly\&.
+.SS THE\ MAKEFILE\ EXAMPLE    
+Tiis is bn fxbmplf of b GNU \f3mbkffilf\fR\&. Singlf quotbtion mbrks surround \f3mbkffilf\fR brgumfnts\&. For bn fxbmplf of b Windows \f3mbkffilf\fR, sff tif \f3mbkffilfs\fR sfdtion of tif Jbvbdod FAQ bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137483\&.itml#mbkffilfs
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbti $(SRCDIR)              \f   /* Sfts pbti for sourdf filfs   */\fP
+.fi     
+.nf     
+\f3        \-ovfrvifw $(SRCDIR)/ovfrvifw\&.itml  \f   /* Sfts filf for ovfrvifw tfxt  */\fP
+.fi     
+.nf     
+\f3        \-d /jbvb/jdk/build/bpi             \f   /* Sfts dfstinbtion dirfdtory   */\fP
+.fi     
+.nf     
+\f3        \-usf                               \f   /* Adds "Usf" filfs             */\fP
+.fi     
+.nf     
+\f3        \-splitIndfx                        \f   /* Splits indfx A\-Z             */\fP
+.fi     
+.nf     
+\f3        \-windowtitlf $(WINDOWTITLE)        \f   /* Adds b window titlf          */\fP
+.fi     
+.nf     
+\f3        \-dodtitlf $(DOCTITLE)              \f   /* Adds b dod titlf             */\fP
+.fi     
+.nf     
+\f3        \-ifbdfr $(HEADER)                  \f   /* Adds running ifbdfr tfxt     */\fP
+.fi     
+.nf     
+\f3        \-bottom $(BOTTOM)                  \f   /* Adds tfxt bt bottom          */\fP
+.fi     
+.nf     
+\f3        \-group $(GROUPCORE)                \f   /* 1st subifbd on ovfrvifw pbgf */\fP
+.fi     
+.nf     
+\f3        \-group $(GROUPEXT)                 \f   /* 2nd subifbd on ovfrvifw pbgf */\fP
+.fi     
+.nf     
+\f3        \-J\-Xmx180m                         \f   /* Sfts mfmory to 180MB         */\fP
+.fi     
+.nf     
+\f3        jbvb\&.lbng jbvb\&.lbng\&.rfflfdt        \f   /* Sfts pbdkbgfs to dodumfnt    */\fP
+.fi     
+.nf     
+\f3        jbvb\&.util jbvb\&.io jbvb\&.nft         \f\fP
+.fi     
+.nf     
+\f3        jbvb\&.bpplft\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3WINDOWTITLE = \&'Jbvb\(tm SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3DOCTITLE = \&'Jbvb\(tm Plbtform Stbndbrd Edition 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3HEADER = \&'<b>Jbvb\(tm SE 7</font>\&'\fP
+.fi     
+.nf     
+\f3BOTTOM = \&'<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3      <b irff="ittp://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3      Copyrigit &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rigits rfsfrvfd\&.<br/>\fP
+.fi     
+.nf     
+\f3      Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3      Otifr nbmfs mby bf trbdfmbrks of tifir rfspfdtivf ownfrs\&.</font>\&'\fP
+.fi     
+.nf     
+\f3GROUPCORE = \&'"Corf Pbdkbgfs" "jbvb\&.*:dom\&.sun\&.jbvb\&.*:org\&.omg\&.*"\&'\fP
+.fi     
+.nf     
+\f3GROUPEXT  = \&'"Extfnsion Pbdkbgfs" "jbvbx\&.*"\&'\fP
+.fi     
+.nf     
+\f3SRCDIR = \&'/jbvb/jdk/1\&.7\&.0/srd/sibrf/dlbssfs\&'\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS NOTES    
+.TP 0.2i    
+\(bu
+If you omit tif \f3-windowtitlf\fR option, tifn tif \f3jbvbdod\fR dommbnd dopifs tif dodumfnt titlf to tif window titlf\&. Tif \f3-windowtitlf\fR option tfxt is similbr to tif tif \f3-dodtitlf\fR option, but witiout HTML tbgs to prfvfnt tiosf tbgs from bppfbring bs rbw tfxt in tif window titlf\&.
+.TP 0.2i    
+\(bu
+If you omit tif \f3-footfr\fR option, tifn tif \f3jbvbdod\fR dommbnd dopifs tif ifbdfr tfxt to tif footfr\&.
+.TP 0.2i    
+\(bu
+Otifr importbnt options you migit wbnt to usf, but wfrf not nffdfd in tif prfvious fxbmplf, brf tif \f3-dlbsspbti\fR bnd \f3-link\fR options\&.
+.SH GENERAL\ TROUBLESHOOTING    
+.TP 0.2i    
+\(bu
+Tif \f3jbvbdod\fR dommbnd rfbds only filfs tibt dontbin vblid dlbss nbmfs\&. If tif \f3jbvbdod\fR dommbnd is not dorrfdtly rfbding tif dontfnts of b filf, tifn vfrify tibt tif dlbss nbmfs brf vblid\&. Sff Prodfss Sourdf Filfs\&.
+.TP 0.2i    
+\(bu
+Sff tif Jbvbdod FAQ for informbtion bbout dommon bugs bnd for troublfsiooting tips bt ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137483\&.itml
+.SH ERRORS\ AND\ WARNINGS    
+Error bnd wbrning mfssbgfs dontbin tif filf nbmf bnd linf numbfr to tif dfdlbrbtion linf rbtifr tibn to tif pbrtidulbr linf in tif dodumfntbtion dommfnt\&.
+.PP
+For fxbmplf, tiis mfssbgf \f3frror: dbnnot rfbd: Clbss1\&.jbvb\fR mfbns tibt tif \f3jbvbdod\fR dommbnd is trying to lobd \f3Clbss1\&.jbv\fR\f3b\fR in tif durrfnt dirfdtory\&. Tif dlbss nbmf is siown witi its pbti (bbsolutf or rflbtivf)\&.
+.SH ENVIRONMENT    
+.TP     
+CLASSPATH
+\f3CLASSPATH\fR is tif fnvironmfnt vbribblf tibt providfs tif pbti tibt tif \f3jbvbdod\fR dommbnd usfs to find usfr dlbss filfs\&. Tiis fnvironmfnt vbribblf is ovfrriddfn by tif \f3-dlbsspbti\fR option\&. Sfpbrbtf dirfdtorifs witi b sfmidolon for Windows or b dolon for Orbdlf Solbris\&.
+
+\fIWindows fxbmplf\fR: \f3\&.;C:\fdlbssfs;C:\fiomf\fjbvb\fdlbssfs\fR
+
+\fIOrbdlf Solbris fxbmplf\fR: \f3\&.:/iomf/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbd(1)
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbi(1)
+.TP 0.2i    
+\(bu
+jbvbp(1)
+.SH RELATED\ DOCUMENTS    
+.TP 0.2i    
+\(bu
+Jbvbdod Tfdinology bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jbvbdod/indfx\&.itml
+.TP 0.2i    
+\(bu
+How Clbssfs Arf Found ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/findingdlbssfs\&.itml
+.TP 0.2i    
+\(bu
+How to Writf Dod Commfnts for tif Jbvbdod Tool ittp://www\&.orbdlf\&.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.itml
+.TP 0.2i    
+\(bu
+URL Mfmo, Uniform Rfsourdf Lodbtors ittp://www\&.iftf\&.org/rfd/rfd1738\&.txt
+.TP 0.2i    
+\(bu
+HTML stbndbrd, HTML Dodumfnt Rfprfsfntbtion (4197265 bnd 4137321) ittp://www\&.w3\&.org/TR/REC-itml40/dibrsft\&.itml#i-5\&.2\&.2
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,45 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+# @butior Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Cfrdb &in:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Sblvb in:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Nomf filf:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Nomf dbrtfllb:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=&Tipo di filf:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Cbrtfllb supfriorf
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Supfriorf
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Homf
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Homf
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Crfb nuovb dbrtfllb
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Nuovb dbrtfllb
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Nuovb dbrtfllb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dfttbgli
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dfttbgli
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dfttbgli
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=Aggiornb
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Visublizzb
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nomf
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Dimfnsioni
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Tipo
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modifidbto
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attributi

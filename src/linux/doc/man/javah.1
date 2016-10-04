@@ -1,159 +1,795 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: javah.1
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbi.1
+.\"     Titlf: jbvbi.1
+.\"     Titlf: jbvbi.1
+.\"     Titlf: jbvbi.1
+.\"     Titlf: jbvbi.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH javah 1 "21 November 2013" "JDK 8" "Basic Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-javah \- Generates C header and source files from a Java class\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBjavah\fR [ \fIoptions\fR ] f\fIully\-qualified\-class\-name \&.\&.\&.\fR
+
+
+
+
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fIfully-qualified-class-name\fR
-The fully qualified location of the classes to be converted to C header and source files\&.
+.TP     
+.TP     
+.TP     
+.TP     
+\fIfully-qublififd-dlbss-nbmf\fR
+\fIfully-qublififd-dlbss-nbmf\fR
+\fIfully-qublififd-dlbss-nbmf\fR
+\fIfully-qublififd-dlbss-nbmf\fR
+\fIfully-qublififd-dlbss-nbmf\fR
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
 .SH DESCRIPTION    
-The \f3javah\fR command generates C header and source files that are needed to implement native methods\&. The generated header and source files are used by C programs to reference an object\&'s instance variables from native source code\&. The \f3\&.h\fR file contains a \f3struct\fR definition with a layout that parallels the layout of the corresponding class\&. The fields in the \f3struct\fR correspond to instance variables in the class\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
 .PP
-The name of the header file and the structure declared within it are derived from the name of the class\&. When the class passed to the \f3javah\fR command is inside a package, the package name is added to the beginning of both the header file name and the structure name\&. Underscores (_) are used as name delimiters\&.
 .PP
-By default the \f3javah\fR command creates a header file for each class listed on the command line and puts the files in the current directory\&. Use the \f3-stubs\fR option to create source files\&. Use the \f3-o\fR option to concatenate the results for all listed classes into a single file\&.
 .PP
-The Java Native Interface (JNI) does not require header information or stub files\&. The \f3javah\fR command can still be used to generate native method function prototypes needed for JNI-style native methods\&. The \f3javah\fR command produces JNI-style output by default and places the result in the \f3\&.h\fR file\&.
+.PP
+.PP
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
--o \fIoutputfile\fR
-.br
-Concatenates the resulting header or source files for all the classes listed on the command line into an output file\&. Only one of \f3-o\fR or \f3-d\fR can be used\&.
 .TP
--d \fIdirectory\fR
+.TP
+.TP
+.TP
+-o \fIoutputfilf\fR
+-o \fIoutputfilf\fR
+-o \fIoutputfilf\fR
+-o \fIoutputfilf\fR
+-o \fIoutputfilf\fR
 .br
-Sets the directory where the \f3javah\fR command saves the header files or the stub files\&. Only one of \f3-d\fR or \f3-o\fR can be used\&.
+.br
+.br
+.br
+.br
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+.br
+.br
+.br
+.br
+.br
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -stubs
+-stubs
+-stubs
+-stubs
+-stubs
 .br
-Causes the \f3javah\fR command to generate C declarations from the Java object file\&.
+.br
+.br
+.br
+.br
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
 .TP
--verbose
-.br
-Indicates verbose output and causes the \f3javah\fR command to print a message to \f3stdout\fR about the status of the generated files\&.
 .TP
--help
-.br
-Prints a help message for \f3javah\fR usage\&.
 .TP
--version
+.TP
+.TP
+-vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
 .br
-Prints \f3javah\fR command release information\&.
+.br
+.br
+.br
+.br
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-iflp
+-iflp
+-iflp
+-iflp
+-iflp
+.br
+.br
+.br
+.br
+.br
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+.br
+.br
+.br
+.br
+.br
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -jni
+-jni
+-jni
+-jni
+-jni
 .br
-Causes the \f3javah\fR command to create an output file containing JNI-style native method function prototypes\&. This is the default output; use of \f3-jni\fR is optional\&.
+.br
+.br
+.br
+.br
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
 .TP
--classpath \fIpath\fR
+.TP
+.TP
+.TP
+.TP
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
 .br
-Specifies the path the \f3javah\fR command uses to look up classes\&. Overrides the default or the \f3CLASSPATH\fR environment variable when it is set\&. Directories are separated by colons on Oracle Solaris and semicolons on Windows\&. The general format for path is:
+.br
+.br
+.br
+.br
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
 
-\fIOracle Solaris\fR:
 
-\&.:\fIyour-path\fR
 
-Example: \f3\&.:/home/avh/classes:/usr/local/java/classes\fR
+
+
+\fIOrbdlf Solbris\fR:
+\fIOrbdlf Solbris\fR:
+\fIOrbdlf Solbris\fR:
+\fIOrbdlf Solbris\fR:
+\fIOrbdlf Solbris\fR:
+
+
+
+
+
+\&.:\fIyour-pbti\fR
+\&.:\fIyour-pbti\fR
+\&.:\fIyour-pbti\fR
+\&.:\fIyour-pbti\fR
+\&.:\fIyour-pbti\fR
+
+
+
+
+
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+
+
+
+
 
 \fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
 
-\&.;\fIyour-path\fR
 
-Example: \f3\&.;C:\eusers\edac\eclasses;C:\etools\ejava\eclasses\fR
 
-As a special convenience, a class path element that contains a base name of * is considered equivalent to specifying a list of all the files in the directory with the extension \f3\&.jar\fR or \f3\&.JAR\fR\&.
 
-For example, if directory \f3mydir\fR contains \f3a\&.jar\fR and \f3b\&.JAR\fR, then the class path element \f3mydir/*\fR is expanded to a \f3A\fR\f3\&.jar:b\&.JAR\fR, except that the order of jar files is unspecified\&. All JAR files in the specified directory, including hidden ones, are included in the list\&. A class path entry that consists of * expands to a list of all the JAR files in the current directory\&. The \f3CLASSPATH\fR environment variable, where defined, is similarly expanded\&. Any class path wild card expansion occurs before the Java Virtual Machine (JVM) is started\&. A Java program will never see unexpanded wild cards except by querying the environment\&. For example, by calling \f3System\&.getenv("CLASSPATH")\fR\&.
+
+\&.;\fIyour-pbti\fR
+\&.;\fIyour-pbti\fR
+\&.;\fIyour-pbti\fR
+\&.;\fIyour-pbti\fR
+\&.;\fIyour-pbti\fR
+
+
+
+
+
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+
+
+
+
+
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+
+
+
+
+
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
 .TP
--bootclasspath \fIpath\fR
+.TP
+.TP
+.TP
+.TP
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
 .br
-Specifies the path from which to load bootstrap classes\&. By default, the bootstrap classes are the classes that implement the core Java platform located in \f3jre\elib\ert\&.jar\fR and several other JAR files\&.
+.br
+.br
+.br
+.br
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -old
+-old
+-old
+-old
+-old
 .br
-Specifies that old JDK 1\&.0-style header files should be generated\&.
+.br
+.br
+.br
+.br
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
 .TP
--force
+.TP
+.TP
+.TP
+.TP
+-fordf
+-fordf
+-fordf
+-fordf
+-fordf
 .br
-Specifies that output files should always be written\&.
+.br
+.br
+.br
+.br
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+.br
+.br
+.br
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
-\(bu
-javah(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-java(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
+\(bu
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-javap(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-javadoc(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

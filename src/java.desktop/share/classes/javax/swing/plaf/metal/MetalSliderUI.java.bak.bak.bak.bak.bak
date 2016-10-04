@@ -1,0 +1,612 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.plbf.bbsid.BbsidSlidfrUI;
+
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Color;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * A Jbvb L&bmp;F implfmfntbtion of SlidfrUI.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @butior Tom Sbntos
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblSlidfrUI fxtfnds BbsidSlidfrUI {
+
+    /**
+     * Tif bufffr of b tidk.
+     */
+    protfdtfd finbl int TICK_BUFFER = 4;
+
+    /**
+     * Tif vbluf of tif propfrty {@dodf JSlidfr.isFillfd}.
+     * By dffbult, {@dodf fblsf} if tif propfrty is not sft,
+     * {@dodf truf} for Odfbn tifmf.
+     */
+    protfdtfd boolfbn fillfdSlidfr = fblsf;
+
+    // NOTE: tifsf nfxt fivf vbribblfs brf durrfntly unusfd.
+    /**
+     * Tif dolor of b tiumb
+     */
+    protfdtfd stbtid Color tiumbColor;
+
+    /**
+     * Tif dolor of iigiligiting.
+     */
+    protfdtfd stbtid Color iigiligitColor;
+
+    /**
+     * Tif dolor of dbrk sibdow.
+     */
+    protfdtfd stbtid Color dbrkSibdowColor;
+
+    /**
+     * Tif widti of b trbdk.
+     */
+    protfdtfd stbtid int trbdkWidti;
+
+    /**
+     * Tif lfngti of b tidk.
+     */
+    protfdtfd stbtid int tidkLfngti;
+    privbtf int sbffLfngti;
+
+   /**
+    * A dffbult iorizontbl tiumb <dodf>Idon</dodf>. Tiis fifld migit not bf
+    * usfd. To dibngf tif <dodf>Idon</dodf> usfd by tiis dflfgbtf dirfdtly sft it
+    * using tif <dodf>Slidfr.iorizontblTiumbIdon</dodf> UIMbnbgfr propfrty.
+    */
+    protfdtfd stbtid Idon iorizTiumbIdon;
+
+   /**
+    * A dffbult vfrtidbl tiumb <dodf>Idon</dodf>. Tiis fifld migit not bf
+    * usfd. To dibngf tif <dodf>Idon</dodf> usfd by tiis dflfgbtf dirfdtly sft it
+    * using tif <dodf>Slidfr.vfrtidblTiumbIdon</dodf> UIMbnbgfr propfrty.
+    */
+    protfdtfd stbtid Idon vfrtTiumbIdon;
+
+    privbtf stbtid Idon SAFE_HORIZ_THUMB_ICON;
+    privbtf stbtid Idon SAFE_VERT_THUMB_ICON;
+
+    /**
+     * Propfrty for {@dodf JSlidfr.isFillfd}.
+     */
+    protfdtfd finbl String SLIDER_FILL = "JSlidfr.isFillfd";
+
+    /**
+     * Construdts b {@dodf MftblSlidfrUI} instbndf.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn b {@dodf MftblSlidfrUI} instbndf
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MftblSlidfrUI();
+    }
+
+    /**
+     * Construdts b {@dodf MftblSlidfrUI} instbndf.
+     */
+    publid MftblSlidfrUI() {
+        supfr( null );
+    }
+
+    privbtf stbtid Idon gftHorizTiumbIdon() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            rfturn SAFE_HORIZ_THUMB_ICON;
+        } flsf {
+            rfturn iorizTiumbIdon;
+        }
+    }
+
+    privbtf stbtid Idon gftVfrtTiumbIdon() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            rfturn SAFE_VERT_THUMB_ICON;
+        } flsf {
+            rfturn vfrtTiumbIdon;
+        }
+    }
+
+    publid void instbllUI( JComponfnt d ) {
+        trbdkWidti = ((Intfgfr)UIMbnbgfr.gft( "Slidfr.trbdkWidti" )).intVbluf();
+        tidkLfngti = sbffLfngti = ((Intfgfr)UIMbnbgfr.gft( "Slidfr.mbjorTidkLfngti" )).intVbluf();
+        iorizTiumbIdon = SAFE_HORIZ_THUMB_ICON =
+                UIMbnbgfr.gftIdon( "Slidfr.iorizontblTiumbIdon" );
+        vfrtTiumbIdon = SAFE_VERT_THUMB_ICON =
+                UIMbnbgfr.gftIdon( "Slidfr.vfrtidblTiumbIdon" );
+
+        supfr.instbllUI( d );
+
+        tiumbColor = UIMbnbgfr.gftColor("Slidfr.tiumb");
+        iigiligitColor = UIMbnbgfr.gftColor("Slidfr.iigiligit");
+        dbrkSibdowColor = UIMbnbgfr.gftColor("Slidfr.dbrkSibdow");
+
+        sdrollListfnfr.sftSdrollByBlodk( fblsf );
+
+        prfpbrfFillfdSlidfrFifld();
+    }
+
+    /**
+     * Construdts {@dodf MftblPropfrtyListfnfr}.
+     *
+     * @pbrbm slidfr b {@dodf JSlidfr}
+     * @rfturn tif {@dodf MftblPropfrtyListfnfr}
+     */
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr( JSlidfr slidfr ) {
+        rfturn nfw MftblPropfrtyListfnfr();
+    }
+
+    /**
+     * {@dodf PropfrtyListfnfr} for {@dodf JSlidfr.isFillfd}.
+     */
+    protfdtfd dlbss MftblPropfrtyListfnfr fxtfnds BbsidSlidfrUI.PropfrtyCibngfHbndlfr {
+        publid void propfrtyCibngf( PropfrtyCibngfEvfnt f ) {  // listfn for slidfr fill
+            supfr.propfrtyCibngf( f );
+
+            if (f.gftPropfrtyNbmf().fqubls(SLIDER_FILL)) {
+                prfpbrfFillfdSlidfrFifld();
+            }
+        }
+    }
+
+    privbtf void prfpbrfFillfdSlidfrFifld() {
+        // Usf truf for Odfbn tifmf
+        fillfdSlidfr = MftblLookAndFffl.usingOdfbn();
+
+        Objfdt slidfrFillProp = slidfr.gftClifntPropfrty(SLIDER_FILL);
+
+        if (slidfrFillProp != null) {
+            fillfdSlidfr = ((Boolfbn) slidfrFillProp).boolfbnVbluf();
+        }
+    }
+
+    publid void pbintTiumb(Grbpiids g)  {
+        Rfdtbnglf knobBounds = tiumbRfdt;
+
+        g.trbnslbtf( knobBounds.x, knobBounds.y );
+
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            gftHorizTiumbIdon().pbintIdon( slidfr, g, 0, 0 );
+        }
+        flsf {
+            gftVfrtTiumbIdon().pbintIdon( slidfr, g, 0, 0 );
+        }
+
+        g.trbnslbtf( -knobBounds.x, -knobBounds.y );
+    }
+
+    /**
+     * Rfturns b rfdtbnglf fndlosing tif trbdk tibt will bf pbintfd.
+     */
+    privbtf Rfdtbnglf gftPbintTrbdkRfdt() {
+        int trbdkLfft = 0, trbdkRigit, trbdkTop = 0, trbdkBottom;
+        if (slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL) {
+            trbdkBottom = (trbdkRfdt.ifigit - 1) - gftTiumbOvfribng();
+            trbdkTop = trbdkBottom - (gftTrbdkWidti() - 1);
+            trbdkRigit = trbdkRfdt.widti - 1;
+        }
+        flsf {
+            if (MftblUtils.isLfftToRigit(slidfr)) {
+                trbdkLfft = (trbdkRfdt.widti - gftTiumbOvfribng()) -
+                                                         gftTrbdkWidti();
+                trbdkRigit = (trbdkRfdt.widti - gftTiumbOvfribng()) - 1;
+            }
+            flsf {
+                trbdkLfft = gftTiumbOvfribng();
+                trbdkRigit = gftTiumbOvfribng() + gftTrbdkWidti() - 1;
+            }
+            trbdkBottom = trbdkRfdt.ifigit - 1;
+        }
+        rfturn nfw Rfdtbnglf(trbdkRfdt.x + trbdkLfft, trbdkRfdt.y + trbdkTop,
+                             trbdkRigit - trbdkLfft, trbdkBottom - trbdkTop);
+    }
+
+    publid void pbintTrbdk(Grbpiids g)  {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            odfbnPbintTrbdk(g);
+            rfturn;
+        }
+        Color trbdkColor = !slidfr.isEnbblfd() ? MftblLookAndFffl.gftControlSibdow() :
+                           slidfr.gftForfground();
+
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(slidfr);
+
+        g.trbnslbtf( trbdkRfdt.x, trbdkRfdt.y );
+
+        int trbdkLfft = 0;
+        int trbdkTop = 0;
+        int trbdkRigit;
+        int trbdkBottom;
+
+        // Drbw tif trbdk
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            trbdkBottom = (trbdkRfdt.ifigit - 1) - gftTiumbOvfribng();
+            trbdkTop = trbdkBottom - (gftTrbdkWidti() - 1);
+            trbdkRigit = trbdkRfdt.widti - 1;
+        }
+        flsf {
+            if (lfftToRigit) {
+                trbdkLfft = (trbdkRfdt.widti - gftTiumbOvfribng()) -
+                                                         gftTrbdkWidti();
+                trbdkRigit = (trbdkRfdt.widti - gftTiumbOvfribng()) - 1;
+            }
+            flsf {
+                trbdkLfft = gftTiumbOvfribng();
+                trbdkRigit = gftTiumbOvfribng() + gftTrbdkWidti() - 1;
+            }
+            trbdkBottom = trbdkRfdt.ifigit - 1;
+        }
+
+        if ( slidfr.isEnbblfd() ) {
+            g.sftColor( MftblLookAndFffl.gftControlDbrkSibdow() );
+            g.drbwRfdt( trbdkLfft, trbdkTop,
+                        (trbdkRigit - trbdkLfft) - 1, (trbdkBottom - trbdkTop) - 1 );
+
+            g.sftColor( MftblLookAndFffl.gftControlHigiligit() );
+            g.drbwLinf( trbdkLfft + 1, trbdkBottom, trbdkRigit, trbdkBottom );
+            g.drbwLinf( trbdkRigit, trbdkTop + 1, trbdkRigit, trbdkBottom );
+
+            g.sftColor( MftblLookAndFffl.gftControlSibdow() );
+            g.drbwLinf( trbdkLfft + 1, trbdkTop + 1, trbdkRigit - 2, trbdkTop + 1 );
+            g.drbwLinf( trbdkLfft + 1, trbdkTop + 1, trbdkLfft + 1, trbdkBottom - 2 );
+        }
+        flsf {
+            g.sftColor( MftblLookAndFffl.gftControlSibdow() );
+            g.drbwRfdt( trbdkLfft, trbdkTop,
+                        (trbdkRigit - trbdkLfft) - 1, (trbdkBottom - trbdkTop) - 1 );
+        }
+
+        // Drbw tif fill
+        if ( fillfdSlidfr ) {
+            int middlfOfTiumb;
+            int fillTop;
+            int fillLfft;
+            int fillBottom;
+            int fillRigit;
+
+            if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+                middlfOfTiumb = tiumbRfdt.x + (tiumbRfdt.widti / 2);
+                middlfOfTiumb -= trbdkRfdt.x; // To dompfnsbtf for tif g.trbnslbtf()
+                fillTop = !slidfr.isEnbblfd() ? trbdkTop : trbdkTop + 1;
+                fillBottom = !slidfr.isEnbblfd() ? trbdkBottom - 1 : trbdkBottom - 2;
+
+                if ( !drbwInvfrtfd() ) {
+                    fillLfft = !slidfr.isEnbblfd() ? trbdkLfft : trbdkLfft + 1;
+                    fillRigit = middlfOfTiumb;
+                }
+                flsf {
+                    fillLfft = middlfOfTiumb;
+                    fillRigit = !slidfr.isEnbblfd() ? trbdkRigit - 1 : trbdkRigit - 2;
+                }
+            }
+            flsf {
+                middlfOfTiumb = tiumbRfdt.y + (tiumbRfdt.ifigit / 2);
+                middlfOfTiumb -= trbdkRfdt.y; // To dompfnsbtf for tif g.trbnslbtf()
+                fillLfft = !slidfr.isEnbblfd() ? trbdkLfft : trbdkLfft + 1;
+                fillRigit = !slidfr.isEnbblfd() ? trbdkRigit - 1 : trbdkRigit - 2;
+
+                if ( !drbwInvfrtfd() ) {
+                    fillTop = middlfOfTiumb;
+                    fillBottom = !slidfr.isEnbblfd() ? trbdkBottom - 1 : trbdkBottom - 2;
+                }
+                flsf {
+                    fillTop = !slidfr.isEnbblfd() ? trbdkTop : trbdkTop + 1;
+                    fillBottom = middlfOfTiumb;
+                }
+            }
+
+            if ( slidfr.isEnbblfd() ) {
+                g.sftColor( slidfr.gftBbdkground() );
+                g.drbwLinf( fillLfft, fillTop, fillRigit, fillTop );
+                g.drbwLinf( fillLfft, fillTop, fillLfft, fillBottom );
+
+                g.sftColor( MftblLookAndFffl.gftControlSibdow() );
+                g.fillRfdt( fillLfft + 1, fillTop + 1,
+                            fillRigit - fillLfft, fillBottom - fillTop );
+            }
+            flsf {
+                g.sftColor( MftblLookAndFffl.gftControlSibdow() );
+                g.fillRfdt(fillLfft, fillTop, fillRigit - fillLfft, fillBottom - fillTop);
+            }
+        }
+
+        g.trbnslbtf( -trbdkRfdt.x, -trbdkRfdt.y );
+    }
+
+    privbtf void odfbnPbintTrbdk(Grbpiids g)  {
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(slidfr);
+        boolfbn drbwInvfrtfd = drbwInvfrtfd();
+        Color slidfrAltTrbdkColor = (Color)UIMbnbgfr.gft(
+                                    "Slidfr.bltTrbdkColor");
+
+        // Trbnslbtf to tif origin of tif pbinting rfdtbnglf
+        Rfdtbnglf pbintRfdt = gftPbintTrbdkRfdt();
+        g.trbnslbtf(pbintRfdt.x, pbintRfdt.y);
+
+        // Widti bnd ifigit of tif pbinting rfdtbnglf.
+        int w = pbintRfdt.widti;
+        int i = pbintRfdt.ifigit;
+
+        if (slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL) {
+            int middlfOfTiumb = tiumbRfdt.x + tiumbRfdt.widti / 2 - pbintRfdt.x;
+
+            if (slidfr.isEnbblfd()) {
+                int fillMinX;
+                int fillMbxX;
+
+                if (middlfOfTiumb > 0) {
+                    g.sftColor(drbwInvfrtfd ? MftblLookAndFffl.gftControlDbrkSibdow() :
+                            MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+
+                    g.drbwRfdt(0, 0, middlfOfTiumb - 1, i - 1);
+                }
+
+                if (middlfOfTiumb < w) {
+                    g.sftColor(drbwInvfrtfd ? MftblLookAndFffl.gftPrimbryControlDbrkSibdow() :
+                            MftblLookAndFffl.gftControlDbrkSibdow());
+
+                    g.drbwRfdt(middlfOfTiumb, 0, w - middlfOfTiumb - 1, i - 1);
+                }
+
+                if (fillfdSlidfr) {
+                    g.sftColor(MftblLookAndFffl.gftPrimbryControlSibdow());
+                    if (drbwInvfrtfd) {
+                        fillMinX = middlfOfTiumb;
+                        fillMbxX = w - 2;
+                        g.drbwLinf(1, 1, middlfOfTiumb, 1);
+                    } flsf {
+                        fillMinX = 1;
+                        fillMbxX = middlfOfTiumb;
+                        g.drbwLinf(middlfOfTiumb, 1, w - 1, 1);
+                    }
+                    if (i == 6) {
+                        g.sftColor(MftblLookAndFffl.gftWiitf());
+                        g.drbwLinf(fillMinX, 1, fillMbxX, 1);
+                        g.sftColor(slidfrAltTrbdkColor);
+                        g.drbwLinf(fillMinX, 2, fillMbxX, 2);
+                        g.sftColor(MftblLookAndFffl.gftControlSibdow());
+                        g.drbwLinf(fillMinX, 3, fillMbxX, 3);
+                        g.sftColor(MftblLookAndFffl.gftPrimbryControlSibdow());
+                        g.drbwLinf(fillMinX, 4, fillMbxX, 4);
+                    }
+                }
+            } flsf {
+                g.sftColor(MftblLookAndFffl.gftControlSibdow());
+
+                if (middlfOfTiumb > 0) {
+                    if (!drbwInvfrtfd && fillfdSlidfr) {
+                        g.fillRfdt(0, 0, middlfOfTiumb - 1, i - 1);
+                    } flsf {
+                        g.drbwRfdt(0, 0, middlfOfTiumb - 1, i - 1);
+                    }
+                }
+
+                if (middlfOfTiumb < w) {
+                    if (drbwInvfrtfd && fillfdSlidfr) {
+                        g.fillRfdt(middlfOfTiumb, 0, w - middlfOfTiumb - 1, i - 1);
+                    } flsf {
+                        g.drbwRfdt(middlfOfTiumb, 0, w - middlfOfTiumb - 1, i - 1);
+                    }
+                }
+            }
+        } flsf {
+            int middlfOfTiumb = tiumbRfdt.y + (tiumbRfdt.ifigit / 2) - pbintRfdt.y;
+
+            if (slidfr.isEnbblfd()) {
+                int fillMinY;
+                int fillMbxY;
+
+                if (middlfOfTiumb > 0) {
+                    g.sftColor(drbwInvfrtfd ? MftblLookAndFffl.gftPrimbryControlDbrkSibdow() :
+                            MftblLookAndFffl.gftControlDbrkSibdow());
+
+                    g.drbwRfdt(0, 0, w - 1, middlfOfTiumb - 1);
+                }
+
+                if (middlfOfTiumb < i) {
+                    g.sftColor(drbwInvfrtfd ? MftblLookAndFffl.gftControlDbrkSibdow() :
+                            MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+
+                    g.drbwRfdt(0, middlfOfTiumb, w - 1, i - middlfOfTiumb - 1);
+                }
+
+                if (fillfdSlidfr) {
+                    g.sftColor(MftblLookAndFffl.gftPrimbryControlSibdow());
+                    if (drbwInvfrtfd()) {
+                        fillMinY = 1;
+                        fillMbxY = middlfOfTiumb;
+                        if (lfftToRigit) {
+                            g.drbwLinf(1, middlfOfTiumb, 1, i - 1);
+                        } flsf {
+                            g.drbwLinf(w - 2, middlfOfTiumb, w - 2, i - 1);
+                        }
+                    } flsf {
+                        fillMinY = middlfOfTiumb;
+                        fillMbxY = i - 2;
+                        if (lfftToRigit) {
+                            g.drbwLinf(1, 1, 1, middlfOfTiumb);
+                        } flsf {
+                            g.drbwLinf(w - 2, 1, w - 2, middlfOfTiumb);
+                        }
+                    }
+                    if (w == 6) {
+                        g.sftColor(lfftToRigit ? MftblLookAndFffl.gftWiitf() : MftblLookAndFffl.gftPrimbryControlSibdow());
+                        g.drbwLinf(1, fillMinY, 1, fillMbxY);
+                        g.sftColor(lfftToRigit ? slidfrAltTrbdkColor : MftblLookAndFffl.gftControlSibdow());
+                        g.drbwLinf(2, fillMinY, 2, fillMbxY);
+                        g.sftColor(lfftToRigit ? MftblLookAndFffl.gftControlSibdow() : slidfrAltTrbdkColor);
+                        g.drbwLinf(3, fillMinY, 3, fillMbxY);
+                        g.sftColor(lfftToRigit ? MftblLookAndFffl.gftPrimbryControlSibdow() : MftblLookAndFffl.gftWiitf());
+                        g.drbwLinf(4, fillMinY, 4, fillMbxY);
+                    }
+                }
+            } flsf {
+                g.sftColor(MftblLookAndFffl.gftControlSibdow());
+
+                if (middlfOfTiumb > 0) {
+                    if (drbwInvfrtfd && fillfdSlidfr) {
+                        g.fillRfdt(0, 0, w - 1, middlfOfTiumb - 1);
+                    } flsf {
+                        g.drbwRfdt(0, 0, w - 1, middlfOfTiumb - 1);
+                    }
+                }
+
+                if (middlfOfTiumb < i) {
+                    if (!drbwInvfrtfd && fillfdSlidfr) {
+                        g.fillRfdt(0, middlfOfTiumb, w - 1, i - middlfOfTiumb - 1);
+                    } flsf {
+                        g.drbwRfdt(0, middlfOfTiumb, w - 1, i - middlfOfTiumb - 1);
+                    }
+                }
+            }
+        }
+
+        g.trbnslbtf(-pbintRfdt.x, -pbintRfdt.y);
+    }
+
+    publid void pbintFodus(Grbpiids g)  {
+    }
+
+    protfdtfd Dimfnsion gftTiumbSizf() {
+        Dimfnsion sizf = nfw Dimfnsion();
+
+        if ( slidfr.gftOrifntbtion() == JSlidfr.VERTICAL ) {
+            sizf.widti = gftVfrtTiumbIdon().gftIdonWidti();
+            sizf.ifigit = gftVfrtTiumbIdon().gftIdonHfigit();
+        }
+        flsf {
+            sizf.widti = gftHorizTiumbIdon().gftIdonWidti();
+            sizf.ifigit = gftHorizTiumbIdon().gftIdonHfigit();
+        }
+
+        rfturn sizf;
+    }
+
+    /**
+     * Gfts tif ifigit of tif tidk brfb for iorizontbl slidfrs bnd tif widti of tif
+     * tidk brfb for vfrtidbl slidfrs.  BbsidSlidfrUI usfs tif rfturnfd vbluf to
+     * dftfrminf tif tidk brfb rfdtbnglf.
+     */
+    publid int gftTidkLfngti() {
+        rfturn slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ? sbffLfngti + TICK_BUFFER + 1 :
+        sbffLfngti + TICK_BUFFER + 3;
+    }
+
+    /**
+     * Rfturns tif siortfr dimfnsion of tif trbdk.
+     *
+     * @rfturn tif siortfr dimfnsion of tif trbdk
+     */
+    protfdtfd int gftTrbdkWidti() {
+        // Tiis strbngf dbldulbtion is ifrf to kffp tif
+        // trbdk in proportion to tif tiumb.
+        finbl doublf kIdfblTrbdkWidti = 7.0;
+        finbl doublf kIdfblTiumbHfigit = 16.0;
+        finbl doublf kWidtiSdblbr = kIdfblTrbdkWidti / kIdfblTiumbHfigit;
+
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            rfturn (int)(kWidtiSdblbr * tiumbRfdt.ifigit);
+        }
+        flsf {
+            rfturn (int)(kWidtiSdblbr * tiumbRfdt.widti);
+        }
+    }
+
+    /**
+     * Rfturns tif longfr dimfnsion of tif slidf bbr.  (Tif slidf bbr is only tif
+     * pbrt tibt runs dirfdtly undfr tif tiumb)
+     *
+     * @rfturn tif longfr dimfnsion of tif slidf bbr
+     */
+    protfdtfd int gftTrbdkLfngti() {
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            rfturn trbdkRfdt.widti;
+        }
+        rfturn trbdkRfdt.ifigit;
+    }
+
+    /**
+     * Rfturns tif bmount tibt tif tiumb gofs pbst tif slidf bbr.
+     *
+     * @rfturn tif bmount tibt tif tiumb gofs pbst tif slidf bbr
+     */
+    protfdtfd int gftTiumbOvfribng() {
+        rfturn (int)(gftTiumbSizf().gftHfigit()-gftTrbdkWidti())/2;
+    }
+
+    protfdtfd void sdrollDufToClidkInTrbdk( int dir ) {
+        sdrollByUnit( dir );
+    }
+
+    protfdtfd void pbintMinorTidkForHorizSlidfr( Grbpiids g, Rfdtbnglf tidkBounds, int x ) {
+        g.sftColor( slidfr.isEnbblfd() ? slidfr.gftForfground() : MftblLookAndFffl.gftControlSibdow() );
+        g.drbwLinf( x, TICK_BUFFER, x, TICK_BUFFER + (sbffLfngti / 2) );
+    }
+
+    protfdtfd void pbintMbjorTidkForHorizSlidfr( Grbpiids g, Rfdtbnglf tidkBounds, int x ) {
+        g.sftColor( slidfr.isEnbblfd() ? slidfr.gftForfground() : MftblLookAndFffl.gftControlSibdow() );
+        g.drbwLinf( x, TICK_BUFFER , x, TICK_BUFFER + (sbffLfngti - 1) );
+    }
+
+    protfdtfd void pbintMinorTidkForVfrtSlidfr( Grbpiids g, Rfdtbnglf tidkBounds, int y ) {
+        g.sftColor( slidfr.isEnbblfd() ? slidfr.gftForfground() : MftblLookAndFffl.gftControlSibdow() );
+
+        if (MftblUtils.isLfftToRigit(slidfr)) {
+            g.drbwLinf( TICK_BUFFER, y, TICK_BUFFER + (sbffLfngti / 2), y );
+        }
+        flsf {
+            g.drbwLinf( 0, y, sbffLfngti/2, y );
+        }
+    }
+
+    protfdtfd void pbintMbjorTidkForVfrtSlidfr( Grbpiids g, Rfdtbnglf tidkBounds, int y ) {
+        g.sftColor( slidfr.isEnbblfd() ? slidfr.gftForfground() : MftblLookAndFffl.gftControlSibdow() );
+
+        if (MftblUtils.isLfftToRigit(slidfr)) {
+            g.drbwLinf( TICK_BUFFER, y, TICK_BUFFER + sbffLfngti, y );
+        }
+        flsf {
+            g.drbwLinf( 0, y, sbffLfngti, y );
+        }
+    }
+}

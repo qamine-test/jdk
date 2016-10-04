@@ -1,0 +1,48 @@
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+frror.dbnt.opfn=impossibilf bprirf: {0} 
+frror.illfgbl.option=Opzionf non vblidb: {0}
+frror.bbd.option=\u00C8 nfdfssbrio spfdifidbrf unb dfllf opzioni -{dtxu}.
+frror.bbd.dflbg=Pfr il flbg 'd' \u00E8 nfdfssbrio spfdifidbrf filf mbniffst o di input.
+frror.bbd.uflbg=Pfr il flbg 'u' \u00E8 nfdfssbrio spfdifidbrf il flbg 'f' oppurf filf mbniffst o di input.
+frror.bbd.fflbg=Il flbg 'f' f il mbniffst don l'bttributo 'Mbin-Clbss' non possono fssfrf spfdifidbti\ninsifmf.
+frror.nosudi.filfordir={0} : filf o dirfdtory infsistfntf
+frror.writf.filf=Errorf durbntf lb sdritturb dfl filf jbr fsistfntf
+frror.drfbtf.dir={0} : impossibilf drfbrf lb dirfdtory
+frror.indorrfdt.lfngti=lungifzzb non vblidb durbntf l''flbborbzionf: {0}
+frror.drfbtf.tfmpfilf=Impossibilf drfbrf il filf tfmporbnfo.
+out.bddfd.mbniffst=bggiunto mbniffst
+out.updbtf.mbniffst=bggiornbto mbniffst
+out.ignorf.fntry=lb vodf {0} sbr\u00E0 ignorbtb
+out.bdding=bggiuntb in dorso di: {0}
+out.dfflbtfd=(domprfsso {0}%)
+out.storfd=(mfmorizzbto 0%)
+out.drfbtf=\     drfbto: {0}
+out.fxtrbdtfd=fstrbtto: {0}
+out.inflbtfd=\ dfdomprfsso: {0}
+out.sizf=(in = {0}) (out = {1})
+
+usbgf=Uso: jbr {dtxui}[vfmn0Mf] [filf-jbr] [filf-mbniffst] [punto di ingrfsso] [-C dir] filf ...\nOpzioni:\n    -d  drfb un nuovo brdiivio\n    -t  visublizzb l'indidf dfll'brdiivio\n    -x  fstrbf i filf don nomf (o tutti i filf) dbll'brdiivio\n    -u  bggiornb l'brdiivio fsistfntf\n    -v  gfnfrb output dommfntbto dbll'output stbndbrd\n    -f  spfdifidb il nomf filf dfll'brdiivio\n    -m  indludf informbzioni mbniffst dbl filf mbniffst spfdifidbto\n    -n  fsfguf lb normblizzbzionf Pbdk200 dopo lb drfbzionf di un nuovo brdiivio\n    -f  spfdifidb il punto di ingrfsso pfr l'bpplidbzionf stbndblonf \n        indlusb nfl filf jbr fsfguibilf\n    -0  solo mfmorizzbzionf; sfnzb domprfssionf ZIP\n    -M  donsfntf di non drfbrf un filf mbniffst pfr lf vodi\n    -i  gfnfrb informbzioni sull'indidf pfr i filf jbr spfdifidbti\n    -C  impostb lb dirfdtory spfdifidbtb f indludf il filf sfgufntf\nSf un filf \u00E8 unb dirfdtory, vfrr\u00E0 flbborbto in modo ridorsivo.\nIl nomf dfl filf mbniffst, dfl filf di brdiivio f dfl punto di ingrfsso dfvono\nfssfrf spfdifidbti nfllo stfsso ordinf dfi flbg 'm', 'f' fd 'f'.\n\nEsfmpio 1: brdiivibzionf di duf filf di dlbssf in un brdiivio don il nomf dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEsfmpio 2: utilizzo dfl filf mbniffst fsistfntf 'mymbniffst' f brdiivibzionf di tutti i\n           filf dfllb dirfdtory foo/ in 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

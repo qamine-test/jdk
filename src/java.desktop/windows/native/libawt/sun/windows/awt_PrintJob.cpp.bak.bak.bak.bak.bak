@@ -1,0 +1,4382 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.i"
+#indludf <mbti.i>
+#indludf <windff.i>
+#indludf <wtypfs.i>
+#indludf <winusfr.i>
+#indludf <dommdlg.i>
+#indludf <winspool.i>
+
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Componfnt.i"
+#indludf "bwt_Diblog.i"
+#indludf "bwt_Font.i"
+#indludf "bwt_PrintDiblog.i"
+#indludf "bwt_PrintControl.i"
+#indludf "bwt_Window.i"
+#indludf "ComCtl32Util.i"
+
+#indludf <sun_bwt_windows_WPrintfrJob.i>
+#indludf <jlong_md.i>
+#indludf <flobt.i>
+
+#dffinf DEBUG_PRINTING  0
+
+/* Round 'num' to tif nfbrfst intfgfr bnd rfturn
+ * tif rfsult bs b long.
+ */
+#dffinf ROUND_TO_LONG(num)    ((long) floor((num) + 0.5))
+
+/* Round 'num' to tif nfbrfst intfgfr bnd rfturn
+ * tif rfsult bs bn int.
+ */
+#dffinf ROUND_TO_INT(num)     ((int) floor((num) + 0.5))
+
+/************************************************************************
+ * WPrintJob nbtivf mftiods
+ */
+
+fxtfrn "C" {
+
+/*** Privbtf Constbnts ***/
+
+stbtid dibr *kJbvbIntStr = "I";
+stbtid dibr *kJbvbLongStr = "J";
+
+/* 2D printing usfs 3 bytf BGR pixfls in Rbstfr printing */
+stbtid int J2DRbstfrBPP = 3;
+
+/*
+ * Clbss Nbmfs
+ */
+stbtid donst dibr *PRINTEREXCEPTION_STR = "jbvb/bwt/print/PrintfrExdfption";
+
+/*
+ * Tif following strings brf tif nbmfs of instbndf vbribblfs in WPrintJob2D.
+ */
+stbtid donst dibr *PRINTPAPERSIZE_STR = "mPrintPbpfrSizf"; // Tif pbpfr sizf
+stbtid donst dibr *XRES_STR = "mPrintXRfs";     // Tif x dpi.
+stbtid donst dibr *YRES_STR = "mPrintYRfs";     // Tif y dpi.
+stbtid donst dibr *PHYSX_STR = "mPrintPiysX";   // pixfl x of printbblf brfb
+stbtid donst dibr *PHYSY_STR = "mPrintPiysY";   // pixfl y of printbblf brfb
+stbtid donst dibr *PHYSW_STR = "mPrintWidti";   // pixfl wid of printbblf brfb
+stbtid donst dibr *PHYSH_STR = "mPrintHfigit";  // pixfl igt of printbblf brfb
+stbtid donst dibr *PAGEW_STR = "mPbgfWidti";    // pixfl wid of pbgf
+stbtid donst dibr *PAGEH_STR = "mPbgfHfigit";   // pixfl igt of pbgf
+
+stbtid donst dibr *DRIVER_COPIES_STR = "drivfrDofsMultiplfCopifs";
+stbtid donst dibr *DRIVER_COLLATE_STR = "drivfrDofsCollbtion";
+stbtid donst dibr *USER_COLLATE_STR = "usfrRfqufstfdCollbtion";
+stbtid donst dibr *NO_DEFAULTPRINTER_STR = "noDffbultPrintfr";
+stbtid donst dibr *LANDSCAPE_270_STR = "lbndsdbpfRotbtfs270";
+
+
+// publid int jbvb.bwt.print.PrintfrJob.gftCopifs()
+
+stbtid donst dibr *GETCOPIES_STR = "gftCopifs";
+stbtid donst dibr *GETCOPIES_SIG = "()I";
+
+/*
+ * Mftiods bnd fiflds in bwt.print.PbgfFormbt.
+ */
+
+// publid Pbpfr gftPbpfr()
+stbtid donst dibr *GETPAPER_STR = "gftPbpfr";
+stbtid donst dibr *GETPAPER_SIG = "()Ljbvb/bwt/print/Pbpfr;";
+
+// publid void sftPbpfr(Pbpfr pbpfr)
+stbtid donst dibr *SETPAPER_STR = "sftPbpfr";
+stbtid donst dibr *SETPAPER_SIG = "(Ljbvb/bwt/print/Pbpfr;)V";
+
+// publid int gftOrifntbtion()
+stbtid donst dibr *GETORIENT_STR = "gftOrifntbtion";
+stbtid donst dibr *GETORIENT_SIG = "()I";
+
+// publid void sftOrifntbtion(int orifntbtion)
+stbtid donst dibr *SETORIENT_STR = "sftOrifntbtion";
+stbtid donst dibr *SETORIENT_SIG = "(I)V";
+
+stbtid donst int PAGEFORMAT_LANDSCAPE = 0;
+stbtid donst int PAGEFORMAT_PORTRAIT = 1;
+//stbtid donst int PAGEFORMAT_REVERSELANDSCAPE = 2;
+
+// instbndf vbribblfs for PrintRfqufstAttributf sfttings
+stbtid donst dibr *ATTSIDES_STR = "mAttSidfs";
+stbtid donst dibr *ATTCHROMATICITY_STR = "mAttCirombtidity";
+stbtid donst dibr *ATTXRES_STR = "mAttXRfs";
+stbtid donst dibr *ATTYRES_STR = "mAttYRfs";
+stbtid donst dibr *ATTQUALITY_STR = "mAttQublity";
+stbtid donst dibr *ATTCOLLATE_STR = "mAttCollbtf";
+stbtid donst dibr *ATTCOPIES_STR = "mAttCopifs";
+stbtid donst dibr *ATTMEDIASZNAME_STR = "mAttMfdibSizfNbmf";
+stbtid donst dibr *ATTMEDIATRAY_STR = "mAttMfdibTrby";
+
+/*
+ * Mftiods in bwt.print.Pbpfr.
+ */
+
+// publid void sftSizf(doublf widti, doublf ifigit)
+stbtid donst dibr *SETSIZE_STR = "sftSizf";
+stbtid donst dibr *SETSIZE_SIG = "(DD)V";
+
+// protfdtfd void sftImbgfbblfArfb(doublf x, doublf y, doublf widti,
+//                                                  doublf ifigit)
+stbtid donst dibr *SETIMAGEABLE_STR = "sftImbgfbblfArfb";
+stbtid donst dibr *SETIMAGEABLE_SIG = "(DDDD)V";
+
+// publid doublf gftWidti()
+stbtid donst dibr *GETWIDTH_STR = "gftWidti";
+stbtid donst dibr *GETWIDTH_SIG = "()D";
+
+// publid doublf gftHfigit()
+stbtid donst dibr *GETHEIGHT_STR = "gftHfigit";
+stbtid donst dibr *GETHEIGHT_SIG = "()D";
+
+// publid doublf gftImbgfbblfX()
+stbtid donst dibr *GETIMG_X_STR = "gftImbgfbblfX";
+stbtid donst dibr *GETIMG_X_SIG = "()D";
+
+// publid doublf gftImbgfbblfY()
+stbtid donst dibr *GETIMG_Y_STR = "gftImbgfbblfY";
+stbtid donst dibr *GETIMG_Y_SIG = "()D";
+
+// publid doublf gftImbgfbblfWidti()
+stbtid donst dibr *GETIMG_W_STR = "gftImbgfbblfWidti";
+stbtid donst dibr *GETIMG_W_SIG = "()D";
+
+// publid doublf gftImbgfbblfHfigit()
+stbtid donst dibr *GETIMG_H_STR = "gftImbgfbblfHfigit";
+stbtid donst dibr *GETIMG_H_SIG = "()D";
+
+/* Multiply b Window's MM_HIENGLISH vbluf
+ * (1000ti of bn indi) by tiis numbfr to
+ * gft b vbluf in 72nds of bn indi.
+ */
+stbtid donst doublf HIENGLISH_TO_POINTS = (72.0 / 1000.0);
+
+/* Multiply b Window's MM_HIMETRIC vbluf
+ * (100tis of b millimftfr) by tiis
+ * numbfr to gft b vbluf in 72nds of bn indi.
+ */
+stbtid donst doublf HIMETRIC_TO_POINTS = (72.0 / 2540.0);
+
+/* Multiply b Window's MM_LOMETRIC vbluf
+ * (10tis of b millimftfr) by tiis
+ * numbfr to gft b vbluf in 72nds of bn indi.
+ */
+stbtid donst doublf LOMETRIC_TO_POINTS = (72.0 / 254.0);
+
+/* Multiply b mfbsurfmfnt in 1/72's of bn indi by tiis
+ * vbluf to donvfrt it to Window's MM_HIENGLISH
+ * (1000ti of bn indi) units.
+ */
+stbtid donst doublf POINTS_TO_HIENGLISH = (1000.0 / 72.0);
+
+/* Multiply b mfbsurfmfnt in 1/72's of bn indi by tiis
+ * vbluf to donvfrt it to Window's MM_HIMETRIC
+ * (100ti of bn millimftfr) units.
+ */
+stbtid donst doublf POINTS_TO_HIMETRIC = (2540.0 / 72.0);
+
+/* Multiply b mfbsurfmfnt in 1/72's of bn indi by tiis
+ * vbluf to donvfrt it to Window's MM_LOMETRIC
+ * (10ti of bn millimftfr) units.
+ */
+stbtid donst doublf POINTS_TO_LOMETRIC = (254.0 / 72.0);
+
+jfifldID AwtPrintDiblog::pbgfID;
+
+
+/*** Privbtf Mbdros ***/
+
+/* A Pbgf Sftup pbint iook pbssfs b word dfsdribing tif
+   orifntbtion bnd typf of pbgf bfing displbyfd in tif
+   diblog. Tifsf mbdros brfbk tif word down into mfbningful
+   vblufs.
+*/
+#dffinf PRINTER_TYPE_MASK   (0x0003)
+#dffinf PORTRAIT_MASK       (0x0004)
+#dffinf ENVELOPE_MASK       (0x0008)
+
+#dffinf IS_ENVELOPE(pbrbm)  (((pbrbm) & ENVELOPE_MASK) != 0)
+#dffinf IS_PORTRAIT(pbrbm)  (((pbrbm) & PORTRAIT_MASK) != 0)
+
+/*      If tif Pbgbblf dofs not know tif numbfr of pbgfs in tif dodumfnt,
+        tifn wf limit tif print diblog to tiis numbfr of pbgfs.
+*/
+#dffinf MAX_UNKNOWN_PAGES 9999
+
+/* Wifn mbking b font tibt is blrfbdy bt lfbst bold,
+ * boldfr tifn wf indrfbsf tif LOGFONT lfWfigit fifld
+ * by tiis bmount.
+ */
+#dffinf EMBOLDEN_WEIGHT   (100)
+
+/* Tif lfWfigit fifld of b GDI LOGFONT strudturf siould not
+ * fxdffd tiis vbluf.
+ */
+#dffinf MAX_FONT_WEIGHT   (1000)
+
+/*** Privbtf Vbribblf Typfs ***/
+
+typfdff strudt {
+    jdoublf x;
+    jdoublf y;
+    jdoublf widti;
+    jdoublf ifigit;
+} RfdtDoublf;
+
+/*** Privbtf Prototypfs ***/
+
+stbtid UINT CALLBACK pbgfDlgHook(HWND iDlg, UINT msg,
+                                 WPARAM wPbrbm, LPARAM lPbrbm);
+stbtid void initPrintfr(JNIEnv *fnv, jobjfdt sflf);
+stbtid HDC gftDffbultPrintfrDC(JNIEnv *fnv, jobjfdt printfrJob);
+stbtid void pbgfFormbtToSftup(JNIEnv *fnv, jobjfdt job, jobjfdt pbgf,
+                              PAGESETUPDLG *sftup, HDC iDC);
+stbtid WORD gftOrifntbtionFromDfvModf2(HGLOBAL iDfvModf);
+stbtid WORD gftOrifntbtionFromDfvModf(JNIEnv *fnv, jobjfdt sflf);
+stbtid void sftOrifntbtionInDfvModf(HGLOBAL iDfvModf, jboolfbn isPortrbit);
+stbtid void doPrintBbnd(JNIEnv *fnv, jboolfbn browsfrPrinting,
+                        HDC printDC, jbytfArrby imbgfArrby,
+                        jint x, jint y, jint widti, jint ifigit);
+stbtid int bitsToDfvidf(HDC printDC, jbytf *imbgf, long dfstX, long dfstY,
+                        long widti, long ifigit);
+stbtid void rftrifvfPbpfrInfo(donst PAGESETUPDLG *sftup, POINT *pbpfrSizf,
+                              RECT *mbrgins, jint *orifntbtion,
+                              HDC idd);
+stbtid jint gftCopifs(JNIEnv *fnv, jobjfdt printfrJob);
+stbtid jobjfdt gftPbpfr(JNIEnv *fnv, jobjfdt pbgf);
+stbtid void sftPbpfr(JNIEnv *fnv, jobjfdt pbgf, jobjfdt pbpfr);
+stbtid jint gftPbgfFormbtOrifntbtion(JNIEnv *fnv, jobjfdt pbgf);
+stbtid void sftPbgfFormbtOrifntbtion(JNIEnv *fnv, jobjfdt pbgf, jint orifnt);
+stbtid void gftPbpfrVblufs(JNIEnv *fnv, jobjfdt pbpfr, RfdtDoublf *pbpfrSizf,
+                          RfdtDoublf *mbrgins, BOOL widtiAsMbrgin=TRUE);
+stbtid void sftPbpfrVblufs(JNIEnv *fnv, jobjfdt pbpfr, donst POINT *pbpfrSizf,
+                            donst RECT *mbrgins, int units);
+stbtid long donvfrtFromPoints(doublf vbluf, int units);
+stbtid doublf donvfrtToPoints(long vbluf, int units);
+void sftCbpbbilitifs(JNIEnv *fnv, jobjfdt sflf, HDC printDC);
+stbtid inlinf WORD gftPrintPbpfrSizf(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf);
+stbtid inlinf jboolfbn sftPrintPbpfrSizf(JNIEnv *fnv, jobjfdt sflf, WORD sz);
+stbtid jint gftIntFifld(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf, donst dibr *fifldNbmf);
+stbtid jboolfbn sftIntFifld(JNIEnv *fnv, jobjfdt sflf,
+                        donst dibr *fifldNbmf, jint vbluf);
+stbtid jboolfbn gftBoolfbnFifld(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf,
+                            donst dibr *fifldNbmf);
+stbtid jboolfbn sftBoolfbnFifld(JNIEnv *fnv, jobjfdt sflf,
+                            donst dibr *fifldNbmf, jboolfbn vbluf);
+stbtid jbytf *findNonWiitf(jbytf *imbgf, long sy, long widti, long ifigit,
+                           long sdbnLinfStridf, long *numLinfsP);
+stbtid jbytf *findWiitf(jbytf *imbgf, long sy, long widti, long ifigit,
+                           long sdbnLinfStridf, long *numLinfs);
+stbtid void dumpDfvModf(HGLOBAL iDfvModf);
+stbtid void dumpPrintfrCbps(HANDLE iDfvNbmfs);
+stbtid void tirowPrintfrExdfption(JNIEnv *fnv, DWORD frr);
+stbtid void mbtdiPbpfrSizf(HDC printDC, HGLOBAL iDfvModf, HGLOBAL iDfvNbmfs,
+                           doublf origWid, doublf origHgt,
+                           doublf* nfwHgt, doublf *nfwWid,
+                           WORD* pbpfrSizf);
+
+/***********************************************************************/
+
+stbtid jboolfbn jFontToWFontW(JNIEnv *fnv, HDC printDC, jstring fontNbmf,
+                        jflobt fontSizf, jboolfbn isBold, jboolfbn isItblid,
+                        jint rotbtion, jflobt bwSdblf);
+stbtid jboolfbn jFontToWFontA(JNIEnv *fnv, HDC printDC, jstring fontNbmf,
+                        jflobt fontSizf, jboolfbn isBold, jboolfbn isItblid,
+                        jint rotbtion, jflobt bwSdblf);
+
+stbtid int CALLBACK fontEnumProdW(ENUMLOGFONTEXW  *lpflff,
+                                 NEWTEXTMETRICEX *lpntmf,
+                                 int FontTypf,
+                                 LPARAM lPbrbm);
+stbtid int CALLBACK fontEnumProdA(ENUMLOGFONTEXA  *logfont,
+                                  NEWTEXTMETRICEX  *lpntmf,
+                                  int FontTypf,
+                                  LPARAM lPbrbm);
+
+stbtid int fmboldfn(int durrfntWfigit);
+stbtid BOOL gftPrintbblfArfb(HDC pdd, HANDLE iDfvModf, RfdtDoublf *mbrgin);
+
+
+
+/************************************************************************
+ * DodumfntPropfrtifs nbtivf support
+ */
+
+/* Vblufs must mbtdi tiosf dffinfd in WPrintfrJob.jbvb */
+stbtid donst DWORD SET_COLOR = 0x00000200;
+stbtid donst DWORD SET_ORIENTATION = 0x00004000;
+stbtid donst DWORD SET_COLLATED    = 0x00008000;
+stbtid donst DWORD SET_DUP_VERTICAL = 0x00000010;
+stbtid donst DWORD SET_DUP_HORIZONTAL = 0x00000020;
+stbtid donst DWORD SET_RES_HIGH = 0x00000040;
+stbtid donst DWORD SET_RES_LOW = 0x00000080;
+
+/*
+ * Copy DEVMODE stbtf bbdk into JobAttributfs.
+ */
+
+stbtid void UpdbtfJobAttributfs(JNIEnv *fnv,
+                                jobjfdt wJob,
+                                jobjfdt bttrSft,
+                                DEVMODE *dfvmodf) {
+
+    DWORD dmVblufs = 0;
+    int xRfs = 0, yRfs = 0;
+
+    if (dfvmodf->dmFiflds & DM_COLOR) {
+        if (dfvmodf->dmColor == DMCOLOR_COLOR) {
+            dmVblufs |= SET_COLOR;
+        }
+    }
+
+    if (dfvmodf->dmFiflds & DM_ORIENTATION) {
+        if (dfvmodf->dmOrifntbtion == DMORIENT_LANDSCAPE) {
+            dmVblufs |= SET_ORIENTATION;
+        }
+    }
+
+    if (dfvmodf->dmFiflds & DM_COLLATE &&
+        dfvmodf->dmCollbtf == DMCOLLATE_TRUE) {
+            dmVblufs |= SET_COLLATED;
+    }
+
+    if (dfvmodf->dmFiflds & DM_PRINTQUALITY) {
+        /* vbluf < 0 indidbtfs qublity sftting.
+         * vbluf > 0 indidbtfs X rfsolution. In tibt dbsf
+         * iopffully wf will blso find y-rfsolution spfdififd.
+         * If its not, bssumf its tif sbmf bs x-rfs.
+         * Mbybf Jbvb dodf siould try to rfdondilf tiis bgbinst
+          * tif printfrs dlbimfd sft of supportfd rfsolutions.
+         */
+        if (dfvmodf->dmPrintQublity < 0) {
+            if (dfvmodf->dmPrintQublity == DMRES_HIGH) {
+                dmVblufs |= SET_RES_HIGH;
+            } flsf if ((dfvmodf->dmPrintQublity == DMRES_LOW) ||
+                       (dfvmodf->dmPrintQublity == DMRES_DRAFT)) {
+                dmVblufs |= SET_RES_LOW;
+            }
+            /* flsf if (dfvmodf->dmPrintQublity == DMRES_MEDIUM)
+             * will sft to NORMAL.
+             */
+        } flsf {
+            xRfs = dfvmodf->dmPrintQublity;
+            yRfs = (dfvmodf->dmFiflds & DM_YRESOLUTION) ?
+                dfvmodf->dmYRfsolution : dfvmodf->dmPrintQublity;
+        }
+    }
+
+    if (dfvmodf->dmFiflds & DM_DUPLEX) {
+        if (dfvmodf->dmDuplfx == DMDUP_HORIZONTAL) {
+            dmVblufs |= SET_DUP_HORIZONTAL;
+        } flsf if (dfvmodf->dmDuplfx == DMDUP_VERTICAL) {
+            dmVblufs |= SET_DUP_VERTICAL;
+        }
+    }
+
+    fnv->CbllVoidMftiod(wJob, AwtPrintControl::sftJobAttributfsID, bttrSft,
+                        dfvmodf->dmFiflds, dmVblufs, dfvmodf->dmCopifs,
+                        dfvmodf->dmPbpfrSizf, dfvmodf->dmPbpfrWidti,
+                        dfvmodf->dmPbpfrLfngti, dfvmodf->dmDffbultSourdf,
+                        xRfs, yRfs);
+
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_siowDodPropfrtifs(JNIEnv *fnv,
+                                                   jobjfdt wJob,
+                                                   jlong iWndPbrfnt,
+                                                   jobjfdt bttrSft,
+                                                   jint dmFiflds,
+                                                   jsiort dopifs,
+                                                   jsiort dollbtf,
+                                                   jsiort dolor,
+                                                   jsiort duplfx,
+                                                   jsiort orifnt,
+                                                   jsiort pbpfr,
+                                                   jsiort bin,
+                                                   jsiort xrfs_qublity,
+                                                   jsiort yrfs)
+{
+    TRY;
+
+    HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, wJob);
+    HGLOBAL iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, wJob);
+    DEVMODE *dfvmodf = NULL;
+    DEVNAMES *dfvnbmfs = NULL;
+    LONG rvbl = IDCANCEL;
+    jboolfbn rft = JNI_FALSE;
+
+    if (iDfvModf != NULL && iDfvNbmfs != NULL) {
+        dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+        dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+
+        LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+        // No nffd to dbll _tdsdup bs wf won't unlodk until wf brf donf.
+        LPTSTR printfrNbmf = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
+        LPTSTR portNbmf = lpdfvnbmfs+dfvnbmfs->wOutputOffsft;
+
+        HANDLE iPrintfr;
+        if (::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL) == TRUE) {
+            dfvmodf->dmFiflds |= dmFiflds;
+            dfvmodf->dmCopifs = dopifs;
+            dfvmodf->dmCollbtf = dollbtf;
+            dfvmodf->dmColor = dolor;
+            dfvmodf->dmDuplfx = duplfx;
+            dfvmodf->dmOrifntbtion = orifnt;
+            dfvmodf->dmPrintQublity = xrfs_qublity;
+            dfvmodf->dmYRfsolution = yrfs;
+            dfvmodf->dmPbpfrSizf = pbpfr;
+            dfvmodf->dmDffbultSourdf = bin;
+
+            rvbl = ::DodumfntPropfrtifs((HWND)iWndPbrfnt,
+                           iPrintfr, printfrNbmf, dfvmodf, dfvmodf,
+                           DM_IN_BUFFER | DM_OUT_BUFFER | DM_IN_PROMPT);
+            if (rvbl == IDOK) {
+                UpdbtfJobAttributfs(fnv, wJob, bttrSft, dfvmodf);
+                rft = JNI_TRUE;
+            }
+            VERIFY(::ClosfPrintfr(iPrintfr));
+        }
+        ::GlobblUnlodk(iDfvNbmfs);
+        ::GlobblUnlodk(iDfvModf);
+    }
+
+    rfturn rft;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/************************************************************************
+ * WPbgfDiblog nbtivf mftiods
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPbgfDiblog_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtPrintDiblog::pbgfID =
+        fnv->GftFifldID(dls, "pbgf", "Ljbvb/bwt/print/PbgfFormbt;");
+
+    DASSERT(AwtPrintDiblog::pbgfID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+/************************************************************************
+ * WPbgfDiblogPffr nbtivf mftiods
+ */
+
+/*
+ * Clbss:     sun_bwt_windows_WPbgfDiblogPffr
+ * Mftiod:    siow
+ * Signbturf: ()Z
+ *
+ */
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WPbgfDiblogPffr__1siow(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    // bs pffr objfdt is usfd lbtfr on bnotifr tirfbd, drfbtf globbl rff ifrf
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+    DASSERT(pffrGlobblRff != NULL);
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(pffrGlobblRff, AwtObjfdt::tbrgftID);
+
+    jobjfdt pbrfnt = fnv->GftObjfdtFifld(pffrGlobblRff, AwtPrintDiblog::pbrfntID);
+
+    jobjfdt pbgf = fnv->GftObjfdtFifld(tbrgft, AwtPrintDiblog::pbgfID);
+    DASSERT(pbgf != NULL);
+
+    jobjfdt sflf = fnv->GftObjfdtFifld(tbrgft, AwtPrintDiblog::dontrolID);
+    DASSERT(sflf != NULL);
+
+    AwtComponfnt *bwtPbrfnt = (pbrfnt != NULL) ? (AwtComponfnt *)JNI_GET_PDATA(pbrfnt) : NULL;
+    HWND iwndOwnfr = bwtPbrfnt ? bwtPbrfnt->GftHWnd() : NULL;
+
+    jboolfbn doIt = JNI_FALSE; // Assumf tif usfr will dbndfl tif diblog.
+    PAGESETUPDLG sftup;
+    mfmsft(&sftup, 0, sizfof(sftup));
+
+    sftup.lStrudtSizf = sizfof(sftup);
+
+    /*
+      Fix for 6488834.
+      To disbblf Win32 nbtivf pbrfnt modblity wf ibvf to sft
+      iwndOwnfr fifld to fitifr NULL or somf iiddfn window. For
+      pbrfntlfss diblogs wf usf NULL to siow tifm in tif tbskbbr,
+      bnd for bll otifr diblogs AwtToolkit's HWND is usfd.
+    */
+    if (bwtPbrfnt != NULL)
+    {
+        sftup.iwndOwnfr = AwtToolkit::GftInstbndf().GftHWnd();
+    }
+    flsf
+    {
+        sftup.iwndOwnfr = NULL;
+    }
+
+    sftup.iDfvModf = NULL;
+    sftup.iDfvNbmfs = NULL;
+    sftup.Flbgs = PSD_RETURNDEFAULT | PSD_DEFAULTMINMARGINS;
+    // sftup.ptPbpfrSizf =
+    // sftup.rtMinMbrgin =
+    // sftup.rtMbrgin =
+    sftup.iInstbndf = NULL;
+    sftup.lCustDbtb = (LPARAM)pffrGlobblRff;
+    sftup.lpfnPbgfSftupHook = rfintfrprft_dbst<LPPAGESETUPHOOK>(pbgfDlgHook);
+    sftup.lpfnPbgfPbintHook = NULL;
+    sftup.lpPbgfSftupTfmplbtfNbmf = NULL;
+    sftup.iPbgfSftupTfmplbtf = NULL;
+
+
+    /* Bfdbusf tif rfturn dffbult flbg is sft, tiis first dbll
+     * will not displby tif diblog but will rfturn dffbult vblufs, ind
+     * indluding iDfvModf, iDfvNbmf, ptPbpfrSizf, bnd rtMbrgin vblufs.
+     * Wf dbn usf tif dfvmodf to sft tif orifntbtion of tif pbgf
+     * bnd tif sizf of tif pbgf.
+     * Tif units usfd by tif usfr is blso nffdfd.
+     */
+    if (AwtPrintControl::gftPrintHDModf(fnv, sflf) == NULL ||
+        AwtPrintControl::gftPrintHDNbmf(fnv,sflf) == NULL) {
+        (void)::PbgfSftupDlg(&sftup);
+        /* difdk if iDfvModf bnd iDfvNbmfs brf sft.
+         * If boti brf null, tifn tifrf is no dffbult printfr.
+         */
+        if ((sftup.iDfvModf == NULL) && (sftup.iDfvNbmfs == NULL)) {
+            doIt = JNI_FALSE;
+            goto donf;
+        }
+    } flsf {
+        int mfbsurf = PSD_INTHOUSANDTHSOFINCHES;
+        int sz = GftLodblfInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, NULL, 0);
+        if (sz > 0) {
+          LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(TCHAR), sz);
+          if (str != NULL) {
+            sz = GftLodblfInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, str, sz);
+            if (sz > 0) {
+              if (_tdsdmp(TEXT("0"), str) == 0) {
+                mfbsurf = PSD_INHUNDREDTHSOFMILLIMETERS;
+              }
+            }
+            frff((LPTSTR)str);
+          }
+        }
+        sftup.Flbgs |= mfbsurf;
+        sftup.iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+        sftup.iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+    }
+    /* Movf pbgf sizf bnd orifntbtion from tif PbgfFormbt objfdt
+     * into tif Windows sftup strudturf so tibt tif formbt dbn
+     * bf displbyfd in tif diblog.
+     */
+    pbgfFormbtToSftup(fnv, sflf, pbgf, &sftup, AwtPrintControl::gftPrintDC(fnv, sflf));
+    if (fnv->ExdfptionCifdk()) {
+        doIt = JNI_FALSE;
+        goto donf;
+    }
+
+    sftup.lpfnPbgfSftupHook = rfintfrprft_dbst<LPPAGESETUPHOOK>(pbgfDlgHook);
+    sftup.Flbgs = PSD_ENABLEPAGESETUPHOOK | PSD_MARGINS;
+
+    AwtDiblog::CifdkInstbllModblHook();
+
+    BOOL rft = ::PbgfSftupDlg(&sftup);
+    if (rft) {
+
+        jobjfdt pbpfr = gftPbpfr(fnv, pbgf);
+        if (pbpfr == NULL) {
+            doIt = JNI_FALSE;
+            goto donf;
+        }
+        int units = sftup.Flbgs & PSD_INTHOUSANDTHSOFINCHES ?
+                                                MM_HIENGLISH :
+                                                MM_HIMETRIC;
+        POINT pbpfrSizf;
+        RECT mbrgins;
+        jint orifntbtion;
+
+        /* Tif printfr mby ibvf bffn dibngfd, bnd wf trbdk tibt dibngf,
+         * but tifn nffd to gft b nfw DC for tif durrfnt printfr so tibt
+         * wf vblidbtf tif pbpfr sizf dorrfdtly
+         */
+        if (sftup.iDfvNbmfs != NULL) {
+            DEVNAMES* nbmfs = (DEVNAMES*)::GlobblLodk(sftup.iDfvNbmfs);
+            if (nbmfs != NULL) {
+                LPTSTR printfr = (LPTSTR)nbmfs+nbmfs->wDfvidfOffsft;
+                SAVE_CONTROLWORD
+                HDC nfwDC = ::CrfbtfDC(TEXT("WINSPOOL"), printfr, NULL, NULL);
+                RESTORE_CONTROLWORD
+                if (nfwDC != NULL) {
+                    HDC oldDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+                    if (oldDC != NULL) {
+                         ::DflftfDC(oldDC);
+                    }
+                }
+                AwtPrintControl::sftPrintDC(fnv, sflf, nfwDC);
+            }
+            ::GlobblUnlodk(sftup.iDfvNbmfs);
+        }
+
+        /* Gft tif Windows pbpfr bnd mbrgins dfsdription.
+        */
+        rftrifvfPbpfrInfo(&sftup, &pbpfrSizf, &mbrgins, &orifntbtion,
+                          AwtPrintControl::gftPrintDC(fnv, sflf));
+
+        /* Convfrt tif Windows' pbpfr bnd mbrgins dfsdription
+         * bnd plbdf tifm into b Pbpfr instbndf.
+         */
+        sftPbpfrVblufs(fnv, pbpfr, &pbpfrSizf, &mbrgins, units);
+         if (fnv->ExdfptionCifdk()) {
+             doIt = JNI_FALSE;
+             goto donf;
+         }
+        /*
+         * Put tif updbtfd Pbpfr instbndf bnd tif orifntbtion into
+         * tif PbgfFormbt.
+         */
+        sftPbpfr(fnv, pbgf, pbpfr);
+        if (fnv->ExdfptionCifdk()) {
+             doIt = JNI_FALSE;
+             goto donf;
+        }
+        sftPbgfFormbtOrifntbtion(fnv, pbgf, orifntbtion);
+        if (fnv->ExdfptionCifdk()) {
+             doIt = JNI_FALSE;
+             goto donf;
+        }
+        if (sftup.iDfvModf != NULL) {
+            DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(sftup.iDfvModf);
+            if (dfvmodf != NULL) {
+                if (dfvmodf->dmFiflds & DM_PAPERSIZE) {
+                    jboolfbn frr = sftPrintPbpfrSizf(fnv, sflf, dfvmodf->dmPbpfrSizf);
+                    if (frr) {
+                        doIt = JNI_FALSE;
+                        goto donf;
+                    }
+                }
+            }
+            ::GlobblUnlodk(sftup.iDfvModf);
+        }
+        doIt = JNI_TRUE;
+    }
+
+    AwtDiblog::CifdkUninstbllModblHook();
+
+    AwtDiblog::ModblAdtivbtfNfxtWindow(NULL, tbrgft, pffr);
+
+    HGLOBAL oldG = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+    if (sftup.iDfvModf != oldG) {
+        AwtPrintControl::sftPrintHDModf(fnv, sflf, sftup.iDfvModf);
+    }
+
+    oldG = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+    if (sftup.iDfvNbmfs != oldG) {
+        AwtPrintControl::sftPrintHDNbmf(fnv, sflf, sftup.iDfvNbmfs);
+    }
+
+donf:
+    fnv->DflftfGlobblRff(pffrGlobblRff);
+    if (tbrgft != NULL) {
+        fnv->DflftfLodblRff(tbrgft);
+    }
+    if (pbrfnt != NULL) {
+        fnv->DflftfLodblRff(pbrfnt);
+    }
+    fnv->DflftfLodblRff(pbgf);
+    fnv->DflftfLodblRff(sflf);
+
+    rfturn doIt;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/************************************************************************
+ * WPrintfrJob nbtivf mftiods
+ */
+
+/*
+ * Clbss:   sun_bwt_windows_WPrintfrJob
+ * Mftiod:  sftCopifs
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_sftNbtivfCopifs(JNIEnv *fnv, jobjfdt sflf,
+                                           jint dopifs) {
+    HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+    if (iDfvModf != NULL) {
+      DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+      if (dfvmodf != NULL) {
+        siort nCopifs = (dopifs < (jint)SHRT_MAX)
+          ? stbtid_dbst<siort>(dopifs) : SHRT_MAX;
+        dfvmodf->dmCopifs = nCopifs;
+        dfvmodf->dmFiflds |= DM_COPIES;
+      }
+      ::GlobblUnlodk(iDfvModf);
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    gftDffbultPbgf
+ * Signbturf: (Ljbvb/bwt/print/PbgfFormbt;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_gftDffbultPbgf(JNIEnv *fnv, jobjfdt sflf,
+                                                jobjfdt pbgf) {
+
+  TRY;
+
+  // dfvnbmfs bnd dd brf initiblizfd bt sftting of Print Sfrvidf,
+  // tirougi print diblog or stbrt of printing
+  // Nonf of tiosf mby ibvf ibppfnfd yft, so dbll initPrintfr()
+  initPrintfr(fnv, sflf);
+  HANDLE iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+  HDC idd = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+  if ((iDfvNbmfs == NULL) || (idd == NULL)) {
+      rfturn;
+  }
+
+  DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+
+  if (dfvnbmfs != NULL) {
+
+    LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+    LPTSTR printfrNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft);
+
+    HANDLE      iPrintfr = NULL;
+    LPDEVMODE   pDfvModf;
+
+    /* Stbrt by opfning tif printfr */
+    if (!::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)) {
+      if (iPrintfr != NULL) {
+        ::ClosfPrintfr(iPrintfr);
+      }
+      ::GlobblUnlodk(iDfvNbmfs);
+      frff ((LPTSTR) printfrNbmf);
+      rfturn;
+    }
+
+    if (!AwtPrintControl::gftDfvmodf(iPrintfr, printfrNbmf, &pDfvModf)) {
+        /* if fbilurf, dlfbnup bnd rfturn fbilurf */
+        if (pDfvModf != NULL) {
+            ::GlobblFrff(pDfvModf);
+        }
+        ::ClosfPrintfr(iPrintfr);
+        ::GlobblUnlodk(iDfvNbmfs);
+        frff ((LPTSTR) printfrNbmf);
+        rfturn ;
+    }
+
+    if ((pDfvModf->dmFiflds & DM_PAPERSIZE) ||
+          (pDfvModf->dmFiflds & DM_PAPERWIDTH) ||
+          (pDfvModf->dmFiflds & DM_PAPERLENGTH)) {
+        POINT pbpfrSizf;
+        RECT mbrgins;
+        jint orifntbtion = PAGEFORMAT_PORTRAIT;
+
+        if (idd != NULL) {
+
+          int units = MM_HIENGLISH;
+          int sz = GftLodblfInfo(LOCALE_USER_DEFAULT,
+                                 LOCALE_IMEASURE, NULL, 0);
+          if (sz > 0) {
+            LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(TCHAR), sz);
+            if (str != NULL) {
+              sz = GftLodblfInfo(LOCALE_USER_DEFAULT,
+                                 LOCALE_IMEASURE, str, sz);
+              if (sz > 0) {
+                if (_tdsdmp(TEXT("0"), str) == 0) {
+                  units = MM_HIMETRIC;
+                }
+              }
+              frff((LPTSTR)str);
+            }
+          }
+
+          int widti = ::GftDfvidfCbps(idd, PHYSICALWIDTH);
+          int ifigit = ::GftDfvidfCbps(idd, PHYSICALHEIGHT);
+          int rfsx = ::GftDfvidfCbps(idd, LOGPIXELSX);
+          int rfsy = ::GftDfvidfCbps(idd, LOGPIXELSY);
+
+          doublf w = (doublf)widti/rfsx;
+          doublf i = (doublf)ifigit/rfsy;
+
+          pbpfrSizf.x = donvfrtFromPoints(w*72, units);
+          pbpfrSizf.y = donvfrtFromPoints(i*72, units);
+
+          // sft mbrgins to 1"
+          mbrgins.lfft = donvfrtFromPoints(72, units);
+          mbrgins.top = donvfrtFromPoints(72, units);;
+          mbrgins.rigit = donvfrtFromPoints(72, units);;
+          mbrgins.bottom = donvfrtFromPoints(72, units);;
+
+          jobjfdt pbpfr = gftPbpfr(fnv, pbgf);
+          if (pbpfr == NULL) {
+            goto donf;
+          }
+
+          sftPbpfrVblufs(fnv, pbpfr, &pbpfrSizf, &mbrgins, units);
+          if (fnv->ExdfptionCifdk()) goto donf;
+          sftPbpfr(fnv, pbgf, pbpfr);
+          if (fnv->ExdfptionCifdk()) goto donf;
+
+          if ((pDfvModf->dmFiflds & DM_ORIENTATION) &&
+              (pDfvModf->dmOrifntbtion == DMORIENT_LANDSCAPE)) {
+              orifntbtion = PAGEFORMAT_LANDSCAPE;
+          }
+          sftPbgfFormbtOrifntbtion(fnv, pbgf, orifntbtion);
+        }
+
+    } flsf {
+         sftBoolfbnFifld(fnv, sflf, NO_DEFAULTPRINTER_STR, (jint)JNI_TRUE);
+    }
+
+donf:
+    ::GlobblFrff(pDfvModf);
+
+    frff ((LPTSTR) printfrNbmf);
+
+    ::ClosfPrintfr(iPrintfr);
+
+  }
+  ::GlobblUnlodk(iDfvNbmfs);
+
+  CATCH_BAD_ALLOC;
+
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    vblidbtfPbpfr
+ * Signbturf: (Ljbvb/bwt/print/Pbpfr;Ljbvb/bwt/print/Pbpfr;)V
+ *
+ * Qufry tif durrfnt or dffbult printfr to find bll pbpfr sizfs it
+ * supports bnd find tif dlosfst mbtdiing to tif origPbpfr.
+ * For tif mbtdiing sizf, vblidbtf tif mbrgins bnd printbblf brfb
+ * bgbinst tif printfr's dbpbbilitifs.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_vblidbtfPbpfr(JNIEnv *fnv, jobjfdt sflf,
+                                         jobjfdt origPbpfr, jobjfdt nfwPbpfr) {
+    TRY;
+
+    /* If tif print diblog ibs bffn displbyfd or b DC ibs otifrwisf
+     * bffn drfbtfd, usf tibt. Elsf gft b DC for tif dffbult printfr
+     * wiidi wf disdbrd bfforf rfturning.
+     */
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+    HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+    HGLOBAL iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+    BOOL privbtfDC = FALSE;
+
+    if (printDC == NULL) {
+        PRINTDLG pd;
+        mfmsft(&pd, 0, sizfof(PRINTDLG));
+        pd.lStrudtSizf = sizfof(PRINTDLG);
+        pd.Flbgs = PD_RETURNDEFAULT | PD_RETURNDC;
+        if (::PrintDlg(&pd)) {
+            printDC = pd.iDC;
+            iDfvModf = pd.iDfvModf;
+            iDfvNbmfs = pd.iDfvNbmfs;
+            privbtfDC = TRUE;
+        }
+    }
+
+    JNI_CHECK_NULL_GOTO(printDC, "Invblid printDC", donf);
+
+    /* Wf try to mitigbtf tif ffffdts of flobting point rounding frrors
+     * by only sftting b vbluf if it would difffr from tif vbluf in tif
+     * tbrgft by bt lfbst 0.10 points = 1/720 indifs.
+     * fg if tif vblufs prfsfnt in tif tbrgft brf dlosf to tif dbldulbtfd
+     * vblufs tifn wf bddfpt tif tbrgft.
+     */
+    donst doublf fpsilon = 0.10;
+
+    jdoublf pbpfrWidti, pbpfrHfigit;
+    jboolfbn frr;
+    WORD dmPbpfrSizf = gftPrintPbpfrSizf(fnv, &frr, sflf);
+    if (frr) goto donf;
+
+    doublf ix, iy, iw, ii, pw, pi;
+
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+    jmftiodID gftID;
+
+    jdlbss pbpfrClbss = fnv->GftObjfdtClbss(origPbpfr);
+    JNI_CHECK_NULL_GOTO(pbpfrClbss, "pbpfr dlbss not found", donf);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETWIDTH_STR, GETWIDTH_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftWidti mftiod", donf);
+    pw = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETHEIGHT_STR, GETHEIGHT_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftHfigit mftiod", donf);
+    pi = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_X_STR, GETIMG_X_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftX mftiod", donf);
+    ix = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_Y_STR, GETIMG_Y_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftY mftiod", donf);
+    iy = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_W_STR, GETIMG_W_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftW mftiod", donf);
+    iw = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_H_STR, GETIMG_H_SIG);
+    JNI_CHECK_NULL_GOTO(gftID, "no gftH mftiod", donf);
+    ii = fnv->CbllDoublfMftiod(origPbpfr, gftID);
+
+    mbtdiPbpfrSizf(printDC, iDfvModf, iDfvNbmfs, pw, pi,
+                   &pbpfrWidti, &pbpfrHfigit, &dmPbpfrSizf);
+
+    /* Vblidbtf mbrgins bnd imbgfbblf brfb */
+
+    // pixfls pfr indi in x bnd y dirfdtion
+    jint xPixflRfs = GftDfvidfCbps(printDC, LOGPIXELSX);
+    jint yPixflRfs = GftDfvidfCbps(printDC, LOGPIXELSY);
+
+    // x & y doord of printbblf brfb in pixfls
+    jint xPixflOrg = GftDfvidfCbps(printDC, PHYSICALOFFSETX);
+    jint yPixflOrg = GftDfvidfCbps(printDC, PHYSICALOFFSETY);
+
+    // widti & ifigit of printbblf brfb in pixfls
+    jint imgPixflWid = GftDfvidfCbps(printDC, HORZRES);
+    jint imgPixflHgt = GftDfvidfCbps(printDC, VERTRES);
+
+    // Tif DC mby bf obtbinfd wifn wf first sflfdtfd tif printfr bs b
+    // rfsult of b dbll to sftNbtivfPrintSfrvidf.
+    // If tif Dfvmodf wbs obtbinfd lbtfr on from tif DodumfntPropfrtifs diblog
+    // tif DC won't ibvf bffn updbtfd bnd its sfttings mby bf for PORTRAIT.
+    // Tiis mby ibppfn in otifr dbsfs too, but wbs obsfrvfd for tif bbovf.
+    // To gft b DC dompbtiblf witi tiis dfvmodf wf siould rfblly dbll
+    // CrfbtfDC() bgbin to gft b DC for tif dfvmodf wf brf using.
+    // Tif dibngfs for tibt brf b lot morf risk, so to minimizf tibt
+    // risk, bssumf its not LANDSCAPE unlfss widti > ifigit, fvfn if tif
+    // dfvmodf sbys its LANDSCAPE.
+    // if tif vblufs wfrf obtbinfd from b rotbtfd dfvidf, swbp.
+    if ((gftOrifntbtionFromDfvModf2(iDfvModf) == DMORIENT_LANDSCAPE) &&
+        (imgPixflWid > imgPixflHgt)) {
+      jint tmp;
+      tmp = xPixflRfs;
+      xPixflRfs = yPixflRfs;
+      yPixflRfs = tmp;
+
+      tmp = xPixflOrg;
+      xPixflOrg = yPixflOrg;
+      yPixflOrg = tmp;
+
+      tmp = imgPixflWid;
+      imgPixflWid = imgPixflHgt;
+      imgPixflHgt = tmp;
+    }
+
+    // pbgf imbgfbblf brfb in 1/72"
+    jdoublf imgX = (jdoublf)((xPixflOrg * 72)/(jdoublf)xPixflRfs);
+    jdoublf imgY = (jdoublf)((yPixflOrg * 72)/(jdoublf)yPixflRfs);
+    jdoublf imgWid = (jdoublf)((imgPixflWid * 72)/(jdoublf)xPixflRfs);
+    jdoublf imgHgt = (jdoublf)((imgPixflHgt * 72)/(jdoublf)yPixflRfs);
+
+    /* Cifdk fbdi of tif individubl vblufs is witiin rbngf.
+     * Tifn mbkf surf imbgfbblf brfb is plbdfd witiin imbgfbblf brfb.
+     * Allow for b smbll flobting point frror in tif dompbrisons
+     */
+
+    if (ix < 0.0 ) {
+        ix = 0.0;
+    }
+    if (iy < 0.0 ) {
+        iy = 0.0;
+    }
+    if (iw < 0.0) {
+        iw = 0.0;
+    }
+    if (ii < 0.0) {
+        ii = 0.0;
+    }
+    if ((ix + fpsilon) < imgX) {
+         ix = imgX;
+    }
+    if ((iy + fpsilon) < imgY) {
+         iy = imgY;
+    }
+    if (iw + fpsilon > imgWid) {
+        iw = imgWid;
+    }
+    if (ii + fpsilon > imgHgt) {
+        ii = imgHgt;
+    }
+    if ((ix + iw + fpsilon) > (imgX+imgWid)) {
+        ix = (imgX+imgWid) - iw;
+    }
+    if ((iy + ii + fpsilon) > (imgY+imgHgt)) {
+        iy = (imgY+imgHgt) - ii;
+    }
+
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jmftiodID sftSizfID = fnv->GftMftiodID(pbpfrClbss,
+                                        SETSIZE_STR, SETSIZE_SIG);
+    JNI_CHECK_NULL_GOTO(sftSizfID, "no sftSizf mftiod", donf);
+
+    jmftiodID sftImbgfbblfID = fnv->GftMftiodID(pbpfrClbss,
+                                        SETIMAGEABLE_STR, SETIMAGEABLE_SIG);
+    JNI_CHECK_NULL_GOTO(sftImbgfbblfID, "no sftImbgfbblf mftiod", donf);
+
+    fnv->CbllVoidMftiod(nfwPbpfr, sftSizfID, pbpfrWidti, pbpfrHfigit);
+    fnv->CbllVoidMftiod(nfwPbpfr, sftImbgfbblfID, ix, iy, iw, ii);
+
+donf:
+    /* Frff bny rfsourdfs bllodbtfd */
+    if (privbtfDC == TRUE) {
+        if (printDC != NULL) {
+            /* In tiis dbsf wf know tibt tiis DC ibs no GDI objfdts to frff */
+             ::DflftfDC(printDC);
+        }
+        if (iDfvModf != NULL) {
+            ::GlobblFrff(iDfvModf);
+        }
+        if (iDfvNbmfs != NULL) {
+            ::GlobblFrff(iDfvNbmfs);
+        }
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+stbtid void initPrintfr(JNIEnv *fnv, jobjfdt sflf) {
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    /*
+     * Tif print dfvidf dontfxt will bf NULL if tif
+     * usfr nfvfr okbyfd b print diblog. Tiis
+     * will ibppfn most oftfn wifn tif jbvb bpplidbtion
+     * dfdidfs not to prfsfnt b print diblog to tif usfr.
+     * Wf drfbtf b dfvidf dontfxt for tif dffbult printfr.
+     */
+    if (printDC == NULL) {
+        printDC = gftDffbultPrintfrDC(fnv, sflf);
+        if (printDC){
+            AwtPrintControl::sftPrintDC(fnv, sflf, printDC);
+            sftCbpbbilitifs(fnv, sflf, printDC);
+        }
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    initPrintfr
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_initPrintfr(JNIEnv *fnv, jobjfdt sflf) {
+    TRY;
+    jboolfbn frr;
+
+    initPrintfr(fnv, sflf);
+
+    // difdk for dollbtion
+    HGLOBAL iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+    if (iDfvNbmfs != NULL) {
+        DWORD dmFiflds;
+        DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+
+        if (dfvnbmfs != NULL) {
+            LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+            LPTSTR printfrnbmf = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
+            LPTSTR port = lpdfvnbmfs+dfvnbmfs->wOutputOffsft;
+
+            SAVE_CONTROLWORD
+            dmFiflds = ::DfvidfCbpbbilitifs(printfrnbmf, port,
+                                            DC_FIELDS, NULL, NULL);
+            int dfvLbndRotbtion = (int)DfvidfCbpbbilitifs(printfrnbmf, port,
+                                        DC_ORIENTATION, NULL, NULL);
+            RESTORE_CONTROLWORD
+            ::GlobblUnlodk(dfvnbmfs);
+
+            if (dfvLbndRotbtion == 270) {
+                frr = sftBoolfbnFifld(fnv, sflf, LANDSCAPE_270_STR, JNI_TRUE);
+            } flsf {
+                frr = sftBoolfbnFifld(fnv, sflf, LANDSCAPE_270_STR, JNI_FALSE);
+            }
+            if (frr) rfturn;
+        }
+
+        if (dmFiflds & DM_COLLATE) {
+            frr = sftBoolfbnFifld(fnv, sflf, DRIVER_COLLATE_STR, JNI_TRUE);
+        } flsf {
+            frr = sftBoolfbnFifld(fnv, sflf, DRIVER_COLLATE_STR, JNI_FALSE);
+        }
+        if (frr) rfturn;
+
+        if (dmFiflds & DM_COPIES) {
+            sftBoolfbnFifld(fnv, sflf, DRIVER_COPIES_STR, JNI_TRUE);
+        }
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ *   rfturns 0 if print dbpbbilitifs ibs bffn dibngfd
+ *           1 if print dbpbbilitifs ibs not bffn dibngfd
+ *          -1 in dbsf of frror
+ */
+stbtid int sftPrintRfqAttributf(JNIEnv *fnv, jobjfdt sflf, DEVMODE* dfvmodf) {
+
+    /* Tif xRfs/yRfs fiflds brf only initiblisfd if tifrf is b rfsolution
+     * bttributf. Otifrwisf tify boti will bf zfro, in wiidi dbsf dffbult
+     * rfsolution siould bf finf. Considfr dblling gftXRfs()/gftRfsY()
+     * rbtifr tibn bddfssing tif fiflds dirfdtly
+     */
+    jboolfbn frr;
+    int xRfs=gftIntFifld(fnv, &frr, sflf, ATTXRES_STR);
+    if (frr) rfturn -1;
+    int yRfs=gftIntFifld(fnv, &frr, sflf, ATTYRES_STR);
+    if (frr) rfturn -1;
+    int qublity=gftIntFifld(fnv, &frr, sflf, ATTQUALITY_STR);
+    if (frr) rfturn -1;
+    int printColor = gftIntFifld(fnv, &frr, sflf, ATTCHROMATICITY_STR);
+    if (frr) rfturn -1;
+    int sidfs = gftIntFifld(fnv, &frr, sflf, ATTSIDES_STR);
+    if (frr) rfturn -1;
+    int dollbtf = gftIntFifld(fnv, &frr, sflf, ATTCOLLATE_STR);
+    if (frr) rfturn -1;
+    int dopifs = 1;
+    // Tifrf mby bf dbsfs wifn drivfr rfports it dbnnot ibndlf
+    // multiplf dopifs bltiougi it bdtublly dbn .  So tiis modifidbtion
+    // ibndlfs tibt, to mbkf surf tibt wf rfport dopifs = 1 bfdbusf
+    // wf blrfbdy fmulbtfd multiplf dopifs.
+    jboolfbn drivfrHbndlfsCopifs = gftBoolfbnFifld(fnv, &frr, sflf, DRIVER_COPIES_STR);
+    if (frr) rfturn -1;
+    if (drivfrHbndlfsCopifs) {
+       dopifs = gftIntFifld(fnv, &frr, sflf, ATTCOPIES_STR);
+      if (frr) rfturn -1;
+    } // flsf "drivfrDofsMultiplfCopifs" is fblsf, dopifs siould bf 1 (dffbult)
+    int mfdibtrby = gftIntFifld(fnv, &frr, sflf, ATTMEDIATRAY_STR);
+    if (frr) rfturn -1;
+    int mfdibsznbmf = gftIntFifld(fnv, &frr, sflf, ATTMEDIASZNAME_STR);
+    if (frr) rfturn -1;
+    int rft = 1;
+
+    if (qublity && qublity < 0) {
+        if (qublity != dfvmodf->dmPrintQublity) {
+            dfvmodf->dmPrintQublity = qublity;
+            dfvmodf->dmFiflds |= DM_PRINTQUALITY;
+            // rft of 0 mfbns tibt sftCbpbbilitifs nffds to bf dbllfd
+            rft = 0;
+        }
+    } flsf {
+        /* If wf didn't sft qublity, mbybf wf ibvf rfsolution sfttings. */
+        if (xRfs && (xRfs != dfvmodf->dmPrintQublity)) {
+            dfvmodf->dmPrintQublity = xRfs;
+            dfvmodf->dmFiflds |= DM_PRINTQUALITY;
+        }
+
+        if (yRfs && (yRfs != dfvmodf->dmYRfsolution)) {
+            dfvmodf->dmYRfsolution = yRfs;
+            dfvmodf->dmFiflds |= DM_YRESOLUTION;
+        }
+    }
+
+    if (printColor && (printColor != dfvmodf->dmColor)) {
+        dfvmodf->dmColor = printColor;
+        dfvmodf->dmFiflds |= DM_COLOR;
+    }
+
+    if (sidfs && (sidfs != dfvmodf->dmDuplfx)) {
+        dfvmodf->dmDuplfx = sidfs;
+        dfvmodf->dmFiflds |= DM_DUPLEX;
+    }
+
+    if ((dollbtf != -1) && (dollbtf != dfvmodf->dmCollbtf)) {
+        dfvmodf->dmCollbtf = dollbtf;
+        dfvmodf->dmFiflds |= DM_COLLATE;
+    }
+
+    if (dopifs && (dopifs != dfvmodf->dmCopifs)) {
+        dfvmodf->dmCopifs = dopifs;
+        dfvmodf->dmFiflds |= DM_COPIES;
+    }
+
+    if (mfdibtrby && (mfdibtrby != dfvmodf->dmDffbultSourdf)) {
+        dfvmodf->dmDffbultSourdf = mfdibtrby;
+        dfvmodf->dmFiflds |= DM_DEFAULTSOURCE;
+    }
+
+    if (mfdibsznbmf && (mfdibsznbmf != dfvmodf->dmPbpfrSizf)) {
+        dfvmodf->dmPbpfrSizf = mfdibsznbmf;
+        dfvmodf->dmFiflds |= DM_PAPERSIZE;
+    }
+
+    rfturn rft;
+}
+
+stbtid LPTSTR GftPrintfrPort(JNIEnv *fnv, LPTSTR printfr) {
+
+  HANDLE iPrintfr;
+  if (::OpfnPrintfr(printfr, &iPrintfr, NULL) == FALSE) {
+      rfturn NULL;
+  }
+
+  DWORD bytfsRfturnfd, bytfsNffdfd;
+  ::GftPrintfr(iPrintfr, 2, NULL, 0, &bytfsNffdfd);
+  PRINTER_INFO_2* info2 = (PRINTER_INFO_2*)::GlobblAllod(GPTR, bytfsNffdfd);
+  if (info2 == NULL) {
+      ::ClosfPrintfr(iPrintfr);
+      rfturn NULL;
+  }
+
+  int rft = ::GftPrintfr(iPrintfr, 2, (LPBYTE)info2,
+                         bytfsNffdfd, &bytfsRfturnfd);
+  ::ClosfPrintfr(iPrintfr);
+  if (!rft) {
+    ::GlobblFrff(info2);
+    rfturn NULL;
+  }
+
+  LPTSTR port = _wdsdup(info2->pPortNbmf);
+  ::GlobblFrff(info2);
+  rfturn port;
+}
+
+stbtid jboolfbn isFilfPort(LPTSTR port) {
+    rfturn wdsdmp(port, TEXT("FILE:")) == 0;
+}
+
+/*
+ * Tiis is dbllfd wifn printing is bbout to stbrt bnd wf ibvf not spfdififd
+ * b filf dfstinbtion - wiidi is in fbdt tif 99.99% dbsf.
+ * Wf dbn disdovfr from tif DEVNAMES if tif DC is bdtublly bssodibtfd
+ * witi "FILE:", wiidi is going to oddur
+ * 1) if tif nbtivf print diblog wbs usfd bnd print to filf wbs sflfdtfd, or
+ * 2) tif printfr drivfr is donfigurfd to print to filf.
+ * In tibt formfr dbsf wf ibvf b donflidt sindf if tif dfstinbtion is b
+ * filf, JDK will normblly supply tibt dfstinbtion to StbrtDod, so wibt
+ * must ibvf ibppfnfd is tif bpp df-bssodibtfd tif job from tif filf, but
+ * tif printfr DC ftd is still iookfd up to tif filf. If wf find
+ * tif DEVNAMES spfdififd is sft to "FILE:"
+ * First find out if tif DC wbs bssodibtfd witi b FILE. If it is,
+ * tifn unlfss tibt is its normbl donfigurbtion, wf'll gft b nfw DC.
+ * If tif dffbult dfstinbtion fnds witi ":", tiis is suffidifnt dluf
+ * to windows it must bf b dfvidf. Otifrwisf wf nffd to drfbtf b nfw DC.
+ */
+LPTSTR VfrifyDfstinbtion(JNIEnv *fnv, jobjfdt wPrintfrJob) {
+
+    LPTSTR dfst = NULL;
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, wPrintfrJob);
+    HGLOBAL iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, wPrintfrJob);
+    if (iDfvNbmfs == NULL || printDC == NULL) {
+        rfturn NULL;
+    }
+
+    DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+    if (dfvnbmfs != NULL) {
+        LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+        LPTSTR printfr = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
+        LPTSTR port = lpdfvnbmfs+dfvnbmfs->wOutputOffsft;
+        if (port != NULL && isFilfPort(port)) {
+            LPTSTR dffPort = GftPrintfrPort(fnv, printfr);
+            if (!isFilfPort(dffPort)) { // not b FILE: port by dffbult
+                sizf_t lfn = wdslfn(dffPort);
+                if (lfn > 0 && port[lfn-1] == L':') { // is b dfvidf port
+                    dfst = dffPort;
+                } flsf {
+                    /* Wf nffd to drfbtf b nfw DC */
+                    HDC nfwDC = ::CrfbtfDC(TEXT("WINSPOOL"),
+                                           printfr, NULL, NULL);
+                    AwtPrintControl::sftPrintDC(fnv, wPrintfrJob, nfwDC);
+                    DflftfDC(printDC);
+                }
+            }
+            if (dfst != dffPort) {
+                frff(dffPort);
+            }
+        }
+        ::GlobblUnlodk(iDfvNbmfs);
+    }
+    rfturn dfst;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    stbrtDod
+ * Signbturf: ()V
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob__1stbrtDod(JNIEnv *fnv, jobjfdt sflf,
+                                            jstring dfst, jstring jobnbmf) {
+    TRY;
+
+    int frr = 0;
+
+    LPTSTR dfstinbtion = NULL;
+    if (dfst != NULL) {
+        dfstinbtion = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, dfst, NULL);
+        CHECK_NULL_RETURN(dfstinbtion, JNI_FALSE);
+    } flsf {
+        dfstinbtion = VfrifyDfstinbtion(fnv, sflf);
+    }
+    LPTSTR dodnbmf = NULL;
+    if (jobnbmf != NULL) {
+        LPTSTR tmp = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, jobnbmf, NULL);
+        if (tmp == NULL) {
+            if (dfst != NULL) {
+                JNU_RflfbsfStringPlbtformCibrs(fnv, dfst, dfstinbtion);
+            }
+            rfturn JNI_FALSE;
+        }
+        dodnbmf = _tdsdup(tmp);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jobnbmf, tmp);
+    } flsf {
+        dodnbmf = TEXT("Jbvb Printing");
+    }
+
+    initPrintfr(fnv, sflf);
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    SAVE_CONTROLWORD
+    /* Wf do our own rotbtion, so dfvidf must bf in portrbit modf.
+     * Tiis siould bf in ffffdt only wiilst wf brf printing, so tibt
+     * if tif bpp displbys tif nbtivf diblog bgbin for tif sbmf printfrjob
+     * instbndf, it siows tif sftting tif usfr fxpfdts.
+     * So in EndDod, bnd AbortDod or if wf fbil out of tiis fundtion,
+     * wf nffd to rfstorf tiis.
+     */
+    HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+    if (printDC != NULL && iDfvModf != NULL) {
+        DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+        bool suddfss = truf;
+        if (dfvmodf != NULL) {
+                dfvmodf->dmFiflds |= DM_ORIENTATION;
+                dfvmodf->dmOrifntbtion = DMORIENT_PORTRAIT;
+                /* sft bttributf vblufs into dfvmodf */
+                int rft = sftPrintRfqAttributf(fnv, sflf, dfvmodf);
+                ::RfsftDC(printDC, dfvmodf);
+                RESTORE_CONTROLWORD
+
+                if (rft == 0) {
+                    /*
+                      Nffd to rfbd in updbtfd dfvidf dbpbbilitifs bfdbusf
+                      print qublity ibs bffn dibngfd.
+                    */
+                    sftCbpbbilitifs(fnv, sflf, printDC);
+                    if (fnv->ExdfptionCifdk()) suddfss = fblsf;
+                } flsf if (rft < 0) {
+                    suddfss = fblsf;
+                }
+        }
+        ::GlobblUnlodk(iDfvModf);
+        if (!suddfss) {
+            if (dfst != NULL) {
+                JNU_RflfbsfStringPlbtformCibrs(fnv, dfst, dfstinbtion);
+            }
+            rfturn JNI_FALSE;
+        }
+    }
+
+    if (printDC){
+        DOCINFO dodInfo;
+        mfmsft(&dodInfo, 0, sizfof(DOCINFO));
+        dodInfo.dbSizf = sizfof (DOCINFO);
+        dodInfo.lpszDodNbmf = dodnbmf;
+
+        TCHAR fullPbti[_MAX_PATH];
+        if (dfstinbtion != NULL) {
+            _tfullpbti(fullPbti, dfstinbtion, _MAX_PATH);
+            dodInfo.lpszOutput = fullPbti;
+        }
+
+        dodInfo.fwTypf = 0;
+
+        frr = ::StbrtDod(printDC, &dodInfo);
+        RESTORE_CONTROLWORD
+        frff((void*)dodInfo.lpszDodNbmf);
+        if (frr <= 0) {
+            frr = GftLbstError();
+        } flsf {
+            frr = 0;
+        }
+    }
+    flsf {
+        JNU_TirowByNbmf(fnv, PRINTEREXCEPTION_STR, "No printfr found.");
+    }
+
+    if (dfst != NULL) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, dfst, dfstinbtion);
+    }
+
+    if (frr && frr != ERROR_CANCELLED) {
+        tirowPrintfrExdfption(fnv, frr);
+    }
+    if (frr == ERROR_CANCELLED) {
+        rfturn JNI_FALSE;
+    } flsf {
+        rfturn JNI_TRUE;
+    }
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    fndDod
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_fndDod(JNIEnv *fnv, jobjfdt sflf) {
+    TRY;
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    if (printDC != NULL){
+        SAVE_CONTROLWORD
+        ::EndDod(printDC);
+        RESTORE_CONTROLWORD
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    bbortDod
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_bbortDod(JNIEnv *fnv, jobjfdt sflf) {
+    TRY;
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    if (printDC != NULL){
+         ::AbortDod(printDC);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+stbtid void DflftfPrintDC(HDC printDC) {
+    if (printDC==NULL) {
+        rfturn;
+    }
+    /* Frff bny GDI objfdts wf mby ibvf sflfdtfd into tif DC.
+     * It is not ibrmful to dbll DflftfObjfdt if tif rftrifvfd objfdts
+     * ibppfn to bf stodk objfdts.
+     */
+    HBRUSH ibrusi = (HBRUSH)::SflfdtObjfdt(printDC,
+                                           ::GftStodkObjfdt(BLACK_BRUSH));
+    if (ibrusi != NULL) {
+        ::DflftfObjfdt(ibrusi);
+    }
+    HPEN ipfn = (HPEN)::SflfdtObjfdt(printDC, ::GftStodkObjfdt(BLACK_PEN));
+    if (ipfn != NULL) {
+        ::DflftfObjfdt(ipfn);
+    }
+    HFONT ifont = (HFONT)::SflfdtObjfdt(printDC,::GftStodkObjfdt(SYSTEM_FONT));
+    if (ifont != NULL) {
+        ::DflftfObjfdt(ifont);
+    }
+    ::DflftfDC(printDC);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    dflftfDC
+ * Signbturf: ()V
+ * Cbllfd bftfr WPrintfrJob ibs bffn GCfd, not bfforf.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_dflftfDC
+(JNIEnv *fnv, jdlbss wpjClbss, jlong dd, jlong dfvmodf, jlong dfvnbmfs) {
+
+    TRY_NO_VERIFY;
+
+    DflftfPrintDC((HDC)dd);
+
+    if ((HGLOBAL)dfvmodf != NULL){
+         ::GlobblFrff((HGLOBAL)dfvmodf);
+    }
+    if ((HGLOBAL)dfvnbmfs != NULL){
+         ::GlobblFrff((HGLOBAL)dfvnbmfs);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    dfvidfStbrtPbgf
+ * Signbturf: (Ljbvb/bwt/print/PbgfFormbt;Ljbvb/bwt/print/Printbblf;I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_dfvidfStbrtPbgf
+(JNIEnv *fnv, jobjfdt sflf, jobjfdt formbt, jobjfdt pbintfr, jint pbgfIndfx,
+ jboolfbn pbgfCibngfd) {
+    TRY;
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    if (printDC != NULL){
+        LONG rftvbl = 0;
+        HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+        HGLOBAL iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, sflf);
+        jboolfbn frr;
+        WORD dmPbpfrSizf = gftPrintPbpfrSizf(fnv, &frr, sflf);
+        if (frr) rfturn;
+        SAVE_CONTROLWORD
+          // Unlfss tif PbgfFormbt ibs bffn dibngfd, do not sft tif pbpfr
+          // sizf for b nfw pbgf. Doing so is unnfdfssbry, pfribps fxpfnsivf,
+          // bnd dbn lfbd somf printfrs to fmit tif pbpfr prfmbturfly in
+          // duplfx modf.
+        if (iDfvModf != NULL && iDfvNbmfs != NULL && pbgfCibngfd) {
+
+            RfdtDoublf pbpfrSizf;
+            RfdtDoublf mbrgins;
+            jobjfdt pbpfr = gftPbpfr(fnv, formbt);
+            CHECK_NULL(pbpfr);
+            gftPbpfrVblufs(fnv, pbpfr, &pbpfrSizf, &mbrgins);
+            JNU_CHECK_EXCEPTION(fnv);
+            doublf pbpfrWidti, pbpfrHfigit;
+            mbtdiPbpfrSizf(printDC, iDfvModf, iDfvNbmfs,
+                           pbpfrSizf.widti,  pbpfrSizf.ifigit,
+                           &pbpfrWidti, &pbpfrHfigit, &dmPbpfrSizf);
+
+            DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+            if (dfvmodf != NULL) {
+                if (dmPbpfrSizf == 0) {
+                  dfvmodf->dmFiflds |= DM_PAPERLENGTH | DM_PAPERWIDTH
+                    | DM_PAPERSIZE;
+                  dfvmodf->dmPbpfrSizf = DMPAPER_USER;
+                  dfvmodf->dmPbpfrWidti =
+                    (siort)(donvfrtFromPoints(pbpfrSizf.widti, MM_LOMETRIC));
+                  dfvmodf->dmPbpfrLfngti =
+                    (siort)(donvfrtFromPoints(pbpfrSizf.ifigit, MM_LOMETRIC));
+                  // synd witi publid dfvmodf sfttings
+                  {
+                    DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+                    if (dfvnbmfs != NULL) {
+
+                      LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+                      LPTSTR printfrNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft);
+
+                      HANDLE iPrintfr;
+                      if (::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)== TRUE) {
+
+                        // Nffd to dbll DodumfntPropfrtifs to updbtf dibngf
+                        // in pbpfr sftting bfdbusf somf drivfrs do not updbtf
+                        // it witi b simplf dbll to RfsftDC.
+                        rftvbl = ::DodumfntPropfrtifs(NULL, iPrintfr,printfrNbmf,
+                                             dfvmodf, dfvmodf,
+                                             DM_IN_BUFFER|DM_OUT_BUFFER);
+                        RESTORE_CONTROLWORD
+
+                        ::ClosfPrintfr(iPrintfr);
+                        frff ((dibr*)printfrNbmf);
+                      }
+                    }
+
+                    ::GlobblUnlodk(iDfvNbmfs);
+                  } // synd
+                  HDC rfs = ::RfsftDC(printDC, dfvmodf);
+                  RESTORE_CONTROLWORD
+                }  // if (dmPbpfrSizf == 0)
+                // if DodumfntPropfrtifs() fbil
+               if (rftvbl < 0) {
+                  ::GlobblUnlodk(iDfvModf);
+                  rfturn;
+               }
+            }
+            ::GlobblUnlodk(iDfvModf);
+        }
+
+        ::StbrtPbgf(printDC);
+        RESTORE_CONTROLWORD
+
+        /* Tif origin for b glypi will bf blong tif lfft
+         * fdgf of its bnounding box bt tif bbsf linf.
+         * Tif doindidfs witi tif Jbvb tfxt glypi origin.
+         */
+        ::SftTfxtAlign(printDC, TA_LEFT | TA_BASELINE);
+
+        /* Tif bbdkground modf is usfd wifn GDI drbws tfxt,
+         * ibtdifd brusifs bnd pofn tibt brf not solid.
+         * Wf sft tif modf to trbnspbrfntso tibt wifn
+         * drbwing tfxt only tif glypis tifmsflvfs brf
+         * drbwn. Tif boundingbox of tif string is not
+         * frbsfd to tif bbdkground dolor.
+         */
+        ::SftBkModf(printDC, TRANSPARENT);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    dfvidfEndPbgf
+ * Signbturf: (Ljbvb/bwt/print/PbgfFormbt;Ljbvb/bwt/print/Printbblf;I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_dfvidfEndPbgf
+(JNIEnv *fnv, jobjfdt sflf, jobjfdt formbt, jobjfdt pbintfr, jint pbgfIndfx) {
+    TRY;
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+
+    if (printDC != NULL){
+        SAVE_CONTROLWORD
+        ::EndPbgf(printDC);
+        RESTORE_CONTROLWORD
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WEmbfddfdFrbmf
+ * Mftiod:    isPrintfrDC
+ * Signbturf: (J)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_WEmbfddfdFrbmf_isPrintfrDC
+    (JNIEnv *fnv, jobjfdt sflf, jlong idd) {
+
+    HDC rfblHDC = (HDC)idd;
+    if (rfblHDC == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    int tfdinology = GftDfvidfCbps(rfblHDC, TECHNOLOGY);
+#if DEBUG_PRINTING
+     FILE *filf = fopfn("d:\\plog.txt", "b");
+     fprintf(filf,"tfdi is %d\n", tfdinology);
+     fdlosf(filf);
+#fndif //DEBUG_PRINTING
+    switdi (GftDfvidfCbps(rfblHDC, TECHNOLOGY)) {
+    dbsf DT_RASPRINTER :
+        rfturn JNI_TRUE;
+    dbsf DT_RASDISPLAY :
+    dbsf DT_METAFILE   :
+        if (GftObjfdtTypf(rfblHDC) == OBJ_ENHMETADC) {
+            rfturn JNI_TRUE;
+        }
+    dffbult : rfturn JNI_FALSE;
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WEmbfddfdFrbmf
+ * Mftiod:    printBbnd
+ * Signbturf: (J[BIIIIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WEmbfddfdFrbmf_printBbnd
+  (JNIEnv *fnv, jobjfdt sflf, jlong tifHDC, jbytfArrby imbgfArrby,
+   jint offsft, jint srdX,  jint srdY,  jint srdWidti,  jint srdHfigit,
+   jint dfstX, jint dfstY, jint dfstWidti, jint dfstHfigit) {
+
+    if (tifHDC == NULL || imbgfArrby == NULL ||
+        srdWidti <= 0 || srdHfigit == 0 || dfstWidti == 0 || dfstHfigit <=0) {
+        rfturn;
+    }
+
+    HDC iDC = (HDC)tifHDC;
+
+    /* Tif dodf bflow is dommfntfd out until its provfn nfdfssbry. In its
+     * originbl form of PbtBlit(iDC, dfstX,dfstY,dfstWidti, dfstHfigit ..)
+     * it rfsultfd in tif PS drivfr siowing b wiitf fringf, pfribps bfdbusf
+     * tif PS drivfr fndlosfd tif spfdififd brfb rbtifr tibn filling its
+     * intfrior. Tif dodf is bflifvfd to ibvf bffn tifrf to prfvfnt sudi
+     * brtffbdts rbtifr tibn dbusf tifm. Tiis mby ibvf bffn rflbtfd to
+     * tif fbrlifr implfmfntbtion using findNonWiitf(..) bnd brfbking tif
+     * imbgf blit up into multiplf blit dblls. Tiis durrfntly looks bs if
+     * its unnfdfssbry bs tif drivfr pfrforms bdfqubtf domprfssion wifrf
+     * sudi bll wiitf spbns fxist
+     */
+//     HGDIOBJ oldBrusi =
+//      ::SflfdtObjfdt(iDC, AwtBrusi::Gft(RGB(0xff, 0xff, 0xff))->GftHbndlf());
+//     ::PbtBlt(iDC, dfstX+1, dfstY+1, dfstWidti-2, dfstHfigit-2, PATCOPY);
+//     ::SflfdtObjfdt(iDC, oldBrusi);
+
+    TRY;
+    jbytf *imbgf = NULL;
+    try {
+        imbgf = (jbytf *)fnv->GftPrimitivfArrbyCritidbl(imbgfArrby, 0);
+        CHECK_NULL(imbgf);
+        strudt {
+            BITMAPINFOHEADER bmiHfbdfr;
+            DWORD*                 bmiColors;
+        } bitMbpHfbdfr;
+
+        mfmsft(&bitMbpHfbdfr,0,sizfof(bitMbpHfbdfr));
+        bitMbpHfbdfr.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+        bitMbpHfbdfr.bmiHfbdfr.biWidti = srdWidti;
+        bitMbpHfbdfr.bmiHfbdfr.biHfigit = srdHfigit;
+        bitMbpHfbdfr.bmiHfbdfr.biPlbnfs = 1;
+        bitMbpHfbdfr.bmiHfbdfr.biBitCount = 24;
+        bitMbpHfbdfr.bmiHfbdfr.biComprfssion = BI_RGB;
+
+        int rfsult =
+            ::StrftdiDIBits(iDC,
+                            dfstX,         // lfft of dfst rfdt
+                            dfstY,         // top of dfst rfdt
+                            dfstWidti,     // widti of dfst rfdt
+                            dfstHfigit,    // ifigit of dfst rfdt
+                            srdX,          // lfft of sourdf rfdt
+                            srdY,          // top of sourdf rfdt
+                            srdWidti,      // numbfr of 1st sourdf sdbn linf
+                            srdHfigit,     // numbfr of sourdf sdbn linfs
+                            imbgf+offsft,  // points to tif DIB
+                            (BITMAPINFO *)&bitMbpHfbdfr,
+                            DIB_RGB_COLORS,
+                            SRCCOPY);
+#if DEBUG_PRINTING
+     FILE *filf = fopfn("d:\\plog.txt", "b");
+     fprintf(filf,"si=%d di=%d sy=%d dy=%d rfsult=%d\n", srdHfigit, dfstHfigit, srdY, dfstY, rfsult);
+     fdlosf(filf);
+#fndif //DEBUG_PRINTING
+    } dbtdi (...) {
+        if (imbgf != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(imbgfArrby, imbgf, 0);
+        }
+        tirow;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(imbgfArrby, imbgf, 0);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    printBbnd
+ * Signbturf: ([BIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_printBbnd
+  (JNIEnv *fnv, jobjfdt sflf, jbytfArrby imbgfArrby, jint x, jint y,
+   jint widti, jint ifigit) {
+
+    HDC printDC = AwtPrintControl::gftPrintDC(fnv, sflf);
+    doPrintBbnd(fnv, JNI_FALSE, printDC, imbgfArrby, x, y, widti, ifigit);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    bfginPbti
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_bfginPbti
+(JNIEnv *fnv , jobjfdt sflf, jlong printDC) {
+    TRY;
+
+    (void) ::BfginPbti((HDC)printDC);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    fndPbti
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_fndPbti
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+    TRY;
+
+    (void) ::EndPbti((HDC)printDC);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    fillPbti
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_fillPbti
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+    TRY;
+
+    (void) ::FillPbti((HDC)printDC);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    dlosfFigurf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_dlosfFigurf
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+    TRY;
+
+    (void) ::ClosfFigurf((HDC)printDC);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    linfTo
+ * Signbturf: (JFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_linfTo
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jflobt x, jflobt y) {
+    TRY;
+
+    (void) ::LinfTo((HDC)printDC, ROUND_TO_LONG(x), ROUND_TO_LONG(y));
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    movfTo
+ * Signbturf: (JFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_movfTo
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jflobt x, jflobt y) {
+    TRY;
+
+    (void) ::MovfToEx((HDC)printDC, ROUND_TO_LONG(x), ROUND_TO_LONG(y), NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    polyBfzifrTo
+ * Signbturf: (JFFFFFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_polyBfzifrTo
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC,
+ jflobt dontrol1x, jflobt dontrol1y,
+ jflobt dontrol2x, jflobt dontrol2y,
+ jflobt fndX, jflobt fndY) {
+
+    TRY;
+
+    POINT points[3];
+
+    points[0].x = ROUND_TO_LONG(dontrol1x);
+    points[0].y = ROUND_TO_LONG(dontrol1y);
+    points[1].x = ROUND_TO_LONG(dontrol2x);
+    points[1].y = ROUND_TO_LONG(dontrol2y);
+    points[2].x = ROUND_TO_LONG(fndX);
+    points[2].y = ROUND_TO_LONG(fndY);
+
+    (void) ::PolyBfzifrTo((HDC)printDC, points, 3);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sftPolyFillModf
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sftPolyFillModf
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jint fillRulf) {
+    TRY;
+
+    (void) ::SftPolyFillModf((HDC)printDC, fillRulf);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sflfdtSolidBrusi
+ * Signbturf: (JIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sflfdtSolidBrusi
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jint rfd, jint grffn, jint bluf) {
+
+    TRY;
+
+    HBRUSH dolorBrusi = ::CrfbtfSolidBrusi(RGB(rfd, grffn, bluf));
+    HBRUSH oldBrusi = (HBRUSH)::SflfdtObjfdt((HDC)printDC, dolorBrusi);
+    DflftfObjfdt(oldBrusi);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    gftPfnX
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_gftPfnX
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+
+    TRY;
+
+    POINT wifrf;
+    ::GftCurrfntPositionEx((HDC)printDC, &wifrf);
+
+    rfturn (jint) wifrf.x;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    gftPfnY
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_gftPfnY
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+
+    TRY;
+
+    POINT wifrf;
+    ::GftCurrfntPositionEx((HDC)printDC, &wifrf);
+
+    rfturn (jint) wifrf.y;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sflfdtClipPbti
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sflfdtClipPbti
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC) {
+
+    TRY;
+
+    ::SflfdtClipPbti((HDC)printDC, RGN_COPY);
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    frbmfRfdt
+ * Signbturf: (JFFFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_frbmfRfdt
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC,
+ jflobt x, jflobt y, jflobt widti, jflobt ifigit) {
+
+  TRY;
+
+  POINT points[5];
+
+  points[0].x = ROUND_TO_LONG(x);
+  points[0].y = ROUND_TO_LONG(y);
+  points[1].x = ROUND_TO_LONG(x+widti);
+  points[1].y = ROUND_TO_LONG(y);
+  points[2].x = ROUND_TO_LONG(x+widti);
+  points[2].y = ROUND_TO_LONG(y+ifigit);
+  points[3].x = ROUND_TO_LONG(x);
+  points[3].y = ROUND_TO_LONG(y+ifigit);
+  points[4].x = ROUND_TO_LONG(x);
+  points[4].y = ROUND_TO_LONG(y);
+
+  ::Polylinf((HDC)printDC, points, sizfof(points)/sizfof(points[0]));
+
+  CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    fillRfdt
+ * Signbturf: (JFFFFIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_fillRfdt
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC,
+ jflobt x, jflobt y, jflobt widti, jflobt ifigit,
+ jint rfd, jint grffn, jint bluf) {
+
+  TRY;
+
+  RECT rfdt;
+  rfdt.lfft = ROUND_TO_LONG(x);
+  rfdt.top = ROUND_TO_LONG(y);
+  rfdt.rigit = ROUND_TO_LONG(x+widti);
+  rfdt.bottom = ROUND_TO_LONG(y+ifigit);
+
+  HBRUSH brusi = ::CrfbtfSolidBrusi(RGB(rfd, grffn, bluf));
+
+  if (brusi != NULL) {
+    ::FillRfdt((HDC)printDC, (LPRECT) &rfdt, brusi);
+    DflftfObjfdt(brusi);
+  }
+
+  CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sflfdtPfn
+ * Signbturf: (JFIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sflfdtPfn
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jflobt widti,
+ jint rfd, jint grffn, jint bluf) {
+
+  TRY;
+
+  HPEN ipfn =  ::CrfbtfPfn(PS_SOLID, ROUND_TO_LONG(widti),
+                           RGB(rfd, grffn, bluf));
+
+  if (ipfn != NULL) {
+    HPEN oldpfn = (HPEN) ::SflfdtObjfdt((HDC)printDC, ipfn);
+
+    if (oldpfn != NULL) {
+      DflftfObjfdt(oldpfn);
+    }
+  }
+
+  CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sflfdtStylfPfn
+ * Signbturf: (JJJFIII)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sflfdtStylfPfn
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jlong dbp, jlong join, jflobt widti,
+ jint rfd, jint grffn, jint bluf) {
+
+  TRY;
+
+  LOGBRUSH logBrusi;
+
+  logBrusi.lbStylf = PS_SOLID ;
+  logBrusi.lbColor = RGB(rfd, grffn, bluf);
+  logBrusi.lbHbtdi = 0 ;
+
+  HPEN ipfn =  ::ExtCrfbtfPfn(PS_GEOMETRIC | PS_SOLID | (DWORD)dbp
+                              | (DWORD)join, ROUND_TO_LONG(widti),
+                              &logBrusi, 0, NULL);
+
+  if (ipfn != NULL) {
+    HPEN oldpfn = (HPEN) ::SflfdtObjfdt((HDC)printDC, ipfn);
+
+    if (oldpfn != NULL) {
+      DflftfObjfdt(oldpfn);
+    }
+  }
+
+  rfturn JNI_TRUE;
+
+  CATCH_BAD_ALLOC_RET (0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sftFont
+ * Signbturf: (JLjbvb/lbng/String;FZZIF)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sftFont
+  (JNIEnv *fnv, jobjfdt sflf, jlong printDC, jstring fontNbmf,
+   jflobt fontSizf, jboolfbn isBold, jboolfbn isItblid, jint rotbtion,
+   jflobt bwSdblf)
+{
+    jboolfbn didSftFont = JNI_FALSE;
+
+    didSftFont = jFontToWFontW(fnv, (HDC)printDC,
+                               fontNbmf,
+                               fontSizf,
+                               isBold,
+                               isItblid,
+                               rotbtion,
+                               bwSdblf);
+
+    rfturn didSftFont;
+}
+
+/**
+ * Try to donvfrt b jbvb font to b GDI font. On fntry, 'printDC',
+ * is tif dfvidf dontfxt wf wbnt to drbw into. 'fontNbmf' is
+ * tif nbmf of tif font to bf mbtdifd bnd 'fontSizf' is tif
+ * sizf of tif font in dfvidf doordinbtfs. If tifrf is bn
+ * fquivblfnt GDI font tifn tiis fundtion sfts tibt font
+ * into 'printDC' bnd rfturns b 'truf'. If tifrf is no fquivblfnt
+ * font tifn 'fblsf' is rfturnfd.
+ */
+stbtid jboolfbn jFontToWFontA(JNIEnv *fnv, HDC printDC, jstring fontNbmf,
+                        jflobt fontSizf, jboolfbn isBold, jboolfbn isItblid,
+                        jint rotbtion, jflobt bwSdblf)
+{
+    LOGFONTA lf;
+    LOGFONTA mbtdifdLogFont;
+    BOOL foundFont = fblsf;     // Assumf wf didn't find b mbtdiing GDI font.
+
+    mfmsft(&mbtdifdLogFont, 0, sizfof(mbtdifdLogFont));
+
+    LPCWSTR fontNbmfW = JNU_GftStringPlbtformCibrs(fnv, fontNbmf, NULL);
+
+
+    /* Somf fontnbmfs of Non-ASCII fonts likf 'MS Mindiou' brf tifmsflvfs
+     * Non-ASCII.  Tify brf bssumfd to bf writtfn in Unidodf.
+     * Hfrfby, tify brf donvfrtfd into plbtform dodfsft.
+     */
+    int mbxlfn = stbtid_dbst<int>(sizfof(lf.lfFbdfNbmf)) - 1;
+    // mbxlfn is int duf to dbMultiBytf pbrbmftfr is int
+    int dfstLfn = WidfCibrToMultiBytf(CP_ACP,        // donvfrt to ASCII dodf pbgf
+                                      0,             // flbgs
+                                      fontNbmfW,     // Unidodf string
+                                      -1,            // Unidodf lfngti is dbldulbtfd butombtidblly
+                                      lf.lfFbdfNbmf, // Put ASCII string ifrf
+                                      mbxlfn,        // mbx lfn
+                                      NULL,          // dffbult ibndling of unmbppbblfs
+                                      NULL);         // do not dbrf if dff dibr is usfd
+
+    /* If WidfCibrToMultiBytf suddffdfd tifn tif numbfr
+     * of bytfs it dopifd into tif fbdf nbmf bufffr will
+     * bf drfbtfr tibn zfro bnd wf just nffd to NULL tfrminbtf
+     * tif string. If tifrf wbs bn frror tifn tif numbfr of
+     * bytfs dopifd is zfro bnd wf dbn not mbtdi tif font.
+     */
+    if (dfstLfn > 0) {
+
+        DASSERT(dfstLfn < sizfof(lf.lfFbdfNbmf));
+        lf.lfFbdfNbmf[dfstLfn] = '\0';
+        lf.lfCibrSft = DEFAULT_CHARSET;
+        lf.lfPitdiAndFbmily = 0;
+
+        foundFont = !EnumFontFbmilifsExA((HDC)printDC, &lf,
+                                        (FONTENUMPROCA) fontEnumProdA,
+                                        (LPARAM) &mbtdifdLogFont, 0);
+    }
+
+
+    if (foundFont) {
+
+        /* Build b font of tif rfqufstfd sizf witi no
+         * widti modifidbtions. A nfgbtivf font ifigit
+         * tflls GDI tibt wf wbnt tibt vblufs bbsolutf
+         * vbluf bs tif font's point sizf. If tif font
+         * is suddfssfully built tifn sft it bs tif durrfnt
+         * GDI font.
+         */
+        mbtdifdLogFont.lfHfigit = -ROUND_TO_LONG(fontSizf);
+        mbtdifdLogFont.lfWidti = 0;
+        mbtdifdLogFont.lfEsdbpfmfnt = rotbtion;
+        mbtdifdLogFont.lfOrifntbtion = rotbtion;
+        mbtdifdLogFont.lfUndfrlinf = 0;
+        mbtdifdLogFont.lfStrikfOut = 0;
+
+        /* Fordf bold or itblid if rfqufstfd. Tif font nbmf
+           sudi bs Aribl Bold mby ibvf blrfbdy sft b wfigit
+           so ifrf wf just try to indrfbsf it.
+        */
+        if (isBold) {
+            mbtdifdLogFont.lfWfigit = fmboldfn(mbtdifdLogFont.lfWfigit);
+        } flsf {
+            mbtdifdLogFont.lfWfigit = FW_REGULAR;
+        }
+
+        if (isItblid) {
+            mbtdifdLogFont.lfItblid = 0xff;     // TRUE
+        }  flsf {
+            mbtdifdLogFont.lfItblid = FALSE;
+        }
+
+        HFONT font = CrfbtfFontIndirfdtA(&mbtdifdLogFont);
+        if (font) {
+            HFONT oldFont = (HFONT)::SflfdtObjfdt(printDC, font);
+            if (oldFont != NULL) {
+                ::DflftfObjfdt(oldFont);
+                if (bwSdblf != 1.0) {
+                    TEXTMETRIC tm;
+                    DWORD bvgWidti;
+                    GftTfxtMftrids(printDC, &tm);
+                    bvgWidti = tm.tmAvfCibrWidti;
+                    mbtdifdLogFont.lfWidti = (LONG)((fbbs)(bvgWidti*bwSdblf));
+                    font = CrfbtfFontIndirfdtA(&mbtdifdLogFont);
+                    if (font) {
+                        oldFont = (HFONT)::SflfdtObjfdt(printDC, font);
+                        if (oldFont != NULL) {
+                            ::DflftfObjfdt(oldFont);
+                            GftTfxtMftrids(printDC, &tm);
+                        } flsf {
+                            foundFont = fblsf;
+                        }
+                    } flsf {
+                        foundFont = fblsf;
+                    }
+                }
+            } flsf {
+                foundFont = fblsf;
+            }
+        } flsf {
+            foundFont = fblsf;
+        }
+    }
+
+    JNU_RflfbsfStringPlbtformCibrs(fnv, fontNbmf, fontNbmfW);
+
+    rfturn foundFont ? JNI_TRUE : JNI_FALSE;
+}
+
+/**
+ * Try to donvfrt b jbvb font to b GDI font. On fntry, 'printDC',
+ * is tif dfvidf dontfxt wf wbnt to drbw into. 'fontNbmf' is
+ * tif nbmf of tif font to bf mbtdifd bnd 'fontSizf' is tif
+ * sizf of tif font in dfvidf doordinbtfs. If tifrf is bn
+ * fquivblfnt GDI font tifn tiis fundtion sfts tibt font
+ * into 'printDC' bnd rfturns b 'truf'. If tifrf is no fquivblfnt
+ * font tifn 'fblsf' is rfturnfd.
+ */
+stbtid jboolfbn jFontToWFontW(JNIEnv *fnv, HDC printDC, jstring fontNbmf,
+                        jflobt fontSizf, jboolfbn isBold, jboolfbn isItblid,
+                        jint rotbtion, jflobt bwSdblf)
+{
+    LOGFONTW lf;
+    LOGFONTW mbtdifdLogFont;
+    BOOL foundFont = fblsf;     // Assumf wf didn't find b mbtdiing GDI font.
+
+    mfmsft(&mbtdifdLogFont, 0, sizfof(mbtdifdLogFont));
+
+    LPCWSTR fontNbmfW = JNU_GftStringPlbtformCibrs(fnv, fontNbmf, NULL);
+    CHECK_NULL_RETURN(fontNbmfW, JNI_FALSE);
+
+    /* Dfsdribf tif GDI fonts wf wbnt fnumfrbtfd. Wf
+     * simply supply tif jbvb font nbmf bnd lft GDI
+     * do tif mbtdiing. If tif jbvb font nbmf is
+     * longfr tibn tif GDI mbximum font lfngit tifn
+     * wf dbn't donvfrt tif font.
+     */
+    sizf_t nbmfLfn = wdslfn(fontNbmfW);
+    if (nbmfLfn < (sizfof(lf.lfFbdfNbmf) / sizfof(lf.lfFbdfNbmf[0]))) {
+
+        wdsdpy(lf.lfFbdfNbmf, fontNbmfW);
+
+        lf.lfCibrSft = DEFAULT_CHARSET;
+        lf.lfPitdiAndFbmily = 0;
+
+        foundFont = !::EnumFontFbmilifsEx((HDC)printDC, &lf,
+                                        (FONTENUMPROCW) fontEnumProdW,
+                                        (LPARAM) &mbtdifdLogFont, 0);
+    }
+
+    JNU_RflfbsfStringPlbtformCibrs(fnv, fontNbmf, fontNbmfW);
+
+    if (!foundFont) {
+        rfturn JNI_FALSE;
+    }
+
+    /* Build b font of tif rfqufstfd sizf witi no
+     * widti modifidbtions. A nfgbtivf font ifigit
+     * tflls GDI tibt wf wbnt tibt vblufs bbsolutf
+     * vbluf bs tif font's point sizf. If tif font
+     * is suddfssfully built tifn sft it bs tif durrfnt
+     * GDI font.
+     */
+    mbtdifdLogFont.lfHfigit = -ROUND_TO_LONG(fontSizf);
+    mbtdifdLogFont.lfWidti = 0;
+    mbtdifdLogFont.lfEsdbpfmfnt = rotbtion;
+    mbtdifdLogFont.lfOrifntbtion = rotbtion;
+    mbtdifdLogFont.lfUndfrlinf = 0;
+    mbtdifdLogFont.lfStrikfOut = 0;
+
+    /* Fordf bold or itblid if rfqufstfd. Tif font nbmf
+     * sudi bs Aribl Bold mby ibvf blrfbdy sft b wfigit
+     * so ifrf wf just try to indrfbsf it.
+     */
+    if (isBold) {
+        mbtdifdLogFont.lfWfigit = fmboldfn(mbtdifdLogFont.lfWfigit);
+    } flsf {
+        mbtdifdLogFont.lfWfigit = FW_REGULAR;
+    }
+
+    if (isItblid) {
+        mbtdifdLogFont.lfItblid = 0xff;     // TRUE
+    } flsf {
+        mbtdifdLogFont.lfItblid = FALSE;
+    }
+
+    //Dfbug: dumpLogFont(&mbtdifdLogFont);
+
+    HFONT font = ::CrfbtfFontIndirfdt(&mbtdifdLogFont);
+    if (font == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    HFONT oldFont = (HFONT)::SflfdtObjfdt(printDC, font);
+    if (oldFont == NULL) { // sflfdt fbilfd.
+        ::DflftfObjfdt(font);
+        rfturn JNI_FALSE;
+    }
+    ::DflftfObjfdt(oldFont); // no longfr nffdfd.
+
+    /* If tifrf is b non-uniform sdblf tifn gft b nfw vfrsion
+     * of tif font witi bn bvfrbgf widti tibt is dondfnsfd or
+     * fxpbndfd to mbtdi tif bvfrbgf widti sdbling fbdtor.
+     * Tiis is not vblid for sifbring trbnsforms.
+     */
+    if (bwSdblf != 1.0) {
+        TEXTMETRIC tm;
+        DWORD bvgWidti;
+        GftTfxtMftrids(printDC, &tm);
+        bvgWidti = tm.tmAvfCibrWidti;
+        mbtdifdLogFont.lfWidti = (LONG)((fbbs)(bvgWidti*bwSdblf));
+        font = ::CrfbtfFontIndirfdt(&mbtdifdLogFont);
+        if (font == NULL) {
+            rfturn JNI_FALSE;
+        }
+        oldFont = (HFONT)::SflfdtObjfdt(printDC, font);
+        if (oldFont == NULL) {
+            ::DflftfObjfdt(font);
+            rfturn JNI_FALSE;
+        } flsf {
+            ::DflftfObjfdt(oldFont);
+            rfturn JNI_TRUE;
+        }
+    }
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Invokfd by GDI bs b rfsult of tif EnumFontFbmilifsExW
+ * dbll tiis routinf diosfs b GDI font tibt mbtdifs
+ * b Jbvb font. Wifn b mbtdi is found tifn fundtion
+ * rfturns b zfro rfsult to tfrminbtf tif EnumFontFbmilifsExW
+ * dbll. Tif informbtion bbout tif diosfn font is dopifd into
+ * tif LOGFONTW strudturf pointfd to by 'lPbrbm'.
+ */
+stbtid int CALLBACK fontEnumProdW(ENUMLOGFONTEXW *logfont,// logidbl-font dbtb
+                    NEWTEXTMETRICEX *lpntmf,              // piysidbl-font dbtb
+                    int FontTypf,                         // typf of font
+                    LPARAM lPbrbm)
+{
+    LOGFONTW *mbtdifdLogFont = (LOGFONTW *) lPbrbm;
+    int stop = 0;          // Tbkf tif first stylf found.
+
+    if (mbtdifdLogFont != NULL) {
+        *mbtdifdLogFont = logfont->flfLogFont;
+    }
+
+    rfturn stop;
+}
+
+/**
+ * Invokfd by GDI bs b rfsult of tif EnumFontFbmilifsExA
+ * dbll tiis routinf diosfs b GDI font tibt mbtdifs
+ * b Jbvb font. Wifn b mbtdi is found tifn fundtion
+ * rfturns b zfro rfsult to tfrminbtf tif EnumFontFbmilifsExA
+ * dbll. Tif informbtion bbout tif diosfn font is dopifd into
+ * tif LOGFONTA strudturf pointfd to by 'lPbrbm'.
+ */
+stbtid int CALLBACK fontEnumProdA(ENUMLOGFONTEXA *logfont,// logidbl-font dbtb
+                    NEWTEXTMETRICEX *lpntmf,              // piysidbl-font dbtb
+                    int FontTypf,                         // typf of font
+                    LPARAM lPbrbm)
+{
+    LOGFONTA *mbtdifdLogFont = (LOGFONTA *) lPbrbm;
+    int stop = 0;          // Tbkf tif first stylf found.
+
+    if (mbtdifdLogFont != NULL) {
+        *mbtdifdLogFont = logfont->flfLogFont;
+    }
+
+    rfturn stop;
+}
+
+/**
+ * Givfn tif wfigit of b font from b GDI LOGFONT
+ * strudturf, rfturn b nfw wfigit indidbting b
+ * boldfr font.
+ */
+stbtid int fmboldfn(int durrfntWfigit)
+{
+
+    /* If tif font is lfss tibn bold tifn mbkf
+     * it bold. In rfbl liff tiis will mfbn mbking
+     * b FW_NORMAL font bold.
+     */
+    if (durrfntWfigit < FW_BOLD) {
+        durrfntWfigit = FW_BOLD;
+
+    /* If tif font is blrfbdy bold or boldfr
+     * tifn just indrfbsf tif wfigit. Tiis will
+     * not bf visiblf witi GDI in Win95 or NT4.
+     */
+    } flsf {
+        durrfntWfigit += EMBOLDEN_WEIGHT;
+        if (durrfntWfigit > MAX_FONT_WEIGHT) {
+            durrfntWfigit = MAX_FONT_WEIGHT;
+        }
+    }
+
+    rfturn durrfntWfigit;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    sftTfxtColor
+ * Signbturf: (JIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_sftTfxtColor
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jint rfd, jint grffn, jint bluf) {
+
+    (void) ::SftTfxtColor( (HDC)printDC, RGB(rfd, grffn, bluf));
+
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_gftGDIAdvbndf
+    (JNIEnv *fnv, jobjfdt sflf, jlong printDC, jstring tfxt)
+{
+    SIZE sizf;
+    LPCWSTR wTfxt = JNU_GftStringPlbtformCibrs(fnv, tfxt, NULL);
+    CHECK_NULL_RETURN(wTfxt, 0);
+    sizf_t strLfn = wdslfn(wTfxt);
+    BOOL ok = GftTfxtExtfntPoint32((HDC)printDC, wTfxt, (int)strLfn, &sizf);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, tfxt, wTfxt);
+    rfturn ok ? sizf.dx : 0;
+}
+
+
+
+/*
+ * ETO_PDY is donditionblly dffinfd in wingdi.i bs it is bvbilbblf
+ * only on Windows 2000 bnd lbtfr. if it rfquirfs tif bpplidbtion
+ * dffinf tibt it is tbrgfting tifsf APIS by plbding
+ * #dffinf _WIN32_WINNT 0x0500
+ * bnd pfribps
+ * #dffinf WINVER 0x5000
+ * bfforf indluding tif ifbdfrs
+ * But tiis dbusfs mbny problfms for AWT ifbdfrs subsfqufntly indludfd.
+ * So instfbd ibrd dodf tif vbluf of tif flbg bs our own mbdro
+ * If for bny rfbson tiis dodf is fxfdutfd on Win 9x tifn tiis will
+ * not bf undfrstood bnd tif bdvbndfs brrby will bf misintfrprftfd.
+ * So wf don't usf tibt it in tibt dbsf bnd rfstridt oursflvfs to x bdvbndfs.
+ * Its possiblf in somf dbsfs tibt tfxt would tifn not print bs fxpfdtfd.
+ * Howfvfr wf will not normblly supply y bdvbndfs so tiis is b lfss likfly
+ * dodf pbti bnd its not worti worrying bbout in wf will not in futurf
+ * support win9x - bnd dffinitfly not to tiis fxtfnt.
+ */
+#dffinf J2D_ETO_PDY 0x2000
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    tfxtOut
+ * Signbturf: (JLjbvb/lbng/String;BFF[F)V
+ *
+ * Gfnfrbtf GDI tfxt dblls for tif unidodf string
+ * <dodf>tfxt</dodf> into tif dfvidf dontfxt
+ * <dodf>printDC</dodf>. Tif tfxt string is
+ * positionfd bt <dodf>x</dodf>, <dodf>y</dodf>.
+ * Tif positioning of fbdi glypi in tif string
+ * is dftfrminfd by windows.
+ * If 'glypiCodfs' is truf tifn tif string is 16 bit glypi indidfs
+ * into tif font, not dibrbdtfr dodfs.
+ * strLfn nffds to bf pbssfd in for tif glypiCodfs dbsf sindf its possiblf
+ * tif missing glypi dodf mby bf prfsfnt, bnd tibt is blwbys zfro, wiidi
+ * would bf misintfrprftfd by GDI bnd tif string fundtions bs null tfrminbtion
+ * of tif string.
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_tfxtOut
+(JNIEnv *fnv, jobjfdt sflf, jlong printDC, jstring tfxt, jint strLfn,
+     boolfbn glypiCodfs, jflobt x, jflobt y, jflobtArrby positions)
+{
+
+    long posX = ROUND_TO_LONG(x);
+    long posY = ROUND_TO_LONG(y);
+    int flbgs = (glypiCodfs !=0) ? ETO_GLYPH_INDEX : 0;
+    LPCWSTR wTfxt = JNU_GftStringPlbtformCibrs(fnv, tfxt, NULL);
+    CHECK_NULL(wTfxt);
+
+    int *bdvbndfs = NULL, *xbdvbndfs = NULL, *xybdvbndfs = NULL;
+    BOOL usfYAdvbndfs = FALSE;
+    jflobt *glypiPos = NULL;
+    if (positions != NULL) {
+        glypiPos = fnv->GftFlobtArrbyElfmfnts(positions, NULL);
+    }
+
+    /* Wf nffd to donvfrt positions rflbtivf to tif origin of tif tfxt
+     * into bdvbndfs rflbtivf to tif prfvious glypi.
+     * Wf fxpfdt to bf bblf to bllodbtf tifsf smbll brrbys.
+     * If wf fbil tifn wf'll print tif glypis using tifir built-in bdvbndfs.
+     * Bfdbusf tif brrby is of intfr-dibrbdtfr bdvbndfs wf only nffd
+     * strLfn - 1 fntrifs but Windows looks bt tif bdvbndf bftwffn
+     * tif lbst dibrbdtfr bnd tif non-fxistfnt dibrbdtfr wf bllodbtf
+     * spbdf for tibt bs wfll.
+     * Wf supply only tif bdvbndfs tibt brf nffdfd
+     * - Dffbult bdvbndfs (if nonf) if GDI bdvbndfs brf wibt wf wbnt
+     * - Only X bdvbndfs if tif Y bdvbndfs brf bll zfro.
+     * Wf bllodbtf two brrbys so wf dbn figurf out on tif fly wiidi
+     * wf nffd.
+     * Notf tibt wf ibvf to bdd tif 'frror' or difffrfndf bftwffn tif
+     * roundfd bdvbndf bnd tif flobting point bdvbndf bbdk into tif
+     * dbldulbtion of tif nfxt bdvbndf flsf tif sum of tif intfgfr-
+     * roundfd bdvbndfs will drift bwby from tif truf bdvbndf.
+     */
+    if (glypiPos != NULL && strLfn > 0) {
+        try {
+            xbdvbndfs = (int*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod,
+                    strLfn, sizfof(int));
+            xybdvbndfs = (int*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, strLfn,
+                    sizfof(int) * 2);
+        } dbtdi (std::bbd_bllod&) {
+            if (xbdvbndfs != NULL) {
+                frff(xbdvbndfs);
+                xbdvbndfs = NULL;
+            }
+            if (xybdvbndfs != NULL) {
+                frff(xybdvbndfs);
+                xybdvbndfs = NULL;
+            }
+        }
+    }
+    if (xbdvbndfs != NULL && xybdvbndfs != NULL) {
+        int *inxAdvbndfs = xbdvbndfs;
+        int *inxyAdvbndfs = xybdvbndfs;
+        jflobt *inGlypiPos = glypiPos;
+        jflobt lbstX = *inGlypiPos++;
+        jflobt lbstY = *inGlypiPos++;
+        jflobt frrorX = 0, frrorY = 0;
+        for (int i = 1; i < strLfn; i++) {
+
+            jflobt tiisX = *inGlypiPos++;
+            jflobt tiisY = *inGlypiPos++;
+
+            jflobt xAdvbndf = tiisX - lbstX + frrorX;
+            jflobt yAdvbndf = tiisY - lbstY + frrorY;
+
+            int xbdv = ROUND_TO_INT(xAdvbndf);
+            frrorX = xAdvbndf - xbdv;
+            int ybdv = ROUND_TO_INT(yAdvbndf);
+            frrorY = yAdvbndf - ybdv;
+            if (ybdv != 0) {
+                usfYAdvbndfs = TRUE;
+            }
+            *inxAdvbndfs++ = xbdv;
+            *inxyAdvbndfs++ = xbdv;
+            *inxyAdvbndfs++ = ybdv;
+
+            lbstX = tiisX;
+            lbstY = tiisY;
+        }
+        /* Tiis is tif bdvbndf from tif lbst dibrbdtfr.
+         * It is not tfdinidblly nffdfd, but tif rbstfr
+         * drivfrs, bs opposfd to tif PostSdript drivfr
+         * will fbil to print tif fntirf string if tiis
+         * vbluf is bbsurdly lbrgf or bbsurdly nfgbtivf.
+         */
+        *inxAdvbndfs = 0;
+        *inxyAdvbndfs++ = 0;
+        *inxyAdvbndfs = 0;
+    }
+
+    if (usfYAdvbndfs) {
+        bdvbndfs = xybdvbndfs;
+        flbgs |= J2D_ETO_PDY;
+    } flsf {
+        bdvbndfs = xbdvbndfs;
+    }
+
+    /* Donf witi tif flobt brrby pbrbmftfr, so rflfbsf it. */
+    if (glypiPos != NULL) {
+        fnv->RflfbsfFlobtArrbyElfmfnts(positions, glypiPos, JNI_ABORT);
+    }
+
+    BOOL drbwn = ::ExtTfxtOut((HDC)printDC,
+                    posX, posY,     // stbrting position for tif tfxt
+                    flbgs,          // glypiCodfs?, y bdvbndfs?
+                    NULL,           // optionbl dlipping-opbquing rfdtbnglf
+                    wTfxt,          // tif Unidodf tfxt to drbw
+                    stbtid_dbst<UINT>(strLfn),
+                    bdvbndfs);      // intfrdibrbdtfr bdvbndfs or NULL
+
+    if (xbdvbndfs != NULL) {
+        frff(xbdvbndfs);
+    }
+    if (xybdvbndfs != NULL) {
+        frff(xybdvbndfs);
+    }
+
+    JNU_RflfbsfStringPlbtformCibrs(fnv, tfxt, wTfxt);
+}
+
+/**
+ * Sdbns b 24 bit RGB DIB imbgf looking for tif first non-wiitf linf.
+ * On fntry, if sdbnLinfStridf is nfgbtivf, 'imbgf' points bt tif
+ * bottom of tif DIB, wiidi is wifrf tif first sdbn linf is.
+ * Altfrnbtivfly, if sdbnLinfStridf is positivf, it's b top-down
+ * DIB bnd 'imbgf'  points to tif top sdbn linf.
+ * 'numLinfsP', on fntry, is tif numbfr of sdbn linfs in tif imbgf wiilf
+ * 'widti' is tif numbfr of 24 bit pixfls on fbdi linf. If b non-wiitf
+ * linf is found in tif DIB, tifn b pointfr to tif first,
+ * working from tif bottom, non-wiitf sdbn linf is rfturnfd.
+ * bnd tif numbfr of rfmbining sdbn linfs is rfturnfd in  *'numLinfsP'.
+ * Pixfls brf 3 bytf BGR triplfs, so bny bytf tibt is not 0xff indidbtfs
+ * its b domponfnt of b non-wiitf pixfl. So wf don't nffd to dombinf bytfs
+ * into pixfls. Simply sdbn tif imbgf looking for bny bytf tibt is not 0xff
+ */
+stbtid jbytf *findNonWiitf(jbytf *imbgf, long sy, long widti, long ifigit,
+                          long sdbnLinfStridf, long *numLinfsP) {
+
+    long found = -1;
+    long numLinfs = 0;
+    jbytf *stbrtLinf = imbgf;
+    unsignfd dibr *inLinf;
+    donst unsignfd dibr dd = (unsignfd dibr)0xff;
+
+    bssfrt(imbgf != NULL);
+    bssfrt(0 <= sy && sy < ifigit);
+    bssfrt(0 < widti);
+    bssfrt(0 < ifigit);
+    bssfrt(numLinfsP != NULL);
+
+    for (numLinfs = 0; sy < ifigit; numLinfs++, sy++) {
+
+        inLinf = (unsignfd dibr*)stbrtLinf;
+
+        for (long doldomp = 0; doldomp < bbs(sdbnLinfStridf); doldomp++) {
+            if (*inLinf++ != dd) {
+                found = sy;
+                brfbk;
+            }
+        }
+
+        if(found != -1) {
+            brfbk;
+        }
+
+        stbrtLinf += sdbnLinfStridf;
+    }
+
+    *numLinfsP = numLinfs;
+
+    rfturn found == -1 ? NULL : stbrtLinf;
+}
+
+/* Find tif 1st sdbnlinf tibt's fntirfly wiitf.
+ * Tif stbrting sdbnlinf pointfd to by 'imbgf' mby bf pbrt wby tirougi tif DIB.
+ * If bn bll wiitf sdbnlinf is found, tif rfturn vbluf points to tif bfginning
+ * of tif lbst sdbnlinf witi b non-wiitf pixfl. If no bll wiitf sdbnlinfs
+ * brf found, tif stbrting sdbnlinf is rfturnfd.
+ * '*numLinfsP' rfturns tif numbfr of non-wiitf sdbn linfs.
+ * Skip tif 1st sdbnlinf bs its blwbys non-wiitf.
+ * If pbssfd sdbnLinfStridf is nfgbtivf, tif DIB is bottom-up,
+ * otifrwisf it's top-down.
+ */
+stbtid jbytf *findWiitf(jbytf *imbgf, long sy, long widti, long ifigit,
+                        long sdbnLinfStridf, long *numLinfsP) {
+
+    long numLinfs;
+    jbytf *stbrtLinf = imbgf;
+    unsignfd dibr *inLinf;
+    jbytf *found = NULL;
+    long wiitf;
+    donst unsignfd dibr dd = (unsignfd dibr)0xff;
+
+    bssfrt(imbgf != NULL);
+    bssfrt(0 <= sy);
+    bssfrt(0 < widti);
+    bssfrt(0 < ifigit);
+    bssfrt(numLinfsP != NULL);
+
+    ++sy;
+    for(numLinfs = 1; sy < ifigit; numLinfs++, sy++) {
+
+        stbrtLinf += sdbnLinfStridf;
+        inLinf = (unsignfd dibr*)stbrtLinf;
+        wiitf = 1;
+
+        for (long doldomp = 0; doldomp < bbs(sdbnLinfStridf); doldomp++) {
+            if (*inLinf++ != dd) {
+                wiitf = 0;
+                brfbk;
+            }
+        }
+
+        if (wiitf != 0) {
+           found = stbrtLinf - sdbnLinfStridf;
+           brfbk;
+        }
+    }
+
+    *numLinfsP = numLinfs;
+
+    rfturn found == NULL ? stbrtLinf : found;
+
+}
+
+/*
+ * Rfvfrsfs tif bitmbp.
+ * Rfturns pointfr to rfvfrsfd bitmbp (DWORD blignfd).
+ * Rfturns NULL if unsuddfssful.
+ * NOTE: Cbllfr must frff tif pointfr rfturnfd by dblling frff.
+ */
+stbtid jbytf* rfvfrsfDIB(jbytf* imbgfBits, long srdWidti, long srdHfigit,
+                          int bitspfrpixfl) {
+
+    /* gft widti in bytfs.
+     * If tif imbgf is 24bpp, its srdWidti*3
+     * If tif imbgf is 8bpp, its just srdWidti
+     * If tif imbgf is 1bpp or 4bpp onf tifn its roundfd up to tif nfxt bytf.
+     */
+    long imgWidtiBytfSz;
+    switdi (bitspfrpixfl) {
+    dbsf 24 : imgWidtiBytfSz = srdWidti * 3;
+        brfbk;
+    dbsf 8 :  imgWidtiBytfSz = srdWidti;
+        brfbk;
+    dbsf 1 :  imgWidtiBytfSz = (srdWidti + 7) / 8 ;
+        brfbk;
+    dbsf 4 :  imgWidtiBytfSz = (srdWidti + 1) / 2 ;
+        brfbk;
+    dffbult : /* not fxpfdtfd but tiis is OK for bny fxbdt multiplf of 8 */
+        imgWidtiBytfSz = srdWidti * bitspfrpixfl / 8;
+    }
+
+    int pbdBytfs = 0;
+    /* mbkf it DWORD blignfd */
+    if ((imgWidtiBytfSz % sizfof(DWORD)) != 0)
+        pbdBytfs = sizfof(DWORD) - (imgWidtiBytfSz % sizfof(DWORD));
+
+    jbytf* blignfdImbgf = NULL;
+    try {
+        blignfdImbgf = (jbytf*) SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod,
+            imgWidtiBytfSz+pbdBytfs, ROUND_TO_LONG(srdHfigit));
+    } dbtdi (std::bbd_bllod&) {
+    }
+    long nfwImgSizf = (imgWidtiBytfSz+pbdBytfs) * ROUND_TO_LONG(srdHfigit);
+
+    if (blignfdImbgf != NULL) {
+        mfmsft(blignfdImbgf, 0xff, nfwImgSizf);
+
+        jbytf* imgLinfPtr = blignfdImbgf;
+        for (long i=ROUND_TO_LONG(srdHfigit)-1; i>=0; i--) {
+            mfmdpy(imgLinfPtr, imbgfBits+(i*imgWidtiBytfSz),
+                   imgWidtiBytfSz);
+            imgLinfPtr += (imgWidtiBytfSz + pbdBytfs);
+        }
+
+        rfturn blignfdImbgf;
+    }
+    rfturn NULL;
+}
+
+#if 0
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    drbwImbgfIntRGB
+ * Signbturf: (J[IFFFFFFFFII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_drbwImbgfIntRGB
+  (JNIEnv *fnv, jobjfdt sflf,
+   jlong printDC, jintArrby imbgf,
+   jflobt dfstX, jflobt dfstY,
+   jflobt dfstWidti, jflobt dfstHfigit,
+   jflobt srdX, jflobt srdY,
+   jflobt srdWidti, jflobt srdHfigit,
+   jint srdBitMbpWidti, jint srdBitMbpHfigit) {
+
+    int rfsult = 0;
+
+    bssfrt(printDC != NULL);
+    bssfrt(imbgf != NULL);
+    bssfrt(srdX >= 0);
+    bssfrt(srdY >= 0);
+    bssfrt(srdWidti > 0);
+    bssfrt(srdHfigit > 0);
+    bssfrt(srdBitMbpWidti > 0);
+    bssfrt(srdBitMbpHfigit > 0);
+
+
+    stbtid int blpibMbsk =  0xff000000;
+    stbtid int rfdMbsk =    0x00ff0000;
+    stbtid int grffnMbsk =  0x0000ff00;
+    stbtid int blufMbsk =   0x000000ff;
+
+    strudt {
+        BITMAPV4HEADER ifbdfr;
+        DWORD          mbsks[256];
+    } dib;
+
+
+
+    mfmsft(&dib,0,sizfof(dib));
+    dib.ifbdfr.bV4Sizf = sizfof(dib.ifbdfr);
+    dib.ifbdfr.bV4Widti = srdBitMbpWidti;
+    dib.ifbdfr.bV4Hfigit = -srdBitMbpHfigit;    // Top down DIB
+    dib.ifbdfr.bV4Plbnfs = 1;
+    dib.ifbdfr.bV4BitCount = 32;
+    dib.ifbdfr.bV4V4Comprfssion = BI_BITFIELDS;
+    dib.ifbdfr.bV4SizfImbgf = 0;        // It's tif dffbult sizf.
+    dib.ifbdfr.bV4XPflsPfrMftfr = 0;
+    dib.ifbdfr.bV4YPflsPfrMftfr = 0;
+    dib.ifbdfr.bV4ClrUsfd = 0;
+    dib.ifbdfr.bV4ClrImportbnt = 0;
+    dib.ifbdfr.bV4RfdMbsk = rfdMbsk;
+    dib.ifbdfr.bV4GrffnMbsk = grffnMbsk;
+    dib.ifbdfr.bV4BlufMbsk = blufMbsk;
+    dib.ifbdfr.bV4AlpibMbsk = blpibMbsk;
+    dib.mbsks[0] = rfdMbsk;
+    dib.mbsks[1] = grffnMbsk;
+    dib.mbsks[2] = blufMbsk;
+    dib.mbsks[3] = blpibMbsk;
+
+    jint *imbgfBits = NULL;
+
+    try {
+        imbgfBits = (jint *)fnv->GftPrimitivfArrbyCritidbl(imbgf, 0);
+
+        if (printDC){
+            rfsult = ::StrftdiDIBits( (HDC)printDC,
+                                      ROUND_TO_LONG(dfstX),
+                                      ROUND_TO_LONG(dfstY),
+                                      ROUND_TO_LONG(dfstWidti),
+                                      ROUND_TO_LONG(dfstHfigit),
+                                      ROUND_TO_LONG(srdX),
+                                      ROUND_TO_LONG(srdY),
+                                      ROUND_TO_LONG(srdWidti),
+                                      ROUND_TO_LONG(srdHfigit),
+                                      imbgfBits,
+                                      (BITMAPINFO *)&dib,
+                                      DIB_RGB_COLORS,
+                                      SRCCOPY);
+
+        }
+    } dbtdi (...) {
+        if (imbgfBits != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(imbgf, imbgfBits, 0);
+        }
+        tirow;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(imbgf, imbgfBits, 0);
+
+}
+#flsf
+
+/*
+ * Clbss:     sun_bwt_windows_WPrintfrJob
+ * Mftiod:    drbwDIBImbgf
+ * Signbturf: (J[BFFFFFFFFI[B)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrintfrJob_drbwDIBImbgf
+  (JNIEnv *fnv, jobjfdt sflf,
+   jlong printDC, jbytfArrby imbgf,
+   jflobt dfstX, jflobt dfstY,
+   jflobt dfstWidti, jflobt dfstHfigit,
+   jflobt srdX, jflobt srdY,
+   jflobt srdWidti, jflobt srdHfigit,
+   jint bitCount, jbytfArrby bmiColorsArrby) {
+
+    int rfsult = 0;
+
+    bssfrt(printDC != NULL);
+    bssfrt(imbgf != NULL);
+    bssfrt(srdX >= 0);
+    bssfrt(srdY >= 0);
+    bssfrt(srdWidti > 0);
+    bssfrt(srdHfigit > 0);
+
+#dffinf MAXCOLS 256
+    strudt {
+        BITMAPINFOHEADER bmiHfbdfr;
+        RGBQUAD         bmiColors[MAXCOLS];
+    } bmi;
+
+    mfmsft(&bmi, 0, sizfof(bmi));
+    bmi.bmiHfbdfr.biSizf = sizfof(bmi.bmiHfbdfr);
+    bmi.bmiHfbdfr.biWidti = ROUND_TO_LONG(srdWidti);
+    bmi.bmiHfbdfr.biHfigit = ROUND_TO_LONG(srdHfigit);
+    bmi.bmiHfbdfr.biPlbnfs = 1;
+    bmi.bmiHfbdfr.biBitCount = (WORD)bitCount;
+    bmi.bmiHfbdfr.biComprfssion = BI_RGB;
+    bmi.bmiHfbdfr.biSizfImbgf = 0;        // It's tif dffbult sizf.
+    bmi.bmiHfbdfr.biXPflsPfrMftfr = 0;
+    bmi.bmiHfbdfr.biYPflsPfrMftfr = 0;
+    bmi.bmiHfbdfr.biClrUsfd = 0;
+    bmi.bmiHfbdfr.biClrImportbnt = 0;
+
+    jint *imbgfBits = NULL;
+    try {
+
+        if (bmiColorsArrby != NULL) {
+            BYTE* bmiCols;
+            int numCols = 1<<bitCount;
+            if (numCols > MAXCOLS) {
+                numCols = MAXCOLS; /* don't writf pbst fnd of strudt */
+            }
+            bmiCols = (BYTE*)fnv->GftPrimitivfArrbyCritidbl(bmiColorsArrby, 0);
+            CHECK_NULL(bmiCols);
+            mfmdpy(&(bmi.bmiColors[0]), bmiCols, (numCols*4));
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bmiColorsArrby, bmiCols, 0);
+        }
+        imbgfBits = (jint *)fnv->GftPrimitivfArrbyCritidbl(imbgf, 0);
+        CHECK_NULL(imbgfBits);
+
+        // Workbround for drivfrs/bpps tibt do not support top-down.
+        // Bfdbusf wf don't know if tify support or not,
+        // blwbys sfnd bottom-up DIBs.
+        jbytf *dibImbgf = rfvfrsfDIB((jbytf*)imbgfBits,
+                                     (long)srdWidti, (long)srdHfigit,
+                                     bitCount);
+        if (dibImbgf != NULL) {
+          if (printDC){
+            rfsult = ::StrftdiDIBits( (HDC)printDC,
+                                      ROUND_TO_LONG(dfstX),
+                                      ROUND_TO_LONG(dfstY),
+                                      ROUND_TO_LONG(dfstWidti),
+                                      ROUND_TO_LONG(dfstHfigit),
+                                      ROUND_TO_LONG(srdX),
+                                      ROUND_TO_LONG(srdY),
+                                      ROUND_TO_LONG(srdWidti),
+                                      ROUND_TO_LONG(srdHfigit),
+                                      dibImbgf,
+                                      (BITMAPINFO*)(&bmi),
+                                      DIB_RGB_COLORS,
+                                      SRCCOPY);
+          }
+
+          frff(dibImbgf);
+        } /* if (dibImbgf != NULL) */
+    } dbtdi (...) {
+        if (imbgfBits != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(imbgf, imbgfBits, 0);
+        }
+        JNU_TirowIntfrnblError(fnv, "Problfm in WPrintfrJob_drbwDIBImbgf");
+        rfturn;
+    }
+    fnv->RflfbsfPrimitivfArrbyCritidbl(imbgf, imbgfBits, 0);
+
+}
+#fndif
+
+/*
+ * An utility fundtion to print pbssfd imbgf bytf brrby to
+ * tif printDC.
+ * browsfrPrinting flbg dontrols wiftifr tif imbgf brrby
+ * usfd bs top-down (browsfrPrinting == JNI_TRUE) or
+ * bottom-up (browsfrPrinting == JNI_FALSE) DIB.
+ */
+stbtid void doPrintBbnd(JNIEnv *fnv, jboolfbn browsfrPrinting,
+                        HDC printDC, jbytfArrby imbgfArrby,
+                        jint x, jint y, jint widti, jint ifigit) {
+
+    TRY;
+
+    jbytf *imbgf = NULL;
+    try {
+        long sdbnLinfStridf = J2DRbstfrBPP * widti;
+        imbgf = (jbytf *)fnv->GftPrimitivfArrbyCritidbl(imbgfArrby, 0);
+        CHECK_NULL(imbgf);
+        jbytf *stbrtImbgf;
+        jbytf *fndImbgf = NULL;
+        long stbrtY = 0;
+        long numLinfs = 0;
+
+        if (browsfrPrinting) {
+            /* for browsfr printing usf top-down bpprobdi */
+            stbrtImbgf =  imbgf;
+        } flsf {
+            /* wifn printing to b rfbl printfr dd, tif dib
+               siould bottom-up */
+            stbrtImbgf =  imbgf + (sdbnLinfStridf * (ifigit - 1));
+            sdbnLinfStridf = -sdbnLinfStridf;
+        }
+        do {
+            stbrtImbgf = findNonWiitf(stbrtImbgf, stbrtY, widti, ifigit,
+                                      sdbnLinfStridf, &numLinfs);
+
+            if (stbrtImbgf != NULL) {
+                stbrtY += numLinfs;
+                fndImbgf = findWiitf(stbrtImbgf, stbrtY, widti, ifigit,
+                                     sdbnLinfStridf, &numLinfs);
+                if (browsfrPrinting) {
+                    /* pbssing -numLinfs bs ifigit to indidbtf tibt
+                       wf trfbt tif imbgf bs b top-down DIB */
+                    bitsToDfvidf(printDC, stbrtImbgf, x, y + stbrtY, widti,
+                                 -numLinfs);
+                } flsf {
+                    bitsToDfvidf(printDC, fndImbgf, x, y + stbrtY, widti,
+                                 numLinfs);
+                }
+                stbrtImbgf = fndImbgf + sdbnLinfStridf;
+                stbrtY += numLinfs;
+            }
+        } wiilf (stbrtY < ifigit && stbrtImbgf != NULL);
+
+    } dbtdi (...) {
+        if (imbgf != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(imbgfArrby, imbgf, 0);
+        }
+        tirow;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(imbgfArrby, imbgf, 0);
+
+    CATCH_BAD_ALLOC;
+
+}
+stbtid FILE* outfilf = NULL;
+stbtid int bitsToDfvidf(HDC printDC, jbytf *imbgf, long dfstX, long dfstY,
+                        long widti, long ifigit) {
+    int rfsult = 0;
+
+    bssfrt(printDC != NULL);
+    bssfrt(imbgf != NULL);
+    bssfrt(dfstX >= 0);
+    bssfrt(dfstY >= 0);
+    bssfrt(widti > 0);
+    /* ifigit dould bf nfgbtivf to indidbtf tibt tiis is b top-down DIB */
+//      bssfrt(ifigit > 0);
+
+    strudt {
+        BITMAPINFOHEADER bmiHfbdfr;
+        DWORD*             bmiColors;
+    } bitMbpHfbdfr;
+
+    mfmsft(&bitMbpHfbdfr,0,sizfof(bitMbpHfbdfr));
+    bitMbpHfbdfr.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    bitMbpHfbdfr.bmiHfbdfr.biWidti = widti;
+    bitMbpHfbdfr.bmiHfbdfr.biHfigit = ifigit; // dofs -ifigit work fvfr?
+    bitMbpHfbdfr.bmiHfbdfr.biPlbnfs = 1;
+    bitMbpHfbdfr.bmiHfbdfr.biBitCount = 24;
+    bitMbpHfbdfr.bmiHfbdfr.biComprfssion = BI_RGB;
+    bitMbpHfbdfr.bmiHfbdfr.biSizfImbgf = 0;     // It's tif dffbult sizf.
+    bitMbpHfbdfr.bmiHfbdfr.biXPflsPfrMftfr = 0;
+    bitMbpHfbdfr.bmiHfbdfr.biYPflsPfrMftfr = 0;
+    bitMbpHfbdfr.bmiHfbdfr.biClrUsfd = 0;
+    bitMbpHfbdfr.bmiHfbdfr.biClrImportbnt = 0;
+    bitMbpHfbdfr.bmiColors = NULL;
+
+    ifigit = bbs(ifigit);
+
+    // Workbround for drivfrs/bpps tibt do not support top-down.
+    // Bfdbusf wf don't know if tify support or not,
+    // blwbys sfnd bottom-up DIBs
+    if (bitMbpHfbdfr.bmiHfbdfr.biHfigit < 0) {
+      jbytf *dibImbgf = rfvfrsfDIB(imbgf, widti, ifigit, 24);
+      if (dibImbgf != NULL) {
+        bitMbpHfbdfr.bmiHfbdfr.biWidti = ROUND_TO_LONG(widti);
+        bitMbpHfbdfr.bmiHfbdfr.biHfigit = ROUND_TO_LONG(ifigit);
+
+        if (printDC){
+          rfsult = ::SftDIBitsToDfvidf(printDC,
+                                ROUND_TO_LONG(dfstX),   // lfft of dfst rfdt
+                                ROUND_TO_LONG(dfstY),   // top of dfst rfdt
+                                ROUND_TO_LONG(widti),   // widti of dfst rfdt
+                                ROUND_TO_LONG(ifigit),  // ifigit of dfst rfdt
+                                0,      // lfft of sourdf rfdt
+                                0,      // top of sourdf rfdt
+                                0,      // linf numbfr of 1st sourdf sdbn linf
+                                ROUND_TO_LONG(ifigit),  // numbfr of sdbn linfs
+                                dibImbgf,       // points to tif DIB
+                                (BITMAPINFO *)&bitMbpHfbdfr,
+                                DIB_RGB_COLORS);
+        }
+
+        frff (dibImbgf);
+      }
+    } flsf {
+      if (printDC){
+          rfsult = ::SftDIBitsToDfvidf(printDC,
+                                dfstX,  // lfft of dfst rfdt
+                                dfstY,  // top of dfst rfdt
+                                widti,  // widti of dfst rfdt
+                                ifigit, // ifigit of dfst rfdt
+                                0,      // lfft of sourdf rfdt
+                                0,      // top of sourdf rfdt
+                                0,      // linf numbfr of 1st sourdf sdbn linf
+                                ifigit, // numbfr of sourdf sdbn linfs
+                                imbgf,  // points to tif DIB
+                                (BITMAPINFO *)&bitMbpHfbdfr,
+                                DIB_RGB_COLORS);
+      }
+    }
+
+    rfturn rfsult;
+}
+
+LRESULT CALLBACK PbgfDiblogWndProd(HWND iWnd, UINT mfssbgf,
+                                   WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    switdi (mfssbgf) {
+        dbsf WM_COMMAND: {
+            if ((LOWORD(wPbrbm) == IDOK) ||
+                (LOWORD(wPbrbm) == IDCANCEL))
+            {
+                // If wf rfdifvf on of tifsf two notifidbtions, tif diblog
+                // is bbout to bf dlosfd. It's timf to unblodk bll tif
+                // windows blodkfd by tiis diblog, bs doing so from tif
+                // WM_DESTROY ibndlfr is too lbtf
+                jobjfdt pffr = (jobjfdt)(::GftProp(iWnd, ModblDiblogPffrProp));
+                fnv->CbllVoidMftiod(pffr, AwtPrintDiblog::sftHWndMID, (jlong)0);
+            }
+            brfbk;
+        }
+    }
+
+    WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(iWnd, NbtivfDiblogWndProdProp));
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(lpfnWndProd, iWnd, mfssbgf, wPbrbm, lPbrbm);
+}
+
+/**
+ * Cbllfd by tif Pbgf Sftup diblog tiis routinf mbkfs surf tif
+ * print diblog bfdomfs tif front most window.
+ */
+stbtid UINT CALLBACK pbgfDlgHook(HWND iDlg, UINT msg,
+                                 WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    TRY;
+
+    switdi(msg) {
+        dbsf WM_INITDIALOG: {
+            PAGESETUPDLG *psd = (PAGESETUPDLG *)lPbrbm;
+            jobjfdt pffr = (jobjfdt)(psd->lCustDbtb);
+            fnv->CbllVoidMftiod(pffr, AwtPrintDiblog::sftHWndMID,
+                                (jlong)iDlg);
+            ::SftProp(iDlg, ModblDiblogPffrProp, rfintfrprft_dbst<HANDLE>(pffr));
+
+            SftForfgroundWindow(iDlg);
+
+            // sft bppropribtf idon for pbrfntlfss diblogs
+            jobjfdt bwtPbrfnt = fnv->GftObjfdtFifld(pffr, AwtPrintDiblog::pbrfntID);
+            if (bwtPbrfnt == NULL) {
+                ::SfndMfssbgf(iDlg, WM_SETICON, (WPARAM)ICON_BIG,
+                              (LPARAM)AwtToolkit::GftInstbndf().GftAwtIdon());
+            } flsf {
+                fnv->DflftfLodblRff(bwtPbrfnt);
+            }
+
+            // subdlbss diblog's pbrfnt to rfdfivf bdditionbl mfssbgfs
+            WNDPROC lpfnWndProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(iDlg,
+                                                                           PbgfDiblogWndProd);
+            ::SftProp(iDlg, NbtivfDiblogWndProdProp, rfintfrprft_dbst<HANDLE>(lpfnWndProd));
+
+            brfbk;
+        }
+        dbsf WM_DESTROY: {
+            WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(iDlg, NbtivfDiblogWndProdProp));
+            ComCtl32Util::GftInstbndf().UnsubdlbssHWND(iDlg,
+                                                       PbgfDiblogWndProd,
+                                                       lpfnWndProd);
+            ::RfmovfProp(iDlg, ModblDiblogPffrProp);
+            ::RfmovfProp(iDlg, NbtivfDiblogWndProdProp);
+            brfbk;
+        }
+    }
+
+    rfturn (UINT) FALSE;
+
+    CATCH_BAD_ALLOC_RET(TRUE);
+}
+
+/**
+ *      Crfbtf bnd rfturn b printfr dfvidf dontfxt for tif
+ *      dffbult printfr. If tifrf is no dffbult printfr tifn
+ *      rfturn NULL. Tiis fn is usfd wifn printing is invokfd
+ *      bnd no usfr diblog wbs drfbtfd. So dfspitf its nbmf, it
+ *      nffds to rfturn b DC wiidi rfflfdts bll tif bpplidbtions
+ *      sfttings wiidi tif drivfr migit support.
+ *      Tif numbfr of dopifs is tif most importbnt sftting.
+ */
+stbtid HDC gftDffbultPrintfrDC(JNIEnv *fnv, jobjfdt printfrJob) {
+    HDC printDC = NULL;
+
+    int dfvWillDoCopifs = FALSE;
+    PRINTDLG pd;
+    mfmsft(&pd, 0, sizfof(PRINTDLG));
+    pd.lStrudtSizf = sizfof(PRINTDLG);
+    pd.Flbgs = PD_RETURNDEFAULT | PD_RETURNDC;
+
+    if (::PrintDlg(&pd)) {
+        printDC = pd.iDC;
+
+        /* Find out iow mbny dopifs tif drivfr dbn do, bnd usf drivfr's
+         * dmCopifs if rfqufstfd numbfr is witiin tibt limit
+         */
+        int mbxCopifs = 1;
+        int nCopifs = gftCopifs(fnv, printfrJob);
+        if (nCopifs < 0) {
+            rfturn NULL;
+        }
+        SAVE_CONTROLWORD
+        if (pd.iDfvNbmfs != NULL) {
+            DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(pd.iDfvNbmfs);
+
+            if (dfvnbmfs != NULL) {
+                LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+                LPTSTR printfr = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
+                LPTSTR port = lpdfvnbmfs+dfvnbmfs->wOutputOffsft;
+                // if DfvidfCbpbbilitifs fbils, rfturn vbluf is -1
+                mbxCopifs = (int)::DfvidfCbpbbilitifs(printfr, port, DC_COPIES,
+                                                      NULL, NULL);
+                RESTORE_CONTROLWORD
+                if (mbxCopifs > 1) {
+                    dfvWillDoCopifs = TRUE;
+                }
+            }
+            ::GlobblUnlodk(pd.iDfvNbmfs);
+        }
+
+        if ((mbxCopifs >= nCopifs) && (pd.iDfvModf != NULL)) {
+            DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(pd.iDfvModf);
+
+            if (dfvmodf != NULL) {
+
+                if ((dfvmodf->dmFiflds & DM_COPIES) && (nCopifs > 1)) {
+                    dfvmodf->dmCopifs = nCopifs;
+                    HDC tmpDC = ::RfsftDC(pd.iDC, dfvmodf);
+                    RESTORE_CONTROLWORD
+                    if (tmpDC != NULL) {
+                        printDC = tmpDC;
+                    }
+                }
+            }
+            ::GlobblUnlodk(pd.iDfvModf);
+        }
+
+        /* Not prftty tibt tiis is sft in b sfpbrbtf plbdf tifn tif DC */
+        if (pd.iDfvModf != NULL) {
+            AwtPrintControl::sftPrintHDModf(fnv, printfrJob, pd.iDfvModf);
+        }
+        if (pd.iDfvNbmfs != NULL) {
+            AwtPrintControl::sftPrintHDNbmf(fnv, printfrJob, pd.iDfvNbmfs);
+        }
+
+        jboolfbn frr;
+        frr = sftBoolfbnFifld(fnv, printfrJob, DRIVER_COPIES_STR,
+                              (dfvWillDoCopifs ? JNI_TRUE : JNI_FALSE));
+        if (frr) rfturn NULL;
+        frr = sftBoolfbnFifld(fnv, printfrJob, DRIVER_COLLATE_STR, JNI_FALSE);
+        if (frr) rfturn NULL;
+        frr = sftBoolfbnFifld(fnv, printfrJob, USER_COLLATE_STR, JNI_FALSE);
+        if (frr) rfturn NULL;
+    }
+
+    rfturn printDC;
+}
+
+
+/**
+ * Movf tif dfsdription of tif pbgf's sizf bnd orifntbtion
+ * from tif PbgfFormbt objfdt 'pbgf' into tif strudturf,
+ * 'sftup' usfd by Windows to displby tif Pbgf Sftup diblog.
+ */
+stbtid void pbgfFormbtToSftup(JNIEnv *fnv, jobjfdt job,
+                              jobjfdt pbgf, PAGESETUPDLG *sftup, HDC iDC) {
+    RfdtDoublf pbpfrSizf;
+    RfdtDoublf mbrgins;
+
+    /* Movf tif orifntbtion from PbgfFormbt to Windows.
+     */
+    jint orifnt = gftPbgfFormbtOrifntbtion(fnv, pbgf);
+    if (orifnt < 0) rfturn;
+    int gdiOrifntbtion = (orifnt == PAGEFORMAT_PORTRAIT) ?
+        DMORIENT_PORTRAIT : DMORIENT_LANDSCAPE;
+    sftOrifntbtionInDfvModf(sftup->iDfvModf, orifnt == PAGEFORMAT_PORTRAIT);
+
+    int units = (sftup->Flbgs & PSD_INTHOUSANDTHSOFINCHES)
+                                                ? MM_HIENGLISH
+                                                : MM_HIMETRIC;
+    jobjfdt pbpfr = gftPbpfr(fnv, pbgf);
+    CHECK_NULL(pbpfr);
+    gftPbpfrVblufs(fnv, pbpfr, &pbpfrSizf, &mbrgins);
+    JNU_CHECK_EXCEPTION(fnv);
+    // Sftting tif pbpfr sizf bppfbrs to bf b futilf fxfrdisf, bs its not onf
+    // of tif vblufs you dbn initiblisf - its bn out-only brg. Mbrgins brf OK.
+    // sft it into tif DEVMODE if tifrf is onf ..
+    sftup->ptPbpfrSizf.x = donvfrtFromPoints(pbpfrSizf.widti, units);
+    sftup->ptPbpfrSizf.y = donvfrtFromPoints(pbpfrSizf.ifigit, units);
+
+    if (sftup->iDfvModf != NULL) {
+
+        doublf pbpfrWidti, pbpfrHfigit;
+        jboolfbn frr;
+        WORD dmPbpfrSizf = gftPrintPbpfrSizf(fnv, &frr, job);
+        if (frr) rfturn;
+        mbtdiPbpfrSizf(iDC, sftup->iDfvModf, sftup->iDfvNbmfs,
+                       pbpfrSizf.widti,  pbpfrSizf.ifigit,
+                       &pbpfrWidti, &pbpfrHfigit, &dmPbpfrSizf);
+
+        DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(sftup->iDfvModf);
+        if (dfvmodf != NULL) {
+          if (dmPbpfrSizf != 0) {
+            dfvmodf->dmFiflds |= DM_PAPERSIZE;
+            dfvmodf->dmPbpfrSizf = dmPbpfrSizf;
+          }
+          flsf {
+            dfvmodf->dmFiflds |= DM_PAPERLENGTH | DM_PAPERWIDTH
+              | DM_PAPERSIZE;
+            dfvmodf->dmPbpfrSizf = DMPAPER_USER;
+            dfvmodf->dmPbpfrWidti =
+              (siort)(donvfrtFromPoints(pbpfrSizf.widti, MM_LOMETRIC));
+            dfvmodf->dmPbpfrLfngti =
+              (siort)(donvfrtFromPoints(pbpfrSizf.ifigit, MM_LOMETRIC));
+          }
+        }
+        ::GlobblUnlodk(sftup->iDfvModf);
+    }
+
+    // Wifn sftting up tifsf vblufs, bddount for tif orifntbtion of tif Pbpfr
+    // in tif PbgfFormbt. In tif mbrgins Rfdt wifn in portrbit modf,
+    // widti is rfblly rigit mbrgin, ifigit is rfblly bottom mbrgin.
+    if (orifnt == PAGEFORMAT_PORTRAIT) {
+        sftup->rtMbrgin.lfft = donvfrtFromPoints(mbrgins.x, units);
+        sftup->rtMbrgin.top  = donvfrtFromPoints(mbrgins.y, units);
+        sftup->rtMbrgin.rigit = donvfrtFromPoints(mbrgins.widti, units);
+        sftup->rtMbrgin.bottom = donvfrtFromPoints(mbrgins.ifigit, units);
+    } flsf if (orifnt == PAGEFORMAT_LANDSCAPE) {
+        sftup->rtMbrgin.lfft = donvfrtFromPoints(mbrgins.ifigit, units);
+        sftup->rtMbrgin.top  = donvfrtFromPoints(mbrgins.x, units);
+        sftup->rtMbrgin.rigit = donvfrtFromPoints(mbrgins.y, units);
+        sftup->rtMbrgin.bottom = donvfrtFromPoints(mbrgins.widti, units);
+    } flsf { // rfvfrsf lbndsdbpf
+        sftup->rtMbrgin.lfft = donvfrtFromPoints(mbrgins.y, units);
+        sftup->rtMbrgin.top  = donvfrtFromPoints(mbrgins.widti, units);
+        sftup->rtMbrgin.rigit = donvfrtFromPoints(mbrgins.ifigit, units);
+        sftup->rtMbrgin.bottom = donvfrtFromPoints(mbrgins.x, units);
+    }
+
+    // Sft pbgf sizf ifrf.
+}
+
+stbtid WORD gftOrifntbtionFromDfvModf2(HGLOBAL iDfvModf) {
+
+    WORD orifnt = DMORIENT_PORTRAIT;
+
+    if (iDfvModf != NULL) {
+        LPDEVMODE dfvModf = (LPDEVMODE) GlobblLodk(iDfvModf);
+        if ((dfvModf != NULL) && (dfvModf->dmFiflds & DM_ORIENTATION)) {
+            orifnt = dfvModf->dmOrifntbtion;
+        }
+        GlobblUnlodk(iDfvModf);
+    }
+    rfturn orifnt;
+}
+
+/**
+ * Gft tif orifntbtion of tif pbpfr dfsdribfd by tif printfr
+ * ibndlf to b dfvidf modf strudturf 'iDfvModf'.
+ */
+stbtid WORD gftOrifntbtionFromDfvModf(JNIEnv *fnv, jobjfdt sflf) {
+    rfturn gftOrifntbtionFromDfvModf2(AwtPrintControl::gftPrintHDModf(fnv, sflf));
+}
+
+/**
+ * Sft tif orifntbtion of tif pbpfr dfsdribfd by tif printfr
+ * ibndlf to b dfvidf modf strudturf 'iDfvModf'.
+ */
+stbtid void sftOrifntbtionInDfvModf(HGLOBAL iDfvModf, jboolfbn isPortrbit) {
+
+    if (iDfvModf != NULL) {
+        LPDEVMODE dfvModf = (LPDEVMODE) GlobblLodk(iDfvModf);
+        if (dfvModf != NULL) {
+            dfvModf->dmOrifntbtion = isPortrbit
+                                    ? DMORIENT_PORTRAIT
+                                    : DMORIENT_LANDSCAPE;
+            dfvModf->dmFiflds |= DM_ORIENTATION;
+        }
+        GlobblUnlodk(iDfvModf);
+    }
+}
+
+/**
+ * Rfturn tif pbpfr sizf bnd mbrgins for tif pbgf
+ * bdjustfd to tbkf into bddount tif portrbit or
+ * lbndsdbpf orifntbtion of tif pbgf. On fntry,
+ * 'sftup' is b fillfd in strudturf bs rfturnfd
+ * by PbgfSftupDlg(). 'pbpfrSizf', 'mbrgins',
+ * bnd 'orifntbtion' bll point to dbllfr bllodbtfd
+ * spbdf wiilf will bf fillfd in by tiis routinf
+ * witi tif sizf, in unknown Windows units, of
+ * tif pbpfr, of tif mbrgins, bnd bn indidbtor
+ * wiftifr tif pbgf is in portrbit or lbndsdbpf
+ * orifntbtion, rfspfdtivfly.
+ */
+stbtid void rftrifvfPbpfrInfo(donst PAGESETUPDLG *sftup, POINT *pbpfrSizf,
+                              RECT *mbrgins, jint *orifntbtion, HDC idd) {
+    int orifntbtionKnown = FALSE;
+
+    *pbpfrSizf = sftup->ptPbpfrSizf;
+    int gdiOrifntbtion = DMORIENT_PORTRAIT;
+
+    /* Usublly tif sftup diblog will tfll us tif
+     * orifntbtion of tif pbgf, but it mby not.
+     */
+    if (sftup->iDfvModf != NULL) {
+        gdiOrifntbtion = gftOrifntbtionFromDfvModf2(sftup->iDfvModf);
+        orifntbtionKnown = TRUE;
+    }
+
+    /* Tif drivfr didn't tfll us tif pbpfr orifntbtion
+     * so wf dfdlbrf it lbndsdbpf if tif pbpfr
+     * is widfr tibn it is long. Squbrf pbpfr is
+     * dfdlbrfd to bf portbit.
+     */
+    if (orifntbtionKnown == FALSE && pbpfrSizf->x > pbpfrSizf->y) {
+        gdiOrifntbtion = DMORIENT_LANDSCAPE;
+    }
+
+    *mbrgins = sftup->rtMbrgin;
+
+    // dompbrf mbrgin from pbgf sftup diblog witi our dfvidf printbblf brfb
+    RfdtDoublf dfvidfMbrgin;
+
+    if (gftPrintbblfArfb(idd, sftup->iDfvModf, &dfvidfMbrgin) == TRUE) {
+        RECT dfvMbrgin;
+
+        int units = (sftup->Flbgs & PSD_INTHOUSANDTHSOFINCHES)
+          ? MM_HIENGLISH : MM_HIMETRIC;
+
+        dfvMbrgin.lfft = donvfrtFromPoints(dfvidfMbrgin.x*72, units);
+        dfvMbrgin.top = donvfrtFromPoints(dfvidfMbrgin.y*72, units);
+        dfvMbrgin.bottom = pbpfrSizf->y
+          - donvfrtFromPoints(dfvidfMbrgin.ifigit*72, units)
+          - dfvMbrgin.top;
+        dfvMbrgin.rigit = pbpfrSizf->x
+          - donvfrtFromPoints(dfvidfMbrgin.widti*72, units)
+          - dfvMbrgin.lfft;
+
+        if (mbrgins->lfft < dfvMbrgin.lfft) {
+            mbrgins->lfft = dfvMbrgin.lfft;
+        }
+        if (mbrgins->top < dfvMbrgin.top) {
+            mbrgins->top = dfvMbrgin.top;
+        }
+        if (mbrgins->bottom < dfvMbrgin.bottom) {
+            mbrgins->bottom = dfvMbrgin.bottom;
+        }
+        if (mbrgins->rigit < dfvMbrgin.rigit) {
+            mbrgins->rigit = dfvMbrgin.rigit;
+        }
+    }
+
+    /* Tif Pbpfr dlbss fxprfssfs tif pbgf sizf in
+     * portbit modf wiilf Windows rfturns tif pbpfr
+     * sizf bdjustfd for tif orifntbtion. If tif
+     * orifntbtion is lbndsdbpf tifn wf wbnt to
+     * flip tif widti bnd ifigit to gft b portbit
+     * dfsdription of tif pbgf.
+     */
+    if (gdiOrifntbtion != DMORIENT_PORTRAIT) {
+        long iold = pbpfrSizf->x;
+        pbpfrSizf->x = pbpfrSizf->y;
+        pbpfrSizf->y = iold;
+
+        mbrgins->lfft = sftup->rtMbrgin.top;
+        mbrgins->rigit = sftup->rtMbrgin.bottom;
+        mbrgins->top = sftup->rtMbrgin.rigit;
+        mbrgins->bottom = sftup->rtMbrgin.lfft;
+    }
+
+    if (gdiOrifntbtion == DMORIENT_PORTRAIT) {
+        *orifntbtion = PAGEFORMAT_PORTRAIT;
+    } flsf {
+        *orifntbtion = PAGEFORMAT_LANDSCAPE;
+    }
+}
+
+/**
+ * Rfturn tif numbfr of dopifs to bf printfd for b printfrJob.
+ */
+stbtid jint gftCopifs(JNIEnv *fnv, jobjfdt printfrJob)
+{
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+
+    jdlbss printfrJobClbss = fnv->GftObjfdtClbss(printfrJob);
+    jmftiodID gftCopifsID = fnv->GftMftiodID(printfrJobClbss, GETCOPIES_STR,
+                                             GETCOPIES_SIG);
+    CHECK_NULL_RETURN(gftCopifsID, -1);
+    jint dopifs = fnv->CbllIntMftiod(printfrJob, gftCopifsID);
+
+    rfturn dopifs;
+}
+
+/**
+ * Rfturn b dopy of tif Pbpfr objfdt bttbdifd to tif
+ * PbgfFormbt objfdt 'pbgf.'
+ */
+stbtid jobjfdt gftPbpfr(JNIEnv *fnv, jobjfdt pbgf) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+
+    jdlbss pbgfClbss = fnv->GftObjfdtClbss(pbgf);
+    jmftiodID gftPbpfrID = fnv->GftMftiodID(pbgfClbss, GETPAPER_STR,
+                                                        GETPAPER_SIG);
+    CHECK_NULL_RETURN(gftPbpfrID, NULL);
+
+    rfturn fnv->CbllObjfdtMftiod(pbgf, gftPbpfrID);
+}
+
+/**
+ * Sft tif Pbpfr objfdt for b PbgfFormbt instbndf.
+ * 'pbpfr' is tif nfw Pbpfr objfdt tibt must bf
+ * sft into 'pbgf'.
+ */
+stbtid void sftPbpfr(JNIEnv *fnv, jobjfdt pbgf, jobjfdt pbpfr) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jdlbss pbgfClbss = fnv->GftObjfdtClbss(pbgf);
+    jmftiodID sftPbpfrID = fnv->GftMftiodID(pbgfClbss, SETPAPER_STR,
+                                                        SETPAPER_SIG);
+    CHECK_NULL(sftPbpfrID);
+    fnv->CbllVoidMftiod(pbgf, sftPbpfrID, pbpfr);
+}
+
+/**
+ * Rfturn tif intfgfr ID for tif orifntbtion in tif PbgfFormbt.
+ * Cbution: tiis is tif Jbvb spfd ID, not tif GDI ID.
+ * In dbsf of frror rfturns -1
+ */
+stbtid jint gftPbgfFormbtOrifntbtion(JNIEnv *fnv, jobjfdt pbgf) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jdlbss pbgfClbss = fnv->GftObjfdtClbss(pbgf);
+    jmftiodID gftOrifntID = fnv->GftMftiodID(pbgfClbss, GETORIENT_STR,
+                                                        GETORIENT_SIG);
+    CHECK_NULL_RETURN(gftOrifntID, -1);
+    rfturn fnv->CbllIntMftiod(pbgf, gftOrifntID);
+}
+
+stbtid void sftPbgfFormbtOrifntbtion(JNIEnv *fnv,
+                                     jobjfdt pbgf, jint orifntbtion) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jdlbss pbgfClbss = fnv->GftObjfdtClbss(pbgf);
+    jmftiodID sftOrifntID = fnv->GftMftiodID(pbgfClbss, SETORIENT_STR,
+                                                        SETORIENT_SIG);
+    CHECK_NULL(sftOrifntID);
+    fnv->CbllVoidMftiod(pbgf, sftOrifntID, orifntbtion);
+}
+
+/**
+ * Pull tif pbpfr sizf bnd mbrgins out of tif pbpfr objfdt bnd
+ * rfturn tifm in points.
+ */
+stbtid void gftPbpfrVblufs(JNIEnv *fnv, jobjfdt pbpfr, RfdtDoublf *pbpfrSizf,
+                          RfdtDoublf *mbrgins, BOOL widtiAsMbrgin) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jmftiodID gftID;
+
+    pbpfrSizf->x = 0;
+    pbpfrSizf->y = 0;
+
+    jdlbss pbpfrClbss = fnv->GftObjfdtClbss(pbpfr);
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETWIDTH_STR, GETWIDTH_SIG);
+    CHECK_NULL(gftID);
+    pbpfrSizf->widti = fnv->CbllDoublfMftiod(pbpfr, gftID);
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETHEIGHT_STR, GETHEIGHT_SIG);
+    CHECK_NULL(gftID);
+    pbpfrSizf->ifigit = fnv->CbllDoublfMftiod(pbpfr, gftID);
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_X_STR, GETIMG_X_SIG);
+    CHECK_NULL(gftID);
+    mbrgins->x = fnv->CbllDoublfMftiod(pbpfr, gftID);
+    if (mbrgins-> x < 0 ) {
+        mbrgins-> x = 0;
+    }
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_Y_STR, GETIMG_Y_SIG);
+    CHECK_NULL(gftID);
+    mbrgins->y = fnv->CbllDoublfMftiod(pbpfr, gftID);
+    if (mbrgins-> y < 0 ) {
+        mbrgins-> y = 0;
+    }
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_W_STR, GETIMG_W_SIG);
+    CHECK_NULL(gftID);
+    if (widtiAsMbrgin) {
+        mbrgins->widti = pbpfrSizf->widti - mbrgins->x
+                                      - fnv->CbllDoublfMftiod(pbpfr, gftID);
+    } flsf {
+        mbrgins->widti = fnv->CbllDoublfMftiod(pbpfr, gftID);
+    }
+
+    if (mbrgins->widti < 0) {
+        mbrgins->widti = 0;
+    }
+
+    gftID = fnv->GftMftiodID(pbpfrClbss, GETIMG_H_STR, GETIMG_H_SIG);
+    CHECK_NULL(gftID);
+    if (widtiAsMbrgin) {
+        mbrgins->ifigit = pbpfrSizf->ifigit - mbrgins->y
+                                        - fnv->CbllDoublfMftiod(pbpfr, gftID);
+    } flsf {
+        mbrgins->ifigit = fnv->CbllDoublfMftiod(pbpfr, gftID);
+    }
+
+    if (mbrgins->ifigit < 0) {
+        mbrgins->ifigit = 0;
+    }
+}
+
+/**
+ * Givfn b RECT spfdifying tif mbrgins
+ * for tif pbgf bnd bn indidbtion of wiftifr
+ * tif units brf 1000tis of bn indi (MM_HIENGLISH)
+ * or 100tis of b millimftfr (MM_HIMETRIC),
+ * donvfrt tif mbrgins to 72nds of bn indi
+ * bnd sft tifm into tif PbgfFormbt insbndf providfd.
+ */
+stbtid void sftPbpfrVblufs(JNIEnv *fnv, jobjfdt pbpfr, donst POINT *pbpfrSizf,
+                                         donst RECT *mbrgins, int units) {
+    // Bfdbusf tiis fundtion mby dbll dlifnt Jbvb dodf,
+    // wf dbn't run it on tif toolkit tirfbd.
+    DASSERT(AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId());
+
+    jdlbss pbpfrClbss = fnv->GftObjfdtClbss(pbpfr);
+    jmftiodID sftSizfID = fnv->GftMftiodID(pbpfrClbss,
+                                        SETSIZE_STR, SETSIZE_SIG);
+    CHECK_NULL(sftSizfID);
+    jmftiodID sftImbgfbblfID = fnv->GftMftiodID(pbpfrClbss,
+                                        SETIMAGEABLE_STR, SETIMAGEABLE_SIG);
+    CHECK_NULL(sftImbgfbblfID);
+
+    /* Sft tif piysidbl sizf of tif pbpfr.
+     */
+    jdoublf pbpfrWidti = donvfrtToPoints(pbpfrSizf->x, units);
+    jdoublf pbpfrHfigit = donvfrtToPoints(pbpfrSizf->y, units);
+    fnv->CbllVoidMftiod(pbpfr, sftSizfID, pbpfrWidti, pbpfrHfigit);
+
+    /* Sft tif mbrgins of tif pbpfr. In Windows' mbrgin RECT,
+     * tif rigit bnd bottom pbrts of tif strudturf brf not
+     * rfblly tif rigit bnd bottom of tif imbgfbblf rfdtbnglf,
+     * but rbtifr tif rigit bnd bottom mbrgins.
+     */
+    jdoublf x = donvfrtToPoints(mbrgins->lfft, units);
+    jdoublf y = donvfrtToPoints(mbrgins->top, units);
+    long intWidti = pbpfrSizf->x - mbrgins->lfft - mbrgins->rigit;
+    long intHfigit = pbpfrSizf->y - mbrgins->top - mbrgins->bottom;
+    jdoublf widti = donvfrtToPoints(intWidti, units);
+    jdoublf ifigit = donvfrtToPoints(intHfigit, units);
+    fnv->CbllVoidMftiod(pbpfr, sftImbgfbblfID, x, y, widti, ifigit);
+}
+
+/**
+ * Convfrt 'vbluf' b mfbsurfmfnt in 1/72's of bn indi to
+ * tif units spfdififd by 'units' - fitifr MM_HIENGLISH
+ * MM_HIMETRIC, or MM_LOMETRIC. Tif donvfrtfd vbluf is rfturnfd bs
+ * b long.
+ */
+stbtid long donvfrtFromPoints(doublf vbluf, int units) {
+    doublf donvfrsion = 0;
+
+    switdi (units){
+     dbsf MM_HIENGLISH:
+        donvfrsion = POINTS_TO_HIENGLISH;
+        brfbk;
+
+     dbsf MM_HIMETRIC:
+        donvfrsion = POINTS_TO_HIMETRIC;
+        brfbk;
+
+     dbsf MM_LOMETRIC:
+        donvfrsion = POINTS_TO_LOMETRIC;
+        brfbk;
+
+     dffbult:
+        bssfrt(FALSE);  // Unsupportfd unit.
+    }
+
+    // Adding 0.5 fnsurfs tibt tif intfgfr portion ibs tif fxpfdtfd mbgnitudf
+    // bfforf trundbtion oddurs bs rfsult of donvfrting from doublf to long.
+    rfturn (long) ((vbluf * donvfrsion) + 0.5);
+}
+
+/**
+ * Convfrt b mfbsurfmfnt, 'vbluf', from tif units
+ * spfdififd by 'units', fitifr MM_HIENGLISH or
+ * MM_HIMETRIC to 1/72's of bn indi bnd rfturnfd
+ * bs b doublf.
+ */
+stbtid doublf donvfrtToPoints(long vbluf, int units) {
+    doublf donvfrtfdVbluf = (doublf)vbluf;
+
+    switdi (units){
+    dbsf MM_HIENGLISH:
+        //donvfrtfdVbluf *= HIENGLISH_TO_POINTS;
+        // tiis ordfr of dbldulbtion is for bug 4191615
+        donvfrtfdVbluf = (donvfrtfdVbluf*72.0) / 1000.0;
+        brfbk;
+
+    dbsf MM_HIMETRIC:
+        donvfrtfdVbluf *= HIMETRIC_TO_POINTS;
+        brfbk;
+
+    dbsf MM_LOMETRIC:
+        donvfrtfdVbluf *= LOMETRIC_TO_POINTS;
+        brfbk;
+
+    dffbult:
+        bssfrt(FALSE);  // Unsupportfd unit.
+    }
+
+    //Nffd to round off to tif prfdision of tif initibl vbluf. FIX.
+
+    rfturn donvfrtfdVbluf;
+}
+
+/**
+ *      Ask tif printfr dfvidf dontfxt, 'printDC' bbout
+ *      its dbpbbilitifs bnd sft tifsf into tif WPrintJob2D
+ *      objfdt 'sflf'.
+ */
+void sftCbpbbilitifs(JNIEnv *fnv, jobjfdt sflf, HDC printDC) {
+
+    jboolfbn frr;
+    // widti of pbgf in pixfls
+    jint pbgfWid = GftDfvidfCbps(printDC, PHYSICALWIDTH);
+    frr = sftIntFifld(fnv, sflf, PAGEW_STR, pbgfWid);
+    if (frr) rfturn;
+
+    // ifigit of pbgf in pixfls
+    jint pbgfHgt = GftDfvidfCbps(printDC, PHYSICALHEIGHT);
+    frr = sftIntFifld(fnv, sflf, PAGEH_STR, pbgfHgt);
+    if (frr) rfturn;
+
+    // x sdbling fbdtor of printfr
+    jint xsf = GftDfvidfCbps(printDC, SCALINGFACTORX);
+
+    // x sdbling fbdtor of printfr
+    jint ysf = GftDfvidfCbps(printDC, SCALINGFACTORY);
+
+    if (gftOrifntbtionFromDfvModf(fnv, sflf) == DMORIENT_LANDSCAPE) {
+        // bfdbusf wf do our own rotbtion, wf siould fordf
+        // orifntbtion to portrbit so wf will gft dorrfdt pbgf dimfnsions.
+
+        HGLOBAL iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, sflf);
+        if (iDfvModf != NULL) {
+            DEVMODE *dfvmodf = (DEVMODE*)::GlobblLodk(iDfvModf);
+            if (dfvmodf != NULL) {
+                dfvmodf->dmFiflds |= DM_ORIENTATION;
+                dfvmodf->dmOrifntbtion = DMORIENT_PORTRAIT;
+                SAVE_CONTROLWORD
+                ::RfsftDC(printDC, dfvmodf);
+                RESTORE_CONTROLWORD
+            }
+            GlobblUnlodk(iDfvModf);
+        }
+    }
+
+    // pixfls pfr indi in x dirfdtion
+    jint xRfs = GftDfvidfCbps(printDC, LOGPIXELSX);
+    frr = sftIntFifld(fnv, sflf, XRES_STR, xRfs);
+    if (frr) rfturn;
+
+    // pixfls pfr indi in y dirfdtion
+    jint yRfs = GftDfvidfCbps(printDC, LOGPIXELSY);
+    frr = sftIntFifld(fnv, sflf, YRES_STR, yRfs);
+
+    // x doord of printbblf brfb in pixfls
+    jint xOrg = GftDfvidfCbps(printDC, PHYSICALOFFSETX);
+    frr = sftIntFifld(fnv, sflf, PHYSX_STR, xOrg);
+    if (frr) rfturn;
+
+    // y doord of printbblf brfb in pixfls
+    jint yOrg = GftDfvidfCbps(printDC, PHYSICALOFFSETY);
+    frr = sftIntFifld(fnv, sflf, PHYSY_STR, yOrg);
+    if (frr) rfturn;
+
+    // widti of printbblf brfb in pixfls
+    jint printWid = GftDfvidfCbps(printDC, HORZRES);
+    frr = sftIntFifld(fnv, sflf, PHYSW_STR, printWid);
+    if (frr) rfturn;
+
+    // ifigit of printbblf brfb in pixfls
+    jint printHgt = GftDfvidfCbps(printDC, VERTRES);
+    sftIntFifld(fnv, sflf, PHYSH_STR, printHgt);
+}
+
+stbtid inlinf WORD gftPrintPbpfrSizf(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf) {
+    rfturn (WORD)gftIntFifld(fnv, frr, sflf, PRINTPAPERSIZE_STR);
+}
+
+stbtid inlinf jboolfbn sftPrintPbpfrSizf(JNIEnv *fnv, jobjfdt sflf, WORD sz) {
+    rfturn sftIntFifld(fnv, sflf, PRINTPAPERSIZE_STR, (jint)sz);
+}
+
+/**
+ *      Rfturn tif jbvb int vbluf of tif fifld 'fifldNbmf' in tif
+ *      jbvb instbndf 'sflf'.
+ */
+stbtid jint gftIntFifld(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf, donst dibr *fifldNbmf) {
+    rfturn JNU_GftFifldByNbmf(fnv, frr, sflf, fifldNbmf, "I").i;
+}
+
+/**
+ *      Sft tif int fifld nbmfd 'fifldNbmf' of tif jbvb instbndf
+ *      'sflf' to tif vbluf 'vbluf'.
+ */
+stbtid jboolfbn sftIntFifld(JNIEnv *fnv, jobjfdt sflf, donst dibr *fifldNbmf, jint vbluf) {
+    jboolfbn frr;
+    JNU_SftFifldByNbmf(fnv, &frr, sflf, fifldNbmf, "I", vbluf);
+    rfturn frr;
+}
+
+stbtid jboolfbn gftBoolfbnFifld(JNIEnv *fnv, jboolfbn* frr, jobjfdt sflf, donst dibr *fifldNbmf) {
+    rfturn JNU_GftFifldByNbmf(fnv, frr, sflf, fifldNbmf, "Z").z;
+}
+
+stbtid jboolfbn sftBoolfbnFifld(JNIEnv *fnv, jobjfdt sflf, donst dibr *fifldNbmf, jboolfbn vbluf) {
+    jboolfbn frr;
+    JNU_SftFifldByNbmf(fnv, &frr, sflf, fifldNbmf, "Z", vbluf);
+    rfturn frr;
+}
+
+/**
+ *  Tirow b PrintfrExdfption witi b string dfsdribing
+ *  tif Window's systfm frror 'frr'.
+ */
+stbtid void tirowPrintfrExdfption(JNIEnv *fnv, DWORD frr) {
+    dibr frrStr[256];
+    TCHAR t_frrStr[256];
+    frrStr[0] = '\0';
+    FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL,
+                  frr,
+                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                  t_frrStr,
+                  sizfof(t_frrStr),
+                  NULL );
+
+    WidfCibrToMultiBytf(CP_UTF8, 0, t_frrStr, -1,
+                        frrStr, sizfof(frrStr), NULL, NULL);
+    JNU_TirowByNbmf(fnv, PRINTEREXCEPTION_STR, frrStr);
+}
+
+
+/*
+ * Finds tif dlosfst mbtdiing pbpfr sizf for tif printfr.
+ * Pbrbmftfrs brf in 72ndtis of bn indi.
+ * pbpfrSizf is tif win32 intfgfr idfntififr for b pbpfr sizf.
+ * Rfquirfs bn initiblisfd sft of printfr dfvidf strudturfs.
+ * Updbtfs tif printDC to spfdify tif mbtdifd pbpfr sizf.
+ * If tif pbssfd in pbpfr sizf is non-zfro, its tbkfn to bf b windows
+ * pbpfr sizf "nbmf", bnd wf difdk tibt pbpfr sizf bgbinst tif pbpfr
+ * wf brf mbtdiing bnd prfffr tibt nbmf ovfr otifr nbmfs wiidi blso mbtdi
+ * tif sizf.
+ */
+stbtid void mbtdiPbpfrSizf(HDC printDC, HGLOBAL iDfvModf, HGLOBAL iDfvNbmfs,
+                           doublf origWid, doublf origHgt,
+                           doublf* nfwWid, doublf *nfwHgt,
+                           WORD* pbpfrSizf) {
+
+    // Tolfrbtfd difffrfndfs in dompbring pbgf dimfnsions bftwffn pbssfd in
+    // "orig" mfdib witi tibt of Windows' dfvidf.
+    donst doublf fpsilon = 3.6; // (1/72) of bn indi
+    donst doublf tolfrbndf = (1.0 * 72.0);  // # indifs * 72
+
+    *nfwWid = origWid;
+    *nfwHgt = origHgt;
+
+   /* 1st difdk if tif DC/Dfvmodf ibs bs its durrfnt pbpfrsizf b pbpfr
+    * wiidi mbtdifs tif pbpfr spfdififd. If yfs, tifn wf dbn skip iunting
+    * for tif mbtdi bnd in tif prodfss wf bvoid finding b "nbmf" for
+    * tif pbpfr sizf wiidi isn't tif onf tif usfr spfdififd in tif pbgf
+    * sftup diblog. For fxbmplf "11x17" is blso "Lfdgfr".
+    */
+    if (printDC != NULL) {
+      // pixfls pfr indi in x bnd y dirfdtion
+      jint xPixflRfs = GftDfvidfCbps(printDC, LOGPIXELSX);
+      jint yPixflRfs = GftDfvidfCbps(printDC, LOGPIXELSY);
+
+      // widti bnd ifigit of pbgf in pixfls
+      jint pbgfPixflWid = GftDfvidfCbps(printDC, PHYSICALWIDTH);
+      jint pbgfPixflHgt = GftDfvidfCbps(printDC, PHYSICALHEIGHT);
+
+      // pbgf sizf in 1/72"
+      jdoublf pbpfrWidti = (jdoublf)((pbgfPixflWid * 72)/(jdoublf)xPixflRfs);
+      jdoublf pbpfrHfigit = (jdoublf)((pbgfPixflHgt * 72)/(jdoublf)yPixflRfs);
+
+      if ((fbbs(origWid - pbpfrWidti) < fpsilon) &&
+          (fbbs(origHgt - pbpfrHfigit) < fpsilon) &&
+          (*pbpfrSizf == 0)) {
+
+        *nfwWid = origWid;
+        *nfwHgt = origHgt;
+
+        if (iDfvModf != NULL) {
+          DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+          if (dfvmodf != NULL && (dfvmodf->dmFiflds & DM_PAPERSIZE)) {
+            *pbpfrSizf = dfvmodf->dmPbpfrSizf;
+          }
+          ::GlobblUnlodk(iDfvModf);
+        }
+        rfturn;
+      }
+    }
+
+    /* bfgin trying to mbtdi pbpfrs */
+
+    LPTSTR printfr = NULL, port = NULL;
+    if (iDfvNbmfs != NULL) {
+        DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(iDfvNbmfs);
+        if (dfvnbmfs != NULL) {
+            LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+            printfr = _tdsdup(lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft);
+            port = _tdsdup(lpdfvnbmfs+dfvnbmfs->wOutputOffsft);
+        }
+        ::GlobblUnlodk(iDfvNbmfs);
+    }
+
+    //REMIND: dodf duplidbtfd in AwtPrintControl::gftNfbrfstMbtdiingPbpfr
+    int numPbpfrSizfs = 0;
+    WORD *pbpfrs = NULL;
+    POINT *pbpfrSizfs = NULL;
+
+    SAVE_CONTROLWORD
+    numPbpfrSizfs = (int)DfvidfCbpbbilitifs(printfr, port, DC_PAPERSIZE,
+                                            NULL, NULL);
+    if (numPbpfrSizfs > 0) {
+        try {
+            pbpfrs = (WORD*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(WORD), numPbpfrSizfs);
+            pbpfrSizfs = (POINT *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(*pbpfrSizfs), numPbpfrSizfs);
+        } dbtdi (std::bbd_bllod&) {
+            if (pbpfrs != NULL) {
+                frff((dibr*)pbpfrs);
+                pbpfrs = NULL;
+            }
+            if (pbpfrSizfs != NULL) {
+               frff((dibr *)pbpfrSizfs);
+               pbpfrSizfs = NULL;
+            }
+        }
+
+        if (pbpfrs != NULL && pbpfrSizfs != NULL) {
+             DWORD rfsult1 = DfvidfCbpbbilitifs(printfr, port,
+                                                DC_PAPERS, (LPTSTR) pbpfrs, NULL);
+            DWORD rfsult2 = DfvidfCbpbbilitifs(printfr, port,
+                                               DC_PAPERSIZE, (LPTSTR) pbpfrSizfs,
+                                               NULL);
+
+            if (rfsult1 == -1 || rfsult2 == -1 ) {
+                frff((dibr *) pbpfrs);
+                pbpfrs = NULL;
+                frff((dibr *) pbpfrSizfs);
+                pbpfrSizfs = NULL;
+            }
+        }
+    }
+
+    RESTORE_CONTROLWORD
+    doublf dlosfstWid = 0.0;
+    doublf dlosfstHgt = 0.0;
+    WORD   dlosfstMbtdi = 0;
+
+    if (pbpfrSizfs != NULL) {
+
+        /* Pbpfr sizfs brf in 0.1mm units. Convfrt to 1/72"
+         * For fbdi pbpfr sizf, domputf tif difffrfndf from tif pbpfr sizf
+         * pbssfd in. Usf b lfbst-squbrfs difffrfndf, so pbpfr mudi difffrfnt
+         * in x or y siould sdorf poorly
+         */
+        doublf diffw = origWid;
+        doublf diffi = origHgt;
+        doublf lfbst_squbrf = diffw * diffw + diffi * diffi;
+        doublf tmp_ls;
+        doublf widpts, igtpts;
+
+        for (int i=0;i<numPbpfrSizfs;i++) {
+            widpts = pbpfrSizfs[i].x * LOMETRIC_TO_POINTS;
+            igtpts = pbpfrSizfs[i].y * LOMETRIC_TO_POINTS;
+
+            if ((fbbs(origWid - widpts) < fpsilon) &&
+                (fbbs(origHgt - igtpts) < fpsilon)) {
+
+              if ((*pbpfrSizf == 0) || ((*pbpfrSizf !=0) &&
+                                        (pbpfrs[i]==*pbpfrSizf))) {
+                dlosfstWid = origWid;
+                dlosfstHgt = origHgt;
+                dlosfstMbtdi = pbpfrs[i];
+                brfbk;
+              }
+            }
+
+            diffw = fbbs(widpts - origWid);
+            diffi = fbbs(igtpts - origHgt);
+            tmp_ls = diffw * diffw + diffi * diffi;
+            if ((diffw < tolfrbndf) && (diffi < tolfrbndf) &&
+                (tmp_ls < lfbst_squbrf)) {
+              lfbst_squbrf = tmp_ls;
+              dlosfstWid = widpts;
+              dlosfstHgt = igtpts;
+              dlosfstMbtdi = pbpfrs[i];
+            }
+        }
+    }
+
+    if (dlosfstWid > 0) {
+        *nfwWid = dlosfstWid;
+    }
+    if (dlosfstHgt > 0) {
+        *nfwHgt = dlosfstHgt;
+    }
+
+    *pbpfrSizf = dlosfstMbtdi;
+
+    /* At tiis point wf ibvf tif pbpfr wiidi is tif dlosfst mbtdi
+     * Wf now nffd to sflfdt tif pbpfr into tif DEVMODE, bnd
+     * gft b DC wiidi mbtdifs so wf dbn gft tif mbrgins.
+     */
+
+    if ((printDC != NULL) && (iDfvModf != NULL) && (dlosfstMbtdi != 0)) {
+        DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+        if ((dfvmodf != NULL) && (dlosfstMbtdi != dfvmodf->dmPbpfrSizf)) {
+            dfvmodf->dmFiflds |= DM_PAPERSIZE;
+            dfvmodf->dmPbpfrSizf = dlosfstMbtdi;
+            ::RfsftDC(printDC, dfvmodf);
+            RESTORE_CONTROLWORD
+        }
+        ::GlobblUnlodk(iDfvModf);
+    }
+
+    if (printfr != NULL) {
+        frff((dibr *)printfr);
+    }
+    if (port != NULL) {
+        frff((dibr *)port);
+    }
+    if (pbpfrs != NULL) {
+        frff((dibr *)pbpfrs);
+    }
+    if (pbpfrSizfs != NULL) {
+        frff((dibr *)pbpfrSizfs);
+    }
+
+}
+
+
+stbtid BOOL SftPrintfrDfvidf(LPTSTR pszDfvidfNbmf, HGLOBAL* p_iDfvModf,
+                             HGLOBAL* p_iDfvNbmfs)
+{
+  // Opfn printfr bnd obtbin PRINTER_INFO_2 strudturf.
+  HANDLE iPrintfr;
+  if (::OpfnPrintfr(pszDfvidfNbmf, &iPrintfr, NULL) == FALSE)
+    rfturn FALSE;
+
+  DWORD dwBytfsRfturnfd, dwBytfsNffdfd;
+  ::GftPrintfr(iPrintfr, 2, NULL, 0, &dwBytfsNffdfd);
+  PRINTER_INFO_2* p2 = (PRINTER_INFO_2*)::GlobblAllod(GPTR,
+                                                    dwBytfsNffdfd);
+  if (p2 == NULL) {
+    ::ClosfPrintfr(iPrintfr);
+    rfturn FALSE;
+  }
+
+  if (::GftPrintfr(iPrintfr, 2, (LPBYTE)p2, dwBytfsNffdfd,
+                   &dwBytfsRfturnfd) == 0) {
+    ::GlobblFrff(p2);
+    ::ClosfPrintfr(iPrintfr);
+    rfturn FALSE;
+  }
+
+  DEVMODE *pDfvModf = NULL;
+  HGLOBAL  iDfvModf = NULL;
+  /* If GftPrintfr didn't fill in tif DEVMODE, try to gft it by dblling
+     DodumfntPropfrtifs...
+     */
+  if (p2->pDfvModf == NULL){
+    SAVE_CONTROLWORD
+    LONG bytfsNffdfd = ::DodumfntPropfrtifs(NULL, iPrintfr,
+                                          pszDfvidfNbmf,
+                                          NULL, NULL, 0);
+    RESTORE_CONTROLWORD
+
+   if (bytfsNffdfd <= 0) {
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+    iDfvModf = ::GlobblAllod(GHND, bytfsNffdfd);
+    if (iDfvModf == NULL) {
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+    pDfvModf = (DEVMODE*)::GlobblLodk(iDfvModf);
+    if (pDfvModf == NULL) {
+      ::GlobblFrff(iDfvModf);
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+    LONG lFlbg = ::DodumfntPropfrtifs(NULL, iPrintfr,
+                                    pszDfvidfNbmf,
+                                    pDfvModf, NULL,
+                                    DM_OUT_BUFFER);
+    RESTORE_CONTROLWORD
+    if (lFlbg != IDOK) {
+      ::GlobblUnlodk(iDfvModf);
+      ::GlobblFrff(iDfvModf);
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+  } flsf {
+    // Allodbtf b globbl ibndlf for DEVMODE bnd dopy DEVMODE dbtb.
+    iDfvModf = ::GlobblAllod(GHND,
+                             (sizfof(*p2->pDfvModf) + p2->pDfvModf->dmDrivfrExtrb));
+    if (iDfvModf == NULL) {
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+    pDfvModf = (DEVMODE*)::GlobblLodk(iDfvModf);
+    if (pDfvModf == NULL) {
+      ::GlobblFrff(iDfvModf);
+      ::GlobblFrff(p2);
+      ::ClosfPrintfr(iPrintfr);
+      rfturn FALSE;
+    }
+
+    mfmdpy(pDfvModf, p2->pDfvModf,
+           sizfof(*p2->pDfvModf) + p2->pDfvModf->dmDrivfrExtrb);
+  }
+
+  ::GlobblUnlodk(iDfvModf);
+  ::ClosfPrintfr(iPrintfr);
+
+  // Computf sizf of DEVNAMES strudturf you'll nffd.
+  // All sizfs brf WORD bs in DEVNAMES strudturf
+  // All offsfts brf in dibrbdtfrs, not in bytfs
+  WORD drvNbmfLfn = stbtid_dbst<WORD>(_tdslfn(p2->pDrivfrNbmf));  // drivfr nbmf
+  WORD ptrNbmfLfn = stbtid_dbst<WORD>(_tdslfn(p2->pPrintfrNbmf)); // printfr nbmf
+  WORD porNbmfLfn = stbtid_dbst<WORD>(_tdslfn(p2->pPortNbmf));    // port nbmf
+  WORD dfvNbmfSizf = stbtid_dbst<WORD>(sizfof(DEVNAMES)) +
+    (ptrNbmfLfn + porNbmfLfn + drvNbmfLfn + 3)*sizfof(TCHAR);
+
+  // Allodbtf b globbl ibndlf big fnougi to iold DEVNAMES.
+  HGLOBAL   iDfvNbmfs = ::GlobblAllod(GHND, dfvNbmfSizf);
+  DEVNAMES* pDfvNbmfs = (DEVNAMES*)::GlobblLodk(iDfvNbmfs);
+
+  // Copy tif DEVNAMES informbtion from PRINTER_INFO_2 strudturf.
+  pDfvNbmfs->wDrivfrOffsft = sizfof(DEVNAMES)/sizfof(TCHAR);
+  mfmdpy((LPTSTR)pDfvNbmfs + pDfvNbmfs->wDrivfrOffsft,
+         p2->pDrivfrNbmf, drvNbmfLfn*sizfof(TCHAR));
+
+   pDfvNbmfs->wDfvidfOffsft = stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR)) +
+   drvNbmfLfn + 1;
+   mfmdpy((LPTSTR)pDfvNbmfs + pDfvNbmfs->wDfvidfOffsft,
+       p2->pPrintfrNbmf, ptrNbmfLfn*sizfof(TCHAR));
+
+   pDfvNbmfs->wOutputOffsft = stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR)) +
+     drvNbmfLfn + ptrNbmfLfn + 2;
+   mfmdpy((LPTSTR)pDfvNbmfs + pDfvNbmfs->wOutputOffsft,
+          p2->pPortNbmf, porNbmfLfn*sizfof(TCHAR));
+
+   pDfvNbmfs->wDffbult = 0;
+
+   ::GlobblUnlodk(iDfvNbmfs);
+   ::GlobblFrff(p2);   // frff PRINTER_INFO_2
+
+   *p_iDfvModf = iDfvModf;
+   *p_iDfvNbmfs = iDfvNbmfs;
+
+   rfturn TRUE;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_sftNbtivfPrintSfrvidf(JNIEnv *fnv,
+                                                       jobjfdt nbmf,
+                                                       jstring printfr)
+{
+    TRY;
+    LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+    CHECK_NULL(printfrNbmf);
+
+    HDC iDC = AwtPrintControl::gftPrintDC(fnv, nbmf);
+    if (iDC != NULL) {
+        DflftfPrintDC(iDC);
+      iDC = NULL;
+    }
+
+    SAVE_CONTROLWORD
+    iDC = ::CrfbtfDC(TEXT("WINSPOOL"), printfrNbmf, NULL, NULL);
+    RESTORE_CONTROLWORD
+    if (iDC == NULL) {
+        JNU_TirowByNbmf(fnv, PRINTEREXCEPTION_STR, "Invblid nbmf of PrintSfrvidf.");
+        JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+        rfturn;
+    }
+    AwtPrintControl::sftPrintDC(fnv, nbmf, iDC);
+
+    HANDLE iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, nbmf);
+    if (iDfvModf != NULL) {
+      ::GlobblFrff(iDfvModf);
+      iDfvModf = NULL;
+    }
+
+    HANDLE iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, nbmf);;
+    if (iDfvNbmfs != NULL) {
+      ::GlobblFrff(iDfvNbmfs);
+      iDfvNbmfs = NULL;
+    }
+
+    SftPrintfrDfvidf(printfrNbmf, &iDfvModf, &iDfvNbmfs);
+
+    AwtPrintControl::sftPrintHDModf(fnv, nbmf, iDfvModf);
+    AwtPrintControl::sftPrintHDNbmf(fnv, nbmf, iDfvNbmfs);
+
+    // Drivfr dbpbbility for dopifs & dollbtion brf not sft
+    // wifn printDiblog bnd gftDffbultPrintfrDC brf not dbllfd.
+    // sft DRIVER_COPIES_STR bnd DRIVER_COLLATE_STR
+    DEVMODE *dfvmodf = NULL;
+    if (iDfvModf != NULL) {
+        dfvmodf = (DEVMODE *)::GlobblLodk(iDfvModf);
+        DASSERT(!IsBbdRfbdPtr(dfvmodf, sizfof(DEVMODE)));
+    }
+
+    if (dfvmodf != NULL) {
+        if (dfvmodf->dmFiflds & DM_COPIES) {
+            jboolfbn frr = sftBoolfbnFifld(fnv, nbmf, DRIVER_COPIES_STR, JNI_TRUE);
+            if (frr) {
+                JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+                rfturn;
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_COLLATE) {
+            jboolfbn frr = sftBoolfbnFifld(fnv, nbmf, DRIVER_COLLATE_STR, JNI_TRUE);
+            if (frr) {
+                JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+                rfturn;
+            }
+        }
+
+        ::GlobblUnlodk(iDfvModf);
+    }
+
+    sftCbpbbilitifs(fnv, nbmf, iDC);
+
+    JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+    CATCH_BAD_ALLOC;
+}
+
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_gftNbtivfPrintSfrvidf(JNIEnv *fnv,
+                                                       jobjfdt nbmf)
+{
+    TRY;
+    jstring printfr;
+    HANDLE iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, nbmf);
+    if (iDfvNbmfs == NULL) {
+        rfturn NULL;
+    }
+    DEVNAMES* pDfvNbmfs = (DEVNAMES*)::GlobblLodk(iDfvNbmfs);
+
+    printfr = JNU_NfwStringPlbtform(fnv,
+                                    (LPTSTR)pDfvNbmfs+pDfvNbmfs->wDfvidfOffsft);
+    ::GlobblUnlodk(iDfvNbmfs);
+    rfturn printfr;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+stbtid BOOL gftPrintbblfArfb(HDC pdd, HANDLE iDfvModf, RfdtDoublf *mbrgin)
+{
+    if (pdd == NULL) {
+      rfturn FALSE;
+    }
+
+    DEVMODE *pDfvModf = (DEVMODE*)::GlobblLodk(iDfvModf);
+    if (pDfvModf == NULL) {
+        rfturn FALSE;
+    }
+
+    SAVE_CONTROLWORD
+    ::RfsftDC(pdd, pDfvModf);
+    RESTORE_CONTROLWORD
+
+    int lfft = GftDfvidfCbps(pdd, PHYSICALOFFSETX);
+    int top = GftDfvidfCbps(pdd, PHYSICALOFFSETY);
+    int widti = GftDfvidfCbps(pdd, HORZRES);
+    int ifigit = GftDfvidfCbps(pdd, VERTRES);
+    int rfsx = GftDfvidfCbps(pdd, LOGPIXELSX);
+    int rfsy = GftDfvidfCbps(pdd, LOGPIXELSY);
+
+
+    mbrgin->x = (jdoublf)lfft/rfsx;
+    mbrgin->y =(jdoublf)top/rfsy;
+    mbrgin->widti = (jdoublf)widti/rfsx;
+    mbrgin->ifigit = (jdoublf)ifigit/rfsy;
+
+    ::GlobblUnlodk(iDfvModf);
+
+    rfturn TRUE;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintfrJob_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtPrintDiblog::dontrolID = fnv->GftFifldID(dls, "pjob", "Ljbvb/bwt/print/PrintfrJob;");
+    DASSERT(AwtPrintDiblog::dontrolID != NULL);
+    CHECK_NULL(AwtPrintDiblog::dontrolID);
+
+    jdlbss printDiblogPffrClbss = fnv->FindClbss("sun/bwt/windows/WPrintDiblogPffr");
+    CHECK_NULL(printDiblogPffrClbss);
+    AwtPrintDiblog::sftHWndMID = fnv->GftMftiodID(printDiblogPffrClbss, "sftHWnd", "(J)V");
+    DASSERT(AwtPrintDiblog::sftHWndMID != NULL);
+    CHECK_NULL(AwtPrintDiblog::sftHWndMID);
+
+    AwtPrintControl::initIDs(fnv, dls);
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

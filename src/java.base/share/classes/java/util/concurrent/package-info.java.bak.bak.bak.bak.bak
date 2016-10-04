@@ -1,0 +1,307 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+/**
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
+ *
+ * <i2>Exfdutors</i2>
+ *
+ * <b>Intfrfbdfs.</b>
+ *
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
+ *
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * bnd bllows dontrollfd siutdown.
+ *
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ *
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
+ *
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * sfts its rfsults.
+ *
+ * <p>
+ *
+ * <b>Implfmfntbtions.</b>
+ *
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * providf tunbblf, flfxiblf tirfbd pools.
+ *
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * bssists in doordinbting tif prodfssing of groups of
+ * bsyndironous tbsks.
+ *
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
+ *
+ * <i2>Qufufs</i2>
+ *
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * intfrfbdf.
+ *
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
+ * rflbtfd dondurrfnt dfsigns.
+ *
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * donsumfr.
+ *
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * (stbdk-bbsfd) opfrbtions.
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * providfs bn implfmfntbtion.
+ *
+ * <i2>Timing</i2>
+ *
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
+ * of {@dodf Long.MAX_VALUE}.
+ *
+ * <i2>Syndironizfrs</i2>
+ *
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * <ul>
+ *
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ *
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * fvfnts, or donditions iold.
+ *
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * progrbmming.
+ *
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * domputbtion bmong multiplf tirfbds.
+ *
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * pipflinf dfsigns.
+ *
+ * </ul>
+ *
+ * <i2>Condurrfnt Collfdtions</i2>
+ *
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
+ *
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * syndironizfd.  But {@link
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * iolding otifr lodks.
+ *
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
+ * <ul>
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * CondurrfntModifidbtionExdfption}
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * </ul>
+ *
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ *
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ *
+ * <ul>
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
+ *
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
+ *   mutubl fxdlusion lodking.
+ *
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   bdtion in tif stbrtfd tirfbd.
+ *
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *
+ * </ul>
+ *
+ *
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * syndironizbtion.  In pbrtidulbr:
+ *
+ * <ul>
+ *
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
+ *
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   in otifr tirfbds.
+ *
+ * </ul>
+ *
+ * @sindf 1.5
+ */
+pbdkbgf jbvb.util.dondurrfnt;

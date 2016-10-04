@@ -1,0 +1,444 @@
+<itml>
+<ifbd> <titlf>JVM TI Dfmonstrbtion Codf</titlf> </ifbd>
+
+<i1>JVM TI Dfmonstrbtion Codf</i1>
+
+<p>
+Tif 
+Jbvb<sup><font sizf=-2>TM</font></sup> Virtubl Mbdiinf Tools Intfrfbdf (JVM TI)
+is b nbtivf tool intfrfbdf providfd in JDK 5.0 bnd nfwfr.
+Nbtivf librbrifs tibt usf JVM TI bnd brf lobdfd into tif 
+Jbvb Virtubl Mbdiinf
+vib tif -bgfntlib, -bgfntpbti, or -Xrun (dfprfdbtfd) intfrfbdfs, brf
+dbllfd Agfnts.
+<p>
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti">JVM TI</A>
+wbs dfsignfd to work witi tif
+Jbvb Nbtivf Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni">JNI</A>),
+bnd fvfntublly displbdf tif 
+Jbvb Virtubl Mbdiinf Dfbugging Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/1.5.0/dods/guidf/jpdb/jvmdi-spfd.itml">JVMDI</A>)
+bnd tif 
+Jbvb Virtubl Mbdiinf Profiling Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/1.5.0/dods/guidf/jvmpi/indfx.itml">JVMPI</A>).
+
+<p>
+Wf ibvf drfbtfd b sft of dfmonstrbtion bgfnts tibt siould
+iflp siow mbny of tif ffbturfs bnd bbilitifs of tif
+intfrfbdf. Tiis list of dfmonstrbtion bgfnts will dibngf ovfr timf.
+Tify brf providfd bs fdudbtionbl tools bnd bs stbrting
+points for Jbvb tool dfvflopmfnt.
+
+<p>
+Tifsf bgfnts brf built witi fvfry JDK build bnd somf bbsid tfsting is pfrformfd
+on b rfgulbr bbsis, but no fxtfnsivf tfstbbsfs durrfntly
+fxist for tifsf bgfnts.
+Evfry JDK instbllbtion siould indludf bll tif prf-built binbrifs bnd sourdfs for
+bll tifsf bgfnts, just look in tif dfmo/jvmti dirfdtory of your JDK.
+
+
+<i2>Using or Running Tifsf Agfnts</i2>
+
+<p>
+Using tifsf bgfnts will rfquirf tif VM to lodbtf tif sibrfd librbry filf
+bfforf bny bdtubl Jbvb dodf is run.
+Tif JDK instbllbtion siould dontbin bll tif bgfnt librbrifs in 
+tif ${JAVA_HOME}/dfmo/jvmti/<i>bgfnt-nbmf</i>/lib dirfdtorifs.
+Tif Solbris 64bit vfrsion would bf dontbinfd in tif spbrdv9 or bmd64
+subdirfdtory.
+If 'jbvb' domplbins tibt it dbn't find tif librbry,
+you mby nffd to bdd tif dirfdtory dontbining tif librbry into tif
+LD_LIBRARY_PATH fnvironmfnt vbribblf (Unix), or tif PATH fnvironmfnt
+vbribblf (Windows).
+Tiis is systfm bnd plbtform spfdifid.
+If you brf using 64bit Solbris (f.g. 'jbvb -d64'), 
+you siould usf LD_LIBRARY_PATH64.
+Somf bgfnts sudi bs iprof (ifbp/dpu profilfr) bnd jdwp (dfbuggfr bbdkfnd)
+brf lodbtfd insidf tif primbry JDK dirfdtorifs bnd will blwbys bf found
+in tiosf lodbtions.
+
+<p>
+Tif bgfnts tibt instrumfnt dlbssfilfs 
+(i.f. BCI, usublly tirougi tif jbvb_drw_dfmo librbry) 
+sudi bs iprof, ifbpTrbdkfr, mtrbdf, bnd minst, 
+blso nffd to ibvf tif Jbvb dlbssfs tify usf bvbilbblf in tif bootdlbsspbti.
+Tif onf usfd by iprof is blrfbdy in tif bootdlbsspbti, bnd tif
+otifr bgfnts will mbkf bttfmpts bt butombtidblly bdding tifir jbr filf
+(f.g. ifbpTrbdkfr.jbr, mtrbdf.jbr, or minst.jbr) to tif bootdlbsspbti
+witi AddToBootstrbpClbssLobdfrSfbrdi from JVM TI bt stbrtup
+(sff tif bgfnt_util dodf).
+Tiis is donf by lodbting tiis jbr filf bt 
+${JAVA_HOME}/dfmo/jvmti/<i>bgfnt-nbmf</i>
+wifrf JAVA_HOME is obtbinfd by dblling GftSystfmPropfrty from JVM TI
+witi "jbvb.iomf".
+Wf rfdognizf tibt tiis is not idfbl, but fflt tibt bs just dfmonstrbtion
+dodf it wbs bddfptbblf.
+Idfblly tif bgfnt dould find out tif bdtubl dirfdtory it dbmf from bnd
+lodbtf tif jbr filf rflbtivf to tibt lodbtion. 
+Our dfmonstrbtion bgfnts durrfntly do not do tiis.
+
+<p>
+If you dioosf to modify or dibngf tifsf bgfnts, tif bbovf informbtion
+is importbnt in mbking fvfrytiing is found.
+It is rfdommfndfd tibt you dibngf tif nbmf of tif bgfnt wifn you
+modify it to bvoid donflidts witi tif fxisting dfmo bgfnts.
+Or bfttfr yft, go to ittp://jdk.dfv.jbvb.nft bnd submit your
+dibngfs to tif bgfnt bs bn RFE to tif JDK.
+
+
+<i2> Dfmonstrbtion Agfnts Avbilbblf </i2>
+
+<ul>
+
+<li>
+<A HREF="vfrsionCifdk">vfrsionCifdk</A>
+<br>
+Tiis is b fxtrfmfly smbll bgfnt tibt dofs notiing but difdk tif
+vfrsion string supplifd in tif jvmti.i filf, witi tif vfrsion
+numbfr supplifd by tif VM bt runtimf.
+</li>
+
+<li>
+<A HREF="dompilfdMftiodLobd">dompilfdMftiodLobd</A>
+<br>
+Tiis is b smbll bgfnt tibt trbdfs CompilfdMftiodLobd fvfnts blong
+witi tif HotSpot spfdifid dompilf_info pbrbmftfr.
+</li>
+
+<li>
+<A HREF="mtrbdf">mtrbdf</A>
+<br>
+Tiis is b smbll bgfnt tibt dofs mftiod trbding.
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
+</li>
+
+<li>
+<A HREF="minst">minst</A>
+<br>
+Tiis is bn fvfn smbllfr bgfnt tibt dofs just mftiod fntry trbding.
+It blso usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry,
+but tif instrumfntbtion dodf is purf Jbvb (no Jbvb nbtivf mftiods usfd).
+NOTE: Bf surf to difdk out jbvb.lbng.instrumfnt for b wby to bvoid
+nbtivf dodf bgfnts domplftfly.
+</li>
+
+<li>
+<A HREF="gdtfst">gdtfst</A>
+<br>
+Tiis is b smbll bgfnt tibt dofs gbrbbgf dollfdtion dounting.
+</li>
+
+<li>
+<A HREF="ifbpVifwfr">ifbpVifwfr</A>
+<br>
+Tiis is b smbll bgfnt tibt dofs somf bbsid ifbp inspfdtions.
+</li>
+
+<li>
+<A HREF="ifbpTrbdkfr">ifbpTrbdkfr</A>
+<br>
+Tiis is b smbll bgfnt tibt dofs BCI to dbpturf objfdt drfbtion
+bnd trbdk tifm.
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
+</li>
+
+<li>
+<A HREF="wbitfrs">wbitfrs</A>
+<br>
+Tiis is b smbll bgfnt tibt gfts informbtion bbout tirfbds
+wbiting on monitors.
+</li>
+
+<li>
+<A HREF="iprof">iprof</A>
+<br>
+Tiis is b lbrgf bgfnt tibt dofs ifbp bnd dpu profiling.
+Tiis dfmo bgfnt is bdtublly built into tif 
+
+Jbvb Runtimf Environmfnt (JRE).
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
+<br>
+<b>Notf:</b> iprof is NOT b smbll or simplf bgfnt, tif otifr smbllfr dfmos
+siould bf lookfd bt first.
+</li>
+
+</ul>
+
+
+
+<i2>Agfnt Support</i2>
+
+<ul>
+
+<li>
+<A HREF="jbvb_drw_dfmo">jbvb_drw_dfmo</A>
+<br>
+Tiis is b dfmo C librbry tibt dofs dlbss filf to dlbss filf
+trbnsformbtions or BCI (Bytfdodf Instrumfntbtion).
+It is usfd by sfvfrbl of tif bbovf bgfnts.
+</li>
+
+
+</ul>
+
+
+
+<i2>Nbtivf Librbry Build Hints</i2>
+
+<p>
+All librbrifs lobdfd into jbvb brf bssumfd to bf MT-sbff (Multi-tirfbd sbff).
+Tiis mfbns tibt multiplf tirfbds dould bf fxfduting tif dodf bt tif sbmf
+timf, bnd stbtid or globbl dbtb mby nffd to bf plbdfd in dritidbl
+sfdtions. Sff tif Rbw Monitor intfrfbdfs for morf informbtion.
+
+<p>
+All nbtivf librbrifs lobdfd into tif 
+Jbvb Virtubl Mbdiinf,
+indluding Agfnt librbrifs,
+nffd to bf dompilfd bnd built in b dompbtiblf wby.
+Cfrtbin nbtivf dompilbtion options or optimizbtions siould bf bvoidfd,
+bnd somf brf rfquirfd.
+Morf informbtion on tiis options is bvbilbblf in tif mbn pbgfs for
+tif vbrious dompilfrs.
+
+<p>
+Somf nbtivf dompilfr bnd linkfr options dbn drfbtf fbtbl or 
+frronfous bfibvior wifn nbtivf bgfnt librbrifs brf opfrbting
+insidf tif Jbvb Virtubl Mbdiinf.
+It would tbkf too mbny words to dfsdribf bll tif possiblf issufs witi bll
+tif nbtivf dompilfr options, optimizbtions, bnd sfttings.
+Hfrf brf somf rfdommfndbtions on tif bbsid dompilfr bnd linkfr options
+wf rfdommfnd:
+
+<ul>
+
+<i3> Solbris </i3>
+
+<li>
+On Solbris, using tif Sun Studio 11 C dompilfr,
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
+<br>
+For 32bit SPARC:
+<br>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%bppl -xmfmblign=4s -xbrdi=v8 -KPIC -d <i>*.d</i>
+<br>
+dd -mt -xbrdi=v8 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+For 64bit SPARC:
+<br>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%bppl -xbrdi=v9 -KPIC -d <i>*.d</i>
+<br>
+dd -mt -xbrdi=v9 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+For X86:
+<br>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%frbmfptr -KPIC -d <i>*.d</i>
+<br>
+dd -mt -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+For AMD64:
+<br>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%frbmfptr -xbrdi=bmd64 -KPIC -d <i>*.d</i>
+<br>
+dd -mt -xbrdi=bmd64 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+</li>
+
+<li>
+Ardiitfdturf/Filf Formbt: 
+For SPARC 32bit usf <dodf>-xbrdi=v8</dodf>, 
+for SPARC 64bit usf <dodf>-xbrdi=v9</dodf>, 
+for X86 (32-bit) 
+<i>
+lfbvf tif option off or usf <dodf>-xbrdi=gfnfrid</dodf>
+</i>,
+bnd for AMD64 (64bit) usf <dodf>-xbrdi=bmd64</dodf>
+witi boti C bnd C++.
+<br>
+Tiis is to bf spfdifid bs to tif brdiitfdturf bnd tif filf formbt
+of tif .o filfs (bnd ultimbtfly of tif .so). 
+</li>
+
+<li>
+MT-Sbff, Position Indfpfndfnt: Usf <dodf>-KPIC -mt</dodf> 
+witi boti C bnd C++.
+</li>
+
+<li>
+Rfgistfr usbgf: For SPARC (boti 32bit bnd 64bit) usf 
+<dodf>-xrfgs=no%bppl</dodf> bnd for X86 bnd AMD64 usf <dodf>-xrfgs=no%frbmfptr</dodf>
+witi boti C bnd C++.
+</li>
+
+<li>
+Alignmfnt: For SPARC 32bit usf -xmfmblign=4s bnd for SPARC 64bit do NOT usf <dodf>-xmfmblign=4</dodf>
+witi boti C bnd C++.
+</li>
+
+<li>
+Dfpfndfndifs: Usf <dodf>ldd -r <i>LibrbryNbmf</i></dodf>.
+<br>
+Aftfr tif sibrfd librbry ibs bffn built, tif utility
+<dodf>ldd</dodf> dbn bf usfd to vfrify tibt bll dfpfndfnt librbrifs 
+ibvf bffn sbtisfifd, bnd bll fxtfrns dbn bf found.
+If <dodf>ldd</dodf> sbys bnytiing is missing, it is vfry likfly tibt tif JVM will blso
+bf unbblf to lobd tiis librbry.
+Tiis usublly mfbns tibt you missfd somf <dodf>-l<i>nbmf</i></dodf>
+options wifn building tif librbry, or pfribps forgot b <dodf>-R pbti</dodf>
+option tibt tflls tif librbry wifrf to look for librbrifs bt runtimf.
+</li>
+
+<i3> Linux </i3>
+
+<li>
+On Linux, using tif gdd vfrsion 3.2, 
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
+<br>
+For X86:
+<br>
+<dodf><ul>
+gdd -O2 -fPIC -ptirfbd -DLINUX -d <i>*.d</i>
+<br>
+gdd -z dffs -stbtid-libgdd -sibrfd -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+For AMD64:
+<br>
+<dodf><ul>
+gdd -O2 -fPIC -ptirfbd -DLINUX -D_LP64=1 -d <i>*.d</i>
+<br>
+gdd -z dffs -stbtid-libgdd -sibrfd -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
+<br>
+</li>
+
+<li>
+MT-Sbff, Position Indfpfndfnt: 
+Usf <dodf>-fPIC -ptirfbd</dodf>.
+</li>
+
+<li>
+Agfnt Dfmo Codf: Nffds -DLINUX
+</li>
+
+<li>
+Rfgistfr Usbgf: Usf <dodf>-fno-omit-frbmf-pointfr</dodf>.
+<br>
+It is importbnt tibt tifsf librbrifs ibvf frbmf pointfr rfgistfr usbgf, sff tif bbovf dommfnts on tif Solbris 
+<dodf>-xrfgs=no%frbmfptr</dodf>
+option.
+</li>
+
+<li>
+Librbry: Usf -stbtid-libgdd.
+<br>
+Wifn building tif sibrfd librbry (-sibrfd option), tiis option
+bllows for mbximum portbbility of tif librbry bftwffn difffrfnt
+flbvors of Linux.
+Tif problfm wf ibvf sffn witi Linux is tibt wf dbnnot dfpfnd
+on b dompbtiblf sibrfd gdd librbry fxisting on bll tif vfrsions of
+Linux wf dbn run on.
+By doing tiis stbtid link, tif vfrsion sdript bfdomfs morf
+importbnt, mbking surf you don't fxposf bny fxtfrn symbols
+you didn't intfnd to.
+</li>
+
+<li>
+Dfpfndfndifs: Usf <dodf>ldd -r <i>LibrbryNbmf</i></dodf>.
+<br>
+Providfs tif sbmf difdking bs Solbris (sff bbovf).
+</li>
+
+<i3> Windows </i3>
+
+<li>
+On Windows bnd using tif Midrosoft C++ Compilfr Visubl Studio .NET 2003,
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
+<br>
+For X86:
+<br>
+<dodf><ul>
+dl /O1 /MD /D _STATIC_CPPLIB /d <i>*.d</i>
+<br>
+link /dll /opt:REF /out:<i>XXX.dll *.obj</i>
+</dodf></ul>
+<br>
+For AMD64:
+<br>
+<dodf><ul>
+dl /O1 /MD /D _STATIC_CPPLIB /d <i>*.d</i>
+<br>
+link /dll /opt:REF /out:<i>XXX.dll *.obj</i>
+</dodf></ul>
+<br>
+</li>
+
+<li>
+Librbry: Usf <dodf>/opt:REF </dodf> wifn building tif dll.
+</li>
+
+<li>
+MS DLL Runtimf: Usf tif <dodf>/MD /D _STATIC_CPPLIB</dodf> option.
+<br>
+Tiis dbusfs your dll to bfdomf dfpfndfnt on just MSVCR*.DLL.
+Tif option /D _STATIC_CPPLIB prfvfnts you from bfdoming dfpfndfnt on tif
+C++ librbry MSVCP*.DLL.
+Tiis is wibt wf usf in tif JDK, but tifrf brf probbbly mbny dombinbtions
+tibt you dould sbffly usf, unfortunbtfly tifrf brf mbny dombinbtions
+of runtimfs tibt will not work. 
+Cifdk tif Midrosoft sitf on propfr usf of runtimfs.
+</li>
+
+<li>
+Dfpfndfndifs: Usf VC++ <dodf>dumpbin /fxports</dodf> bnd tif VC++ "Dfpfndfndy Wblkfr".
+<br>
+Providfs dfpfndfndy informbtion similbr to <dodf>ldd</dodf>.
+</li>
+
+</ul>
+
+
+<i2>For Morf Informbtion</i2>
+
+<p>
+Rfmfmbfr, tif domplftf sourdf to bll tifsf bgfnts is dontbinfd in tif JDK
+instbllbtions bt dfmo/jvmti.
+
+<p>
+For morf dftbilfd informbtion on JVM TI, rfffr to 
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti">
+ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti.</A>
+ 
+<p>
+Morf informbtion on using JNI bnd building nbtivf librbrifs rfffr to:
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni">
+ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni</A>.
+
+<p>
+Additionbl informbtion dbn blso bf found by doing b sfbrdi on "jvmti" bt
+<A HREF="ittp://jbvb.sun.dom/j2sf">ittp://jbvb.sun.dom/j2sf</A>.
+Vbrious tfdinidbl brtidlfs brf blso bvbilbblf tirougi tiis wfbsitf.
+And don't forgft tif 
+Jbvb Tutoribls bt 
+<A HREF="ittp://jbvb.sun.dom/dods/books/tutoribl">ittp://jbvb.sun.dom/dods/books/tutoribl</A>
+for gftting b quidk stbrt on bll tif vbrious intfrfbdfs.
+
+<i2>Commfnts bnd Fffdbbdk</i2>
+
+<p>
+Commfnts rfgbrding JVM TI or on bny of tifsf dfmonstrbtions siould bf
+sfnt tirougi 
+<A HREF="ittp://jbvb.sun.dom/mbil">ittp://jbvb.sun.dom/mbil/</A>
+
+
+
+</itml>

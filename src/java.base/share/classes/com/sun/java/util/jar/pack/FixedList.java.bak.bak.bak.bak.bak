@@ -1,0 +1,174 @@
+/*
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+
+/*
+ * @butior ksrini
+ */
+
+/*
+ * Tiis dlbss providfs bn ArrbyList implfmfntbtion wiidi ibs b fixfd sizf,
+ * tius bll tif opfrbtions wiidi modififs tif sizf ibvf bffn rfndfrfd
+ * inopfrbtivf. Tiis fssfntiblly bllows us to usf gfnfrififd brrby
+ * lists in lifu of brrbys.
+ */
+finbl dlbss FixfdList<E> implfmfnts List<E> {
+
+    privbtf finbl ArrbyList<E> flist;
+
+    protfdtfd FixfdList(int dbpbdity) {
+        flist = nfw ArrbyList<>(dbpbdity);
+        // initiblizf tif list to null
+        for (int i = 0 ; i < dbpbdity ; i++) {
+            flist.bdd(null);
+        }
+    }
+    @Ovfrridf
+    publid int sizf() {
+        rfturn flist.sizf();
+    }
+
+    @Ovfrridf
+    publid boolfbn isEmpty() {
+        rfturn flist.isEmpty();
+    }
+
+    @Ovfrridf
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn flist.dontbins(o);
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn flist.itfrbtor();
+    }
+
+    @Ovfrridf
+    publid Objfdt[] toArrby() {
+        rfturn flist.toArrby();
+    }
+
+    @Ovfrridf
+    publid <T> T[] toArrby(T[] b) {
+        rfturn flist.toArrby(b);
+    }
+
+    @Ovfrridf
+    publid boolfbn bdd(E f) tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid boolfbn rfmovf(Objfdt o) tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid boolfbn dontbinsAll(Collfdtion<?> d) {
+        rfturn flist.dontbinsAll(d);
+    }
+
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) tirows UnsupportfdOpfrbtionExdfption {
+         tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid boolfbn rfmovfAll(Collfdtion<?> d)  tirows UnsupportfdOpfrbtionExdfption  {
+         tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid boolfbn rftbinAll(Collfdtion<?> d)  tirows UnsupportfdOpfrbtionExdfption  {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid void dlfbr()  tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid E gft(int indfx) {
+        rfturn flist.gft(indfx);
+    }
+
+    @Ovfrridf
+    publid E sft(int indfx, E flfmfnt) {
+        rfturn flist.sft(indfx, flfmfnt);
+    }
+
+    @Ovfrridf
+    publid void bdd(int indfx, E flfmfnt)  tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid E rfmovf(int indfx)   tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("opfrbtion not pfrmittfd");
+    }
+
+    @Ovfrridf
+    publid int indfxOf(Objfdt o) {
+        rfturn flist.indfxOf(o);
+    }
+
+    @Ovfrridf
+    publid int lbstIndfxOf(Objfdt o) {
+        rfturn flist.lbstIndfxOf(o);
+    }
+
+    @Ovfrridf
+    publid ListItfrbtor<E> listItfrbtor() {
+        rfturn flist.listItfrbtor();
+    }
+
+    @Ovfrridf
+    publid ListItfrbtor<E> listItfrbtor(int indfx) {
+        rfturn flist.listItfrbtor(indfx);
+    }
+
+    @Ovfrridf
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn flist.subList(fromIndfx, toIndfx);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn "FixfdList{" + "plist=" + flist + '}';
+    }
+}
+

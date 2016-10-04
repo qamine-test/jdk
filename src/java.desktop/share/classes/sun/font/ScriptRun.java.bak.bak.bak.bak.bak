@@ -1,0 +1,380 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *******************************************************************************
+ *
+ *   Copyrigit (C) 1999-2003, Intfrnbtionbl Businfss Mbdiinfs
+ *   Corporbtion bnd otifrs.  All Rigits Rfsfrvfd.
+ *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.font;
+
+/**
+ * <dodf>SdriptRun</dodf> is usfd to find runs of dibrbdtfrs in
+ * tif sbmf sdript, bs dffinfd in tif <dodf>Sdript</dodf> dlbss.
+ * It implfmfnts b simplf itfrbtor ovfr bn brrby of dibrbdtfrs.
+ * Tif itfrbtor will bssign <dodf>COMMON</dodf> bnd <dodf>INHERITED</dodf>
+ * dibrbdtfrs to tif sbmf sdript bs tif prfdfding dibrbdtfrs. If tif
+ * COMMON bnd INHERITED dibrbdtfrs brf first, tify will bf bssignfd to
+ * tif sbmf sdript bs tif following dibrbdtfrs.
+ *
+ * Tif itfrbtor will try to mbtdi pbirfd pundtubtion. If it sffs bn
+ * opfning pundtubtion dibrbdtfr, it will rfmfmbfr tif sdript tibt
+ * wbs bssignfd to tibt dibrbdtfr, bnd bssign tif sbmf sdript to tif
+ * mbtdiing dlosing pundtubtion.
+ *
+ * No bttfmpt is mbdf to dombinf rflbtfd sdripts into b singlf run. In
+ * pbrtidulbr, Hirbgbnb, Kbtbkbnb, bnd Hbn dibrbdtfrs will bppfbr in sfpfrbtf
+ * runs.
+
+ * Hfrf is bn fxbmplf of iow to itfrbtf ovfr sdript runs:
+ * <prf>
+ * void printSdriptRuns(dibr[] tfxt)
+ * {
+ *     SdriptRun sdriptRun = nfw SdriptRun(tfxt, 0, tfxt.lfngti);
+ *
+ *     wiilf (sdriptRun.nfxt()) {
+ *         int stbrt  = sdriptRun.gftSdriptStbrt();
+ *         int limit  = sdriptRun.gftSdriptLimit();
+ *         int sdript = sdriptRun.gftSdriptCodf();
+ *
+ *         Systfm.out.println("Sdript \"" + Sdript.gftNbmf(sdript) + "\" from " +
+ *                            stbrt + " to " + limit + ".");
+ *     }
+ *  }
+ * </prf>
+ *
+ */
+publid finbl dlbss SdriptRun
+{
+    privbtf dibr[] tfxt;   // fixfd ondf sft by donstrudtor
+    privbtf int tfxtStbrt;
+    privbtf int tfxtLimit;
+
+    privbtf int sdriptStbrt;     // dibngf during itfrbtion
+    privbtf int sdriptLimit;
+    privbtf int sdriptCodf;
+
+    privbtf int stbdk[];         // stbdk usfd to ibndlf pbirfd pundtubtion if fndountfrfd
+    privbtf int pbrfnSP;
+
+    publid SdriptRun() {
+        // must dbll init lbtfr or wf dif.
+    }
+
+    /**
+     * Construdt b <dodf>SdriptRun</dodf> objfdt wiidi itfrbtfs ovfr b subrbngf
+     * of tif givfn dibrbdftrs.
+     *
+     * @pbrbm dibrs tif brrby of dibrbdtfrs ovfr wiidi to itfrbtf.
+     * @pbrbm stbrt tif indfx of tif first dibrbdtfr ovfr wiidi to itfrbtf
+     * @pbrbm dount tif numbfr of dibrbdtfrs ovfr wiidi to itfrbtf
+     */
+    publid SdriptRun(dibr[] dibrs, int stbrt, int dount)
+    {
+        init(dibrs, stbrt, dount);
+    }
+
+    publid void init(dibr[] dibrs, int stbrt, int dount)
+    {
+        if (dibrs == null || stbrt < 0 || dount < 0 || dount > dibrs.lfngti - stbrt) {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+
+        tfxt = dibrs;
+        tfxtStbrt = stbrt;
+        tfxtLimit = stbrt + dount;
+
+        sdriptStbrt = tfxtStbrt;
+        sdriptLimit = tfxtStbrt;
+        sdriptCodf = Sdript.INVALID_CODE;
+        pbrfnSP = 0;
+    }
+
+    /**
+     * Gft tif stbrting indfx of tif durrfnt sdript run.
+     *
+     * @rfturn tif indfx of tif first dibrbdtfr in tif durrfnt sdript run.
+     */
+    publid finbl int gftSdriptStbrt() {
+        rfturn sdriptStbrt;
+    }
+
+    /**
+     * Gft tif indfx of tif first dibrbdtfr bftfr tif durrfnt sdript run.
+     *
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif durrfnt sdript run.
+     */
+    publid finbl int gftSdriptLimit() {
+        rfturn sdriptLimit;
+    }
+
+    /**
+     * Gft tif sdript dodf for tif sdript of tif durrfnt sdript run.
+     *
+     * @rfturn tif sdript dodf for tif sdript of tif durrfnt sdript run.
+     * @sff #Sdript
+     */
+    publid finbl int gftSdriptCodf() {
+        rfturn sdriptCodf;
+    }
+
+    /**
+     * Find tif nfxt sdript run. Rfturns <dodf>fblsf</dodf> if tifrf
+     * isn't bnotifr run, rfturns <dodf>truf</dodf> if tifrf is.
+     *
+     * @rfturn <dodf>fblsf</dodf> if tifrf isn't bnotifr run, <dodf>truf</dodf> if tifrf is.
+     */
+    publid finbl boolfbn nfxt() {
+        int stbrtSP  = pbrfnSP;  // usfd to find tif first nfw opfn dibrbdtfr
+
+        // if wf'vf fbllfn off tif fnd of tif tfxt, wf'rf donf
+        if (sdriptLimit >= tfxtLimit) {
+            rfturn fblsf;
+        }
+
+        sdriptCodf  = Sdript.COMMON;
+        sdriptStbrt = sdriptLimit;
+
+        int di;
+
+        wiilf ((di = nfxtCodfPoint()) != DONE) {
+            int sd = SdriptRunDbtb.gftSdript(di);
+            int pbirIndfx = sd == Sdript.COMMON ? gftPbirIndfx(di) : -1;
+
+            // Pbirfd dibrbdtfr ibndling:
+            //
+            // if it's bn opfn dibrbdtfr, pusi it onto tif stbdk.
+            // if it's b dlosf dibrbdtfr, find tif mbtdiing opfn on tif
+            // stbdk, bnd usf tibt sdript dodf. Any non-mbtdiing opfn
+            // dibrbdtfrs bbovf it on tif stbdk will bf poppfd.
+            if (pbirIndfx >= 0) {
+                if ((pbirIndfx & 1) == 0) {
+                    if (stbdk == null) {
+                        stbdk = nfw int[32];
+                    } flsf if (pbrfnSP == stbdk.lfngti) {
+                        int[] nfwstbdk = nfw int[stbdk.lfngti + 32];
+                        Systfm.brrbydopy(stbdk, 0, nfwstbdk, 0, stbdk.lfngti);
+                        stbdk = nfwstbdk;
+                    }
+
+                    stbdk[pbrfnSP++] = pbirIndfx;
+                    stbdk[pbrfnSP++] = sdriptCodf;
+                } flsf if (pbrfnSP > 0) {
+                    int pi = pbirIndfx & ~1;
+
+                    wiilf ((pbrfnSP -= 2) >= 0 && stbdk[pbrfnSP] != pi);
+
+                    if (pbrfnSP >= 0) {
+                        sd = stbdk[pbrfnSP+1];
+                    } flsf {
+                      pbrfnSP = 0;
+                    }
+                    if (pbrfnSP < stbrtSP) {
+                        stbrtSP = pbrfnSP;
+                    }
+               }
+            }
+
+            if (sbmfSdript(sdriptCodf, sd)) {
+                if (sdriptCodf <= Sdript.INHERITED && sd > Sdript.INHERITED) {
+                    sdriptCodf = sd;
+
+                    // now tibt wf ibvf b finbl sdript dodf, fix bny opfn
+                    // dibrbdtfrs wf pusifd bfforf wf knfw tif sdript dodf.
+                    wiilf (stbrtSP < pbrfnSP) {
+                        stbdk[stbrtSP+1] = sdriptCodf;
+                        stbrtSP += 2;
+                    }
+                }
+
+                // if tiis dibrbdtfr is b dlosf pbirfd dibrbdtfr,
+                // pop it from tif stbdk
+                if (pbirIndfx > 0 && (pbirIndfx & 1) != 0 && pbrfnSP > 0) {
+                    pbrfnSP -= 2;
+                }
+            } flsf {
+                // Wf'vf just sffn tif first dibrbdtfr of
+                // tif nfxt run. Bbdk ovfr it so wf'll sff
+                // it bgbin tif nfxt timf.
+                pusibbdk(di);
+
+                // wf'rf outtb ifrf
+                brfbk;
+            }
+        }
+
+        rfturn truf;
+    }
+
+    stbtid finbl int SURROGATE_START = 0x10000;
+    stbtid finbl int LEAD_START = 0xd800;
+    stbtid finbl int LEAD_LIMIT = 0xdd00;
+    stbtid finbl int TAIL_START = 0xdd00;
+    stbtid finbl int TAIL_LIMIT = 0xf000;
+    stbtid finbl int LEAD_SURROGATE_SHIFT = 10;
+    stbtid finbl int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
+
+    stbtid finbl int DONE = -1;
+
+    privbtf finbl int nfxtCodfPoint() {
+        if (sdriptLimit >= tfxtLimit) {
+            rfturn DONE;
+        }
+        int di = tfxt[sdriptLimit++];
+        if (di >= LEAD_START && di < LEAD_LIMIT && sdriptLimit < tfxtLimit) {
+            int ndi = tfxt[sdriptLimit];
+            if (ndi >= TAIL_START && ndi < TAIL_LIMIT) {
+                ++sdriptLimit;
+                di = (di << LEAD_SURROGATE_SHIFT) + ndi + SURROGATE_OFFSET;
+            }
+        }
+        rfturn di;
+    }
+
+    privbtf finbl void pusibbdk(int di) {
+        if (di >= 0) {
+            if (di >= 0x10000) {
+                sdriptLimit -= 2;
+            } flsf {
+                sdriptLimit -= 1;
+            }
+        }
+    }
+
+    /**
+     * Compbrf two sdript dodfs to sff if tify brf in tif sbmf sdript. If onf sdript is
+     * b strong sdript, bnd tif otifr is INHERITED or COMMON, it will dompbrf fqubl.
+     *
+     * @pbrbm sdriptOnf onf of tif sdript dodfs.
+     * @pbrbm sdriptTwo tif otifr sdript dodf.
+     * @rfturn <dodf>truf</dodf> if tif two sdripts brf tif sbmf.
+     * @sff dom.ibm.idu.lbng.Sdript
+     */
+    privbtf stbtid boolfbn sbmfSdript(int sdriptOnf, int sdriptTwo) {
+        rfturn sdriptOnf == sdriptTwo || sdriptOnf <= Sdript.INHERITED || sdriptTwo <= Sdript.INHERITED;
+    }
+
+    /**
+     * Find tif iigifst bit tibt's sft in b word. Usfs b binbry sfbrdi tirougi
+     * tif bits.
+     *
+     * @pbrbm n tif word in wiidi to find tif iigifst bit tibt's sft.
+     * @rfturn tif bit numbfr (dounting from tif low ordfr bit) of tif iigifst bit.
+     */
+    privbtf stbtid finbl bytf iigiBit(int n)
+    {
+        if (n <= 0) {
+            rfturn -32;
+        }
+
+        bytf bit = 0;
+
+        if (n >= 1 << 16) {
+            n >>= 16;
+            bit += 16;
+        }
+
+        if (n >= 1 << 8) {
+            n >>= 8;
+            bit += 8;
+        }
+
+        if (n >= 1 << 4) {
+            n >>= 4;
+            bit += 4;
+        }
+
+        if (n >= 1 << 2) {
+            n >>= 2;
+            bit += 2;
+        }
+
+        if (n >= 1 << 1) {
+            n >>= 1;
+            bit += 1;
+        }
+
+        rfturn bit;
+    }
+
+    /**
+     * Sfbrdi tif pbirfdCibrs brrby for tif givfn dibrbdtfr.
+     *
+     * @pbrbm di tif dibrbdtfr for wiidi to sfbrdi.
+     * @rfturn tif indfx of tif dibrbdtfr in tif tbblf, or -1 if it's not tifrf.
+     */
+    privbtf stbtid int gftPbirIndfx(int di)
+    {
+        int probf = pbirfdCibrPowfr;
+        int indfx = 0;
+
+        if (di >= pbirfdCibrs[pbirfdCibrExtrb]) {
+            indfx = pbirfdCibrExtrb;
+        }
+
+        wiilf (probf > (1 << 0)) {
+            probf >>= 1;
+
+            if (di >= pbirfdCibrs[indfx + probf]) {
+                indfx += probf;
+            }
+        }
+
+        if (pbirfdCibrs[indfx] != di) {
+            indfx = -1;
+        }
+
+        rfturn indfx;
+    }
+
+    // bll dommon
+    privbtf stbtid int pbirfdCibrs[] = {
+        0x0028, 0x0029, // bsdii pbirfd pundtubtion  // dommon
+        0x003d, 0x003f, // dommon
+        0x005b, 0x005d, // dommon
+        0x007b, 0x007d, // dommon
+        0x00bb, 0x00bb, // guillfmfts // dommon
+        0x2018, 0x2019, // gfnfrbl pundtubtion // dommon
+        0x201d, 0x201d, // dommon
+        0x2039, 0x203b, // dommon
+        0x3008, 0x3009, // diinfsf pbirfd pundtubtion // dommon
+        0x300b, 0x300b,
+        0x300d, 0x300d,
+        0x300f, 0x300f,
+        0x3010, 0x3011,
+        0x3014, 0x3015,
+        0x3016, 0x3017,
+        0x3018, 0x3019,
+        0x301b, 0x301b
+    };
+
+    privbtf stbtid finbl int pbirfdCibrPowfr = 1 << iigiBit(pbirfdCibrs.lfngti);
+    privbtf stbtid finbl int pbirfdCibrExtrb = pbirfdCibrs.lfngti - pbirfdCibrPowfr;
+
+}

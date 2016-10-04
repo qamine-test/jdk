@@ -1,0 +1,169 @@
+<!--
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Copyrigit (d) 2008-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+-->
+<body>
+    <p>
+        A nfw Dbtf bnd Timf API for Jbvb.
+        Tif dfsign indludfs b rflbtivfly lbrgf numbfr of dlbssfs bnd mftiods,
+        iowfvfr fbdi follows b dommon dfsign lbngubgf, fspfdiblly in mftiod prffixfs.
+        Ondf tif prffixfs brf undfrstood, tif API is rflbtivfly simplf to domprfifnd.
+    </p>
+    <p>
+        Tif Jbvb Timf API is domposfd of sfvfrbl pbdkbgfs, fbdi witi b primbry fundtion:
+    </p>
+    <p>
+        {@link jbvb.timf} dontbins tif mbin API bbsfd on tif ISO-8601 stbndbrd.
+        Tif dlbssfs dffinfd ifrf rfprfsfnt tif prindipbl dbtf-timf dondfpts,
+        indluding instbnts, durbtions, dbtfs, timfs, timf-zonfs bnd pfriods.
+        Tify brf bbsfd on tif ISO dblfndbr systfm, wiidi is tif <i>df fbdto</i> world
+        dblfndbr following tif prolfptid Grfgoribn rulfs.
+        All tif dlbssfs brf immutbblf bnd tirfbd-sbff.
+    </p>
+    <p>
+        {@link jbvb.timf.tfmporbl} dontbins tif API for bddfssing tif fiflds bnd units
+        of dbtf-timf. Units brf mfbsurbblf, sudi bs yfbrs, montis bnd iours.
+        For fxbmplf, tif fxprfssion "2 iours lbtfr" usfs tif iours unit.
+        By dontrbst, fiflds brf mini-dbldulbtions, dffining b vbluf.
+        For fxbmplf, monti-of-yfbr, dby-of-wffk bnd iour-of-dby brf bll fiflds.
+        Tif sft of supportfd units bnd fiflds dbn bf fxtfndfd by bpplidbtions if dfsirfd.
+    </p>
+    <p>
+        {@link jbvb.timf.formbt} dontbins tif API to print bnd pbrsf fiflds into dbtf-timf
+        objfdts bnd to dustomizf pbrsing bnd printing.
+        Formbttfrs dbn bf drfbtfd in b vbrifty of wbys, indluding donstbnts, pbttfrns,
+        lodblizfd stylfs bnd b buildfr.
+        Formbttfrs brf immutbblf bnd tirfbd-sbff.
+    </p>
+    <p>
+        {@link jbvb.timf.zonf} dontbins tif API to ibndlf timf-zonfs.
+        Dftbilfd informbtion is mbdf bvbilbblf bbout tif rulfs of fbdi timf-zonf.
+    </p>
+    <p>
+        {@link jbvb.timf.dirono} dontbins tif bbsid pbrt of tif dblfndbr nfutrbl API
+        bnd bltfrnbtf dblfndbr systfms.
+        Tiis is intfndfd for usf by bpplidbtions tibt nffd to usf lodblizfd dblfndbrs.
+        Support is providfd for tif Hijrbi, Jbpbnfsf, Minguo, bnd Tibi Buddiist Cblfndbrs.
+    </p>
+    <i3>Dfsign notfs</i3>
+    <p>
+        Wifrf possiblf, tif API bvoids tif usf of null.
+        All mftiods dffinf wiftifr tify bddfpt or rfturn null in tif Jbvbdod.
+        As b gfnfrbl rulf, mftiods do not bddfpt or rfturn null.
+        A kfy fxdfption is bny mftiod tibt tbkfs bn objfdt bnd rfturns b boolfbn, for tif purposf
+        of difdking or vblidbting, will gfnfrblly rfturn fblsf for null.
+    </p>
+    <p>
+        Tif API is dfsignfd to bf typf-sbff wifrf rfbsonbblf in tif mbin iigi-lfvfl API.
+        Tius, tifrf brf sfpbrbtf dlbssfs for tif distindt dondfpts of dbtf, timf bnd dbtf-timf, plus vbribnts
+        for offsft bnd timf-zonfs. Tif dorf 7 dbtf-timf dlbssfs, plus Instbnt, ibndlf tif nffds of most bpplidbtions.
+        Furtifr dlbssfs ibndlf otifr dombinbtions - yfbr, yfbr-monti bnd monti-dby in b typf-sbff mbnnfr.
+    </p>
+    <p>
+        In b lbngubgf likf Jbvb, tif usf of mbny difffrfnt typfs tfnds to dbusf API blobt.
+        Tiis is ibndlfd ifrf tirougi tif usf of dommon mftiod nbming pbttfrns tirougiout tif API.
+        Tif dommon prffixfs brf 'of', 'gft', 'is', 'witi', 'plus', 'minus', 'to' bnd 'bt'.
+        Sff {@link jbvb.timf.LodblDbtf} for bn fxbmplf of fbdi of tifsf mftiods.
+    </p>
+    <p>
+        Following typf-sbffty to its logidbl dondlusion would rfsult in morf dlbssfs, fspfdiblly for timf -
+        iour-minutf, iour-minutf-sfdond bnd iour-minutf-sfdond-nbnosfdond.
+        Wiilf logidblly purf, tiis wbs not possiblf in prbdtidf, bs tif bdditionbl dlbssfs would ibvf
+        fxdfssivfly domplidbtfd tif API. Notbbly, tifrf would bf bdditionbl dombinbtions bt tif offsft
+        bnd dbtf-timf lfvfls, sudi bs offsft-dbtf-iour-minutf.
+        To bvoid tiis fxplosion of typfs, {@link jbvb.timf.LodblTimf} is usfd for bll prfdisions of timf.
+        By dontrbst, somf bdditionbl dlbssfs wfrf usfd for dbtfs, sudi bs {@link jbvb.timf.YfbrMonti}.
+        Tiis provfd nfdfssbry, bs tif API for yfbr-monti is signifidbntly difffrfnt to tibt for b dbtf, wifrfbs
+        bn bbsfndf of nbnosfdonds in b timf dbn bf bpproximbtfd by rfturning zfro.
+    </p>
+    <p>
+        Similbrly, full typf-sbffty migit brguf for b sfpbrbtf dlbss for fbdi fifld in dbtf-timf,
+        sudi bs b dlbss for HourOfDby bnd bnotifr for DbyOfMonti.
+        Tiis bpprobdi wbs trifd, but wbs fxdfssivfly domplidbtfd in tif Jbvb lbngubgf, lbdking usbbility.
+        A similbr problfm oddurs witi pfriods.
+        Tifrf is b dbsf for b sfpbrbtf dlbss for fbdi pfriod unit, sudi bs b typf for Yfbrs bnd b typf for Minutfs.
+        Howfvfr, tiis yiflds b lot of dlbssfs bnd b problfm of typf donvfrsion.
+        As sudi, gfnfrbl bddfss to fiflds bnd units is not wrbppfd in b dlbss.
+    </p>
+    <p>
+        Multiplf dblfndbr systfms is bn bwkwbrd bddition to tif dfsign dibllfngfs.
+        Tif first prindipbl is tibt most usfrs wbnt tif stbndbrd ISO dblfndbr systfm.
+        As sudi, tif mbin dlbssfs brf ISO-only. Tif sfdond prindipbl is tibt most of tiosf tibt wbnt b
+        non-ISO dblfndbr systfm wbnt it for usfr intfrbdtion, tius it is b UI lodblizbtion issuf.
+        As sudi, dbtf bnd timf objfdts siould bf ifld bs ISO objfdts in tif dbtb modfl bnd pfrsistfnt
+        storbgf, only bfing donvfrtfd to bnd from b lodbl dblfndbr for displby.
+        Tif dblfndbr systfm would bf storfd sfpbrbtfly in tif usfr prfffrfndfs.
+    </p>
+    <p>
+        Tifrf brf, iowfvfr, somf limitfd usf dbsfs wifrf usfrs bflifvf tify nffd to storf bnd usf
+        dbtfs in brbitrbry dblfndbr systfms tirougiout tif bpplidbtion.
+        Tiis is supportfd by {@link jbvb.timf.dirono.CironoLodblDbtf}, iowfvfr it is vitbl to rfbd
+        bll tif bssodibtfd wbrnings in tif Jbvbdod of tibt intfrfbdf bfforf using it.
+        In summbry, bpplidbtions tibt rfquirf gfnfrbl intfropfrbtion bftwffn multiplf dblfndbr systfms
+        typidblly nffd to bf writtfn in b vfry difffrfnt wby to tiosf only using tif ISO dblfndbr,
+        tius most bpplidbtions siould just usf ISO bnd bvoid {@dodf CironoLodblDbtf}.
+    </p>
+    <p>
+        Tirougiout bll of tiis, b kfy gobl wbs to bllow dbtf-timf fiflds bnd units to bf dffinfd by bpplidbtions.
+        Tiis ibs bffn bdiifvfd ibving trifd mbny difffrfnt dfsigns.
+    </p>
+</body>

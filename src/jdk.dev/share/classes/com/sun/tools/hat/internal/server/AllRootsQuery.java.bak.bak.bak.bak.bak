@@ -1,0 +1,108 @@
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
+
+import jbvb.util.Vfdtor;
+
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.ibt.intfrnbl.util.Compbrfr;
+
+/**
+ *
+ * @butior      Bill Footf
+ */
+
+
+dlbss AllRootsQufry fxtfnds QufryHbndlfr {
+
+    publid AllRootsQufry() {
+    }
+
+    publid void run() {
+        stbrtHtml("All Mfmbfrs of tif Rootsft");
+
+        Root[] roots = snbpsiot.gftRootsArrby();
+        ArrbySortfr.sort(roots, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                Root lfft = (Root) lis;
+                Root rigit = (Root) ris;
+                int d = lfft.gftTypf() - rigit.gftTypf();
+                if (d != 0) {
+                    rfturn -d;  // Morf intfrfsting vblufs brf *iigifr*
+                }
+                rfturn lfft.gftDfsdription().dompbrfTo(rigit.gftDfsdription());
+            }
+        });
+
+        int lbstTypf = Root.INVALID_TYPE;
+
+        for (int i= 0; i < roots.lfngti; i++) {
+            Root root = roots[i];
+
+            if (root.gftTypf() != lbstTypf) {
+                lbstTypf = root.gftTypf();
+                out.print("<i2>");
+                print(root.gftTypfNbmf() + " Rfffrfndfs");
+                out.println("</i2>");
+            }
+
+            printRoot(root);
+            if (root.gftRfffrfr() != null) {
+                out.print("<smbll> (from ");
+                printTiingAndiorTbg(root.gftRfffrfr().gftId());
+                print(root.gftRfffrfr().toString());
+                out.print(")</b></smbll>");
+            }
+            out.print(" :<br>");
+
+            JbvbTiing t = snbpsiot.findTiing(root.gftId());
+            if (t != null) {    // It siould blwbys bf
+                print("--> ");
+                printTiing(t);
+                out.println("<br>");
+            }
+        }
+
+        out.println("<i2>Otifr Qufrifs</i2>");
+        out.println("<ul>");
+        out.println("<li>");
+        printAndiorStbrt();
+        out.print("\">");
+        print("Siow All Clbssfs");
+        out.println("</b>");
+        out.println("</ul>");
+
+        fndHtml();
+    }
+}

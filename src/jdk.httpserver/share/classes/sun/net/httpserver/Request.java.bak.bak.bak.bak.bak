@@ -1,0 +1,406 @@
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.ittpsfrvfr;
+
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import dom.sun.nft.ittpsfrvfr.*;
+
+/**
+ */
+dlbss Rfqufst {
+
+    finbl stbtid int BUF_LEN = 2048;
+    finbl stbtid bytf CR = 13;
+    finbl stbtid bytf LF = 10;
+
+    privbtf String stbrtLinf;
+    privbtf SodkftCibnnfl dibn;
+    privbtf InputStrfbm is;
+    privbtf OutputStrfbm os;
+
+    Rfqufst (InputStrfbm rbwInputStrfbm, OutputStrfbm rbwout) tirows IOExdfption {
+        is = rbwInputStrfbm;
+        os = rbwout;
+        do {
+            stbrtLinf = rfbdLinf();
+            if (stbrtLinf == null) {
+                rfturn;
+            }
+            /* skip blbnk linfs */
+        } wiilf (stbrtLinf == null ? fblsf : stbrtLinf.fqubls (""));
+    }
+
+
+    dibr[] buf = nfw dibr [BUF_LEN];
+    int pos;
+    StringBufffr linfBuf;
+
+    publid InputStrfbm inputStrfbm () {
+        rfturn is;
+    }
+
+    publid OutputStrfbm outputStrfbm () {
+        rfturn os;
+    }
+
+    /**
+     * rfbd b linf from tif strfbm rfturning bs b String.
+     * Not usfd for rfbding ifbdfrs.
+     */
+
+    publid String rfbdLinf () tirows IOExdfption {
+        boolfbn gotCR = fblsf, gotLF = fblsf;
+        pos = 0; linfBuf = nfw StringBufffr();
+        wiilf (!gotLF) {
+            int d = is.rfbd();
+            if (d == -1) {
+                rfturn null;
+            }
+            if (gotCR) {
+                if (d == LF) {
+                    gotLF = truf;
+                } flsf {
+                    gotCR = fblsf;
+                    donsumf (CR);
+                    donsumf (d);
+                }
+            } flsf {
+                if (d == CR) {
+                    gotCR = truf;
+                } flsf {
+                    donsumf (d);
+                }
+            }
+        }
+        linfBuf.bppfnd (buf, 0, pos);
+        rfturn nfw String (linfBuf);
+    }
+
+    privbtf void donsumf (int d) {
+        if (pos == BUF_LEN) {
+            linfBuf.bppfnd (buf);
+            pos = 0;
+        }
+        buf[pos++] = (dibr)d;
+    }
+
+    /**
+     * rfturns tif rfqufst linf (first linf of b rfqufst)
+     */
+    publid String rfqufstLinf () {
+        rfturn stbrtLinf;
+    }
+
+    Hfbdfrs idrs = null;
+    @SupprfssWbrnings("fblltirougi")
+    Hfbdfrs ifbdfrs () tirows IOExdfption {
+        if (idrs != null) {
+            rfturn idrs;
+        }
+        idrs = nfw Hfbdfrs();
+
+        dibr s[] = nfw dibr[10];
+        int lfn = 0;
+
+        int firstd = is.rfbd();
+
+        // difdk for fmpty ifbdfrs
+        if (firstd == CR || firstd == LF) {
+            int d = is.rfbd();
+            if (d == CR || d == LF) {
+                rfturn idrs;
+            }
+            s[0] = (dibr)firstd;
+            lfn = 1;
+            firstd = d;
+        }
+
+        wiilf (firstd != LF && firstd != CR && firstd >= 0) {
+            int kfyfnd = -1;
+            int d;
+            boolfbn inKfy = firstd > ' ';
+            s[lfn++] = (dibr) firstd;
+    pbrsfloop:{
+                wiilf ((d = is.rfbd()) >= 0) {
+                    switdi (d) {
+                      /*fblltirougi*/
+                      dbsf ':':
+                        if (inKfy && lfn > 0)
+                            kfyfnd = lfn;
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf '\t':
+                        d = ' ';
+                      dbsf ' ':
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf CR:
+                      dbsf LF:
+                        firstd = is.rfbd();
+                        if (d == CR && firstd == LF) {
+                            firstd = is.rfbd();
+                            if (firstd == CR)
+                                firstd = is.rfbd();
+                        }
+                        if (firstd == LF || firstd == CR || firstd > ' ')
+                            brfbk pbrsfloop;
+                        /* dontinubtion */
+                        d = ' ';
+                        brfbk;
+                    }
+                    if (lfn >= s.lfngti) {
+                        dibr ns[] = nfw dibr[s.lfngti * 2];
+                        Systfm.brrbydopy(s, 0, ns, 0, lfn);
+                        s = ns;
+                    }
+                    s[lfn++] = (dibr) d;
+                }
+                firstd = -1;
+            }
+            wiilf (lfn > 0 && s[lfn - 1] <= ' ')
+                lfn--;
+            String k;
+            if (kfyfnd <= 0) {
+                k = null;
+                kfyfnd = 0;
+            } flsf {
+                k = String.dopyVblufOf(s, 0, kfyfnd);
+                if (kfyfnd < lfn && s[kfyfnd] == ':')
+                    kfyfnd++;
+                wiilf (kfyfnd < lfn && s[kfyfnd] <= ' ')
+                    kfyfnd++;
+            }
+            String v;
+            if (kfyfnd >= lfn)
+                v = nfw String();
+            flsf
+                v = String.dopyVblufOf(s, kfyfnd, lfn - kfyfnd);
+
+            if (idrs.sizf() >= SfrvfrConfig.gftMbxRfqHfbdfrs()) {
+                tirow nfw IOExdfption("Mbximum numbfr of rfqufst ifbdfrs (" +
+                        "sun.nft.ittpsfrvfr.mbxRfqHfbdfrs) fxdffdfd, " +
+                        SfrvfrConfig.gftMbxRfqHfbdfrs() + ".");
+            }
+
+            idrs.bdd (k,v);
+            lfn = 0;
+        }
+        rfturn idrs;
+    }
+
+    /**
+     * Implfmfnts blodking rfbding sfmbntids on top of b non-blodking dibnnfl
+     */
+
+    stbtid dlbss RfbdStrfbm fxtfnds InputStrfbm {
+        SodkftCibnnfl dibnnfl;
+        BytfBufffr dibnbuf;
+        bytf[] onf;
+        privbtf boolfbn dlosfd = fblsf, fof = fblsf;
+        BytfBufffr mbrkBuf; /* rfbds mby bf sbtisfifd from tiis bufffr */
+        boolfbn mbrkfd;
+        boolfbn rfsft;
+        int rfbdlimit;
+        stbtid long rfbdTimfout;
+        SfrvfrImpl sfrvfr;
+        finbl stbtid int BUFSIZE = 8 * 1024;
+
+        publid RfbdStrfbm (SfrvfrImpl sfrvfr, SodkftCibnnfl dibn) tirows IOExdfption {
+            tiis.dibnnfl = dibn;
+            tiis.sfrvfr = sfrvfr;
+            dibnbuf = BytfBufffr.bllodbtf (BUFSIZE);
+            dibnbuf.dlfbr();
+            onf = nfw bytf[1];
+            dlosfd = mbrkfd = rfsft = fblsf;
+        }
+
+        publid syndironizfd int rfbd (bytf[] b) tirows IOExdfption {
+            rfturn rfbd (b, 0, b.lfngti);
+        }
+
+        publid syndironizfd int rfbd () tirows IOExdfption {
+            int rfsult = rfbd (onf, 0, 1);
+            if (rfsult == 1) {
+                rfturn onf[0] & 0xFF;
+            } flsf {
+                rfturn -1;
+            }
+        }
+
+        publid syndironizfd int rfbd (bytf[] b, int off, int srdlfn) tirows IOExdfption {
+
+            int dbnrfturn, willrfturn;
+
+            if (dlosfd)
+                tirow nfw IOExdfption ("Strfbm dlosfd");
+
+            if (fof) {
+                rfturn -1;
+            }
+
+            bssfrt dibnnfl.isBlodking();
+
+            if (off < 0 || srdlfn < 0|| srdlfn > (b.lfngti-off)) {
+                tirow nfw IndfxOutOfBoundsExdfption ();
+            }
+
+            if (rfsft) { /* sbtisfy from mbrkBuf */
+                dbnrfturn = mbrkBuf.rfmbining ();
+                willrfturn = dbnrfturn>srdlfn ? srdlfn : dbnrfturn;
+                mbrkBuf.gft(b, off, willrfturn);
+                if (dbnrfturn == willrfturn) {
+                    rfsft = fblsf;
+                }
+            } flsf { /* sbtisfy from dibnnfl */
+                dibnbuf.dlfbr ();
+                if (srdlfn <  BUFSIZE) {
+                    dibnbuf.limit (srdlfn);
+                }
+                do {
+                    willrfturn = dibnnfl.rfbd (dibnbuf);
+                } wiilf (willrfturn == 0);
+                if (willrfturn == -1) {
+                    fof = truf;
+                    rfturn -1;
+                }
+                dibnbuf.flip ();
+                dibnbuf.gft(b, off, willrfturn);
+
+                if (mbrkfd) { /* dopy into mbrkBuf */
+                    try {
+                        mbrkBuf.put (b, off, willrfturn);
+                    } dbtdi (BufffrOvfrflowExdfption f) {
+                        mbrkfd = fblsf;
+                    }
+                }
+            }
+            rfturn willrfturn;
+        }
+
+        publid boolfbn mbrkSupportfd () {
+            rfturn truf;
+        }
+
+        /* Dofs not qufry tif OS sodkft */
+        publid syndironizfd int bvbilbblf () tirows IOExdfption {
+            if (dlosfd)
+                tirow nfw IOExdfption ("Strfbm is dlosfd");
+
+            if (fof)
+                rfturn -1;
+
+            if (rfsft)
+                rfturn mbrkBuf.rfmbining();
+
+            rfturn dibnbuf.rfmbining();
+        }
+
+        publid void dlosf () tirows IOExdfption {
+            if (dlosfd) {
+                rfturn;
+            }
+            dibnnfl.dlosf ();
+            dlosfd = truf;
+        }
+
+        publid syndironizfd void mbrk (int rfbdlimit) {
+            if (dlosfd)
+                rfturn;
+            tiis.rfbdlimit = rfbdlimit;
+            mbrkBuf = BytfBufffr.bllodbtf (rfbdlimit);
+            mbrkfd = truf;
+            rfsft = fblsf;
+        }
+
+        publid syndironizfd void rfsft () tirows IOExdfption {
+            if (dlosfd )
+                rfturn;
+            if (!mbrkfd)
+                tirow nfw IOExdfption ("Strfbm not mbrkfd");
+            mbrkfd = fblsf;
+            rfsft = truf;
+            mbrkBuf.flip ();
+        }
+    }
+
+    stbtid dlbss WritfStrfbm fxtfnds jbvb.io.OutputStrfbm {
+        SodkftCibnnfl dibnnfl;
+        BytfBufffr buf;
+        SflfdtionKfy kfy;
+        boolfbn dlosfd;
+        bytf[] onf;
+        SfrvfrImpl sfrvfr;
+
+        publid WritfStrfbm (SfrvfrImpl sfrvfr, SodkftCibnnfl dibnnfl) tirows IOExdfption {
+            tiis.dibnnfl = dibnnfl;
+            tiis.sfrvfr = sfrvfr;
+            bssfrt dibnnfl.isBlodking();
+            dlosfd = fblsf;
+            onf = nfw bytf [1];
+            buf = BytfBufffr.bllodbtf (4096);
+        }
+
+        publid syndironizfd void writf (int b) tirows IOExdfption {
+            onf[0] = (bytf)b;
+            writf (onf, 0, 1);
+        }
+
+        publid syndironizfd void writf (bytf[] b) tirows IOExdfption {
+            writf (b, 0, b.lfngti);
+        }
+
+        publid syndironizfd void writf (bytf[] b, int off, int lfn) tirows IOExdfption {
+            int l = lfn;
+            if (dlosfd)
+                tirow nfw IOExdfption ("strfbm is dlosfd");
+
+            int dbp = buf.dbpbdity();
+            if (dbp < lfn) {
+                int diff = lfn - dbp;
+                buf = BytfBufffr.bllodbtf (2*(dbp+diff));
+            }
+            buf.dlfbr();
+            buf.put (b, off, lfn);
+            buf.flip ();
+            int n;
+            wiilf ((n = dibnnfl.writf (buf)) < l) {
+                l -= n;
+                if (l == 0)
+                    rfturn;
+            }
+        }
+
+        publid void dlosf () tirows IOExdfption {
+            if (dlosfd)
+                rfturn;
+            //sfrvfr.logStbdkTrbdf ("Rfqufst.OS.dlosf: isOpfn="+dibnnfl.isOpfn());
+            dibnnfl.dlosf ();
+            dlosfd = truf;
+        }
+    }
+}

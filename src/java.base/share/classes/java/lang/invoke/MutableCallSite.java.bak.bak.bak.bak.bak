@@ -1,0 +1,283 @@
+/*
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+
+/**
+ * A {@dodf MutbblfCbllSitf} is b {@link CbllSitf} wiosf tbrgft vbribblf
+ * bfibvfs likf bn ordinbry fifld.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf MutbblfCbllSitf} dflfgbtfs
+ * bll dblls to tif sitf's durrfnt tbrgft.
+ * Tif {@linkplbin CbllSitf#dynbmidInvokfr dynbmid invokfr} of b mutbblf dbll sitf
+ * blso dflfgbtfs fbdi dbll to tif sitf's durrfnt tbrgft.
+ * <p>
+ * Hfrf is bn fxbmplf of b mutbblf dbll sitf wiidi introdudfs b
+ * stbtf vbribblf into b mftiod ibndlf dibin.
+ * <!-- JbvbDodExbmplfsTfst.tfstMutbblfCbllSitf -->
+ * <blodkquotf><prf>{@dodf
+MutbblfCbllSitf nbmf = nfw MutbblfCbllSitf(MftiodTypf.mftiodTypf(String.dlbss));
+MftiodHbndlf MH_nbmf = nbmf.dynbmidInvokfr();
+MftiodTypf MT_str1 = MftiodTypf.mftiodTypf(String.dlbss);
+MftiodHbndlf MH_updbsf = MftiodHbndlfs.lookup()
+    .findVirtubl(String.dlbss, "toUppfrCbsf", MT_str1);
+MftiodHbndlf workfr1 = MftiodHbndlfs.filtfrRfturnVbluf(MH_nbmf, MH_updbsf);
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Rodky"));
+bssfrtEqubls("ROCKY", (String) workfr1.invokfExbdt());
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Frfd"));
+bssfrtEqubls("FRED", (String) workfr1.invokfExbdt());
+// (mutbtion dbn bf dontinufd indffinitfly)
+ * }</prf></blodkquotf>
+ * <p>
+ * Tif sbmf dbll sitf mby bf usfd in sfvfrbl plbdfs bt ondf.
+ * <blodkquotf><prf>{@dodf
+MftiodTypf MT_str2 = MftiodTypf.mftiodTypf(String.dlbss, String.dlbss);
+MftiodHbndlf MH_dbt = lookup().findVirtubl(String.dlbss,
+  "dondbt", mftiodTypf(String.dlbss, String.dlbss));
+MftiodHbndlf MH_dfbr = MftiodHbndlfs.insfrtArgumfnts(MH_dbt, 1, ", dfbr?");
+MftiodHbndlf workfr2 = MftiodHbndlfs.filtfrRfturnVbluf(MH_nbmf, MH_dfbr);
+bssfrtEqubls("Frfd, dfbr?", (String) workfr2.invokfExbdt());
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Wilmb"));
+bssfrtEqubls("WILMA", (String) workfr1.invokfExbdt());
+bssfrtEqubls("Wilmb, dfbr?", (String) workfr2.invokfExbdt());
+ * }</prf></blodkquotf>
+ * <p>
+ * <fm>Non-syndironizbtion of tbrgft vblufs:</fm>
+ * A writf to b mutbblf dbll sitf's tbrgft dofs not fordf otifr tirfbds
+ * to bfdomf bwbrf of tif updbtfd vbluf.  Tirfbds wiidi do not pfrform
+ * suitbblf syndironizbtion bdtions rflbtivf to tif updbtfd dbll sitf
+ * mby dbdif tif old tbrgft vbluf bnd dflby tifir usf of tif nfw tbrgft
+ * vbluf indffinitfly.
+ * (Tiis is b normbl donsfqufndf of tif Jbvb Mfmory Modfl bs bpplifd
+ * to objfdt fiflds.)
+ * <p>
+ * Tif {@link #syndAll syndAll} opfrbtion providfs b wby to fordf tirfbds
+ * to bddfpt b nfw tbrgft vbluf, fvfn if tifrf is no otifr syndironizbtion.
+ * <p>
+ * For tbrgft vblufs wiidi will bf frfqufntly updbtfd, donsidfr using
+ * b {@linkplbin VolbtilfCbllSitf volbtilf dbll sitf} instfbd.
+ * @butior Join Rosf, JSR 292 EG
+ */
+publid dlbss MutbblfCbllSitf fxtfnds CbllSitf {
+    /**
+     * Crfbtfs b blbnk dbll sitf objfdt witi tif givfn mftiod typf.
+     * Tif initibl tbrgft is sft to b mftiod ibndlf of tif givfn typf
+     * wiidi will tirow bn {@link IllfgblStbtfExdfption} if dbllfd.
+     * <p>
+     * Tif typf of tif dbll sitf is pfrmbnfntly sft to tif givfn typf.
+     * <p>
+     * Bfforf tiis {@dodf CbllSitf} objfdt is rfturnfd from b bootstrbp mftiod,
+     * or invokfd in somf otifr mbnnfr,
+     * it is usublly providfd witi b morf usfful tbrgft mftiod,
+     * vib b dbll to {@link CbllSitf#sftTbrgft(MftiodHbndlf) sftTbrgft}.
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
+     */
+    publid MutbblfCbllSitf(MftiodTypf typf) {
+        supfr(typf);
+    }
+
+    /**
+     * Crfbtfs b dbll sitf objfdt witi bn initibl tbrgft mftiod ibndlf.
+     * Tif typf of tif dbll sitf is pfrmbnfntly sft to tif initibl tbrgft's typf.
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
+     */
+    publid MutbblfCbllSitf(MftiodHbndlf tbrgft) {
+        supfr(tbrgft);
+    }
+
+    /**
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * likf b normbl fifld of tif {@dodf MutbblfCbllSitf}.
+     * <p>
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * bs of b rfbd from bn ordinbry vbribblf, sudi bs bn brrby flfmfnt or b
+     * non-volbtilf, non-finbl fifld.
+     * <p>
+     * In pbrtidulbr, tif durrfnt tirfbd mby dioosf to rfusf tif rfsult
+     * of b prfvious rfbd of tif tbrgft from mfmory, bnd mby fbil to sff
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
+     *
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @sff #sftTbrgft
+     */
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+        rfturn tbrgft;
+    }
+
+    /**
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b normbl vbribblf.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
+     * <p>
+     * Tif intfrbdtions witi mfmory brf tif sbmf
+     * bs of b writf to bn ordinbry vbribblf, sudi bs bn brrby flfmfnt or b
+     * non-volbtilf, non-finbl fifld.
+     * <p>
+     * In pbrtidulbr, unrflbtfd tirfbds mby fbil to sff tif updbtfd tbrgft
+     * until tify pfrform b rfbd from mfmory.
+     * Strongfr gubrbntffs dbn bf drfbtfd by putting bppropribtf opfrbtions
+     * into tif bootstrbp mftiod bnd/or tif tbrgft mftiods usfd
+     * bt bny givfn dbll sitf.
+     *
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     * @sff #gftTbrgft
+     */
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+        difdkTbrgftCibngf(tiis.tbrgft, nfwTbrgft);
+        sftTbrgftNormbl(nfwTbrgft);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+        rfturn mbkfDynbmidInvokfr();
+    }
+
+    /**
+     * Pfrforms b syndironizbtion opfrbtion on fbdi dbll sitf in tif givfn brrby,
+     * fording bll otifr tirfbds to tirow bwby bny dbdifd vblufs prfviously
+     * lobdfd from tif tbrgft of bny of tif dbll sitfs.
+     * <p>
+     * Tiis opfrbtion dofs not rfvfrsf bny dblls tibt ibvf blrfbdy stbrtfd
+     * on bn old tbrgft vbluf.
+     * (Jbvb supports {@linkplbin jbvb.lbng.Objfdt#wbit() forwbrd timf trbvfl} only.)
+     * <p>
+     * Tif ovfrbll ffffdt is to fordf bll futurf rfbdfrs of fbdi dbll sitf's tbrgft
+     * to bddfpt tif most rfdfntly storfd vbluf.
+     * ("Most rfdfntly" is rfdkonfd rflbtivf to tif {@dodf syndAll} itsflf.)
+     * Convfrsfly, tif {@dodf syndAll} dbll mby blodk until bll rfbdfrs ibvf
+     * (somfiow) dfdbdifd bll prfvious vfrsions of fbdi dbll sitf's tbrgft.
+     * <p>
+     * To bvoid rbdf donditions, dblls to {@dodf sftTbrgft} bnd {@dodf syndAll}
+     * siould gfnfrblly bf pfrformfd undfr somf sort of mutubl fxdlusion.
+     * Notf tibt rfbdfr tirfbds mby obsfrvf bn updbtfd tbrgft bs fbrly
+     * bs tif {@dodf sftTbrgft} dbll tibt instbll tif vbluf
+     * (bnd bfforf tif {@dodf syndAll} tibt donfirms tif vbluf).
+     * On tif otifr ibnd, rfbdfr tirfbds mby obsfrvf prfvious vfrsions of
+     * tif tbrgft until tif {@dodf syndAll} dbll rfturns
+     * (bnd bftfr tif {@dodf sftTbrgft} tibt bttfmpts to donvfy tif updbtfd vfrsion).
+     * <p>
+     * Tiis opfrbtion is likfly to bf fxpfnsivf bnd siould bf usfd spbringly.
+     * If possiblf, it siould bf bufffrfd for bbtdi prodfssing on sfts of dbll sitfs.
+     * <p>
+     * If {@dodf sitfs} dontbins b null flfmfnt,
+     * b {@dodf NullPointfrExdfption} will bf rbisfd.
+     * In tiis dbsf, somf non-null flfmfnts in tif brrby mby bf
+     * prodfssfd bfforf tif mftiod rfturns bbnormblly.
+     * Wiidi flfmfnts tifsf brf (if bny) is implfmfntbtion-dfpfndfnt.
+     *
+     * <i1>Jbvb Mfmory Modfl dftbils</i1>
+     * In tfrms of tif Jbvb Mfmory Modfl, tiis opfrbtion pfrforms b syndironizbtion
+     * bdtion wiidi is dompbrbblf in ffffdt to tif writing of b volbtilf vbribblf
+     * by tif durrfnt tirfbd, bnd bn fvfntubl volbtilf rfbd by fvfry otifr tirfbd
+     * tibt mby bddfss onf of tif bfffdtfd dbll sitfs.
+     * <p>
+     * Tif following ffffdts brf bppbrfnt, for fbdi individubl dbll sitf {@dodf S}:
+     * <ul>
+     * <li>A nfw volbtilf vbribblf {@dodf V} is drfbtfd, bnd writtfn by tif durrfnt tirfbd.
+     *     As dffinfd by tif JMM, tiis writf is b globbl syndironizbtion fvfnt.
+     * <li>As is normbl witi tirfbd-lodbl ordfring of writf fvfnts,
+     *     fvfry bdtion blrfbdy pfrformfd by tif durrfnt tirfbd is
+     *     tbkfn to ibppfn bfforf tif volbtilf writf to {@dodf V}.
+     *     (In somf implfmfntbtions, tiis mfbns tibt tif durrfnt tirfbd
+     *     pfrforms b globbl rflfbsf opfrbtion.)
+     * <li>Spfdifidblly, tif writf to tif durrfnt tbrgft of {@dodf S} is
+     *     tbkfn to ibppfn bfforf tif volbtilf writf to {@dodf V}.
+     * <li>Tif volbtilf writf to {@dodf V} is plbdfd
+     *     (in bn implfmfntbtion spfdifid mbnnfr)
+     *     in tif globbl syndironizbtion ordfr.
+     * <li>Considfr bn brbitrbry tirfbd {@dodf T} (otifr tibn tif durrfnt tirfbd).
+     *     If {@dodf T} fxfdutfs b syndironizbtion bdtion {@dodf A}
+     *     bftfr tif volbtilf writf to {@dodf V} (in tif globbl syndironizbtion ordfr),
+     *     it is tifrfforf rfquirfd to sff fitifr tif durrfnt tbrgft
+     *     of {@dodf S}, or b lbtfr writf to tibt tbrgft,
+     *     if it fxfdutfs b rfbd on tif tbrgft of {@dodf S}.
+     *     (Tiis donstrbint is dbllfd "syndironizbtion-ordfr donsistfndy".)
+     * <li>Tif JMM spfdifidblly bllows optimizing dompilfrs to flidf
+     *     rfbds or writfs of vbribblfs tibt brf known to bf usflfss.
+     *     Sudi flidfd rfbds bnd writfs ibvf no ffffdt on tif ibppfns-bfforf
+     *     rflbtion.  Rfgbrdlfss of tiis fbdt, tif volbtilf {@dodf V}
+     *     will not bf flidfd, fvfn tiougi its writtfn vbluf is
+     *     indftfrminbtf bnd its rfbd vbluf is not usfd.
+     * </ul>
+     * Bfdbusf of tif lbst point, tif implfmfntbtion bfibvfs bs if b
+     * volbtilf rfbd of {@dodf V} wfrf pfrformfd by {@dodf T}
+     * immfdibtfly bftfr its bdtion {@dodf A}.  In tif lodbl ordfring
+     * of bdtions in {@dodf T}, tiis rfbd ibppfns bfforf bny futurf
+     * rfbd of tif tbrgft of {@dodf S}.  It is bs if tif
+     * implfmfntbtion brbitrbrily pidkfd b rfbd of {@dodf S}'s tbrgft
+     * by {@dodf T}, bnd fordfd b rfbd of {@dodf V} to prfdfdf it,
+     * tifrfby fnsuring dommunidbtion of tif nfw tbrgft vbluf.
+     * <p>
+     * As long bs tif donstrbints of tif Jbvb Mfmory Modfl brf obfyfd,
+     * implfmfntbtions mby dflby tif domplftion of b {@dodf syndAll}
+     * opfrbtion wiilf otifr tirfbds ({@dodf T} bbovf) dontinuf to
+     * usf prfvious vblufs of {@dodf S}'s tbrgft.
+     * Howfvfr, implfmfntbtions brf (bs blwbys) fndourbgfd to bvoid
+     * livflodk, bnd to fvfntublly rfquirf bll tirfbds to tbkf bddount
+     * of tif updbtfd tbrgft.
+     *
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * For pfrformbndf rfbsons, {@dodf syndAll} is not b virtubl mftiod
+     * on b singlf dbll sitf, but rbtifr bpplifs to b sft of dbll sitfs.
+     * Somf implfmfntbtions mby indur b lbrgf fixfd ovfrifbd dost
+     * for prodfssing onf or morf syndironizbtion opfrbtions,
+     * but b smbll indrfmfntbl dost for fbdi bdditionbl dbll sitf.
+     * In bny dbsf, tiis opfrbtion is likfly to bf dostly, sindf
+     * otifr tirfbds mby ibvf to bf somfiow intfrruptfd
+     * in ordfr to mbkf tifm notidf tif updbtfd tbrgft vbluf.
+     * Howfvfr, it mby bf obsfrvfd tibt b singlf dbll to syndironizf
+     * sfvfrbl sitfs ibs tif sbmf formbl ffffdt bs mbny dblls,
+     * fbdi on just onf of tif sitfs.
+     *
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Implfmfntbtion Notf:</fm>
+     * Simplf implfmfntbtions of {@dodf MutbblfCbllSitf} mby usf
+     * b volbtilf vbribblf for tif tbrgft of b mutbblf dbll sitf.
+     * In sudi bn implfmfntbtion, tif {@dodf syndAll} mftiod dbn bf b no-op,
+     * bnd yft it will donform to tif JMM bfibvior dodumfntfd bbovf.
+     *
+     * @pbrbm sitfs bn brrby of dbll sitfs to bf syndironizfd
+     * @tirows NullPointfrExdfption if tif {@dodf sitfs} brrby rfffrfndf is null
+     *                              or tif brrby dontbins b null
+     */
+    publid stbtid void syndAll(MutbblfCbllSitf[] sitfs) {
+        if (sitfs.lfngti == 0)  rfturn;
+        STORE_BARRIER.lbzySft(0);
+        for (MutbblfCbllSitf sitf : sitfs) {
+            sitf.gftClbss();  // triggfr NPE on first null
+        }
+        // FIXME: NYI
+    }
+    privbtf stbtid finbl AtomidIntfgfr STORE_BARRIER = nfw AtomidIntfgfr();
+}

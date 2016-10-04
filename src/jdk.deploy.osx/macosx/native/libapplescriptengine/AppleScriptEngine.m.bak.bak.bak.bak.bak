@@ -1,0 +1,191 @@
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#import "bpplf_bpplfsdript_ApplfSdriptEnginf.i"
+#import "bpplf_bpplfsdript_ApplfSdriptEnginfFbdtory.i"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+
+#import "NS_Jbvb_ConvfrsionUtils.i"
+#import "ApplfSdriptExfdutionContfxt.i"
+
+//#dffinf DEBUG 1
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginfFbdtory
+ * Mftiod:    initNbtivf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginfFbdtory_initNbtivf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    rfturn;
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    initNbtivf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_initNbtivf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    rfturn;
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    drfbtfContfxtFrom
+ * Signbturf: (Ljbvb/lbng/Objfdt;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_drfbtfContfxtFrom
+(JNIEnv *fnv, jdlbss dlbzz, jobjfdt jbvbContfxt)
+{
+    NSObjfdt *obj = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    obj = [[JbvbApplfSdriptEnginfCofrdion dofrdfr] dofrdfJbvbObjfdt:jbvbContfxt witiEnv:fnv];
+
+#ifdff DEBUG
+    NSLog(@"donvfrtfd dontfxt: %@", obj);
+#fndif
+
+    CFRftbin(obj);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(obj);
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    drfbtfObjfdtFrom
+ * Signbturf: (J)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_drfbtfObjfdtFrom
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfContfxt)
+{
+    jobjfdt obj = NULL;
+
+JNF_COCOA_ENTER(fnv);
+
+    obj = [[JbvbApplfSdriptEnginfCofrdion dofrdfr] dofrdfNSObjfdt:(id)jlong_to_ptr(nbtivfContfxt) witiEnv:fnv];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn obj;
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    disposfContfxt
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_disposfContfxt
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfContfxt)
+{
+
+JNF_COCOA_ENTER(fnv);
+
+    id obj = (id)jlong_to_ptr(nbtivfContfxt);
+    if (obj != nil) CFRflfbsf(obj);
+
+JNF_COCOA_EXIT(fnv);
+
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    fvblSdript
+ * Signbturf: (Ljbvb/lbng/String;J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_fvblSdript
+(JNIEnv *fnv, jdlbss dlbzz, jstring bsdript, jlong dontfxtptr)
+{
+    id rftvbl = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    NSDidtionbry *ndontfxt = jlong_to_ptr(dontfxtptr);
+    NSString *sourdf = JNFJbvbToNSString(fnv, bsdript);
+
+#ifdff DEBUG
+    NSLog(@"fvblSdript(sourdf:\"%@\" dontfxt: %@)", sourdf, ndontfxt);
+#fndif
+
+    ApplfSdriptExfdutionContfxt *sdriptInvodbtionCtx = [[[ApplfSdriptExfdutionContfxt bllod] initWitiSourdf:sourdf dontfxt:ndontfxt] butorflfbsf];
+    rftvbl = [sdriptInvodbtionCtx invokfWitiEnv:fnv];
+
+#ifdff DEBUG
+    NSLog(@"rfturning: %@", rftvbl);
+#fndif
+
+    if (rftvbl) CFRftbin(rftvbl);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(rftvbl);
+}
+
+
+/*
+ * Clbss:     bpplf_bpplfsdript_ApplfSdriptEnginf
+ * Mftiod:    fvblSdriptFromURL
+ * Signbturf: (Ljbvb/lbng/String;J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_bpplf_bpplfsdript_ApplfSdriptEnginf_fvblSdriptFromURL
+(JNIEnv *fnv, jdlbss dlbzz, jstring bfilfnbmf, jlong dontfxtptr)
+{
+    id rftvbl = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    NSDidtionbry *ndontfxt = jlong_to_ptr(dontfxtptr);
+    NSString *filfnbmf = JNFJbvbToNSString(fnv, bfilfnbmf);
+
+#ifdff DEBUG
+    NSLog(@"fvblSdript(filfnbmf:\"%@\" dontfxt: %@)", filfnbmf, ndontfxt);
+#fndif
+
+    ApplfSdriptExfdutionContfxt *sdriptInvodbtionCtx = [[[ApplfSdriptExfdutionContfxt bllod] initWitiFilf:filfnbmf dontfxt:ndontfxt] butorflfbsf];
+    rftvbl = [sdriptInvodbtionCtx invokfWitiEnv:fnv];
+
+#ifdff DEBUG
+    NSLog(@"rfturning: %@", rftvbl);
+#fndif
+
+    if (rftvbl) CFRftbin(rftvbl);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(rftvbl);
+}

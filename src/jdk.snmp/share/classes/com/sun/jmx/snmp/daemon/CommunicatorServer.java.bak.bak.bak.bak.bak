@@ -1,0 +1,1373 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+// jbvb import
+//
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+
+// jmx import
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+
+// JSR 160 import
+//
+// XXX Rfvisit:
+//   usfd to import dom.sun.jmx.snmp.MBfbnSfrvfrForwbrdfr
+// Now using JSR 160 instfbd. => tiis is bn bdditionbl
+// dfpfndfndy to JSR 160.
+//
+import jbvbx.mbnbgfmfnt.rfmotf.MBfbnSfrvfrForwbrdfr;
+
+/**
+ * Dffinfs gfnfrid bfibvior for tif sfrvfr pbrt of b donnfdtor or bn bdbptor.
+ * Most donnfdtors or bdbptors fxtfnd <CODE>CommunidbtorSfrvfr</CODE>
+ * bnd inifrit tiis bfibvior. Connfdtors or bdbptors tibt do not fit into
+ * tiis modfl do not fxtfnd <CODE>CommunidbtorSfrvfr</CODE>.
+ * <p>
+ * A <CODE>CommunidbtorSfrvfr</CODE> is bn bdtivf objfdt, it listfns for
+ * dlifnt rfqufsts  bnd prodfssfs tifm in its own tirfbd. Wifn nfdfssbry, b
+ * <CODE>CommunidbtorSfrvfr</CODE> drfbtfs otifr tirfbds to prodfss multiplf
+ * rfqufsts dondurrfntly.
+ * <p>
+ * A <CODE>CommunidbtorSfrvfr</CODE> objfdt dbn bf stoppfd by dblling tif
+ * <CODE>stop</CODE> mftiod. Wifn it is stoppfd, tif
+ * <CODE>CommunidbtorSfrvfr</CODE> no longfr listfns to dlifnt rfqufsts bnd
+ * no longfr iolds bny tirfbd or dommunidbtion rfsourdfs.
+ * It dbn bf stbrtfd bgbin by dblling tif <CODE>stbrt</CODE> mftiod.
+ * <p>
+ * A <CODE>CommunidbtorSfrvfr</CODE> ibs b <CODE>Stbtf</CODE> bttributf
+ * wiidi rfflfdts its  bdtivity.
+ * <p>
+ * <TABLE>
+ * <TR><TH>CommunidbtorSfrvfr</TH>      <TH>Stbtf</TH></TR>
+ * <TR><TD><CODE>stoppfd</CODE></TD>    <TD><CODE>OFFLINE</CODE></TD></TR>
+ * <TR><TD><CODE>stbrting</CODE></TD>    <TD><CODE>STARTING</CODE></TD></TR>
+ * <TR><TD><CODE>running</CODE></TD>     <TD><CODE>ONLINE</CODE></TD></TR>
+ * <TR><TD><CODE>stopping</CODE></TD>     <TD><CODE>STOPPING</CODE></TD></TR>
+ * </TABLE>
+ * <p>
+ * Tif <CODE>STARTING</CODE> stbtf mbrks tif trbnsition
+ * from <CODE>OFFLINE</CODE> to <CODE>ONLINE</CODE>.
+ * <p>
+ * Tif <CODE>STOPPING</CODE> stbtf mbrks tif trbnsition from
+ * <CODE>ONLINE</CODE> to <CODE>OFFLINE</CODE>. Tiis oddurs wifn tif
+ * <CODE>CommunidbtorSfrvfr</CODE> is finisiing or intfrrupting bdtivf
+ * rfqufsts.
+ * <p>
+ * Wifn b <CODE>CommunidbtorSfrvfr</CODE> is unrfgistfrfd from tif MBfbnSfrvfr,
+ * it is stoppfd butombtidblly.
+ * <p>
+ * Wifn tif vbluf of tif <CODE>Stbtf</CODE> bttributf dibngfs tif
+ * <CODE>CommunidbtorSfrvfr</CODE> sfnds b
+ * <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt> to tif
+ * rfgistfrfd listfnfrs, if bny.
+ *
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ */
+
+publid bbstrbdt dlbss CommunidbtorSfrvfr
+    implfmfnts Runnbblf, MBfbnRfgistrbtion, NotifidbtionBrobddbstfr,
+               CommunidbtorSfrvfrMBfbn {
+
+    //
+    // Stbtfs of b CommunidbtorSfrvfr
+    //
+
+    /**
+     * Rfprfsfnts bn <CODE>ONLINE</CODE> stbtf.
+     */
+    publid stbtid finbl int ONLINE = 0 ;
+
+    /**
+     * Rfprfsfnts bn <CODE>OFFLINE</CODE> stbtf.
+     */
+    publid stbtid finbl int OFFLINE = 1 ;
+
+    /**
+     * Rfprfsfnts b <CODE>STOPPING</CODE> stbtf.
+     */
+    publid stbtid finbl int STOPPING = 2 ;
+
+    /**
+     * Rfprfsfnts b <CODE>STARTING</CODE> stbtf.
+     */
+    publid stbtid finbl int STARTING = 3 ;
+
+    //
+    // Typfs of donnfdtors.
+    //
+
+    /**
+     * Indidbtfs tibt it is bn RMI donnfdtor typf.
+     */
+    //publid stbtid finbl int RMI_TYPE = 1 ;
+
+    /**
+     * Indidbtfs tibt it is bn HTTP donnfdtor typf.
+     */
+    //publid stbtid finbl int HTTP_TYPE = 2 ;
+
+    /**
+     * Indidbtfs tibt it is bn HTML donnfdtor typf.
+     */
+    //publid stbtid finbl int HTML_TYPE = 3 ;
+
+    /**
+     * Indidbtfs tibt it is bn SNMP donnfdtor typf.
+     */
+    publid stbtid finbl int SNMP_TYPE = 4 ;
+
+    /**
+     * Indidbtfs tibt it is bn HTTPS donnfdtor typf.
+     */
+    //publid stbtid finbl int HTTPS_TYPE = 5 ;
+
+    //
+    // Pbdkbgf vbribblfs
+    //
+
+    /**
+     * Tif stbtf of tif donnfdtor sfrvfr.
+     */
+     trbnsifnt volbtilf int stbtf = OFFLINE ;
+
+    /**
+     * Tif objfdt nbmf of tif donnfdtor sfrvfr.
+     * @sfribl
+     */
+    ObjfdtNbmf objfdtNbmf ;
+
+    MBfbnSfrvfr topMBS;
+    MBfbnSfrvfr bottomMBS;
+
+    /**
+     */
+    trbnsifnt String dbgTbg = null ;
+
+    /**
+     * Tif mbximum numbfr of dlifnts tibt tif CommunidbtorSfrvfr dbn
+     * prodfss dondurrfntly.
+     * @sfribl
+     */
+    int mbxAdtivfClifntCount = 1 ;
+
+    /**
+     */
+    trbnsifnt int sfrvfdClifntCount = 0 ;
+
+    /**
+     * Tif iost nbmf usfd by tiis CommunidbtorSfrvfr.
+     * @sfribl
+     */
+    String iost = null ;
+
+    /**
+     * Tif port numbfr usfd by tiis CommunidbtorSfrvfr.
+     * @sfribl
+     */
+    int port = -1 ;
+
+
+    //
+    // Privbtf fiflds
+    //
+
+    /* Tiis objfdt dontrols bddfss to tif "stbtf" bnd "intfrruptfd" vbribblfs.
+       If ifld bt tif sbmf timf bs tif lodk on "tiis", tif "tiis" lodk must
+       bf tbkfn first.  */
+    privbtf trbnsifnt Objfdt stbtfLodk = nfw Objfdt();
+
+    privbtf trbnsifnt Vfdtor<ClifntHbndlfr>
+            dlifntHbndlfrVfdtor = nfw Vfdtor<>() ;
+
+    privbtf trbnsifnt Tirfbd mbinTirfbd = null ;
+
+    privbtf volbtilf boolfbn stopRfqufstfd = fblsf ;
+    privbtf boolfbn intfrruptfd = fblsf;
+    privbtf trbnsifnt Exdfption stbrtExdfption = null;
+
+    // Notifs dount, brobddbstfr bnd info
+    privbtf trbnsifnt long notifCount = 0;
+    privbtf trbnsifnt NotifidbtionBrobddbstfrSupport notifBrobddbstfr =
+        nfw NotifidbtionBrobddbstfrSupport();
+    privbtf trbnsifnt MBfbnNotifidbtionInfo[] notifInfos = null;
+
+
+    /**
+     * Instbntibtfs b <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @pbrbm donnfdtorTypf Indidbtfs tif donnfdtor typf. Possiblf vblufs brf:
+     * SNMP_TYPE.
+     *
+     * @fxdfption <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>
+     *            Tiis donnfdtor typf is not dorrfdt.
+     */
+    publid CommunidbtorSfrvfr(int donnfdtorTypf)
+        tirows IllfgblArgumfntExdfption {
+        switdi (donnfdtorTypf) {
+        dbsf SNMP_TYPE :
+            //No op. int Typf dfdiding dfbugging rfmovfd.
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid donnfdtor Typf") ;
+        }
+        dbgTbg = mbkfDfbugTbg() ;
+    }
+
+    protfdtfd Tirfbd drfbtfMbinTirfbd() {
+        rfturn nfw Tirfbd (tiis, mbkfTirfbdNbmf());
+    }
+
+    /**
+     * Stbrts tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * <p>
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
+     * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
+     * @pbrbm timfout Timf in ms to wbit for tif donnfdtor to stbrt.
+     *        If <dodf>timfout</dodf> is positivf, wbit for bt most
+     *        tif spfdififd timf. An infinitf timfout dbn bf spfdififd
+     *        by pbssing b <dodf>timfout</dodf> vbluf fqubls
+     *        <dodf>Long.MAX_VALUE</dodf>. In tibt dbsf tif mftiod
+     *        will wbit until tif donnfdtor stbrts or fbils to stbrt.
+     *        If timfout is nfgbtivf or zfro, rfturns bs soon bs possiblf
+     *        witiout wbiting.
+     * @fxdfption CommunidbtionExdfption if tif donnfdtors fbils to stbrt.
+     * @fxdfption IntfrruptfdExdfption if tif tirfbd is intfrruptfd or tif
+     *            timfout fxpirfs.
+     */
+    publid void stbrt(long timfout)
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
+        boolfbn stbrt;
+
+        syndironizfd (stbtfLodk) {
+            if (stbtf == STOPPING) {
+                // Fix for bug 4352451:
+                //     "jbvb.nft.BindExdfption: Addrfss in usf".
+                wbitStbtf(OFFLINE, 60000);
+            }
+            stbrt = (stbtf == OFFLINE);
+            if (stbrt) {
+                dibngfStbtf(STARTING);
+                stopRfqufstfd = fblsf;
+                intfrruptfd = fblsf;
+                stbrtExdfption = null;
+            }
+        }
+
+        if (!stbrt) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stbrt","Connfdtor is not OFFLINE");
+            }
+            rfturn;
+        }
+
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "stbrt","--> Stbrt donnfdtor ");
+        }
+
+        mbinTirfbd = drfbtfMbinTirfbd();
+
+        mbinTirfbd.stbrt() ;
+
+        if (timfout > 0) wbitForStbrt(timfout);
+    }
+
+    /**
+     * Stbrts tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * <p>
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
+     * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
+     */
+    @Ovfrridf
+    publid void stbrt() {
+        try {
+            stbrt(0);
+        } dbtdi (IntfrruptfdExdfption x) {
+            // dbnnot ibppfn bfdbusf of `0'
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stbrt","intfrruptfd", x);
+            }
+        }
+    }
+
+    /**
+     * Stops tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * <p>
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is
+     * <CODE>OFFLINE</CODE> or  <CODE>STOPPING</CODE>.
+     */
+    @Ovfrridf
+    publid void stop() {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == OFFLINE || stbtf == STOPPING) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "stop","Connfdtor is not ONLINE");
+                }
+                rfturn;
+            }
+            dibngfStbtf(STOPPING);
+            //
+            // Stop tif donnfdtor tirfbd
+            //
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "stop","Intfrrupt mbin tirfbd");
+            }
+            stopRfqufstfd = truf ;
+            if (!intfrruptfd) {
+                intfrruptfd = truf;
+                mbinTirfbd.intfrrupt();
+            }
+        }
+
+        //
+        // Cbll tfrminbtf on fbdi bdtivf dlifnt ibndlfr
+        //
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "stop","tfrminbtfAllClifnt");
+        }
+        tfrminbtfAllClifnt() ;
+
+        // ----------------------
+        // dibngfStbtf
+        // ----------------------
+        syndironizfd (stbtfLodk) {
+            if (stbtf == STARTING)
+                dibngfStbtf(OFFLINE);
+        }
+    }
+
+    /**
+     * Tfsts wiftifr tif <CODE>CommunidbtorSfrvfr</CODE> is bdtivf.
+     *
+     * @rfturn Truf if donnfdtor is <CODE>ONLINE</CODE>; fblsf otifrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        syndironizfd (stbtfLodk) {
+            rfturn (stbtf == ONLINE);
+        }
+    }
+
+    /**
+     * <p>Wbits until fitifr tif Stbtf bttributf of tiis MBfbn fqubls tif
+     * spfdififd <VAR>wbntfdStbtf</VAR> pbrbmftfr,
+     * or tif spfdififd  <VAR>timfOut</VAR> ibs flbpsfd.
+     * Tif mftiod <CODE>wbitStbtf</CODE> rfturns witi b boolfbn vbluf
+     * indidbting wiftifr tif spfdififd <VAR>wbntfdStbtf</VAR> pbrbmftfr
+     * fqubls tif vbluf of tiis MBfbn's Stbtf bttributf bt tif timf tif mftiod
+     * tfrminbtfs.</p>
+     *
+     * <p>Two spfdibl dbsfs for tif <VAR>timfOut</VAR> pbrbmftfr vbluf brf:</p>
+     * <UL><LI> if <VAR>timfOut</VAR> is nfgbtivf tifn <CODE>wbitStbtf</CODE>
+     *     rfturns immfdibtfly (i.f. dofs not wbit bt bll),</LI>
+     * <LI> if <VAR>timfOut</VAR> fqubls zfro tifn <CODE>wbitStbtf</CODE>
+     *     wbits untill tif vbluf of tiis MBfbn's Stbtf bttributf
+     *     is tif sbmf bs tif <VAR>wbntfdStbtf</VAR> pbrbmftfr (i.f. will wbit
+     *     indffinitfly if tiis dondition is nfvfr mft).</LI></UL>
+     *
+     * @pbrbm wbntfdStbtf Tif vbluf of tiis MBfbn's Stbtf bttributf to wbit
+     *        for. <VAR>wbntfdStbtf</VAR> dbn bf onf of:
+     * <ul>
+     * <li><CODE>CommunidbtorSfrvfr.OFFLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.ONLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STARTING</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STOPPING</CODE>.</li>
+     * </ul>
+     * @pbrbm timfOut Tif mbximum timf to wbit for, in millisfdonds,
+     *        if positivf.
+     * Infinitf timf out if 0, or no wbiting bt bll if nfgbtivf.
+     *
+     * @rfturn truf if tif vbluf of tiis MBfbn's Stbtf bttributf is tif
+     *      sbmf bs tif <VAR>wbntfdStbtf</VAR> pbrbmftfr; fblsf otifrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn wbitStbtf(int wbntfdStbtf, long timfOut) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitStbtf", wbntfdStbtf + "(0on,1off,2st) TO=" + timfOut +
+                  " ; durrfnt stbtf = " + gftStbtfString());
+        }
+
+        long fndTimf = 0;
+        if (timfOut > 0)
+            fndTimf = Systfm.durrfntTimfMillis() + timfOut;
+
+        syndironizfd (stbtfLodk) {
+            wiilf (stbtf != wbntfdStbtf) {
+                if (timfOut < 0) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitStbtf", "timfOut < 0, rfturn witiout wbit");
+                    }
+                    rfturn fblsf;
+                } flsf {
+                    try {
+                        if (timfOut > 0) {
+                            long toWbit = fndTimf - Systfm.durrfntTimfMillis();
+                            if (toWbit <= 0) {
+                                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                                        "wbitStbtf", "timfd out");
+                                }
+                                rfturn fblsf;
+                            }
+                            stbtfLodk.wbit(toWbit);
+                        } flsf {  // timfOut == 0
+                            stbtfLodk.wbit();
+                        }
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                                "wbitStbtf", "wbit intfrruptfd");
+                        }
+                        rfturn (stbtf == wbntfdStbtf);
+                    }
+                }
+            }
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitStbtf","rfturning in dfsirfd stbtf");
+            }
+            rfturn truf;
+        }
+    }
+
+    /**
+     * <p>Wbits until tif dommunidbtor is stbrtfd or timfout fxpirfs.
+     *
+     * @pbrbm timfout Timf in ms to wbit for tif donnfdtor to stbrt.
+     *        If <dodf>timfout</dodf> is positivf, wbit for bt most
+     *        tif spfdififd timf. An infinitf timfout dbn bf spfdififd
+     *        by pbssing b <dodf>timfout</dodf> vbluf fqubls
+     *        <dodf>Long.MAX_VALUE</dodf>. In tibt dbsf tif mftiod
+     *        will wbit until tif donnfdtor stbrts or fbils to stbrt.
+     *        If timfout is nfgbtivf or zfro, rfturns bs soon bs possiblf
+     *        witiout wbiting.
+     *
+     * @fxdfption CommunidbtionExdfption if tif donnfdtors fbils to stbrt.
+     * @fxdfption IntfrruptfdExdfption if tif tirfbd is intfrruptfd or tif
+     *            timfout fxpirfs.
+     *
+     */
+    privbtf void wbitForStbrt(long timfout)
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitForStbrt", "Timfout=" + timfout +
+                 " ; durrfnt stbtf = " + gftStbtfString());
+        }
+
+        finbl long stbrtTimf = Systfm.durrfntTimfMillis();
+
+        syndironizfd (stbtfLodk) {
+            wiilf (stbtf == STARTING) {
+                // Timf flbpsfd sindf stbrtTimf...
+                //
+                finbl long flbpsfd = Systfm.durrfntTimfMillis() - stbrtTimf;
+
+                // wbit for timfout - flbpsfd.
+                // A timfout of Long.MAX_VALUE is fquivblfnt to somftiing
+                // likf 292271023 yfbrs - wiidi is prftty dlosf to
+                // forfvfr bs fbr bs wf brf dondfrnfd ;-)
+                //
+                finbl long rfmbiningTimf = timfout-flbpsfd;
+
+                // If rfmbiningTimf is nfgbtivf, tif timfout ibs flbpsfd.
+                //
+                if (rfmbiningTimf < 0) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitForStbrt", "timfout < 0, rfturn witiout wbit");
+                    }
+                    tirow nfw IntfrruptfdExdfption("Timfout fxpirfd");
+                }
+
+                // Wf'rf going to wbit until somfonf notififs on tif
+                // tif stbtfLodk objfdt, or until tif timfout fxpirfs,
+                // or until tif tirfbd is intfrruptfd.
+                //
+                try {
+                    stbtfLodk.wbit(rfmbiningTimf);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "wbitForStbrt", "wbit intfrruptfd");
+                    }
+
+                    // If wf brf now ONLINE, tifn no nffd to rftirow tif
+                    // fxdfption... wf'rf simply going to fxit tif wiilf
+                    // loop. Otifrwisf, tirow tif IntfrruptfdExdfption.
+                    //
+                    if (stbtf != ONLINE) tirow f;
+                }
+            }
+
+            // Wf'rf no longfr in STARTING stbtf
+            //
+            if (stbtf == ONLINE) {
+                // OK, wf'rf stbrtfd, fvfrytiing wfnt finf, just rfturn
+                //
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "wbitForStbrt", "stbrtfd");
+                }
+                rfturn;
+            } flsf if (stbrtExdfption instbndfof CommunidbtionExdfption) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Cbst bnd tirow...
+                //
+                tirow (CommunidbtionExdfption)stbrtExdfption;
+            } flsf if (stbrtExdfption instbndfof IntfrruptfdExdfption) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Cbst bnd tirow...
+                //
+                tirow (IntfrruptfdExdfption)stbrtExdfption;
+            } flsf if (stbrtExdfption != null) {
+                // Tifrf wbs somf fxdfption during tif stbrting pibsf.
+                // Wrbp bnd tirow...
+                //
+                tirow nfw CommunidbtionExdfption(stbrtExdfption,
+                                                 "Fbilfd to stbrt: "+
+                                                 stbrtExdfption);
+            } flsf {
+                // Wf'rf not ONLINE, bnd tifrf's no fxdfption...
+                // Somftiing wfnt wrong but wf don't know wibt...
+                //
+                tirow nfw CommunidbtionExdfption("Fbilfd to stbrt: stbtf is "+
+                                                 gftStringForStbtf(stbtf));
+            }
+        }
+    }
+
+    /**
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs bn intfgfr.
+     *
+     * @rfturn <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>,
+     *         <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
+     */
+    @Ovfrridf
+    publid int gftStbtf() {
+        syndironizfd (stbtfLodk) {
+            rfturn stbtf ;
+        }
+    }
+
+    /**
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs b string.
+     *
+     * @rfturn Onf of tif strings "ONLINE", "OFFLINE", "STARTING" or
+     *         "STOPPING".
+     */
+    @Ovfrridf
+    publid String gftStbtfString() {
+        rfturn gftStringForStbtf(stbtf) ;
+    }
+
+    /**
+     * Gfts tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @rfturn Tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     */
+    @Ovfrridf
+    publid String gftHost() {
+        try {
+            iost = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdi (Exdfption f) {
+            iost = "Unknown iost";
+        }
+        rfturn iost ;
+    }
+
+    /**
+     * Gfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @rfturn Tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     */
+    @Ovfrridf
+    publid int gftPort() {
+        syndironizfd (stbtfLodk) {
+            rfturn port ;
+        }
+    }
+
+    /**
+     * Sfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @pbrbm port Tif port numbfr usfd by tiis
+     *             <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
+     */
+    @Ovfrridf
+    publid void sftPort(int port) tirows jbvb.lbng.IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if ((stbtf == ONLINE) || (stbtf == STARTING))
+                tirow nfw IllfgblStbtfExdfption("Stop sfrvfr bfforf " +
+                                                "dbrrying out tiis opfrbtion");
+            tiis.port = port;
+            dbgTbg = mbkfDfbugTbg();
+        }
+    }
+
+    /**
+     * Gfts tif protodol bfing usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * @rfturn Tif protodol bs b string.
+     */
+    @Ovfrridf
+    publid bbstrbdt String gftProtodol();
+
+    /**
+     * Gfts tif numbfr of dlifnts tibt ibvf bffn prodfssfd by tiis
+     * <CODE>CommunidbtorSfrvfr</CODE>  sindf its drfbtion.
+     *
+     * @rfturn Tif numbfr of dlifnts ibndlfd by tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE>
+     *         sindf its drfbtion. Tiis dountfr is not rfsft by tif
+     *         <CODE>stop</CODE> mftiod.
+     */
+    int gftSfrvfdClifntCount() {
+        rfturn sfrvfdClifntCount ;
+    }
+
+    /**
+     * Gfts tif numbfr of dlifnts durrfntly bfing prodfssfd by tiis
+     * <CODE>CommunidbtorSfrvfr</CODE>.
+     *
+     * @rfturn Tif numbfr of dlifnts durrfntly bfing prodfssfd by tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE>.
+     */
+    int gftAdtivfClifntCount() {
+        int rfsult = dlifntHbndlfrVfdtor.sizf() ;
+        rfturn rfsult ;
+    }
+
+    /**
+     * Gfts tif mbximum numbfr of dlifnts tibt tiis
+     * <CODE>CommunidbtorSfrvfr</CODE> dbn  prodfss dondurrfntly.
+     *
+     * @rfturn Tif mbximum numbfr of dlifnts tibt tiis
+     *         <CODE>CommunidbtorSfrvfr</CODE> dbn
+     *         prodfss dondurrfntly.
+     */
+    int gftMbxAdtivfClifntCount() {
+        rfturn mbxAdtivfClifntCount ;
+    }
+
+    /**
+     * Sfts tif mbximum numbfr of dlifnts tiis
+     * <CODE>CommunidbtorSfrvfr</CODE> dbn prodfss dondurrfntly.
+     *
+     * @pbrbm d Tif numbfr of dlifnts.
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
+     */
+    void sftMbxAdtivfClifntCount(int d)
+        tirows jbvb.lbng.IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if ((stbtf == ONLINE) || (stbtf == STARTING)) {
+                tirow nfw IllfgblStbtfExdfption(
+                          "Stop sfrvfr bfforf dbrrying out tiis opfrbtion");
+            }
+            mbxAdtivfClifntCount = d ;
+        }
+    }
+
+    /**
+     * For SNMP Runtimf intfrnbl usf only.
+     */
+    void notifyClifntHbndlfrCrfbtfd(ClifntHbndlfr i) {
+        dlifntHbndlfrVfdtor.bddElfmfnt(i) ;
+    }
+
+    /**
+     * For SNMP Runtimf intfrnbl usf only.
+     */
+    syndironizfd void notifyClifntHbndlfrDflftfd(ClifntHbndlfr i) {
+        dlifntHbndlfrVfdtor.rfmovfElfmfnt(i);
+        notifyAll();
+    }
+
+    /**
+     * Tif numbfr of timfs tif dommunidbtor sfrvfr will bttfmpt
+     * to bind bfforf giving up.
+     **/
+    protfdtfd int gftBindTrifs() {
+        rfturn 50;
+    }
+
+    /**
+     * Tif dflby, in ms, during wiidi tif dommunidbtor sfrvfr will slffp bfforf
+     * bttfmpting to bind bgbin.
+     **/
+    protfdtfd long gftBindSlffpTimf() {
+        rfturn 100;
+    }
+
+    /**
+     * For SNMP Runtimf intfrnbl usf only.
+     * <p>
+     * Tif <CODE>run</CODE> mftiod fxfdutfd by tiis donnfdtor's mbin tirfbd.
+     */
+    @Ovfrridf
+    publid void run() {
+
+        // Fix jbw.00667.B
+        // It sffms tibt tif init of "i" bnd "suddfss"
+        // nffd to bf donf outsidf tif "try" dlbusf...
+        // A bug in Jbvb 2 produdtion rflfbsf ?
+        //
+        int i = 0;
+        boolfbn suddfss = fblsf;
+
+        // ----------------------
+        // Bind
+        // ----------------------
+        try {
+            // Fix for bug 4352451: "jbvb.nft.BindExdfption: Addrfss in usf".
+            //
+            finbl int  bindRftrifs = gftBindTrifs();
+            finbl long slffpTimf   = gftBindSlffpTimf();
+            wiilf (i < bindRftrifs && !suddfss) {
+                try {
+                    // Try sodkft donnfdtion.
+                    //
+                    doBind();
+                    suddfss = truf;
+                } dbtdi (CommunidbtionExdfption df) {
+                    i++;
+                    try {
+                        Tirfbd.slffp(slffpTimf);
+                    } dbtdi (IntfrruptfdExdfption if) {
+                        tirow if;
+                    }
+                }
+            }
+            // Rftry lbst timf to gft dorrfdt fxdfption.
+            //
+            if (!suddfss) {
+                // Try sodkft donnfdtion.
+                //
+                doBind();
+            }
+
+        } dbtdi(Exdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run", "Got unfxpfdtfd fxdfption", x);
+            }
+            syndironizfd(stbtfLodk) {
+                stbrtExdfption = x;
+                dibngfStbtf(OFFLINE);
+            }
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stbtf is OFFLINE");
+            }
+            doError(x);
+            rfturn;
+        }
+
+        try {
+            // ----------------------
+            // Stbtf dibngf
+            // ----------------------
+            dibngfStbtf(ONLINE) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stbtf is ONLINE");
+            }
+
+            // ----------------------
+            // Mbin loop
+            // ----------------------
+            wiilf (!stopRfqufstfd) {
+                sfrvfdClifntCount++;
+                doRfdfivf() ;
+                wbitIfTooMbnyClifnts() ;
+                doProdfss() ;
+            }
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "run","Stop ibs bffn rfqufstfd");
+            }
+
+        } dbtdi(IntfrruptfdExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run","Intfrrupt dbugit");
+            }
+            dibngfStbtf(STOPPING);
+        } dbtdi(Exdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "run","Got unfxpfdtfd fxdfption", x);
+            }
+            dibngfStbtf(STOPPING);
+        } finblly {
+            syndironizfd (stbtfLodk) {
+                intfrruptfd = truf;
+                Tirfbd.intfrruptfd();
+            }
+
+            // ----------------------
+            // unBind
+            // ----------------------
+            try {
+                doUnbind() ;
+                wbitClifntTfrminbtion() ;
+                dibngfStbtf(OFFLINE);
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "run","Stbtf is OFFLINE");
+                }
+            } dbtdi(Exdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "run","Got unfxpfdtfd fxdfption", x);
+                }
+                dibngfStbtf(OFFLINE);
+            }
+
+        }
+    }
+
+    /**
+     */
+    protfdtfd bbstrbdt void doError(Exdfption f) tirows CommunidbtionExdfption;
+
+    //
+    // To bf dffinfd by tif subdlbss.
+    //
+    // Ebdi mftiod bflow is dbllfd by run() bnd must bf subdlbssfd.
+    // If tif mftiod sfnds bn fxdfption (Communidbtion or Intfrrupt), tiis
+    // will fnd up tif run() mftiod bnd switdi tif donnfdtor offlinf.
+    //
+    // If it is b CommunidbtionExdfption, run() will dbll
+    //       Dfbug.printExdfption().
+    //
+    // All tifsf mftiods siould propbgbtf tif IntfrruptfdExdfption to inform
+    // run() tibt tif donnfdtor must bf switdi OFFLINE.
+    //
+    //
+    //
+    // doBind() siould do bll wibt is nffdfd bfforf dblling doRfdfivf().
+    // If doBind() tirows bn fxdfption, doUnbind() is not to bf dbllfd
+    // bnd run() fnds up.
+    //
+
+    /**
+     */
+    protfdtfd bbstrbdt void doBind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
+
+    /**
+     * <CODE>doRfdfivf()</CODE> siould blodk until b dlifnt is bvbilbblf.
+     * If tiis mftiod tirows bn fxdfption, <CODE>doProdfss()</CODE> is not
+     * dbllfd but <CODE>doUnbind()</CODE> is dbllfd tifn <CODE>run()</CODE>
+     * stops.
+     */
+    protfdtfd bbstrbdt void doRfdfivf()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
+
+    /**
+     * <CODE>doProdfss()</CODE> is dbllfd bftfr <CODE>doRfdfivf()</CODE>:
+     * it siould prodfss tif rfqufsts of tif indoming dlifnt.
+     * If it tirows bn fxdfption, <CODE>doUnbind()</CODE> is dbllfd bnd
+     * <CODE>run()</CODE> stops.
+     */
+    protfdtfd bbstrbdt void doProdfss()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
+
+    /**
+     * <CODE>doUnbind()</CODE> is dbllfd wifnfvfr tif donnfdtor gofs
+     * <CODE>OFFLINE</CODE>, fxdfpt if <CODE>doBind()</CODE> ibs tirown bn
+     * fxdfption.
+     */
+    protfdtfd bbstrbdt void doUnbind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption ;
+
+    /**
+     * Gft tif <dodf>MBfbnSfrvfr</dodf> objfdt to wiidi indoming rfqufsts brf
+     * sfnt.  Tiis is fitifr tif MBfbn sfrvfr in wiidi tiis donnfdtor is
+     * rfgistfrfd, or bn <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt
+     * sfrvfr.
+     */
+    publid syndironizfd MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn topMBS;
+    }
+
+    /**
+     * Sft tif <dodf>MBfbnSfrvfr</dodf> objfdt to wiidi indoming
+     * rfqufsts brf sfnt.  Tiis must bf fitifr tif MBfbn sfrvfr in
+     * wiidi tiis donnfdtor is rfgistfrfd, or bn
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt sfrvfr.  An
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> <dodf>mbsf</dodf> lfbds to bn
+     * MBfbn sfrvfr <dodf>mbs</dodf> if
+     * <dodf>mbsf.gftMBfbnSfrvfr()</dodf> is fitifr <dodf>mbs</dodf>
+     * or bn <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to
+     * <dodf>mbs</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nfwMBS</dodf> is nfitifr
+     * tif MBfbn sfrvfr in wiidi tiis donnfdtor is rfgistfrfd nor bn
+     * <dodf>MBfbnSfrvfrForwbrdfr</dodf> lfbding to tibt sfrvfr.
+     *
+     * @fxdfption IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
+     */
+    publid syndironizfd void sftMBfbnSfrvfr(MBfbnSfrvfr nfwMBS)
+            tirows IllfgblArgumfntExdfption, IllfgblStbtfExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ONLINE || stbtf == STARTING)
+                tirow nfw IllfgblStbtfExdfption("Stop sfrvfr bfforf " +
+                                                "dbrrying out tiis opfrbtion");
+        }
+        finbl String frror =
+            "MBfbnSfrvfr brgumfnt must bf MBfbn sfrvfr wifrf tiis " +
+            "sfrvfr is rfgistfrfd, or bn MBfbnSfrvfrForwbrdfr " +
+            "lfbding to tibt sfrvfr";
+        Vfdtor<MBfbnSfrvfr> sffnMBS = nfw Vfdtor<>();
+        for (MBfbnSfrvfr mbs = nfwMBS;
+             mbs != bottomMBS;
+             mbs = ((MBfbnSfrvfrForwbrdfr) mbs).gftMBfbnSfrvfr()) {
+            if (!(mbs instbndfof MBfbnSfrvfrForwbrdfr))
+                tirow nfw IllfgblArgumfntExdfption(frror);
+            if (sffnMBS.dontbins(mbs))
+                tirow nfw IllfgblArgumfntExdfption("MBfbnSfrvfrForwbrdfr " +
+                                                   "loop");
+            sffnMBS.bddElfmfnt(mbs);
+        }
+        topMBS = nfwMBS;
+    }
+
+    //
+    // To bf dbllfd by tif subdlbss if nffdfd
+    //
+    /**
+     * For intfrnbl usf only.
+     */
+    ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf ;
+    }
+
+    /**
+     * For intfrnbl usf only.
+     */
+    void dibngfStbtf(int nfwStbtf) {
+        int oldStbtf;
+        syndironizfd (stbtfLodk) {
+            if (stbtf == nfwStbtf)
+                rfturn;
+            oldStbtf = stbtf;
+            stbtf = nfwStbtf;
+            stbtfLodk.notifyAll();
+        }
+        sfndStbtfCibngfNotifidbtion(oldStbtf, nfwStbtf);
+    }
+
+    /**
+     * Rfturns tif string usfd in dfbug trbdfs.
+     */
+    String mbkfDfbugTbg() {
+        rfturn "CommunidbtorSfrvfr["+ gftProtodol() + ":" + gftPort() + "]" ;
+    }
+
+    /**
+     * Rfturns tif string usfd to nbmf tif donnfdtor tirfbd.
+     */
+    String mbkfTirfbdNbmf() {
+        String rfsult ;
+
+        if (objfdtNbmf == null)
+            rfsult = "CommunidbtorSfrvfr" ;
+        flsf
+            rfsult = objfdtNbmf.toString() ;
+
+        rfturn rfsult ;
+    }
+
+    /**
+     * Tiis mftiod blodks if tifrf brf too mbny bdtivf dlifnts.
+     * Cbll to <CODE>wbit()</CODE> is tfrminbtfd wifn b dlifnt ibndlfr
+     * tirfbd dblls <CODE>notifyClifntHbndlfrDflftfd(tiis)</CODE> ;
+     */
+    privbtf syndironizfd void wbitIfTooMbnyClifnts()
+        tirows IntfrruptfdExdfption {
+        wiilf (gftAdtivfClifntCount() >= mbxAdtivfClifntCount) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitIfTooMbnyClifnts","Wbiting for b dlifnt to tfrminbtf");
+            }
+            wbit();
+        }
+    }
+
+    /**
+     * Tiis mftiod blodks until tifrf is no morf bdtivf dlifnt.
+     */
+    privbtf void wbitClifntTfrminbtion() {
+        int s = dlifntHbndlfrVfdtor.sizf() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            if (s >= 1) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "wbitClifntTfrminbtion","wbiting for " +
+                      s + " dlifnts to tfrminbtf");
+            }
+        }
+
+        // Tif ClifntHbndlfr will rfmovf tifmsflvfs from tif
+        // dlifntHbndlfrVfdtor bt tif fnd of tifir run() mftiod, by
+        // dblling notifyClifntHbndlfrDflftfd().
+        // Sindf tif dlifntHbndlfrVfdtor is modififd by tif ClifntHbndlfr
+        // tirfbds wf must bvoid using Enumfrbtion or Itfrbtor to loop
+        // ovfr tiis brrby. Wf must blso tbkf dbrf of NoSudiElfmfntExdfption
+        // wiidi dould bf tirown if tif lbst ClifntHbndlfr rfmovfs itsflf
+        // bftwffn tif dbll to dlifntHbndlfrVfdtor.isEmpty() bnd tif dbll
+        // to dlifntHbndlfrVfdtor.firstElfmfnt().
+        // Wibt wf *MUST NOT DO* is lodking tif dlifntHbndlfrVfdtor, bfdbusf
+        // tiis would most probbbly dbusf b dfbdlodk.
+        //
+        wiilf (! dlifntHbndlfrVfdtor.isEmpty()) {
+            try {
+                dlifntHbndlfrVfdtor.firstElfmfnt().join();
+            } dbtdi (NoSudiElfmfntExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "wbitClifntTfrminbtion","No flfmfnts lfft",  x);
+                }
+            }
+        }
+
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            if (s >= 1) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "wbitClifntTfrminbtion","Ok, lft's go...");
+            }
+        }
+    }
+
+    /**
+     * Cbll <CODE>intfrrupt()</CODE> on fbdi pfnding dlifnt.
+     */
+    privbtf void tfrminbtfAllClifnt() {
+        finbl int s = dlifntHbndlfrVfdtor.sizf() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            if (s >= 1) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "tfrminbtfAllClifnt","Intfrrupting " + s + " dlifnts");
+            }
+        }
+
+        // Tif ClifntHbndlfr will rfmovf tifmsflvfs from tif
+        // dlifntHbndlfrVfdtor bt tif fnd of tifir run() mftiod, by
+        // dblling notifyClifntHbndlfrDflftfd().
+        // Sindf tif dlifntHbndlfrVfdtor is modififd by tif ClifntHbndlfr
+        // tirfbds wf must bvoid using Enumfrbtion or Itfrbtor to loop
+        // ovfr tiis brrby.
+        // Wf dbnnot usf tif sbmf logid ifrf tibn in wbitClifntTfrminbtion()
+        // bfdbusf tifrf is no gubrbntff tibt dblling intfrrupt() on tif
+        // ClifntHbndlfr will bdtublly tfrminbtf tif ClifntHbndlfr.
+        // Sindf wf do not wbnt to wbit for tif bdtubl ClifntHbndlfr
+        // tfrminbtion, wf dbnnot simply loop ovfr tif brrby until it is
+        // fmpty (tiis migit rfsult in dblling intfrrupt() fndlfssly on
+        // tif sbmf dlifnt ibndlfr. So wibt wf do is simply tbkf b snbpsiot
+        // dopy of tif vfdtor bnd loop ovfr tif dopy.
+        // Wibt wf *MUST NOT DO* is lodking tif dlifntHbndlfrVfdtor, bfdbusf
+        // tiis would most probbbly dbusf b dfbdlodk.
+        //
+        finbl  ClifntHbndlfr[] ibndlfrs =
+                dlifntHbndlfrVfdtor.toArrby(nfw ClifntHbndlfr[0]);
+         for (ClifntHbndlfr i : ibndlfrs) {
+             try {
+                 i.intfrrupt() ;
+             } dbtdi (Exdfption x) {
+                 if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                     SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                             "tfrminbtfAllClifnt",
+                             "Fbilfd to intfrrupt pfnding rfqufst. " +
+                             "Ignorf tif fxdfption.", x);
+                 }
+            }
+        }
+    }
+
+    /**
+     * Controls tif wby tif CommunidbtorSfrvfr sfrvidf is dfsfriblizfd.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+
+        // Cbll tif dffbult dfsfriblizbtion of tif objfdt.
+        //
+        strfbm.dffbultRfbdObjfdt();
+
+        // Cbll tif spfdifid initiblizbtion for tif CommunidbtorSfrvfr sfrvidf.
+        // Tiis is for trbnsifnt strudturfs to bf initiblizfd to spfdifid
+        // dffbult vblufs.
+        //
+        stbtfLodk = nfw Objfdt();
+        stbtf = OFFLINE;
+        stopRfqufstfd = fblsf;
+        sfrvfdClifntCount = 0;
+        dlifntHbndlfrVfdtor = nfw Vfdtor<>();
+        mbinTirfbd = null;
+        notifCount = 0;
+        notifInfos = null;
+        notifBrobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
+        dbgTbg = mbkfDfbugTbg();
+    }
+
+
+    //
+    // NotifidbtionBrobddbstfr
+    //
+
+    /**
+     * Adds b listfnfr for tif notifidbtions fmittfd by tiis
+     * CommunidbtorSfrvfr.
+     * Tifrf is only onf typf of notifidbtions sfnt by tif CommunidbtorSfrvfr:
+     * tify brf <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt>,
+     * sfnt wifn tif <tt>Stbtf</tt> bttributf of tiis CommunidbtorSfrvfr
+     * dibngfs.
+     *
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif fmittfd
+     *        notifidbtions.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no filtfring
+     *        will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk An objfdt wiidi will bf sfnt bbdk undibngfd to tif
+     *        listfnfr wifn b notifidbtion is fmittfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Listfnfr pbrbmftfr is null.
+     */
+    @Ovfrridf
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
+
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "bddNotifidbtionListfnfr","Adding listfnfr "+ listfnfr +
+                  " witi filtfr "+ filtfr + " bnd ibndbbdk "+ ibndbbdk);
+        }
+        notifBrobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+    }
+
+    /**
+     * Rfmovfs tif spfdififd listfnfr from tiis CommunidbtorSfrvfr.
+     * Notf tibt if tif listfnfr ibs bffn rfgistfrfd witi difffrfnt
+     * ibndbbdk objfdts or notifidbtion filtfrs, bll fntrifs dorrfsponding
+     * to tif listfnfr will bf rfmovfd.
+     *
+     * @pbrbm listfnfr Tif listfnfr objfdt to bf rfmovfd.
+     *
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not rfgistfrfd.
+     */
+    @Ovfrridf
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "rfmovfNotifidbtionListfnfr","Rfmoving listfnfr "+ listfnfr);
+        }
+        notifBrobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfturns bn brrby of MBfbnNotifidbtionInfo objfdts dfsdribing
+     * tif notifidbtion typfs sfnt by tiis CommunidbtorSfrvfr.
+     * Tifrf is only onf typf of notifidbtions sfnt by tif CommunidbtorSfrvfr:
+     * it is <tt>{@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion}</tt>,
+     * sfnt wifn tif <tt>Stbtf</tt> bttributf of tiis CommunidbtorSfrvfr
+     * dibngfs.
+     */
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+
+        // Initiblizf notifInfos on first dbll to gftNotifidbtionInfo()
+        //
+        if (notifInfos == null) {
+            notifInfos = nfw MBfbnNotifidbtionInfo[1];
+            String[] notifTypfs = {
+                AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE};
+            notifInfos[0] = nfw MBfbnNotifidbtionInfo( notifTypfs,
+                     AttributfCibngfNotifidbtion.dlbss.gftNbmf(),
+                     "Sfnt to notify tibt tif vbluf of tif Stbtf bttributf "+
+                     "of tiis CommunidbtorSfrvfr instbndf ibs dibngfd.");
+        }
+
+        rfturn notifInfos.dlonf();
+    }
+
+    /**
+     *
+     */
+    privbtf void sfndStbtfCibngfNotifidbtion(int oldStbtf, int nfwStbtf) {
+
+        String oldStbtfString = gftStringForStbtf(oldStbtf);
+        String nfwStbtfString = gftStringForStbtf(nfwStbtf);
+        String mfssbgf = nfw StringBufffr().bppfnd(dbgTbg)
+            .bppfnd(" Tif vbluf of bttributf Stbtf ibs dibngfd from ")
+            .bppfnd(oldStbtf).bppfnd(" (").bppfnd(oldStbtfString)
+            .bppfnd(") to ").bppfnd(nfwStbtf).bppfnd(" (")
+            .bppfnd(nfwStbtfString).bppfnd(").").toString();
+
+        notifCount++;
+        AttributfCibngfNotifidbtion notif =
+            nfw AttributfCibngfNotifidbtion(tiis,    // sourdf
+                         notifCount,                 // sfqufndf numbfr
+                         Systfm.durrfntTimfMillis(), // timf stbmp
+                         mfssbgf,                    // mfssbgf
+                         "Stbtf",                    // bttributf nbmf
+                         "int",                      // bttributf typf
+                         oldStbtf,                   // old vbluf
+                         nfwStbtf );                 // nfw vbluf
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                "sfndStbtfCibngfNotifidbtion","Sfnding AttributfCibngfNotifidbtion #"
+                    + notifCount + " witi mfssbgf: "+ mfssbgf);
+        }
+        notifBrobddbstfr.sfndNotifidbtion(notif);
+    }
+
+    /**
+     *
+     */
+    privbtf stbtid String gftStringForStbtf(int s) {
+        switdi (s) {
+        dbsf ONLINE:   rfturn "ONLINE";
+        dbsf STARTING: rfturn "STARTING";
+        dbsf OFFLINE:  rfturn "OFFLINE";
+        dbsf STOPPING: rfturn "STOPPING";
+        dffbult:       rfturn "UNDEFINED";
+        }
+    }
+
+
+    //
+    // MBfbnRfgistrbtion
+    //
+
+    /**
+     * Prfrfgistfr mftiod of donnfdtor.
+     *
+     *@pbrbm sfrvfr Tif <CODE>MBfbnSfrvfr</CODE> in wiidi tif MBfbn will
+     *       bf rfgistfrfd.
+     *@pbrbm nbmf Tif objfdt nbmf of tif MBfbn.
+     *
+     *@rfturn  Tif nbmf of tif MBfbn rfgistfrfd.
+     *
+     *@fxdfption jbvb.lbngExdfption Tiis fxdfption siould bf dbugit by
+     *           tif <CODE>MBfbnSfrvfr</CODE> bnd rf-tirown
+     *           bs bn <CODE>MBfbnRfgistrbtionExdfption</CODE>.
+     */
+    @Ovfrridf
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows jbvb.lbng.Exdfption {
+        objfdtNbmf = nbmf;
+        syndironizfd (tiis) {
+            if (bottomMBS != null) {
+                tirow nfw IllfgblArgumfntExdfption("donnfdtor blrfbdy " +
+                                                   "rfgistfrfd in bn MBfbn " +
+                                                   "sfrvfr");
+            }
+            topMBS = bottomMBS = sfrvfr;
+        }
+        dbgTbg = mbkfDfbugTbg();
+        rfturn nbmf;
+    }
+
+    /**
+     *
+     *@pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs bffn
+     *       suddfssfully rfgistfrfd in tif <CODE>MBfbnSfrvfr</CODE>.
+     *       Tif vbluf fblsf mfbns tibt tif rfgistrbtion pibsf ibs fbilfd.
+     */
+    @Ovfrridf
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf.boolfbnVbluf()) {
+            syndironizfd (tiis) {
+                topMBS = bottomMBS = null;
+            }
+        }
+    }
+
+    /**
+     * Stop tif donnfdtor.
+     *
+     * @fxdfption jbvb.lbngExdfption Tiis fxdfption siould bf dbugit by
+     *            tif <CODE>MBfbnSfrvfr</CODE> bnd rf-tirown
+     *            bs bn <CODE>MBfbnRfgistrbtionExdfption</CODE>.
+     */
+    @Ovfrridf
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption {
+        syndironizfd (tiis) {
+            topMBS = bottomMBS = null;
+        }
+        objfdtNbmf = null ;
+        finbl int dstbtf = gftStbtf();
+        if ((dstbtf == ONLINE) || ( dstbtf == STARTING)) {
+            stop() ;
+        }
+    }
+
+    /**
+     * Do notiing.
+     */
+    @Ovfrridf
+    publid void postDfrfgistfr(){
+    }
+
+}

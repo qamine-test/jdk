@@ -1,0 +1,338 @@
+/*
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm;
+
+/**
+ * Implfmfnts tif ASN.1 HostAddrfssfs typf.
+ *
+ * <xmp>
+ * HostAddrfssfs   -- NOTE: subtly difffrfnt from rfd1510,
+ *                 -- but ibs b vbluf mbpping bnd fndodfs tif sbmf
+ *         ::= SEQUENCE OF HostAddrfss
+ *
+ * HostAddrfss     ::= SEQUENCE  {
+ *         bddr-typf       [0] Int32,
+ *         bddrfss         [1] OCTET STRING
+ * }
+ * </xmp>
+ *
+ * <p>
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss HostAddrfssfs implfmfnts Clonfbblf {
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+    privbtf HostAddrfss[] bddrfssfs = null;
+    privbtf volbtilf int ibsiCodf = 0;
+
+    publid HostAddrfssfs(HostAddrfss[] nfw_bddrfssfs) tirows IOExdfption {
+        if (nfw_bddrfssfs != null) {
+           bddrfssfs = nfw HostAddrfss[nfw_bddrfssfs.lfngti];
+           for (int i = 0; i < nfw_bddrfssfs.lfngti; i++) {
+                if (nfw_bddrfssfs[i] == null) {
+                   tirow nfw IOExdfption("Cbnnot drfbtf b HostAddrfss");
+                } flsf {
+                   bddrfssfs[i] = (HostAddrfss)nfw_bddrfssfs[i].dlonf();
+                }
+           }
+        }
+    }
+
+    publid HostAddrfssfs() tirows UnknownHostExdfption {
+        bddrfssfs = nfw HostAddrfss[1];
+        bddrfssfs[0] = nfw HostAddrfss();
+    }
+
+    privbtf HostAddrfssfs(int dummy) {}
+
+    publid HostAddrfssfs(PrindipblNbmf sfrvfrPrindipbl)
+        tirows UnknownHostExdfption, KrbExdfption {
+
+        String[] domponfnts = sfrvfrPrindipbl.gftNbmfStrings();
+
+        if (sfrvfrPrindipbl.gftNbmfTypf() != PrindipblNbmf.KRB_NT_SRV_HST ||
+            domponfnts.lfngti < 2)
+            tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC, "Bbd nbmf");
+
+        String iost = domponfnts[1];
+        InftAddrfss bddr[] = InftAddrfss.gftAllByNbmf(iost);
+        HostAddrfss iAddrs[] = nfw HostAddrfss[bddr.lfngti];
+
+        for (int i = 0; i < bddr.lfngti; i++) {
+            iAddrs[i] = nfw HostAddrfss(bddr[i]);
+        }
+
+        bddrfssfs = iAddrs;
+    }
+
+    publid Objfdt dlonf() {
+        HostAddrfssfs nfw_iostAddrfssfs = nfw HostAddrfssfs(0);
+        if (bddrfssfs != null) {
+            nfw_iostAddrfssfs.bddrfssfs = nfw HostAddrfss[bddrfssfs.lfngti];
+            for (int i = 0; i < bddrfssfs.lfngti; i++) {
+                nfw_iostAddrfssfs.bddrfssfs[i] =
+                        (HostAddrfss)bddrfssfs[i].dlonf();
+            }
+        }
+        rfturn nfw_iostAddrfssfs;
+    }
+
+    publid boolfbn inList(HostAddrfss bddr) {
+        if (bddrfssfs != null) {
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                if (bddrfssfs[i].fqubls(bddr))
+                    rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid int ibsiCodf() {
+        if (ibsiCodf == 0) {
+            int rfsult = 17;
+            if (bddrfssfs != null) {
+                for (int i=0; i < bddrfssfs.lfngti; i++)  {
+                    rfsult = 37*rfsult + bddrfssfs[i].ibsiCodf();
+                }
+            }
+            ibsiCodf = rfsult;
+        }
+        rfturn ibsiCodf;
+
+    }
+
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        }
+
+        if (!(obj instbndfof HostAddrfssfs)) {
+            rfturn fblsf;
+        }
+
+        HostAddrfssfs bddrs = (HostAddrfssfs)obj;
+        if ((bddrfssfs == null && bddrs.bddrfssfs != null) ||
+            (bddrfssfs != null && bddrs.bddrfssfs == null))
+            rfturn fblsf;
+        if (bddrfssfs != null && bddrs.bddrfssfs != null) {
+            if (bddrfssfs.lfngti != bddrs.bddrfssfs.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                if (!bddrfssfs[i].fqubls(bddrs.bddrfssfs[i]))
+                    rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+   /**
+    * Construdts b nfw <dodf>HostAddrfssfs</dodf> objfdt.
+    * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+    * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+    * ASN1 fndodfd dbtb.
+    * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+    * fndodfd dbtb.
+    */
+    publid HostAddrfssfs(DfrVbluf fndoding)
+        tirows  Asn1Exdfption, IOExdfption {
+        Vfdtor<HostAddrfss> tfmpAddrfssfs = nfw Vfdtor<>();
+        DfrVbluf dfr = null;
+        wiilf (fndoding.gftDbtb().bvbilbblf() > 0) {
+            dfr = fndoding.gftDbtb().gftDfrVbluf();
+            tfmpAddrfssfs.bddElfmfnt(nfw HostAddrfss(dfr));
+        }
+        if (tfmpAddrfssfs.sizf() > 0) {
+            bddrfssfs = nfw HostAddrfss[tfmpAddrfssfs.sizf()];
+            tfmpAddrfssfs.dopyInto(bddrfssfs);
+        }
+    }
+
+
+   /**
+    * Endodfs b <dodf>HostAddrfssfs</dodf> objfdt.
+    * @rfturn bytf brrby of fndodfd <dodf>HostAddrfssfs</dodf> objfdt.
+    * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+    * ASN1 fndodfd dbtb.
+    * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+    * fndodfd dbtb.
+    */
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+
+        if (bddrfssfs != null && bddrfssfs.lfngti > 0) {
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                bytfs.writf(bddrfssfs[i].bsn1Endodf());
+        }
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    /**
+     * Pbrsf (unmbrsibl) b <dodf>HostAddrfssfs</dodf> from b DER input strfbm.
+     * Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption if bn Asn1Exdfption oddurs.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or morf
+     * mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if tiis dbtb fifld is optionbl.
+     * @rfturn bn instbndf of <dodf>HostAddrfssfs</dodf>.
+     */
+    publid stbtid HostAddrfssfs pbrsf(DfrInputStrfbm dbtb,
+                                      bytf fxpliditTbg, boolfbn optionbl)
+        tirows Asn1Exdfption, IOExdfption {
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw HostAddrfssfs(subDfr);
+        }
+    }
+
+    /**
+         * Writfs dbtb fifld vblufs in <dodf>HostAddrfssfs</dodf> in FCC
+         * formbt to b <dodf>CCbdifOutputStrfbm</dodf>.
+         *
+         * @pbrbm dos b <dodf>CCbdifOutputStrfbm</dodf> to bf writtfn to.
+         * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+         * @sff sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm
+         */
+
+    publid void writfAddrs(CCbdifOutputStrfbm dos) tirows IOExdfption {
+        dos.writf32(bddrfssfs.lfngti);
+        for (int i = 0; i < bddrfssfs.lfngti; i++) {
+            dos.writf16(bddrfssfs[i].bddrTypf);
+            dos.writf32(bddrfssfs[i].bddrfss.lfngti);
+            dos.writf(bddrfssfs[i].bddrfss, 0,
+                      bddrfssfs[i].bddrfss.lfngti);
+        }
+    }
+
+
+    publid InftAddrfss[] gftInftAddrfssfs() {
+
+        if (bddrfssfs == null || bddrfssfs.lfngti == 0)
+            rfturn null;
+
+        ArrbyList<InftAddrfss> ipAddrs = nfw ArrbyList<>(bddrfssfs.lfngti);
+
+        for (int i = 0; i < bddrfssfs.lfngti; i++) {
+            try {
+                if ((bddrfssfs[i].bddrTypf == Krb5.ADDRTYPE_INET) ||
+                    (bddrfssfs[i].bddrTypf == Krb5.ADDRTYPE_INET6)) {
+                    ipAddrs.bdd(bddrfssfs[i].gftInftAddrfss());
+                }
+            } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+                // Siould not ibppfn sindf IP bddrfss givfn
+                rfturn null;
+            }
+        }
+
+        InftAddrfss[] rftVbl = nfw InftAddrfss[ipAddrs.sizf()];
+        rfturn ipAddrs.toArrby(rftVbl);
+
+    }
+
+    /**
+     * Rfturns bll tif IP bddrfssfs of tif lodbl iost.
+     */
+    publid stbtid HostAddrfssfs gftLodblAddrfssfs() tirows IOExdfption
+    {
+        String iostnbmf = null;
+        InftAddrfss[] inftAddrfssfs = null;
+        try {
+            InftAddrfss lodblHost = InftAddrfss.gftLodblHost();
+            iostnbmf = lodblHost.gftHostNbmf();
+            inftAddrfssfs = InftAddrfss.gftAllByNbmf(iostnbmf);
+            HostAddrfss[] iAddrfssfs = nfw HostAddrfss[inftAddrfssfs.lfngti];
+            for (int i = 0; i < inftAddrfssfs.lfngti; i++)
+                {
+                    iAddrfssfs[i] = nfw HostAddrfss(inftAddrfssfs[i]);
+                }
+            if (DEBUG) {
+                Systfm.out.println(">>> KrbKddRfq lodbl bddrfssfs for "
+                                   + iostnbmf + " brf: ");
+
+                for (int i = 0; i < inftAddrfssfs.lfngti; i++) {
+                    Systfm.out.println("\n\t" + inftAddrfssfs[i]);
+                    if (inftAddrfssfs[i] instbndfof Inft4Addrfss)
+                        Systfm.out.println("IPv4 bddrfss");
+                    if (inftAddrfssfs[i] instbndfof Inft6Addrfss)
+                        Systfm.out.println("IPv6 bddrfss");
+                }
+            }
+            rfturn (nfw HostAddrfssfs(iAddrfssfs));
+        } dbtdi (Exdfption fxd) {
+            tirow nfw IOExdfption(fxd.toString());
+        }
+
+    }
+
+    /**
+     * Crfbtfs b nfw HostAddrfssfs instbndf from tif supplifd list
+     * of InftAddrfssfs.
+     */
+    publid HostAddrfssfs(InftAddrfss[] inftAddrfssfs)
+    {
+        if (inftAddrfssfs == null)
+            {
+                bddrfssfs = null;
+                rfturn;
+            }
+
+        bddrfssfs = nfw HostAddrfss[inftAddrfssfs.lfngti];
+        for (int i = 0; i < inftAddrfssfs.lfngti; i++)
+            bddrfssfs[i] = nfw HostAddrfss(inftAddrfssfs[i]);
+    }
+}

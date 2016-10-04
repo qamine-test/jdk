@@ -1,0 +1,98 @@
+/*
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*-
+ * nftdod urls point fitifr into tif lodbl filfsystfm or fxtfrnblly
+ * tirougi bn ittp url, witi nftwork dodumfnts bfing prfffrrfd.  Usfful for
+ * FAQs & otifr dodumfnts wiidi brf likfly to bf dibnging ovfr timf bt tif
+ * dfntrbl sitf, bnd wifrf tif usfr will wbnt tif most rfdfnt fdition.
+ *
+ * @butior Stfvfn B. Byrnf
+ */
+
+pbdkbgf sun.nft.www.protodol.nftdod;
+
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+publid dlbss Hbndlfr fxtfnds URLStrfbmHbndlfr {
+    stbtid URL bbsf;
+
+    /*
+     * Attfmpt to find b lobd tif givfn url using tif dffbult (nftwork)
+     * dodumfntbtion lodbtion.  If tibt fbils, usf tif lodbl dopy
+     */
+    publid syndironizfd URLConnfdtion opfnConnfdtion(URL u)
+        tirows IOExdfption
+    {
+        URLConnfdtion ud = null;
+        URL ru;
+
+        Boolfbn tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion("nfwdod.lodblonly"));
+        boolfbn lodblonly = tmp.boolfbnVbluf();
+
+        String dodurl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("dod.url"));
+
+        String filf = u.gftFilf();
+        if (!lodblonly) {
+            try {
+                if (bbsf == null) {
+                    bbsf = nfw URL(dodurl);
+                }
+                ru = nfw URL(bbsf, filf);
+            } dbtdi (MblformfdURLExdfption f) {
+                ru = null;
+            }
+            if (ru != null) {
+                ud = ru.opfnConnfdtion();
+            }
+        }
+
+        if (ud == null) {
+            try {
+                ru = nfw URL("filf", "~", filf);
+
+                ud = ru.opfnConnfdtion();
+                InputStrfbm is = ud.gftInputStrfbm();   // Cifdk for suddfss.
+            } dbtdi (MblformfdURLExdfption f) {
+                ud = null;
+            } dbtdi (IOExdfption f) {
+                ud = null;
+            }
+        }
+
+        if (ud == null) {
+            tirow nfw IOExdfption("Cbn't find filf for URL: "
+                                  +u.toExtfrnblForm());
+        }
+        rfturn ud;
+    }
+}

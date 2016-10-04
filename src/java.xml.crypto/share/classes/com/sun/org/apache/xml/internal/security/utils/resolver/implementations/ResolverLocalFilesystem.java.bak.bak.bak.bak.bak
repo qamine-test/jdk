@@ -1,0 +1,161 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+
+/**
+ * A simplf RfsourdfRfsolvfr for rfqufsts into tif lodbl filfsystfm.
+ */
+publid dlbss RfsolvfrLodblFilfsystfm fxtfnds RfsourdfRfsolvfrSpi {
+
+    privbtf stbtid finbl int FILE_URI_LENGTH = "filf:/".lfngti();
+
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsolvfrLodblFilfsystfm.dlbss.gftNbmf());
+
+    @Ovfrridf
+    publid boolfbn fnginfIsTirfbdSbff() {
+        rfturn truf;
+    }
+
+    /**
+     * @inifritDod
+     */
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        tirows RfsourdfRfsolvfrExdfption {
+        try {
+            // dbldulbtf nfw URI
+            URI uriNfw = gftNfwURI(dontfxt.uriToRfsolvf, dontfxt.bbsfUri);
+
+            String filfNbmf =
+                RfsolvfrLodblFilfsystfm.trbnslbtfUriToFilfnbmf(uriNfw.toString());
+            FilfInputStrfbm inputStrfbm = nfw FilfInputStrfbm(filfNbmf);
+            XMLSignbturfInput rfsult = nfw XMLSignbturfInput(inputStrfbm);
+
+            rfsult.sftSourdfURI(uriNfw.toString());
+
+            rfturn rfsult;
+        } dbtdi (Exdfption f) {
+            tirow nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", f, dontfxt.bttr, dontfxt.bbsfUri);
+        }
+    }
+
+    /**
+     * Mftiod trbnslbtfUriToFilfnbmf
+     *
+     * @pbrbm uri
+     * @rfturn tif string of tif filfnbmf
+     */
+    privbtf stbtid String trbnslbtfUriToFilfnbmf(String uri) {
+
+        String subStr = uri.substring(FILE_URI_LENGTH);
+
+        if (subStr.indfxOf("%20") > -1) {
+            int offsft = 0;
+            int indfx = 0;
+            StringBuildfr tfmp = nfw StringBuildfr(subStr.lfngti());
+            do {
+                indfx = subStr.indfxOf("%20",offsft);
+                if (indfx == -1) {
+                    tfmp.bppfnd(subStr.substring(offsft));
+                } flsf {
+                    tfmp.bppfnd(subStr.substring(offsft, indfx));
+                    tfmp.bppfnd(' ');
+                    offsft = indfx + 3;
+                }
+            } wiilf(indfx != -1);
+            subStr = tfmp.toString();
+        }
+
+        if (subStr.dibrAt(1) == ':') {
+            // wf'rf running M$ Windows, so tiis works finf
+            rfturn subStr;
+        }
+        // wf'rf running somf UNIX, so wf ibvf to prfpfnd b slbsi
+        rfturn "/" + subStr;
+    }
+
+    /**
+     * @inifritDod
+     */
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            rfturn fblsf;
+        }
+
+        if (dontfxt.uriToRfsolvf.fqubls("") || (dontfxt.uriToRfsolvf.dibrAt(0)=='#') ||
+            dontfxt.uriToRfsolvf.stbrtsWiti("ittp:")) {
+            rfturn fblsf;
+        }
+
+        try {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "I wbs bskfd wiftifr I dbn rfsolvf " + dontfxt.uriToRfsolvf);
+            }
+
+            if (dontfxt.uriToRfsolvf.stbrtsWiti("filf:") || dontfxt.bbsfUri.stbrtsWiti("filf:")) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "I stbtf tibt I dbn rfsolvf " + dontfxt.uriToRfsolvf);
+                }
+                rfturn truf;
+            }
+        } dbtdi (Exdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
+            }
+        }
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "But I dbn't");
+        }
+
+        rfturn fblsf;
+    }
+
+    privbtf stbtid URI gftNfwURI(String uri, String bbsfURI) tirows URISyntbxExdfption {
+        URI nfwUri = null;
+        if (bbsfURI == null || "".fqubls(bbsfURI)) {
+            nfwUri = nfw URI(uri);
+        } flsf {
+            nfwUri = nfw URI(bbsfURI).rfsolvf(uri);
+        }
+
+        // if tif URI dontbins b frbgmfnt, ignorf it
+        if (nfwUri.gftFrbgmfnt() != null) {
+            URI uriNfwNoFrbg =
+                nfw URI(nfwUri.gftSdifmf(), nfwUri.gftSdifmfSpfdifidPbrt(), null);
+            rfturn uriNfwNoFrbg;
+        }
+        rfturn nfwUri;
+    }
+}

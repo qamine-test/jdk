@@ -1,0 +1,3543 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.io.ObjfdtStrfbmClbss.WfbkClbssKfy;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import stbtid jbvb.io.ObjfdtStrfbmClbss.prodfssQufuf;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * An ObjfdtInputStrfbm dfsfriblizfs primitivf dbtb bnd objfdts prfviously
+ * writtfn using bn ObjfdtOutputStrfbm.
+ *
+ * <p>ObjfdtOutputStrfbm bnd ObjfdtInputStrfbm dbn providf bn bpplidbtion witi
+ * pfrsistfnt storbgf for grbpis of objfdts wifn usfd witi b FilfOutputStrfbm
+ * bnd FilfInputStrfbm rfspfdtivfly.  ObjfdtInputStrfbm is usfd to rfdovfr
+ * tiosf objfdts prfviously sfriblizfd. Otifr usfs indludf pbssing objfdts
+ * bftwffn iosts using b sodkft strfbm or for mbrsibling bnd unmbrsibling
+ * brgumfnts bnd pbrbmftfrs in b rfmotf dommunidbtion systfm.
+ *
+ * <p>ObjfdtInputStrfbm fnsurfs tibt tif typfs of bll objfdts in tif grbpi
+ * drfbtfd from tif strfbm mbtdi tif dlbssfs prfsfnt in tif Jbvb Virtubl
+ * Mbdiinf.  Clbssfs brf lobdfd bs rfquirfd using tif stbndbrd mfdibnisms.
+ *
+ * <p>Only objfdts tibt support tif jbvb.io.Sfriblizbblf or
+ * jbvb.io.Extfrnblizbblf intfrfbdf dbn bf rfbd from strfbms.
+ *
+ * <p>Tif mftiod <dodf>rfbdObjfdt</dodf> is usfd to rfbd bn objfdt from tif
+ * strfbm.  Jbvb's sbff dbsting siould bf usfd to gft tif dfsirfd typf.  In
+ * Jbvb, strings bnd brrbys brf objfdts bnd brf trfbtfd bs objfdts during
+ * sfriblizbtion. Wifn rfbd tify nffd to bf dbst to tif fxpfdtfd typf.
+ *
+ * <p>Primitivf dbtb typfs dbn bf rfbd from tif strfbm using tif bppropribtf
+ * mftiod on DbtbInput.
+ *
+ * <p>Tif dffbult dfsfriblizbtion mfdibnism for objfdts rfstorfs tif dontfnts
+ * of fbdi fifld to tif vbluf bnd typf it ibd wifn it wbs writtfn.  Fiflds
+ * dfdlbrfd bs trbnsifnt or stbtid brf ignorfd by tif dfsfriblizbtion prodfss.
+ * Rfffrfndfs to otifr objfdts dbusf tiosf objfdts to bf rfbd from tif strfbm
+ * bs nfdfssbry.  Grbpis of objfdts brf rfstorfd dorrfdtly using b rfffrfndf
+ * sibring mfdibnism.  Nfw objfdts brf blwbys bllodbtfd wifn dfsfriblizing,
+ * wiidi prfvfnts fxisting objfdts from bfing ovfrwrittfn.
+ *
+ * <p>Rfbding bn objfdt is bnblogous to running tif donstrudtors of b nfw
+ * objfdt.  Mfmory is bllodbtfd for tif objfdt bnd initiblizfd to zfro (NULL).
+ * No-brg donstrudtors brf invokfd for tif non-sfriblizbblf dlbssfs bnd tifn
+ * tif fiflds of tif sfriblizbblf dlbssfs brf rfstorfd from tif strfbm stbrting
+ * witi tif sfriblizbblf dlbss dlosfst to jbvb.lbng.objfdt bnd finisiing witi
+ * tif objfdt's most spfdifid dlbss.
+ *
+ * <p>For fxbmplf to rfbd from b strfbm bs writtfn by tif fxbmplf in
+ * ObjfdtOutputStrfbm:
+ * <br>
+ * <prf>
+ *      FilfInputStrfbm fis = nfw FilfInputStrfbm("t.tmp");
+ *      ObjfdtInputStrfbm ois = nfw ObjfdtInputStrfbm(fis);
+ *
+ *      int i = ois.rfbdInt();
+ *      String todby = (String) ois.rfbdObjfdt();
+ *      Dbtf dbtf = (Dbtf) ois.rfbdObjfdt();
+ *
+ *      ois.dlosf();
+ * </prf>
+ *
+ * <p>Clbssfs dontrol iow tify brf sfriblizfd by implfmfnting fitifr tif
+ * jbvb.io.Sfriblizbblf or jbvb.io.Extfrnblizbblf intfrfbdfs.
+ *
+ * <p>Implfmfnting tif Sfriblizbblf intfrfbdf bllows objfdt sfriblizbtion to
+ * sbvf bnd rfstorf tif fntirf stbtf of tif objfdt bnd it bllows dlbssfs to
+ * fvolvf bftwffn tif timf tif strfbm is writtfn bnd tif timf it is rfbd.  It
+ * butombtidblly trbvfrsfs rfffrfndfs bftwffn objfdts, sbving bnd rfstoring
+ * fntirf grbpis.
+ *
+ * <p>Sfriblizbblf dlbssfs tibt rfquirf spfdibl ibndling during tif
+ * sfriblizbtion bnd dfsfriblizbtion prodfss siould implfmfnt tif following
+ * mftiods:
+ *
+ * <prf>
+ * privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm strfbm)
+ *     tirows IOExdfption;
+ * privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm strfbm)
+ *     tirows IOExdfption, ClbssNotFoundExdfption;
+ * privbtf void rfbdObjfdtNoDbtb()
+ *     tirows ObjfdtStrfbmExdfption;
+ * </prf>
+ *
+ * <p>Tif rfbdObjfdt mftiod is rfsponsiblf for rfbding bnd rfstoring tif stbtf
+ * of tif objfdt for its pbrtidulbr dlbss using dbtb writtfn to tif strfbm by
+ * tif dorrfsponding writfObjfdt mftiod.  Tif mftiod dofs not nffd to dondfrn
+ * itsflf witi tif stbtf bflonging to its supfrdlbssfs or subdlbssfs.  Stbtf is
+ * rfstorfd by rfbding dbtb from tif ObjfdtInputStrfbm for tif individubl
+ * fiflds bnd mbking bssignmfnts to tif bppropribtf fiflds of tif objfdt.
+ * Rfbding primitivf dbtb typfs is supportfd by DbtbInput.
+ *
+ * <p>Any bttfmpt to rfbd objfdt dbtb wiidi fxdffds tif boundbrifs of tif
+ * dustom dbtb writtfn by tif dorrfsponding writfObjfdt mftiod will dbusf bn
+ * OptionblDbtbExdfption to bf tirown witi bn fof fifld vbluf of truf.
+ * Non-objfdt rfbds wiidi fxdffd tif fnd of tif bllottfd dbtb will rfflfdt tif
+ * fnd of dbtb in tif sbmf wby tibt tify would indidbtf tif fnd of tif strfbm:
+ * bytfwisf rfbds will rfturn -1 bs tif bytf rfbd or numbfr of bytfs rfbd, bnd
+ * primitivf rfbds will tirow EOFExdfptions.  If tifrf is no dorrfsponding
+ * writfObjfdt mftiod, tifn tif fnd of dffbult sfriblizfd dbtb mbrks tif fnd of
+ * tif bllottfd dbtb.
+ *
+ * <p>Primitivf bnd objfdt rfbd dblls issufd from witiin b rfbdExtfrnbl mftiod
+ * bfibvf in tif sbmf mbnnfr--if tif strfbm is blrfbdy positionfd bt tif fnd of
+ * dbtb writtfn by tif dorrfsponding writfExtfrnbl mftiod, objfdt rfbds will
+ * tirow OptionblDbtbExdfptions witi fof sft to truf, bytfwisf rfbds will
+ * rfturn -1, bnd primitivf rfbds will tirow EOFExdfptions.  Notf tibt tiis
+ * bfibvior dofs not iold for strfbms writtfn witi tif old
+ * <dodf>ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_1</dodf> protodol, in wiidi tif
+ * fnd of dbtb writtfn by writfExtfrnbl mftiods is not dfmbrdbtfd, bnd ifndf
+ * dbnnot bf dftfdtfd.
+ *
+ * <p>Tif rfbdObjfdtNoDbtb mftiod is rfsponsiblf for initiblizing tif stbtf of
+ * tif objfdt for its pbrtidulbr dlbss in tif fvfnt tibt tif sfriblizbtion
+ * strfbm dofs not list tif givfn dlbss bs b supfrdlbss of tif objfdt bfing
+ * dfsfriblizfd.  Tiis mby oddur in dbsfs wifrf tif rfdfiving pbrty usfs b
+ * difffrfnt vfrsion of tif dfsfriblizfd instbndf's dlbss tibn tif sfnding
+ * pbrty, bnd tif rfdfivfr's vfrsion fxtfnds dlbssfs tibt brf not fxtfndfd by
+ * tif sfndfr's vfrsion.  Tiis mby blso oddur if tif sfriblizbtion strfbm ibs
+ * bffn tbmpfrfd; ifndf, rfbdObjfdtNoDbtb is usfful for initiblizing
+ * dfsfriblizfd objfdts propfrly dfspitf b "iostilf" or indomplftf sourdf
+ * strfbm.
+ *
+ * <p>Sfriblizbtion dofs not rfbd or bssign vblufs to tif fiflds of bny objfdt
+ * tibt dofs not implfmfnt tif jbvb.io.Sfriblizbblf intfrfbdf.  Subdlbssfs of
+ * Objfdts tibt brf not sfriblizbblf dbn bf sfriblizbblf. In tiis dbsf tif
+ * non-sfriblizbblf dlbss must ibvf b no-brg donstrudtor to bllow its fiflds to
+ * bf initiblizfd.  In tiis dbsf it is tif rfsponsibility of tif subdlbss to
+ * sbvf bnd rfstorf tif stbtf of tif non-sfriblizbblf dlbss. It is frfqufntly
+ * tif dbsf tibt tif fiflds of tibt dlbss brf bddfssiblf (publid, pbdkbgf, or
+ * protfdtfd) or tibt tifrf brf gft bnd sft mftiods tibt dbn bf usfd to rfstorf
+ * tif stbtf.
+ *
+ * <p>Any fxdfption tibt oddurs wiilf dfsfriblizing bn objfdt will bf dbugit by
+ * tif ObjfdtInputStrfbm bnd bbort tif rfbding prodfss.
+ *
+ * <p>Implfmfnting tif Extfrnblizbblf intfrfbdf bllows tif objfdt to bssumf
+ * domplftf dontrol ovfr tif dontfnts bnd formbt of tif objfdt's sfriblizfd
+ * form.  Tif mftiods of tif Extfrnblizbblf intfrfbdf, writfExtfrnbl bnd
+ * rfbdExtfrnbl, brf dbllfd to sbvf bnd rfstorf tif objfdts stbtf.  Wifn
+ * implfmfntfd by b dlbss tify dbn writf bnd rfbd tifir own stbtf using bll of
+ * tif mftiods of ObjfdtOutput bnd ObjfdtInput.  It is tif rfsponsibility of
+ * tif objfdts to ibndlf bny vfrsioning tibt oddurs.
+ *
+ * <p>Enum donstbnts brf dfsfriblizfd difffrfntly tibn ordinbry sfriblizbblf or
+ * fxtfrnblizbblf objfdts.  Tif sfriblizfd form of bn fnum donstbnt donsists
+ * solfly of its nbmf; fifld vblufs of tif donstbnt brf not trbnsmittfd.  To
+ * dfsfriblizf bn fnum donstbnt, ObjfdtInputStrfbm rfbds tif donstbnt nbmf from
+ * tif strfbm; tif dfsfriblizfd donstbnt is tifn obtbinfd by dblling tif stbtid
+ * mftiod <dodf>Enum.vblufOf(Clbss, String)</dodf> witi tif fnum donstbnt's
+ * bbsf typf bnd tif rfdfivfd donstbnt nbmf bs brgumfnts.  Likf otifr
+ * sfriblizbblf or fxtfrnblizbblf objfdts, fnum donstbnts dbn fundtion bs tif
+ * tbrgfts of bbdk rfffrfndfs bppfbring subsfqufntly in tif sfriblizbtion
+ * strfbm.  Tif prodfss by wiidi fnum donstbnts brf dfsfriblizfd dbnnot bf
+ * dustomizfd: bny dlbss-spfdifid rfbdObjfdt, rfbdObjfdtNoDbtb, bnd rfbdRfsolvf
+ * mftiods dffinfd by fnum typfs brf ignorfd during dfsfriblizbtion.
+ * Similbrly, bny sfriblPfrsistfntFiflds or sfriblVfrsionUID fifld dfdlbrbtions
+ * brf blso ignorfd--bll fnum typfs ibvf b fixfd sfriblVfrsionUID of 0L.
+ *
+ * @butior      Mikf Wbrrfs
+ * @butior      Rogfr Riggs
+ * @sff jbvb.io.DbtbInput
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.Sfriblizbblf
+ * @sff <b irff="../../../plbtform/sfriblizbtion/spfd/input.itml"> Objfdt Sfriblizbtion Spfdifidbtion, Sfdtion 3, Objfdt Input Clbssfs</b>
+ * @sindf   1.1
+ */
+publid dlbss ObjfdtInputStrfbm
+    fxtfnds InputStrfbm implfmfnts ObjfdtInput, ObjfdtStrfbmConstbnts
+{
+    /** ibndlf vbluf rfprfsfnting null */
+    privbtf stbtid finbl int NULL_HANDLE = -1;
+
+    /** mbrkfr for unsibrfd objfdts in intfrnbl ibndlf tbblf */
+    privbtf stbtid finbl Objfdt unsibrfdMbrkfr = nfw Objfdt();
+
+    /** tbblf mbpping primitivf typf nbmfs to dorrfsponding dlbss objfdts */
+    privbtf stbtid finbl HbsiMbp<String, Clbss<?>> primClbssfs
+        = nfw HbsiMbp<>(8, 1.0F);
+    stbtid {
+        primClbssfs.put("boolfbn", boolfbn.dlbss);
+        primClbssfs.put("bytf", bytf.dlbss);
+        primClbssfs.put("dibr", dibr.dlbss);
+        primClbssfs.put("siort", siort.dlbss);
+        primClbssfs.put("int", int.dlbss);
+        primClbssfs.put("long", long.dlbss);
+        primClbssfs.put("flobt", flobt.dlbss);
+        primClbssfs.put("doublf", doublf.dlbss);
+        primClbssfs.put("void", void.dlbss);
+    }
+
+    privbtf stbtid dlbss Cbdifs {
+        /** dbdif of subdlbss sfdurity budit rfsults */
+        stbtid finbl CondurrfntMbp<WfbkClbssKfy,Boolfbn> subdlbssAudits =
+            nfw CondurrfntHbsiMbp<>();
+
+        /** qufuf for WfbkRfffrfndfs to buditfd subdlbssfs */
+        stbtid finbl RfffrfndfQufuf<Clbss<?>> subdlbssAuditsQufuf =
+            nfw RfffrfndfQufuf<>();
+    }
+
+    /** filtfr strfbm for ibndling blodk dbtb donvfrsion */
+    privbtf finbl BlodkDbtbInputStrfbm bin;
+    /** vblidbtion dbllbbdk list */
+    privbtf finbl VblidbtionList vlist;
+    /** rfdursion dfpti */
+    privbtf int dfpti;
+    /** wiftifr strfbm is dlosfd */
+    privbtf boolfbn dlosfd;
+
+    /** wirf ibndlf -> obj/fxdfption mbp */
+    privbtf finbl HbndlfTbblf ibndlfs;
+    /** sdrbtdi fifld for pbssing ibndlf vblufs up/down dbll stbdk */
+    privbtf int pbssHbndlf = NULL_HANDLE;
+    /** flbg sft wifn bt fnd of fifld vbluf blodk witi no TC_ENDBLOCKDATA */
+    privbtf boolfbn dffbultDbtbEnd = fblsf;
+
+    /** bufffr for rfbding primitivf fifld vblufs */
+    privbtf bytf[] primVbls;
+
+    /** if truf, invokf rfbdObjfdtOvfrridf() instfbd of rfbdObjfdt() */
+    privbtf finbl boolfbn fnbblfOvfrridf;
+    /** if truf, invokf rfsolvfObjfdt() */
+    privbtf boolfbn fnbblfRfsolvf;
+
+    /**
+     * Contfxt during updblls to dlbss-dffinfd rfbdObjfdt mftiods; iolds
+     * objfdt durrfntly bfing dfsfriblizfd bnd dfsdriptor for durrfnt dlbss.
+     * Null wifn not during rfbdObjfdt updbll.
+     */
+    privbtf SfriblCbllbbdkContfxt durContfxt;
+
+    /**
+     * Crfbtfs bn ObjfdtInputStrfbm tibt rfbds from tif spfdififd InputStrfbm.
+     * A sfriblizbtion strfbm ifbdfr is rfbd from tif strfbm bnd vfrififd.
+     * Tiis donstrudtor will blodk until tif dorrfsponding ObjfdtOutputStrfbm
+     * ibs writtfn bnd flusifd tif ifbdfr.
+     *
+     * <p>If b sfdurity mbnbgfr is instbllfd, tiis donstrudtor will difdk for
+     * tif "fnbblfSubdlbssImplfmfntbtion" SfriblizbblfPfrmission wifn invokfd
+     * dirfdtly or indirfdtly by tif donstrudtor of b subdlbss wiidi ovfrridfs
+     * tif ObjfdtInputStrfbm.rfbdFiflds or ObjfdtInputStrfbm.rfbdUnsibrfd
+     * mftiods.
+     *
+     * @pbrbm   in input strfbm to rfbd from
+     * @tirows  StrfbmCorruptfdExdfption if tif strfbm ifbdfr is indorrfdt
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf rfbding strfbm ifbdfr
+     * @tirows  SfdurityExdfption if untrustfd subdlbss illfgblly ovfrridfs
+     *          sfdurity-sfnsitivf mftiods
+     * @tirows  NullPointfrExdfption if <dodf>in</dodf> is <dodf>null</dodf>
+     * @sff     ObjfdtInputStrfbm#ObjfdtInputStrfbm()
+     * @sff     ObjfdtInputStrfbm#rfbdFiflds()
+     * @sff     ObjfdtOutputStrfbm#ObjfdtOutputStrfbm(OutputStrfbm)
+     */
+    publid ObjfdtInputStrfbm(InputStrfbm in) tirows IOExdfption {
+        vfrifySubdlbss();
+        bin = nfw BlodkDbtbInputStrfbm(in);
+        ibndlfs = nfw HbndlfTbblf(10);
+        vlist = nfw VblidbtionList();
+        fnbblfOvfrridf = fblsf;
+        rfbdStrfbmHfbdfr();
+        bin.sftBlodkDbtbModf(truf);
+    }
+
+    /**
+     * Providf b wby for subdlbssfs tibt brf domplftfly rfimplfmfnting
+     * ObjfdtInputStrfbm to not ibvf to bllodbtf privbtf dbtb just usfd by tiis
+     * implfmfntbtion of ObjfdtInputStrfbm.
+     *
+     * <p>If tifrf is b sfdurity mbnbgfr instbllfd, tiis mftiod first dblls tif
+     * sfdurity mbnbgfr's <dodf>difdkPfrmission</dodf> mftiod witi tif
+     * <dodf>SfriblizbblfPfrmission("fnbblfSubdlbssImplfmfntbtion")</dodf>
+     * pfrmission to fnsurf it's ok to fnbblf subdlbssing.
+     *
+     * @tirows  SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>difdkPfrmission</dodf> mftiod dfnifs fnbbling
+     *          subdlbssing.
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf drfbting tiis strfbm
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.io.SfriblizbblfPfrmission
+     */
+    protfdtfd ObjfdtInputStrfbm() tirows IOExdfption, SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+        }
+        bin = null;
+        ibndlfs = null;
+        vlist = null;
+        fnbblfOvfrridf = truf;
+    }
+
+    /**
+     * Rfbd bn objfdt from tif ObjfdtInputStrfbm.  Tif dlbss of tif objfdt, tif
+     * signbturf of tif dlbss, bnd tif vblufs of tif non-trbnsifnt bnd
+     * non-stbtid fiflds of tif dlbss bnd bll of its supfrtypfs brf rfbd.
+     * Dffbult dfsfriblizing for b dlbss dbn bf ovfrridfn using tif writfObjfdt
+     * bnd rfbdObjfdt mftiods.  Objfdts rfffrfndfd by tiis objfdt brf rfbd
+     * trbnsitivfly so tibt b domplftf fquivblfnt grbpi of objfdts is
+     * rfdonstrudtfd by rfbdObjfdt.
+     *
+     * <p>Tif root objfdt is domplftfly rfstorfd wifn bll of its fiflds bnd tif
+     * objfdts it rfffrfndfs brf domplftfly rfstorfd.  At tiis point tif objfdt
+     * vblidbtion dbllbbdks brf fxfdutfd in ordfr bbsfd on tifir rfgistfrfd
+     * prioritifs. Tif dbllbbdks brf rfgistfrfd by objfdts (in tif rfbdObjfdt
+     * spfdibl mftiods) bs tify brf individublly rfstorfd.
+     *
+     * <p>Exdfptions brf tirown for problfms witi tif InputStrfbm bnd for
+     * dlbssfs tibt siould not bf dfsfriblizfd.  All fxdfptions brf fbtbl to
+     * tif InputStrfbm bnd lfbvf it in bn indftfrminbtf stbtf; it is up to tif
+     * dbllfr to ignorf or rfdovfr tif strfbm stbtf.
+     *
+     * @tirows  ClbssNotFoundExdfption Clbss of b sfriblizfd objfdt dbnnot bf
+     *          found.
+     * @tirows  InvblidClbssExdfption Somftiing is wrong witi b dlbss usfd by
+     *          sfriblizbtion.
+     * @tirows  StrfbmCorruptfdExdfption Control informbtion in tif
+     *          strfbm is indonsistfnt.
+     * @tirows  OptionblDbtbExdfption Primitivf dbtb wbs found in tif
+     *          strfbm instfbd of objfdts.
+     * @tirows  IOExdfption Any of tif usubl Input/Output rflbtfd fxdfptions.
+     */
+    publid finbl Objfdt rfbdObjfdt()
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        if (fnbblfOvfrridf) {
+            rfturn rfbdObjfdtOvfrridf();
+        }
+
+        // if nfstfd rfbd, pbssHbndlf dontbins ibndlf of fndlosing objfdt
+        int outfrHbndlf = pbssHbndlf;
+        try {
+            Objfdt obj = rfbdObjfdt0(fblsf);
+            ibndlfs.mbrkDfpfndfndy(outfrHbndlf, pbssHbndlf);
+            ClbssNotFoundExdfption fx = ibndlfs.lookupExdfption(pbssHbndlf);
+            if (fx != null) {
+                tirow fx;
+            }
+            if (dfpti == 0) {
+                vlist.doCbllbbdks();
+            }
+            rfturn obj;
+        } finblly {
+            pbssHbndlf = outfrHbndlf;
+            if (dlosfd && dfpti == 0) {
+                dlfbr();
+            }
+        }
+    }
+
+    /**
+     * Tiis mftiod is dbllfd by trustfd subdlbssfs of ObjfdtOutputStrfbm tibt
+     * donstrudtfd ObjfdtOutputStrfbm using tif protfdtfd no-brg donstrudtor.
+     * Tif subdlbss is fxpfdtfd to providf bn ovfrridf mftiod witi tif modififr
+     * "finbl".
+     *
+     * @rfturn  tif Objfdt rfbd from tif strfbm.
+     * @tirows  ClbssNotFoundExdfption Clbss dffinition of b sfriblizfd objfdt
+     *          dbnnot bf found.
+     * @tirows  OptionblDbtbExdfption Primitivf dbtb wbs found in tif strfbm
+     *          instfbd of objfdts.
+     * @tirows  IOExdfption if I/O frrors oddurrfd wiilf rfbding from tif
+     *          undfrlying strfbm
+     * @sff #ObjfdtInputStrfbm()
+     * @sff #rfbdObjfdt()
+     * @sindf 1.2
+     */
+    protfdtfd Objfdt rfbdObjfdtOvfrridf()
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        rfturn null;
+    }
+
+    /**
+     * Rfbds bn "unsibrfd" objfdt from tif ObjfdtInputStrfbm.  Tiis mftiod is
+     * idfntidbl to rfbdObjfdt, fxdfpt tibt it prfvfnts subsfqufnt dblls to
+     * rfbdObjfdt bnd rfbdUnsibrfd from rfturning bdditionbl rfffrfndfs to tif
+     * dfsfriblizfd instbndf obtbinfd vib tiis dbll.  Spfdifidblly:
+     * <ul>
+     *   <li>If rfbdUnsibrfd is dbllfd to dfsfriblizf b bbdk-rfffrfndf (tif
+     *       strfbm rfprfsfntbtion of bn objfdt wiidi ibs bffn writtfn
+     *       prfviously to tif strfbm), bn ObjfdtStrfbmExdfption will bf
+     *       tirown.
+     *
+     *   <li>If rfbdUnsibrfd rfturns suddfssfully, tifn bny subsfqufnt bttfmpts
+     *       to dfsfriblizf bbdk-rfffrfndfs to tif strfbm ibndlf dfsfriblizfd
+     *       by rfbdUnsibrfd will dbusf bn ObjfdtStrfbmExdfption to bf tirown.
+     * </ul>
+     * Dfsfriblizing bn objfdt vib rfbdUnsibrfd invblidbtfs tif strfbm ibndlf
+     * bssodibtfd witi tif rfturnfd objfdt.  Notf tibt tiis in itsflf dofs not
+     * blwbys gubrbntff tibt tif rfffrfndf rfturnfd by rfbdUnsibrfd is uniquf;
+     * tif dfsfriblizfd objfdt mby dffinf b rfbdRfsolvf mftiod wiidi rfturns bn
+     * objfdt visiblf to otifr pbrtifs, or rfbdUnsibrfd mby rfturn b Clbss
+     * objfdt or fnum donstbnt obtbinbblf flsfwifrf in tif strfbm or tirougi
+     * fxtfrnbl mfbns. If tif dfsfriblizfd objfdt dffinfs b rfbdRfsolvf mftiod
+     * bnd tif invodbtion of tibt mftiod rfturns bn brrby, tifn rfbdUnsibrfd
+     * rfturns b sibllow dlonf of tibt brrby; tiis gubrbntffs tibt tif rfturnfd
+     * brrby objfdt is uniquf bnd dbnnot bf obtbinfd b sfdond timf from bn
+     * invodbtion of rfbdObjfdt or rfbdUnsibrfd on tif ObjfdtInputStrfbm,
+     * fvfn if tif undfrlying dbtb strfbm ibs bffn mbnipulbtfd.
+     *
+     * <p>ObjfdtInputStrfbm subdlbssfs wiidi ovfrridf tiis mftiod dbn only bf
+     * donstrudtfd in sfdurity dontfxts possfssing tif
+     * "fnbblfSubdlbssImplfmfntbtion" SfriblizbblfPfrmission; bny bttfmpt to
+     * instbntibtf sudi b subdlbss witiout tiis pfrmission will dbusf b
+     * SfdurityExdfption to bf tirown.
+     *
+     * @rfturn  rfffrfndf to dfsfriblizfd objfdt
+     * @tirows  ClbssNotFoundExdfption if dlbss of bn objfdt to dfsfriblizf
+     *          dbnnot bf found
+     * @tirows  StrfbmCorruptfdExdfption if dontrol informbtion in tif strfbm
+     *          is indonsistfnt
+     * @tirows  ObjfdtStrfbmExdfption if objfdt to dfsfriblizf ibs blrfbdy
+     *          bppfbrfd in strfbm
+     * @tirows  OptionblDbtbExdfption if primitivf dbtb is nfxt in strfbm
+     * @tirows  IOExdfption if bn I/O frror oddurs during dfsfriblizbtion
+     * @sindf   1.4
+     */
+    publid Objfdt rfbdUnsibrfd() tirows IOExdfption, ClbssNotFoundExdfption {
+        // if nfstfd rfbd, pbssHbndlf dontbins ibndlf of fndlosing objfdt
+        int outfrHbndlf = pbssHbndlf;
+        try {
+            Objfdt obj = rfbdObjfdt0(truf);
+            ibndlfs.mbrkDfpfndfndy(outfrHbndlf, pbssHbndlf);
+            ClbssNotFoundExdfption fx = ibndlfs.lookupExdfption(pbssHbndlf);
+            if (fx != null) {
+                tirow fx;
+            }
+            if (dfpti == 0) {
+                vlist.doCbllbbdks();
+            }
+            rfturn obj;
+        } finblly {
+            pbssHbndlf = outfrHbndlf;
+            if (dlosfd && dfpti == 0) {
+                dlfbr();
+            }
+        }
+    }
+
+    /**
+     * Rfbd tif non-stbtid bnd non-trbnsifnt fiflds of tif durrfnt dlbss from
+     * tiis strfbm.  Tiis mby only bf dbllfd from tif rfbdObjfdt mftiod of tif
+     * dlbss bfing dfsfriblizfd. It will tirow tif NotAdtivfExdfption if it is
+     * dbllfd otifrwisf.
+     *
+     * @tirows  ClbssNotFoundExdfption if tif dlbss of b sfriblizfd objfdt
+     *          dould not bf found.
+     * @tirows  IOExdfption if bn I/O frror oddurs.
+     * @tirows  NotAdtivfExdfption if tif strfbm is not durrfntly rfbding
+     *          objfdts.
+     */
+    publid void dffbultRfbdObjfdt()
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        SfriblCbllbbdkContfxt dtx = durContfxt;
+        if (dtx == null) {
+            tirow nfw NotAdtivfExdfption("not in dbll to rfbdObjfdt");
+        }
+        Objfdt durObj = dtx.gftObj();
+        ObjfdtStrfbmClbss durDfsd = dtx.gftDfsd();
+        bin.sftBlodkDbtbModf(fblsf);
+        dffbultRfbdFiflds(durObj, durDfsd);
+        bin.sftBlodkDbtbModf(truf);
+        if (!durDfsd.ibsWritfObjfdtDbtb()) {
+            /*
+             * Fix for 4360508: sindf strfbm dofs not dontbin tfrminbting
+             * TC_ENDBLOCKDATA tbg, sft flbg so tibt rfbding dodf flsfwifrf
+             * knows to simulbtf fnd-of-dustom-dbtb bfibvior.
+             */
+            dffbultDbtbEnd = truf;
+        }
+        ClbssNotFoundExdfption fx = ibndlfs.lookupExdfption(pbssHbndlf);
+        if (fx != null) {
+            tirow fx;
+        }
+    }
+
+    /**
+     * Rfbds tif pfrsistfnt fiflds from tif strfbm bnd mbkfs tifm bvbilbblf by
+     * nbmf.
+     *
+     * @rfturn  tif <dodf>GftFifld</dodf> objfdt rfprfsfnting tif pfrsistfnt
+     *          fiflds of tif objfdt bfing dfsfriblizfd
+     * @tirows  ClbssNotFoundExdfption if tif dlbss of b sfriblizfd objfdt
+     *          dould not bf found.
+     * @tirows  IOExdfption if bn I/O frror oddurs.
+     * @tirows  NotAdtivfExdfption if tif strfbm is not durrfntly rfbding
+     *          objfdts.
+     * @sindf 1.2
+     */
+    publid ObjfdtInputStrfbm.GftFifld rfbdFiflds()
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        SfriblCbllbbdkContfxt dtx = durContfxt;
+        if (dtx == null) {
+            tirow nfw NotAdtivfExdfption("not in dbll to rfbdObjfdt");
+        }
+        dtx.difdkAndSftUsfd();
+        ObjfdtStrfbmClbss durDfsd = dtx.gftDfsd();
+        bin.sftBlodkDbtbModf(fblsf);
+        GftFifldImpl gftFifld = nfw GftFifldImpl(durDfsd);
+        gftFifld.rfbdFiflds();
+        bin.sftBlodkDbtbModf(truf);
+        if (!durDfsd.ibsWritfObjfdtDbtb()) {
+            /*
+             * Fix for 4360508: sindf strfbm dofs not dontbin tfrminbting
+             * TC_ENDBLOCKDATA tbg, sft flbg so tibt rfbding dodf flsfwifrf
+             * knows to simulbtf fnd-of-dustom-dbtb bfibvior.
+             */
+            dffbultDbtbEnd = truf;
+        }
+
+        rfturn gftFifld;
+    }
+
+    /**
+     * Rfgistfr bn objfdt to bf vblidbtfd bfforf tif grbpi is rfturnfd.  Wiilf
+     * similbr to rfsolvfObjfdt tifsf vblidbtions brf dbllfd bftfr tif fntirf
+     * grbpi ibs bffn rfdonstitutfd.  Typidblly, b rfbdObjfdt mftiod will
+     * rfgistfr tif objfdt witi tif strfbm so tibt wifn bll of tif objfdts brf
+     * rfstorfd b finbl sft of vblidbtions dbn bf pfrformfd.
+     *
+     * @pbrbm   obj tif objfdt to rfdfivf tif vblidbtion dbllbbdk.
+     * @pbrbm   prio dontrols tif ordfr of dbllbbdks;zfro is b good dffbult.
+     *          Usf iigifr numbfrs to bf dbllfd bbdk fbrlifr, lowfr numbfrs for
+     *          lbtfr dbllbbdks. Witiin b priority, dbllbbdks brf prodfssfd in
+     *          no pbrtidulbr ordfr.
+     * @tirows  NotAdtivfExdfption Tif strfbm is not durrfntly rfbding objfdts
+     *          so it is invblid to rfgistfr b dbllbbdk.
+     * @tirows  InvblidObjfdtExdfption Tif vblidbtion objfdt is null.
+     */
+    publid void rfgistfrVblidbtion(ObjfdtInputVblidbtion obj, int prio)
+        tirows NotAdtivfExdfption, InvblidObjfdtExdfption
+    {
+        if (dfpti == 0) {
+            tirow nfw NotAdtivfExdfption("strfbm inbdtivf");
+        }
+        vlist.rfgistfr(obj, prio);
+    }
+
+    /**
+     * Lobd tif lodbl dlbss fquivblfnt of tif spfdififd strfbm dlbss
+     * dfsdription.  Subdlbssfs mby implfmfnt tiis mftiod to bllow dlbssfs to
+     * bf fftdifd from bn bltfrnbtf sourdf.
+     *
+     * <p>Tif dorrfsponding mftiod in <dodf>ObjfdtOutputStrfbm</dodf> is
+     * <dodf>bnnotbtfClbss</dodf>.  Tiis mftiod will bf invokfd only ondf for
+     * fbdi uniquf dlbss in tif strfbm.  Tiis mftiod dbn bf implfmfntfd by
+     * subdlbssfs to usf bn bltfrnbtf lobding mfdibnism but must rfturn b
+     * <dodf>Clbss</dodf> objfdt. Ondf rfturnfd, if tif dlbss is not bn brrby
+     * dlbss, its sfriblVfrsionUID is dompbrfd to tif sfriblVfrsionUID of tif
+     * sfriblizfd dlbss, bnd if tifrf is b mismbtdi, tif dfsfriblizbtion fbils
+     * bnd bn {@link InvblidClbssExdfption} is tirown.
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod in
+     * <dodf>ObjfdtInputStrfbm</dodf> rfturns tif rfsult of dblling
+     * <prf>
+     *     Clbss.forNbmf(dfsd.gftNbmf(), fblsf, lobdfr)
+     * </prf>
+     * wifrf <dodf>lobdfr</dodf> is dftfrminfd bs follows: if tifrf is b
+     * mftiod on tif durrfnt tirfbd's stbdk wiosf dfdlbring dlbss wbs
+     * dffinfd by b usfr-dffinfd dlbss lobdfr (bnd wbs not b gfnfrbtfd to
+     * implfmfnt rfflfdtivf invodbtions), tifn <dodf>lobdfr</dodf> is dlbss
+     * lobdfr dorrfsponding to tif dlosfst sudi mftiod to tif durrfntly
+     * fxfduting frbmf; otifrwisf, <dodf>lobdfr</dodf> is
+     * <dodf>null</dodf>. If tiis dbll rfsults in b
+     * <dodf>ClbssNotFoundExdfption</dodf> bnd tif nbmf of tif pbssfd
+     * <dodf>ObjfdtStrfbmClbss</dodf> instbndf is tif Jbvb lbngubgf kfyword
+     * for b primitivf typf or void, tifn tif <dodf>Clbss</dodf> objfdt
+     * rfprfsfnting tibt primitivf typf or void will bf rfturnfd
+     * (f.g., bn <dodf>ObjfdtStrfbmClbss</dodf> witi tif nbmf
+     * <dodf>"int"</dodf> will bf rfsolvfd to <dodf>Intfgfr.TYPE</dodf>).
+     * Otifrwisf, tif <dodf>ClbssNotFoundExdfption</dodf> will bf tirown to
+     * tif dbllfr of tiis mftiod.
+     *
+     * @pbrbm   dfsd bn instbndf of dlbss <dodf>ObjfdtStrfbmClbss</dodf>
+     * @rfturn  b <dodf>Clbss</dodf> objfdt dorrfsponding to <dodf>dfsd</dodf>
+     * @tirows  IOExdfption bny of tif usubl Input/Output fxdfptions.
+     * @tirows  ClbssNotFoundExdfption if dlbss of b sfriblizfd objfdt dbnnot
+     *          bf found.
+     */
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dfsd)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        String nbmf = dfsd.gftNbmf();
+        try {
+            rfturn Clbss.forNbmf(nbmf, fblsf, lbtfstUsfrDffinfdLobdfr());
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            Clbss<?> dl = primClbssfs.gft(nbmf);
+            if (dl != null) {
+                rfturn dl;
+            } flsf {
+                tirow fx;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b proxy dlbss tibt implfmfnts tif intfrfbdfs nbmfd in b proxy
+     * dlbss dfsdriptor; subdlbssfs mby implfmfnt tiis mftiod to rfbd dustom
+     * dbtb from tif strfbm blong witi tif dfsdriptors for dynbmid proxy
+     * dlbssfs, bllowing tifm to usf bn bltfrnbtf lobding mfdibnism for tif
+     * intfrfbdfs bnd tif proxy dlbss.
+     *
+     * <p>Tiis mftiod is dbllfd fxbdtly ondf for fbdi uniquf proxy dlbss
+     * dfsdriptor in tif strfbm.
+     *
+     * <p>Tif dorrfsponding mftiod in <dodf>ObjfdtOutputStrfbm</dodf> is
+     * <dodf>bnnotbtfProxyClbss</dodf>.  For b givfn subdlbss of
+     * <dodf>ObjfdtInputStrfbm</dodf> tibt ovfrridfs tiis mftiod, tif
+     * <dodf>bnnotbtfProxyClbss</dodf> mftiod in tif dorrfsponding subdlbss of
+     * <dodf>ObjfdtOutputStrfbm</dodf> must writf bny dbtb or objfdts rfbd by
+     * tiis mftiod.
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod in
+     * <dodf>ObjfdtInputStrfbm</dodf> rfturns tif rfsult of dblling
+     * <dodf>Proxy.gftProxyClbss</dodf> witi tif list of <dodf>Clbss</dodf>
+     * objfdts for tif intfrfbdfs tibt brf nbmfd in tif <dodf>intfrfbdfs</dodf>
+     * pbrbmftfr.  Tif <dodf>Clbss</dodf> objfdt for fbdi intfrfbdf nbmf
+     * <dodf>i</dodf> is tif vbluf rfturnfd by dblling
+     * <prf>
+     *     Clbss.forNbmf(i, fblsf, lobdfr)
+     * </prf>
+     * wifrf <dodf>lobdfr</dodf> is tibt of tif first non-<dodf>null</dodf>
+     * dlbss lobdfr up tif fxfdution stbdk, or <dodf>null</dodf> if no
+     * non-<dodf>null</dodf> dlbss lobdfrs brf on tif stbdk (tif sbmf dlbss
+     * lobdfr dioidf usfd by tif <dodf>rfsolvfClbss</dodf> mftiod).  Unlfss bny
+     * of tif rfsolvfd intfrfbdfs brf non-publid, tiis sbmf vbluf of
+     * <dodf>lobdfr</dodf> is blso tif dlbss lobdfr pbssfd to
+     * <dodf>Proxy.gftProxyClbss</dodf>; if non-publid intfrfbdfs brf prfsfnt,
+     * tifir dlbss lobdfr is pbssfd instfbd (if morf tibn onf non-publid
+     * intfrfbdf dlbss lobdfr is fndountfrfd, bn
+     * <dodf>IllfgblAddfssError</dodf> is tirown).
+     * If <dodf>Proxy.gftProxyClbss</dodf> tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf>, <dodf>rfsolvfProxyClbss</dodf>
+     * will tirow b <dodf>ClbssNotFoundExdfption</dodf> dontbining tif
+     * <dodf>IllfgblArgumfntExdfption</dodf>.
+     *
+     * @pbrbm intfrfbdfs tif list of intfrfbdf nbmfs tibt wfrf
+     *                dfsfriblizfd in tif proxy dlbss dfsdriptor
+     * @rfturn  b proxy dlbss for tif spfdififd intfrfbdfs
+     * @tirows        IOExdfption bny fxdfption tirown by tif undfrlying
+     *                <dodf>InputStrfbm</dodf>
+     * @tirows        ClbssNotFoundExdfption if tif proxy dlbss or bny of tif
+     *                nbmfd intfrfbdfs dould not bf found
+     * @sff ObjfdtOutputStrfbm#bnnotbtfProxyClbss(Clbss)
+     * @sindf 1.3
+     */
+    protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        ClbssLobdfr lbtfstLobdfr = lbtfstUsfrDffinfdLobdfr();
+        ClbssLobdfr nonPublidLobdfr = null;
+        boolfbn ibsNonPublidIntfrfbdf = fblsf;
+
+        // dffinf proxy in dlbss lobdfr of non-publid intfrfbdf(s), if bny
+        Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfs.lfngti];
+        for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+            Clbss<?> dl = Clbss.forNbmf(intfrfbdfs[i], fblsf, lbtfstLobdfr);
+            if ((dl.gftModififrs() & Modififr.PUBLIC) == 0) {
+                if (ibsNonPublidIntfrfbdf) {
+                    if (nonPublidLobdfr != dl.gftClbssLobdfr()) {
+                        tirow nfw IllfgblAddfssError(
+                            "donflidting non-publid intfrfbdf dlbss lobdfrs");
+                    }
+                } flsf {
+                    nonPublidLobdfr = dl.gftClbssLobdfr();
+                    ibsNonPublidIntfrfbdf = truf;
+                }
+            }
+            dlbssObjs[i] = dl;
+        }
+        try {
+            rfturn Proxy.gftProxyClbss(
+                ibsNonPublidIntfrfbdf ? nonPublidLobdfr : lbtfstLobdfr,
+                dlbssObjs);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw ClbssNotFoundExdfption(null, f);
+        }
+    }
+
+    /**
+     * Tiis mftiod will bllow trustfd subdlbssfs of ObjfdtInputStrfbm to
+     * substitutf onf objfdt for bnotifr during dfsfriblizbtion. Rfplbding
+     * objfdts is disbblfd until fnbblfRfsolvfObjfdt is dbllfd. Tif
+     * fnbblfRfsolvfObjfdt mftiod difdks tibt tif strfbm rfqufsting to rfsolvf
+     * objfdt dbn bf trustfd. Evfry rfffrfndf to sfriblizbblf objfdts is pbssfd
+     * to rfsolvfObjfdt.  To insurf tibt tif privbtf stbtf of objfdts is not
+     * unintfntionblly fxposfd only trustfd strfbms mby usf rfsolvfObjfdt.
+     *
+     * <p>Tiis mftiod is dbllfd bftfr bn objfdt ibs bffn rfbd but bfforf it is
+     * rfturnfd from rfbdObjfdt.  Tif dffbult rfsolvfObjfdt mftiod just rfturns
+     * tif sbmf objfdt.
+     *
+     * <p>Wifn b subdlbss is rfplbding objfdts it must insurf tibt tif
+     * substitutfd objfdt is dompbtiblf witi fvfry fifld wifrf tif rfffrfndf
+     * will bf storfd.  Objfdts wiosf typf is not b subdlbss of tif typf of tif
+     * fifld or brrby flfmfnt bbort tif sfriblizbtion by rbising bn fxdfption
+     * bnd tif objfdt is not bf storfd.
+     *
+     * <p>Tiis mftiod is dbllfd only ondf wifn fbdi objfdt is first
+     * fndountfrfd.  All subsfqufnt rfffrfndfs to tif objfdt will bf rfdirfdtfd
+     * to tif nfw objfdt.
+     *
+     * @pbrbm   obj objfdt to bf substitutfd
+     * @rfturn  tif substitutfd objfdt
+     * @tirows  IOExdfption Any of tif usubl Input/Output fxdfptions.
+     */
+    protfdtfd Objfdt rfsolvfObjfdt(Objfdt obj) tirows IOExdfption {
+        rfturn obj;
+    }
+
+    /**
+     * Enbblf tif strfbm to bllow objfdts rfbd from tif strfbm to bf rfplbdfd.
+     * Wifn fnbblfd, tif rfsolvfObjfdt mftiod is dbllfd for fvfry objfdt bfing
+     * dfsfriblizfd.
+     *
+     * <p>If <i>fnbblf</i> is truf, bnd tifrf is b sfdurity mbnbgfr instbllfd,
+     * tiis mftiod first dblls tif sfdurity mbnbgfr's
+     * <dodf>difdkPfrmission</dodf> mftiod witi tif
+     * <dodf>SfriblizbblfPfrmission("fnbblfSubstitution")</dodf> pfrmission to
+     * fnsurf it's ok to fnbblf tif strfbm to bllow objfdts rfbd from tif
+     * strfbm to bf rfplbdfd.
+     *
+     * @pbrbm   fnbblf truf for fnbbling usf of <dodf>rfsolvfObjfdt</dodf> for
+     *          fvfry objfdt bfing dfsfriblizfd
+     * @rfturn  tif prfvious sftting bfforf tiis mftiod wbs invokfd
+     * @tirows  SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>difdkPfrmission</dodf> mftiod dfnifs fnbbling tif strfbm
+     *          to bllow objfdts rfbd from tif strfbm to bf rfplbdfd.
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.io.SfriblizbblfPfrmission
+     */
+    protfdtfd boolfbn fnbblfRfsolvfObjfdt(boolfbn fnbblf)
+        tirows SfdurityExdfption
+    {
+        if (fnbblf == fnbblfRfsolvf) {
+            rfturn fnbblf;
+        }
+        if (fnbblf) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.difdkPfrmission(SUBSTITUTION_PERMISSION);
+            }
+        }
+        fnbblfRfsolvf = fnbblf;
+        rfturn !fnbblfRfsolvf;
+    }
+
+    /**
+     * Tif rfbdStrfbmHfbdfr mftiod is providfd to bllow subdlbssfs to rfbd bnd
+     * vfrify tifir own strfbm ifbdfrs. It rfbds bnd vfrififs tif mbgid numbfr
+     * bnd vfrsion numbfr.
+     *
+     * @tirows  IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+     *          undfrlying <dodf>InputStrfbm</dodf>
+     * @tirows  StrfbmCorruptfdExdfption if dontrol informbtion in tif strfbm
+     *          is indonsistfnt
+     */
+    protfdtfd void rfbdStrfbmHfbdfr()
+        tirows IOExdfption, StrfbmCorruptfdExdfption
+    {
+        siort s0 = bin.rfbdSiort();
+        siort s1 = bin.rfbdSiort();
+        if (s0 != STREAM_MAGIC || s1 != STREAM_VERSION) {
+            tirow nfw StrfbmCorruptfdExdfption(
+                String.formbt("invblid strfbm ifbdfr: %04X%04X", s0, s1));
+        }
+    }
+
+    /**
+     * Rfbd b dlbss dfsdriptor from tif sfriblizbtion strfbm.  Tiis mftiod is
+     * dbllfd wifn tif ObjfdtInputStrfbm fxpfdts b dlbss dfsdriptor bs tif nfxt
+     * itfm in tif sfriblizbtion strfbm.  Subdlbssfs of ObjfdtInputStrfbm mby
+     * ovfrridf tiis mftiod to rfbd in dlbss dfsdriptors tibt ibvf bffn writtfn
+     * in non-stbndbrd formbts (by subdlbssfs of ObjfdtOutputStrfbm wiidi ibvf
+     * ovfrriddfn tif <dodf>writfClbssDfsdriptor</dodf> mftiod).  By dffbult,
+     * tiis mftiod rfbds dlbss dfsdriptors bddording to tif formbt dffinfd in
+     * tif Objfdt Sfriblizbtion spfdifidbtion.
+     *
+     * @rfturn  tif dlbss dfsdriptor rfbd
+     * @tirows  IOExdfption If bn I/O frror ibs oddurrfd.
+     * @tirows  ClbssNotFoundExdfption If tif Clbss of b sfriblizfd objfdt usfd
+     *          in tif dlbss dfsdriptor rfprfsfntbtion dbnnot bf found
+     * @sff jbvb.io.ObjfdtOutputStrfbm#writfClbssDfsdriptor(jbvb.io.ObjfdtStrfbmClbss)
+     * @sindf 1.3
+     */
+    protfdtfd ObjfdtStrfbmClbss rfbdClbssDfsdriptor()
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        ObjfdtStrfbmClbss dfsd = nfw ObjfdtStrfbmClbss();
+        dfsd.rfbdNonProxy(tiis);
+        rfturn dfsd;
+    }
+
+    /**
+     * Rfbds b bytf of dbtb. Tiis mftiod will blodk if no input is bvbilbblf.
+     *
+     * @rfturn  tif bytf rfbd, or -1 if tif fnd of tif strfbm is rfbdifd.
+     * @tirows  IOExdfption If bn I/O frror ibs oddurrfd.
+     */
+    publid int rfbd() tirows IOExdfption {
+        rfturn bin.rfbd();
+    }
+
+    /**
+     * Rfbds into bn brrby of bytfs.  Tiis mftiod will blodk until somf input
+     * is bvbilbblf. Considfr using jbvb.io.DbtbInputStrfbm.rfbdFully to rfbd
+     * fxbdtly 'lfngti' bytfs.
+     *
+     * @pbrbm   buf tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm   off tif stbrt offsft of tif dbtb
+     * @pbrbm   lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn  tif bdtubl numbfr of bytfs rfbd, -1 is rfturnfd wifn tif fnd of
+     *          tif strfbm is rfbdifd.
+     * @tirows  IOExdfption If bn I/O frror ibs oddurrfd.
+     * @sff jbvb.io.DbtbInputStrfbm#rfbdFully(bytf[],int,int)
+     */
+    publid int rfbd(bytf[] buf, int off, int lfn) tirows IOExdfption {
+        if (buf == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        int fndoff = off + lfn;
+        if (off < 0 || lfn < 0 || fndoff > buf.lfngti || fndoff < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+        rfturn bin.rfbd(buf, off, lfn, fblsf);
+    }
+
+    /**
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd witiout blodking.
+     *
+     * @rfturn  tif numbfr of bvbilbblf bytfs.
+     * @tirows  IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+     *          undfrlying <dodf>InputStrfbm</dodf>
+     */
+    publid int bvbilbblf() tirows IOExdfption {
+        rfturn bin.bvbilbblf();
+    }
+
+    /**
+     * Closfs tif input strfbm. Must bf dbllfd to rflfbsf bny rfsourdfs
+     * bssodibtfd witi tif strfbm.
+     *
+     * @tirows  IOExdfption If bn I/O frror ibs oddurrfd.
+     */
+    publid void dlosf() tirows IOExdfption {
+        /*
+         * Evfn if strfbm blrfbdy dlosfd, propbgbtf rfdundbnt dlosf to
+         * undfrlying strfbm to stby donsistfnt witi prfvious implfmfntbtions.
+         */
+        dlosfd = truf;
+        if (dfpti == 0) {
+            dlfbr();
+        }
+        bin.dlosf();
+    }
+
+    /**
+     * Rfbds in b boolfbn.
+     *
+     * @rfturn  tif boolfbn rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+        rfturn bin.rfbdBoolfbn();
+    }
+
+    /**
+     * Rfbds bn 8 bit bytf.
+     *
+     * @rfturn  tif 8 bit bytf rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid bytf rfbdBytf() tirows IOExdfption  {
+        rfturn bin.rfbdBytf();
+    }
+
+    /**
+     * Rfbds bn unsignfd 8 bit bytf.
+     *
+     * @rfturn  tif 8 bit bytf rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid int rfbdUnsignfdBytf()  tirows IOExdfption {
+        rfturn bin.rfbdUnsignfdBytf();
+    }
+
+    /**
+     * Rfbds b 16 bit dibr.
+     *
+     * @rfturn  tif 16 bit dibr rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid dibr rfbdCibr()  tirows IOExdfption {
+        rfturn bin.rfbdCibr();
+    }
+
+    /**
+     * Rfbds b 16 bit siort.
+     *
+     * @rfturn  tif 16 bit siort rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid siort rfbdSiort()  tirows IOExdfption {
+        rfturn bin.rfbdSiort();
+    }
+
+    /**
+     * Rfbds bn unsignfd 16 bit siort.
+     *
+     * @rfturn  tif 16 bit siort rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+        rfturn bin.rfbdUnsignfdSiort();
+    }
+
+    /**
+     * Rfbds b 32 bit int.
+     *
+     * @rfturn  tif 32 bit intfgfr rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid int rfbdInt()  tirows IOExdfption {
+        rfturn bin.rfbdInt();
+    }
+
+    /**
+     * Rfbds b 64 bit long.
+     *
+     * @rfturn  tif rfbd 64 bit long.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid long rfbdLong()  tirows IOExdfption {
+        rfturn bin.rfbdLong();
+    }
+
+    /**
+     * Rfbds b 32 bit flobt.
+     *
+     * @rfturn  tif 32 bit flobt rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid flobt rfbdFlobt() tirows IOExdfption {
+        rfturn bin.rfbdFlobt();
+    }
+
+    /**
+     * Rfbds b 64 bit doublf.
+     *
+     * @rfturn  tif 64 bit doublf rfbd.
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid doublf rfbdDoublf() tirows IOExdfption {
+        rfturn bin.rfbdDoublf();
+    }
+
+    /**
+     * Rfbds bytfs, blodking until bll bytfs brf rfbd.
+     *
+     * @pbrbm   buf tif bufffr into wiidi tif dbtb is rfbd
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid void rfbdFully(bytf[] buf) tirows IOExdfption {
+        bin.rfbdFully(buf, 0, buf.lfngti, fblsf);
+    }
+
+    /**
+     * Rfbds bytfs, blodking until bll bytfs brf rfbd.
+     *
+     * @pbrbm   buf tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm   off tif stbrt offsft of tif dbtb
+     * @pbrbm   lfn tif mbximum numbfr of bytfs to rfbd
+     * @tirows  EOFExdfption If fnd of filf is rfbdifd.
+     * @tirows  IOExdfption If otifr I/O frror ibs oddurrfd.
+     */
+    publid void rfbdFully(bytf[] buf, int off, int lfn) tirows IOExdfption {
+        int fndoff = off + lfn;
+        if (off < 0 || lfn < 0 || fndoff > buf.lfngti || fndoff < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+        bin.rfbdFully(buf, off, lfn, fblsf);
+    }
+
+    /**
+     * Skips bytfs.
+     *
+     * @pbrbm   lfn tif numbfr of bytfs to bf skippfd
+     * @rfturn  tif bdtubl numbfr of bytfs skippfd.
+     * @tirows  IOExdfption If bn I/O frror ibs oddurrfd.
+     */
+    publid int skipBytfs(int lfn) tirows IOExdfption {
+        rfturn bin.skipBytfs(lfn);
+    }
+
+    /**
+     * Rfbds in b linf tibt ibs bffn tfrminbtfd by b \n, \r, \r\n or EOF.
+     *
+     * @rfturn  b String dopy of tif linf.
+     * @tirows  IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+     *          undfrlying <dodf>InputStrfbm</dodf>
+     * @dfprfdbtfd Tiis mftiod dofs not propfrly donvfrt bytfs to dibrbdtfrs.
+     *          sff DbtbInputStrfbm for tif dftbils bnd bltfrnbtivfs.
+     */
+    @Dfprfdbtfd
+    publid String rfbdLinf() tirows IOExdfption {
+        rfturn bin.rfbdLinf();
+    }
+
+    /**
+     * Rfbds b String in
+     * <b irff="DbtbInput.itml#modififd-utf-8">modififd UTF-8</b>
+     * formbt.
+     *
+     * @rfturn  tif String.
+     * @tirows  IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+     *          undfrlying <dodf>InputStrfbm</dodf>
+     * @tirows  UTFDbtbFormbtExdfption if rfbd bytfs do not rfprfsfnt b vblid
+     *          modififd UTF-8 fndoding of b string
+     */
+    publid String rfbdUTF() tirows IOExdfption {
+        rfturn bin.rfbdUTF();
+    }
+
+    /**
+     * Providf bddfss to tif pfrsistfnt fiflds rfbd from tif input strfbm.
+     */
+    publid stbtid bbstrbdt dlbss GftFifld {
+
+        /**
+         * Gft tif ObjfdtStrfbmClbss tibt dfsdribfs tif fiflds in tif strfbm.
+         *
+         * @rfturn  tif dfsdriptor dlbss tibt dfsdribfs tif sfriblizbblf fiflds
+         */
+        publid bbstrbdt ObjfdtStrfbmClbss gftObjfdtStrfbmClbss();
+
+        /**
+         * Rfturn truf if tif nbmfd fifld is dffbultfd bnd ibs no vbluf in tiis
+         * strfbm.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @rfturn truf, if bnd only if tif nbmfd fifld is dffbultfd
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from
+         *         tif undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> dofs not
+         *         dorrfspond to b sfriblizbblf fifld
+         */
+        publid bbstrbdt boolfbn dffbultfd(String nbmf) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd boolfbn fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>boolfbn</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt boolfbn gft(String nbmf, boolfbn vbl)
+            tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd bytf fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>bytf</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt bytf gft(String nbmf, bytf vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd dibr fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>dibr</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt dibr gft(String nbmf, dibr vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd siort fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>siort</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt siort gft(String nbmf, siort vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd int fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>int</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt int gft(String nbmf, int vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd long fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>long</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt long gft(String nbmf, long vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd flobt fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>flobt</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt flobt gft(String nbmf, flobt vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd doublf fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>doublf</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt doublf gft(String nbmf, doublf vbl) tirows IOExdfption;
+
+        /**
+         * Gft tif vbluf of tif nbmfd Objfdt fifld from tif pfrsistfnt fifld.
+         *
+         * @pbrbm  nbmf tif nbmf of tif fifld
+         * @pbrbm  vbl tif dffbult vbluf to usf if <dodf>nbmf</dodf> dofs not
+         *         ibvf b vbluf
+         * @rfturn tif vbluf of tif nbmfd <dodf>Objfdt</dodf> fifld
+         * @tirows IOExdfption if tifrf brf I/O frrors wiilf rfbding from tif
+         *         undfrlying <dodf>InputStrfbm</dodf>
+         * @tirows IllfgblArgumfntExdfption if typf of <dodf>nbmf</dodf> is
+         *         not sfriblizbblf or if tif fifld typf is indorrfdt
+         */
+        publid bbstrbdt Objfdt gft(String nbmf, Objfdt vbl) tirows IOExdfption;
+    }
+
+    /**
+     * Vfrififs tibt tiis (possibly subdlbss) instbndf dbn bf donstrudtfd
+     * witiout violbting sfdurity donstrbints: tif subdlbss must not ovfrridf
+     * sfdurity-sfnsitivf non-finbl mftiods, or flsf tif
+     * "fnbblfSubdlbssImplfmfntbtion" SfriblizbblfPfrmission is difdkfd.
+     */
+    privbtf void vfrifySubdlbss() {
+        Clbss<?> dl = gftClbss();
+        if (dl == ObjfdtInputStrfbm.dlbss) {
+            rfturn;
+        }
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            rfturn;
+        }
+        prodfssQufuf(Cbdifs.subdlbssAuditsQufuf, Cbdifs.subdlbssAudits);
+        WfbkClbssKfy kfy = nfw WfbkClbssKfy(dl, Cbdifs.subdlbssAuditsQufuf);
+        Boolfbn rfsult = Cbdifs.subdlbssAudits.gft(kfy);
+        if (rfsult == null) {
+            rfsult = Boolfbn.vblufOf(buditSubdlbss(dl));
+            Cbdifs.subdlbssAudits.putIfAbsfnt(kfy, rfsult);
+        }
+        if (rfsult.boolfbnVbluf()) {
+            rfturn;
+        }
+        sm.difdkPfrmission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+    }
+
+    /**
+     * Pfrforms rfflfdtivf difdks on givfn subdlbss to vfrify tibt it dofsn't
+     * ovfrridf sfdurity-sfnsitivf non-finbl mftiods.  Rfturns truf if subdlbss
+     * is "sbff", fblsf otifrwisf.
+     */
+    privbtf stbtid boolfbn buditSubdlbss(finbl Clbss<?> subdl) {
+        Boolfbn rfsult = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    for (Clbss<?> dl = subdl;
+                         dl != ObjfdtInputStrfbm.dlbss;
+                         dl = dl.gftSupfrdlbss())
+                    {
+                        try {
+                            dl.gftDfdlbrfdMftiod(
+                                "rfbdUnsibrfd", (Clbss[]) null);
+                            rfturn Boolfbn.FALSE;
+                        } dbtdi (NoSudiMftiodExdfption fx) {
+                        }
+                        try {
+                            dl.gftDfdlbrfdMftiod("rfbdFiflds", (Clbss[]) null);
+                            rfturn Boolfbn.FALSE;
+                        } dbtdi (NoSudiMftiodExdfption fx) {
+                        }
+                    }
+                    rfturn Boolfbn.TRUE;
+                }
+            }
+        );
+        rfturn rfsult.boolfbnVbluf();
+    }
+
+    /**
+     * Clfbrs intfrnbl dbtb strudturfs.
+     */
+    privbtf void dlfbr() {
+        ibndlfs.dlfbr();
+        vlist.dlfbr();
+    }
+
+    /**
+     * Undfrlying rfbdObjfdt implfmfntbtion.
+     */
+    privbtf Objfdt rfbdObjfdt0(boolfbn unsibrfd) tirows IOExdfption {
+        boolfbn oldModf = bin.gftBlodkDbtbModf();
+        if (oldModf) {
+            int rfmbin = bin.durrfntBlodkRfmbining();
+            if (rfmbin > 0) {
+                tirow nfw OptionblDbtbExdfption(rfmbin);
+            } flsf if (dffbultDbtbEnd) {
+                /*
+                 * Fix for 4360508: strfbm is durrfntly bt tif fnd of b fifld
+                 * vbluf blodk writtfn vib dffbult sfriblizbtion; sindf tifrf
+                 * is no tfrminbting TC_ENDBLOCKDATA tbg, simulbtf
+                 * fnd-of-dustom-dbtb bfibvior fxpliditly.
+                 */
+                tirow nfw OptionblDbtbExdfption(truf);
+            }
+            bin.sftBlodkDbtbModf(fblsf);
+        }
+
+        bytf td;
+        wiilf ((td = bin.pffkBytf()) == TC_RESET) {
+            bin.rfbdBytf();
+            ibndlfRfsft();
+        }
+
+        dfpti++;
+        try {
+            switdi (td) {
+                dbsf TC_NULL:
+                    rfturn rfbdNull();
+
+                dbsf TC_REFERENCE:
+                    rfturn rfbdHbndlf(unsibrfd);
+
+                dbsf TC_CLASS:
+                    rfturn rfbdClbss(unsibrfd);
+
+                dbsf TC_CLASSDESC:
+                dbsf TC_PROXYCLASSDESC:
+                    rfturn rfbdClbssDfsd(unsibrfd);
+
+                dbsf TC_STRING:
+                dbsf TC_LONGSTRING:
+                    rfturn difdkRfsolvf(rfbdString(unsibrfd));
+
+                dbsf TC_ARRAY:
+                    rfturn difdkRfsolvf(rfbdArrby(unsibrfd));
+
+                dbsf TC_ENUM:
+                    rfturn difdkRfsolvf(rfbdEnum(unsibrfd));
+
+                dbsf TC_OBJECT:
+                    rfturn difdkRfsolvf(rfbdOrdinbryObjfdt(unsibrfd));
+
+                dbsf TC_EXCEPTION:
+                    IOExdfption fx = rfbdFbtblExdfption();
+                    tirow nfw WritfAbortfdExdfption("writing bbortfd", fx);
+
+                dbsf TC_BLOCKDATA:
+                dbsf TC_BLOCKDATALONG:
+                    if (oldModf) {
+                        bin.sftBlodkDbtbModf(truf);
+                        bin.pffk();             // fordf ifbdfr rfbd
+                        tirow nfw OptionblDbtbExdfption(
+                            bin.durrfntBlodkRfmbining());
+                    } flsf {
+                        tirow nfw StrfbmCorruptfdExdfption(
+                            "unfxpfdtfd blodk dbtb");
+                    }
+
+                dbsf TC_ENDBLOCKDATA:
+                    if (oldModf) {
+                        tirow nfw OptionblDbtbExdfption(truf);
+                    } flsf {
+                        tirow nfw StrfbmCorruptfdExdfption(
+                            "unfxpfdtfd fnd of blodk dbtb");
+                    }
+
+                dffbult:
+                    tirow nfw StrfbmCorruptfdExdfption(
+                        String.formbt("invblid typf dodf: %02X", td));
+            }
+        } finblly {
+            dfpti--;
+            bin.sftBlodkDbtbModf(oldModf);
+        }
+    }
+
+    /**
+     * If rfsolvfObjfdt ibs bffn fnbblfd bnd givfn objfdt dofs not ibvf bn
+     * fxdfption bssodibtfd witi it, dblls rfsolvfObjfdt to dftfrminf
+     * rfplbdfmfnt for objfdt, bnd updbtfs ibndlf tbblf bddordingly.  Rfturns
+     * rfplbdfmfnt objfdt, or fdiofs providfd objfdt if no rfplbdfmfnt
+     * oddurrfd.  Expfdts tibt pbssHbndlf is sft to givfn objfdt's ibndlf prior
+     * to dblling tiis mftiod.
+     */
+    privbtf Objfdt difdkRfsolvf(Objfdt obj) tirows IOExdfption {
+        if (!fnbblfRfsolvf || ibndlfs.lookupExdfption(pbssHbndlf) != null) {
+            rfturn obj;
+        }
+        Objfdt rfp = rfsolvfObjfdt(obj);
+        if (rfp != obj) {
+            ibndlfs.sftObjfdt(pbssHbndlf, rfp);
+        }
+        rfturn rfp;
+    }
+
+    /**
+     * Rfbds string witiout bllowing it to bf rfplbdfd in strfbm.  Cbllfd from
+     * witiin ObjfdtStrfbmClbss.rfbd().
+     */
+    String rfbdTypfString() tirows IOExdfption {
+        int oldHbndlf = pbssHbndlf;
+        try {
+            bytf td = bin.pffkBytf();
+            switdi (td) {
+                dbsf TC_NULL:
+                    rfturn (String) rfbdNull();
+
+                dbsf TC_REFERENCE:
+                    rfturn (String) rfbdHbndlf(fblsf);
+
+                dbsf TC_STRING:
+                dbsf TC_LONGSTRING:
+                    rfturn rfbdString(fblsf);
+
+                dffbult:
+                    tirow nfw StrfbmCorruptfdExdfption(
+                        String.formbt("invblid typf dodf: %02X", td));
+            }
+        } finblly {
+            pbssHbndlf = oldHbndlf;
+        }
+    }
+
+    /**
+     * Rfbds in null dodf, sfts pbssHbndlf to NULL_HANDLE bnd rfturns null.
+     */
+    privbtf Objfdt rfbdNull() tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_NULL) {
+            tirow nfw IntfrnblError();
+        }
+        pbssHbndlf = NULL_HANDLE;
+        rfturn null;
+    }
+
+    /**
+     * Rfbds in objfdt ibndlf, sfts pbssHbndlf to tif rfbd ibndlf, bnd rfturns
+     * objfdt bssodibtfd witi tif ibndlf.
+     */
+    privbtf Objfdt rfbdHbndlf(boolfbn unsibrfd) tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_REFERENCE) {
+            tirow nfw IntfrnblError();
+        }
+        pbssHbndlf = bin.rfbdInt() - bbsfWirfHbndlf;
+        if (pbssHbndlf < 0 || pbssHbndlf >= ibndlfs.sizf()) {
+            tirow nfw StrfbmCorruptfdExdfption(
+                String.formbt("invblid ibndlf vbluf: %08X", pbssHbndlf +
+                bbsfWirfHbndlf));
+        }
+        if (unsibrfd) {
+            // REMIND: wibt typf of fxdfption to tirow ifrf?
+            tirow nfw InvblidObjfdtExdfption(
+                "dbnnot rfbd bbdk rfffrfndf bs unsibrfd");
+        }
+
+        Objfdt obj = ibndlfs.lookupObjfdt(pbssHbndlf);
+        if (obj == unsibrfdMbrkfr) {
+            // REMIND: wibt typf of fxdfption to tirow ifrf?
+            tirow nfw InvblidObjfdtExdfption(
+                "dbnnot rfbd bbdk rfffrfndf to unsibrfd objfdt");
+        }
+        rfturn obj;
+    }
+
+    /**
+     * Rfbds in bnd rfturns dlbss objfdt.  Sfts pbssHbndlf to dlbss objfdt's
+     * bssignfd ibndlf.  Rfturns null if dlbss is unrfsolvbblf (in wiidi dbsf b
+     * ClbssNotFoundExdfption will bf bssodibtfd witi tif dlbss' ibndlf in tif
+     * ibndlf tbblf).
+     */
+    privbtf Clbss<?> rfbdClbss(boolfbn unsibrfd) tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_CLASS) {
+            tirow nfw IntfrnblError();
+        }
+        ObjfdtStrfbmClbss dfsd = rfbdClbssDfsd(fblsf);
+        Clbss<?> dl = dfsd.forClbss();
+        pbssHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : dl);
+
+        ClbssNotFoundExdfption rfsolvfEx = dfsd.gftRfsolvfExdfption();
+        if (rfsolvfEx != null) {
+            ibndlfs.mbrkExdfption(pbssHbndlf, rfsolvfEx);
+        }
+
+        ibndlfs.finisi(pbssHbndlf);
+        rfturn dl;
+    }
+
+    /**
+     * Rfbds in bnd rfturns (possibly null) dlbss dfsdriptor.  Sfts pbssHbndlf
+     * to dlbss dfsdriptor's bssignfd ibndlf.  If dlbss dfsdriptor dbnnot bf
+     * rfsolvfd to b dlbss in tif lodbl VM, b ClbssNotFoundExdfption is
+     * bssodibtfd witi tif dlbss dfsdriptor's ibndlf.
+     */
+    privbtf ObjfdtStrfbmClbss rfbdClbssDfsd(boolfbn unsibrfd)
+        tirows IOExdfption
+    {
+        bytf td = bin.pffkBytf();
+        switdi (td) {
+            dbsf TC_NULL:
+                rfturn (ObjfdtStrfbmClbss) rfbdNull();
+
+            dbsf TC_REFERENCE:
+                rfturn (ObjfdtStrfbmClbss) rfbdHbndlf(unsibrfd);
+
+            dbsf TC_PROXYCLASSDESC:
+                rfturn rfbdProxyDfsd(unsibrfd);
+
+            dbsf TC_CLASSDESC:
+                rfturn rfbdNonProxyDfsd(unsibrfd);
+
+            dffbult:
+                tirow nfw StrfbmCorruptfdExdfption(
+                    String.formbt("invblid typf dodf: %02X", td));
+        }
+    }
+
+    privbtf boolfbn isCustomSubdlbss() {
+        // Rfturn truf if tiis dlbss is b dustom subdlbss of ObjfdtInputStrfbm
+        rfturn gftClbss().gftClbssLobdfr()
+                    != ObjfdtInputStrfbm.dlbss.gftClbssLobdfr();
+    }
+
+    /**
+     * Rfbds in bnd rfturns dlbss dfsdriptor for b dynbmid proxy dlbss.  Sfts
+     * pbssHbndlf to proxy dlbss dfsdriptor's bssignfd ibndlf.  If proxy dlbss
+     * dfsdriptor dbnnot bf rfsolvfd to b dlbss in tif lodbl VM, b
+     * ClbssNotFoundExdfption is bssodibtfd witi tif dfsdriptor's ibndlf.
+     */
+    privbtf ObjfdtStrfbmClbss rfbdProxyDfsd(boolfbn unsibrfd)
+        tirows IOExdfption
+    {
+        if (bin.rfbdBytf() != TC_PROXYCLASSDESC) {
+            tirow nfw IntfrnblError();
+        }
+
+        ObjfdtStrfbmClbss dfsd = nfw ObjfdtStrfbmClbss();
+        int dfsdHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : dfsd);
+        pbssHbndlf = NULL_HANDLE;
+
+        int numIfbdfs = bin.rfbdInt();
+        String[] ifbdfs = nfw String[numIfbdfs];
+        for (int i = 0; i < numIfbdfs; i++) {
+            ifbdfs[i] = bin.rfbdUTF();
+        }
+
+        Clbss<?> dl = null;
+        ClbssNotFoundExdfption rfsolvfEx = null;
+        bin.sftBlodkDbtbModf(truf);
+        try {
+            if ((dl = rfsolvfProxyClbss(ifbdfs)) == null) {
+                rfsolvfEx = nfw ClbssNotFoundExdfption("null dlbss");
+            } flsf if (!Proxy.isProxyClbss(dl)) {
+                tirow nfw InvblidClbssExdfption("Not b proxy");
+            } flsf {
+                // RfflfdtUtil.difdkProxyPbdkbgfAddfss mbkfs b tfst
+                // fquivblfnt to isCustomSubdlbss so tifrf's no nffd
+                // to dondition tiis dbll to isCustomSubdlbss == truf ifrf.
+                RfflfdtUtil.difdkProxyPbdkbgfAddfss(
+                        gftClbss().gftClbssLobdfr(),
+                        dl.gftIntfrfbdfs());
+            }
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            rfsolvfEx = fx;
+        }
+        skipCustomDbtb();
+
+        dfsd.initProxy(dl, rfsolvfEx, rfbdClbssDfsd(fblsf));
+
+        ibndlfs.finisi(dfsdHbndlf);
+        pbssHbndlf = dfsdHbndlf;
+        rfturn dfsd;
+    }
+
+    /**
+     * Rfbds in bnd rfturns dlbss dfsdriptor for b dlbss tibt is not b dynbmid
+     * proxy dlbss.  Sfts pbssHbndlf to dlbss dfsdriptor's bssignfd ibndlf.  If
+     * dlbss dfsdriptor dbnnot bf rfsolvfd to b dlbss in tif lodbl VM, b
+     * ClbssNotFoundExdfption is bssodibtfd witi tif dfsdriptor's ibndlf.
+     */
+    privbtf ObjfdtStrfbmClbss rfbdNonProxyDfsd(boolfbn unsibrfd)
+        tirows IOExdfption
+    {
+        if (bin.rfbdBytf() != TC_CLASSDESC) {
+            tirow nfw IntfrnblError();
+        }
+
+        ObjfdtStrfbmClbss dfsd = nfw ObjfdtStrfbmClbss();
+        int dfsdHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : dfsd);
+        pbssHbndlf = NULL_HANDLE;
+
+        ObjfdtStrfbmClbss rfbdDfsd;
+        try {
+            rfbdDfsd = rfbdClbssDfsdriptor();
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            tirow (IOExdfption) nfw InvblidClbssExdfption(
+                "fbilfd to rfbd dlbss dfsdriptor").initCbusf(fx);
+        }
+
+        Clbss<?> dl = null;
+        ClbssNotFoundExdfption rfsolvfEx = null;
+        bin.sftBlodkDbtbModf(truf);
+        finbl boolfbn difdksRfquirfd = isCustomSubdlbss();
+        try {
+            if ((dl = rfsolvfClbss(rfbdDfsd)) == null) {
+                rfsolvfEx = nfw ClbssNotFoundExdfption("null dlbss");
+            } flsf if (difdksRfquirfd) {
+                RfflfdtUtil.difdkPbdkbgfAddfss(dl);
+            }
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            rfsolvfEx = fx;
+        }
+        skipCustomDbtb();
+
+        dfsd.initNonProxy(rfbdDfsd, dl, rfsolvfEx, rfbdClbssDfsd(fblsf));
+
+        ibndlfs.finisi(dfsdHbndlf);
+        pbssHbndlf = dfsdHbndlf;
+        rfturn dfsd;
+    }
+
+    /**
+     * Rfbds in bnd rfturns nfw string.  Sfts pbssHbndlf to nfw string's
+     * bssignfd ibndlf.
+     */
+    privbtf String rfbdString(boolfbn unsibrfd) tirows IOExdfption {
+        String str;
+        bytf td = bin.rfbdBytf();
+        switdi (td) {
+            dbsf TC_STRING:
+                str = bin.rfbdUTF();
+                brfbk;
+
+            dbsf TC_LONGSTRING:
+                str = bin.rfbdLongUTF();
+                brfbk;
+
+            dffbult:
+                tirow nfw StrfbmCorruptfdExdfption(
+                    String.formbt("invblid typf dodf: %02X", td));
+        }
+        pbssHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : str);
+        ibndlfs.finisi(pbssHbndlf);
+        rfturn str;
+    }
+
+    /**
+     * Rfbds in bnd rfturns brrby objfdt, or null if brrby dlbss is
+     * unrfsolvbblf.  Sfts pbssHbndlf to brrby's bssignfd ibndlf.
+     */
+    privbtf Objfdt rfbdArrby(boolfbn unsibrfd) tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_ARRAY) {
+            tirow nfw IntfrnblError();
+        }
+
+        ObjfdtStrfbmClbss dfsd = rfbdClbssDfsd(fblsf);
+        int lfn = bin.rfbdInt();
+
+        Objfdt brrby = null;
+        Clbss<?> dl, ddl = null;
+        if ((dl = dfsd.forClbss()) != null) {
+            ddl = dl.gftComponfntTypf();
+            brrby = Arrby.nfwInstbndf(ddl, lfn);
+        }
+
+        int brrbyHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : brrby);
+        ClbssNotFoundExdfption rfsolvfEx = dfsd.gftRfsolvfExdfption();
+        if (rfsolvfEx != null) {
+            ibndlfs.mbrkExdfption(brrbyHbndlf, rfsolvfEx);
+        }
+
+        if (ddl == null) {
+            for (int i = 0; i < lfn; i++) {
+                rfbdObjfdt0(fblsf);
+            }
+        } flsf if (ddl.isPrimitivf()) {
+            if (ddl == Intfgfr.TYPE) {
+                bin.rfbdInts((int[]) brrby, 0, lfn);
+            } flsf if (ddl == Bytf.TYPE) {
+                bin.rfbdFully((bytf[]) brrby, 0, lfn, truf);
+            } flsf if (ddl == Long.TYPE) {
+                bin.rfbdLongs((long[]) brrby, 0, lfn);
+            } flsf if (ddl == Flobt.TYPE) {
+                bin.rfbdFlobts((flobt[]) brrby, 0, lfn);
+            } flsf if (ddl == Doublf.TYPE) {
+                bin.rfbdDoublfs((doublf[]) brrby, 0, lfn);
+            } flsf if (ddl == Siort.TYPE) {
+                bin.rfbdSiorts((siort[]) brrby, 0, lfn);
+            } flsf if (ddl == Cibrbdtfr.TYPE) {
+                bin.rfbdCibrs((dibr[]) brrby, 0, lfn);
+            } flsf if (ddl == Boolfbn.TYPE) {
+                bin.rfbdBoolfbns((boolfbn[]) brrby, 0, lfn);
+            } flsf {
+                tirow nfw IntfrnblError();
+            }
+        } flsf {
+            Objfdt[] ob = (Objfdt[]) brrby;
+            for (int i = 0; i < lfn; i++) {
+                ob[i] = rfbdObjfdt0(fblsf);
+                ibndlfs.mbrkDfpfndfndy(brrbyHbndlf, pbssHbndlf);
+            }
+        }
+
+        ibndlfs.finisi(brrbyHbndlf);
+        pbssHbndlf = brrbyHbndlf;
+        rfturn brrby;
+    }
+
+    /**
+     * Rfbds in bnd rfturns fnum donstbnt, or null if fnum typf is
+     * unrfsolvbblf.  Sfts pbssHbndlf to fnum donstbnt's bssignfd ibndlf.
+     */
+    privbtf Enum<?> rfbdEnum(boolfbn unsibrfd) tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_ENUM) {
+            tirow nfw IntfrnblError();
+        }
+
+        ObjfdtStrfbmClbss dfsd = rfbdClbssDfsd(fblsf);
+        if (!dfsd.isEnum()) {
+            tirow nfw InvblidClbssExdfption("non-fnum dlbss: " + dfsd);
+        }
+
+        int fnumHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : null);
+        ClbssNotFoundExdfption rfsolvfEx = dfsd.gftRfsolvfExdfption();
+        if (rfsolvfEx != null) {
+            ibndlfs.mbrkExdfption(fnumHbndlf, rfsolvfEx);
+        }
+
+        String nbmf = rfbdString(fblsf);
+        Enum<?> rfsult = null;
+        Clbss<?> dl = dfsd.forClbss();
+        if (dl != null) {
+            try {
+                @SupprfssWbrnings("undifdkfd")
+                Enum<?> fn = Enum.vblufOf((Clbss)dl, nbmf);
+                rfsult = fn;
+            } dbtdi (IllfgblArgumfntExdfption fx) {
+                tirow (IOExdfption) nfw InvblidObjfdtExdfption(
+                    "fnum donstbnt " + nbmf + " dofs not fxist in " +
+                    dl).initCbusf(fx);
+            }
+            if (!unsibrfd) {
+                ibndlfs.sftObjfdt(fnumHbndlf, rfsult);
+            }
+        }
+
+        ibndlfs.finisi(fnumHbndlf);
+        pbssHbndlf = fnumHbndlf;
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfbds bnd rfturns "ordinbry" (i.f., not b String, Clbss,
+     * ObjfdtStrfbmClbss, brrby, or fnum donstbnt) objfdt, or null if objfdt's
+     * dlbss is unrfsolvbblf (in wiidi dbsf b ClbssNotFoundExdfption will bf
+     * bssodibtfd witi objfdt's ibndlf).  Sfts pbssHbndlf to objfdt's bssignfd
+     * ibndlf.
+     */
+    privbtf Objfdt rfbdOrdinbryObjfdt(boolfbn unsibrfd)
+        tirows IOExdfption
+    {
+        if (bin.rfbdBytf() != TC_OBJECT) {
+            tirow nfw IntfrnblError();
+        }
+
+        ObjfdtStrfbmClbss dfsd = rfbdClbssDfsd(fblsf);
+        dfsd.difdkDfsfriblizf();
+
+        Clbss<?> dl = dfsd.forClbss();
+        if (dl == String.dlbss || dl == Clbss.dlbss
+                || dl == ObjfdtStrfbmClbss.dlbss) {
+            tirow nfw InvblidClbssExdfption("invblid dlbss dfsdriptor");
+        }
+
+        Objfdt obj;
+        try {
+            obj = dfsd.isInstbntibblf() ? dfsd.nfwInstbndf() : null;
+        } dbtdi (Exdfption fx) {
+            tirow (IOExdfption) nfw InvblidClbssExdfption(
+                dfsd.forClbss().gftNbmf(),
+                "unbblf to drfbtf instbndf").initCbusf(fx);
+        }
+
+        pbssHbndlf = ibndlfs.bssign(unsibrfd ? unsibrfdMbrkfr : obj);
+        ClbssNotFoundExdfption rfsolvfEx = dfsd.gftRfsolvfExdfption();
+        if (rfsolvfEx != null) {
+            ibndlfs.mbrkExdfption(pbssHbndlf, rfsolvfEx);
+        }
+
+        if (dfsd.isExtfrnblizbblf()) {
+            rfbdExtfrnblDbtb((Extfrnblizbblf) obj, dfsd);
+        } flsf {
+            rfbdSfriblDbtb(obj, dfsd);
+        }
+
+        ibndlfs.finisi(pbssHbndlf);
+
+        if (obj != null &&
+            ibndlfs.lookupExdfption(pbssHbndlf) == null &&
+            dfsd.ibsRfbdRfsolvfMftiod())
+        {
+            Objfdt rfp = dfsd.invokfRfbdRfsolvf(obj);
+            if (unsibrfd && rfp.gftClbss().isArrby()) {
+                rfp = dlonfArrby(rfp);
+            }
+            if (rfp != obj) {
+                ibndlfs.sftObjfdt(pbssHbndlf, obj = rfp);
+            }
+        }
+
+        rfturn obj;
+    }
+
+    /**
+     * If obj is non-null, rfbds fxtfrnblizbblf dbtb by invoking rfbdExtfrnbl()
+     * mftiod of obj; otifrwisf, bttfmpts to skip ovfr fxtfrnblizbblf dbtb.
+     * Expfdts tibt pbssHbndlf is sft to obj's ibndlf bfforf tiis mftiod is
+     * dbllfd.
+     */
+    privbtf void rfbdExtfrnblDbtb(Extfrnblizbblf obj, ObjfdtStrfbmClbss dfsd)
+        tirows IOExdfption
+    {
+        SfriblCbllbbdkContfxt oldContfxt = durContfxt;
+        durContfxt = null;
+        try {
+            boolfbn blodkfd = dfsd.ibsBlodkExtfrnblDbtb();
+            if (blodkfd) {
+                bin.sftBlodkDbtbModf(truf);
+            }
+            if (obj != null) {
+                try {
+                    obj.rfbdExtfrnbl(tiis);
+                } dbtdi (ClbssNotFoundExdfption fx) {
+                    /*
+                     * In most dbsfs, tif ibndlf tbblf ibs blrfbdy propbgbtfd
+                     * b CNFExdfption to pbssHbndlf bt tiis point; tiis mbrk
+                     * dbll is indludfd to bddrfss dbsfs wifrf tif rfbdExtfrnbl
+                     * mftiod ibs dons'fd bnd tirown b nfw CNFExdfption of its
+                     * own.
+                     */
+                     ibndlfs.mbrkExdfption(pbssHbndlf, fx);
+                }
+            }
+            if (blodkfd) {
+                skipCustomDbtb();
+            }
+        } finblly {
+            durContfxt = oldContfxt;
+        }
+        /*
+         * At tiis point, if tif fxtfrnblizbblf dbtb wbs not writtfn in
+         * blodk-dbtb form bnd fitifr tif fxtfrnblizbblf dlbss dofsn't fxist
+         * lodblly (i.f., obj == null) or rfbdExtfrnbl() just tirfw b
+         * CNFExdfption, tifn tif strfbm is probbbly in bn indonsistfnt stbtf,
+         * sindf somf (or bll) of tif fxtfrnblizbblf dbtb mby not ibvf bffn
+         * donsumfd.  Sindf tifrf's no "dorrfdt" bdtion to tbkf in tiis dbsf,
+         * wf mimid tif bfibvior of pbst sfriblizbtion implfmfntbtions bnd
+         * blindly iopf tibt tif strfbm is in synd; if it isn't bnd bdditionbl
+         * fxtfrnblizbblf dbtb rfmbins in tif strfbm, b subsfqufnt rfbd will
+         * most likfly tirow b StrfbmCorruptfdExdfption.
+         */
+    }
+
+    /**
+     * Rfbds (or bttfmpts to skip, if obj is null or is tbggfd witi b
+     * ClbssNotFoundExdfption) instbndf dbtb for fbdi sfriblizbblf dlbss of
+     * objfdt in strfbm, from supfrdlbss to subdlbss.  Expfdts tibt pbssHbndlf
+     * is sft to obj's ibndlf bfforf tiis mftiod is dbllfd.
+     */
+    privbtf void rfbdSfriblDbtb(Objfdt obj, ObjfdtStrfbmClbss dfsd)
+        tirows IOExdfption
+    {
+        ObjfdtStrfbmClbss.ClbssDbtbSlot[] slots = dfsd.gftClbssDbtbLbyout();
+        for (int i = 0; i < slots.lfngti; i++) {
+            ObjfdtStrfbmClbss slotDfsd = slots[i].dfsd;
+
+            if (slots[i].ibsDbtb) {
+                if (obj != null &&
+                    slotDfsd.ibsRfbdObjfdtMftiod() &&
+                    ibndlfs.lookupExdfption(pbssHbndlf) == null)
+                {
+                    SfriblCbllbbdkContfxt oldContfxt = durContfxt;
+
+                    try {
+                        durContfxt = nfw SfriblCbllbbdkContfxt(obj, slotDfsd);
+
+                        bin.sftBlodkDbtbModf(truf);
+                        slotDfsd.invokfRfbdObjfdt(obj, tiis);
+                    } dbtdi (ClbssNotFoundExdfption fx) {
+                        /*
+                         * In most dbsfs, tif ibndlf tbblf ibs blrfbdy
+                         * propbgbtfd b CNFExdfption to pbssHbndlf bt tiis
+                         * point; tiis mbrk dbll is indludfd to bddrfss dbsfs
+                         * wifrf tif dustom rfbdObjfdt mftiod ibs dons'fd bnd
+                         * tirown b nfw CNFExdfption of its own.
+                         */
+                        ibndlfs.mbrkExdfption(pbssHbndlf, fx);
+                    } finblly {
+                        durContfxt.sftUsfd();
+                        durContfxt = oldContfxt;
+                    }
+
+                    /*
+                     * dffbultDbtbEnd mby ibvf bffn sft indirfdtly by dustom
+                     * rfbdObjfdt() mftiod wifn dblling dffbultRfbdObjfdt() or
+                     * rfbdFiflds(); dlfbr it to rfstorf normbl rfbd bfibvior.
+                     */
+                    dffbultDbtbEnd = fblsf;
+                } flsf {
+                    dffbultRfbdFiflds(obj, slotDfsd);
+                }
+                if (slotDfsd.ibsWritfObjfdtDbtb()) {
+                    skipCustomDbtb();
+                } flsf {
+                    bin.sftBlodkDbtbModf(fblsf);
+                }
+            } flsf {
+                if (obj != null &&
+                    slotDfsd.ibsRfbdObjfdtNoDbtbMftiod() &&
+                    ibndlfs.lookupExdfption(pbssHbndlf) == null)
+                {
+                    slotDfsd.invokfRfbdObjfdtNoDbtb(obj);
+                }
+            }
+        }
+    }
+
+    /**
+     * Skips ovfr bll blodk dbtb bnd objfdts until TC_ENDBLOCKDATA is
+     * fndountfrfd.
+     */
+    privbtf void skipCustomDbtb() tirows IOExdfption {
+        int oldHbndlf = pbssHbndlf;
+        for (;;) {
+            if (bin.gftBlodkDbtbModf()) {
+                bin.skipBlodkDbtb();
+                bin.sftBlodkDbtbModf(fblsf);
+            }
+            switdi (bin.pffkBytf()) {
+                dbsf TC_BLOCKDATA:
+                dbsf TC_BLOCKDATALONG:
+                    bin.sftBlodkDbtbModf(truf);
+                    brfbk;
+
+                dbsf TC_ENDBLOCKDATA:
+                    bin.rfbdBytf();
+                    pbssHbndlf = oldHbndlf;
+                    rfturn;
+
+                dffbult:
+                    rfbdObjfdt0(fblsf);
+                    brfbk;
+            }
+        }
+    }
+
+    /**
+     * Rfbds in vblufs of sfriblizbblf fiflds dfdlbrfd by givfn dlbss
+     * dfsdriptor.  If obj is non-null, sfts fifld vblufs in obj.  Expfdts tibt
+     * pbssHbndlf is sft to obj's ibndlf bfforf tiis mftiod is dbllfd.
+     */
+    privbtf void dffbultRfbdFiflds(Objfdt obj, ObjfdtStrfbmClbss dfsd)
+        tirows IOExdfption
+    {
+        Clbss<?> dl = dfsd.forClbss();
+        if (dl != null && obj != null && !dl.isInstbndf(obj)) {
+            tirow nfw ClbssCbstExdfption();
+        }
+
+        int primDbtbSizf = dfsd.gftPrimDbtbSizf();
+        if (primDbtbSizf > 0) {
+            if (primVbls == null || primVbls.lfngti < primDbtbSizf) {
+                primVbls = nfw bytf[primDbtbSizf];
+            }
+            bin.rfbdFully(primVbls, 0, primDbtbSizf, fblsf);
+            if (obj != null) {
+                dfsd.sftPrimFifldVblufs(obj, primVbls);
+            }
+        }
+
+        int numObjFiflds = dfsd.gftNumObjFiflds();
+        if (numObjFiflds > 0) {
+            int objHbndlf = pbssHbndlf;
+            ObjfdtStrfbmFifld[] fiflds = dfsd.gftFiflds(fblsf);
+            Objfdt[] objVbls = nfw Objfdt[numObjFiflds];
+            int numPrimFiflds = fiflds.lfngti - objVbls.lfngti;
+            for (int i = 0; i < objVbls.lfngti; i++) {
+                ObjfdtStrfbmFifld f = fiflds[numPrimFiflds + i];
+                objVbls[i] = rfbdObjfdt0(f.isUnsibrfd());
+                if (f.gftFifld() != null) {
+                    ibndlfs.mbrkDfpfndfndy(objHbndlf, pbssHbndlf);
+                }
+            }
+            if (obj != null) {
+                dfsd.sftObjFifldVblufs(obj, objVbls);
+            }
+            pbssHbndlf = objHbndlf;
+        }
+    }
+
+    /**
+     * Rfbds in bnd rfturns IOExdfption tibt dbusfd sfriblizbtion to bbort.
+     * All strfbm stbtf is disdbrdfd prior to rfbding in fbtbl fxdfption.  Sfts
+     * pbssHbndlf to fbtbl fxdfption's ibndlf.
+     */
+    privbtf IOExdfption rfbdFbtblExdfption() tirows IOExdfption {
+        if (bin.rfbdBytf() != TC_EXCEPTION) {
+            tirow nfw IntfrnblError();
+        }
+        dlfbr();
+        rfturn (IOExdfption) rfbdObjfdt0(fblsf);
+    }
+
+    /**
+     * If rfdursion dfpti is 0, dlfbrs intfrnbl dbtb strudturfs; otifrwisf,
+     * tirows b StrfbmCorruptfdExdfption.  Tiis mftiod is dbllfd wifn b
+     * TC_RESET typfdodf is fndountfrfd.
+     */
+    privbtf void ibndlfRfsft() tirows StrfbmCorruptfdExdfption {
+        if (dfpti > 0) {
+            tirow nfw StrfbmCorruptfdExdfption(
+                "unfxpfdtfd rfsft; rfdursion dfpti: " + dfpti);
+        }
+        dlfbr();
+    }
+
+    /**
+     * Convfrts spfdififd spbn of bytfs into flobt vblufs.
+     */
+    // REMIND: rfmovf ondf iotspot inlinfs Flobt.intBitsToFlobt
+    privbtf stbtid nbtivf void bytfsToFlobts(bytf[] srd, int srdpos,
+                                             flobt[] dst, int dstpos,
+                                             int nflobts);
+
+    /**
+     * Convfrts spfdififd spbn of bytfs into doublf vblufs.
+     */
+    // REMIND: rfmovf ondf iotspot inlinfs Doublf.longBitsToDoublf
+    privbtf stbtid nbtivf void bytfsToDoublfs(bytf[] srd, int srdpos,
+                                              doublf[] dst, int dstpos,
+                                              int ndoublfs);
+
+    /**
+     * Rfturns tif first non-null dlbss lobdfr (not dounting dlbss lobdfrs of
+     * gfnfrbtfd rfflfdtion implfmfntbtion dlbssfs) up tif fxfdution stbdk, or
+     * null if only dodf from tif null dlbss lobdfr is on tif stbdk.  Tiis
+     * mftiod is blso dbllfd vib rfflfdtion by tif following RMI-IIOP dlbss:
+     *
+     *     dom.sun.dorbb.sf.intfrnbl.util.JDKClbssLobdfr
+     *
+     * Tiis mftiod siould not bf rfmovfd or its signbturf dibngfd witiout
+     * dorrfsponding modifidbtions to tif bbovf dlbss.
+     */
+    privbtf stbtid ClbssLobdfr lbtfstUsfrDffinfdLobdfr() {
+        rfturn sun.misd.VM.lbtfstUsfrDffinfdLobdfr();
+    }
+
+    /**
+     * Dffbult GftFifld implfmfntbtion.
+     */
+    privbtf dlbss GftFifldImpl fxtfnds GftFifld {
+
+        /** dlbss dfsdriptor dfsdribing sfriblizbblf fiflds */
+        privbtf finbl ObjfdtStrfbmClbss dfsd;
+        /** primitivf fifld vblufs */
+        privbtf finbl bytf[] primVbls;
+        /** objfdt fifld vblufs */
+        privbtf finbl Objfdt[] objVbls;
+        /** objfdt fifld vbluf ibndlfs */
+        privbtf finbl int[] objHbndlfs;
+
+        /**
+         * Crfbtfs GftFifldImpl objfdt for rfbding fiflds dffinfd in givfn
+         * dlbss dfsdriptor.
+         */
+        GftFifldImpl(ObjfdtStrfbmClbss dfsd) {
+            tiis.dfsd = dfsd;
+            primVbls = nfw bytf[dfsd.gftPrimDbtbSizf()];
+            objVbls = nfw Objfdt[dfsd.gftNumObjFiflds()];
+            objHbndlfs = nfw int[objVbls.lfngti];
+        }
+
+        publid ObjfdtStrfbmClbss gftObjfdtStrfbmClbss() {
+            rfturn dfsd;
+        }
+
+        publid boolfbn dffbultfd(String nbmf) tirows IOExdfption {
+            rfturn (gftFifldOffsft(nbmf, null) < 0);
+        }
+
+        publid boolfbn gft(String nbmf, boolfbn vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Boolfbn.TYPE);
+            rfturn (off >= 0) ? Bits.gftBoolfbn(primVbls, off) : vbl;
+        }
+
+        publid bytf gft(String nbmf, bytf vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Bytf.TYPE);
+            rfturn (off >= 0) ? primVbls[off] : vbl;
+        }
+
+        publid dibr gft(String nbmf, dibr vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Cibrbdtfr.TYPE);
+            rfturn (off >= 0) ? Bits.gftCibr(primVbls, off) : vbl;
+        }
+
+        publid siort gft(String nbmf, siort vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Siort.TYPE);
+            rfturn (off >= 0) ? Bits.gftSiort(primVbls, off) : vbl;
+        }
+
+        publid int gft(String nbmf, int vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Intfgfr.TYPE);
+            rfturn (off >= 0) ? Bits.gftInt(primVbls, off) : vbl;
+        }
+
+        publid flobt gft(String nbmf, flobt vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Flobt.TYPE);
+            rfturn (off >= 0) ? Bits.gftFlobt(primVbls, off) : vbl;
+        }
+
+        publid long gft(String nbmf, long vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Long.TYPE);
+            rfturn (off >= 0) ? Bits.gftLong(primVbls, off) : vbl;
+        }
+
+        publid doublf gft(String nbmf, doublf vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Doublf.TYPE);
+            rfturn (off >= 0) ? Bits.gftDoublf(primVbls, off) : vbl;
+        }
+
+        publid Objfdt gft(String nbmf, Objfdt vbl) tirows IOExdfption {
+            int off = gftFifldOffsft(nbmf, Objfdt.dlbss);
+            if (off >= 0) {
+                int objHbndlf = objHbndlfs[off];
+                ibndlfs.mbrkDfpfndfndy(pbssHbndlf, objHbndlf);
+                rfturn (ibndlfs.lookupExdfption(objHbndlf) == null) ?
+                    objVbls[off] : null;
+            } flsf {
+                rfturn vbl;
+            }
+        }
+
+        /**
+         * Rfbds primitivf bnd objfdt fifld vblufs from strfbm.
+         */
+        void rfbdFiflds() tirows IOExdfption {
+            bin.rfbdFully(primVbls, 0, primVbls.lfngti, fblsf);
+
+            int oldHbndlf = pbssHbndlf;
+            ObjfdtStrfbmFifld[] fiflds = dfsd.gftFiflds(fblsf);
+            int numPrimFiflds = fiflds.lfngti - objVbls.lfngti;
+            for (int i = 0; i < objVbls.lfngti; i++) {
+                objVbls[i] =
+                    rfbdObjfdt0(fiflds[numPrimFiflds + i].isUnsibrfd());
+                objHbndlfs[i] = pbssHbndlf;
+            }
+            pbssHbndlf = oldHbndlf;
+        }
+
+        /**
+         * Rfturns offsft of fifld witi givfn nbmf bnd typf.  A spfdififd typf
+         * of null mbtdifs bll typfs, Objfdt.dlbss mbtdifs bll non-primitivf
+         * typfs, bnd bny otifr non-null typf mbtdifs bssignbblf typfs only.
+         * If no mbtdiing fifld is found in tif (indoming) dlbss
+         * dfsdriptor but b mbtdiing fifld is prfsfnt in tif bssodibtfd lodbl
+         * dlbss dfsdriptor, rfturns -1.  Tirows IllfgblArgumfntExdfption if
+         * nfitifr indoming nor lodbl dlbss dfsdriptor dontbins b mbtdi.
+         */
+        privbtf int gftFifldOffsft(String nbmf, Clbss<?> typf) {
+            ObjfdtStrfbmFifld fifld = dfsd.gftFifld(nbmf, typf);
+            if (fifld != null) {
+                rfturn fifld.gftOffsft();
+            } flsf if (dfsd.gftLodblDfsd().gftFifld(nbmf, typf) != null) {
+                rfturn -1;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("no sudi fifld " + nbmf +
+                                                   " witi typf " + typf);
+            }
+        }
+    }
+
+    /**
+     * Prioritizfd list of dbllbbdks to bf pfrformfd ondf objfdt grbpi ibs bffn
+     * domplftfly dfsfriblizfd.
+     */
+    privbtf stbtid dlbss VblidbtionList {
+
+        privbtf stbtid dlbss Cbllbbdk {
+            finbl ObjfdtInputVblidbtion obj;
+            finbl int priority;
+            Cbllbbdk nfxt;
+            finbl AddfssControlContfxt bdd;
+
+            Cbllbbdk(ObjfdtInputVblidbtion obj, int priority, Cbllbbdk nfxt,
+                AddfssControlContfxt bdd)
+            {
+                tiis.obj = obj;
+                tiis.priority = priority;
+                tiis.nfxt = nfxt;
+                tiis.bdd = bdd;
+            }
+        }
+
+        /** linkfd list of dbllbbdks */
+        privbtf Cbllbbdk list;
+
+        /**
+         * Crfbtfs nfw (fmpty) VblidbtionList.
+         */
+        VblidbtionList() {
+        }
+
+        /**
+         * Rfgistfrs dbllbbdk.  Tirows InvblidObjfdtExdfption if dbllbbdk
+         * objfdt is null.
+         */
+        void rfgistfr(ObjfdtInputVblidbtion obj, int priority)
+            tirows InvblidObjfdtExdfption
+        {
+            if (obj == null) {
+                tirow nfw InvblidObjfdtExdfption("null dbllbbdk");
+            }
+
+            Cbllbbdk prfv = null, dur = list;
+            wiilf (dur != null && priority < dur.priority) {
+                prfv = dur;
+                dur = dur.nfxt;
+            }
+            AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+            if (prfv != null) {
+                prfv.nfxt = nfw Cbllbbdk(obj, priority, dur, bdd);
+            } flsf {
+                list = nfw Cbllbbdk(obj, priority, list, bdd);
+            }
+        }
+
+        /**
+         * Invokfs bll rfgistfrfd dbllbbdks bnd dlfbrs tif dbllbbdk list.
+         * Cbllbbdks witi iigifr prioritifs brf dbllfd first; tiosf witi fqubl
+         * prioritifs mby bf dbllfd in bny ordfr.  If bny of tif dbllbbdks
+         * tirows bn InvblidObjfdtExdfption, tif dbllbbdk prodfss is tfrminbtfd
+         * bnd tif fxdfption propbgbtfd upwbrds.
+         */
+        void doCbllbbdks() tirows InvblidObjfdtExdfption {
+            try {
+                wiilf (list != null) {
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<Void>()
+                    {
+                        publid Void run() tirows InvblidObjfdtExdfption {
+                            list.obj.vblidbtfObjfdt();
+                            rfturn null;
+                        }
+                    }, list.bdd);
+                    list = list.nfxt;
+                }
+            } dbtdi (PrivilfgfdAdtionExdfption fx) {
+                list = null;
+                tirow (InvblidObjfdtExdfption) fx.gftExdfption();
+            }
+        }
+
+        /**
+         * Rfsfts tif dbllbbdk list to its initibl (fmpty) stbtf.
+         */
+        publid void dlfbr() {
+            list = null;
+        }
+    }
+
+    /**
+     * Input strfbm supporting singlf-bytf pffk opfrbtions.
+     */
+    privbtf stbtid dlbss PffkInputStrfbm fxtfnds InputStrfbm {
+
+        /** undfrlying strfbm */
+        privbtf finbl InputStrfbm in;
+        /** pffkfd bytf */
+        privbtf int pffkb = -1;
+
+        /**
+         * Crfbtfs nfw PffkInputStrfbm on top of givfn undfrlying strfbm.
+         */
+        PffkInputStrfbm(InputStrfbm in) {
+            tiis.in = in;
+        }
+
+        /**
+         * Pffks bt nfxt bytf vbluf in strfbm.  Similbr to rfbd(), fxdfpt
+         * tibt it dofs not donsumf tif rfbd vbluf.
+         */
+        int pffk() tirows IOExdfption {
+            rfturn (pffkb >= 0) ? pffkb : (pffkb = in.rfbd());
+        }
+
+        publid int rfbd() tirows IOExdfption {
+            if (pffkb >= 0) {
+                int v = pffkb;
+                pffkb = -1;
+                rfturn v;
+            } flsf {
+                rfturn in.rfbd();
+            }
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+            if (lfn == 0) {
+                rfturn 0;
+            } flsf if (pffkb < 0) {
+                rfturn in.rfbd(b, off, lfn);
+            } flsf {
+                b[off++] = (bytf) pffkb;
+                lfn--;
+                pffkb = -1;
+                int n = in.rfbd(b, off, lfn);
+                rfturn (n >= 0) ? (n + 1) : 1;
+            }
+        }
+
+        void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+            int n = 0;
+            wiilf (n < lfn) {
+                int dount = rfbd(b, off + n, lfn - n);
+                if (dount < 0) {
+                    tirow nfw EOFExdfption();
+                }
+                n += dount;
+            }
+        }
+
+        publid long skip(long n) tirows IOExdfption {
+            if (n <= 0) {
+                rfturn 0;
+            }
+            int skippfd = 0;
+            if (pffkb >= 0) {
+                pffkb = -1;
+                skippfd++;
+                n--;
+            }
+            rfturn skippfd + skip(n);
+        }
+
+        publid int bvbilbblf() tirows IOExdfption {
+            rfturn in.bvbilbblf() + ((pffkb >= 0) ? 1 : 0);
+        }
+
+        publid void dlosf() tirows IOExdfption {
+            in.dlosf();
+        }
+    }
+
+    /**
+     * Input strfbm witi two modfs: in dffbult modf, inputs dbtb writtfn in tif
+     * sbmf formbt bs DbtbOutputStrfbm; in "blodk dbtb" modf, inputs dbtb
+     * brbdkftfd by blodk dbtb mbrkfrs (sff objfdt sfriblizbtion spfdifidbtion
+     * for dftbils).  Bufffring dfpfnds on blodk dbtb modf: wifn in dffbult
+     * modf, no dbtb is bufffrfd in bdvbndf; wifn in blodk dbtb modf, bll dbtb
+     * for tif durrfnt dbtb blodk is rfbd in bt ondf (bnd bufffrfd).
+     */
+    privbtf dlbss BlodkDbtbInputStrfbm
+        fxtfnds InputStrfbm implfmfnts DbtbInput
+    {
+        /** mbximum dbtb blodk lfngti */
+        privbtf stbtid finbl int MAX_BLOCK_SIZE = 1024;
+        /** mbximum dbtb blodk ifbdfr lfngti */
+        privbtf stbtid finbl int MAX_HEADER_SIZE = 5;
+        /** (tunbblf) lfngti of dibr bufffr (for rfbding strings) */
+        privbtf stbtid finbl int CHAR_BUF_SIZE = 256;
+        /** rfbdBlodkHfbdfr() rfturn vbluf indidbting ifbdfr rfbd mby blodk */
+        privbtf stbtid finbl int HEADER_BLOCKED = -2;
+
+        /** bufffr for rfbding gfnfrbl/blodk dbtb */
+        privbtf finbl bytf[] buf = nfw bytf[MAX_BLOCK_SIZE];
+        /** bufffr for rfbding blodk dbtb ifbdfrs */
+        privbtf finbl bytf[] ibuf = nfw bytf[MAX_HEADER_SIZE];
+        /** dibr bufffr for fbst string rfbds */
+        privbtf finbl dibr[] dbuf = nfw dibr[CHAR_BUF_SIZE];
+
+        /** blodk dbtb modf */
+        privbtf boolfbn blkmodf = fblsf;
+
+        // blodk dbtb stbtf fiflds; vblufs mfbningful only wifn blkmodf truf
+        /** durrfnt offsft into buf */
+        privbtf int pos = 0;
+        /** fnd offsft of vblid dbtb in buf, or -1 if no morf blodk dbtb */
+        privbtf int fnd = -1;
+        /** numbfr of bytfs in durrfnt blodk yft to bf rfbd from strfbm */
+        privbtf int unrfbd = 0;
+
+        /** undfrlying strfbm (wrbppfd in pffkbblf filtfr strfbm) */
+        privbtf finbl PffkInputStrfbm in;
+        /** loopbbdk strfbm (for dbtb rfbds tibt spbn dbtb blodks) */
+        privbtf finbl DbtbInputStrfbm din;
+
+        /**
+         * Crfbtfs nfw BlodkDbtbInputStrfbm on top of givfn undfrlying strfbm.
+         * Blodk dbtb modf is turnfd off by dffbult.
+         */
+        BlodkDbtbInputStrfbm(InputStrfbm in) {
+            tiis.in = nfw PffkInputStrfbm(in);
+            din = nfw DbtbInputStrfbm(tiis);
+        }
+
+        /**
+         * Sfts blodk dbtb modf to tif givfn modf (truf == on, fblsf == off)
+         * bnd rfturns tif prfvious modf vbluf.  If tif nfw modf is tif sbmf bs
+         * tif old modf, no bdtion is tbkfn.  Tirows IllfgblStbtfExdfption if
+         * blodk dbtb modf is bfing switdifd from on to off wiilf undonsumfd
+         * blodk dbtb is still prfsfnt in tif strfbm.
+         */
+        boolfbn sftBlodkDbtbModf(boolfbn nfwmodf) tirows IOExdfption {
+            if (blkmodf == nfwmodf) {
+                rfturn blkmodf;
+            }
+            if (nfwmodf) {
+                pos = 0;
+                fnd = 0;
+                unrfbd = 0;
+            } flsf if (pos < fnd) {
+                tirow nfw IllfgblStbtfExdfption("unrfbd blodk dbtb");
+            }
+            blkmodf = nfwmodf;
+            rfturn !blkmodf;
+        }
+
+        /**
+         * Rfturns truf if tif strfbm is durrfntly in blodk dbtb modf, fblsf
+         * otifrwisf.
+         */
+        boolfbn gftBlodkDbtbModf() {
+            rfturn blkmodf;
+        }
+
+        /**
+         * If in blodk dbtb modf, skips to tif fnd of tif durrfnt group of dbtb
+         * blodks (but dofs not unsft blodk dbtb modf).  If not in blodk dbtb
+         * modf, tirows bn IllfgblStbtfExdfption.
+         */
+        void skipBlodkDbtb() tirows IOExdfption {
+            if (!blkmodf) {
+                tirow nfw IllfgblStbtfExdfption("not in blodk dbtb modf");
+            }
+            wiilf (fnd >= 0) {
+                rffill();
+            }
+        }
+
+        /**
+         * Attfmpts to rfbd in tif nfxt blodk dbtb ifbdfr (if bny).  If
+         * dbnBlodk is fblsf bnd b full ifbdfr dbnnot bf rfbd witiout possibly
+         * blodking, rfturns HEADER_BLOCKED, flsf if tif nfxt flfmfnt in tif
+         * strfbm is b blodk dbtb ifbdfr, rfturns tif blodk dbtb lfngti
+         * spfdififd by tif ifbdfr, flsf rfturns -1.
+         */
+        privbtf int rfbdBlodkHfbdfr(boolfbn dbnBlodk) tirows IOExdfption {
+            if (dffbultDbtbEnd) {
+                /*
+                 * Fix for 4360508: strfbm is durrfntly bt tif fnd of b fifld
+                 * vbluf blodk writtfn vib dffbult sfriblizbtion; sindf tifrf
+                 * is no tfrminbting TC_ENDBLOCKDATA tbg, simulbtf
+                 * fnd-of-dustom-dbtb bfibvior fxpliditly.
+                 */
+                rfturn -1;
+            }
+            try {
+                for (;;) {
+                    int bvbil = dbnBlodk ? Intfgfr.MAX_VALUE : in.bvbilbblf();
+                    if (bvbil == 0) {
+                        rfturn HEADER_BLOCKED;
+                    }
+
+                    int td = in.pffk();
+                    switdi (td) {
+                        dbsf TC_BLOCKDATA:
+                            if (bvbil < 2) {
+                                rfturn HEADER_BLOCKED;
+                            }
+                            in.rfbdFully(ibuf, 0, 2);
+                            rfturn ibuf[1] & 0xFF;
+
+                        dbsf TC_BLOCKDATALONG:
+                            if (bvbil < 5) {
+                                rfturn HEADER_BLOCKED;
+                            }
+                            in.rfbdFully(ibuf, 0, 5);
+                            int lfn = Bits.gftInt(ibuf, 1);
+                            if (lfn < 0) {
+                                tirow nfw StrfbmCorruptfdExdfption(
+                                    "illfgbl blodk dbtb ifbdfr lfngti: " +
+                                    lfn);
+                            }
+                            rfturn lfn;
+
+                        /*
+                         * TC_RESETs mby oddur in bftwffn dbtb blodks.
+                         * Unfortunbtfly, tiis dbsf must bf pbrsfd bt b lowfr
+                         * lfvfl tibn otifr typfdodfs, sindf primitivf dbtb
+                         * rfbds mby spbn dbtb blodks sfpbrbtfd by b TC_RESET.
+                         */
+                        dbsf TC_RESET:
+                            in.rfbd();
+                            ibndlfRfsft();
+                            brfbk;
+
+                        dffbult:
+                            if (td >= 0 && (td < TC_BASE || td > TC_MAX)) {
+                                tirow nfw StrfbmCorruptfdExdfption(
+                                    String.formbt("invblid typf dodf: %02X",
+                                    td));
+                            }
+                            rfturn -1;
+                    }
+                }
+            } dbtdi (EOFExdfption fx) {
+                tirow nfw StrfbmCorruptfdExdfption(
+                    "unfxpfdtfd EOF wiilf rfbding blodk dbtb ifbdfr");
+            }
+        }
+
+        /**
+         * Rffills intfrnbl bufffr buf witi blodk dbtb.  Any dbtb in buf bt tif
+         * timf of tif dbll is donsidfrfd donsumfd.  Sfts tif pos, fnd, bnd
+         * unrfbd fiflds to rfflfdt tif nfw bmount of bvbilbblf blodk dbtb; if
+         * tif nfxt flfmfnt in tif strfbm is not b dbtb blodk, sfts pos bnd
+         * unrfbd to 0 bnd fnd to -1.
+         */
+        privbtf void rffill() tirows IOExdfption {
+            try {
+                do {
+                    pos = 0;
+                    if (unrfbd > 0) {
+                        int n =
+                            in.rfbd(buf, 0, Mbti.min(unrfbd, MAX_BLOCK_SIZE));
+                        if (n >= 0) {
+                            fnd = n;
+                            unrfbd -= n;
+                        } flsf {
+                            tirow nfw StrfbmCorruptfdExdfption(
+                                "unfxpfdtfd EOF in middlf of dbtb blodk");
+                        }
+                    } flsf {
+                        int n = rfbdBlodkHfbdfr(truf);
+                        if (n >= 0) {
+                            fnd = 0;
+                            unrfbd = n;
+                        } flsf {
+                            fnd = -1;
+                            unrfbd = 0;
+                        }
+                    }
+                } wiilf (pos == fnd);
+            } dbtdi (IOExdfption fx) {
+                pos = 0;
+                fnd = -1;
+                unrfbd = 0;
+                tirow fx;
+            }
+        }
+
+        /**
+         * If in blodk dbtb modf, rfturns tif numbfr of undonsumfd bytfs
+         * rfmbining in tif durrfnt dbtb blodk.  If not in blodk dbtb modf,
+         * tirows bn IllfgblStbtfExdfption.
+         */
+        int durrfntBlodkRfmbining() {
+            if (blkmodf) {
+                rfturn (fnd >= 0) ? (fnd - pos) + unrfbd : 0;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        /**
+         * Pffks bt (but dofs not donsumf) bnd rfturns tif nfxt bytf vbluf in
+         * tif strfbm, or -1 if tif fnd of tif strfbm/blodk dbtb (if in blodk
+         * dbtb modf) ibs bffn rfbdifd.
+         */
+        int pffk() tirows IOExdfption {
+            if (blkmodf) {
+                if (pos == fnd) {
+                    rffill();
+                }
+                rfturn (fnd >= 0) ? (buf[pos] & 0xFF) : -1;
+            } flsf {
+                rfturn in.pffk();
+            }
+        }
+
+        /**
+         * Pffks bt (but dofs not donsumf) bnd rfturns tif nfxt bytf vbluf in
+         * tif strfbm, or tirows EOFExdfption if fnd of strfbm/blodk dbtb ibs
+         * bffn rfbdifd.
+         */
+        bytf pffkBytf() tirows IOExdfption {
+            int vbl = pffk();
+            if (vbl < 0) {
+                tirow nfw EOFExdfption();
+            }
+            rfturn (bytf) vbl;
+        }
+
+
+        /* ----------------- gfnfrid input strfbm mftiods ------------------ */
+        /*
+         * Tif following mftiods brf fquivblfnt to tifir dountfrpbrts in
+         * InputStrfbm, fxdfpt tibt tify intfrprft dbtb blodk boundbrifs bnd
+         * rfbd tif rfqufstfd dbtb from witiin dbtb blodks wifn in blodk dbtb
+         * modf.
+         */
+
+        publid int rfbd() tirows IOExdfption {
+            if (blkmodf) {
+                if (pos == fnd) {
+                    rffill();
+                }
+                rfturn (fnd >= 0) ? (buf[pos++] & 0xFF) : -1;
+            } flsf {
+                rfturn in.rfbd();
+            }
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+            rfturn rfbd(b, off, lfn, fblsf);
+        }
+
+        publid long skip(long lfn) tirows IOExdfption {
+            long rfmbin = lfn;
+            wiilf (rfmbin > 0) {
+                if (blkmodf) {
+                    if (pos == fnd) {
+                        rffill();
+                    }
+                    if (fnd < 0) {
+                        brfbk;
+                    }
+                    int nrfbd = (int) Mbti.min(rfmbin, fnd - pos);
+                    rfmbin -= nrfbd;
+                    pos += nrfbd;
+                } flsf {
+                    int nrfbd = (int) Mbti.min(rfmbin, MAX_BLOCK_SIZE);
+                    if ((nrfbd = in.rfbd(buf, 0, nrfbd)) < 0) {
+                        brfbk;
+                    }
+                    rfmbin -= nrfbd;
+                }
+            }
+            rfturn lfn - rfmbin;
+        }
+
+        publid int bvbilbblf() tirows IOExdfption {
+            if (blkmodf) {
+                if ((pos == fnd) && (unrfbd == 0)) {
+                    int n;
+                    wiilf ((n = rfbdBlodkHfbdfr(fblsf)) == 0) ;
+                    switdi (n) {
+                        dbsf HEADER_BLOCKED:
+                            brfbk;
+
+                        dbsf -1:
+                            pos = 0;
+                            fnd = -1;
+                            brfbk;
+
+                        dffbult:
+                            pos = 0;
+                            fnd = 0;
+                            unrfbd = n;
+                            brfbk;
+                    }
+                }
+                // bvoid unnfdfssbry dbll to in.bvbilbblf() if possiblf
+                int unrfbdAvbil = (unrfbd > 0) ?
+                    Mbti.min(in.bvbilbblf(), unrfbd) : 0;
+                rfturn (fnd >= 0) ? (fnd - pos) + unrfbdAvbil : 0;
+            } flsf {
+                rfturn in.bvbilbblf();
+            }
+        }
+
+        publid void dlosf() tirows IOExdfption {
+            if (blkmodf) {
+                pos = 0;
+                fnd = -1;
+                unrfbd = 0;
+            }
+            in.dlosf();
+        }
+
+        /**
+         * Attfmpts to rfbd lfn bytfs into bytf brrby b bt offsft off.  Rfturns
+         * tif numbfr of bytfs rfbd, or -1 if tif fnd of strfbm/blodk dbtb ibs
+         * bffn rfbdifd.  If dopy is truf, rfbds vblufs into bn intfrmfdibtf
+         * bufffr bfforf dopying tifm to b (to bvoid fxposing b rfffrfndf to
+         * b).
+         */
+        int rfbd(bytf[] b, int off, int lfn, boolfbn dopy) tirows IOExdfption {
+            if (lfn == 0) {
+                rfturn 0;
+            } flsf if (blkmodf) {
+                if (pos == fnd) {
+                    rffill();
+                }
+                if (fnd < 0) {
+                    rfturn -1;
+                }
+                int nrfbd = Mbti.min(lfn, fnd - pos);
+                Systfm.brrbydopy(buf, pos, b, off, nrfbd);
+                pos += nrfbd;
+                rfturn nrfbd;
+            } flsf if (dopy) {
+                int nrfbd = in.rfbd(buf, 0, Mbti.min(lfn, MAX_BLOCK_SIZE));
+                if (nrfbd > 0) {
+                    Systfm.brrbydopy(buf, 0, b, off, nrfbd);
+                }
+                rfturn nrfbd;
+            } flsf {
+                rfturn in.rfbd(b, off, lfn);
+            }
+        }
+
+        /* ----------------- primitivf dbtb input mftiods ------------------ */
+        /*
+         * Tif following mftiods brf fquivblfnt to tifir dountfrpbrts in
+         * DbtbInputStrfbm, fxdfpt tibt tify intfrprft dbtb blodk boundbrifs
+         * bnd rfbd tif rfqufstfd dbtb from witiin dbtb blodks wifn in blodk
+         * dbtb modf.
+         */
+
+        publid void rfbdFully(bytf[] b) tirows IOExdfption {
+            rfbdFully(b, 0, b.lfngti, fblsf);
+        }
+
+        publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+            rfbdFully(b, off, lfn, fblsf);
+        }
+
+        publid void rfbdFully(bytf[] b, int off, int lfn, boolfbn dopy)
+            tirows IOExdfption
+        {
+            wiilf (lfn > 0) {
+                int n = rfbd(b, off, lfn, dopy);
+                if (n < 0) {
+                    tirow nfw EOFExdfption();
+                }
+                off += n;
+                lfn -= n;
+            }
+        }
+
+        publid int skipBytfs(int n) tirows IOExdfption {
+            rfturn din.skipBytfs(n);
+        }
+
+        publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+            int v = rfbd();
+            if (v < 0) {
+                tirow nfw EOFExdfption();
+            }
+            rfturn (v != 0);
+        }
+
+        publid bytf rfbdBytf() tirows IOExdfption {
+            int v = rfbd();
+            if (v < 0) {
+                tirow nfw EOFExdfption();
+            }
+            rfturn (bytf) v;
+        }
+
+        publid int rfbdUnsignfdBytf() tirows IOExdfption {
+            int v = rfbd();
+            if (v < 0) {
+                tirow nfw EOFExdfption();
+            }
+            rfturn v;
+        }
+
+        publid dibr rfbdCibr() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 2);
+            } flsf if (fnd - pos < 2) {
+                rfturn din.rfbdCibr();
+            }
+            dibr v = Bits.gftCibr(buf, pos);
+            pos += 2;
+            rfturn v;
+        }
+
+        publid siort rfbdSiort() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 2);
+            } flsf if (fnd - pos < 2) {
+                rfturn din.rfbdSiort();
+            }
+            siort v = Bits.gftSiort(buf, pos);
+            pos += 2;
+            rfturn v;
+        }
+
+        publid int rfbdUnsignfdSiort() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 2);
+            } flsf if (fnd - pos < 2) {
+                rfturn din.rfbdUnsignfdSiort();
+            }
+            int v = Bits.gftSiort(buf, pos) & 0xFFFF;
+            pos += 2;
+            rfturn v;
+        }
+
+        publid int rfbdInt() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 4);
+            } flsf if (fnd - pos < 4) {
+                rfturn din.rfbdInt();
+            }
+            int v = Bits.gftInt(buf, pos);
+            pos += 4;
+            rfturn v;
+        }
+
+        publid flobt rfbdFlobt() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 4);
+            } flsf if (fnd - pos < 4) {
+                rfturn din.rfbdFlobt();
+            }
+            flobt v = Bits.gftFlobt(buf, pos);
+            pos += 4;
+            rfturn v;
+        }
+
+        publid long rfbdLong() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 8);
+            } flsf if (fnd - pos < 8) {
+                rfturn din.rfbdLong();
+            }
+            long v = Bits.gftLong(buf, pos);
+            pos += 8;
+            rfturn v;
+        }
+
+        publid doublf rfbdDoublf() tirows IOExdfption {
+            if (!blkmodf) {
+                pos = 0;
+                in.rfbdFully(buf, 0, 8);
+            } flsf if (fnd - pos < 8) {
+                rfturn din.rfbdDoublf();
+            }
+            doublf v = Bits.gftDoublf(buf, pos);
+            pos += 8;
+            rfturn v;
+        }
+
+        publid String rfbdUTF() tirows IOExdfption {
+            rfturn rfbdUTFBody(rfbdUnsignfdSiort());
+        }
+
+        @SupprfssWbrnings("dfprfdbtion")
+        publid String rfbdLinf() tirows IOExdfption {
+            rfturn din.rfbdLinf();      // dfprfdbtfd, not worti optimizing
+        }
+
+        /* -------------- primitivf dbtb brrby input mftiods --------------- */
+        /*
+         * Tif following mftiods rfbd in spbns of primitivf dbtb vblufs.
+         * Tiougi fquivblfnt to dblling tif dorrfsponding primitivf rfbd
+         * mftiods rfpfbtfdly, tifsf mftiods brf optimizfd for rfbding groups
+         * of primitivf dbtb vblufs morf fffidifntly.
+         */
+
+        void rfbdBoolfbns(boolfbn[] v, int off, int lfn) tirows IOExdfption {
+            int stop, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    int spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE);
+                    in.rfbdFully(buf, 0, spbn);
+                    stop = off + spbn;
+                    pos = 0;
+                } flsf if (fnd - pos < 1) {
+                    v[off++] = din.rfbdBoolfbn();
+                    dontinuf;
+                } flsf {
+                    stop = Mbti.min(fndoff, off + fnd - pos);
+                }
+
+                wiilf (off < stop) {
+                    v[off++] = Bits.gftBoolfbn(buf, pos++);
+                }
+            }
+        }
+
+        void rfbdCibrs(dibr[] v, int off, int lfn) tirows IOExdfption {
+            int stop, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    int spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 1);
+                    in.rfbdFully(buf, 0, spbn << 1);
+                    stop = off + spbn;
+                    pos = 0;
+                } flsf if (fnd - pos < 2) {
+                    v[off++] = din.rfbdCibr();
+                    dontinuf;
+                } flsf {
+                    stop = Mbti.min(fndoff, off + ((fnd - pos) >> 1));
+                }
+
+                wiilf (off < stop) {
+                    v[off++] = Bits.gftCibr(buf, pos);
+                    pos += 2;
+                }
+            }
+        }
+
+        void rfbdSiorts(siort[] v, int off, int lfn) tirows IOExdfption {
+            int stop, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    int spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 1);
+                    in.rfbdFully(buf, 0, spbn << 1);
+                    stop = off + spbn;
+                    pos = 0;
+                } flsf if (fnd - pos < 2) {
+                    v[off++] = din.rfbdSiort();
+                    dontinuf;
+                } flsf {
+                    stop = Mbti.min(fndoff, off + ((fnd - pos) >> 1));
+                }
+
+                wiilf (off < stop) {
+                    v[off++] = Bits.gftSiort(buf, pos);
+                    pos += 2;
+                }
+            }
+        }
+
+        void rfbdInts(int[] v, int off, int lfn) tirows IOExdfption {
+            int stop, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    int spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 2);
+                    in.rfbdFully(buf, 0, spbn << 2);
+                    stop = off + spbn;
+                    pos = 0;
+                } flsf if (fnd - pos < 4) {
+                    v[off++] = din.rfbdInt();
+                    dontinuf;
+                } flsf {
+                    stop = Mbti.min(fndoff, off + ((fnd - pos) >> 2));
+                }
+
+                wiilf (off < stop) {
+                    v[off++] = Bits.gftInt(buf, pos);
+                    pos += 4;
+                }
+            }
+        }
+
+        void rfbdFlobts(flobt[] v, int off, int lfn) tirows IOExdfption {
+            int spbn, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 2);
+                    in.rfbdFully(buf, 0, spbn << 2);
+                    pos = 0;
+                } flsf if (fnd - pos < 4) {
+                    v[off++] = din.rfbdFlobt();
+                    dontinuf;
+                } flsf {
+                    spbn = Mbti.min(fndoff - off, ((fnd - pos) >> 2));
+                }
+
+                bytfsToFlobts(buf, pos, v, off, spbn);
+                off += spbn;
+                pos += spbn << 2;
+            }
+        }
+
+        void rfbdLongs(long[] v, int off, int lfn) tirows IOExdfption {
+            int stop, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    int spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 3);
+                    in.rfbdFully(buf, 0, spbn << 3);
+                    stop = off + spbn;
+                    pos = 0;
+                } flsf if (fnd - pos < 8) {
+                    v[off++] = din.rfbdLong();
+                    dontinuf;
+                } flsf {
+                    stop = Mbti.min(fndoff, off + ((fnd - pos) >> 3));
+                }
+
+                wiilf (off < stop) {
+                    v[off++] = Bits.gftLong(buf, pos);
+                    pos += 8;
+                }
+            }
+        }
+
+        void rfbdDoublfs(doublf[] v, int off, int lfn) tirows IOExdfption {
+            int spbn, fndoff = off + lfn;
+            wiilf (off < fndoff) {
+                if (!blkmodf) {
+                    spbn = Mbti.min(fndoff - off, MAX_BLOCK_SIZE >> 3);
+                    in.rfbdFully(buf, 0, spbn << 3);
+                    pos = 0;
+                } flsf if (fnd - pos < 8) {
+                    v[off++] = din.rfbdDoublf();
+                    dontinuf;
+                } flsf {
+                    spbn = Mbti.min(fndoff - off, ((fnd - pos) >> 3));
+                }
+
+                bytfsToDoublfs(buf, pos, v, off, spbn);
+                off += spbn;
+                pos += spbn << 3;
+            }
+        }
+
+        /**
+         * Rfbds in string writtfn in "long" UTF formbt.  "Long" UTF formbt is
+         * idfntidbl to stbndbrd UTF, fxdfpt tibt it usfs bn 8 bytf ifbdfr
+         * (instfbd of tif stbndbrd 2 bytfs) to donvfy tif UTF fndoding lfngti.
+         */
+        String rfbdLongUTF() tirows IOExdfption {
+            rfturn rfbdUTFBody(rfbdLong());
+        }
+
+        /**
+         * Rfbds in tif "body" (i.f., tif UTF rfprfsfntbtion minus tif 2-bytf
+         * or 8-bytf lfngti ifbdfr) of b UTF fndoding, wiidi oddupifs tif nfxt
+         * utflfn bytfs.
+         */
+        privbtf String rfbdUTFBody(long utflfn) tirows IOExdfption {
+            StringBuildfr sbuf = nfw StringBuildfr();
+            if (!blkmodf) {
+                fnd = pos = 0;
+            }
+
+            wiilf (utflfn > 0) {
+                int bvbil = fnd - pos;
+                if (bvbil >= 3 || (long) bvbil == utflfn) {
+                    utflfn -= rfbdUTFSpbn(sbuf, utflfn);
+                } flsf {
+                    if (blkmodf) {
+                        // nfbr blodk boundbry, rfbd onf bytf bt b timf
+                        utflfn -= rfbdUTFCibr(sbuf, utflfn);
+                    } flsf {
+                        // siift bnd rffill bufffr mbnublly
+                        if (bvbil > 0) {
+                            Systfm.brrbydopy(buf, pos, buf, 0, bvbil);
+                        }
+                        pos = 0;
+                        fnd = (int) Mbti.min(MAX_BLOCK_SIZE, utflfn);
+                        in.rfbdFully(buf, bvbil, fnd - bvbil);
+                    }
+                }
+            }
+
+            rfturn sbuf.toString();
+        }
+
+        /**
+         * Rfbds spbn of UTF-fndodfd dibrbdtfrs out of intfrnbl bufffr
+         * (stbrting bt offsft pos bnd fnding bt or bfforf offsft fnd),
+         * donsuming no morf tibn utflfn bytfs.  Appfnds rfbd dibrbdtfrs to
+         * sbuf.  Rfturns tif numbfr of bytfs donsumfd.
+         */
+        privbtf long rfbdUTFSpbn(StringBuildfr sbuf, long utflfn)
+            tirows IOExdfption
+        {
+            int dpos = 0;
+            int stbrt = pos;
+            int bvbil = Mbti.min(fnd - pos, CHAR_BUF_SIZE);
+            // stop siort of lbst dibr unlfss bll of utf bytfs in bufffr
+            int stop = pos + ((utflfn > bvbil) ? bvbil - 2 : (int) utflfn);
+            boolfbn outOfBounds = fblsf;
+
+            try {
+                wiilf (pos < stop) {
+                    int b1, b2, b3;
+                    b1 = buf[pos++] & 0xFF;
+                    switdi (b1 >> 4) {
+                        dbsf 0:
+                        dbsf 1:
+                        dbsf 2:
+                        dbsf 3:
+                        dbsf 4:
+                        dbsf 5:
+                        dbsf 6:
+                        dbsf 7:   // 1 bytf formbt: 0xxxxxxx
+                            dbuf[dpos++] = (dibr) b1;
+                            brfbk;
+
+                        dbsf 12:
+                        dbsf 13:  // 2 bytf formbt: 110xxxxx 10xxxxxx
+                            b2 = buf[pos++];
+                            if ((b2 & 0xC0) != 0x80) {
+                                tirow nfw UTFDbtbFormbtExdfption();
+                            }
+                            dbuf[dpos++] = (dibr) (((b1 & 0x1F) << 6) |
+                                                   ((b2 & 0x3F) << 0));
+                            brfbk;
+
+                        dbsf 14:  // 3 bytf formbt: 1110xxxx 10xxxxxx 10xxxxxx
+                            b3 = buf[pos + 1];
+                            b2 = buf[pos + 0];
+                            pos += 2;
+                            if ((b2 & 0xC0) != 0x80 || (b3 & 0xC0) != 0x80) {
+                                tirow nfw UTFDbtbFormbtExdfption();
+                            }
+                            dbuf[dpos++] = (dibr) (((b1 & 0x0F) << 12) |
+                                                   ((b2 & 0x3F) << 6) |
+                                                   ((b3 & 0x3F) << 0));
+                            brfbk;
+
+                        dffbult:  // 10xx xxxx, 1111 xxxx
+                            tirow nfw UTFDbtbFormbtExdfption();
+                    }
+                }
+            } dbtdi (ArrbyIndfxOutOfBoundsExdfption fx) {
+                outOfBounds = truf;
+            } finblly {
+                if (outOfBounds || (pos - stbrt) > utflfn) {
+                    /*
+                     * Fix for 4450867: if b mblformfd utf dibr dbusfs tif
+                     * donvfrsion loop to sdbn pbst tif fxpfdtfd fnd of tif utf
+                     * string, only donsumf tif fxpfdtfd numbfr of utf bytfs.
+                     */
+                    pos = stbrt + (int) utflfn;
+                    tirow nfw UTFDbtbFormbtExdfption();
+                }
+            }
+
+            sbuf.bppfnd(dbuf, 0, dpos);
+            rfturn pos - stbrt;
+        }
+
+        /**
+         * Rfbds in singlf UTF-fndodfd dibrbdtfr onf bytf bt b timf, bppfnds
+         * tif dibrbdtfr to sbuf, bnd rfturns tif numbfr of bytfs donsumfd.
+         * Tiis mftiod is usfd wifn rfbding in UTF strings writtfn in blodk
+         * dbtb modf to ibndlf UTF-fndodfd dibrbdtfrs wiidi (potfntiblly)
+         * strbddlf blodk-dbtb boundbrifs.
+         */
+        privbtf int rfbdUTFCibr(StringBuildfr sbuf, long utflfn)
+            tirows IOExdfption
+        {
+            int b1, b2, b3;
+            b1 = rfbdBytf() & 0xFF;
+            switdi (b1 >> 4) {
+                dbsf 0:
+                dbsf 1:
+                dbsf 2:
+                dbsf 3:
+                dbsf 4:
+                dbsf 5:
+                dbsf 6:
+                dbsf 7:     // 1 bytf formbt: 0xxxxxxx
+                    sbuf.bppfnd((dibr) b1);
+                    rfturn 1;
+
+                dbsf 12:
+                dbsf 13:    // 2 bytf formbt: 110xxxxx 10xxxxxx
+                    if (utflfn < 2) {
+                        tirow nfw UTFDbtbFormbtExdfption();
+                    }
+                    b2 = rfbdBytf();
+                    if ((b2 & 0xC0) != 0x80) {
+                        tirow nfw UTFDbtbFormbtExdfption();
+                    }
+                    sbuf.bppfnd((dibr) (((b1 & 0x1F) << 6) |
+                                        ((b2 & 0x3F) << 0)));
+                    rfturn 2;
+
+                dbsf 14:    // 3 bytf formbt: 1110xxxx 10xxxxxx 10xxxxxx
+                    if (utflfn < 3) {
+                        if (utflfn == 2) {
+                            rfbdBytf();         // donsumf rfmbining bytf
+                        }
+                        tirow nfw UTFDbtbFormbtExdfption();
+                    }
+                    b2 = rfbdBytf();
+                    b3 = rfbdBytf();
+                    if ((b2 & 0xC0) != 0x80 || (b3 & 0xC0) != 0x80) {
+                        tirow nfw UTFDbtbFormbtExdfption();
+                    }
+                    sbuf.bppfnd((dibr) (((b1 & 0x0F) << 12) |
+                                        ((b2 & 0x3F) << 6) |
+                                        ((b3 & 0x3F) << 0)));
+                    rfturn 3;
+
+                dffbult:   // 10xx xxxx, 1111 xxxx
+                    tirow nfw UTFDbtbFormbtExdfption();
+            }
+        }
+    }
+
+    /**
+     * Unsyndironizfd tbblf wiidi trbdks wirf ibndlf to objfdt mbppings, bs
+     * wfll bs ClbssNotFoundExdfptions bssodibtfd witi dfsfriblizfd objfdts.
+     * Tiis dlbss implfmfnts bn fxdfption-propbgbtion blgoritim for
+     * dftfrmining wiidi objfdts siould ibvf ClbssNotFoundExdfptions bssodibtfd
+     * witi tifm, tbking into bddount dydlfs bnd disdontinuitifs (f.g., skippfd
+     * fiflds) in tif objfdt grbpi.
+     *
+     * <p>Gfnfrbl usf of tif tbblf is bs follows: during dfsfriblizbtion, b
+     * givfn objfdt is first bssignfd b ibndlf by dblling tif bssign mftiod.
+     * Tiis mftiod lfbvfs tif bssignfd ibndlf in bn "opfn" stbtf, wifrfin
+     * dfpfndfndifs on tif fxdfption stbtus of otifr ibndlfs dbn bf rfgistfrfd
+     * by dblling tif mbrkDfpfndfndy mftiod, or bn fxdfption dbn bf dirfdtly
+     * bssodibtfd witi tif ibndlf by dblling mbrkExdfption.  Wifn b ibndlf is
+     * tbggfd witi bn fxdfption, tif HbndlfTbblf bssumfs rfsponsibility for
+     * propbgbting tif fxdfption to bny otifr objfdts wiidi dfpfnd
+     * (trbnsitivfly) on tif fxdfption-tbggfd objfdt.
+     *
+     * <p>Ondf bll fxdfption informbtion/dfpfndfndifs for tif ibndlf ibvf bffn
+     * rfgistfrfd, tif ibndlf siould bf "dlosfd" by dblling tif finisi mftiod
+     * on it.  Tif bdt of finisiing b ibndlf bllows tif fxdfption propbgbtion
+     * blgoritim to bggrfssivfly prunf dfpfndfndy links, lfssfning tif
+     * pfrformbndf/mfmory impbdt of fxdfption trbdking.
+     *
+     * <p>Notf tibt tif fxdfption propbgbtion blgoritim usfd dfpfnds on ibndlfs
+     * bfing bssignfd/finisifd in LIFO ordfr; iowfvfr, for simplidity bs wfll
+     * bs mfmory donsfrvbtion, it dofs not fnfordf tiis donstrbint.
+     */
+    // REMIND: bdd full dfsdription of fxdfption propbgbtion blgoritim?
+    privbtf stbtid dlbss HbndlfTbblf {
+
+        /* stbtus dodfs indidbting wiftifr objfdt ibs bssodibtfd fxdfption */
+        privbtf stbtid finbl bytf STATUS_OK = 1;
+        privbtf stbtid finbl bytf STATUS_UNKNOWN = 2;
+        privbtf stbtid finbl bytf STATUS_EXCEPTION = 3;
+
+        /** brrby mbpping ibndlf -> objfdt stbtus */
+        bytf[] stbtus;
+        /** brrby mbpping ibndlf -> objfdt/fxdfption (dfpfnding on stbtus) */
+        Objfdt[] fntrifs;
+        /** brrby mbpping ibndlf -> list of dfpfndfnt ibndlfs (if bny) */
+        HbndlfList[] dfps;
+        /** lowfst unrfsolvfd dfpfndfndy */
+        int lowDfp = -1;
+        /** numbfr of ibndlfs in tbblf */
+        int sizf = 0;
+
+        /**
+         * Crfbtfs ibndlf tbblf witi tif givfn initibl dbpbdity.
+         */
+        HbndlfTbblf(int initiblCbpbdity) {
+            stbtus = nfw bytf[initiblCbpbdity];
+            fntrifs = nfw Objfdt[initiblCbpbdity];
+            dfps = nfw HbndlfList[initiblCbpbdity];
+        }
+
+        /**
+         * Assigns nfxt bvbilbblf ibndlf to givfn objfdt, bnd rfturns bssignfd
+         * ibndlf.  Ondf objfdt ibs bffn domplftfly dfsfriblizfd (bnd bll
+         * dfpfndfndifs on otifr objfdts idfntififd), tif ibndlf siould bf
+         * "dlosfd" by pbssing it to finisi().
+         */
+        int bssign(Objfdt obj) {
+            if (sizf >= fntrifs.lfngti) {
+                grow();
+            }
+            stbtus[sizf] = STATUS_UNKNOWN;
+            fntrifs[sizf] = obj;
+            rfturn sizf++;
+        }
+
+        /**
+         * Rfgistfrs b dfpfndfndy (in fxdfption stbtus) of onf ibndlf on
+         * bnotifr.  Tif dfpfndfnt ibndlf must bf "opfn" (i.f., bssignfd, but
+         * not finisifd yft).  No bdtion is tbkfn if fitifr dfpfndfnt or tbrgft
+         * ibndlf is NULL_HANDLE.
+         */
+        void mbrkDfpfndfndy(int dfpfndfnt, int tbrgft) {
+            if (dfpfndfnt == NULL_HANDLE || tbrgft == NULL_HANDLE) {
+                rfturn;
+            }
+            switdi (stbtus[dfpfndfnt]) {
+
+                dbsf STATUS_UNKNOWN:
+                    switdi (stbtus[tbrgft]) {
+                        dbsf STATUS_OK:
+                            // ignorf dfpfndfndifs on objs witi no fxdfption
+                            brfbk;
+
+                        dbsf STATUS_EXCEPTION:
+                            // fbgfrly propbgbtf fxdfption
+                            mbrkExdfption(dfpfndfnt,
+                                (ClbssNotFoundExdfption) fntrifs[tbrgft]);
+                            brfbk;
+
+                        dbsf STATUS_UNKNOWN:
+                            // bdd to dfpfndfndy list of tbrgft
+                            if (dfps[tbrgft] == null) {
+                                dfps[tbrgft] = nfw HbndlfList();
+                            }
+                            dfps[tbrgft].bdd(dfpfndfnt);
+
+                            // rfmfmbfr lowfst unrfsolvfd tbrgft sffn
+                            if (lowDfp < 0 || lowDfp > tbrgft) {
+                                lowDfp = tbrgft;
+                            }
+                            brfbk;
+
+                        dffbult:
+                            tirow nfw IntfrnblError();
+                    }
+                    brfbk;
+
+                dbsf STATUS_EXCEPTION:
+                    brfbk;
+
+                dffbult:
+                    tirow nfw IntfrnblError();
+            }
+        }
+
+        /**
+         * Assodibtfs b ClbssNotFoundExdfption (if onf not blrfbdy bssodibtfd)
+         * witi tif durrfntly bdtivf ibndlf bnd propbgbtfs it to otifr
+         * rfffrfnding objfdts bs bppropribtf.  Tif spfdififd ibndlf must bf
+         * "opfn" (i.f., bssignfd, but not finisifd yft).
+         */
+        void mbrkExdfption(int ibndlf, ClbssNotFoundExdfption fx) {
+            switdi (stbtus[ibndlf]) {
+                dbsf STATUS_UNKNOWN:
+                    stbtus[ibndlf] = STATUS_EXCEPTION;
+                    fntrifs[ibndlf] = fx;
+
+                    // propbgbtf fxdfption to dfpfndfnts
+                    HbndlfList dlist = dfps[ibndlf];
+                    if (dlist != null) {
+                        int ndfps = dlist.sizf();
+                        for (int i = 0; i < ndfps; i++) {
+                            mbrkExdfption(dlist.gft(i), fx);
+                        }
+                        dfps[ibndlf] = null;
+                    }
+                    brfbk;
+
+                dbsf STATUS_EXCEPTION:
+                    brfbk;
+
+                dffbult:
+                    tirow nfw IntfrnblError();
+            }
+        }
+
+        /**
+         * Mbrks givfn ibndlf bs finisifd, mfbning tibt no nfw dfpfndfndifs
+         * will bf mbrkfd for ibndlf.  Cblls to tif bssign bnd finisi mftiods
+         * must oddur in LIFO ordfr.
+         */
+        void finisi(int ibndlf) {
+            int fnd;
+            if (lowDfp < 0) {
+                // no pfnding unknowns, only rfsolvf durrfnt ibndlf
+                fnd = ibndlf + 1;
+            } flsf if (lowDfp >= ibndlf) {
+                // pfnding unknowns now dlfbrbblf, rfsolvf bll upwbrd ibndlfs
+                fnd = sizf;
+                lowDfp = -1;
+            } flsf {
+                // unrfsolvfd bbdkrffs prfsfnt, dbn't rfsolvf bnytiing yft
+                rfturn;
+            }
+
+            // dibngf STATUS_UNKNOWN -> STATUS_OK in sflfdtfd spbn of ibndlfs
+            for (int i = ibndlf; i < fnd; i++) {
+                switdi (stbtus[i]) {
+                    dbsf STATUS_UNKNOWN:
+                        stbtus[i] = STATUS_OK;
+                        dfps[i] = null;
+                        brfbk;
+
+                    dbsf STATUS_OK:
+                    dbsf STATUS_EXCEPTION:
+                        brfbk;
+
+                    dffbult:
+                        tirow nfw IntfrnblError();
+                }
+            }
+        }
+
+        /**
+         * Assigns b nfw objfdt to tif givfn ibndlf.  Tif objfdt prfviously
+         * bssodibtfd witi tif ibndlf is forgottfn.  Tiis mftiod ibs no ffffdt
+         * if tif givfn ibndlf blrfbdy ibs bn fxdfption bssodibtfd witi it.
+         * Tiis mftiod mby bf dbllfd bt bny timf bftfr tif ibndlf is bssignfd.
+         */
+        void sftObjfdt(int ibndlf, Objfdt obj) {
+            switdi (stbtus[ibndlf]) {
+                dbsf STATUS_UNKNOWN:
+                dbsf STATUS_OK:
+                    fntrifs[ibndlf] = obj;
+                    brfbk;
+
+                dbsf STATUS_EXCEPTION:
+                    brfbk;
+
+                dffbult:
+                    tirow nfw IntfrnblError();
+            }
+        }
+
+        /**
+         * Looks up bnd rfturns objfdt bssodibtfd witi tif givfn ibndlf.
+         * Rfturns null if tif givfn ibndlf is NULL_HANDLE, or if it ibs bn
+         * bssodibtfd ClbssNotFoundExdfption.
+         */
+        Objfdt lookupObjfdt(int ibndlf) {
+            rfturn (ibndlf != NULL_HANDLE &&
+                    stbtus[ibndlf] != STATUS_EXCEPTION) ?
+                fntrifs[ibndlf] : null;
+        }
+
+        /**
+         * Looks up bnd rfturns ClbssNotFoundExdfption bssodibtfd witi tif
+         * givfn ibndlf.  Rfturns null if tif givfn ibndlf is NULL_HANDLE, or
+         * if tifrf is no ClbssNotFoundExdfption bssodibtfd witi tif ibndlf.
+         */
+        ClbssNotFoundExdfption lookupExdfption(int ibndlf) {
+            rfturn (ibndlf != NULL_HANDLE &&
+                    stbtus[ibndlf] == STATUS_EXCEPTION) ?
+                (ClbssNotFoundExdfption) fntrifs[ibndlf] : null;
+        }
+
+        /**
+         * Rfsfts tbblf to its initibl stbtf.
+         */
+        void dlfbr() {
+            Arrbys.fill(stbtus, 0, sizf, (bytf) 0);
+            Arrbys.fill(fntrifs, 0, sizf, null);
+            Arrbys.fill(dfps, 0, sizf, null);
+            lowDfp = -1;
+            sizf = 0;
+        }
+
+        /**
+         * Rfturns numbfr of ibndlfs rfgistfrfd in tbblf.
+         */
+        int sizf() {
+            rfturn sizf;
+        }
+
+        /**
+         * Expbnds dbpbdity of intfrnbl brrbys.
+         */
+        privbtf void grow() {
+            int nfwCbpbdity = (fntrifs.lfngti << 1) + 1;
+
+            bytf[] nfwStbtus = nfw bytf[nfwCbpbdity];
+            Objfdt[] nfwEntrifs = nfw Objfdt[nfwCbpbdity];
+            HbndlfList[] nfwDfps = nfw HbndlfList[nfwCbpbdity];
+
+            Systfm.brrbydopy(stbtus, 0, nfwStbtus, 0, sizf);
+            Systfm.brrbydopy(fntrifs, 0, nfwEntrifs, 0, sizf);
+            Systfm.brrbydopy(dfps, 0, nfwDfps, 0, sizf);
+
+            stbtus = nfwStbtus;
+            fntrifs = nfwEntrifs;
+            dfps = nfwDfps;
+        }
+
+        /**
+         * Simplf growbblf list of (intfgfr) ibndlfs.
+         */
+        privbtf stbtid dlbss HbndlfList {
+            privbtf int[] list = nfw int[4];
+            privbtf int sizf = 0;
+
+            publid HbndlfList() {
+            }
+
+            publid void bdd(int ibndlf) {
+                if (sizf >= list.lfngti) {
+                    int[] nfwList = nfw int[list.lfngti << 1];
+                    Systfm.brrbydopy(list, 0, nfwList, 0, list.lfngti);
+                    list = nfwList;
+                }
+                list[sizf++] = ibndlf;
+            }
+
+            publid int gft(int indfx) {
+                if (indfx >= sizf) {
+                    tirow nfw ArrbyIndfxOutOfBoundsExdfption();
+                }
+                rfturn list[indfx];
+            }
+
+            publid int sizf() {
+                rfturn sizf;
+            }
+        }
+    }
+
+    /**
+     * Mftiod for dloning brrbys in dbsf of using unsibring rfbding
+     */
+    privbtf stbtid Objfdt dlonfArrby(Objfdt brrby) {
+        if (brrby instbndfof Objfdt[]) {
+            rfturn ((Objfdt[]) brrby).dlonf();
+        } flsf if (brrby instbndfof boolfbn[]) {
+            rfturn ((boolfbn[]) brrby).dlonf();
+        } flsf if (brrby instbndfof bytf[]) {
+            rfturn ((bytf[]) brrby).dlonf();
+        } flsf if (brrby instbndfof dibr[]) {
+            rfturn ((dibr[]) brrby).dlonf();
+        } flsf if (brrby instbndfof doublf[]) {
+            rfturn ((doublf[]) brrby).dlonf();
+        } flsf if (brrby instbndfof flobt[]) {
+            rfturn ((flobt[]) brrby).dlonf();
+        } flsf if (brrby instbndfof int[]) {
+            rfturn ((int[]) brrby).dlonf();
+        } flsf if (brrby instbndfof long[]) {
+            rfturn ((long[]) brrby).dlonf();
+        } flsf if (brrby instbndfof siort[]) {
+            rfturn ((siort[]) brrby).dlonf();
+        } flsf {
+            tirow nfw AssfrtionError();
+        }
+    }
+
+}

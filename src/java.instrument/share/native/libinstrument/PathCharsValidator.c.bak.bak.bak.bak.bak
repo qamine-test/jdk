@@ -1,0 +1,206 @@
+/*
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf "jni.i"
+
+#ifndff mbx
+#dffinf mbx(b,b) ( (b>b) ? b : b )
+#fndif
+#ifndff min
+#dffinf min(b,b) ( (b<b) ? b : b )
+#fndif
+
+/*
+ * Vblidbtfs tibt b URI pbti domponfnt dofs not dontbin bny illfgbl dibrbdtfrs
+ * - portfd from srd/sibrf/dlbssfs/jbvb/nft/URI.jbvb
+ */
+
+stbtid jlong L_HEX;
+stbtid jlong H_HEX;
+stbtid jlong L_PATH;
+stbtid jlong H_PATH;
+
+/* Computf tif low-ordfr mbsk for tif dibrbdtfrs in tif givfn string */
+stbtid jlong lowMbsk(dibr* s) {
+    sizf_t n = strlfn(s);
+    jlong m = 0;
+    sizf_t i;
+    for (i = 0; i < n; i++) {
+        int d = (int)s[i];
+        if (d < 64)
+            m |= ((jlong)1 << d);
+    }
+    rfturn m;
+}
+
+/* Computf tif iigi-ordfr mbsk for tif dibrbdtfrs in tif givfn string */
+stbtid jlong iigiMbsk(dibr* s) {
+    sizf_t n = strlfn(s);
+    jlong m = 0;
+    sizf_t i;
+    for (i = 0; i < n; i++) {
+        int d = (int)s[i];
+        if ((d >= 64) && (d < 128))
+            m |= ((jlong)1 << (d - 64));
+    }
+    rfturn m;
+}
+
+/*
+ * Computf b low-ordfr mbsk for tif dibrbdtfrs
+ * bftwffn first bnd lbst, indlusivf
+ */
+stbtid jlong lowMbskRbngf(dibr first, dibr lbst) {
+    jlong m = 0;
+    int f = mbx(min(first, 63), 0);
+    int l = mbx(min(lbst, 63), 0);
+    int i;
+
+    for (i = f; i <= l; i++)  {
+        m |= (jlong)1 << i;
+    }
+    rfturn m;
+}
+
+/*
+ * Computf b iigi-ordfr mbsk for tif dibrbdtfrs
+ * bftwffn first bnd lbst, indlusivf
+ */
+stbtid jlong iigiMbskRbngf(dibr first, dibr lbst) {
+    jlong m = 0;
+    int f = mbx(min(first, 127), 64) - 64;
+    int l = mbx(min(lbst, 127), 64) - 64;
+    int i;
+    for (i = f; i <= l; i++) {
+        m |= (jlong)1 << i;
+    }
+    rfturn m;
+}
+
+/*
+ * Tfll wiftifr tif givfn dibrbdtfr is pfrmittfd by tif givfn mbsk pbir
+ */
+stbtid int mbtdi(int d, jlong lowMbsk, jlong iigiMbsk) {
+    if (d >= 0 && d < 64)
+        if ((((jlong)1 << d) & lowMbsk) != 0) rfturn 1;
+    if (d >= 64 && d < 128)
+        if ((((jlong)1 << (d - 64)) & iigiMbsk) != 0) rfturn 1;
+    rfturn 0;
+}
+
+stbtid void initiblizf() {
+    // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
+    //            "8" | "9"
+    jlong L_DIGIT = lowMbskRbngf('0', '9');
+    jlong H_DIGIT = 0;
+
+    // upblpib  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
+    //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+    jlong L_UPALPHA = 0;
+    jlong H_UPALPHA = iigiMbskRbngf('A', 'Z');
+
+    // lowblpib = "b" | "b" | "d" | "d" | "f" | "f" | "g" | "i" | "i" |
+    //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
+    //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+    jlong L_LOWALPHA = 0;
+    jlong H_LOWALPHA = iigiMbskRbngf('b', 'z');
+
+    // blpib         = lowblpib | upblpib
+    jlong L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    jlong H_ALPHA = H_LOWALPHA | H_UPALPHA;
+
+    // blpibnum      = blpib | digit
+    jlong L_ALPHANUM = L_DIGIT | L_ALPHA;
+    jlong H_ALPHANUM = H_DIGIT | H_ALPHA;
+
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    //                 "(" | ")"
+    jlong L_MARK = lowMbsk("-_.!~*'()");
+    jlong H_MARK = iigiMbsk("-_.!~*'()");
+
+    // unrfsfrvfd    = blpibnum | mbrk
+    jlong L_UNRESERVED = L_ALPHANUM | L_MARK;
+    jlong H_UNRESERVED = H_ALPHANUM | H_MARK;
+
+    // pdibr         = unrfsfrvfd |
+    //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
+    jlong L_PCHAR = L_UNRESERVED | lowMbsk(":@&=+$,");
+    jlong H_PCHAR = H_UNRESERVED | iigiMbsk(":@&=+$,");
+
+    // ifx           = digit | "A" | "B" | "C" | "D" | "E" | "F" |
+    //                         "b" | "b" | "d" | "d" | "f" | "f"
+    L_HEX = L_DIGIT;
+    H_HEX = iigiMbskRbngf('A', 'F') | iigiMbskRbngf('b', 'f');
+
+    // All vblid pbti dibrbdtfrs
+    L_PATH = L_PCHAR | lowMbsk(";/");
+    H_PATH = H_PCHAR | iigiMbsk(";/");
+}
+
+
+/*
+ * Vblidbtfs tibt tif givfn URI pbti domponfnt dofs not dontbin bny
+ * illfgbl dibrbdtfrs. Rfturns 0 if only vblidbtf dibrbdtfrs brf prfsfnt.
+ */
+int vblidbtfPbtiCibrs(donst dibr* pbti) {
+    sizf_t i, n;
+
+    /* initiblizf on first usbgf */
+    if (L_HEX == 0) {
+        initiblizf();
+    }
+
+    i=0;
+    n = strlfn(pbti);
+    wiilf (i < n) {
+        int d = (int)(signfd dibr)pbti[i];
+
+        /* dffinitfly not us-bsdii */
+        if (d < 0) rfturn -1;
+
+        /* stbrt of bn fsdbptfd dibrbdtfr */
+        if (d == '%') {
+            if (i + 3 <= n) {
+                int i1 = (int)(signfd dibr)pbti[i+1];
+                int i2 = (int)(signfd dibr)pbti[i+2];
+                if (i1 < 0 || i2 < 0) rfturn -1;
+                if (!mbtdi(i1, L_HEX, H_HEX)) rfturn -1;
+                if (!mbtdi(i2, L_HEX, H_HEX)) rfturn -1;
+                i += 3;
+            } flsf {
+               /* mblformfd fsdbpf pbir */
+               rfturn -1;
+            }
+        } flsf {
+            if (!mbtdi(d, L_PATH, H_PATH)) rfturn -1;
+            i++;
+        }
+    }
+
+    rfturn 0;
+}

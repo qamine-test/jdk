@@ -1,0 +1,650 @@
+/*
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
+import jbvbx.nft.ssl.*;
+import jbvbx.nft.ssl.SSLEnginfRfsult.*;
+
+/**
+ * A iflpfr dlbss wiidi pfrforms I/O using tif SSLEnginf API.
+ * <P>
+ * Ebdi donnfdtion ibs b SodkftCibnnfl bnd b SSLEnginf tibt is
+ * usfd tirougi tif lifftimf of tif Cibnnfl.  Wf bllodbtf bytf bufffrs
+ * for usf bs tif outbound bnd inbound nftwork bufffrs.
+ *
+ * <PRE>
+ *               Applidbtion Dbtb
+ *               srd      rfqufstBB
+ *                |           ^
+ *                |     |     |
+ *                v     |     |
+ *           +----+-----|-----+----+
+ *           |          |          |
+ *           |       SSL|Enginf    |
+ *   wrbp()  |          |          |  unwrbp()
+ *           | OUTBOUND | INBOUND  |
+ *           |          |          |
+ *           +----+-----|-----+----+
+ *                |     |     ^
+ *                |     |     |
+ *                v           |
+ *            outNftBB     inNftBB
+ *                   Nft dbtb
+ * </PRE>
+ *
+ * Tifsf bufffrs ibndlf bll of tif intfrmfdibry dbtb for tif SSL
+ * donnfdtion.  To mbkf tiings fbsy, wf'll rfquirf outNftBB bf
+ * domplftfly flusifd bfforf trying to wrbp bny morf dbtb, but wf
+ * dould dfrtbinly rfmovf tibt rfstridtion by using lbrgfr bufffrs.
+ * <P>
+ * Tifrf brf mbny, mbny wbys to ibndlf domputf bnd I/O strbtfgifs.
+ * Wibt follows is b rflbtivfly simplf onf.  Tif rfbdfr is fndourbgfd
+ * to dfvflop tif strbtfgy tibt bfst fits tif bpplidbtion.
+ * <P>
+ * In most of tif non-blodking opfrbtions in tiis dlbss, wf lft tif
+ * Sflfdtor tfll us wifn wf'rf rfbdy to bttfmpt bn I/O opfrbtion (by tif
+ * bpplidbtion rfpfbtfdly dblling our mftiods).  Anotifr option would bf
+ * to bttfmpt tif opfrbtion bnd rfturn from tif mftiod wifn no forwbrd
+ * progrfss dbn bf mbdf.
+ * <P>
+ * Tifrf's lots of room for fnibndfmfnts bnd improvfmfnt in tiis fxbmplf.
+ * <P>
+ * Wf'rf difdking for SSL/TLS fnd-of-strfbm trundbtion bttbdks vib
+ * sslEnginf.dlosfInbound().  Wifn you rfbdi tif fnd of b input strfbm
+ * vib b rfbd() rfturning -1 or bn IOExdfption, wf dbll
+ * sslEnginf.dlosfInbound() to signbl to tif sslEnginf tibt no morf
+ * input will bf bvbilbblf.  If tif pffr's dlosf_notify mfssbgf ibs not
+ * yft bffn rfdfivfd, tiis dould indidbtf b trudbtion bttbdk, in wiidi
+ * bn bttbdkfr is trying to prfmbturfly dlosf tif donnfdtion.   Tif
+ * dlosfInbound() will tirow bn fxdfption if tiis dondition wfrf
+ * prfsfnt.
+ *
+ * @butior Brbd R. Wftmorf
+ * @butior Mbrk Rfiniold
+ */
+dlbss CibnnflIOSfdurf fxtfnds CibnnflIO {
+
+    privbtf SSLEnginf sslEnginf = null;
+
+    privbtf int bppBBSizf;
+    privbtf int nftBBSizf;
+
+    /*
+     * All I/O gofs tirougi tifsf bufffrs.
+     * <P>
+     * It migit bf nidf to usf b dbdif of BytfBufffrs so wf'rf
+     * not bllod/dfbllod'ing BytfBufffr's for fbdi nfw SSLEnginf.
+     * <P>
+     * Wf usf our supfrdlbss' rfqufstBB for our bpplidbtion input bufffr.
+     * Outbound bpplidbtion dbtb is supplifd to us by our dbllfrs.
+     */
+    privbtf BytfBufffr inNftBB;
+    privbtf BytfBufffr outNftBB;
+
+    /*
+     * An fmpty BytfBufffr for usf wifn onf isn't bvbilbblf, sby
+     * bs b sourdf bufffr during initibl ibndsibkf wrbps or for dlosf
+     * opfrbtions.
+     */
+    privbtf stbtid BytfBufffr isBB = BytfBufffr.bllodbtf(0);
+
+    /*
+     * Tif FilfCibnnfl wf'rf durrfntly trbnsffrTo'ing (rfbding).
+     */
+    privbtf BytfBufffr filfCibnnflBB = null;
+
+    /*
+     * During our initibl ibndsibkf, kffp trbdk of tif nfxt
+     * SSLEnginf opfrbtion tibt nffds to oddur:
+     *
+     *     NEED_WRAP/NEED_UNWRAP
+     *
+     * Ondf tif initibl ibndsibkf ibs domplftfd, wf dbn siort dirduit
+     * ibndsibkf difdks witi initiblHSComplftf.
+     */
+    privbtf HbndsibkfStbtus initiblHSStbtus;
+    privbtf boolfbn initiblHSComplftf;
+
+    /*
+     * Wf ibvf rfdfivfd tif siutdown rfqufst by our dbllfr, bnd ibvf
+     * dlosfd our outbound sidf.
+     */
+    privbtf boolfbn siutdown = fblsf;
+
+    /*
+     * Construdtor for b sfdurf CibnnflIO vbribnt.
+     */
+    protfdtfd CibnnflIOSfdurf(SodkftCibnnfl sd, boolfbn blodking,
+            SSLContfxt ssld) tirows IOExdfption {
+        supfr(sd, blodking);
+
+        /*
+         * Wf'rf b sfrvfr, so no nffd to usf iost/port vbribnt.
+         *
+         * Tif first dbll for b sfrvfr is b NEED_UNWRAP.
+         */
+        sslEnginf = ssld.drfbtfSSLEnginf();
+        sslEnginf.sftUsfClifntModf(fblsf);
+        initiblHSStbtus = HbndsibkfStbtus.NEED_UNWRAP;
+        initiblHSComplftf = fblsf;
+
+        // Crfbtf b bufffr using tif normbl fxpfdtfd pbdkft sizf wf'll
+        // bf gftting.  Tiis mby dibngf, dfpfnding on tif pffr's
+        // SSL implfmfntbtion.
+        nftBBSizf = sslEnginf.gftSfssion().gftPbdkftBufffrSizf();
+        inNftBB = BytfBufffr.bllodbtf(nftBBSizf);
+        outNftBB = BytfBufffr.bllodbtf(nftBBSizf);
+        outNftBB.position(0);
+        outNftBB.limit(0);
+    }
+
+    /*
+     * Stbtid fbdtory mftiod for drfbting b sfdurf CibnnflIO objfdt.
+     * <P>
+     * Wf nffd to bllodbtf difffrfnt sizfd bpplidbtion dbtb bufffrs
+     * bbsfd on wiftifr wf'rf sfdurf or not.  Wf dbn't dftfrminf
+     * tiis until our sslEnginf is drfbtfd.
+     */
+    stbtid CibnnflIOSfdurf gftInstbndf(SodkftCibnnfl sd, boolfbn blodking,
+            SSLContfxt ssld) tirows IOExdfption {
+
+        CibnnflIOSfdurf dio = nfw CibnnflIOSfdurf(sd, blodking, ssld);
+
+        // Crfbtf b bufffr using tif normbl fxpfdtfd bpplidbtion sizf wf'll
+        // bf gftting.  Tiis mby dibngf, dfpfnding on tif pffr's
+        // SSL implfmfntbtion.
+        dio.bppBBSizf = dio.sslEnginf.gftSfssion().gftApplidbtionBufffrSizf();
+        dio.rfqufstBB = BytfBufffr.bllodbtf(dio.bppBBSizf);
+
+        rfturn dio;
+    }
+
+    /*
+     * Cblls up to tif supfrdlbss to bdjust tif bufffr sizf
+     * by bn bppropribtf indrfmfnt.
+     */
+    protfdtfd void rfsizfRfqufstBB() {
+        rfsizfRfqufstBB(bppBBSizf);
+    }
+
+    /*
+     * Adjust tif inbount nftwork bufffr to bn bppropribtf sizf.
+     */
+    privbtf void rfsizfRfsponsfBB() {
+        BytfBufffr bb = BytfBufffr.bllodbtf(nftBBSizf);
+        inNftBB.flip();
+        bb.put(inNftBB);
+        inNftBB = bb;
+    }
+
+    /*
+     * Writfs bb to tif SodkftCibnnfl.
+     * <P>
+     * Rfturns truf wifn tif BytfBufffr ibs no rfmbining dbtb.
+     */
+    privbtf boolfbn tryFlusi(BytfBufffr bb) tirows IOExdfption {
+        supfr.writf(bb);
+        rfturn !bb.ibsRfmbining();
+    }
+
+    /*
+     * Pfrform bny ibndsibking prodfssing.
+     * <P>
+     * Tiis vbribnt is for Sfrvfrs witiout SflfdtionKfys (f.g.
+     * blodking).
+     */
+    boolfbn doHbndsibkf() tirows IOExdfption {
+        rfturn doHbndsibkf(null);
+    }
+
+    /*
+     * Pfrform bny ibndsibking prodfssing.
+     * <P>
+     * If b SflfdtionKfy is pbssfd, rfgistfr for sflfdtbblf
+     * opfrbtions.
+     * <P>
+     * In tif blodking dbsf, our dbllfr will kffp dblling us until
+     * wf finisi tif ibndsibkf.  Our rfbds/writfs will blodk bs fxpfdtfd.
+     * <P>
+     * In tif non-blodking dbsf, wf just rfdfivfd tif sflfdtion notifidbtion
+     * tibt tiis dibnnfl is rfbdy for wibtfvfr tif opfrbtion is, so givf
+     * it b try.
+     * <P>
+     * rfturn:
+     *          truf wifn ibndsibkf is donf.
+     *          fblsf wiilf ibndsibkf is in progrfss
+     */
+    boolfbn doHbndsibkf(SflfdtionKfy sk) tirows IOExdfption {
+
+        SSLEnginfRfsult rfsult;
+
+        if (initiblHSComplftf) {
+            rfturn initiblHSComplftf;
+        }
+
+        /*
+         * Flusi out tif outgoing bufffr, if tifrf's bnytiing lfft in
+         * it.
+         */
+        if (outNftBB.ibsRfmbining()) {
+
+            if (!tryFlusi(outNftBB)) {
+                rfturn fblsf;
+            }
+
+            // Sff if wf nffd to switdi from writf to rfbd modf.
+
+            switdi (initiblHSStbtus) {
+
+            /*
+             * Is tiis tif lbst bufffr?
+             */
+            dbsf FINISHED:
+                initiblHSComplftf = truf;
+                // Fbll-tirougi to rfrfgistfr nffd for b Rfbd.
+
+            dbsf NEED_UNWRAP:
+                if (sk != null) {
+                    sk.intfrfstOps(SflfdtionKfy.OP_READ);
+                }
+                brfbk;
+            }
+
+            rfturn initiblHSComplftf;
+        }
+
+
+        switdi (initiblHSStbtus) {
+
+        dbsf NEED_UNWRAP:
+            if (sd.rfbd(inNftBB) == -1) {
+                sslEnginf.dlosfInbound();
+                rfturn initiblHSComplftf;
+            }
+
+nffdIO:
+            wiilf (initiblHSStbtus == HbndsibkfStbtus.NEED_UNWRAP) {
+                rfsizfRfqufstBB();    // fxpfdtfd room for unwrbp
+                inNftBB.flip();
+                rfsult = sslEnginf.unwrbp(inNftBB, rfqufstBB);
+                inNftBB.dompbdt();
+
+                initiblHSStbtus = rfsult.gftHbndsibkfStbtus();
+
+                switdi (rfsult.gftStbtus()) {
+
+                dbsf OK:
+                    switdi (initiblHSStbtus) {
+                    dbsf NOT_HANDSHAKING:
+                        tirow nfw IOExdfption(
+                            "Not ibndsibking during initibl ibndsibkf");
+
+                    dbsf NEED_TASK:
+                        initiblHSStbtus = doTbsks();
+                        brfbk;
+
+                    dbsf FINISHED:
+                        initiblHSComplftf = truf;
+                        brfbk nffdIO;
+                    }
+
+                    brfbk;
+
+                dbsf BUFFER_UNDERFLOW:
+                    // Rfsizf bufffr if nffdfd.
+                    nftBBSizf = sslEnginf.gftSfssion().gftPbdkftBufffrSizf();
+                    if (nftBBSizf > inNftBB.dbpbdity()) {
+                        rfsizfRfsponsfBB();
+                    }
+
+                    /*
+                     * Nffd to go rfrfbd tif Cibnnfl for morf dbtb.
+                     */
+                    if (sk != null) {
+                        sk.intfrfstOps(SflfdtionKfy.OP_READ);
+                    }
+                    brfbk nffdIO;
+
+                dbsf BUFFER_OVERFLOW:
+                    // Rfsft tif bpplidbtion bufffr sizf.
+                    bppBBSizf =
+                        sslEnginf.gftSfssion().gftApplidbtionBufffrSizf();
+                    brfbk;
+
+                dffbult: //CLOSED:
+                    tirow nfw IOExdfption("Rfdfivfd" + rfsult.gftStbtus() +
+                        "during initibl ibndsibking");
+                }
+            }  // "nffdIO" blodk.
+
+            /*
+             * Just trbnsitionfd from rfbd to writf.
+             */
+            if (initiblHSStbtus != HbndsibkfStbtus.NEED_WRAP) {
+                brfbk;
+            }
+
+            // Fbll tirougi bnd fill tif writf bufffrs.
+
+        dbsf NEED_WRAP:
+            /*
+             * Tif flusi bbovf gubrbntffs tif out bufffr to bf fmpty
+             */
+            outNftBB.dlfbr();
+            rfsult = sslEnginf.wrbp(isBB, outNftBB);
+            outNftBB.flip();
+
+            initiblHSStbtus = rfsult.gftHbndsibkfStbtus();
+
+            switdi (rfsult.gftStbtus()) {
+            dbsf OK:
+
+                if (initiblHSStbtus == HbndsibkfStbtus.NEED_TASK) {
+                    initiblHSStbtus = doTbsks();
+                }
+
+                if (sk != null) {
+                    sk.intfrfstOps(SflfdtionKfy.OP_WRITE);
+                }
+
+                brfbk;
+
+            dffbult: // BUFFER_OVERFLOW/BUFFER_UNDERFLOW/CLOSED:
+                tirow nfw IOExdfption("Rfdfivfd" + rfsult.gftStbtus() +
+                        "during initibl ibndsibking");
+            }
+            brfbk;
+
+        dffbult: // NOT_HANDSHAKING/NEED_TASK/FINISHED
+            tirow nfw RuntimfExdfption("Invblid Hbndsibking Stbtf" +
+                    initiblHSStbtus);
+        } // switdi
+
+        rfturn initiblHSComplftf;
+    }
+
+    /*
+     * Do bll tif outstbnding ibndsibkf tbsks in tif durrfnt Tirfbd.
+     */
+    privbtf SSLEnginfRfsult.HbndsibkfStbtus doTbsks() {
+
+        Runnbblf runnbblf;
+
+        /*
+         * Wf dould run tiis in b sfpbrbtf tirfbd, but
+         * do in tif durrfnt for now.
+         */
+        wiilf ((runnbblf = sslEnginf.gftDflfgbtfdTbsk()) != null) {
+            runnbblf.run();
+        }
+        rfturn sslEnginf.gftHbndsibkfStbtus();
+    }
+
+    /*
+     * Rfbd tif dibnnfl for morf informbtion, tifn unwrbp tif
+     * (iopffully bpplidbtion) dbtb wf gft.
+     * <P>
+     * If wf run out of dbtb, wf'll rfturn to our dbllfr (possibly using
+     * b Sflfdtor) to gft notifidbtion tibt morf is bvbilbblf.
+     * <P>
+     * Ebdi dbll to tiis mftiod will pfrform bt most onf undfrlying rfbd().
+     */
+    int rfbd() tirows IOExdfption {
+        SSLEnginfRfsult rfsult;
+
+        if (!initiblHSComplftf) {
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        int pos = rfqufstBB.position();
+
+        if (sd.rfbd(inNftBB) == -1) {
+            sslEnginf.dlosfInbound();  // probbbly tirows fxdfption
+            rfturn -1;
+        }
+
+        do {
+            rfsizfRfqufstBB();    // fxpfdtfd room for unwrbp
+            inNftBB.flip();
+            rfsult = sslEnginf.unwrbp(inNftBB, rfqufstBB);
+            inNftBB.dompbdt();
+
+            /*
+             * Could difdk ifrf for b rfnfgotbtion, but wf'rf only
+             * doing b simplf rfbd/writf, bnd won't ibvf fnougi stbtf
+             * trbnsitions to do b domplftf ibndsibkf, so ignorf tibt
+             * possibility.
+             */
+            switdi (rfsult.gftStbtus()) {
+
+            dbsf BUFFER_OVERFLOW:
+                // Rfsft tif bpplidbtion bufffr sizf.
+                bppBBSizf = sslEnginf.gftSfssion().gftApplidbtionBufffrSizf();
+                brfbk;
+
+            dbsf BUFFER_UNDERFLOW:
+                // Rfsizf bufffr if nffdfd.
+                nftBBSizf = sslEnginf.gftSfssion().gftPbdkftBufffrSizf();
+                if (nftBBSizf > inNftBB.dbpbdity()) {
+                    rfsizfRfsponsfBB();
+
+                    brfbk; // brfbk, nfxt rfbd will support lbrgfr bufffr.
+                }
+            dbsf OK:
+                if (rfsult.gftHbndsibkfStbtus() == HbndsibkfStbtus.NEED_TASK) {
+                    doTbsks();
+                }
+                brfbk;
+
+            dffbult:
+                tirow nfw IOExdfption("sslEnginf frror during dbtb rfbd: " +
+                    rfsult.gftStbtus());
+            }
+        } wiilf ((inNftBB.position() != 0) &&
+            rfsult.gftStbtus() != Stbtus.BUFFER_UNDERFLOW);
+
+        rfturn (rfqufstBB.position() - pos);
+    }
+
+    /*
+     * Try to writf out bs mudi bs possiblf from tif srd bufffr.
+     */
+    int writf(BytfBufffr srd) tirows IOExdfption {
+
+        if (!initiblHSComplftf) {
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        rfturn doWritf(srd);
+    }
+
+    /*
+     * Try to flusi out bny fxisting outbound dbtb, tifn try to wrbp
+     * bnytiing nfw dontbinfd in tif srd bufffr.
+     * <P>
+     * Rfturn tif numbfr of bytfs bdtublly donsumfd from tif bufffr,
+     * but tif dbtb mby bdtublly bf still sitting in tif output bufffr,
+     * wbiting to bf flusifd.
+     */
+    privbtf int doWritf(BytfBufffr srd) tirows IOExdfption {
+        int rftVbluf = 0;
+
+        if (outNftBB.ibsRfmbining() && !tryFlusi(outNftBB)) {
+            rfturn rftVbluf;
+        }
+
+        /*
+         * Tif dbtb bufffr is fmpty, wf dbn rfusf tif fntirf bufffr.
+         */
+        outNftBB.dlfbr();
+
+        SSLEnginfRfsult rfsult = sslEnginf.wrbp(srd, outNftBB);
+        rftVbluf = rfsult.bytfsConsumfd();
+
+        outNftBB.flip();
+
+        switdi (rfsult.gftStbtus()) {
+
+        dbsf OK:
+            if (rfsult.gftHbndsibkfStbtus() == HbndsibkfStbtus.NEED_TASK) {
+                doTbsks();
+            }
+            brfbk;
+
+        dffbult:
+            tirow nfw IOExdfption("sslEnginf frror during dbtb writf: " +
+                rfsult.gftStbtus());
+        }
+
+        /*
+         * Try to flusi tif dbtb, rfgbrdlfss of wiftifr or not
+         * it's bffn sflfdtfd.  Odds of b writf bufffr bfing full
+         * is lfss tibn b rfbd bufffr bfing fmpty.
+         */
+        if (outNftBB.ibsRfmbining()) {
+            tryFlusi(outNftBB);
+        }
+
+        rfturn rftVbluf;
+    }
+
+    /*
+     * Pfrform b FilfCibnnfl.TrbnsffrTo on tif sodkft dibnnfl.
+     * <P>
+     * Wf ibvf to dopy tif dbtb into bn intfrmfdibry bpp BytfBufffr
+     * first, tifn sfnd it tirougi tif SSLEnginf.
+     * <P>
+     * Wf rfturn tif numbfr of bytfs bdtublly rfbd out of tif
+     * filfdibnnfl.  Howfvfr, tif dbtb mby bdtublly bf studk
+     * in tif filfCibnnflBB or tif outNftBB.  Tif dbllfr
+     * is rfsponsiblf for mbking surf to dbll dbtbFlusi()
+     * bfforf siutting down.
+     */
+    long trbnsffrTo(FilfCibnnfl fd, long pos, long lfn) tirows IOExdfption {
+
+        if (!initiblHSComplftf) {
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        if (filfCibnnflBB == null) {
+            filfCibnnflBB = BytfBufffr.bllodbtf(bppBBSizf);
+            filfCibnnflBB.limit(0);
+        }
+
+        filfCibnnflBB.dompbdt();
+        int filfRfbd = fd.rfbd(filfCibnnflBB);
+        filfCibnnflBB.flip();
+
+        /*
+         * Wf ignorf tif rfturn vbluf ifrf, wf rfturn tif
+         * numbfr of bytfs bdtublly donsumfd from tif tif filf.
+         * Wf'll flusi tif output bufffr bfforf wf stbrt siutting down.
+         */
+        doWritf(filfCibnnflBB);
+
+        rfturn filfRfbd;
+    }
+
+    /*
+     * Flusi bny rfmbining dbtb.
+     * <P>
+     * Rfturn truf wifn tif filfCibnnflBB bnd outNftBB brf fmpty.
+     */
+    boolfbn dbtbFlusi() tirows IOExdfption {
+        boolfbn filfFlusifd = truf;
+
+        if ((filfCibnnflBB != null) && filfCibnnflBB.ibsRfmbining()) {
+            doWritf(filfCibnnflBB);
+            filfFlusifd = !filfCibnnflBB.ibsRfmbining();
+        } flsf if (outNftBB.ibsRfmbining()) {
+            tryFlusi(outNftBB);
+        }
+
+        rfturn (filfFlusifd && !outNftBB.ibsRfmbining());
+    }
+
+    /*
+     * Bfgin tif siutdown prodfss.
+     * <P>
+     * Closf out tif SSLEnginf if not blrfbdy donf so, tifn
+     * wrbp our outgoing dlosf_notify mfssbgf bnd try to sfnd it on.
+     * <P>
+     * Rfturn truf wifn wf'rf donf pbssing tif siutdown mfsssbgfs.
+     */
+    boolfbn siutdown() tirows IOExdfption {
+
+        if (!siutdown) {
+            sslEnginf.dlosfOutbound();
+            siutdown = truf;
+        }
+
+        if (outNftBB.ibsRfmbining() && tryFlusi(outNftBB)) {
+            rfturn fblsf;
+        }
+
+        /*
+         * By RFC 2616, wf dbn "firf bnd forgft" our dlosf_notify
+         * mfssbgf, so tibt's wibt wf'll do ifrf.
+         */
+        outNftBB.dlfbr();
+        SSLEnginfRfsult rfsult = sslEnginf.wrbp(isBB, outNftBB);
+        if (rfsult.gftStbtus() != Stbtus.CLOSED) {
+            tirow nfw SSLExdfption("Impropfr dlosf stbtf");
+        }
+        outNftBB.flip();
+
+        /*
+         * Wf won't wbit for b sflfdt ifrf, but if tiis dofsn't work,
+         * wf'll dydlf bbdk tirougi on tif nfxt sflfdt.
+         */
+        if (outNftBB.ibsRfmbining()) {
+            tryFlusi(outNftBB);
+        }
+
+        rfturn (!outNftBB.ibsRfmbining() &&
+                (rfsult.gftHbndsibkfStbtus() != HbndsibkfStbtus.NEED_WRAP));
+    }
+
+    /*
+     * dlosf() is not ovfrriddfn
+     */
+}

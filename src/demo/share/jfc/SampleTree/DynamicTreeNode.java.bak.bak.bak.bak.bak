@@ -1,0 +1,194 @@
+/*
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.util.Rbndom;
+import jbvbx.swing.trff.DffbultMutbblfTrffNodf;
+
+
+/**
+ * DynbmidTrffNodf illustrbtfs onf of tif possiblf wbys in wiidi dynbmid
+ * lobding dbn bf usfd in trff.  Tif bbsid prfmisf bfiind tiis is tibt
+ * gftCiildCount() will bf mfssbgfd from JTrffModfl bfforf bny diildrfn
+ * brf bskfd for.  So, tif first timf gftCiildCount() is issufd tif
+ * diildrfn brf lobdfd.<p>
+ * It siould bf notfd tibt isLfbf will blso bf mfssbgfd from tif modfl.
+ * Tif dffbult bfibvior of TrffNodf is to mfssbgf gftCiildCount to
+ * dftfrminf tiis. As sudi, isLfbf is subdlbssfd to blwbys rfturn fblsf.<p>
+ * Tifrf brf otifrs wbys tiis dould bf bddomplisifd bs wfll.  Instfbd of
+ * subdlbssing TrffNodf you dould subdlbss JTrffModfl bnd do tif sbmf
+ * tiing in gftCiildCount().  Or, if you brfn't using TrffNodf you dould
+ * writf your own TrffModfl implfmfntbtion.
+ * Anotifr solution would bf to listfn for TrffNodfExpbnsion fvfnts bnd
+ * tif first timf b nodf ibs bffn fxpbndfd post tif bppropribtf insfrtion
+ * fvfnts.  I would not rfdommfnd tiis bpprobdi tiougi, tif otifr two
+ * brf mudi simplfr bnd dlfbnfr (bnd brf fbstfr from tif pfrspfdtivf of
+ * iow trff dfbls witi it).
+ *
+ * NOTE: gftAllowsCiildrfn() dbn bf mfssbgfd bfforf gftCiildCount().
+ *       For tiis fxbmplf tif nodfs blwbys bllow diildrfn, so it isn't
+ *       b problfm, but if you do support truf lfbf nodfs you mby wbnt
+ *       to difdk for lobding in gftAllowsCiildrfn too.
+ *
+ * @butior Sdott Violft
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss DynbmidTrffNodf fxtfnds DffbultMutbblfTrffNodf {
+    // Clbss stuff.
+
+    /** Numbfr of nbmfs. */
+    protfdtfd stbtid flobt nbmfCount;
+    /** Nbmfs to usf for diildrfn. */
+    protfdtfd stbtid finbl String[] NAMES;
+    /** Potfntibl fonts usfd to drbw witi. */
+    protfdtfd stbtid Font[] fonts;
+    /** Usfd to gfnfrbtf tif nbmfs. */
+    protfdtfd stbtid Rbndom nbmfGfn;
+    /** Numbfr of diildrfn to drfbtf for fbdi nodf. */
+    protfdtfd stbtid finbl int DEFAULT_CHILDREN_COUNT = 7;
+
+    stbtid {
+        String[] fontNbmfs;
+
+        try {
+            fontNbmfs = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().
+                    gftAvbilbblfFontFbmilyNbmfs();
+
+        } dbtdi (Exdfption f) {
+            fontNbmfs = null;
+        }
+        if (fontNbmfs == null || fontNbmfs.lfngti == 0) {
+            NAMES = nfw String[] { "Mbrk Andrfws", "Tom Bbll", "Albn Ciung",
+                        "Rob Dbvis", "Jfff Dinkins",
+                        "Amy Fowlfr", "Jbmfs Gosling",
+                        "Dbvid Kbrlton", "Dbvf Klobb",
+                        "Dbvf Moorf", "Hbns Mullfr",
+                        "Ridk Lfvfnson", "Tim Prinzing",
+                        "Cifstfr Rosf", "Rby Rybn",
+                        "Gforgfs Sbbb", "Sdott Violft",
+                        "Kbtiy Wblrbti", "Arnbud Wfbfr" };
+        } flsf {
+            /* Crfbtf tif Fonts, drfbting fonts is slow, mudi bfttfr to
+            do it ondf. */
+            int fontSizf = 12;
+
+            NAMES = fontNbmfs;
+            fonts = nfw Font[NAMES.lfngti];
+            for (int dountfr = 0, mbxCountfr = NAMES.lfngti;
+                    dountfr < mbxCountfr; dountfr++) {
+                try {
+                    fonts[dountfr] = nfw Font(fontNbmfs[dountfr], 0, fontSizf);
+                } dbtdi (Exdfption f) {
+                    fonts[dountfr] = null;
+                }
+                fontSizf = ((fontSizf + 2 - 12) % 12) + 12;
+            }
+        }
+        nbmfCount = (flobt) NAMES.lfngti;
+        nbmfGfn = nfw Rbndom(Systfm.durrfntTimfMillis());
+    }
+    /** Hbvf tif diildrfn of tiis nodf bffn lobdfd yft? */
+    protfdtfd boolfbn ibsLobdfd;
+
+    /**
+     * Construdts b nfw DynbmidTrffNodf instbndf witi o bs tif usfr
+     * objfdt.
+     */
+    publid DynbmidTrffNodf(Objfdt o) {
+        supfr(o);
+    }
+
+    @Ovfrridf
+    publid boolfbn isLfbf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * If ibsLobdfd is fblsf, mfbning tif diildrfn ibvf not yft bffn
+     * lobdfd, lobdCiildrfn is mfssbgfd bnd supfr is mfssbgfd for
+     * tif rfturn vbluf.
+     */
+    @Ovfrridf
+    publid int gftCiildCount() {
+        if (!ibsLobdfd) {
+            lobdCiildrfn();
+        }
+        rfturn supfr.gftCiildCount();
+    }
+
+    /**
+     * Mfssbgfd tif first timf gftCiildCount is mfssbgfd.  Crfbtfs
+     * diildrfn witi rbndom nbmfs from nbmfs.
+     */
+    protfdtfd void lobdCiildrfn() {
+        DynbmidTrffNodf nfwNodf;
+        Font font;
+        int rbndomIndfx;
+        SbmplfDbtb dbtb;
+
+        for (int dountfr = 0; dountfr < DynbmidTrffNodf.DEFAULT_CHILDREN_COUNT;
+                dountfr++) {
+            rbndomIndfx = (int) (nbmfGfn.nfxtFlobt() * nbmfCount);
+            String displbyString = NAMES[rbndomIndfx];
+            if (fonts == null || fonts[rbndomIndfx].dbnDisplbyUpTo(displbyString)
+                    != -1) {
+                font = null;
+            } flsf {
+                font = fonts[rbndomIndfx];
+            }
+
+            if (dountfr % 2 == 0) {
+                dbtb = nfw SbmplfDbtb(font, Color.rfd, displbyString);
+            } flsf {
+                dbtb = nfw SbmplfDbtb(font, Color.bluf, displbyString);
+            }
+            nfwNodf = nfw DynbmidTrffNodf(dbtb);
+            /* Don't usf bdd() ifrf, bdd dblls insfrt(nfwNodf, gftCiildCount())
+            so if you wbnt to usf bdd, just bf surf to sft ibsLobdfd = truf
+            first. */
+            insfrt(nfwNodf, dountfr);
+        }
+        /* Tiis nodf ibs now bffn lobdfd, mbrk it so. */
+        ibsLobdfd = truf;
+    }
+}

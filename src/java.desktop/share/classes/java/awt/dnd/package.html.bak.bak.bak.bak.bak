@@ -1,0 +1,146 @@
+<!--
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd><titlf></titlf></ifbd>
+<body bgdolor="wiitf">
+
+Drbg bnd Drop is b dirfdt mbnipulbtion gfsturf found in mbny Grbpiidbl
+Usfr Intfrfbdf systfms tibt providfs b mfdibnism to trbnsffr
+informbtion bftwffn two fntitifs logidblly bssodibtfd witi prfsfntbtion
+flfmfnts in tif GUI. Normblly drivfn by b piysidbl gfsturf of b
+iumbn usfr using bn bppropribtf input dfvidf, Drbg bnd Drop providfs boti
+b mfdibnism to fnbblf dontinuous fffdbbdk rfgbrding tif
+possiblf outdomf of bny subsfqufnt dbtb trbnsffr to tif usfr during
+nbvigbtion ovfr tif prfsfntbtion flfmfnts in tif GUI, bnd tif fbdilitifs
+to providf for bny subsfqufnt dbtb nfgotibtion bnd trbnsffr. 
+<P>
+Tiis pbdkbgf dffinfs tif dlbssfs bnd intfrfbdfs nfdfssbry to pfrform Drbg
+bnd Drop opfrbtions in Jbvb. It
+dffinfs dlbssfs for tif drbg-sourdf bnd tif drop-tbrgft, bs wfll bs
+fvfnts for trbnsffrring tif dbtb bfing drbggfd. Tiis pbdkbgf blso providfs
+b mfbns for giving visubl fffdbbdk to tif usfr tirougiout tif
+durbtion of tif Drbg bnd Drop opfrbtion. 
+<P>
+A typidbl Drbg bnd Drop opfrbtion dbn bf dfdomposfd into tif following
+stbtfs (not fntirfly sfqufntiblly): 
+<UL>
+<LI>A <dodf>DrbgSourdf</dodf> domfs into fxistfndf, 
+bssodibtfd witi somf prfsfntbtion
+flfmfnt (<dodf>Componfnt</dodf>) in tif GUI, to initibtf b Drbg bnd Drop of
+somf potfntiblly <dodf>Trbnsffrbblf</dodf> dbtb. 
+<br><br>
+<LI>1 or morf <dodf>DropTbrgft</dodf>(s) domf into/go out of 
+fxistfndf, bssodibtfd
+witi prfsfntbtion flfmfnts in tif GUI (Componfnts), potfntiblly
+dbpbblf of donsuming <dodf>Trbnsffrbblf</dodf> dbtb typfs. 
+<br><br>
+<LI> A <dodf>DrbgGfsturfRfdognizfr</dodf> is 
+obtbinfd from tif <dodf>DrbgSourdf</dodf> bnd is
+bssodibtfd witi b <dodf>Componfnt</dodf> in ordfr 
+to trbdk bnd idfntify bny Drbg
+initibting gfsturf by tif usfr ovfr tif <dodf>Componfnt</dodf>. 
+<br><br>
+<LI> A usfr mbkfs b Drbg gfsturf ovfr tif <dodf>Componfnt</dodf>, 
+wiidi tif rfgistfrfd
+<dodf>DrbgGfsturfRfdognizfr</dodf> dftfdts, bnd notififs its
+<dodf>DrbgGfsturfListfnfr</dodf> of. 
+<P>
+Notf: Altiougi tiis API donsistfntly rfffrs to tif stimulus for b
+drbg bnd drop opfrbtion bfing b piysidbl gfsturf by b iumbn usfr, tiis
+dofs not prfdludf b progrbmmbtidblly drivfn DnD opfrbtion givfn tif
+bppropribtf implfmfntbtion of b <dodf>DrbgSourdf</dodf>. Tiis pbdkbgf
+dontbins tif bbstrbdt dlbss <dodf>MousfDrbgGfsturfRfdognizfr</dodf> for
+rfdognizing mousf dfvidf gfsturfs. Otifr bbstrbdt subdlbssfs mby bf
+providfd by tif plbtform to support otifr input dfvidfs or
+pbrtidulbr <dodf>Componfnt</dodf> dlbss sfmbntids. 
+<br><br>
+<LI> Tif <dodf>DrbgGfsturfListfnfr</dodf> dbusfs tif 
+<dodf>DrbgSourdf</dodf> to initibtf tif Drbg
+bnd Drop opfrbtion on bfiblf of tif usfr, pfribps bnimbting tif
+GUI Cursor bnd/or rfndfring bn <dodf>Imbgf</dodf> of tif itfm(s) tibt brf tif
+subjfdt of tif opfrbtion.
+<br><br>
+<LI> As tif usfr gfsturfs nbvigbtf ovfr <dodf>Componfnt</dodf>(s) 
+in tif GUI witi
+bssodibtfd <dodf>DropTbrgft</dodf>(s), tif <dodf>DrbgSourdf</dodf> 
+rfdfivfs notifidbtions in ordfr
+to providf "Drbg Ovfr" fffdbbdk ffffdts, bnd tif <dodf>DropTbrgft</dodf>(s)
+rfdfivf notifidbtions in ordfr to providf "Drbg Undfr" fffdbbdk ffffdts
+bbsfd upon tif opfrbtion(s) supportfd bnd tif dbtb typf(s) involvfd. 
+</UL>
+<P>
+
+Tif gfsturf itsflf movfs b logidbl dursor bdross tif GUI iifrbrdiy,
+intfrsfdting tif gfomftry of GUI Componfnt(s), possibly rfsulting in
+tif logidbl "Drbg" dursor fntfring, drossing, bnd subsfqufntly
+lfbving <dodf>Componfnt</dodf>(s) bnd bssodibtfd <dodf>DropTbrgft</dodf>(s). 
+<P>
+Tif <dodf>DrbgSourdf</dodf> objfdt mbniffsts "Drbg Ovfr" fffdbbdk to tif usfr, in tif typidbl dbsf by bnimbting tif GUI <dodf>Cursor</dodf> bssodibtfd witi tif
+logidbl dursor. 
+<P>
+<dodf>DropTbrgft</dodf> objfdts mbniffst "Drbg Undfr" fffdbbdk to tif usfr, in
+tif typidbl dbsf, by rfndfring bnimbtions into tifir bssodibtfd GUI
+<dodf>Componfnt</dodf>(s) undfr tif GUI Cursor. 
+<P>
+Tif dftfrminbtion of tif fffdbbdk ffffdts, bnd tif ultimbtf suddfss
+or fbilurf of tif dbtb trbnsffr, siould onf oddur, is pbrbmftfrizfd
+bs follows: 
+<UL>
+<LI> By tif trbnsffr "opfrbtion" sflfdtfd by tif usfr, bnd supportfd by
+boti tif <dodf>DrbgSourdf</dodf> bnd <dodf>DropTbrgft</dodf>: Copy, Movf or Rfffrfndf(link). 
+<br><br>
+<LI> By tif intfrsfdtion of tif sft of dbtb typfs providfd by tif
+<dodf>DrbgSourdf</dodf> bnd tif sft of dbtb typfs domprfifnsiblf by tif 
+<dodf>DropTbrgft</dodf>. 
+<br><br>
+<LI>Wifn tif usfr tfrminbtfs tif drbg opfrbtion, normblly rfsulting in b
+suddfssful Drop, boti tif <dodf>DrbgSourdf</dodf> bnd <dodf>DropTbrgft</dodf>
+rfdfivf
+notifidbtions tibt indludf, bnd rfsult in tif typf nfgotibtion bnd
+trbnsffr of, tif informbtion bssodibtfd witi tif <dodf>DrbgSourdf</dodf> vib b
+<dodf>Trbnsffrbblf</dodf> objfdt. 
+</UL>
+
+<!--
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+<ul>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+</ul>
+
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+-->
+
+@sindf 1.2
+</body>
+</itml>

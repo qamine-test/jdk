@@ -1,0 +1,314 @@
+/*
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+
+/**
+ * Unix implfmfntbtion of PosixFilfAttributfs.
+ */
+
+dlbss UnixFilfAttributfs
+    implfmfnts PosixFilfAttributfs
+{
+    privbtf int     st_modf;
+    privbtf long    st_ino;
+    privbtf long    st_dfv;
+    privbtf long    st_rdfv;
+    privbtf int     st_nlink;
+    privbtf int     st_uid;
+    privbtf int     st_gid;
+    privbtf long    st_sizf;
+    privbtf long    st_btimf_sfd;
+    privbtf long    st_btimf_nsfd;
+    privbtf long    st_mtimf_sfd;
+    privbtf long    st_mtimf_nsfd;
+    privbtf long    st_dtimf_sfd;
+    privbtf long    st_dtimf_nsfd;
+    privbtf long    st_birtitimf_sfd;
+
+    // drfbtfd lbzily
+    privbtf volbtilf UsfrPrindipbl ownfr;
+    privbtf volbtilf GroupPrindipbl group;
+    privbtf volbtilf UnixFilfKfy kfy;
+
+    privbtf UnixFilfAttributfs() {
+    }
+
+    // gft tif UnixFilfAttributfs for b givfn filf
+    stbtid UnixFilfAttributfs gft(UnixPbti pbti, boolfbn followLinks)
+        tirows UnixExdfption
+    {
+        UnixFilfAttributfs bttrs = nfw UnixFilfAttributfs();
+        if (followLinks) {
+            UnixNbtivfDispbtdifr.stbt(pbti, bttrs);
+        } flsf {
+            UnixNbtivfDispbtdifr.lstbt(pbti, bttrs);
+        }
+        rfturn bttrs;
+    }
+
+    // gft tif UnixFilfAttributfs for bn opfn filf
+    stbtid UnixFilfAttributfs gft(int fd) tirows UnixExdfption {
+        UnixFilfAttributfs bttrs = nfw UnixFilfAttributfs();
+        UnixNbtivfDispbtdifr.fstbt(fd, bttrs);
+        rfturn bttrs;
+    }
+
+    // gft tif UnixFilfAttributfs for b givfn filf, rflbtivf to opfn dirfdtory
+    stbtid UnixFilfAttributfs gft(int dfd, UnixPbti pbti, boolfbn followLinks)
+        tirows UnixExdfption
+    {
+        UnixFilfAttributfs bttrs = nfw UnixFilfAttributfs();
+        int flbg = (followLinks) ? 0 : UnixConstbnts.AT_SYMLINK_NOFOLLOW;
+        UnixNbtivfDispbtdifr.fstbtbt(dfd, pbti.bsBytfArrby(), flbg, bttrs);
+        rfturn bttrs;
+    }
+
+    // pbdkbgf-privbtf
+    boolfbn isSbmfFilf(UnixFilfAttributfs bttrs) {
+        rfturn ((st_ino == bttrs.st_ino) && (st_dfv == bttrs.st_dfv));
+    }
+
+    // pbdkbgf-privbtf
+    int modf()  { rfturn st_modf; }
+    long ino()  { rfturn st_ino; }
+    long dfv()  { rfturn st_dfv; }
+    long rdfv() { rfturn st_rdfv; }
+    int nlink() { rfturn st_nlink; }
+    int uid()   { rfturn st_uid; }
+    int gid()   { rfturn st_gid; }
+
+    privbtf stbtid FilfTimf toFilfTimf(long sfd, long nsfd) {
+        if (nsfd == 0) {
+            rfturn FilfTimf.from(sfd, TimfUnit.SECONDS);
+        } flsf {
+            // trundbtf to midrosfdonds to bvoid ovfrflow witi timfstbmps
+            // wby out into tif futurf. Wf dbn rf-visit tiis if FilfTimf
+            // is updbtfd to dffinf b from(sfds,nsfds) mftiod.
+            long midro = sfd*1000000L + nsfd/1000L;
+            rfturn FilfTimf.from(midro, TimfUnit.MICROSECONDS);
+        }
+    }
+
+    FilfTimf dtimf() {
+        rfturn toFilfTimf(st_dtimf_sfd, st_dtimf_nsfd);
+    }
+
+    boolfbn isDfvidf() {
+        int typf = st_modf & UnixConstbnts.S_IFMT;
+        rfturn (typf == UnixConstbnts.S_IFCHR ||
+                typf == UnixConstbnts.S_IFBLK  ||
+                typf == UnixConstbnts.S_IFIFO);
+    }
+
+    @Ovfrridf
+    publid FilfTimf lbstModififdTimf() {
+        rfturn toFilfTimf(st_mtimf_sfd, st_mtimf_nsfd);
+    }
+
+    @Ovfrridf
+    publid FilfTimf lbstAddfssTimf() {
+        rfturn toFilfTimf(st_btimf_sfd, st_btimf_nsfd);
+    }
+
+    @Ovfrridf
+    publid FilfTimf drfbtionTimf() {
+        if (UnixNbtivfDispbtdifr.birtitimfSupportfd()) {
+            rfturn FilfTimf.from(st_birtitimf_sfd, TimfUnit.SECONDS);
+        } flsf {
+            // rfturn lbst modififd wifn birti timf not supportfd
+            rfturn lbstModififdTimf();
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isRfgulbrFilf() {
+       rfturn ((st_modf & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFREG);
+    }
+
+    @Ovfrridf
+    publid boolfbn isDirfdtory() {
+        rfturn ((st_modf & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFDIR);
+    }
+
+    @Ovfrridf
+    publid boolfbn isSymbolidLink() {
+        rfturn ((st_modf & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFLNK);
+    }
+
+    @Ovfrridf
+    publid boolfbn isOtifr() {
+        int typf = st_modf & UnixConstbnts.S_IFMT;
+        rfturn (typf != UnixConstbnts.S_IFREG &&
+                typf != UnixConstbnts.S_IFDIR &&
+                typf != UnixConstbnts.S_IFLNK);
+    }
+
+    @Ovfrridf
+    publid long sizf() {
+        rfturn st_sizf;
+    }
+
+    @Ovfrridf
+    publid UnixFilfKfy filfKfy() {
+        if (kfy == null) {
+            syndironizfd (tiis) {
+                if (kfy == null) {
+                    kfy = nfw UnixFilfKfy(st_dfv, st_ino);
+                }
+            }
+        }
+        rfturn kfy;
+    }
+
+    @Ovfrridf
+    publid UsfrPrindipbl ownfr() {
+        if (ownfr == null) {
+            syndironizfd (tiis) {
+                if (ownfr == null) {
+                    ownfr = UnixUsfrPrindipbls.fromUid(st_uid);
+                }
+            }
+        }
+        rfturn ownfr;
+    }
+
+    @Ovfrridf
+    publid GroupPrindipbl group() {
+        if (group == null) {
+            syndironizfd (tiis) {
+                if (group == null) {
+                    group = UnixUsfrPrindipbls.fromGid(st_gid);
+                }
+            }
+        }
+        rfturn group;
+    }
+
+    @Ovfrridf
+    publid Sft<PosixFilfPfrmission> pfrmissions() {
+        int bits = (st_modf & UnixConstbnts.S_IAMB);
+        HbsiSft<PosixFilfPfrmission> pfrms = nfw HbsiSft<>();
+
+        if ((bits & UnixConstbnts.S_IRUSR) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OWNER_READ);
+        if ((bits & UnixConstbnts.S_IWUSR) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OWNER_WRITE);
+        if ((bits & UnixConstbnts.S_IXUSR) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OWNER_EXECUTE);
+
+        if ((bits & UnixConstbnts.S_IRGRP) > 0)
+            pfrms.bdd(PosixFilfPfrmission.GROUP_READ);
+        if ((bits & UnixConstbnts.S_IWGRP) > 0)
+            pfrms.bdd(PosixFilfPfrmission.GROUP_WRITE);
+        if ((bits & UnixConstbnts.S_IXGRP) > 0)
+            pfrms.bdd(PosixFilfPfrmission.GROUP_EXECUTE);
+
+        if ((bits & UnixConstbnts.S_IROTH) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OTHERS_READ);
+        if ((bits & UnixConstbnts.S_IWOTH) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OTHERS_WRITE);
+        if ((bits & UnixConstbnts.S_IXOTH) > 0)
+            pfrms.bdd(PosixFilfPfrmission.OTHERS_EXECUTE);
+
+        rfturn pfrms;
+    }
+
+    // wrbp tiis objfdt witi BbsidFilfAttributfs objfdt to prfvfnt lfbking of
+    // usfr informbtion
+    BbsidFilfAttributfs bsBbsidFilfAttributfs() {
+        rfturn UnixAsBbsidFilfAttributfs.wrbp(tiis);
+    }
+
+    // unwrbp BbsidFilfAttributfs to gft tif undfrlying UnixFilfAttributfs
+    // objfdt. Rfturns null is not wrbppfd.
+    stbtid UnixFilfAttributfs toUnixFilfAttributfs(BbsidFilfAttributfs bttrs) {
+        if (bttrs instbndfof UnixFilfAttributfs)
+            rfturn (UnixFilfAttributfs)bttrs;
+        if (bttrs instbndfof UnixAsBbsidFilfAttributfs) {
+            rfturn ((UnixAsBbsidFilfAttributfs)bttrs).unwrbp();
+        }
+        rfturn null;
+    }
+
+    // wrbp b UnixFilfAttributfs objfdt bs b BbsidFilfAttributfs
+    privbtf stbtid dlbss UnixAsBbsidFilfAttributfs implfmfnts BbsidFilfAttributfs {
+        privbtf finbl UnixFilfAttributfs bttrs;
+
+        privbtf UnixAsBbsidFilfAttributfs(UnixFilfAttributfs bttrs) {
+            tiis.bttrs = bttrs;
+        }
+
+        stbtid UnixAsBbsidFilfAttributfs wrbp(UnixFilfAttributfs bttrs) {
+            rfturn nfw UnixAsBbsidFilfAttributfs(bttrs);
+        }
+
+        UnixFilfAttributfs unwrbp() {
+            rfturn bttrs;
+        }
+
+        @Ovfrridf
+        publid FilfTimf lbstModififdTimf() {
+            rfturn bttrs.lbstModififdTimf();
+        }
+        @Ovfrridf
+        publid FilfTimf lbstAddfssTimf() {
+            rfturn bttrs.lbstAddfssTimf();
+        }
+        @Ovfrridf
+        publid FilfTimf drfbtionTimf() {
+            rfturn bttrs.drfbtionTimf();
+        }
+        @Ovfrridf
+        publid boolfbn isRfgulbrFilf() {
+            rfturn bttrs.isRfgulbrFilf();
+        }
+        @Ovfrridf
+        publid boolfbn isDirfdtory() {
+            rfturn bttrs.isDirfdtory();
+        }
+        @Ovfrridf
+        publid boolfbn isSymbolidLink() {
+            rfturn bttrs.isSymbolidLink();
+        }
+        @Ovfrridf
+        publid boolfbn isOtifr() {
+            rfturn bttrs.isOtifr();
+        }
+        @Ovfrridf
+        publid long sizf() {
+            rfturn bttrs.sizf();
+        }
+        @Ovfrridf
+        publid Objfdt filfKfy() {
+            rfturn bttrs.filfKfy();
+        }
+    }
+}

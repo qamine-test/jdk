@@ -1,0 +1,1441 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import sun.misd.FlobtingDfdimbl;
+import jbvb.util.Arrbys;
+
+/**
+ * A mutbblf sfqufndf of dibrbdtfrs.
+ * <p>
+ * Implfmfnts b modifibblf string. At bny point in timf it dontbins somf
+ * pbrtidulbr sfqufndf of dibrbdtfrs, but tif lfngti bnd dontfnt of tif
+ * sfqufndf dbn bf dibngfd tirougi dfrtbin mftiod dblls.
+ *
+ * <p>Unlfss otifrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mftiod in tiis dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * tirown.
+ *
+ * @butior      Midibfl MdCloskfy
+ * @butior      Mbrtin Budiiolz
+ * @butior      Ulf Zibis
+ * @sindf       1.5
+ */
+bbstrbdt dlbss AbstrbdtStringBuildfr implfmfnts Appfndbblf, CibrSfqufndf {
+    /**
+     * Tif vbluf is usfd for dibrbdtfr storbgf.
+     */
+    dibr[] vbluf;
+
+    /**
+     * Tif dount is tif numbfr of dibrbdtfrs usfd.
+     */
+    int dount;
+
+    /**
+     * Tiis no-brg donstrudtor is nfdfssbry for sfriblizbtion of subdlbssfs.
+     */
+    AbstrbdtStringBuildfr() {
+    }
+
+    /**
+     * Crfbtfs bn AbstrbdtStringBuildfr of tif spfdififd dbpbdity.
+     */
+    AbstrbdtStringBuildfr(int dbpbdity) {
+        vbluf = nfw dibr[dbpbdity];
+    }
+
+    /**
+     * Rfturns tif lfngti (dibrbdtfr dount).
+     *
+     * @rfturn  tif lfngti of tif sfqufndf of dibrbdtfrs durrfntly
+     *          rfprfsfntfd by tiis objfdt
+     */
+    @Ovfrridf
+    publid int lfngti() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns tif durrfnt dbpbdity. Tif dbpbdity is tif bmount of storbgf
+     * bvbilbblf for nfwly insfrtfd dibrbdtfrs, bfyond wiidi bn bllodbtion
+     * will oddur.
+     *
+     * @rfturn  tif durrfnt dbpbdity
+     */
+    publid int dbpbdity() {
+        rfturn vbluf.lfngti;
+    }
+
+    /**
+     * Ensurfs tibt tif dbpbdity is bt lfbst fqubl to tif spfdififd minimum.
+     * If tif durrfnt dbpbdity is lfss tibn tif brgumfnt, tifn b nfw intfrnbl
+     * brrby is bllodbtfd witi grfbtfr dbpbdity. Tif nfw dbpbdity is tif
+     * lbrgfr of:
+     * <ul>
+     * <li>Tif {@dodf minimumCbpbdity} brgumfnt.
+     * <li>Twidf tif old dbpbdity, plus {@dodf 2}.
+     * </ul>
+     * If tif {@dodf minimumCbpbdity} brgumfnt is nonpositivf, tiis
+     * mftiod tbkfs no bdtion bnd simply rfturns.
+     * Notf tibt subsfqufnt opfrbtions on tiis objfdt dbn rfdudf tif
+     * bdtubl dbpbdity bflow tibt rfqufstfd ifrf.
+     *
+     * @pbrbm   minimumCbpbdity   tif minimum dfsirfd dbpbdity.
+     */
+    publid void fnsurfCbpbdity(int minimumCbpbdity) {
+        if (minimumCbpbdity > 0)
+            fnsurfCbpbdityIntfrnbl(minimumCbpbdity);
+    }
+
+    /**
+     * Tiis mftiod ibs tif sbmf dontrbdt bs fnsurfCbpbdity, but is
+     * nfvfr syndironizfd.
+     */
+    privbtf void fnsurfCbpbdityIntfrnbl(int minimumCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minimumCbpbdity - vbluf.lfngti > 0)
+            fxpbndCbpbdity(minimumCbpbdity);
+    }
+
+    /**
+     * Tiis implfmfnts tif fxpbnsion sfmbntids of fnsurfCbpbdity witi no
+     * sizf difdk or syndironizbtion.
+     */
+    void fxpbndCbpbdity(int minimumCbpbdity) {
+        int nfwCbpbdity = vbluf.lfngti * 2 + 2;
+        if (nfwCbpbdity - minimumCbpbdity < 0)
+            nfwCbpbdity = minimumCbpbdity;
+        if (nfwCbpbdity < 0) {
+            if (minimumCbpbdity < 0) // ovfrflow
+                tirow nfw OutOfMfmoryError();
+            nfwCbpbdity = Intfgfr.MAX_VALUE;
+        }
+        vbluf = Arrbys.dopyOf(vbluf, nfwCbpbdity);
+    }
+
+    /**
+     * Attfmpts to rfdudf storbgf usfd for tif dibrbdtfr sfqufndf.
+     * If tif bufffr is lbrgfr tibn nfdfssbry to iold its durrfnt sfqufndf of
+     * dibrbdtfrs, tifn it mby bf rfsizfd to bfdomf morf spbdf fffidifnt.
+     * Cblling tiis mftiod mby, but is not rfquirfd to, bfffdt tif vbluf
+     * rfturnfd by b subsfqufnt dbll to tif {@link #dbpbdity()} mftiod.
+     */
+    publid void trimToSizf() {
+        if (dount < vbluf.lfngti) {
+            vbluf = Arrbys.dopyOf(vbluf, dount);
+        }
+    }
+
+    /**
+     * Sfts tif lfngti of tif dibrbdtfr sfqufndf.
+     * Tif sfqufndf is dibngfd to b nfw dibrbdtfr sfqufndf
+     * wiosf lfngti is spfdififd by tif brgumfnt. For fvfry nonnfgbtivf
+     * indfx <i>k</i> lfss tibn {@dodf nfwLfngti}, tif dibrbdtfr bt
+     * indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is tif sbmf bs tif
+     * dibrbdtfr bt indfx <i>k</i> in tif old sfqufndf if <i>k</i> is lfss
+     * tibn tif lfngti of tif old dibrbdtfr sfqufndf; otifrwisf, it is tif
+     * null dibrbdtfr {@dodf '\u005Cu0000'}.
+     *
+     * In otifr words, if tif {@dodf nfwLfngti} brgumfnt is lfss tibn
+     * tif durrfnt lfngti, tif lfngti is dibngfd to tif spfdififd lfngti.
+     * <p>
+     * If tif {@dodf nfwLfngti} brgumfnt is grfbtfr tibn or fqubl
+     * to tif durrfnt lfngti, suffidifnt null dibrbdtfrs
+     * ({@dodf '\u005Cu0000'}) brf bppfndfd so tibt
+     * lfngti bfdomfs tif {@dodf nfwLfngti} brgumfnt.
+     * <p>
+     * Tif {@dodf nfwLfngti} brgumfnt must bf grfbtfr tibn or fqubl
+     * to {@dodf 0}.
+     *
+     * @pbrbm      nfwLfngti   tif nfw lfngti
+     * @tirows     IndfxOutOfBoundsExdfption  if tif
+     *               {@dodf nfwLfngti} brgumfnt is nfgbtivf.
+     */
+    publid void sftLfngti(int nfwLfngti) {
+        if (nfwLfngti < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(nfwLfngti);
+        fnsurfCbpbdityIntfrnbl(nfwLfngti);
+
+        if (dount < nfwLfngti) {
+            Arrbys.fill(vbluf, dount, nfwLfngti, '\0');
+        }
+
+        dount = nfwLfngti;
+    }
+
+    /**
+     * Rfturns tif {@dodf dibr} vbluf in tiis sfqufndf bt tif spfdififd indfx.
+     * Tif first {@dodf dibr} vbluf is bt indfx {@dodf 0}, tif nfxt bt indfx
+     * {@dodf 1}, bnd so on, bs in brrby indfxing.
+     * <p>
+     * Tif indfx brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn tif lfngti of tiis sfqufndf.
+     *
+     * <p>If tif {@dodf dibr} vbluf spfdififd by tif indfx is b
+     * <b irff="Cibrbdtfr.itml#unidodf">surrogbtf</b>, tif surrogbtf
+     * vbluf is rfturnfd.
+     *
+     * @pbrbm      indfx   tif indfx of tif dfsirfd {@dodf dibr} vbluf.
+     * @rfturn     tif {@dodf dibr} vbluf bt tif spfdififd indfx.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr tibn or fqubl to {@dodf lfngti()}.
+     */
+    @Ovfrridf
+    publid dibr dibrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        rfturn vbluf[indfx];
+    }
+
+    /**
+     * Rfturns tif dibrbdtfr (Unidodf dodf point) bt tif spfdififd
+     * indfx. Tif indfx rfffrs to {@dodf dibr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 0} to
+     * {@link #lfngti()}{@dodf  - 1}.
+     *
+     * <p> If tif {@dodf dibr} vbluf spfdififd bt tif givfn indfx
+     * is in tif iigi-surrogbtf rbngf, tif following indfx is lfss
+     * tibn tif lfngti of tiis sfqufndf, bnd tif
+     * {@dodf dibr} vbluf bt tif following indfx is in tif
+     * low-surrogbtf rbngf, tifn tif supplfmfntbry dodf point
+     * dorrfsponding to tiis surrogbtf pbir is rfturnfd. Otifrwisf,
+     * tif {@dodf dibr} vbluf bt tif givfn indfx is rfturnfd.
+     *
+     * @pbrbm      indfx tif indfx to tif {@dodf dibr} vblufs
+     * @rfturn     tif dodf point vbluf of tif dibrbdtfr bt tif
+     *             {@dodf indfx}
+     * @fxdfption  IndfxOutOfBoundsExdfption  if tif {@dodf indfx}
+     *             brgumfnt is nfgbtivf or not lfss tibn tif lfngti of tiis
+     *             sfqufndf.
+     */
+    publid int dodfPointAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount)) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        }
+        rfturn Cibrbdtfr.dodfPointAtImpl(vbluf, indfx, dount);
+    }
+
+    /**
+     * Rfturns tif dibrbdtfr (Unidodf dodf point) bfforf tif spfdififd
+     * indfx. Tif indfx rfffrs to {@dodf dibr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 1} to {@link
+     * #lfngti()}.
+     *
+     * <p> If tif {@dodf dibr} vbluf bt {@dodf (indfx - 1)}
+     * is in tif low-surrogbtf rbngf, {@dodf (indfx - 2)} is not
+     * nfgbtivf, bnd tif {@dodf dibr} vbluf bt {@dodf (indfx -
+     * 2)} is in tif iigi-surrogbtf rbngf, tifn tif
+     * supplfmfntbry dodf point vbluf of tif surrogbtf pbir is
+     * rfturnfd. If tif {@dodf dibr} vbluf bt {@dodf indfx -
+     * 1} is bn unpbirfd low-surrogbtf or b iigi-surrogbtf, tif
+     * surrogbtf vbluf is rfturnfd.
+     *
+     * @pbrbm     indfx tif indfx following tif dodf point tibt siould bf rfturnfd
+     * @rfturn    tif Unidodf dodf point vbluf bfforf tif givfn indfx.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif {@dodf indfx}
+     *            brgumfnt is lfss tibn 1 or grfbtfr tibn tif lfngti
+     *            of tiis sfqufndf.
+     */
+    publid int dodfPointBfforf(int indfx) {
+        int i = indfx - 1;
+        if ((i < 0) || (i >= dount)) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        }
+        rfturn Cibrbdtfr.dodfPointBfforfImpl(vbluf, indfx, 0);
+    }
+
+    /**
+     * Rfturns tif numbfr of Unidodf dodf points in tif spfdififd tfxt
+     * rbngf of tiis sfqufndf. Tif tfxt rbngf bfgins bt tif spfdififd
+     * {@dodf bfginIndfx} bnd fxtfnds to tif {@dodf dibr} bt
+     * indfx {@dodf fndIndfx - 1}. Tius tif lfngti (in
+     * {@dodf dibr}s) of tif tfxt rbngf is
+     * {@dodf fndIndfx-bfginIndfx}. Unpbirfd surrogbtfs witiin
+     * tiis sfqufndf dount bs onf dodf point fbdi.
+     *
+     * @pbrbm bfginIndfx tif indfx to tif first {@dodf dibr} of
+     * tif tfxt rbngf.
+     * @pbrbm fndIndfx tif indfx bftfr tif lbst {@dodf dibr} of
+     * tif tfxt rbngf.
+     * @rfturn tif numbfr of Unidodf dodf points in tif spfdififd tfxt
+     * rbngf
+     * @fxdfption IndfxOutOfBoundsExdfption if tif
+     * {@dodf bfginIndfx} is nfgbtivf, or {@dodf fndIndfx}
+     * is lbrgfr tibn tif lfngti of tiis sfqufndf, or
+     * {@dodf bfginIndfx} is lbrgfr tibn {@dodf fndIndfx}.
+     */
+    publid int dodfPointCount(int bfginIndfx, int fndIndfx) {
+        if (bfginIndfx < 0 || fndIndfx > dount || bfginIndfx > fndIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+        rfturn Cibrbdtfr.dodfPointCountImpl(vbluf, bfginIndfx, fndIndfx-bfginIndfx);
+    }
+
+    /**
+     * Rfturns tif indfx witiin tiis sfqufndf tibt is offsft from tif
+     * givfn {@dodf indfx} by {@dodf dodfPointOffsft} dodf
+     * points. Unpbirfd surrogbtfs witiin tif tfxt rbngf givfn by
+     * {@dodf indfx} bnd {@dodf dodfPointOffsft} dount bs
+     * onf dodf point fbdi.
+     *
+     * @pbrbm indfx tif indfx to bf offsft
+     * @pbrbm dodfPointOffsft tif offsft in dodf points
+     * @rfturn tif indfx witiin tiis sfqufndf
+     * @fxdfption IndfxOutOfBoundsExdfption if {@dodf indfx}
+     *   is nfgbtivf or lbrgfr tifn tif lfngti of tiis sfqufndf,
+     *   or if {@dodf dodfPointOffsft} is positivf bnd tif subsfqufndf
+     *   stbrting witi {@dodf indfx} ibs ffwfr tibn
+     *   {@dodf dodfPointOffsft} dodf points,
+     *   or if {@dodf dodfPointOffsft} is nfgbtivf bnd tif subsfqufndf
+     *   bfforf {@dodf indfx} ibs ffwfr tibn tif bbsolutf vbluf of
+     *   {@dodf dodfPointOffsft} dodf points.
+     */
+    publid int offsftByCodfPoints(int indfx, int dodfPointOffsft) {
+        if (indfx < 0 || indfx > dount) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+        rfturn Cibrbdtfr.offsftByCodfPointsImpl(vbluf, 0, dount,
+                                                indfx, dodfPointOffsft);
+    }
+
+    /**
+     * Cibrbdtfrs brf dopifd from tiis sfqufndf into tif
+     * dfstinbtion dibrbdtfr brrby {@dodf dst}. Tif first dibrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdBfgin}; tif lbst dibrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdEnd-1}. Tif totbl numbfr of
+     * dibrbdtfrs to bf dopifd is {@dodf srdEnd-srdBfgin}. Tif
+     * dibrbdtfrs brf dopifd into tif subbrrby of {@dodf dst} stbrting
+     * bt indfx {@dodf dstBfgin} bnd fnding bt indfx:
+     * <prf>{@dodf
+     * dstbfgin + (srdEnd-srdBfgin) - 1
+     * }</prf>
+     *
+     * @pbrbm      srdBfgin   stbrt dopying bt tiis offsft.
+     * @pbrbm      srdEnd     stop dopying bt tiis offsft.
+     * @pbrbm      dst        tif brrby to dopy tif dbtb into.
+     * @pbrbm      dstBfgin   offsft into {@dodf dst}.
+     * @tirows     IndfxOutOfBoundsExdfption  if bny of tif following is truf:
+     *             <ul>
+     *             <li>{@dodf srdBfgin} is nfgbtivf
+     *             <li>{@dodf dstBfgin} is nfgbtivf
+     *             <li>tif {@dodf srdBfgin} brgumfnt is grfbtfr tibn
+     *             tif {@dodf srdEnd} brgumfnt.
+     *             <li>{@dodf srdEnd} is grfbtfr tibn
+     *             {@dodf tiis.lfngti()}.
+     *             <li>{@dodf dstBfgin+srdEnd-srdBfgin} is grfbtfr tibn
+     *             {@dodf dst.lfngti}
+     *             </ul>
+     */
+    publid void gftCibrs(int srdBfgin, int srdEnd, dibr[] dst, int dstBfgin)
+    {
+        if (srdBfgin < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(srdBfgin);
+        if ((srdEnd < 0) || (srdEnd > dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(srdEnd);
+        if (srdBfgin > srdEnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption("srdBfgin > srdEnd");
+        Systfm.brrbydopy(vbluf, srdBfgin, dst, dstBfgin, srdEnd - srdBfgin);
+    }
+
+    /**
+     * Tif dibrbdtfr bt tif spfdififd indfx is sft to {@dodf di}. Tiis
+     * sfqufndf is bltfrfd to rfprfsfnt b nfw dibrbdtfr sfqufndf tibt is
+     * idfntidbl to tif old dibrbdtfr sfqufndf, fxdfpt tibt it dontbins tif
+     * dibrbdtfr {@dodf di} bt position {@dodf indfx}.
+     * <p>
+     * Tif indfx brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn tif lfngti of tiis sfqufndf.
+     *
+     * @pbrbm      indfx   tif indfx of tif dibrbdtfr to modify.
+     * @pbrbm      di      tif nfw dibrbdtfr.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr tibn or fqubl to {@dodf lfngti()}.
+     */
+    publid void sftCibrAt(int indfx, dibr di) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        vbluf[indfx] = di;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf Objfdt} brgumfnt.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(Objfdt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   obj   bn {@dodf Objfdt}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(Objfdt obj) {
+        rfturn bppfnd(String.vblufOf(obj));
+    }
+
+    /**
+     * Appfnds tif spfdififd string to tiis dibrbdtfr sfqufndf.
+     * <p>
+     * Tif dibrbdtfrs of tif {@dodf String} brgumfnt brf bppfndfd, in
+     * ordfr, indrfbsing tif lfngti of tiis sfqufndf by tif lfngti of tif
+     * brgumfnt. If {@dodf str} is {@dodf null}, tifn tif four
+     * dibrbdtfrs {@dodf "null"} brf bppfndfd.
+     * <p>
+     * Lft <i>n</i> bf tif lfngti of tiis dibrbdtfr sfqufndf just prior to
+     * fxfdution of tif {@dodf bppfnd} mftiod. Tifn tif dibrbdtfr bt
+     * indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is fqubl to tif dibrbdtfr
+     * bt indfx <i>k</i> in tif old dibrbdtfr sfqufndf, if <i>k</i> is lfss
+     * tibn <i>n</i>; otifrwisf, it is fqubl to tif dibrbdtfr bt indfx
+     * <i>k-n</i> in tif brgumfnt {@dodf str}.
+     *
+     * @pbrbm   str   b string.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(String str) {
+        if (str == null)
+            rfturn bppfndNull();
+        int lfn = str.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        str.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndiro difffrfndf
+    publid AbstrbdtStringBuildfr bppfnd(StringBufffr sb) {
+        if (sb == null)
+            rfturn bppfndNull();
+        int lfn = sb.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        sb.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * @sindf 1.8
+     */
+    AbstrbdtStringBuildfr bppfnd(AbstrbdtStringBuildfr bsb) {
+        if (bsb == null)
+            rfturn bppfndNull();
+        int lfn = bsb.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        bsb.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndiro difffrfndf
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(CibrSfqufndf s) {
+        if (s == null)
+            rfturn bppfndNull();
+        if (s instbndfof String)
+            rfturn tiis.bppfnd((String)s);
+        if (s instbndfof AbstrbdtStringBuildfr)
+            rfturn tiis.bppfnd((AbstrbdtStringBuildfr)s);
+
+        rfturn tiis.bppfnd(s, 0, s.lfngti());
+    }
+
+    privbtf AbstrbdtStringBuildfr bppfndNull() {
+        int d = dount;
+        fnsurfCbpbdityIntfrnbl(d + 4);
+        finbl dibr[] vbluf = tiis.vbluf;
+        vbluf[d++] = 'n';
+        vbluf[d++] = 'u';
+        vbluf[d++] = 'l';
+        vbluf[d++] = 'l';
+        dount = d;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds b subsfqufndf of tif spfdififd {@dodf CibrSfqufndf} to tiis
+     * sfqufndf.
+     * <p>
+     * Cibrbdtfrs of tif brgumfnt {@dodf s}, stbrting bt
+     * indfx {@dodf stbrt}, brf bppfndfd, in ordfr, to tif dontfnts of
+     * tiis sfqufndf up to tif (fxdlusivf) indfx {@dodf fnd}. Tif lfngti
+     * of tiis sfqufndf is indrfbsfd by tif vbluf of {@dodf fnd - stbrt}.
+     * <p>
+     * Lft <i>n</i> bf tif lfngti of tiis dibrbdtfr sfqufndf just prior to
+     * fxfdution of tif {@dodf bppfnd} mftiod. Tifn tif dibrbdtfr bt
+     * indfx <i>k</i> in tiis dibrbdtfr sfqufndf bfdomfs fqubl to tif
+     * dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf, if <i>k</i> is lfss tibn
+     * <i>n</i>; otifrwisf, it is fqubl to tif dibrbdtfr bt indfx
+     * <i>k+stbrt-n</i> in tif brgumfnt {@dodf s}.
+     * <p>
+     * If {@dodf s} is {@dodf null}, tifn tiis mftiod bppfnds
+     * dibrbdtfrs bs if tif s pbrbmftfr wbs b sfqufndf dontbining tif four
+     * dibrbdtfrs {@dodf "null"}.
+     *
+     * @pbrbm   s tif sfqufndf to bppfnd.
+     * @pbrbm   stbrt   tif stbrting indfx of tif subsfqufndf to bf bppfndfd.
+     * @pbrbm   fnd     tif fnd indfx of tif subsfqufndf to bf bppfndfd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption if
+     *             {@dodf stbrt} is nfgbtivf, or
+     *             {@dodf stbrt} is grfbtfr tibn {@dodf fnd} or
+     *             {@dodf fnd} is grfbtfr tibn {@dodf s.lfngti()}
+     */
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(CibrSfqufndf s, int stbrt, int fnd) {
+        if (s == null)
+            s = "null";
+        if ((stbrt < 0) || (stbrt > fnd) || (fnd > s.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngti() "
+                + s.lfngti());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        for (int i = stbrt, j = dount; i < fnd; i++, j++)
+            vbluf[j] = s.dibrAt(i);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dibr} brrby
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif dibrbdtfrs of tif brrby brgumfnt brf bppfndfd, in ordfr, to
+     * tif dontfnts of tiis sfqufndf. Tif lfngti of tiis sfqufndf
+     * indrfbsfs by tif lfngti of tif brgumfnt.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr[])},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   str   tif dibrbdtfrs to bf bppfndfd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(dibr[] str) {
+        int lfn = str.lfngti;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, 0, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of b subbrrby of tif
+     * {@dodf dibr} brrby brgumfnt to tiis sfqufndf.
+     * <p>
+     * Cibrbdtfrs of tif {@dodf dibr} brrby {@dodf str}, stbrting bt
+     * indfx {@dodf offsft}, brf bppfndfd, in ordfr, to tif dontfnts
+     * of tiis sfqufndf. Tif lfngti of tiis sfqufndf indrfbsfs
+     * by tif vbluf of {@dodf lfn}.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnts wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr[],int,int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   str      tif dibrbdtfrs to bf bppfndfd.
+     * @pbrbm   offsft   tif indfx of tif first {@dodf dibr} to bppfnd.
+     * @pbrbm   lfn      tif numbfr of {@dodf dibr}s to bppfnd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @tirows IndfxOutOfBoundsExdfption
+     *         if {@dodf offsft < 0} or {@dodf lfn < 0}
+     *         or {@dodf offsft+lfn > str.lfngti}
+     */
+    publid AbstrbdtStringBuildfr bppfnd(dibr str[], int offsft, int lfn) {
+        if (lfn > 0)                // lft brrbydopy rfport AIOOBE for lfn < 0
+            fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, offsft, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf boolfbn}
+     * brgumfnt to tif sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(boolfbn)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   b   b {@dodf boolfbn}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(boolfbn b) {
+        if (b) {
+            fnsurfCbpbdityIntfrnbl(dount + 4);
+            vbluf[dount++] = 't';
+            vbluf[dount++] = 'r';
+            vbluf[dount++] = 'u';
+            vbluf[dount++] = 'f';
+        } flsf {
+            fnsurfCbpbdityIntfrnbl(dount + 5);
+            vbluf[dount++] = 'f';
+            vbluf[dount++] = 'b';
+            vbluf[dount++] = 'l';
+            vbluf[dount++] = 's';
+            vbluf[dount++] = 'f';
+        }
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dibr}
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif brgumfnt is bppfndfd to tif dontfnts of tiis sfqufndf.
+     * Tif lfngti of tiis sfqufndf indrfbsfs by {@dodf 1}.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr)},
+     * bnd tif dibrbdtfr in tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   d   b {@dodf dibr}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(dibr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        vbluf[dount++] = d;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf int}
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   i   bn {@dodf int}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(int i) {
+        if (i == Intfgfr.MIN_VALUE) {
+            bppfnd("-2147483648");
+            rfturn tiis;
+        }
+        int bppfndfdLfngti = (i < 0) ? Intfgfr.stringSizf(-i) + 1
+                                     : Intfgfr.stringSizf(i);
+        int spbdfNffdfd = dount + bppfndfdLfngti;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Intfgfr.gftCibrs(i, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf long}
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(long)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   l   b {@dodf long}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(long l) {
+        if (l == Long.MIN_VALUE) {
+            bppfnd("-9223372036854775808");
+            rfturn tiis;
+        }
+        int bppfndfdLfngti = (l < 0) ? Long.stringSizf(-l) + 1
+                                     : Long.stringSizf(l);
+        int spbdfNffdfd = dount + bppfndfdLfngti;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Long.gftCibrs(l, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf flobt}
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(flobt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   f   b {@dodf flobt}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(flobt f) {
+        FlobtingDfdimbl.bppfndTo(f,tiis);
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf doublf}
+     * brgumfnt to tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(doublf)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
+     *
+     * @pbrbm   d   b {@dodf doublf}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(doublf d) {
+        FlobtingDfdimbl.bppfndTo(d,tiis);
+        rfturn tiis;
+    }
+
+    /**
+     * Rfmovfs tif dibrbdtfrs in b substring of tiis sfqufndf.
+     * Tif substring bfgins bt tif spfdififd {@dodf stbrt} bnd fxtfnds to
+     * tif dibrbdtfr bt indfx {@dodf fnd - 1} or to tif fnd of tif
+     * sfqufndf if no sudi dibrbdtfr fxists. If
+     * {@dodf stbrt} is fqubl to {@dodf fnd}, no dibngfs brf mbdf.
+     *
+     * @pbrbm      stbrt  Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd    Tif fnding indfx, fxdlusivf.
+     * @rfturn     Tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr tibn {@dodf lfngti()}, or
+     *             grfbtfr tibn {@dodf fnd}.
+     */
+    publid AbstrbdtStringBuildfr dflftf(int stbrt, int fnd) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            fnd = dount;
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption();
+        int lfn = fnd - stbrt;
+        if (lfn > 0) {
+            Systfm.brrbydopy(vbluf, stbrt+lfn, vbluf, stbrt, dount-fnd);
+            dount -= lfn;
+        }
+        rfturn tiis;
+    }
+
+    /**
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dodfPoint}
+     * brgumfnt to tiis sfqufndf.
+     *
+     * <p> Tif brgumfnt is bppfndfd to tif dontfnts of tiis sfqufndf.
+     * Tif lfngti of tiis sfqufndf indrfbsfs by
+     * {@link Cibrbdtfr#dibrCount(int) Cibrbdtfr.dibrCount(dodfPoint)}.
+     *
+     * <p> Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf
+     * donvfrtfd to b {@dodf dibr} brrby by tif mftiod
+     * {@link Cibrbdtfr#toCibrs(int)} bnd tif dibrbdtfr in tibt brrby
+     * wfrf tifn {@link #bppfnd(dibr[]) bppfndfd} to tiis dibrbdtfr
+     * sfqufndf.
+     *
+     * @pbrbm   dodfPoint   b Unidodf dodf point
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd
+     * {@dodf dodfPoint} isn't b vblid Unidodf dodf point
+     */
+    publid AbstrbdtStringBuildfr bppfndCodfPoint(int dodfPoint) {
+        finbl int dount = tiis.dount;
+
+        if (Cibrbdtfr.isBmpCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 1);
+            vbluf[dount] = (dibr) dodfPoint;
+            tiis.dount = dount + 1;
+        } flsf if (Cibrbdtfr.isVblidCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 2);
+            Cibrbdtfr.toSurrogbtfs(dodfPoint, vbluf, dount);
+            tiis.dount = dount + 2;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+        rfturn tiis;
+    }
+
+    /**
+     * Rfmovfs tif {@dodf dibr} bt tif spfdififd position in tiis
+     * sfqufndf. Tiis sfqufndf is siortfnfd by onf {@dodf dibr}.
+     *
+     * <p>Notf: If tif dibrbdtfr bt tif givfn indfx is b supplfmfntbry
+     * dibrbdtfr, tiis mftiod dofs not rfmovf tif fntirf dibrbdtfr. If
+     * dorrfdt ibndling of supplfmfntbry dibrbdtfrs is rfquirfd,
+     * dftfrminf tif numbfr of {@dodf dibr}s to rfmovf by dblling
+     * {@dodf Cibrbdtfr.dibrCount(tiisSfqufndf.dodfPointAt(indfx))},
+     * wifrf {@dodf tiisSfqufndf} is tiis sfqufndf.
+     *
+     * @pbrbm       indfx  Indfx of {@dodf dibr} to rfmovf
+     * @rfturn      Tiis objfdt.
+     * @tirows      StringIndfxOutOfBoundsExdfption  if tif {@dodf indfx}
+     *              is nfgbtivf or grfbtfr tibn or fqubl to
+     *              {@dodf lfngti()}.
+     */
+    publid AbstrbdtStringBuildfr dflftfCibrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        Systfm.brrbydopy(vbluf, indfx+1, vbluf, indfx, dount-indfx-1);
+        dount--;
+        rfturn tiis;
+    }
+
+    /**
+     * Rfplbdfs tif dibrbdtfrs in b substring of tiis sfqufndf
+     * witi dibrbdtfrs in tif spfdififd {@dodf String}. Tif substring
+     * bfgins bt tif spfdififd {@dodf stbrt} bnd fxtfnds to tif dibrbdtfr
+     * bt indfx {@dodf fnd - 1} or to tif fnd of tif
+     * sfqufndf if no sudi dibrbdtfr fxists. First tif
+     * dibrbdtfrs in tif substring brf rfmovfd bnd tifn tif spfdififd
+     * {@dodf String} is insfrtfd bt {@dodf stbrt}. (Tiis
+     * sfqufndf will bf lfngtifnfd to bddommodbtf tif
+     * spfdififd String if nfdfssbry.)
+     *
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Tif fnding indfx, fxdlusivf.
+     * @pbrbm      str   String tibt will rfplbdf prfvious dontfnts.
+     * @rfturn     Tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr tibn {@dodf lfngti()}, or
+     *             grfbtfr tibn {@dodf fnd}.
+     */
+    publid AbstrbdtStringBuildfr rfplbdf(int stbrt, int fnd, String str) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (stbrt > dount)
+            tirow nfw StringIndfxOutOfBoundsExdfption("stbrt > lfngti()");
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption("stbrt > fnd");
+
+        if (fnd > dount)
+            fnd = dount;
+        int lfn = str.lfngti();
+        int nfwCount = dount + lfn - (fnd - stbrt);
+        fnsurfCbpbdityIntfrnbl(nfwCount);
+
+        Systfm.brrbydopy(vbluf, fnd, vbluf, stbrt + lfn, dount - fnd);
+        str.gftCibrs(vbluf, stbrt);
+        dount = nfwCount;
+        rfturn tiis;
+    }
+
+    /**
+     * Rfturns b nfw {@dodf String} tibt dontbins b subsfqufndf of
+     * dibrbdtfrs durrfntly dontbinfd in tiis dibrbdtfr sfqufndf. Tif
+     * substring bfgins bt tif spfdififd indfx bnd fxtfnds to tif fnd of
+     * tiis sfqufndf.
+     *
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @rfturn     Tif nfw string.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt} is
+     *             lfss tibn zfro, or grfbtfr tibn tif lfngti of tiis objfdt.
+     */
+    publid String substring(int stbrt) {
+        rfturn substring(stbrt, dount);
+    }
+
+    /**
+     * Rfturns b nfw dibrbdtfr sfqufndf tibt is b subsfqufndf of tiis sfqufndf.
+     *
+     * <p> An invodbtion of tiis mftiod of tif form
+     *
+     * <prf>{@dodf
+     * sb.subSfqufndf(bfgin,&nbsp;fnd)}</prf>
+     *
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
+     *
+     * <prf>{@dodf
+     * sb.substring(bfgin,&nbsp;fnd)}</prf>
+     *
+     * Tiis mftiod is providfd so tibt tiis dlbss dbn
+     * implfmfnt tif {@link CibrSfqufndf} intfrfbdf.
+     *
+     * @pbrbm      stbrt   tif stbrt indfx, indlusivf.
+     * @pbrbm      fnd     tif fnd indfx, fxdlusivf.
+     * @rfturn     tif spfdififd subsfqufndf.
+     *
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if {@dodf stbrt} or {@dodf fnd} brf nfgbtivf,
+     *          if {@dodf fnd} is grfbtfr tibn {@dodf lfngti()},
+     *          or if {@dodf stbrt} is grfbtfr tibn {@dodf fnd}
+     * @spfd JSR-51
+     */
+    @Ovfrridf
+    publid CibrSfqufndf subSfqufndf(int stbrt, int fnd) {
+        rfturn substring(stbrt, fnd);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf String} tibt dontbins b subsfqufndf of
+     * dibrbdtfrs durrfntly dontbinfd in tiis sfqufndf. Tif
+     * substring bfgins bt tif spfdififd {@dodf stbrt} bnd
+     * fxtfnds to tif dibrbdtfr bt indfx {@dodf fnd - 1}.
+     *
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Tif fnding indfx, fxdlusivf.
+     * @rfturn     Tif nfw string.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             or {@dodf fnd} brf nfgbtivf or grfbtfr tibn
+     *             {@dodf lfngti()}, or {@dodf stbrt} is
+     *             grfbtfr tibn {@dodf fnd}.
+     */
+    publid String substring(int stbrt, int fnd) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            tirow nfw StringIndfxOutOfBoundsExdfption(fnd);
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption(fnd - stbrt);
+        rfturn nfw String(vbluf, stbrt, fnd - stbrt);
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of b subbrrby of tif {@dodf str}
+     * brrby brgumfnt into tiis sfqufndf. Tif subbrrby bfgins bt tif
+     * spfdififd {@dodf offsft} bnd fxtfnds {@dodf lfn} {@dodf dibr}s.
+     * Tif dibrbdtfrs of tif subbrrby brf insfrtfd into tiis sfqufndf bt
+     * tif position indidbtfd by {@dodf indfx}. Tif lfngti of tiis
+     * sfqufndf indrfbsfs by {@dodf lfn} {@dodf dibr}s.
+     *
+     * @pbrbm      indfx    position bt wiidi to insfrt subbrrby.
+     * @pbrbm      str       A {@dodf dibr} brrby.
+     * @pbrbm      offsft   tif indfx of tif first {@dodf dibr} in subbrrby to
+     *             bf insfrtfd.
+     * @pbrbm      lfn      tif numbfr of {@dodf dibr}s in tif subbrrby to
+     *             bf insfrtfd.
+     * @rfturn     Tiis objfdt
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf indfx}
+     *             is nfgbtivf or grfbtfr tibn {@dodf lfngti()}, or
+     *             {@dodf offsft} or {@dodf lfn} brf nfgbtivf, or
+     *             {@dodf (offsft+lfn)} is grfbtfr tibn
+     *             {@dodf str.lfngti}.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int indfx, dibr[] str, int offsft,
+                                        int lfn)
+    {
+        if ((indfx < 0) || (indfx > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        if ((offsft < 0) || (lfn < 0) || (offsft > str.lfngti - lfn))
+            tirow nfw StringIndfxOutOfBoundsExdfption(
+                "offsft " + offsft + ", lfn " + lfn + ", str.lfngti "
+                + str.lfngti);
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, indfx, vbluf, indfx + lfn, dount - indfx);
+        Systfm.brrbydopy(str, offsft, vbluf, indfx, lfn);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf Objfdt}
+     * brgumfnt into tiis dibrbdtfr sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(Objfdt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      obj      bn {@dodf Objfdt}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, Objfdt obj) {
+        rfturn insfrt(offsft, String.vblufOf(obj));
+    }
+
+    /**
+     * Insfrts tif string into tiis dibrbdtfr sfqufndf.
+     * <p>
+     * Tif dibrbdtfrs of tif {@dodf String} brgumfnt brf insfrtfd, in
+     * ordfr, into tiis sfqufndf bt tif indidbtfd offsft, moving up bny
+     * dibrbdtfrs originblly bbovf tibt position bnd indrfbsing tif lfngti
+     * of tiis sfqufndf by tif lfngti of tif brgumfnt. If
+     * {@dodf str} is {@dodf null}, tifn tif four dibrbdtfrs
+     * {@dodf "null"} brf insfrtfd into tiis sfqufndf.
+     * <p>
+     * Tif dibrbdtfr bt indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is
+     * fqubl to:
+     * <ul>
+     * <li>tif dibrbdtfr bt indfx <i>k</i> in tif old dibrbdtfr sfqufndf, if
+     * <i>k</i> is lfss tibn {@dodf offsft}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -offsft} in tif
+     * brgumfnt {@dodf str}, if <i>k</i> is not lfss tibn
+     * {@dodf offsft} but is lfss tibn {@dodf offsft+str.lfngti()}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -str.lfngti()} in tif
+     * old dibrbdtfr sfqufndf, if <i>k</i> is not lfss tibn
+     * {@dodf offsft+str.lfngti()}
+     * </ul><p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      str      b string.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, String str) {
+        if ((offsft < 0) || (offsft > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(offsft);
+        if (str == null)
+            str = "null";
+        int lfn = str.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        str.gftCibrs(vbluf, offsft);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf dibr} brrby
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif dibrbdtfrs of tif brrby brgumfnt brf insfrtfd into tif
+     * dontfnts of tiis sfqufndf bt tif position indidbtfd by
+     * {@dodf offsft}. Tif lfngti of tiis sfqufndf indrfbsfs by
+     * tif lfngti of tif brgumfnt.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(dibr[])},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      str      b dibrbdtfr brrby.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dibr[] str) {
+        if ((offsft < 0) || (offsft > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(offsft);
+        int lfn = str.lfngti;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        Systfm.brrbydopy(str, 0, vbluf, offsft, lfn);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Insfrts tif spfdififd {@dodf CibrSfqufndf} into tiis sfqufndf.
+     * <p>
+     * Tif dibrbdtfrs of tif {@dodf CibrSfqufndf} brgumfnt brf insfrtfd,
+     * in ordfr, into tiis sfqufndf bt tif indidbtfd offsft, moving up
+     * bny dibrbdtfrs originblly bbovf tibt position bnd indrfbsing tif lfngti
+     * of tiis sfqufndf by tif lfngti of tif brgumfnt s.
+     * <p>
+     * Tif rfsult of tiis mftiod is fxbdtly tif sbmf bs if it wfrf bn
+     * invodbtion of tiis objfdt's
+     * {@link #insfrt(int,CibrSfqufndf,int,int) insfrt}(dstOffsft, s, 0, s.lfngti())
+     * mftiod.
+     *
+     * <p>If {@dodf s} is {@dodf null}, tifn tif four dibrbdtfrs
+     * {@dodf "null"} brf insfrtfd into tiis sfqufndf.
+     *
+     * @pbrbm      dstOffsft   tif offsft.
+     * @pbrbm      s tif sfqufndf to bf insfrtfd
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int dstOffsft, CibrSfqufndf s) {
+        if (s == null)
+            s = "null";
+        if (s instbndfof String)
+            rfturn tiis.insfrt(dstOffsft, (String)s);
+        rfturn tiis.insfrt(dstOffsft, s, 0, s.lfngti());
+    }
+
+    /**
+     * Insfrts b subsfqufndf of tif spfdififd {@dodf CibrSfqufndf} into
+     * tiis sfqufndf.
+     * <p>
+     * Tif subsfqufndf of tif brgumfnt {@dodf s} spfdififd by
+     * {@dodf stbrt} bnd {@dodf fnd} brf insfrtfd,
+     * in ordfr, into tiis sfqufndf bt tif spfdififd dfstinbtion offsft, moving
+     * up bny dibrbdtfrs originblly bbovf tibt position. Tif lfngti of tiis
+     * sfqufndf is indrfbsfd by {@dodf fnd - stbrt}.
+     * <p>
+     * Tif dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf bfdomfs fqubl to:
+     * <ul>
+     * <li>tif dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf, if
+     * <i>k</i> is lfss tibn {@dodf dstOffsft}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf +stbrt-dstOffsft} in
+     * tif brgumfnt {@dodf s}, if <i>k</i> is grfbtfr tibn or fqubl to
+     * {@dodf dstOffsft} but is lfss tibn {@dodf dstOffsft+fnd-stbrt}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -(fnd-stbrt)} in tiis
+     * sfqufndf, if <i>k</i> is grfbtfr tibn or fqubl to
+     * {@dodf dstOffsft+fnd-stbrt}
+     * </ul><p>
+     * Tif {@dodf dstOffsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     * <p>Tif stbrt brgumfnt must bf nonnfgbtivf, bnd not grfbtfr tibn
+     * {@dodf fnd}.
+     * <p>Tif fnd brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf stbrt}, bnd lfss tibn or fqubl to tif lfngti of s.
+     *
+     * <p>If {@dodf s} is {@dodf null}, tifn tiis mftiod insfrts
+     * dibrbdtfrs bs if tif s pbrbmftfr wbs b sfqufndf dontbining tif four
+     * dibrbdtfrs {@dodf "null"}.
+     *
+     * @pbrbm      dstOffsft   tif offsft in tiis sfqufndf.
+     * @pbrbm      s       tif sfqufndf to bf insfrtfd.
+     * @pbrbm      stbrt   tif stbrting indfx of tif subsfqufndf to bf insfrtfd.
+     * @pbrbm      fnd     tif fnd indfx of tif subsfqufndf to bf insfrtfd.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf dstOffsft}
+     *             is nfgbtivf or grfbtfr tibn {@dodf tiis.lfngti()}, or
+     *              {@dodf stbrt} or {@dodf fnd} brf nfgbtivf, or
+     *              {@dodf stbrt} is grfbtfr tibn {@dodf fnd} or
+     *              {@dodf fnd} is grfbtfr tibn {@dodf s.lfngti()}
+     */
+     publid AbstrbdtStringBuildfr insfrt(int dstOffsft, CibrSfqufndf s,
+                                         int stbrt, int fnd) {
+        if (s == null)
+            s = "null";
+        if ((dstOffsft < 0) || (dstOffsft > tiis.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption("dstOffsft "+dstOffsft);
+        if ((stbrt < 0) || (fnd < 0) || (stbrt > fnd) || (fnd > s.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngti() "
+                + s.lfngti());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, dstOffsft, vbluf, dstOffsft + lfn,
+                         dount - dstOffsft);
+        for (int i=stbrt; i<fnd; i++)
+            vbluf[dstOffsft++] = s.dibrAt(i);
+        dount += lfn;
+        rfturn tiis;
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf boolfbn}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(boolfbn)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      b        b {@dodf boolfbn}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, boolfbn b) {
+        rfturn insfrt(offsft, String.vblufOf(b));
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf dibr}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(dibr)},
+     * bnd tif dibrbdtfr in tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      d        b {@dodf dibr}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dibr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + 1, dount - offsft);
+        vbluf[offsft] = d;
+        dount += 1;
+        rfturn tiis;
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif sfdond {@dodf int}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      i        bn {@dodf int}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, int i) {
+        rfturn insfrt(offsft, String.vblufOf(i));
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf long}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(long)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      l        b {@dodf long}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, long l) {
+        rfturn insfrt(offsft, String.vblufOf(l));
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf flobt}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(flobt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      f        b {@dodf flobt}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, flobt f) {
+        rfturn insfrt(offsft, String.vblufOf(f));
+    }
+
+    /**
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf doublf}
+     * brgumfnt into tiis sfqufndf.
+     * <p>
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(doublf)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
+     * <p>
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     *
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      d        b {@dodf doublf}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, doublf d) {
+        rfturn insfrt(offsft, String.vblufOf(d));
+    }
+
+    /**
+     * Rfturns tif indfx witiin tiis string of tif first oddurrfndf of tif
+     * spfdififd substring.
+     *
+     * <p>Tif rfturnfd indfx is tif smbllfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     * tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str   tif substring to sfbrdi for.
+     * @rfturn  tif indfx of tif first oddurrfndf of tif spfdififd substring,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
+     */
+    publid int indfxOf(String str) {
+        rfturn indfxOf(str, 0);
+    }
+
+    /**
+     * Rfturns tif indfx witiin tiis string of tif first oddurrfndf of tif
+     * spfdififd substring, stbrting bt tif spfdififd indfx.
+     *
+     * <p>Tif rfturnfd indfx is tif smbllfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     *     k >= Mbti.min(fromIndfx, tiis.lfngti()) &&
+     *                   tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str         tif substring to sfbrdi for.
+     * @pbrbm   fromIndfx   tif indfx from wiidi to stbrt tif sfbrdi.
+     * @rfturn  tif indfx of tif first oddurrfndf of tif spfdififd substring,
+     *          stbrting bt tif spfdififd indfx,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
+     */
+    publid int indfxOf(String str, int fromIndfx) {
+        rfturn String.indfxOf(vbluf, 0, dount, str, fromIndfx);
+    }
+
+    /**
+     * Rfturns tif indfx witiin tiis string of tif lbst oddurrfndf of tif
+     * spfdififd substring.  Tif lbst oddurrfndf of tif fmpty string "" is
+     * donsidfrfd to oddur bt tif indfx vbluf {@dodf tiis.lfngti()}.
+     *
+     * <p>Tif rfturnfd indfx is tif lbrgfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     * tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str   tif substring to sfbrdi for.
+     * @rfturn  tif indfx of tif lbst oddurrfndf of tif spfdififd substring,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
+     */
+    publid int lbstIndfxOf(String str) {
+        rfturn lbstIndfxOf(str, dount);
+    }
+
+    /**
+     * Rfturns tif indfx witiin tiis string of tif lbst oddurrfndf of tif
+     * spfdififd substring, sfbrdiing bbdkwbrd stbrting bt tif spfdififd indfx.
+     *
+     * <p>Tif rfturnfd indfx is tif lbrgfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     *     k <= Mbti.min(fromIndfx, tiis.lfngti()) &&
+     *                   tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str         tif substring to sfbrdi for.
+     * @pbrbm   fromIndfx   tif indfx to stbrt tif sfbrdi from.
+     * @rfturn  tif indfx of tif lbst oddurrfndf of tif spfdififd substring,
+     *          sfbrdiing bbdkwbrd from tif spfdififd indfx,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
+     */
+    publid int lbstIndfxOf(String str, int fromIndfx) {
+        rfturn String.lbstIndfxOf(vbluf, 0, dount, str, fromIndfx);
+    }
+
+    /**
+     * Cbusfs tiis dibrbdtfr sfqufndf to bf rfplbdfd by tif rfvfrsf of
+     * tif sfqufndf. If tifrf brf bny surrogbtf pbirs indludfd in tif
+     * sfqufndf, tifsf brf trfbtfd bs singlf dibrbdtfrs for tif
+     * rfvfrsf opfrbtion. Tius, tif ordfr of tif iigi-low surrogbtfs
+     * is nfvfr rfvfrsfd.
+     *
+     * Lft <i>n</i> bf tif dibrbdtfr lfngti of tiis dibrbdtfr sfqufndf
+     * (not tif lfngti in {@dodf dibr} vblufs) just prior to
+     * fxfdution of tif {@dodf rfvfrsf} mftiod. Tifn tif
+     * dibrbdtfr bt indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is
+     * fqubl to tif dibrbdtfr bt indfx <i>n-k-1</i> in tif old
+     * dibrbdtfr sfqufndf.
+     *
+     * <p>Notf tibt tif rfvfrsf opfrbtion mby rfsult in produding
+     * surrogbtf pbirs tibt wfrf unpbirfd low-surrogbtfs bnd
+     * iigi-surrogbtfs bfforf tif opfrbtion. For fxbmplf, rfvfrsing
+     * "\u005CuDC00\u005CuD800" produdfs "\u005CuD800\u005CuDC00" wiidi is
+     * b vblid surrogbtf pbir.
+     *
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     */
+    publid AbstrbdtStringBuildfr rfvfrsf() {
+        boolfbn ibsSurrogbtfs = fblsf;
+        int n = dount - 1;
+        for (int j = (n-1) >> 1; j >= 0; j--) {
+            int k = n - j;
+            dibr dj = vbluf[j];
+            dibr dk = vbluf[k];
+            vbluf[j] = dk;
+            vbluf[k] = dj;
+            if (Cibrbdtfr.isSurrogbtf(dj) ||
+                Cibrbdtfr.isSurrogbtf(dk)) {
+                ibsSurrogbtfs = truf;
+            }
+        }
+        if (ibsSurrogbtfs) {
+            rfvfrsfAllVblidSurrogbtfPbirs();
+        }
+        rfturn tiis;
+    }
+
+    /** Outlinfd iflpfr mftiod for rfvfrsf() */
+    privbtf void rfvfrsfAllVblidSurrogbtfPbirs() {
+        for (int i = 0; i < dount - 1; i++) {
+            dibr d2 = vbluf[i];
+            if (Cibrbdtfr.isLowSurrogbtf(d2)) {
+                dibr d1 = vbluf[i + 1];
+                if (Cibrbdtfr.isHigiSurrogbtf(d1)) {
+                    vbluf[i++] = d1;
+                    vbluf[i] = d2;
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting tif dbtb in tiis sfqufndf.
+     * A nfw {@dodf String} objfdt is bllodbtfd bnd initiblizfd to
+     * dontbin tif dibrbdtfr sfqufndf durrfntly rfprfsfntfd by tiis
+     * objfdt. Tiis {@dodf String} is tifn rfturnfd. Subsfqufnt
+     * dibngfs to tiis sfqufndf do not bfffdt tif dontfnts of tif
+     * {@dodf String}.
+     *
+     * @rfturn  b string rfprfsfntbtion of tiis sfqufndf of dibrbdtfrs.
+     */
+    @Ovfrridf
+    publid bbstrbdt String toString();
+
+    /**
+     * Nffdfd by {@dodf String} for tif dontfntEqubls mftiod.
+     */
+    finbl dibr[] gftVbluf() {
+        rfturn vbluf;
+    }
+
+}

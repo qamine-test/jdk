@@ -1,0 +1,596 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bpplft;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Lodblf;
+import jbvbx.bddfssibility.*;
+
+/**
+ * An bpplft is b smbll progrbm tibt is intfndfd not to bf run on
+ * its own, but rbtifr to bf fmbfddfd insidf bnotifr bpplidbtion.
+ * <p>
+ * Tif <dodf>Applft</dodf> dlbss must bf tif supfrdlbss of bny
+ * bpplft tibt is to bf fmbfddfd in b Wfb pbgf or vifwfd by tif Jbvb
+ * Applft Vifwfr. Tif <dodf>Applft</dodf> dlbss providfs b stbndbrd
+ * intfrfbdf bftwffn bpplfts bnd tifir fnvironmfnt.
+ *
+ * @butior      Artiur vbn Hoff
+ * @butior      Ciris Wbrti
+ * @sindf       1.0
+ */
+publid dlbss Applft fxtfnds Pbnfl {
+
+    /**
+     * Construdts b nfw Applft.
+     * <p>
+     * Notf: Mbny mftiods in <dodf>jbvb.bpplft.Applft</dodf>
+     * mby bf invokfd by tif bpplft only bftfr tif bpplft is
+     * fully donstrudtfd; bpplft siould bvoid dblling mftiods
+     * in <dodf>jbvb.bpplft.Applft</dodf> in tif donstrudtor.
+     *
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.4
+     */
+    publid Applft() tirows HfbdlfssExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
+        }
+    }
+
+    /**
+     * Applfts dbn bf sfriblizfd but tif following donvfntions MUST bf followfd:
+     *
+     * Bfforf Sfriblizbtion:
+     * An bpplft must bf in STOPPED stbtf.
+     *
+     * Aftfr Dfsfriblizbtion:
+     * Tif bpplft will bf rfstorfd in STOPPED stbtf (bnd most dlifnts will
+     * likfly movf it into RUNNING stbtf).
+     * Tif stub fifld will bf rfstorfd by tif rfbdfr.
+     */
+    trbnsifnt privbtf ApplftStub stub;
+
+    /* vfrsion ID for sfriblizfd form. */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5836846270535785031L;
+
+    /**
+     * Rfbd bn bpplft from bn objfdt input strfbm.
+     * @pbrbm  s  bn objfdt input strfbm.
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sfribl
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.4
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
+        }
+        s.dffbultRfbdObjfdt();
+    }
+
+    /**
+     * Sfts tiis bpplft's stub. Tiis is donf butombtidblly by tif systfm.
+     * <p>If tifrf is b sfdurity mbnbgfr, its <dodf> difdkPfrmission </dodf>
+     * mftiod is dbllfd witi tif
+     * <dodf>AWTPfrmission("sftApplftStub")</dodf>
+     * pfrmission if b stub ibs blrfbdy bffn sft.
+     * @pbrbm   stub   tif nfw stub.
+     * @fxdfption SfdurityExdfption if tif dbllfr dbnnot sft tif stub
+     */
+    publid finbl void sftStub(ApplftStub stub) {
+        if (tiis.stub != null) {
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            if (s != null) {
+                s.difdkPfrmission(nfw AWTPfrmission("sftApplftStub"));
+            }
+        }
+        tiis.stub = stub;
+    }
+
+    /**
+     * Dftfrminfs if tiis bpplft is bdtivf. An bpplft is mbrkfd bdtivf
+     * just bfforf its <dodf>stbrt</dodf> mftiod is dbllfd. It bfdomfs
+     * inbdtivf just bfforf its <dodf>stop</dodf> mftiod is dbllfd.
+     *
+     * @rfturn  <dodf>truf</dodf> if tif bpplft is bdtivf;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.bpplft.Applft#stbrt()
+     * @sff     jbvb.bpplft.Applft#stop()
+     */
+    publid boolfbn isAdtivf() {
+        if (stub != null) {
+            rfturn stub.isAdtivf();
+        } flsf {        // If stub fifld not fillfd in, bpplft nfvfr bdtivf
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Gfts tif URL of tif dodumfnt in wiidi tiis bpplft is fmbfddfd.
+     * For fxbmplf, supposf bn bpplft is dontbinfd
+     * witiin tif dodumfnt:
+     * <blodkquotf><prf>
+     *    ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx.itml
+     * </prf></blodkquotf>
+     * Tif dodumfnt bbsf is:
+     * <blodkquotf><prf>
+     *    ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx.itml
+     * </prf></blodkquotf>
+     *
+     * @rfturn  tif {@link jbvb.nft.URL} of tif dodumfnt tibt dontbins tiis
+     *          bpplft.
+     * @sff     jbvb.bpplft.Applft#gftCodfBbsf()
+     */
+    publid URL gftDodumfntBbsf() {
+        rfturn stub.gftDodumfntBbsf();
+    }
+
+    /**
+     * Gfts tif bbsf URL. Tiis is tif URL of tif dirfdtory wiidi dontbins tiis bpplft.
+     *
+     * @rfturn  tif bbsf {@link jbvb.nft.URL} of
+     *          tif dirfdtory wiidi dontbins tiis bpplft.
+     * @sff     jbvb.bpplft.Applft#gftDodumfntBbsf()
+     */
+    publid URL gftCodfBbsf() {
+        rfturn stub.gftCodfBbsf();
+    }
+
+    /**
+     * Rfturns tif vbluf of tif nbmfd pbrbmftfr in tif HTML tbg. For
+     * fxbmplf, if tiis bpplft is spfdififd bs
+     * <blodkquotf><prf>
+     * &lt;bpplft dodf="Clodk" widti=50 ifigit=50&gt;
+     * &lt;pbrbm nbmf=Color vbluf="bluf"&gt;
+     * &lt;/bpplft&gt;
+     * </prf></blodkquotf>
+     * <p>
+     * tifn b dbll to <dodf>gftPbrbmftfr("Color")</dodf> rfturns tif
+     * vbluf <dodf>"bluf"</dodf>.
+     * <p>
+     * Tif <dodf>nbmf</dodf> brgumfnt is dbsf insfnsitivf.
+     *
+     * @pbrbm   nbmf   b pbrbmftfr nbmf.
+     * @rfturn  tif vbluf of tif nbmfd pbrbmftfr,
+     *          or <dodf>null</dodf> if not sft.
+     */
+     publid String gftPbrbmftfr(String nbmf) {
+         rfturn stub.gftPbrbmftfr(nbmf);
+     }
+
+    /**
+     * Dftfrminfs tiis bpplft's dontfxt, wiidi bllows tif bpplft to
+     * qufry bnd bfffdt tif fnvironmfnt in wiidi it runs.
+     * <p>
+     * Tiis fnvironmfnt of bn bpplft rfprfsfnts tif dodumfnt tibt
+     * dontbins tif bpplft.
+     *
+     * @rfturn  tif bpplft's dontfxt.
+     */
+    publid ApplftContfxt gftApplftContfxt() {
+        rfturn stub.gftApplftContfxt();
+    }
+
+    /**
+     * Rfqufsts tibt tiis bpplft bf rfsizfd.
+     *
+     * @pbrbm   widti    tif nfw rfqufstfd widti for tif bpplft.
+     * @pbrbm   ifigit   tif nfw rfqufstfd ifigit for tif bpplft.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void rfsizf(int widti, int ifigit) {
+        Dimfnsion d = sizf();
+        if ((d.widti != widti) || (d.ifigit != ifigit)) {
+            supfr.rfsizf(widti, ifigit);
+            if (stub != null) {
+                stub.bpplftRfsizf(widti, ifigit);
+            }
+        }
+    }
+
+    /**
+     * Rfqufsts tibt tiis bpplft bf rfsizfd.
+     *
+     * @pbrbm   d   bn objfdt giving tif nfw widti bnd ifigit.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void rfsizf(Dimfnsion d) {
+        rfsizf(d.widti, d.ifigit);
+    }
+
+    /**
+     * Indidbtfs if tiis dontbinfr is b vblidbtf root.
+     * <p>
+     * {@dodf Applft} objfdts brf tif vblidbtf roots, bnd, tifrfforf, tify
+     * ovfrridf tiis mftiod to rfturn {@dodf truf}.
+     *
+     * @rfturn {@dodf truf}
+     * @sindf 1.7
+     * @sff jbvb.bwt.Contbinfr#isVblidbtfRoot
+     */
+    @Ovfrridf
+    publid boolfbn isVblidbtfRoot() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfqufsts tibt tif brgumfnt string bf displbyfd in tif
+     * "stbtus window". Mbny browsfrs bnd bpplft vifwfrs
+     * providf sudi b window, wifrf tif bpplidbtion dbn inform usfrs of
+     * its durrfnt stbtf.
+     *
+     * @pbrbm   msg   b string to displby in tif stbtus window.
+     */
+    publid void siowStbtus(String msg) {
+        gftApplftContfxt().siowStbtus(msg);
+    }
+
+    /**
+     * Rfturns bn <dodf>Imbgf</dodf> objfdt tibt dbn tifn bf pbintfd on
+     * tif sdrffn. Tif <dodf>url</dodf> tibt is pbssfd bs bn brgumfnt
+     * must spfdify bn bbsolutf URL.
+     * <p>
+     * Tiis mftiod blwbys rfturns immfdibtfly, wiftifr or not tif imbgf
+     * fxists. Wifn tiis bpplft bttfmpts to drbw tif imbgf on tif sdrffn,
+     * tif dbtb will bf lobdfd. Tif grbpiids primitivfs tibt drbw tif
+     * imbgf will indrfmfntblly pbint on tif sdrffn.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif imbgf.
+     * @rfturn  tif imbgf bt tif spfdififd URL.
+     * @sff     jbvb.bwt.Imbgf
+     */
+    publid Imbgf gftImbgf(URL url) {
+        rfturn gftApplftContfxt().gftImbgf(url);
+    }
+
+    /**
+     * Rfturns bn <dodf>Imbgf</dodf> objfdt tibt dbn tifn bf pbintfd on
+     * tif sdrffn. Tif <dodf>url</dodf> brgumfnt must spfdify bn bbsolutf
+     * URL. Tif <dodf>nbmf</dodf> brgumfnt is b spfdififr tibt is
+     * rflbtivf to tif <dodf>url</dodf> brgumfnt.
+     * <p>
+     * Tiis mftiod blwbys rfturns immfdibtfly, wiftifr or not tif imbgf
+     * fxists. Wifn tiis bpplft bttfmpts to drbw tif imbgf on tif sdrffn,
+     * tif dbtb will bf lobdfd. Tif grbpiids primitivfs tibt drbw tif
+     * imbgf will indrfmfntblly pbint on tif sdrffn.
+     *
+     * @pbrbm   url    bn bbsolutf URL giving tif bbsf lodbtion of tif imbgf.
+     * @pbrbm   nbmf   tif lodbtion of tif imbgf, rflbtivf to tif
+     *                 <dodf>url</dodf> brgumfnt.
+     * @rfturn  tif imbgf bt tif spfdififd URL.
+     * @sff     jbvb.bwt.Imbgf
+     */
+    publid Imbgf gftImbgf(URL url, String nbmf) {
+        try {
+            rfturn gftImbgf(nfw URL(url, nbmf));
+        } dbtdi (MblformfdURLExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gft bn budio dlip from tif givfn URL.
+     *
+     * @pbrbm url points to tif budio dlip
+     * @rfturn tif budio dlip bt tif spfdififd URL.
+     *
+     * @sindf       1.2
+     */
+    publid finbl stbtid AudioClip nfwAudioClip(URL url) {
+        rfturn nfw sun.bpplft.ApplftAudioClip(url);
+    }
+
+    /**
+     * Rfturns tif <dodf>AudioClip</dodf> objfdt spfdififd by tif
+     * <dodf>URL</dodf> brgumfnt.
+     * <p>
+     * Tiis mftiod blwbys rfturns immfdibtfly, wiftifr or not tif budio
+     * dlip fxists. Wifn tiis bpplft bttfmpts to plby tif budio dlip, tif
+     * dbtb will bf lobdfd.
+     *
+     * @pbrbm   url  bn bbsolutf URL giving tif lodbtion of tif budio dlip.
+     * @rfturn  tif budio dlip bt tif spfdififd URL.
+     * @sff     jbvb.bpplft.AudioClip
+     */
+    publid AudioClip gftAudioClip(URL url) {
+        rfturn gftApplftContfxt().gftAudioClip(url);
+    }
+
+    /**
+     * Rfturns tif <dodf>AudioClip</dodf> objfdt spfdififd by tif
+     * <dodf>URL</dodf> bnd <dodf>nbmf</dodf> brgumfnts.
+     * <p>
+     * Tiis mftiod blwbys rfturns immfdibtfly, wiftifr or not tif budio
+     * dlip fxists. Wifn tiis bpplft bttfmpts to plby tif budio dlip, tif
+     * dbtb will bf lobdfd.
+     *
+     * @pbrbm   url    bn bbsolutf URL giving tif bbsf lodbtion of tif
+     *                 budio dlip.
+     * @pbrbm   nbmf   tif lodbtion of tif budio dlip, rflbtivf to tif
+     *                 <dodf>url</dodf> brgumfnt.
+     * @rfturn  tif budio dlip bt tif spfdififd URL.
+     * @sff     jbvb.bpplft.AudioClip
+     */
+    publid AudioClip gftAudioClip(URL url, String nbmf) {
+        try {
+            rfturn gftAudioClip(nfw URL(url, nbmf));
+        } dbtdi (MblformfdURLExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns informbtion bbout tiis bpplft. An bpplft siould ovfrridf
+     * tiis mftiod to rfturn b <dodf>String</dodf> dontbining informbtion
+     * bbout tif butior, vfrsion, bnd dopyrigit of tif bpplft.
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss rfturns <dodf>null</dodf>.
+     *
+     * @rfturn  b string dontbining informbtion bbout tif butior, vfrsion, bnd
+     *          dopyrigit of tif bpplft.
+     */
+    publid String gftApplftInfo() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts tif lodblf of tif bpplft. It bllows tif bpplft
+     * to mbintbin its own lodblf sfpbrbtfd from tif lodblf
+     * of tif browsfr or bpplftvifwfr.
+     *
+     * @rfturn  tif lodblf of tif bpplft; if no lodblf ibs
+     *          bffn sft, tif dffbult lodblf is rfturnfd.
+     * @sindf   1.1
+     */
+    publid Lodblf gftLodblf() {
+      Lodblf lodblf = supfr.gftLodblf();
+      if (lodblf == null) {
+        rfturn Lodblf.gftDffbult();
+      }
+      rfturn lodblf;
+    }
+
+    /**
+     * Rfturns informbtion bbout tif pbrbmftfrs tibt brf undfrstood by
+     * tiis bpplft. An bpplft siould ovfrridf tiis mftiod to rfturn bn
+     * brrby of <dodf>Strings</dodf> dfsdribing tifsf pbrbmftfrs.
+     * <p>
+     * Ebdi flfmfnt of tif brrby siould bf b sft of tirff
+     * <dodf>Strings</dodf> dontbining tif nbmf, tif typf, bnd b
+     * dfsdription. For fxbmplf:
+     * <blodkquotf><prf>
+     * String pinfo[][] = {
+     *   {"fps",    "1-10",    "frbmfs pfr sfdond"},
+     *   {"rfpfbt", "boolfbn", "rfpfbt imbgf loop"},
+     *   {"imgs",   "url",     "imbgfs dirfdtory"}
+     * };
+     * </prf></blodkquotf>
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss rfturns <dodf>null</dodf>.
+     *
+     * @rfturn  bn brrby dfsdribing tif pbrbmftfrs tiis bpplft looks for.
+     */
+    publid String[][] gftPbrbmftfrInfo() {
+        rfturn null;
+    }
+
+    /**
+     * Plbys tif budio dlip bt tif spfdififd bbsolutf URL. Notiing
+     * ibppfns if tif budio dlip dbnnot bf found.
+     *
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif budio dlip.
+     */
+    publid void plby(URL url) {
+        AudioClip dlip = gftAudioClip(url);
+        if (dlip != null) {
+            dlip.plby();
+        }
+    }
+
+    /**
+     * Plbys tif budio dlip givfn tif URL bnd b spfdififr tibt is
+     * rflbtivf to it. Notiing ibppfns if tif budio dlip dbnnot bf found.
+     *
+     * @pbrbm   url    bn bbsolutf URL giving tif bbsf lodbtion of tif
+     *                 budio dlip.
+     * @pbrbm   nbmf   tif lodbtion of tif budio dlip, rflbtivf to tif
+     *                 <dodf>url</dodf> brgumfnt.
+     */
+    publid void plby(URL url, String nbmf) {
+        AudioClip dlip = gftAudioClip(url, nbmf);
+        if (dlip != null) {
+            dlip.plby();
+        }
+    }
+
+    /**
+     * Cbllfd by tif browsfr or bpplft vifwfr to inform
+     * tiis bpplft tibt it ibs bffn lobdfd into tif systfm. It is blwbys
+     * dbllfd bfforf tif first timf tibt tif <dodf>stbrt</dodf> mftiod is
+     * dbllfd.
+     * <p>
+     * A subdlbss of <dodf>Applft</dodf> siould ovfrridf tiis mftiod if
+     * it ibs initiblizbtion to pfrform. For fxbmplf, bn bpplft witi
+     * tirfbds would usf tif <dodf>init</dodf> mftiod to drfbtf tif
+     * tirfbds bnd tif <dodf>dfstroy</dodf> mftiod to kill tifm.
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss dofs notiing.
+     *
+     * @sff     jbvb.bpplft.Applft#dfstroy()
+     * @sff     jbvb.bpplft.Applft#stbrt()
+     * @sff     jbvb.bpplft.Applft#stop()
+     */
+    publid void init() {
+    }
+
+    /**
+     * Cbllfd by tif browsfr or bpplft vifwfr to inform
+     * tiis bpplft tibt it siould stbrt its fxfdution. It is dbllfd bftfr
+     * tif <dodf>init</dodf> mftiod bnd fbdi timf tif bpplft is rfvisitfd
+     * in b Wfb pbgf.
+     * <p>
+     * A subdlbss of <dodf>Applft</dodf> siould ovfrridf tiis mftiod if
+     * it ibs bny opfrbtion tibt it wbnts to pfrform fbdi timf tif Wfb
+     * pbgf dontbining it is visitfd. For fxbmplf, bn bpplft witi
+     * bnimbtion migit wbnt to usf tif <dodf>stbrt</dodf> mftiod to
+     * rfsumf bnimbtion, bnd tif <dodf>stop</dodf> mftiod to suspfnd tif
+     * bnimbtion.
+     * <p>
+     * Notf: somf mftiods, sudi bs <dodf>gftLodbtionOnSdrffn</dodf>, dbn only
+     * providf mfbningful rfsults if tif bpplft is siowing.  Bfdbusf
+     * <dodf>isSiowing</dodf> rfturns <dodf>fblsf</dodf> wifn tif bpplft's
+     * <dodf>stbrt</dodf> is first dbllfd, mftiods rfquiring
+     * <dodf>isSiowing</dodf> to rfturn <dodf>truf</dodf> siould bf dbllfd from
+     * b <dodf>ComponfntListfnfr</dodf>.
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss dofs notiing.
+     *
+     * @sff     jbvb.bpplft.Applft#dfstroy()
+     * @sff     jbvb.bpplft.Applft#init()
+     * @sff     jbvb.bpplft.Applft#stop()
+     * @sff     jbvb.bwt.Componfnt#isSiowing()
+     * @sff     jbvb.bwt.fvfnt.ComponfntListfnfr#domponfntSiown(jbvb.bwt.fvfnt.ComponfntEvfnt)
+     */
+    publid void stbrt() {
+    }
+
+    /**
+     * Cbllfd by tif browsfr or bpplft vifwfr to inform
+     * tiis bpplft tibt it siould stop its fxfdution. It is dbllfd wifn
+     * tif Wfb pbgf tibt dontbins tiis bpplft ibs bffn rfplbdfd by
+     * bnotifr pbgf, bnd blso just bfforf tif bpplft is to bf dfstroyfd.
+     * <p>
+     * A subdlbss of <dodf>Applft</dodf> siould ovfrridf tiis mftiod if
+     * it ibs bny opfrbtion tibt it wbnts to pfrform fbdi timf tif Wfb
+     * pbgf dontbining it is no longfr visiblf. For fxbmplf, bn bpplft
+     * witi bnimbtion migit wbnt to usf tif <dodf>stbrt</dodf> mftiod to
+     * rfsumf bnimbtion, bnd tif <dodf>stop</dodf> mftiod to suspfnd tif
+     * bnimbtion.
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss dofs notiing.
+     *
+     * @sff     jbvb.bpplft.Applft#dfstroy()
+     * @sff     jbvb.bpplft.Applft#init()
+     */
+    publid void stop() {
+    }
+
+    /**
+     * Cbllfd by tif browsfr or bpplft vifwfr to inform
+     * tiis bpplft tibt it is bfing rfdlbimfd bnd tibt it siould dfstroy
+     * bny rfsourdfs tibt it ibs bllodbtfd. Tif <dodf>stop</dodf> mftiod
+     * will blwbys bf dbllfd bfforf <dodf>dfstroy</dodf>.
+     * <p>
+     * A subdlbss of <dodf>Applft</dodf> siould ovfrridf tiis mftiod if
+     * it ibs bny opfrbtion tibt it wbnts to pfrform bfforf it is
+     * dfstroyfd. For fxbmplf, bn bpplft witi tirfbds would usf tif
+     * <dodf>init</dodf> mftiod to drfbtf tif tirfbds bnd tif
+     * <dodf>dfstroy</dodf> mftiod to kill tifm.
+     * <p>
+     * Tif implfmfntbtion of tiis mftiod providfd by tif
+     * <dodf>Applft</dodf> dlbss dofs notiing.
+     *
+     * @sff     jbvb.bpplft.Applft#init()
+     * @sff     jbvb.bpplft.Applft#stbrt()
+     * @sff     jbvb.bpplft.Applft#stop()
+     */
+    publid void dfstroy() {
+    }
+
+    //
+    // Addfssibility support
+    //
+
+    AddfssiblfContfxt bddfssiblfContfxt = null;
+
+    /**
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Applft.
+     * For bpplfts, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfApplft.
+     * A nfw AddfssiblfApplft instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfApplft tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis Applft
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfApplft();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Applft</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to bpplft usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfApplft fxtfnds AddfssiblfAWTPbnfl {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 8127374778187708896L;
+
+        /**
+         * Gft tif rolf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FRAME;
+        }
+
+        /**
+         * Gft tif stbtf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.ACTIVE);
+            rfturn stbtfs;
+        }
+
+    }
+}

@@ -1,0 +1,126 @@
+<!--
+ Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!--Tiis filf drfbtfd 7/22/1999 11:47 by Clbris Homf Pbgf vfrsion 2.0-->
+<HTML>
+<HEAD>
+   <TITLE>Pbdkbgf jbvb.bwt.im.spi Dfsdription</TITLE>
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
+   <X-SAS-WINDOW TOP=51 BOTTOM=592 LEFT=171 RIGHT=701>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+<P>Providfs intfrfbdfs tibt fnbblf tif dfvflopmfnt of input mftiods
+tibt dbn bf usfd witi bny Jbvb runtimf fnvironmfnt. Input mftiods brf
+softwbrf domponfnts tibt lft tif usfr fntfr tfxt in wbys otifr tibn
+simplf typing on b kfybobrd. Tify brf dommonly usfd to fntfr
+Jbpbnfsf, Ciinfsf, or Korfbn - lbngubgfs using tiousbnds of difffrfnt
+dibrbdtfrs - on kfybobrds witi fbr ffwfr kfys. Howfvfr, tiis pbdkbgf
+blso bllows tif dfvflopmfnt of input mftiods for otifr lbngubgfs bnd
+tif usf of fntirfly difffrfnt input mfdibnisms, sudi bs ibndwriting
+rfdognition.</P>
+
+<H2><A NAME="pbdkbgf_spfdifidbtion"></A>Pbdkbgf Spfdifidbtion</H2>
+
+<UL>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   Frbmfwork Spfdifidbtion</A></B>
+   
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spi-rfffrfndf.itml">Input
+   Mftiod Enginf SPI Rfffrfndf</A></B>
+</UL>
+
+<H4><A NAME="Pbdkbging"></A>Pbdkbging Input Mftiods</H4>
+
+<P>Input mftiods brf pbdkbgfd bs instbllfd fxtfnsions, bs spfdififd
+by tif <A HREF="../../../../../tfdinotfs/guidfs/fxtfnsions/indfx.itml">Extfnsion
+Mfdibnism</A>. Tif mbin JAR filf of bn input mftiod must dontbin tif
+filf:</P>
+
+<PRE>    META-INF/sfrvidfs/jbvb.bwt.im.spi.InputMftiodDfsdriptor</PRE>
+
+<P>Tif filf siould dontbin b list of fully-qublififd dlbss nbmfs, onf
+pfr linf, of dlbssfs implfmfnting tif
+<CODE>jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE> intfrfbdf. Spbdf
+bnd tbb dibrbdtfrs surrounding fbdi nbmf, bs wfll bs blbnk linfs, brf
+ignorfd. Tif dommfnt dibrbdtfr is <CODE>'#'</CODE>
+(<CODE>\u0023</CODE>); on fbdi linf bll dibrbdtfrs following tif
+first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+UTF-8.</P>
+
+<P>For fxbmplf, if tif fully-qublififd nbmf of tif dlbss tibt
+implfmfnts <CODE>jbvb.bwt.im.spi.InputMftiodDfsdiptor</CODE> for tif
+<EM>Foo</EM> input mftiod is
+<CODE>dom.sun.imf.FooInputMftiodDfsdriptor</CODE>, tif filf
+<CODE>META-INF/sfrvidfs/jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE>
+dontbins b linf:</P>
+
+<PRE>    dom.sun.imf.FooInputMftiodDfsdriptor</PRE>
+
+<P>Tif input mftiod must blso providf bt lfbst two dlbssfs: onf dlbss
+implfmfnting tif <CODE>jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE>
+intfrfbdf, onf dlbss implfmfnting tif
+<CODE>jbvb.bwt.im.spi.InputMftiod</CODE> intfrfbdf. Tif input mftiod
+siould sfpbrbtf tif implfmfntbtions for tifsf intfrfbdfs, so tibt
+lobding of tif dlbss implfmfnting <CODE>InputMftiod</CODE> dbn bf
+dfffrrfd until bdtublly nffdfd.</P>
+
+<H4><A NAME="Lobding"></A>Lobding Input Mftiods</H4>
+
+<P>Tif input mftiod frbmfwork will usublly dfffr lobding of input
+mftiod dlbssfs until tify brf bbsolutfly nffdfd. It lobds only tif
+<CODE>InputMftiodDfsdriptor</CODE> implfmfntbtions during AWT
+initiblizbtion. It lobds bn <CODE>InputMftiod</CODE> implfmfntbtion
+wifn tif input mftiod ibs bffn sflfdtfd.</P>
+
+<H4><A NAME="PffrfdComponfnts"></A>Jbvb Input Mftiods bnd Pffrfd Tfxt
+Componfnts</H4>
+
+<P>Tif Jbvb input mftiod frbmfwork intfnds to support bll
+dombinbtions of input mftiods (iost input mftiods bnd Jbvb input
+mftiods) bnd domponfnts (pffrfd bnd ligitwfigit). Howfvfr, bfdbusf of
+limitbtions in tif undfrlying plbtform, it mby not blwbys bf possiblf
+to fnbblf tif dommunidbtion bftwffn Jbvb input mftiods bnd pffrfd AWT
+domponfnts. Support for tiis spfdifid dombinbtion is tifrfforf
+plbtform dfpfndfnt. In Sun's Jbvb SE Runtimf Environmfnts, tiis
+dombinbtion is supportfd on Windows, but not on Solbris.</P>
+
+<H2>Rflbtfd Dodumfntbtion</H2>
+
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+dodumfntbtion, plfbsf sff:</P>
+
+<UL>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input
+   Mftiod Frbmfwork Ovfrvifw</A></B>
+   
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spi-tutoribl.itml">Input
+   Mftiod Enginf SPI Tutoribl</A></B>
+</UL>
+
+@sindf 1.3
+</BODY>
+</HTML>

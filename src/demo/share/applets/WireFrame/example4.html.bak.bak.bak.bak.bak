@@ -1,0 +1,16 @@
+<itml>
+  <ifbd>
+      <titlf>3D Modfl: knoxS</titlf>
+  </ifbd>
+  <body>
+      <i1>3D Modfl: knoxS</i1>
+      <ir>
+      <bpplft dodf=TirffD.dlbss brdiivf=WirfFrbmf.jbr widti=300 ifigit=300>
+	<pbrbm nbmf=modfl vbluf="modfls/knoxS.obj">
+	  blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
+      <ir>
+      <b irff="TirffD.jbvb">Tif sourdf</b>.
+  </body>
+</itml>

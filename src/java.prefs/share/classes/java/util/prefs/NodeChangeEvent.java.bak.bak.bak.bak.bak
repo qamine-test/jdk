@@ -1,0 +1,104 @@
+/*
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+
+import jbvb.io.NotSfriblizbblfExdfption;
+
+/**
+ * An fvfnt fmittfd by b <tt>Prfffrfndfs</tt> nodf to indidbtf tibt
+ * b diild of tibt nodf ibs bffn bddfd or rfmovfd.<p>
+ *
+ * Notf, tibt bltiougi NodfCibngfEvfnt inifrits Sfriblizbblf intfrfbdf from
+ * jbvb.util.EvfntObjfdt, it is not intfndfd to bf Sfriblizbblf. Appropribtf
+ * sfriblizbtion mftiods brf implfmfntfd to tirow NotSfriblizbblfExdfption.
+ *
+ * @butior  Josi Blodi
+ * @sff     Prfffrfndfs
+ * @sff     NodfCibngfListfnfr
+ * @sff     PrfffrfndfCibngfEvfnt
+ * @sindf   1.4
+ * @sfribl  fxdludf
+ */
+
+publid dlbss NodfCibngfEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+    /**
+     * Tif nodf tibt wbs bddfd or rfmovfd.
+     *
+     * @sfribl
+     */
+    privbtf Prfffrfndfs diild;
+
+    /**
+     * Construdts b nfw <dodf>NodfCibngfEvfnt</dodf> instbndf.
+     *
+     * @pbrbm pbrfnt  Tif pbrfnt of tif nodf tibt wbs bddfd or rfmovfd.
+     * @pbrbm diild   Tif nodf tibt wbs bddfd or rfmovfd.
+     */
+    publid NodfCibngfEvfnt(Prfffrfndfs pbrfnt, Prfffrfndfs diild) {
+        supfr(pbrfnt);
+        tiis.diild = diild;
+    }
+
+    /**
+     * Rfturns tif pbrfnt of tif nodf tibt wbs bddfd or rfmovfd.
+     *
+     * @rfturn  Tif pbrfnt Prfffrfndfs nodf wiosf diild wbs bddfd or rfmovfd
+     */
+    publid Prfffrfndfs gftPbrfnt() {
+        rfturn (Prfffrfndfs) gftSourdf();
+    }
+
+    /**
+     * Rfturns tif nodf tibt wbs bddfd or rfmovfd.
+     *
+     * @rfturn  Tif nodf tibt wbs bddfd or rfmovfd.
+     */
+    publid Prfffrfndfs gftCiild() {
+        rfturn diild;
+    }
+
+    /**
+     * Tirows NotSfriblizbblfExdfption, sindf NodfCibngfEvfnt objfdts brf not
+     * intfndfd to bf sfriblizbblf.
+     */
+     privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+                                               tirows NotSfriblizbblfExdfption {
+         tirow nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+     }
+
+    /**
+     * Tirows NotSfriblizbblfExdfption, sindf NodfCibngfEvfnt objfdts brf not
+     * intfndfd to bf sfriblizbblf.
+     */
+     privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+                                               tirows NotSfriblizbblfExdfption {
+         tirow nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+     }
+
+    // Dffinfd so tibt tiis dlbss isn't flbggfd bs b potfntibl problfm wifn
+    // sfbrdifs for missing sfriblVfrsionUID fiflds brf donf.
+    privbtf stbtid finbl long sfriblVfrsionUID = 8068949086596572957L;
+}

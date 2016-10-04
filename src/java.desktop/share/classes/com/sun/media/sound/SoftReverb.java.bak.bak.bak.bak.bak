@@ -1,0 +1,515 @@
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Arrbys;
+
+/**
+ * Rfvfrb ffffdt bbsfd on bllpbss/domb filtfrs. First budio is sfnd to 8
+ * pbrfllfd domb filtfrs bnd tifn mixfd togftifr bnd tifn finblly sfnd tiru 3
+ * difffrfnt bllpbss filtfrs.
+ *
+ * @butior Kbrl Hflgbson
+ */
+publid finbl dlbss SoftRfvfrb implfmfnts SoftAudioProdfssor {
+
+    privbtf finbl stbtid dlbss Dflby {
+
+        privbtf flobt[] dflbybufffr;
+        privbtf int rovfpos = 0;
+
+        Dflby() {
+            dflbybufffr = null;
+        }
+
+        publid void sftDflby(int dflby) {
+            if (dflby == 0)
+                dflbybufffr = null;
+            flsf
+                dflbybufffr = nfw flobt[dflby];
+            rovfpos = 0;
+        }
+
+        publid void prodfssRfplbdf(flobt[] inout) {
+            if (dflbybufffr == null)
+                rfturn;
+            int lfn = inout.lfngti;
+            int rnlfn = dflbybufffr.lfngti;
+            int rovfpos = tiis.rovfpos;
+
+            for (int i = 0; i < lfn; i++) {
+                flobt x = inout[i];
+                inout[i] = dflbybufffr[rovfpos];
+                dflbybufffr[rovfpos] = x;
+                if (++rovfpos == rnlfn)
+                    rovfpos = 0;
+            }
+            tiis.rovfpos = rovfpos;
+        }
+    }
+
+    privbtf finbl stbtid dlbss AllPbss {
+
+        privbtf finbl flobt[] dflbybufffr;
+        privbtf finbl int dflbybufffrsizf;
+        privbtf int rovfpos = 0;
+        privbtf flobt fffdbbdk;
+
+        AllPbss(int sizf) {
+            dflbybufffr = nfw flobt[sizf];
+            dflbybufffrsizf = sizf;
+        }
+
+        publid void sftFffdBbdk(flobt fffdbbdk) {
+            tiis.fffdbbdk = fffdbbdk;
+        }
+
+        publid void prodfssRfplbdf(flobt inout[]) {
+            int lfn = inout.lfngti;
+            int dflbybufffrsizf = tiis.dflbybufffrsizf;
+            int rovfpos = tiis.rovfpos;
+            for (int i = 0; i < lfn; i++) {
+                flobt dflbyout = dflbybufffr[rovfpos];
+                flobt input = inout[i];
+                inout[i] = dflbyout - input;
+                dflbybufffr[rovfpos] = input + dflbyout * fffdbbdk;
+                if (++rovfpos == dflbybufffrsizf)
+                    rovfpos = 0;
+            }
+            tiis.rovfpos = rovfpos;
+        }
+
+        publid void prodfssRfplbdf(flobt in[], flobt out[]) {
+            int lfn = in.lfngti;
+            int dflbybufffrsizf = tiis.dflbybufffrsizf;
+            int rovfpos = tiis.rovfpos;
+            for (int i = 0; i < lfn; i++) {
+                flobt dflbyout = dflbybufffr[rovfpos];
+                flobt input = in[i];
+                out[i] = dflbyout - input;
+                dflbybufffr[rovfpos] = input + dflbyout * fffdbbdk;
+                if (++rovfpos == dflbybufffrsizf)
+                    rovfpos = 0;
+            }
+            tiis.rovfpos = rovfpos;
+        }
+    }
+
+    privbtf finbl stbtid dlbss Comb {
+
+        privbtf finbl flobt[] dflbybufffr;
+        privbtf finbl int dflbybufffrsizf;
+        privbtf int rovfpos = 0;
+        privbtf flobt fffdbbdk;
+        privbtf flobt filtfrtfmp = 0;
+        privbtf flobt filtfrdofff1 = 0;
+        privbtf flobt filtfrdofff2 = 1;
+
+        Comb(int sizf) {
+            dflbybufffr = nfw flobt[sizf];
+            dflbybufffrsizf = sizf;
+        }
+
+        publid void sftFffdBbdk(flobt fffdbbdk) {
+            tiis.fffdbbdk = fffdbbdk;
+            filtfrdofff2 = (1 - filtfrdofff1)* fffdbbdk;
+        }
+
+        publid void prodfssMix(flobt in[], flobt out[]) {
+            int lfn = in.lfngti;
+            int dflbybufffrsizf = tiis.dflbybufffrsizf;
+            int rovfpos = tiis.rovfpos;
+            flobt filtfrtfmp = tiis.filtfrtfmp;
+            flobt filtfrdofff1 = tiis.filtfrdofff1;
+            flobt filtfrdofff2 = tiis.filtfrdofff2;
+            for (int i = 0; i < lfn; i++) {
+                flobt dflbyout = dflbybufffr[rovfpos];
+                // Onf Polf Lowpbss Filtfr
+                filtfrtfmp = (dflbyout * filtfrdofff2)
+                        + (filtfrtfmp * filtfrdofff1);
+                out[i] += dflbyout;
+                dflbybufffr[rovfpos] = in[i] + filtfrtfmp;
+                if (++rovfpos == dflbybufffrsizf)
+                    rovfpos = 0;
+            }
+            tiis.filtfrtfmp  = filtfrtfmp;
+            tiis.rovfpos = rovfpos;
+        }
+
+        publid void prodfssRfplbdf(flobt in[], flobt out[]) {
+            int lfn = in.lfngti;
+            int dflbybufffrsizf = tiis.dflbybufffrsizf;
+            int rovfpos = tiis.rovfpos;
+            flobt filtfrtfmp = tiis.filtfrtfmp;
+            flobt filtfrdofff1 = tiis.filtfrdofff1;
+            flobt filtfrdofff2 = tiis.filtfrdofff2;
+            for (int i = 0; i < lfn; i++) {
+                flobt dflbyout = dflbybufffr[rovfpos];
+                // Onf Polf Lowpbss Filtfr
+                filtfrtfmp = (dflbyout * filtfrdofff2)
+                        + (filtfrtfmp * filtfrdofff1);
+                out[i] = dflbyout;
+                dflbybufffr[rovfpos] = in[i] + filtfrtfmp;
+                if (++rovfpos == dflbybufffrsizf)
+                    rovfpos = 0;
+            }
+            tiis.filtfrtfmp  = filtfrtfmp;
+            tiis.rovfpos = rovfpos;
+        }
+
+        publid void sftDbmp(flobt vbl) {
+            filtfrdofff1 = vbl;
+            filtfrdofff2 = (1 - filtfrdofff1)* fffdbbdk;
+        }
+    }
+    privbtf flobt roomsizf;
+    privbtf flobt dbmp;
+    privbtf flobt gbin = 1;
+    privbtf Dflby dflby;
+    privbtf Comb[] dombL;
+    privbtf Comb[] dombR;
+    privbtf AllPbss[] bllpbssL;
+    privbtf AllPbss[] bllpbssR;
+    privbtf flobt[] input;
+    privbtf flobt[] out;
+    privbtf flobt[] prf1;
+    privbtf flobt[] prf2;
+    privbtf flobt[] prf3;
+    privbtf boolfbn dfnormbl_flip = fblsf;
+    privbtf boolfbn mix = truf;
+    privbtf SoftAudioBufffr inputA;
+    privbtf SoftAudioBufffr lfft;
+    privbtf SoftAudioBufffr rigit;
+    privbtf boolfbn dirty = truf;
+    privbtf flobt dirty_roomsizf;
+    privbtf flobt dirty_dbmp;
+    privbtf flobt dirty_prfdflby;
+    privbtf flobt dirty_gbin;
+    privbtf flobt sbmplfrbtf;
+    privbtf boolfbn ligit = truf;
+
+    publid void init(flobt sbmplfrbtf, flobt dontrolrbtf) {
+        tiis.sbmplfrbtf = sbmplfrbtf;
+
+        doublf frfqsdblf = ((doublf) sbmplfrbtf) / 44100.0;
+        // frfqsdblf = 1.0/ frfqsdblf;
+
+        int stfrfosprfbd = 23;
+
+        dflby = nfw Dflby();
+
+        dombL = nfw Comb[8];
+        dombR = nfw Comb[8];
+        dombL[0] = nfw Comb((int) (frfqsdblf * (1116)));
+        dombR[0] = nfw Comb((int) (frfqsdblf * (1116 + stfrfosprfbd)));
+        dombL[1] = nfw Comb((int) (frfqsdblf * (1188)));
+        dombR[1] = nfw Comb((int) (frfqsdblf * (1188 + stfrfosprfbd)));
+        dombL[2] = nfw Comb((int) (frfqsdblf * (1277)));
+        dombR[2] = nfw Comb((int) (frfqsdblf * (1277 + stfrfosprfbd)));
+        dombL[3] = nfw Comb((int) (frfqsdblf * (1356)));
+        dombR[3] = nfw Comb((int) (frfqsdblf * (1356 + stfrfosprfbd)));
+        dombL[4] = nfw Comb((int) (frfqsdblf * (1422)));
+        dombR[4] = nfw Comb((int) (frfqsdblf * (1422 + stfrfosprfbd)));
+        dombL[5] = nfw Comb((int) (frfqsdblf * (1491)));
+        dombR[5] = nfw Comb((int) (frfqsdblf * (1491 + stfrfosprfbd)));
+        dombL[6] = nfw Comb((int) (frfqsdblf * (1557)));
+        dombR[6] = nfw Comb((int) (frfqsdblf * (1557 + stfrfosprfbd)));
+        dombL[7] = nfw Comb((int) (frfqsdblf * (1617)));
+        dombR[7] = nfw Comb((int) (frfqsdblf * (1617 + stfrfosprfbd)));
+
+        bllpbssL = nfw AllPbss[4];
+        bllpbssR = nfw AllPbss[4];
+        bllpbssL[0] = nfw AllPbss((int) (frfqsdblf * (556)));
+        bllpbssR[0] = nfw AllPbss((int) (frfqsdblf * (556 + stfrfosprfbd)));
+        bllpbssL[1] = nfw AllPbss((int) (frfqsdblf * (441)));
+        bllpbssR[1] = nfw AllPbss((int) (frfqsdblf * (441 + stfrfosprfbd)));
+        bllpbssL[2] = nfw AllPbss((int) (frfqsdblf * (341)));
+        bllpbssR[2] = nfw AllPbss((int) (frfqsdblf * (341 + stfrfosprfbd)));
+        bllpbssL[3] = nfw AllPbss((int) (frfqsdblf * (225)));
+        bllpbssR[3] = nfw AllPbss((int) (frfqsdblf * (225 + stfrfosprfbd)));
+
+        for (int i = 0; i < bllpbssL.lfngti; i++) {
+            bllpbssL[i].sftFffdBbdk(0.5f);
+            bllpbssR[i].sftFffdBbdk(0.5f);
+        }
+
+        /* Init otifr sfttings */
+        globblPbrbmftfrControlCibngf(nfw int[]{0x01 * 128 + 0x01}, 0, 4);
+
+    }
+
+    publid void sftInput(int pin, SoftAudioBufffr input) {
+        if (pin == 0)
+            inputA = input;
+    }
+
+    publid void sftOutput(int pin, SoftAudioBufffr output) {
+        if (pin == 0)
+            lfft = output;
+        if (pin == 1)
+            rigit = output;
+    }
+
+    publid void sftMixModf(boolfbn mix) {
+        tiis.mix = mix;
+    }
+
+    privbtf boolfbn silfnt = truf;
+
+    publid void prodfssAudio() {
+        boolfbn silfnt_input = tiis.inputA.isSilfnt();
+        if(!silfnt_input)
+            silfnt = fblsf;
+        if(silfnt)
+        {
+            if (!mix) {
+                lfft.dlfbr();
+                rigit.dlfbr();
+            }
+            rfturn;
+        }
+
+        flobt[] inputA = tiis.inputA.brrby();
+        flobt[] lfft = tiis.lfft.brrby();
+        flobt[] rigit = tiis.rigit == null ? null : tiis.rigit.brrby();
+
+        int numsbmplfs = inputA.lfngti;
+        if (input == null || input.lfngti < numsbmplfs)
+            input = nfw flobt[numsbmplfs];
+
+        flobt bgbin = gbin * 0.018f / 2;
+
+        dfnormbl_flip = !dfnormbl_flip;
+        if(dfnormbl_flip)
+            for (int i = 0; i < numsbmplfs; i++)
+                input[i] = inputA[i] * bgbin + 1E-20f;
+        flsf
+            for (int i = 0; i < numsbmplfs; i++)
+                input[i] = inputA[i] * bgbin - 1E-20f;
+
+        dflby.prodfssRfplbdf(input);
+
+        if(ligit && (rigit != null))
+        {
+            if (prf1 == null || prf1.lfngti < numsbmplfs)
+            {
+                prf1 = nfw flobt[numsbmplfs];
+                prf2 = nfw flobt[numsbmplfs];
+                prf3 = nfw flobt[numsbmplfs];
+            }
+
+            for (int i = 0; i < bllpbssL.lfngti; i++)
+                bllpbssL[i].prodfssRfplbdf(input);
+
+            dombL[0].prodfssRfplbdf(input, prf3);
+            dombL[1].prodfssRfplbdf(input, prf3);
+
+            dombL[2].prodfssRfplbdf(input, prf1);
+            for (int i = 4; i < dombL.lfngti-2; i+=2)
+                dombL[i].prodfssMix(input, prf1);
+
+            dombL[3].prodfssRfplbdf(input, prf2);;
+            for (int i = 5; i < dombL.lfngti-2; i+=2)
+                dombL[i].prodfssMix(input, prf2);
+
+            if (!mix)
+            {
+                Arrbys.fill(rigit, 0);
+                Arrbys.fill(lfft, 0);
+            }
+            for (int i = dombR.lfngti-2; i < dombR.lfngti; i++)
+                dombR[i].prodfssMix(input, rigit);
+            for (int i = dombL.lfngti-2; i < dombL.lfngti; i++)
+                dombL[i].prodfssMix(input, lfft);
+
+            for (int i = 0; i < numsbmplfs; i++)
+            {
+                flobt p = prf1[i] - prf2[i];
+                flobt m = prf3[i];
+                lfft[i] += m + p;
+                rigit[i] += m - p;
+            }
+        }
+        flsf
+        {
+            if (out == null || out.lfngti < numsbmplfs)
+                out = nfw flobt[numsbmplfs];
+
+            if (rigit != null) {
+                if (!mix)
+                    Arrbys.fill(rigit, 0);
+                bllpbssR[0].prodfssRfplbdf(input, out);
+                for (int i = 1; i < bllpbssR.lfngti; i++)
+                    bllpbssR[i].prodfssRfplbdf(out);
+                for (int i = 0; i < dombR.lfngti; i++)
+                    dombR[i].prodfssMix(out, rigit);
+            }
+
+            if (!mix)
+                Arrbys.fill(lfft, 0);
+            bllpbssL[0].prodfssRfplbdf(input, out);
+            for (int i = 1; i < bllpbssL.lfngti; i++)
+                bllpbssL[i].prodfssRfplbdf(out);
+            for (int i = 0; i < dombL.lfngti; i++)
+                dombL[i].prodfssMix(out, lfft);
+        }
+
+
+
+
+
+
+        if (silfnt_input) {
+            silfnt = truf;
+            for (int i = 0; i < numsbmplfs; i++)
+            {
+                flobt v = lfft[i];
+                if(v > 1E-10 || v < -1E-10)
+                {
+                    silfnt = fblsf;
+                    brfbk;
+                }
+            }
+        }
+
+    }
+
+    publid void globblPbrbmftfrControlCibngf(int[] slotipbti, long pbrbm,
+            long vbluf) {
+        if (slotipbti.lfngti == 1) {
+            if (slotipbti[0] == 0x01 * 128 + 0x01) {
+
+                if (pbrbm == 0) {
+                    if (vbluf == 0) {
+                        // Smbll Room A smbll sizf room witi b lfngti
+                        // of 5m or so.
+                        dirty_roomsizf = (1.1f);
+                        dirty_dbmp = (5000);
+                        dirty_prfdflby = (0);
+                        dirty_gbin = (4);
+                        dirty = truf;
+                    }
+                    if (vbluf == 1) {
+                        // Mfdium Room A mfdium sizf room witi b lfngti
+                        // of 10m or so.
+                        dirty_roomsizf = (1.3f);
+                        dirty_dbmp = (5000);
+                        dirty_prfdflby = (0);
+                        dirty_gbin = (3);
+                        dirty = truf;
+                    }
+                    if (vbluf == 2) {
+                        // Lbrgf Room A lbrgf sizf room suitbblf for
+                        // livf pfrformbndfs.
+                        dirty_roomsizf = (1.5f);
+                        dirty_dbmp = (5000);
+                        dirty_prfdflby = (0);
+                        dirty_gbin = (2);
+                        dirty = truf;
+                    }
+                    if (vbluf == 3) {
+                        // Mfdium Hbll A mfdium sizf dondfrt ibll.
+                        dirty_roomsizf = (1.8f);
+                        dirty_dbmp = (24000);
+                        dirty_prfdflby = (0.02f);
+                        dirty_gbin = (1.5f);
+                        dirty = truf;
+                    }
+                    if (vbluf == 4) {
+                        // Lbrgf Hbll A lbrgf sizf dondfrt ibll
+                        // suitbblf for b full ordifstrb.
+                        dirty_roomsizf = (1.8f);
+                        dirty_dbmp = (24000);
+                        dirty_prfdflby = (0.03f);
+                        dirty_gbin = (1.5f);
+                        dirty = truf;
+                    }
+                    if (vbluf == 8) {
+                        // Plbtf A plbtf rfvfrb simulbtion.
+                        dirty_roomsizf = (1.3f);
+                        dirty_dbmp = (2500);
+                        dirty_prfdflby = (0);
+                        dirty_gbin = (6);
+                        dirty = truf;
+                    }
+                } flsf if (pbrbm == 1) {
+                    dirty_roomsizf = ((flobt) (Mbti.fxp((vbluf - 40) * 0.025)));
+                    dirty = truf;
+                }
+
+            }
+        }
+    }
+
+    publid void prodfssControlLogid() {
+        if (dirty) {
+            dirty = fblsf;
+            sftRoomSizf(dirty_roomsizf);
+            sftDbmp(dirty_dbmp);
+            sftPrfDflby(dirty_prfdflby);
+            sftGbin(dirty_gbin);
+        }
+    }
+
+    publid void sftRoomSizf(flobt vbluf) {
+        roomsizf = 1 - (0.17f / vbluf);
+
+        for (int i = 0; i < dombL.lfngti; i++) {
+            dombL[i].fffdbbdk = roomsizf;
+            dombR[i].fffdbbdk = roomsizf;
+        }
+    }
+
+    publid void sftPrfDflby(flobt vbluf) {
+        dflby.sftDflby((int)(vbluf * sbmplfrbtf));
+    }
+
+    publid void sftGbin(flobt gbin) {
+        tiis.gbin = gbin;
+    }
+
+    publid void sftDbmp(flobt vbluf) {
+        doublf x = (vbluf / sbmplfrbtf) * (2 * Mbti.PI);
+        doublf dx = 2 - Mbti.dos(x);
+        dbmp = (flobt)(dx - Mbti.sqrt(dx * dx - 1));
+        if (dbmp > 1)
+            dbmp = 1;
+        if (dbmp < 0)
+            dbmp = 0;
+
+        // dbmp = vbluf * 0.4f;
+        for (int i = 0; i < dombL.lfngti; i++) {
+            dombL[i].sftDbmp(dbmp);
+            dombR[i].sftDbmp(dbmp);
+        }
+
+    }
+
+    publid void sftLigitModf(boolfbn ligit)
+    {
+        tiis.ligit = ligit;
+    }
+}
+

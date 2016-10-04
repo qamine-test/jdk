@@ -1,0 +1,93 @@
+#
+#
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+bgfnt.frr.frror			   = \uC624\uB958
+bgfnt.frr.fxdfption                = \uC5D0\uC774\uC804\uD2B8\uC5D0 \uC608\uC678 \uC0AC\uD56D\uC774 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. 
+bgfnt.frr.wbrning		   = \uACBD\uACE0
+
+bgfnt.frr.donfigfilf.notfound      = \uAD6C\uC131 \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.donfigfilf.fbilfd        = \uAD6C\uC131 \uD30C\uC77C \uC77D\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = \uAD6C\uC131 \uD30C\uC77C \uB2EB\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \uAD6C\uC131 \uD30C\uC77C\uC5D0 \uB300\uD55C \uC561\uC138\uC2A4\uAC00 \uAC70\uBD80\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+
+bgfnt.frr.fxportbddrfss.fbilfd	   = \uAE30\uAE30 \uBC84\uD37C\uB85C JMX \uCEE4\uB125\uD130 \uC8FC\uC18C \uC775\uC2A4\uD3EC\uD2B8\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+
+bgfnt.frr.bgfntdlbss.notfound      = \uAD00\uB9AC \uC5D0\uC774\uC804\uD2B8 \uD074\uB798\uC2A4\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bgfntdlbss.fbilfd        = \uAD00\uB9AC \uC5D0\uC774\uC804\uD2B8 \uD074\uB798\uC2A4\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4. 
+bgfnt.frr.prfmbin.notfound         = \uC5D0\uC774\uC804\uD2B8 \uD074\uB798\uC2A4\uC5D0 prfmbin(\uBB38\uC790\uC5F4)\uC774 \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(\uBB38\uC790\uC5F4)\uC5D0 \uB300\uD55C \uC561\uC138\uC2A4\uAC00 \uAC70\uBD80\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss \uC18D\uC131 \uAC12\uC774 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4.
+bgfnt.frr.invblid.stbtf            = \uBD80\uC801\uD569\uD55C \uC5D0\uC774\uC804\uD2B8 \uC0C1\uD0DC
+bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port \uBC88\uD638\uAC00 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4.
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = \uBD80\uC801\uD569\uD55C dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port \uBC88\uD638
+
+bgfnt.frr.filf.not.sft               = \uD30C\uC77C\uC774 \uC9C0\uC815\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.filf.not.rfbdbblf          = \uD30C\uC77C\uC744 \uC77D\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.filf.rfbd.fbilfd           = \uD30C\uC77C \uC77D\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.filf.not.found             = \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.filf.bddfss.not.rfstridtfd = \uD30C\uC77C \uC77D\uAE30 \uC561\uC138\uC2A4\uB294 \uC81C\uD55C\uB418\uC5B4\uC57C \uD569\uB2C8\uB2E4.
+
+bgfnt.frr.pbssword.filf.notsft     = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C\uC774 \uC9C0\uC815\uB418\uC9C0 \uC54A\uC558\uC9C0\uB9CC dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\uC785\uB2C8\uB2E4.
+bgfnt.frr.pbssword.filf.not.rfbdbblf = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C\uC744 \uC77D\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C \uC77D\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.pbssword.filf.notfound   = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C \uC77D\uAE30 \uC561\uC138\uC2A4\uB294 \uC81C\uD55C\uB418\uC5B4\uC57C \uD569\uB2C8\uB2E4.
+
+bgfnt.frr.bddfss.filf.notsft       = \uC561\uC138\uC2A4 \uD30C\uC77C\uC774 \uC9C0\uC815\uB418\uC9C0 \uC54A\uC558\uC9C0\uB9CC dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\uC785\uB2C8\uB2E4.
+bgfnt.frr.bddfss.filf.not.rfbdbblf = \uC561\uC138\uC2A4 \uD30C\uC77C\uC744 \uC77D\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \uC561\uC138\uC2A4 \uD30C\uC77C \uC77D\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bddfss.filf.notfound     = \uC561\uC138\uC2A4 \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX \uCEE4\uB125\uD130 \uC11C\uBC84 \uD1B5\uC2E0 \uC624\uB958
+
+bgfnt.frr.invblid.option	   = \uBD80\uC801\uD569\uD55C \uC635\uC158\uC774 \uC9C0\uC815\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port \uBC88\uD638\uAC00 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4.
+bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp \uBC88\uD638\uAC00 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4.
+bgfnt.frr.unknown.snmp.intfrfbdf   = \uC54C \uC218 \uC5C6\uB294 SNMP \uC778\uD130\uD398\uC774\uC2A4
+bgfnt.frr.bdl.filf.notsft          = SNMP ACL \uD30C\uC77C\uC774 \uC9C0\uC815\uB418\uC9C0 \uC54A\uC558\uC9C0\uB9CC dom.sun.mbnbgfmfnt.snmp.bdl=truf\uC785\uB2C8\uB2E4.
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL \uD30C\uC77C\uC744 \uC77D\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL \uD30C\uC77C \uC77D\uAE30\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C \uC77D\uAE30 \uC561\uC138\uC2A4\uB294 \uC81C\uD55C\uB418\uC5B4\uC57C \uD569\uB2C8\uB2E4.
+
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \uC8FC\uC18C\uAC00 \uC788\uB294 SNMP \uC5B4\uB311\uD130 \uC2DC\uC791\uC744 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+bgfnt.frr.snmp.mib.init.fbilfd     = \uC624\uB958\uB85C \uC778\uD574 SNMP MIB \uCD08\uAE30\uD654\uB97C \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.
+
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX \uCEE4\uB125\uD130 \uC11C\uBC84\uB97C \uC2DC\uC791\uD558\uB294 \uC911:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \uC778\uC99D \uC5C6\uC74C
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = {0}\uC5D0\uC11C JMX \uCEE4\uB125\uD130\uAC00 \uC900\uBE44\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \uBE44\uBC00\uBC88\uD638 \uD30C\uC77C \uC77D\uAE30 \uC561\uC138\uC2A4\uB294 \uC81C\uD55C\uB418\uC5B4\uC57C \uD568: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \uD30C\uC77C \uC77D\uAE30 \uC561\uC138\uC2A4\uB294 \uC81C\uD55C\uB418\uC5B4\uC57C \uD568: {0}
+
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\uC744 \uCC98\uB9AC\uD558\uB294 \uC911
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \uB300\uC0C1\uC744 \uCD94\uAC00\uD558\uB294 \uC911: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \uC5B4\uB311\uD130 \uC11C\uBC84\uB97C \uC2DC\uC791\uD558\uB294 \uC911:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \uC5B4\uB311\uD130\uAC00 \uC900\uBE44\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = {0}:{1}\uC5D0\uC11C SNMP \uC5B4\uB311\uD130\uAC00 \uC900\uBE44\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0} \uC885\uB8CC

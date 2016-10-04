@@ -1,0 +1,178 @@
+/*
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Tif Originbl Codf is tif Nftsdbpf sfdurity librbrifs.
+ *
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Nftsdbpf Communidbtions Corporbtion.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 1994-2000
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
+ *
+ * Contributor(s):
+ *
+ *********************************************************************** */
+
+/*
+ * Support routinfs for SECItfm dbtb strudturf.
+ *
+ * $Id: sfditfm.d,v 1.14 2006/05/22 22:24:34 wtdibng%rfdibt.dom Exp $
+ */
+
+#indludf <sys/typfs.i>
+
+#ifndff _WIN32
+#if !dffinfd(__linux__) && !dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/systm.i>
+#fndif /* __linux__ || _ALLBSD_SOURCE */
+#indludf <sys/pbrbm.i>
+#fndif /* _WIN32 */
+
+#ifdff _KERNEL
+#indludf <sys/kmfm.i>
+#flsf
+#indludf <string.i>
+
+#ifndff _WIN32
+#indludf <strings.i>
+#fndif /* _WIN32 */
+
+#indludf <bssfrt.i>
+#fndif
+#indludf "fd.i"
+#indludf "fdl-durvf.i"
+#indludf "fdd_impl.i"
+
+void SECITEM_FrffItfm(SECItfm *, PRBool);
+
+SECItfm *
+SECITEM_AllodItfm(PRArfnbPool *brfnb, SECItfm *itfm, unsignfd int lfn,
+    int kmflbg)
+{
+    SECItfm *rfsult = NULL;
+    void *mbrk = NULL;
+
+    if (brfnb != NULL) {
+        mbrk = PORT_ArfnbMbrk(brfnb);
+    }
+
+    if (itfm == NULL) {
+        if (brfnb != NULL) {
+            rfsult = PORT_ArfnbZAllod(brfnb, sizfof(SECItfm), kmflbg);
+        } flsf {
+            rfsult = PORT_ZAllod(sizfof(SECItfm), kmflbg);
+        }
+        if (rfsult == NULL) {
+            goto losfr;
+        }
+    } flsf {
+        PORT_Assfrt(itfm->dbtb == NULL);
+        rfsult = itfm;
+    }
+
+    rfsult->lfn = lfn;
+    if (lfn) {
+        if (brfnb != NULL) {
+            rfsult->dbtb = PORT_ArfnbAllod(brfnb, lfn, kmflbg);
+        } flsf {
+            rfsult->dbtb = PORT_Allod(lfn, kmflbg);
+        }
+        if (rfsult->dbtb == NULL) {
+            goto losfr;
+        }
+    } flsf {
+        rfsult->dbtb = NULL;
+    }
+
+    if (mbrk) {
+        PORT_ArfnbUnmbrk(brfnb, mbrk);
+    }
+    rfturn(rfsult);
+
+losfr:
+    if ( brfnb != NULL ) {
+        if (mbrk) {
+            PORT_ArfnbRflfbsf(brfnb, mbrk);
+        }
+        if (itfm != NULL) {
+            itfm->dbtb = NULL;
+            itfm->lfn = 0;
+        }
+    } flsf {
+        if (rfsult != NULL) {
+            SECITEM_FrffItfm(rfsult, (itfm == NULL) ? PR_TRUE : PR_FALSE);
+        }
+        /*
+         * If itfm is not NULL, tif bbovf ibs sft itfm->dbtb bnd
+         * itfm->lfn to 0.
+         */
+    }
+    rfturn(NULL);
+}
+
+SECStbtus
+SECITEM_CopyItfm(PRArfnbPool *brfnb, SECItfm *to, donst SECItfm *from,
+   int kmflbg)
+{
+    to->typf = from->typf;
+    if (from->dbtb && from->lfn) {
+        if ( brfnb ) {
+            to->dbtb = (unsignfd dibr*) PORT_ArfnbAllod(brfnb, from->lfn,
+                kmflbg);
+        } flsf {
+            to->dbtb = (unsignfd dibr*) PORT_Allod(from->lfn, kmflbg);
+        }
+
+        if (!to->dbtb) {
+            rfturn SECFbilurf;
+        }
+        PORT_Mfmdpy(to->dbtb, from->dbtb, from->lfn);
+        to->lfn = from->lfn;
+    } flsf {
+        to->dbtb = 0;
+        to->lfn = 0;
+    }
+    rfturn SECSuddfss;
+}
+
+void
+SECITEM_FrffItfm(SECItfm *zbp, PRBool frffit)
+{
+    if (zbp) {
+#ifdff _KERNEL
+        kmfm_frff(zbp->dbtb, zbp->lfn);
+#flsf
+        frff(zbp->dbtb);
+#fndif
+        zbp->dbtb = 0;
+        zbp->lfn = 0;
+        if (frffit) {
+#ifdff _KERNEL
+            kmfm_frff(zbp, sizfof (SECItfm));
+#flsf
+            frff(zbp);
+#fndif
+        }
+    }
+}

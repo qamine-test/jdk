@@ -1,0 +1,1103 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Window;
+import jbvb.bwt.im.InputContfxt;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.bwt.im.spi.InputMftiodContfxt;
+import sun.bwt.im.InputMftiodAdbptfr;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.InputMftiodEvfnt;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.lbng.Cibrbdtfr.Subsft;
+import jbvb.tfxt.AttributfdString;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.util.logging.PlbtformLoggfr;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.rfgfx.Pbttfrn;
+
+
+/**
+ * Input Mftiod Adbptfr for XIM
+ *
+ * @butior JbvbSoft Intfrnbtionbl
+ */
+publid bbstrbdt dlbss X11InputMftiod fxtfnds InputMftiodAdbptfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11InputMftiod");
+    /*
+     * Tif following XIM* vblufs must bf tif sbmf bs tiosf dffinfd in
+     * Xlib.i
+     */
+    privbtf stbtid finbl int XIMRfvfrsf = (1<<0);
+    privbtf stbtid finbl int XIMUndfrlinf = (1<<1);
+    privbtf stbtid finbl int XIMHigiligit = (1<<2);
+    privbtf stbtid finbl int XIMPrimbry = (1<<5);
+    privbtf stbtid finbl int XIMSfdondbry = (1<<6);
+    privbtf stbtid finbl int XIMTfrtibry = (1<<7);
+
+    /*
+     * visiblf position vblufs
+     */
+    privbtf stbtid finbl int XIMVisiblfToForwbrd = (1<<8);
+    privbtf stbtid finbl int XIMVisiblfToBbdkwbrd = (1<<9);
+    privbtf stbtid finbl int XIMVisiblfCfntfr = (1<<10);
+    privbtf stbtid finbl int XIMVisiblfMbsk = (XIMVisiblfToForwbrd|
+                                               XIMVisiblfToBbdkwbrd|
+                                               XIMVisiblfCfntfr);
+
+    privbtf Lodblf lodblf;
+    privbtf stbtid boolfbn isXIMOpfnfd = fblsf;
+    protfdtfd Contbinfr dlifntComponfntWindow = null;
+    privbtf Componfnt bwtFodussfdComponfnt = null;
+    privbtf Componfnt lbstXICFodussfdComponfnt = null;
+    privbtf boolfbn   isLbstXICAdtivf = fblsf;
+    privbtf boolfbn   isLbstTfmporbry = fblsf;
+    privbtf boolfbn   isAdtivf = fblsf;
+    privbtf boolfbn   isAdtivfClifnt = fblsf;
+    privbtf stbtid Mbp<TfxtAttributf, ?>[] iigiligitStylfs;
+    privbtf boolfbn disposfd = fblsf;
+
+    //rfsft tif XIC if nfdfssbry
+    privbtf boolfbn   nffdRfsftXIC = fblsf;
+    privbtf WfbkRfffrfndf<Componfnt> nffdRfsftXICClifnt = nfw WfbkRfffrfndf<>(null);
+
+    // Tif usf of dompositionEnbblfSupportfd is to rfdudf unnfdfssbry
+    // nbtivf dblls if sft/isCompositionEnbblfd
+    // tirows UnsupportfdOpfrbtionExdfption.
+    // It is sft to fblsf if tibt fxdfption is tirown first timf
+    // fitifr of tif two mftiods brf dbllfd.
+    privbtf boolfbn dompositionEnbblfSupportfd = truf;
+    // Tif sbvfdCompositionStbtf indidbtfs tif domposition modf wifn
+    // fndComposition or sftCompositionEnbblfd is dbllfd. It dofsn't blwbys
+    // rfflfdt tif bdtubl domposition stbtf bfdbusf it dofsn't gft updbtfd
+    // wifn tif usfr dibngfs tif domposition stbtf tirougi dirfdt intfrbdtion
+    // witi tif input mftiod. It is usfd to sbvf tif domposition modf wifn
+    // fodus is trbvfrsfd bdross difffrfnt dlifnt domponfnts sibring tif
+    // sbmf jbvb input dontfxt. Also if sft/isCompositionEnbblfd brf not
+    // supportfd, it rfmbins fblsf.
+    privbtf boolfbn sbvfdCompositionStbtf = fblsf;
+
+    // vbribblfs to kffp trbdk of prffdit dontfxt.
+    // tifsf vbribblfs nffd to bf bddfssfd witiin AWT_LOCK/UNLOCK
+    privbtf String dommittfdTfxt = null;
+    privbtf StringBufffr domposfdTfxt = null;
+    privbtf IntBufffr rbwFffdbbdks;
+
+    // privbtf dbtb (X11InputMftiodDbtb strudturf dffinfd in
+    // bwt_InputMftiod.d) for nbtivf mftiods
+    // tiis strudturf nffds to bf bddfssfd witiin AWT_LOCK/UNLOCK
+    trbnsifnt privbtf long pDbtb = 0; // bddfssfd by nbtivf
+
+    // Initiblizf iigiligit mbpping tbblf
+    stbtid {
+        @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+        Mbp<TfxtAttributf, ?> stylfs[] = nfw Mbp[4];
+        HbsiMbp<TfxtAttributf, Objfdt> mbp;
+
+        // UNSELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.WEIGHT, TfxtAttributf.WEIGHT_BOLD);
+        stylfs[0] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.SWAP_COLORS, TfxtAttributf.SWAP_COLORS_ON);
+        stylfs[1] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_ONE_PIXEL);
+        stylfs[2] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.SWAP_COLORS, TfxtAttributf.SWAP_COLORS_ON);
+        stylfs[3] = Collfdtions.unmodifibblfMbp(mbp);
+
+        iigiligitStylfs = stylfs;
+    }
+
+    stbtid {
+        initIDs();
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+       bddfssfd from C.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Construdts bn X11InputMftiod instbndf. It initiblizfs tif XIM
+     * fnvironmfnt if it's not donf yft.
+     *
+     * @fxdfption AWTExdfption if XOpfnIM() fbilfd.
+     */
+    publid X11InputMftiod() tirows AWTExdfption {
+        // supports only tif lodblf in wiidi tif VM is stbrtfd
+        lodblf = X11InputMftiodDfsdriptor.gftSupportfdLodblf();
+        if (initXIM() == fblsf) {
+            tirow nfw AWTExdfption("Cbnnot opfn X Input Mftiod");
+        }
+    }
+
+    protfdtfd void finblizf() tirows Tirowbblf {
+        disposf();
+        supfr.finblizf();
+    }
+
+    /**
+     * Invokfs opfnIM() tibt invokfs XOpfnIM() if it's not opfnfd yft.
+     * @rfturn  truf if opfnXIM() is suddfssful or it's blrfbdy bffn opfnfd.
+     */
+    privbtf syndironizfd boolfbn initXIM() {
+        if (isXIMOpfnfd == fblsf)
+            isXIMOpfnfd = opfnXIM();
+        rfturn isXIMOpfnfd;
+    }
+
+    protfdtfd bbstrbdt boolfbn opfnXIM();
+
+    protfdtfd boolfbn isDisposfd() {
+        rfturn disposfd;
+    }
+
+    protfdtfd bbstrbdt void sftXICFodus(ComponfntPffr pffr,
+                                    boolfbn vbluf, boolfbn bdtivf);
+
+    /**
+     * Dofs notiing - tiis bdbptfr dofsn't usf tif input mftiod dontfxt.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftInputMftiodContfxt
+     */
+    publid void sftInputMftiodContfxt(InputMftiodContfxt dontfxt) {
+    }
+
+    /**
+     * Sft lodblf to input. If input mftiod dofsn't support spfdififd lodblf,
+     * fblsf will bf rfturnfd bnd its bfibvior is not dibngfd.
+     *
+     * @pbrbm lbng lodblf to input
+     * @rfturn tif truf is rfturnfd wifn spfdififd lodblf is supportfd.
+     */
+    publid boolfbn sftLodblf(Lodblf lbng) {
+        if (lbng.fqubls(lodblf)) {
+            rfturn truf;
+        }
+        // spfdibl dompbtibility rulf for Jbpbnfsf bnd Korfbn
+        if (lodblf.fqubls(Lodblf.JAPAN) && lbng.fqubls(Lodblf.JAPANESE) ||
+                lodblf.fqubls(Lodblf.KOREA) && lbng.fqubls(Lodblf.KOREAN)) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns durrfnt input lodblf.
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    /**
+     * Dofs notiing - XIM dofsn't lft you spfdify wiidi dibrbdtfrs you fxpfdt.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftCibrbdtfrSubsfts
+     */
+    publid void sftCibrbdtfrSubsfts(Subsft[] subsfts) {
+    }
+
+    /**
+     * Dispbtdi fvfnt to input mftiod. InputContfxt dispbtdi fvfnt witi tiis
+     * mftiod. Input mftiod sft donsumf flbg if fvfnt is donsumfd in
+     * input mftiod.
+     *
+     * @pbrbm f fvfnt
+     */
+    publid void dispbtdiEvfnt(AWTEvfnt f) {
+    }
+
+
+    protfdtfd finbl void rfsftXICifnffdfd(){
+        /* nffdRfsftXIC is usfd to indidbtf wiftifr to dbll
+           rfsftXIC on tif bdtivf dlifnt. rfsftXIC will blwbys bf
+           dbllfd on tif pbssivf dlifnt wifn fndComposition is dbllfd.
+        */
+        if (nffdRfsftXIC && ibvfAdtivfClifnt() &&
+            gftClifntComponfnt() != nffdRfsftXICClifnt.gft()){
+            rfsftXIC();
+
+            // nffds to rfsft tif lbst xid fodussfd domponfnt.
+            lbstXICFodussfdComponfnt = null;
+            isLbstXICAdtivf = fblsf;
+
+            nffdRfsftXICClifnt.dlfbr();
+            nffdRfsftXIC = fblsf;
+        }
+    }
+
+    /**
+     * Rfsft tif domposition stbtf to tif durrfnt domposition stbtf.
+     */
+    privbtf void rfsftCompositionStbtf() {
+        if (dompositionEnbblfSupportfd) {
+            try {
+                /* Rfstorf tif domposition modf to tif lbst sbvfd domposition
+                   modf. */
+                sftCompositionEnbblfd(sbvfdCompositionStbtf);
+            } dbtdi (UnsupportfdOpfrbtionExdfption f) {
+                dompositionEnbblfSupportfd = fblsf;
+            }
+        }
+    }
+
+    /**
+     * Qufry bnd tifn rfturn tif durrfnt domposition stbtf.
+     * @rfturns tif domposition stbtf if isCompositionEnbblfd dbll
+     * is suddfssful. Otifrwisf, it rfturns fblsf.
+     */
+    privbtf boolfbn gftCompositionStbtf() {
+        boolfbn dompositionStbtf = fblsf;
+        if (dompositionEnbblfSupportfd) {
+            try {
+                dompositionStbtf = isCompositionEnbblfd();
+            } dbtdi (UnsupportfdOpfrbtionExdfption f) {
+                dompositionEnbblfSupportfd = fblsf;
+            }
+        }
+        rfturn dompositionStbtf;
+    }
+
+    /**
+     * Adtivbtf input mftiod.
+     */
+    publid syndironizfd void bdtivbtf() {
+        dlifntComponfntWindow = gftClifntComponfntWindow();
+        if (dlifntComponfntWindow == null)
+            rfturn;
+
+        if (lbstXICFodussfdComponfnt != null){
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("XICFodusfd {0}, AWTFodusfd {1}",
+                         lbstXICFodussfdComponfnt, bwtFodussfdComponfnt);
+            }
+        }
+
+        if (pDbtb == 0) {
+            if (!drfbtfXIC()) {
+                rfturn;
+            }
+            disposfd = fblsf;
+        }
+
+        /*  rfsft input dontfxt if nfdfssbry bnd sft tif XIC fodus
+        */
+        rfsftXICifnffdfd();
+        ComponfntPffr lbstXICFodussfdComponfntPffr = null;
+        ComponfntPffr bwtFodussfdComponfntPffr = gftPffr(bwtFodussfdComponfnt);
+
+        if (lbstXICFodussfdComponfnt != null) {
+           lbstXICFodussfdComponfntPffr = gftPffr(lbstXICFodussfdComponfnt);
+        }
+
+        /* If tif lbst XIC fodussfd domponfnt ibs b difffrfnt pffr bs tif
+           durrfnt fodussfd domponfnt, dibngf tif XIC fodus to tif nfwly
+           fodussfd domponfnt.
+        */
+        if (isLbstTfmporbry || lbstXICFodussfdComponfntPffr != bwtFodussfdComponfntPffr ||
+            isLbstXICAdtivf != ibvfAdtivfClifnt()) {
+            if (lbstXICFodussfdComponfntPffr != null) {
+                sftXICFodus(lbstXICFodussfdComponfntPffr, fblsf, isLbstXICAdtivf);
+            }
+            if (bwtFodussfdComponfntPffr != null) {
+                sftXICFodus(bwtFodussfdComponfntPffr, truf, ibvfAdtivfClifnt());
+            }
+            lbstXICFodussfdComponfnt = bwtFodussfdComponfnt;
+            isLbstXICAdtivf = ibvfAdtivfClifnt();
+        }
+        rfsftCompositionStbtf();
+        isAdtivf = truf;
+    }
+
+    protfdtfd bbstrbdt boolfbn drfbtfXIC();
+
+    /**
+     * Dfbdtivbtf input mftiod.
+     */
+    publid syndironizfd void dfbdtivbtf(boolfbn isTfmporbry) {
+        boolfbn   isAd =  ibvfAdtivfClifnt();
+        /* Usublly bs tif dlifnt domponfnt, lft's dbll it domponfnt A,
+           losfs tif fodus, tiis mftiod is dbllfd. Tifn wifn bnotifr dlifnt
+           domponfnt, lft's dbll it domponfnt B,  gfts tif fodus, bdtivbtf is first dbllfd on
+           tif prfvious fodusfd dompofnt wiidi is A, tifn fndComposition is dbllfd on A,
+           dfbdtivbtf is dbllfd on A bgbin. And finblly bdtivbtf is dbllfd on tif nfwly
+           fodusfd domponfnt B. Hfrf is tif dbll sfqufndf.
+
+           A losfs fodus               B gbins fodus
+           -------------> dfbdtivbtf A -------------> bdtivbtf A -> fndComposition A ->
+           dfbdtivbtf A -> bdtivbtf B ----....
+
+           So in ordfr to dbrry tif domposition modf bdross tif domponfnts sibring tif sbmf
+           input dontfxt, wf sbvf it wifn dfbdtivbtf is dbllfd so tibt wifn bdtivbtf is
+           dbllfd, it dbn bf rfstorfd dorrfdtly till bdtivbtf is dbllfd on tif nfwly fodusfd
+           domponfnt. (Sff blso sun/bwt/im/InputContfxt bnd bug 6184471).
+           Lbst notf, gftCompositionStbtf siould bf dbllfd bfforf sftXICFodus sindf
+           sftXICFodus ifrf sfts tif XIC to 0.
+        */
+        sbvfdCompositionStbtf = gftCompositionStbtf();
+
+        if (isTfmporbry){
+            //turn tif stbtus window off...
+            turnoffStbtusWindow();
+        }
+
+        /* Dflby rfsftting tif XIC fodus until bdtivbtf is dbllfd bnd tif nfwly
+           fodussfd domponfnt ibs b difffrfnt pffr bs tif lbst fodussfd domponfnt.
+        */
+        lbstXICFodussfdComponfnt = bwtFodussfdComponfnt;
+        isLbstXICAdtivf = isAd;
+        isLbstTfmporbry = isTfmporbry;
+        isAdtivf = fblsf;
+    }
+
+    /**
+     * Expliditly disbblf tif nbtivf IME. Nbtivf IME is not disbblfd wifn
+     * dfbdtivbtf is dbllfd.
+     */
+    publid void disbblfInputMftiod() {
+        if (lbstXICFodussfdComponfnt != null) {
+            sftXICFodus(gftPffr(lbstXICFodussfdComponfnt), fblsf, isLbstXICAdtivf);
+            lbstXICFodussfdComponfnt = null;
+            isLbstXICAdtivf = fblsf;
+
+            rfsftXIC();
+            nffdRfsftXICClifnt.dlfbr();
+            nffdRfsftXIC = fblsf;
+        }
+    }
+
+    // implfmfnts jbvb.bwt.im.spi.InputMftiod.iidfWindows
+    publid void iidfWindows() {
+        // ??? nffd rfbl implfmfntbtion
+    }
+
+    /**
+     * @sff jbvb.bwt.Toolkit#mbpInputMftiodHigiligit
+     */
+    publid stbtid Mbp<TfxtAttributf, ?> mbpInputMftiodHigiligit(InputMftiodHigiligit iigiligit) {
+        int indfx;
+        int stbtf = iigiligit.gftStbtf();
+        if (stbtf == InputMftiodHigiligit.RAW_TEXT) {
+            indfx = 0;
+        } flsf if (stbtf == InputMftiodHigiligit.CONVERTED_TEXT) {
+            indfx = 2;
+        } flsf {
+            rfturn null;
+        }
+        if (iigiligit.isSflfdtfd()) {
+            indfx += 1;
+        }
+        rfturn iigiligitStylfs[indfx];
+    }
+
+    /**
+     * @sff sun.bwt.im.InputMftiodAdbptfr#sftAWTFodussfdComponfnt
+     */
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        if (domponfnt == null) {
+            rfturn;
+        }
+        if (isAdtivf) {
+            // dfbdtivbtf/bdtivbtf brf bfing supprfssfd during b fodus dibngf -
+            // tiis mby ibppfn wifn bn input mftiod window is mbdf visiblf
+            boolfbn bd = ibvfAdtivfClifnt();
+            sftXICFodus(gftPffr(bwtFodussfdComponfnt), fblsf, bd);
+            sftXICFodus(gftPffr(domponfnt), truf, bd);
+        }
+        bwtFodussfdComponfnt = domponfnt;
+    }
+
+    /**
+     * @sff sun.bwt.im.InputMftiodAdbptfr#stopListfning
+     */
+    protfdtfd void stopListfning() {
+        // It is dfsirbblf to disbblf XIM by dblling XSftICVblufs witi
+        // XNPrffditStbtf == XIMPrffditDisbblf.  But Solbris 2.6 bnd
+        // Solbris 7 do not implfmfnt tiis dorrfdtly witiout b pbtdi,
+        // so just dbll rfsftXIC ifrf.  Prior fndComposition dbll dommits
+        // tif fxisting domposfd tfxt.
+        fndComposition();
+        // disbblf tif nbtivf input mftiod so tibt tif otifr input
+        // mftiod dould gft tif input fodus.
+        disbblfInputMftiod();
+        if (nffdRfsftXIC) {
+            rfsftXIC();
+            nffdRfsftXICClifnt.dlfbr();
+            nffdRfsftXIC = fblsf;
+        }
+    }
+
+    /**
+     * Rfturns tif Window instbndf in wiidi tif dlifnt domponfnt is
+     * dontbinfd. If not found, null is rfturnfd. (IS THIS POSSIBLE?)
+     */
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    privbtf Window gftClifntComponfntWindow() {
+        Componfnt dlifnt = gftClifntComponfnt();
+        Contbinfr dontbinfr;
+
+        if (dlifnt instbndfof Contbinfr) {
+            dontbinfr = (Contbinfr) dlifnt;
+        } flsf {
+            dontbinfr = gftPbrfnt(dlifnt);
+        }
+
+        wiilf (dontbinfr != null && !(dontbinfr instbndfof jbvb.bwt.Window)) {
+            dontbinfr = gftPbrfnt(dontbinfr);
+        }
+        rfturn (Window) dontbinfr;
+    }
+
+    protfdtfd bbstrbdt Contbinfr gftPbrfnt(Componfnt dlifnt);
+
+    /**
+     * Rfturns pffr of tif givfn dlifnt domponfnt. If tif givfn dlifnt domponfnt
+     * dofsn't ibvf pffr, pffr of tif nbtivf dontbinfr of tif dlifnt is rfturnfd.
+     */
+    protfdtfd bbstrbdt ComponfntPffr gftPffr(Componfnt dlifnt);
+
+    /**
+     * Usfd to protfdt prffdit dbtb
+     */
+    protfdtfd bbstrbdt void bwtLodk();
+    protfdtfd bbstrbdt void bwtUnlodk();
+
+    /**
+     * Crfbtfs bn input mftiod fvfnt from tif brgumfnts givfn
+     * bnd posts it on tif AWT fvfnt qufuf. For brgumfnts,
+     * sff InputMftiodEvfnt. Cbllfd by input mftiod.
+     *
+     * @sff jbvb.bwt.fvfnt.InputMftiodEvfnt#InputMftiodEvfnt
+     */
+    privbtf void postInputMftiodEvfnt(int id,
+                                      AttributfdCibrbdtfrItfrbtor tfxt,
+                                      int dommittfdCibrbdtfrCount,
+                                      TfxtHitInfo dbrft,
+                                      TfxtHitInfo visiblfPosition,
+                                      long wifn) {
+        Componfnt sourdf = gftClifntComponfnt();
+        if (sourdf != null) {
+            InputMftiodEvfnt fvfnt = nfw InputMftiodEvfnt(sourdf,
+                id, wifn, tfxt, dommittfdCibrbdtfrCount, dbrft, visiblfPosition);
+            SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(sourdf), (AWTEvfnt)fvfnt);
+        }
+    }
+
+    privbtf void postInputMftiodEvfnt(int id,
+                                      AttributfdCibrbdtfrItfrbtor tfxt,
+                                      int dommittfdCibrbdtfrCount,
+                                      TfxtHitInfo dbrft,
+                                      TfxtHitInfo visiblfPosition) {
+        postInputMftiodEvfnt(id, tfxt, dommittfdCibrbdtfrCount,
+                             dbrft, visiblfPosition, EvfntQufuf.gftMostRfdfntEvfntTimf());
+    }
+
+    /**
+     * Dispbtdifs dommittfd tfxt from XIM to tif bwt fvfnt qufuf. Tiis
+     * mftiod is invokfd from tif fvfnt ibndlfr in dbnvbs.d in tif
+     * AWT Toolkit tirfbd dontfxt bnd tius insidf tif AWT Lodk.
+     * @pbrbm   str     dommittfd tfxt
+     * @pbrbm   long    wifn
+     */
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       Tiis fundtionblity is implfmfntfd in b pbdkbgf-privbtf mftiod
+    //       to insurf tibt it dbnnot bf ovfrriddfn by dlifnt subdlbssfs.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    void dispbtdiCommittfdTfxt(String str, long wifn) {
+        if (str == null)
+            rfturn;
+
+        if (domposfdTfxt == null) {
+            AttributfdString bttrstr = nfw AttributfdString(str);
+            postInputMftiodEvfnt(InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                 bttrstr.gftItfrbtor(),
+                                 str.lfngti(),
+                                 null,
+                                 null,
+                                 wifn);
+        } flsf {
+            // if tifrf is domposfd tfxt, wbit until tif prffdit
+            // dbllbbdk is invokfd.
+            dommittfdTfxt = str;
+        }
+    }
+
+    privbtf void dispbtdiCommittfdTfxt(String str) {
+        dispbtdiCommittfdTfxt(str, EvfntQufuf.gftMostRfdfntEvfntTimf());
+    }
+
+    /**
+     * Updbtfs domposfd tfxt witi XIM prffdit informbtion bnd
+     * posts domposfd tfxt to tif bwt fvfnt qufuf. Tif brgs of
+     * tiis mftiod dorrfspond to tif XIM prffdit dbllbbdk
+     * informbtion. Tif XIM iigiligit bttributfs brf trbnslbtfd vib
+     * fixfd mbpping (i.f., indfpfndfnt from bny undfrlying input
+     * mftiod fnginf). Tiis mftiod is invokfd in tif AWT Toolkit
+     * (X fvfnt loop) tirfbd dontfxt bnd tius insidf tif AWT Lodk.
+     */
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       Tiis fundtionblity is implfmfntfd in b pbdkbgf-privbtf mftiod
+    //       to insurf tibt it dbnnot bf ovfrriddfn by dlifnt subdlbssfs.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    void dispbtdiComposfdTfxt(String digTfxt,
+                                           int digStylfs[],
+                                           int digOffsft,
+                                           int digLfngti,
+                                           int dbrftPosition,
+                                           long wifn) {
+        if (disposfd) {
+            rfturn;
+        }
+
+        //Workbround for dfbdlodk bug on solbris2.6_zi bug#4170760
+        if (digTfxt == null
+            && digStylfs == null
+            && digOffsft == 0
+            && digLfngti == 0
+            && dbrftPosition == 0
+            && domposfdTfxt == null
+            && dommittfdTfxt == null)
+            rfturn;
+
+        if (domposfdTfxt == null) {
+            // TODO: bvoid rfbllodbtion of tiosf bufffrs
+            domposfdTfxt = nfw StringBufffr(INITIAL_SIZE);
+            rbwFffdbbdks = nfw IntBufffr(INITIAL_SIZE);
+        }
+        if (digLfngti > 0) {
+            if (digTfxt == null && digStylfs != null) {
+                rbwFffdbbdks.rfplbdf(digOffsft, digStylfs);
+            } flsf {
+                if (digLfngti == domposfdTfxt.lfngti()) {
+                    // optimizbtion for tif spfdibl dbsf to rfplbdf tif
+                    // fntirf prfvious tfxt
+                    domposfdTfxt = nfw StringBufffr(INITIAL_SIZE);
+                    rbwFffdbbdks = nfw IntBufffr(INITIAL_SIZE);
+                } flsf {
+                    if (domposfdTfxt.lfngti() > 0) {
+                        if (digOffsft+digLfngti < domposfdTfxt.lfngti()) {
+                            String tfxt;
+                            tfxt = domposfdTfxt.toString().substring(digOffsft+digLfngti,
+                                                                     domposfdTfxt.lfngti());
+                            domposfdTfxt.sftLfngti(digOffsft);
+                            domposfdTfxt.bppfnd(tfxt);
+                        } flsf {
+                            // in dbsf to rfmovf substring from digOffsft
+                            // to tif fnd
+                            domposfdTfxt.sftLfngti(digOffsft);
+                        }
+                        rbwFffdbbdks.rfmovf(digOffsft, digLfngti);
+                    }
+                }
+            }
+        }
+        if (digTfxt != null) {
+            domposfdTfxt.insfrt(digOffsft, digTfxt);
+            if (digStylfs != null)
+                rbwFffdbbdks.insfrt(digOffsft, digStylfs);
+        }
+
+        if (domposfdTfxt.lfngti() == 0) {
+            domposfdTfxt = null;
+            rbwFffdbbdks = null;
+
+            // if tifrf is bny outstbnding dommittfd tfxt storfd by
+            // dispbtdiCommittfdTfxt(), it ibs to bf sfnt to tif
+            // dlifnt domponfnt.
+            if (dommittfdTfxt != null) {
+                dispbtdiCommittfdTfxt(dommittfdTfxt, wifn);
+                dommittfdTfxt = null;
+                rfturn;
+            }
+
+            // otifrwisf, sfnd null tfxt to dflftf dlifnt's domposfd
+            // tfxt.
+            postInputMftiodEvfnt(InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                 null,
+                                 0,
+                                 null,
+                                 null,
+                                 wifn);
+
+            rfturn;
+        }
+
+        // Now sfnding tif domposfd tfxt to tif dlifnt
+        int domposfdOffsft;
+        AttributfdString inputTfxt;
+
+        // if tifrf is bny pbrtiblly dommittfd tfxt, dondbtfnbtf it to
+        // tif domposfd tfxt.
+        if (dommittfdTfxt != null) {
+            domposfdOffsft = dommittfdTfxt.lfngti();
+            inputTfxt = nfw AttributfdString(dommittfdTfxt + domposfdTfxt);
+            dommittfdTfxt = null;
+        } flsf {
+            domposfdOffsft = 0;
+            inputTfxt = nfw AttributfdString(domposfdTfxt.toString());
+        }
+
+        int durrfntFffdbbdk;
+        int nfxtFffdbbdk;
+        int stbrtOffsft = 0;
+        int durrfntOffsft;
+        int visiblfPosition = 0;
+        TfxtHitInfo visiblfPositionInfo = null;
+
+        rbwFffdbbdks.rfwind();
+        durrfntFffdbbdk = rbwFffdbbdks.gftNfxt();
+        rbwFffdbbdks.ungft();
+        wiilf ((nfxtFffdbbdk = rbwFffdbbdks.gftNfxt()) != -1) {
+            if (visiblfPosition == 0) {
+                visiblfPosition = nfxtFffdbbdk & XIMVisiblfMbsk;
+                if (visiblfPosition != 0) {
+                    int indfx = rbwFffdbbdks.gftOffsft() - 1;
+
+                    if (visiblfPosition == XIMVisiblfToBbdkwbrd)
+                        visiblfPositionInfo = TfxtHitInfo.lfbding(indfx);
+                    flsf
+                        visiblfPositionInfo = TfxtHitInfo.trbiling(indfx);
+                }
+            }
+            nfxtFffdbbdk &= ~XIMVisiblfMbsk;
+            if (durrfntFffdbbdk != nfxtFffdbbdk) {
+                rbwFffdbbdks.ungft();
+                durrfntOffsft = rbwFffdbbdks.gftOffsft();
+                inputTfxt.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                                       donvfrtVisublFffdbbdkToHigiligit(durrfntFffdbbdk),
+                                       domposfdOffsft + stbrtOffsft,
+                                       domposfdOffsft + durrfntOffsft);
+                stbrtOffsft = durrfntOffsft;
+                durrfntFffdbbdk = nfxtFffdbbdk;
+            }
+        }
+        durrfntOffsft = rbwFffdbbdks.gftOffsft();
+        if (durrfntOffsft >= 0) {
+            inputTfxt.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                                   donvfrtVisublFffdbbdkToHigiligit(durrfntFffdbbdk),
+                                   domposfdOffsft + stbrtOffsft,
+                                   domposfdOffsft + durrfntOffsft);
+        }
+
+        postInputMftiodEvfnt(InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                             inputTfxt.gftItfrbtor(),
+                             domposfdOffsft,
+                             TfxtHitInfo.lfbding(dbrftPosition),
+                             visiblfPositionInfo,
+                             wifn);
+    }
+
+    /**
+     * Flusifs domposfd bnd dommittfd tfxt ifld in tiis dontfxt.
+     * Tiis mftiod is invokfd in tif AWT Toolkit (X fvfnt loop) tirfbd dontfxt
+     * bnd tius insidf tif AWT Lodk.
+     */
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       Tiis fundtionblity is implfmfntfd in b pbdkbgf-privbtf mftiod
+    //       to insurf tibt it dbnnot bf ovfrriddfn by dlifnt subdlbssfs.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    void flusiTfxt() {
+        String flusi = (dommittfdTfxt != null ? dommittfdTfxt : "");
+        if (domposfdTfxt != null) {
+            flusi += domposfdTfxt.toString();
+        }
+
+        if (!flusi.fqubls("")) {
+            AttributfdString bttrstr = nfw AttributfdString(flusi);
+            postInputMftiodEvfnt(InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                 bttrstr.gftItfrbtor(),
+                                 flusi.lfngti(),
+                                 null,
+                                 null,
+                                 EvfntQufuf.gftMostRfdfntEvfntTimf());
+            domposfdTfxt = null;
+            dommittfdTfxt = null;
+        }
+    }
+
+    /*
+     * Subdlbssfs siould ovfrridf disposfImpl() instfbd of disposf(). Clifnt
+     * dodf siould blwbys invokf disposf(), nfvfr disposfImpl().
+     */
+    protfdtfd syndironizfd void disposfImpl() {
+        disposfXIC();
+        bwtLodk();
+        domposfdTfxt = null;
+        dommittfdTfxt = null;
+        rbwFffdbbdks = null;
+        bwtUnlodk();
+        bwtFodussfdComponfnt = null;
+        lbstXICFodussfdComponfnt = null;
+    }
+
+    /**
+     * Frffs bll X Window rfsourdfs bssodibtfd witi tiis objfdt.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#disposf
+     */
+    publid finbl void disposf() {
+        boolfbn dbll_disposfImpl = fblsf;
+
+        if (!disposfd) {
+            syndironizfd (tiis) {
+                if (!disposfd) {
+                    disposfd = dbll_disposfImpl = truf;
+                }
+            }
+        }
+
+        if (dbll_disposfImpl) {
+            disposfImpl();
+        }
+    }
+
+    /**
+     * Rfturns null.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#gftControlObjfdt
+     */
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#rfmovfNotify
+     */
+    publid syndironizfd void rfmovfNotify() {
+        disposf();
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftCompositionEnbblfd(boolfbn)
+     */
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        /* If tif domposition stbtf is suddfssfully dibngfd, sft
+           tif sbvfdCompositionStbtf to 'fnbblf'. Otifrwisf, simply
+           rfturn.
+           sftCompositionEnbblfdNbtivf mby tirow UnsupportfdOpfrbtionExdfption.
+           Don't try to dbtdi it sindf tif mftiod mby bf dbllfd by dlifnts.
+           Usf pbdkbgf privbtf mtiod 'rfsftCompositionStbtf' if you wbnt tif
+           fxdfption to bf dbugit.
+        */
+        if (sftCompositionEnbblfdNbtivf(fnbblf)) {
+            sbvfdCompositionStbtf = fnbblf;
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#isCompositionEnbblfd
+     */
+    publid boolfbn isCompositionEnbblfd() {
+        /* isCompositionEnbblfdNbtivf mby tirow UnsupportfdOpfrbtionExdfption.
+           Don't try to dbtdi it sindf tiis mftiod mby bf dbllfd by dlifnts.
+           Usf pbdkbgf privbtf mftiod 'gftCompositionStbtf' if you wbnt tif
+           fxdfption to bf dbugit.
+        */
+        rfturn isCompositionEnbblfdNbtivf();
+    }
+
+    /**
+     * Ends bny input domposition tibt mby durrfntly bf going on in tiis
+     * dontfxt. Dfpfnding on tif plbtform bnd possibly usfr prfffrfndfs,
+     * tiis mby dommit or dflftf undommittfd tfxt. Any dibngfs to tif tfxt
+     * brf dommunidbtfd to tif bdtivf domponfnt using bn input mftiod fvfnt.
+     *
+     * <p>
+     * A tfxt fditing domponfnt mby dbll tiis in b vbrifty of situbtions,
+     * for fxbmplf, wifn tif usfr movfs tif insfrtion point witiin tif tfxt
+     * (but outsidf tif domposfd tfxt), or wifn tif domponfnt's tfxt is
+     * sbvfd to b filf or dopifd to tif dlipbobrd.
+     *
+     */
+    publid void fndComposition() {
+        if (disposfd) {
+            rfturn;
+        }
+
+        /* Bfforf dblling rfsftXIC, rfdord tif durrfnt domposition modf
+           so tibt it dbn bf rfstorfd lbtfr. */
+        sbvfdCompositionStbtf = gftCompositionStbtf();
+        boolfbn bdtivf = ibvfAdtivfClifnt();
+        if (bdtivf && domposfdTfxt == null && dommittfdTfxt == null){
+            nffdRfsftXIC = truf;
+            nffdRfsftXICClifnt = nfw WfbkRfffrfndf<>(gftClifntComponfnt());
+            rfturn;
+        }
+
+        String tfxt = rfsftXIC();
+        /* nffdRfsftXIC is only sft to truf for bdtivf dlifnt. So pbssivf
+           dlifnt siould not rfsft tif flbg to fblsf. */
+        if (bdtivf) {
+            nffdRfsftXIC = fblsf;
+        }
+
+        // Rfmovf bny fxisting domposfd tfxt by posting bn InputMftiodEvfnt
+        // witi null domposfd tfxt.  It would bf dfsirbblf to wbit for b
+        // dispbtdiComposfdTfxt dbll from X input mftiod fnginf, but somf
+        // input mftiod dofs not donform to tif XIM spfdifidbtion bnd dofs
+        // not dbll tif prffdit dbllbbdk to frbsf prffdit tfxt on dblling
+        // XmbRfsftIC.  To work bround tiis problfm, do it ifrf by oursflvfs.
+        bwtLodk();
+        domposfdTfxt = null;
+        postInputMftiodEvfnt(InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                             null,
+                             0,
+                             null,
+                             null);
+
+        if (tfxt != null && tfxt.lfngti() > 0) {
+            dispbtdiCommittfdTfxt(tfxt);
+        }
+        bwtUnlodk();
+
+        // Rfstorf tif prffdit stbtf if it wbs fnbblfd
+        if (sbvfdCompositionStbtf) {
+            rfsftCompositionStbtf();
+        }
+    }
+
+    /**
+     * Rfturns b string witi informbtion bbout tif durrfnt input mftiod sfrvfr, or null.
+     * On boti Linux & SunOS, tif vbluf of fnvironmfnt vbribblf XMODIFIERS is
+     * rfturnfd if sft. Otifrwisf, on SunOS, $HOME/.dtprofilf will bf pbrsfd
+     * to find out tif lbngubgf sfrvidf fnginf (btok or wnn) sindf tifrf is
+     * no API in Xlib wiidi rfturns tif informbtion of nbtivf
+     * IM sfrvfr or lbngubgf sfrvidf bnd wf wbnt to try our bfst to rfturn bs mudi
+     * informbtion bs possiblf.
+     *
+     * Notf: Tiis mftiod dould rfturn null on Linux if XMODIFIERS is not sft propfrly or
+     * if bny IOExdfption is tirown.
+     * Sff mbn pbgf of XSftLodblfModififrs(3X11) for tif usgbf of XMODIFIERS,
+     * btok12sftup(1) bnd wnn6sftup(1) for tif informbtion writtfn to
+     * $HOME/.dtprofilf wifn you run tifsf two dommbnds.
+     *
+     */
+    publid String gftNbtivfInputMftiodInfo() {
+        String xmodififrs = Systfm.gftfnv("XMODIFIERS");
+        String imInfo = null;
+
+        // If XMODIFIERS is sft, rfturn tif vbluf
+        if (xmodififrs != null) {
+            int imIndfx = xmodififrs.indfxOf("@im=");
+            if (imIndfx != -1) {
+                imInfo = xmodififrs.substring(imIndfx + 4);
+            }
+        } flsf if (Systfm.gftPropfrty("os.nbmf").stbrtsWiti("SunOS")) {
+            Filf dtprofilf = nfw Filf(Systfm.gftPropfrty("usfr.iomf") +
+                                      "/.dtprofilf");
+            String lbngubgfEnginfInfo = null;
+            try {
+                BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(dtprofilf));
+                String linf = null;
+
+                wiilf ( lbngubgfEnginfInfo == null && (linf = br.rfbdLinf()) != null) {
+                    if (linf.dontbins("btok") || linf.dontbins("wnn")) {
+                        StringTokfnizfr tokfns =  nfw StringTokfnizfr(linf);
+                        wiilf (tokfns.ibsMorfTokfns()) {
+                            String tokfn = tokfns.nfxtTokfn();
+                            if (Pbttfrn.mbtdifs("btok.*sftup", tokfn) ||
+                                Pbttfrn.mbtdifs("wnn.*sftup", tokfn)){
+                                lbngubgfEnginfInfo = tokfn.substring(0, tokfn.indfxOf("sftup"));
+                                brfbk;
+                            }
+                        }
+                    }
+                }
+
+                br.dlosf();
+            } dbtdi(IOExdfption iofx) {
+                // Sindf tiis mftiod is providfd for intfrnbl tfsting only,
+                // wf dump tif stbdk trbdf for tif fbsf of dfbugging.
+                iofx.printStbdkTrbdf();
+            }
+
+            imInfo = "itt " + lbngubgfEnginfInfo;
+        }
+
+        rfturn imInfo;
+    }
+
+
+    /**
+     * Pfrforms mbpping from bn XIM visiblf fffdbbdk vbluf to Jbvb IM iigiligit.
+     * @rfturn Jbvb input mftiod iigiligit
+     */
+    privbtf InputMftiodHigiligit donvfrtVisublFffdbbdkToHigiligit(int fffdbbdk) {
+        InputMftiodHigiligit iigiligit;
+
+        switdi (fffdbbdk) {
+        dbsf XIMUndfrlinf:
+            iigiligit = InputMftiodHigiligit.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
+            brfbk;
+        dbsf XIMRfvfrsf:
+            iigiligit = InputMftiodHigiligit.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
+            brfbk;
+        dbsf XIMHigiligit:
+            iigiligit = InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT;
+            brfbk;
+        dbsf XIMPrimbry:
+            iigiligit = InputMftiodHigiligit.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
+            brfbk;
+        dbsf XIMSfdondbry:
+            iigiligit = InputMftiodHigiligit.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
+            brfbk;
+        dbsf XIMTfrtibry:
+            iigiligit = InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT;
+            brfbk;
+        dffbult:
+            iigiligit = InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT;
+            brfbk;
+        }
+        rfturn iigiligit;
+    }
+
+    // initibl dbpbdity sizf for string bufffr, ftd.
+    privbtf stbtid finbl int INITIAL_SIZE = 64;
+
+    /**
+     * IntBufffr is bn innfr dlbss tibt mbnipulbtfs bn int brrby bnd
+     * providfs UNIX filf io strfbm-likf progrbmming intfrfbdfs to
+     * bddfss it. (An bltfrnbtivf would bf to usf ArrbyList wiidi mby
+     * bf too fxpfnsivf for tif work.)
+     */
+    privbtf finbl dlbss IntBufffr {
+        privbtf int[] intArrby;
+        privbtf int sizf;
+        privbtf int indfx;
+
+        IntBufffr(int initiblCbpbdity) {
+            intArrby = nfw int[initiblCbpbdity];
+            sizf = 0;
+            indfx = 0;
+        }
+
+        void insfrt(int offsft, int[] vblufs) {
+            int nfwSizf = sizf + vblufs.lfngti;
+            if (intArrby.lfngti < nfwSizf) {
+                int[] nfwIntArrby = nfw int[nfwSizf * 2];
+                Systfm.brrbydopy(intArrby, 0, nfwIntArrby, 0, sizf);
+                intArrby = nfwIntArrby;
+            }
+            Systfm.brrbydopy(intArrby, offsft, intArrby, offsft+vblufs.lfngti,
+                             sizf - offsft);
+            Systfm.brrbydopy(vblufs, 0, intArrby, offsft, vblufs.lfngti);
+            sizf += vblufs.lfngti;
+            if (indfx > offsft)
+                indfx = offsft;
+        }
+
+        void rfmovf(int offsft, int lfngti) {
+            if (offsft + lfngti != sizf)
+                Systfm.brrbydopy(intArrby, offsft+lfngti, intArrby, offsft,
+                                 sizf - offsft - lfngti);
+            sizf -= lfngti;
+            if (indfx > offsft)
+                indfx = offsft;
+        }
+
+        void rfplbdf(int offsft, int[] vblufs) {
+            Systfm.brrbydopy(vblufs, 0, intArrby, offsft, vblufs.lfngti);
+        }
+
+        void rfmovfAll() {
+            sizf = 0;
+            indfx = 0;
+        }
+
+        void rfwind() {
+            indfx = 0;
+        }
+
+        int gftNfxt() {
+            if (indfx == sizf)
+                rfturn -1;
+            rfturn intArrby[indfx++];
+        }
+
+        void ungft() {
+            if (indfx != 0)
+                indfx--;
+        }
+
+        int gftOffsft() {
+            rfturn indfx;
+        }
+
+        publid String toString() {
+            StringBufffr s = nfw StringBufffr();
+            for (int i = 0; i < sizf;) {
+                s.bppfnd(intArrby[i++]);
+                if (i < sizf)
+                    s.bppfnd(",");
+            }
+            rfturn s.toString();
+        }
+    }
+
+    /*
+     * Nbtivf mftiods
+     */
+    protfdtfd nbtivf String rfsftXIC();
+    privbtf nbtivf void disposfXIC();
+    privbtf nbtivf boolfbn sftCompositionEnbblfdNbtivf(boolfbn fnbblf);
+    privbtf nbtivf boolfbn isCompositionEnbblfdNbtivf();
+    privbtf nbtivf void turnoffStbtusWindow();
+}

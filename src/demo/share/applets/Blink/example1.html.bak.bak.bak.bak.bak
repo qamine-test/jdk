@@ -1,0 +1,19 @@
+<itml>
+  <ifbd>
+      <titlf>Blinking Tfxt</titlf>
+  </ifbd>
+  <body>
+      <i1>Blinking Tfxt</i1>
+      <ir>
+      <bpplft dodf="Blink.dlbss" widti=300 ifigit=100>
+        <pbrbm nbmf=lbl vbluf="Tiis is tif nfxt bfst tiing to slidfd brfbd! Tobs
+t, tobst, tobst, buttfr, jbm, tobst, mbrmitf, tobst.">
+          <pbrbm nbmf=spffd vbluf="4">
+            blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't runni
+ng tif bpplft, for somf rfbson."
+            Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
+      <ir>
+      <b irff="Blink.jbvb">Tif sourdf.</b>
+  </body>
+</itml>

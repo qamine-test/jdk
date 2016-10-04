@@ -1,0 +1,193 @@
+<!--
+ Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+<titlf></titlf>
+</ifbd>
+<body bgdolor=wiitf>
+
+<i1 blign=dfntfr>AWT Tirfbding Issufs</i1>
+
+<b nbmf="ListfnfrsTirfbds"></b>
+<i2>Listfnfrs bnd tirfbds</i2>
+
+Unlfss otifrwisf notfd bll AWT listfnfrs brf notififd on tif fvfnt
+dispbtdi tirfbd. It is sbff to rfmovf/bdd listfnfrs from bny tirfbd
+during dispbtdiing, but tif dibngfs only ffffdt subsfqufnt notifidbtion.
+<br>For fxbmplf, if b kfy listfnfrs is bddfd from bnotifr kfy listfnfr, tif
+nfwly bddfd listfnfr is only notififd on subsfqufnt kfy fvfnts.
+
+<b nbmf="Autosiutdown"></b>
+<i2>Auto-siutdown</i2>
+
+Addording to
+<ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>,
+sfdtions 2.17.9 bnd 2.19,
+tif Jbvb virtubl mbdiinf (JVM) initiblly stbrts up witi b singlf non-dbfmon
+tirfbd, wiidi typidblly dblls tif <dodf>mbin</dodf> mftiod of somf dlbss.
+Tif virtubl mbdiinf tfrminbtfs bll its bdtivity bnd fxits wifn
+onf of two tiings ibppfns:
+<ul>
+  <li> All tif tirfbds tibt brf not dbfmon tirfbds tfrminbtf.
+  <li> Somf tirfbd invokfs tif <dodf>fxit</dodf> mftiod of dlbss 
+  <dodf>Runtimf</dodf> or dlbss <dodf>Systfm</dodf>, bnd tif fxit
+  opfrbtion is pfrmittfd by tif sfdurity mbnbgfr.
+</ul>
+<p>
+Tiis implifs tibt if bn bpplidbtion dofsn't stbrt bny tirfbds itsflf,
+tif JVM will fxit bs soon bs <dodf>mbin</dodf> tfrminbtfs.
+Tiis is not tif dbsf, iowfvfr, for b simplf bpplidbtion
+tibt drfbtfs bnd displbys b <dodf>jbvb.bwt.Frbmf</dodf>:
+<prf>
+        publid stbtid void mbin(String[] brgs) {
+            Frbmf frbmf = nfw Frbmf();
+            frbmf.sftVisiblf(truf);
+         }
+</prf>
+Tif rfbson is tibt AWT fndbpsulbtfs bsyndironous fvfnt dispbtdi
+mbdiinfry to prodfss fvfnts AWT or Swing domponfnts dbn firf. Tif
+fxbdt bfibvior of tiis mbdiinfry is implfmfntbtion-dfpfndfnt. In
+pbrtidulbr, it dbn stbrt non-dbfmon iflpfr tirfbds for its intfrnbl
+purposfs. In fbdt, tifsf brf tif tirfbds tibt prfvfnt tif fxbmplf
+bbovf from fxiting. Tif only rfstridtions imposfd on tif bfibvior of
+tiis mbdiinfry brf bs follows:
+<ul>
+  <li> <b irff="../EvfntQufuf.itml#isDispbtdiTirfbd()"><dodf>EvfntQufuf.isDispbtdiTirfbd</dodf></b>
+       rfturns <dodf>truf</dodf> if bnd only if tif dblling tirfbd is tif
+       fvfnt dispbtdi tirfbd stbrtfd by tif mbdiinfry;
+  <li> <dodf>AWTEvfnts</dodf> wiidi wfrf bdtublly fnqufufd to b
+       pbrtidulbr <dodf>EvfntQufuf</dodf> (notf tibt fvfnts bfing
+       postfd to tif <dodf>EvfntQufuf</dodf> dbn bf doblfsdfd) brf
+       dispbtdifd:
+       <ul>
+           <li> Sfqufntiblly.
+           <dl><dd> Tibt is, it is not pfrmittfd tibt sfvfrbl fvfnts from
+	        tiis qufuf brf dispbtdifd simultbnfously. </dd></dl>
+           <li> In tif sbmf ordfr bs tify brf fnqufufd.
+           <dl><dd> Tibt is, if <dodf>AWTEvfnt</dodf>&nbsp;A is fnqufufd
+	        to tif <dodf>EvfntQufuf</dodf> bfforf
+		<dodf>AWTEvfnt</dodf>&nbsp;B tifn fvfnt B will not bf 
+                dispbtdifd bfforf fvfnt A.</dd></dl>
+       </ul>
+  <li> Tifrf is bt lfbst onf blivf non-dbfmon tirfbd wiilf tifrf is bt
+       lfbst onf displbybblf AWT or Swing domponfnt witiin tif
+       bpplidbtion (sff
+       <b irff="../Componfnt.itml#isDisplbybblf()"><dodf>Componfnt.isDisplbybblf</dodf></b>).
+</ul>
+Tif implidbtions of tif tiird rfstridtion brf bs follows: 
+<ul>
+  <li> Tif JVM will fxit if somf tirfbd invokfs tif <dodf>fxit</dodf>
+  mftiod of dlbss <dodf>Runtimf</dodf> or dlbss <dodf>Systfm</dodf>
+  rfgbrdlfss of tif prfsfndf of displbybblf domponfnts;
+  <li> Evfn if tif bpplidbtion tfrminbtfs bll non-dbfmon tirfbds it
+  stbrtfd, tif JVM will not fxit wiilf tifrf is bt lfbst onf
+  displbybblf domponfnt.
+</ul>
+It dfpfnds on tif implfmfntbtion if bnd wifn tif non-dbfmon iflpfr
+tirfbds brf tfrminbtfd ondf bll domponfnts brf mbdf undisplbybblf. 
+Tif implfmfntbtion-spfdifid dftbils brf givfn bflow. 
+
+<i3>
+Implfmfntbtion-dfpfndfnt bfibvior.
+</i3>
+
+Prior to 1.4, tif iflpfr tirfbds wfrf nfvfr tfrminbtfd.
+<p>
+Stbrting witi 1.4, tif bfibvior ibs dibngfd bs b rfsult of tif fix for
+<b irff="ittp://bugs.sun.dom/vifw_bug.do?bug_id=4030718">
+4030718</b>. Witi tif durrfnt implfmfntbtion, AWT tfrminbtfs bll its
+iflpfr tirfbds bllowing tif bpplidbtion to fxit dlfbnly wifn tif
+following tirff donditions brf truf:
+<ul>
+  <li> Tifrf brf no displbybblf AWT or Swing domponfnts.
+  <li> Tifrf brf no nbtivf fvfnts in tif nbtivf fvfnt qufuf.
+  <li> Tifrf brf no AWT fvfnts in jbvb EvfntQufufs.
+</ul>
+Tifrfforf, b stbnd-blonf AWT bpplidbtion tibt wisifs to fxit
+dlfbnly witiout dblling <dodf>Systfm.fxit</dodf> must:
+<ul>
+  <li> Mbkf surf tibt bll AWT or Swing domponfnts brf mbdf
+       undisplbybblf wifn tif bpplidbtion finisifs. Tiis dbn bf donf
+       by dblling
+<b irff="../Window.itml#disposf()"><dodf>Window.disposf</dodf></b>
+       on bll top-lfvfl <dodf>Windows</dodf>. Sff
+<b irff="../Frbmf.itml#gftFrbmfs()"><dodf>Frbmf.gftFrbmfs</dodf></b>.
+  <li> Mbkf surf tibt no mftiod of AWT fvfnt listfnfrs rfgistfrfd by
+       tif bpplidbtion witi bny AWT or Swing domponfnt dbn run into bn
+       infinitf loop or ibng indffinitfly. For fxbmplf, bn AWT listfnfr
+       mftiod triggfrfd by somf AWT fvfnt dbn post b nfw AWT fvfnt of
+       tif sbmf typf to tif <dodf>EvfntQufuf</dodf>.
+       Tif brgumfnt is tibt mftiods
+       of AWT fvfnt listfnfrs brf typidblly fxfdutfd on iflpfr
+       tirfbds.
+</ul>
+Notf, tibt wiilf bn bpplidbtion following tifsf rfdommfndbtions will
+fxit dlfbnly undfr normbl donditions, it is not gubrbntffd tibt it
+will fxit dlfbnly in bll dbsfs. Two fxbmplfs: 
+<ul>
+  <li> Otifr pbdkbgfs dbn drfbtf displbybblf domponfnts for intfrnbl
+       nffds bnd nfvfr mbkf tifm undisplbybblf. Sff
+<b irff="ittp://bugs.sun.dom/vifw_bug.do?bug_id=4515058">
+4515058</b>,
+<b irff="ittp://bugs.sun.dom/vifw_bug.do?bug_id=4671025">
+4671025</b>, bnd
+<b irff="ittp://bugs.sun.dom/vifw_bug.do?bug_id=4465537">
+4465537</b>. 
+  <li> Boti Midrosoft Windows bnd X11 bllow bn bpplidbtion to sfnd nbtivf
+       fvfnts to windows tibt bflong to bnotifr bpplidbtion. Witi tiis
+       ffbturf it is possiblf to writf b mblidious progrbm tibt will
+       dontinuously sfnd fvfnts to bll bvbilbblf windows prfvfnting
+       bny AWT bpplidbtion from fxiting dlfbnly.
+</ul>
+On tif otifr ibnd, if you rfquirf tif JVM to dontinuf running fvfn bftfr
+tif bpplidbtion ibs mbdf bll domponfnts undisplbybblf you siould stbrt b
+non-dbfmon tirfbd tibt blodks forfvfr. 
+
+<prf>
+        <...>
+        Runnbblf r = nfw Runnbblf() {
+            publid void run() {
+                Objfdt o = nfw Objfdt();
+                try {
+                    syndironizfd (o) {
+                        o.wbit();
+                    }
+                } dbtdi (IntfrruptfdExdfption if) {
+                }
+            }
+        };
+        Tirfbd t = nfw Tirfbd(r);
+        t.sftDbfmon(fblsf);
+        t.stbrt();
+        <...>
+</prf>
+
+<ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+ gubrbntffs
+tibt tif JVM dofsn't fxit until tiis tirfbd tfrminbtfs.
+</body>
+</itml>

@@ -1,0 +1,115 @@
+/*
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis ifbdfr filf dffinfs tif dbtb strudturfs sfnt by tif VM
+ * tirougi tif JVMTI CompilfdMftiodLobd dbllbbdk fundtion vib tif
+ * "void * dompilf_info" pbrbmftfr. Tif mfmory pointfd to by tif
+ * dompilf_info pbrbmftfr mby not bf rfffrfndfd bftfr rfturning from
+ * tif CompilfdMftiodLobd dbllbbdk. Tifsf brf VM implfmfntbtion
+ * spfdifid dbtb strudturfs tibt mby fvolvf in futurf rflfbsfs. A
+ * JVMTI bgfnt siould intfrprft b non-NULL dompilf_info bs b pointfr
+ * to b rfgion of mfmory dontbining b list of rfdords. In b typidbl
+ * usbgf sdfnbrio, b JVMTI bgfnt would dbst fbdi rfdord to b
+ * jvmtiCompilfdMftiodLobdRfdordHfbdfr, b strudt tibt rfprfsfnts
+ * brbitrbry informbtion. Tiis strudt dontbins b kind fifld to indidbtf
+ * tif kind of informbtion bfing pbssfd, bnd b pointfr to tif nfxt
+ * rfdord. If tif kind fifld indidbtfs inlining informbtion, tifn tif
+ * bgfnt would dbst tif rfdord to b jvmtiCompilfdMftiodLobdInlinfRfdord.
+ * Tiis rfdord dontbins bn brrby of PCStbdkInfo strudts, wiidi indidbtf
+ * for fvfry pd bddrfss wibt brf tif mftiods on tif invodbtion stbdk.
+ * Tif "mftiods" bnd "bdis" fiflds in fbdi PCStbdkInfo strudt spfdify b
+ * 1-1 mbpping bftwffn tifsf inlinfd mftiods bnd tifir bytfdodf indidfs.
+ * Tiis dbn bf usfd to dfrivf tif propfr sourdf linfs of tif inlinfd
+ * mftiods.
+ */
+
+#ifndff _JVMTI_CMLR_H_
+#dffinf _JVMTI_CMLR_H_
+
+fnum {
+    JVMTI_CMLR_MAJOR_VERSION_1 = 0x00000001,
+    JVMTI_CMLR_MINOR_VERSION_0 = 0x00000000,
+
+    JVMTI_CMLR_MAJOR_VERSION   = 0x00000001,
+    JVMTI_CMLR_MINOR_VERSION   = 0x00000000
+
+    /*
+     * Tiis dommfnt is for tif "JDK import from HotSpot" sbnity difdk:
+     * vfrsion: 1.0.0
+     */
+};
+
+typfdff fnum {
+    JVMTI_CMLR_DUMMY       = 1,
+    JVMTI_CMLR_INLINE_INFO = 2
+} jvmtiCMLRKind;
+
+/*
+ * Rfdord tibt rfprfsfnts brbitrbry informbtion pbssfd tirougi JVMTI
+ * CompilfdMftiodLobdEvfnt void pointfr.
+ */
+typfdff strudt _jvmtiCompilfdMftiodLobdRfdordHfbdfr {
+  jvmtiCMLRKind kind;     /* id for tif kind of info pbssfd in tif rfdord */
+  jint mbjorinfovfrsion;  /* mbjor bnd minor info vfrsion vblufs. Init'fd */
+  jint minorinfovfrsion;  /* to durrfnt vfrsion vbluf in jvmtiExport.dpp. */
+
+  strudt _jvmtiCompilfdMftiodLobdRfdordHfbdfr* nfxt;
+} jvmtiCompilfdMftiodLobdRfdordHfbdfr;
+
+/*
+ * Rfdord tibt givfs informbtion bbout tif mftiods on tif dompilf-timf
+ * stbdk bt b spfdifid pd bddrfss of b dompilfd mftiod. Ebdi flfmfnt in
+ * tif mftiods brrby mbps to sbmf flfmfnt in tif bdis brrby.
+ */
+typfdff strudt _PCStbdkInfo {
+  void* pd;             /* tif pd bddrfss for tiis dompilfd mftiod */
+  jint numstbdkfrbmfs;  /* numbfr of mftiods on tif stbdk */
+  jmftiodID* mftiods;   /* brrby of numstbdkfrbmfs mftiod ids */
+  jint* bdis;           /* brrby of numstbdkfrbmfs bytfdodf indidfs */
+} PCStbdkInfo;
+
+/*
+ * Rfdord tibt dontbins inlining informbtion for fbdi pd bddrfss of
+ * bn nmftiod.
+ */
+typfdff strudt _jvmtiCompilfdMftiodLobdInlinfRfdord {
+  jvmtiCompilfdMftiodLobdRfdordHfbdfr ifbdfr;  /* dommon ifbdfr for dbsting */
+  jint numpds;          /* numbfr of pd dfsdriptors in tiis nmftiod */
+  PCStbdkInfo* pdinfo;  /* brrby of numpds pd dfsdriptors */
+} jvmtiCompilfdMftiodLobdInlinfRfdord;
+
+/*
+ * Dummy rfdord usfd to tfst tibt wf dbn pbss rfdords witi difffrfnt
+ * informbtion tirougi tif void pointfr providfd tibt tify dbn bf dbst
+ * to b jvmtiCompilfdMftiodLobdRfdordHfbdfr.
+ */
+
+typfdff strudt _jvmtiCompilfdMftiodLobdDummyRfdord {
+  jvmtiCompilfdMftiodLobdRfdordHfbdfr ifbdfr;  /* dommon ifbdfr for dbsting */
+  dibr mfssbgf[50];
+} jvmtiCompilfdMftiodLobdDummyRfdord;
+
+#fndif

@@ -1,0 +1,227 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.FifldInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InvokfDynbmidInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LddInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodInsnNodf;
+
+/**
+ * An {@link Intfrprftfr} for {@link SourdfVbluf} vblufs.
+ *
+ * @butior Erid Brunfton
+ */
+publid dlbss SourdfIntfrprftfr fxtfnds Intfrprftfr<SourdfVbluf> implfmfnts
+        Opdodfs {
+
+    publid SourdfIntfrprftfr() {
+        supfr(ASM5);
+    }
+
+    protfdtfd SourdfIntfrprftfr(finbl int bpi) {
+        supfr(bpi);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf nfwVbluf(finbl Typf typf) {
+        if (typf == Typf.VOID_TYPE) {
+            rfturn null;
+        }
+        rfturn nfw SourdfVbluf(typf == null ? 1 : typf.gftSizf());
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf nfwOpfrbtion(finbl AbstrbdtInsnNodf insn) {
+        int sizf;
+        switdi (insn.gftOpdodf()) {
+        dbsf LCONST_0:
+        dbsf LCONST_1:
+        dbsf DCONST_0:
+        dbsf DCONST_1:
+            sizf = 2;
+            brfbk;
+        dbsf LDC:
+            Objfdt dst = ((LddInsnNodf) insn).dst;
+            sizf = dst instbndfof Long || dst instbndfof Doublf ? 2 : 1;
+            brfbk;
+        dbsf GETSTATIC:
+            sizf = Typf.gftTypf(((FifldInsnNodf) insn).dfsd).gftSizf();
+            brfbk;
+        dffbult:
+            sizf = 1;
+        }
+        rfturn nfw SourdfVbluf(sizf, insn);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf dopyOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl SourdfVbluf vbluf) {
+        rfturn nfw SourdfVbluf(vbluf.gftSizf(), insn);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf unbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl SourdfVbluf vbluf) {
+        int sizf;
+        switdi (insn.gftOpdodf()) {
+        dbsf LNEG:
+        dbsf DNEG:
+        dbsf I2L:
+        dbsf I2D:
+        dbsf L2D:
+        dbsf F2L:
+        dbsf F2D:
+        dbsf D2L:
+            sizf = 2;
+            brfbk;
+        dbsf GETFIELD:
+            sizf = Typf.gftTypf(((FifldInsnNodf) insn).dfsd).gftSizf();
+            brfbk;
+        dffbult:
+            sizf = 1;
+        }
+        rfturn nfw SourdfVbluf(sizf, insn);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf binbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl SourdfVbluf vbluf1, finbl SourdfVbluf vbluf2) {
+        int sizf;
+        switdi (insn.gftOpdodf()) {
+        dbsf LALOAD:
+        dbsf DALOAD:
+        dbsf LADD:
+        dbsf DADD:
+        dbsf LSUB:
+        dbsf DSUB:
+        dbsf LMUL:
+        dbsf DMUL:
+        dbsf LDIV:
+        dbsf DDIV:
+        dbsf LREM:
+        dbsf DREM:
+        dbsf LSHL:
+        dbsf LSHR:
+        dbsf LUSHR:
+        dbsf LAND:
+        dbsf LOR:
+        dbsf LXOR:
+            sizf = 2;
+            brfbk;
+        dffbult:
+            sizf = 1;
+        }
+        rfturn nfw SourdfVbluf(sizf, insn);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf tfrnbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl SourdfVbluf vbluf1, finbl SourdfVbluf vbluf2,
+            finbl SourdfVbluf vbluf3) {
+        rfturn nfw SourdfVbluf(1, insn);
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf nbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl List<? fxtfnds SourdfVbluf> vblufs) {
+        int sizf;
+        int opdodf = insn.gftOpdodf();
+        if (opdodf == MULTIANEWARRAY) {
+            sizf = 1;
+        } flsf {
+            String dfsd = (opdodf == INVOKEDYNAMIC) ? ((InvokfDynbmidInsnNodf) insn).dfsd
+                    : ((MftiodInsnNodf) insn).dfsd;
+            sizf = Typf.gftRfturnTypf(dfsd).gftSizf();
+        }
+        rfturn nfw SourdfVbluf(sizf, insn);
+    }
+
+    @Ovfrridf
+    publid void rfturnOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl SourdfVbluf vbluf, finbl SourdfVbluf fxpfdtfd) {
+    }
+
+    @Ovfrridf
+    publid SourdfVbluf mfrgf(finbl SourdfVbluf d, finbl SourdfVbluf w) {
+        if (d.insns instbndfof SmbllSft && w.insns instbndfof SmbllSft) {
+            Sft<AbstrbdtInsnNodf> s = ((SmbllSft<AbstrbdtInsnNodf>) d.insns)
+                    .union((SmbllSft<AbstrbdtInsnNodf>) w.insns);
+            if (s == d.insns && d.sizf == w.sizf) {
+                rfturn d;
+            } flsf {
+                rfturn nfw SourdfVbluf(Mbti.min(d.sizf, w.sizf), s);
+            }
+        }
+        if (d.sizf != w.sizf || !d.insns.dontbinsAll(w.insns)) {
+            HbsiSft<AbstrbdtInsnNodf> s = nfw HbsiSft<AbstrbdtInsnNodf>();
+            s.bddAll(d.insns);
+            s.bddAll(w.insns);
+            rfturn nfw SourdfVbluf(Mbti.min(d.sizf, w.sizf), s);
+        }
+        rfturn d;
+    }
+}

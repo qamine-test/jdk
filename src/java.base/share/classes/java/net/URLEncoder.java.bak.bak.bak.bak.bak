@@ -1,0 +1,292 @@
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.CibrArrbyWritfr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption ;
+import jbvb.util.BitSft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Utility dlbss for HTML form fndoding. Tiis dlbss dontbins stbtid mftiods
+ * for donvfrting b String to tif <CODE>bpplidbtion/x-www-form-urlfndodfd</CODE> MIME
+ * formbt. For morf informbtion bbout HTML form fndoding, donsult tif HTML
+ * <A HREF="ittp://www.w3.org/TR/itml4/">spfdifidbtion</A>.
+ *
+ * <p>
+ * Wifn fndoding b String, tif following rulfs bpply:
+ *
+ * <ul>
+ * <li>Tif blpibnumfrid dibrbdtfrs &quot;{@dodf b}&quot; tirougi
+ *     &quot;{@dodf z}&quot;, &quot;{@dodf A}&quot; tirougi
+ *     &quot;{@dodf Z}&quot; bnd &quot;{@dodf 0}&quot;
+ *     tirougi &quot;{@dodf 9}&quot; rfmbin tif sbmf.
+ * <li>Tif spfdibl dibrbdtfrs &quot;{@dodf .}&quot;,
+ *     &quot;{@dodf -}&quot;, &quot;{@dodf *}&quot;, bnd
+ *     &quot;{@dodf _}&quot; rfmbin tif sbmf.
+ * <li>Tif spbdf dibrbdtfr &quot; &nbsp; &quot; is
+ *     donvfrtfd into b plus sign &quot;{@dodf +}&quot;.
+ * <li>All otifr dibrbdtfrs brf unsbff bnd brf first donvfrtfd into
+ *     onf or morf bytfs using somf fndoding sdifmf. Tifn fbdi bytf is
+ *     rfprfsfntfd by tif 3-dibrbdtfr string
+ *     &quot;<i>{@dodf %xy}</i>&quot;, wifrf <i>xy</i> is tif
+ *     two-digit ifxbdfdimbl rfprfsfntbtion of tif bytf.
+ *     Tif rfdommfndfd fndoding sdifmf to usf is UTF-8. Howfvfr,
+ *     for dompbtibility rfbsons, if bn fndoding is not spfdififd,
+ *     tifn tif dffbult fndoding of tif plbtform is usfd.
+ * </ul>
+ *
+ * <p>
+ * For fxbmplf using UTF-8 bs tif fndoding sdifmf tif string &quot;Tif
+ * string &#252;@foo-bbr&quot; would gft donvfrtfd to
+ * &quot;Tif+string+%C3%BC%40foo-bbr&quot; bfdbusf in UTF-8 tif dibrbdtfr
+ * &#252; is fndodfd bs two bytfs C3 (ifx) bnd BC (ifx), bnd tif
+ * dibrbdtfr @ is fndodfd bs onf bytf 40 (ifx).
+ *
+ * @butior  Hfrb Jfllinfk
+ * @sindf   1.0
+ */
+publid dlbss URLEndodfr {
+    stbtid BitSft dontNffdEndoding;
+    stbtid finbl int dbsfDiff = ('b' - 'A');
+    stbtid String dfltEndNbmf = null;
+
+    stbtid {
+
+        /* Tif list of dibrbdtfrs tibt brf not fndodfd ibs bffn
+         * dftfrminfd bs follows:
+         *
+         * RFC 2396 stbtfs:
+         * -----
+         * Dbtb dibrbdtfrs tibt brf bllowfd in b URI but do not ibvf b
+         * rfsfrvfd purposf brf dbllfd unrfsfrvfd.  Tifsf indludf uppfr
+         * bnd lowfr dbsf lfttfrs, dfdimbl digits, bnd b limitfd sft of
+         * pundtubtion mbrks bnd symbols.
+         *
+         * unrfsfrvfd  = blpibnum | mbrk
+         *
+         * mbrk        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         *
+         * Unrfsfrvfd dibrbdtfrs dbn bf fsdbpfd witiout dibnging tif
+         * sfmbntids of tif URI, but tiis siould not bf donf unlfss tif
+         * URI is bfing usfd in b dontfxt tibt dofs not bllow tif
+         * unfsdbpfd dibrbdtfr to bppfbr.
+         * -----
+         *
+         * It bppfbrs tibt boti Nftsdbpf bnd Intfrnft Explorfr fsdbpf
+         * bll spfdibl dibrbdtfrs from tiis list witi tif fxdfption
+         * of "-", "_", ".", "*". Wiilf it is not dlfbr wiy tify brf
+         * fsdbping tif otifr dibrbdtfrs, pfribps it is sbffst to
+         * bssumf tibt tifrf migit bf dontfxts in wiidi tif otifrs
+         * brf unsbff if not fsdbpfd. Tifrfforf, wf will usf tif sbmf
+         * list. It is blso notfwortiy tibt tiis is donsistfnt witi
+         * O'Rfilly's "HTML: Tif Dffinitivf Guidf" (pbgf 164).
+         *
+         * As b lbst notf, Intfnft Explorfr dofs not fndodf tif "@"
+         * dibrbdtfr wiidi is dlfbrly not unrfsfrvfd bddording to tif
+         * RFC. Wf brf bfing donsistfnt witi tif RFC in tiis mbttfr,
+         * bs is Nftsdbpf.
+         *
+         */
+
+        dontNffdEndoding = nfw BitSft(256);
+        int i;
+        for (i = 'b'; i <= 'z'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        for (i = 'A'; i <= 'Z'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        for (i = '0'; i <= '9'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        dontNffdEndoding.sft(' '); /* fndoding b spbdf to b + is donf
+                                    * in tif fndodf() mftiod */
+        dontNffdEndoding.sft('-');
+        dontNffdEndoding.sft('_');
+        dontNffdEndoding.sft('.');
+        dontNffdEndoding.sft('*');
+
+        dfltEndNbmf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("filf.fndoding")
+        );
+    }
+
+    /**
+     * You dbn't dbll tif donstrudtor.
+     */
+    privbtf URLEndodfr() { }
+
+    /**
+     * Trbnslbtfs b string into {@dodf x-www-form-urlfndodfd}
+     * formbt. Tiis mftiod usfs tif plbtform's dffbult fndoding
+     * bs tif fndoding sdifmf to obtbin tif bytfs for unsbff dibrbdtfrs.
+     *
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @dfprfdbtfd Tif rfsulting string mby vbry dfpfnding on tif plbtform's
+     *             dffbult fndoding. Instfbd, usf tif fndodf(String,String)
+     *             mftiod to spfdify tif fndoding.
+     * @rfturn  tif trbnslbtfd {@dodf String}.
+     */
+    @Dfprfdbtfd
+    publid stbtid String fndodf(String s) {
+
+        String str = null;
+
+        try {
+            str = fndodf(s, dfltEndNbmf);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            // Tif systfm siould blwbys ibvf tif plbtform dffbult
+        }
+
+        rfturn str;
+    }
+
+    /**
+     * Trbnslbtfs b string into {@dodf bpplidbtion/x-www-form-urlfndodfd}
+     * formbt using b spfdifid fndoding sdifmf. Tiis mftiod usfs tif
+     * supplifd fndoding sdifmf to obtbin tif bytfs for unsbff
+     * dibrbdtfrs.
+     * <p>
+     * <fm><strong>Notf:</strong> Tif <b irff=
+     * "ittp://www.w3.org/TR/itml40/bppfndix/notfs.itml#non-bsdii-dibrs">
+     * World Widf Wfb Consortium Rfdommfndbtion</b> stbtfs tibt
+     * UTF-8 siould bf usfd. Not doing so mby introdudf
+     * indompbtibilitifs.</fm>
+     *
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @pbrbm   fnd   Tif nbmf of b supportfd
+     *    <b irff="../lbng/pbdkbgf-summbry.itml#dibrfnd">dibrbdtfr
+     *    fndoding</b>.
+     * @rfturn  tif trbnslbtfd {@dodf String}.
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If tif nbmfd fndoding is not supportfd
+     * @sff URLDfdodfr#dfdodf(jbvb.lbng.String, jbvb.lbng.String)
+     * @sindf 1.4
+     */
+    publid stbtid String fndodf(String s, String fnd)
+        tirows UnsupportfdEndodingExdfption {
+
+        boolfbn nffdToCibngf = fblsf;
+        StringBuildfr out = nfw StringBuildfr(s.lfngti());
+        Cibrsft dibrsft;
+        CibrArrbyWritfr dibrArrbyWritfr = nfw CibrArrbyWritfr();
+
+        if (fnd == null)
+            tirow nfw NullPointfrExdfption("dibrsftNbmf");
+
+        try {
+            dibrsft = Cibrsft.forNbmf(fnd);
+        } dbtdi (IllfgblCibrsftNbmfExdfption f) {
+            tirow nfw UnsupportfdEndodingExdfption(fnd);
+        } dbtdi (UnsupportfdCibrsftExdfption f) {
+            tirow nfw UnsupportfdEndodingExdfption(fnd);
+        }
+
+        for (int i = 0; i < s.lfngti();) {
+            int d = (int) s.dibrAt(i);
+            //Systfm.out.println("Exbmining dibrbdtfr: " + d);
+            if (dontNffdEndoding.gft(d)) {
+                if (d == ' ') {
+                    d = '+';
+                    nffdToCibngf = truf;
+                }
+                //Systfm.out.println("Storing: " + d);
+                out.bppfnd((dibr)d);
+                i++;
+            } flsf {
+                // donvfrt to fxtfrnbl fndoding bfforf ifx donvfrsion
+                do {
+                    dibrArrbyWritfr.writf(d);
+                    /*
+                     * If tiis dibrbdtfr rfprfsfnts tif stbrt of b Unidodf
+                     * surrogbtf pbir, tifn pbss in two dibrbdtfrs. It's not
+                     * dlfbr wibt siould bf donf if b bytfs rfsfrvfd in tif
+                     * surrogbtf pbirs rbngf oddurs outsidf of b lfgbl
+                     * surrogbtf pbir. For now, just trfbt it bs if it wfrf
+                     * bny otifr dibrbdtfr.
+                     */
+                    if (d >= 0xD800 && d <= 0xDBFF) {
+                        /*
+                          Systfm.out.println(Intfgfr.toHfxString(d)
+                          + " is iigi surrogbtf");
+                        */
+                        if ( (i+1) < s.lfngti()) {
+                            int d = (int) s.dibrAt(i+1);
+                            /*
+                              Systfm.out.println("\tExbmining "
+                              + Intfgfr.toHfxString(d));
+                            */
+                            if (d >= 0xDC00 && d <= 0xDFFF) {
+                                /*
+                                  Systfm.out.println("\t"
+                                  + Intfgfr.toHfxString(d)
+                                  + " is low surrogbtf");
+                                */
+                                dibrArrbyWritfr.writf(d);
+                                i++;
+                            }
+                        }
+                    }
+                    i++;
+                } wiilf (i < s.lfngti() && !dontNffdEndoding.gft((d = (int) s.dibrAt(i))));
+
+                dibrArrbyWritfr.flusi();
+                String str = nfw String(dibrArrbyWritfr.toCibrArrby());
+                bytf[] bb = str.gftBytfs(dibrsft);
+                for (int j = 0; j < bb.lfngti; j++) {
+                    out.bppfnd('%');
+                    dibr di = Cibrbdtfr.forDigit((bb[j] >> 4) & 0xF, 16);
+                    // donvfrting to usf uppfrdbsf lfttfr bs pbrt of
+                    // tif ifx vbluf if di is b lfttfr.
+                    if (Cibrbdtfr.isLfttfr(di)) {
+                        di -= dbsfDiff;
+                    }
+                    out.bppfnd(di);
+                    di = Cibrbdtfr.forDigit(bb[j] & 0xF, 16);
+                    if (Cibrbdtfr.isLfttfr(di)) {
+                        di -= dbsfDiff;
+                    }
+                    out.bppfnd(di);
+                }
+                dibrArrbyWritfr.rfsft();
+                nffdToCibngf = truf;
+            }
+        }
+
+        rfturn (nffdToCibngf? out.toString() : s);
+    }
+}

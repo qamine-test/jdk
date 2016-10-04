@@ -1,0 +1,243 @@
+<!--
+ Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+	<TITLE>Nftworking Propfrtifs</TITLE>
+</HEAD>
+<BODY LANG="fn-US" DIR="LTR">
+<H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
+<P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
+jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
+wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
+Tif purposf of tiis dodumfnt is to list
+bnd dftbil bll of tifsf propfrtifs.</P>
+<P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<b nbmf="Ipv4IPv6"></b>
+<H2>IPv4 / IPv6</H2>
+<UL>
+	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	If IPv6 is bvbilbblf on tif opfrbting systfm tif
+	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
+	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
+	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	to dommunidbtf witi IPv6 only iosts.</P>
+	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	Wifn dfbling witi b iost wiidi ibs boti IPv4
+	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
+	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
+	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
+	possiblf.</P>
+</UL>
+<P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<b nbmf="Proxifs"></b>
+<H2>Proxifs</H2>
+<P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
+is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
+Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+of proxifs.</P>
+<UL>
+	<LI><P>HTTP</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<UL>
+		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+		</P>
+		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        Tif vbluf of tiis propfrty is b list of iosts,
+		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
+	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		spfdififd.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+        </UL>
+	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
+	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
+	<UL>
+		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+		</P>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		propfrty bs tif HTTP protodol.</P>
+	</UL>
+	<LI><P>FTP</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<UL>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+		</P>
+		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
+		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		spfdififd.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+	</UL>
+	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
+	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
+	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
+	following propfrtifs will bf usfd:</P>
+	<UL>
+		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
+		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+                <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
+                dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
+                to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
+		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
+	</UL>
+	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
+	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
+	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
+	difdkfd only ondf bt stbrtup.</P>
+</UL>
+<b nbmf="MisdHTTP"></b>
+<H2>Misd HTTP propfrtifs</H2>
+<UL>
+	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
+	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
+	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
+	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
+	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
+	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
+	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
+	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
+	blivf, pfr dfstinbtion.</P>
+	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
+	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
+	protodol ibndlfr.</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
+	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
+	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
+	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
+	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
+	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
+	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
+	HTTP rfqufst.</P>
+	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
+	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
+	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	3 options for spfdifying tibt dombin:</P>
+	<OL>
+	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
+	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      it.</P>
+	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
+	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
+	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
+	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      nbmf.</P>
+	</OL>
+</UL>
+<P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<b nbmf="AddrfssCbdif"></b>
+<H2>Addrfss Cbdif</H2>
+<P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
+dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
+bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
+ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+tuning on iow tif dbdif is opfrbting.</P>
+<UL>
+	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
+	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
+	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
+	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
+	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
+	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+</UL>
+<P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
+instfbd tify brf sft bs sfdurity propfrtifs.</P>
+</BODY>
+</HTML>

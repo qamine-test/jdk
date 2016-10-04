@@ -1,214 +1,1070 @@
 '\" t
-.\" Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jhat
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: トラブルシューティング・ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jibt
+.\" Titlf: jibt
+.\" Titlf: jibt
+.\" Titlf: jibt
+.\" Titlf: jibt
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "jhat" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jhat \- Javaヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIjhat\fR [ \fIoptions\fR ] \fIheap\-dump\-file\fR 
+.nf
+.nf
+.nf
+.nf
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIheap\-dump\-file\fR
+.PP
+.PP
+.PP
+.PP
+\fIifbp\-dump\-filf\fR
+\fIifbp\-dump\-filf\fR
+\fIifbp\-dump\-filf\fR
+\fIifbp\-dump\-filf\fR
+\fIifbp\-dump\-filf\fR
 .RS 4
-ブラウズ対象となるJavaバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfile\&.hprof#3\fRのようにファイル名の後に\fI#<number>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIjhat\fRコマンドはJavaヒープ・ダンプ・ファイルを解析し、Webサーバーを開始します。\fIjhat\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjhat\fRコマンドは、既知のクラス\fIMyClass\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObject Query Language (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjhat\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはhttp://localhost:7000/oqlhelp/で利用可能です。
 .PP
-Javaのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+.PP
+.PP
+.PP
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
+.PP
+.PP
+.PP
+.PP
+.PP
+Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-\fIjmap \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmap(1)を参照してください。
+.\}
+.\}
+.\}
+.\}
+\fIjmbp \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmbp(1)を参照してください。
+\fIjmbp \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmbp(1)を参照してください。
+\fIjmbp \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmbp(1)を参照してください。
+\fIjmbp \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmbp(1)を参照してください。
+\fIjmbp \-dump\fRオプションを使用して実行時にヒープ・ダンプを取得します。jmbp(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-\fIjconsole\fRオプションを使用して\fIHotSpotDiagnosticMXBean\fR経由で実行時にヒープ・ダンプを取得します。jconsole(1)および\fIHotSpotDiagnosticMXBean\fRのインタフェースの説明(
-http://docs\&.oracle\&.com/javase/8/docs/jre/api/management/extension/com/sun/management/HotSpotDiagnosticMXBean\&.html)を参照してください。
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-ヒープ・ダンプは、\fI\-XX:+HeapDumpOnOutOfMemoryError\fR
-Java仮想マシン(JVM)オプションを指定することで、\fIOutOfMemoryError\fRがスローされたときに生成されます。
+.\}
+.\}
+.\}
+.\}
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-\fIhprof\fRコマンドを使用します。HPROF: Heap/CPUプロファイリング・ツール
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/samples/hprof\&.html)を参照してください
+.\}
+.\}
+.\}
+.\}
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .PP
-\-stack false|true
+.PP
+.PP
+.PP
+.PP
+\-stbdk fblsf|truf
+\-stbdk fblsf|truf
+\-stbdk fblsf|truf
+\-stbdk fblsf|truf
+\-stbdk fblsf|truf
 .RS 4
-オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfalse\fRに設定する必要があります。デフォルトは\fItrue\fRです。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-refs false|true
+.PP
+.PP
+.PP
+.PP
+\-rffs fblsf|truf
+\-rffs fblsf|truf
+\-rffs fblsf|truf
+\-rffs fblsf|truf
+\-rffs fblsf|truf
 .RS 4
-オブジェクトへの参照の追跡を無効にします。デフォルトは\fItrue\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-port \fIport\-number\fR
+.PP
+.PP
+.PP
+.PP
+\-port \fIport\-numbfr\fR
+\-port \fIport\-numbfr\fR
+\-port \fIport\-numbfr\fR
+\-port \fIport\-numbfr\fR
+\-port \fIport\-numbfr\fR
 .RS 4
-\fIjhat\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-exclude \fIexclude\-file\fR
+.PP
+.PP
+.PP
+.PP
+\-fxdludf \fIfxdludf\-filf\fR
+\-fxdludf \fIfxdludf\-filf\fR
+\-fxdludf \fIfxdludf\-filf\fR
+\-fxdludf \fIfxdludf\-filf\fR
+\-fxdludf \fIfxdludf\-filf\fR
 .RS 4
-到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjava\&.lang\&.String\&.value\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjava\&.lang\&.String\&.value\fRフィールドに関連する参照パスが考慮されなくなります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-baseline \fIexclude\-file\fR
+.PP
+.PP
+.PP
+.PP
+\-bbsflinf \fIfxdludf\-filf\fR
+\-bbsflinf \fIfxdludf\-filf\fR
+\-bbsflinf \fIfxdludf\-filf\fR
+\-bbsflinf \fIfxdludf\-filf\fR
+\-bbsflinf \fIfxdludf\-filf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
+ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
+ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
+ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
+ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-debug \fIint\fR
+.PP
+.PP
+.PP
+.PP
+\-dfbug \fIint\fR
+\-dfbug \fIint\fR
+\-dfbug \fIint\fR
+\-dfbug \fIint\fR
+\-dfbug \fIint\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
+このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
+このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
+このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
+このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リリース番号をレポートして終了します
+リリース番号をレポートして終了します
+リリース番号をレポートして終了します
+リリース番号をレポートして終了します
+リリース番号をレポートして終了します
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-h
+.PP
+.PP
+.PP
+.PP
+\-i
+\-i
+\-i
+\-i
+\-i
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージを表示して終了します。
-.RE
-.PP
-\-help
-.RS 4
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
 ヘルプ・メッセージを表示して終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
 .PP
-\-J\fIflag\fR
+.PP
+.PP
+.PP
+.PP
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
 .RS 4
-\fIjhat\fRコマンドを実行しているJava仮想マシンに\fIflag\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-jmap(1)
+.\}
+.\}
+.\}
+.\}
+jmbp(1)
+jmbp(1)
+jmbp(1)
+jmbp(1)
+jmbp(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-jconsole(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-HPROF: Heap/CPUプロファイリング・ツール
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/samples/hprof\&.html)
+.\}
+.\}
+.\}
+.\}
+jdonsolf(1)
+jdonsolf(1)
+jdonsolf(1)
+jdonsolf(1)
+jdonsolf(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+HPROF: Hfbp/CPUプロファイリング・ツール
+HPROF: Hfbp/CPUプロファイリング・ツール
+HPROF: Hfbp/CPUプロファイリング・ツール
+HPROF: Hfbp/CPUプロファイリング・ツール
+HPROF: Hfbp/CPUプロファイリング・ツール
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

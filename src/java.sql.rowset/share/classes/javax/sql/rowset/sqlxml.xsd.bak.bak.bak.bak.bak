@@ -1,0 +1,162 @@
+<?xml vfrsion="1.0"?>
+
+<!--
+ Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<xsd:sdifmb 
+      xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+      tbrgftNbmfspbdf="ittp://stbndbrds.iso.org/iso/9075/2002/12/sqlxml"
+      xmlns:sqlxml="ittp://stbndbrds.iso.org/iso/9075/2002/12/sqlxml">
+  <xsd:bnnotbtion>
+    <xsd:dodumfntbtion>
+      ISO/IEC 9075-14:2003 (SQL/XML)
+      Tiis dodumfnt dontbins dffinitions of typfs bnd 
+      bnnotbtions bs spfdififd in ISO/IEC 9075-14:2003.
+    </xsd:dodumfntbtion>
+  </xsd:bnnotbtion>
+
+  <xsd:simplfTypf nbmf="kindKfyword">
+    <xsd:rfstridtion bbsf="xsd:string">
+      <xsd:fnumfrbtion vbluf="PREDEFINED"/>
+      <xsd:fnumfrbtion vbluf="DOMAIN"/>
+      <xsd:fnumfrbtion vbluf="ROW"/>
+      <xsd:fnumfrbtion vbluf="DISTINCT"/>
+      <xsd:fnumfrbtion vbluf="ARRAY"/>
+      <xsd:fnumfrbtion vbluf="MULTISET"/>
+    </xsd:rfstridtion>
+  </xsd:simplfTypf>
+
+  <xsd:simplfTypf nbmf="typfKfyword">
+    <xsd:rfstridtion bbsf="xsd:string">
+      <xsd:fnumfrbtion vbluf="CHAR"/>
+      <xsd:fnumfrbtion vbluf="VARCHAR"/>
+      <xsd:fnumfrbtion vbluf="CLOB"/>
+      <xsd:fnumfrbtion vbluf="BLOB"/>
+      <xsd:fnumfrbtion vbluf="NUMERIC"/>
+      <xsd:fnumfrbtion vbluf="DECIMAL"/>
+      <xsd:fnumfrbtion vbluf="INTEGER"/>
+      <xsd:fnumfrbtion vbluf="SMALLINT"/>
+      <xsd:fnumfrbtion vbluf="BIGINT"/>
+      <xsd:fnumfrbtion vbluf="FLOAT"/>
+      <xsd:fnumfrbtion vbluf="REAL"/>
+      <xsd:fnumfrbtion vbluf="DOUBLE PRECISION"/>
+      <xsd:fnumfrbtion vbluf="BOOLEAN"/>
+      <xsd:fnumfrbtion vbluf="DATE"/>
+      <xsd:fnumfrbtion vbluf="TIME"/>
+      <xsd:fnumfrbtion vbluf="TIME WITH TIME ZONE"/>
+      <xsd:fnumfrbtion vbluf="TIMESTAMP"/>
+      <xsd:fnumfrbtion vbluf="TIMESTAMP WITH TIME ZONE"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL YEAR"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL YEAR TO MONTH"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL MONTH"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL DAY"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL DAY TO HOUR"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL DAY TO MINUTE"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL DAY TO SECOND"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL HOUR"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL HOUR TO MINUTE"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL HOUR TO SECOND"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL MINUTE"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL MINUTE TO SECOND"/>
+      <xsd:fnumfrbtion vbluf="INTERVAL SECOND"/>
+    </xsd:rfstridtion>
+  </xsd:simplfTypf>
+
+  <xsd:domplfxTypf nbmf="fifldTypf">
+    <xsd:bttributf nbmf="nbmf" typf="xsd:string"/>
+    <xsd:bttributf nbmf="mbppfdTypf" typf="xsd:string"/>
+  </xsd:domplfxTypf>
+
+  <xsd:flfmfnt nbmf="sqltypf">
+    <xsd:domplfxTypf>
+      <xsd:sfqufndf>
+        <xsd:flfmfnt nbmf="fifld" typf="sqlxml:fifldTypf"
+                        minOddurs="0" mbxOddurs="unboundfd"/>
+      </xsd:sfqufndf>
+      <xsd:bttributf nbmf="kind"
+                        typf="sqlxml:kindKfyword"/>
+      <xsd:bttributf nbmf="nbmf" 
+                        typf="sqlxml:typfKfyword" usf="optionbl"/>
+      <xsd:bttributf nbmf="lfngti" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="mbxLfngti" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="dibrbdtfrSftNbmf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="dollbtion" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="prfdision" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="sdblf" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="mbxExponfnt" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="minExponfnt" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="usfrPrfdision" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="lfbdingPrfdision" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="mbxElfmfnts" typf="xsd:intfgfr"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="dbtblogNbmf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="sdifmbNbmf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="dombinNbmf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="typfNbmf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="mbppfdTypf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="mbppfdElfmfntTypf" typf="xsd:string"
+                        usf="optionbl"/>
+      <xsd:bttributf nbmf="finbl" typf="xsd:boolfbn"
+                        usf="optionbl"/>
+    </xsd:domplfxTypf>
+  </xsd:flfmfnt>
+
+  <xsd:simplfTypf nbmf="objfdtTypf">
+     <xsd:rfstridtion bbsf="xsd:string">
+        <xsd:fnumfrbtion vbluf="CATALOG" />
+        <xsd:fnumfrbtion vbluf="SCHEMA" />
+        <xsd:fnumfrbtion vbluf="BASE TABLE" />
+        <xsd:fnumfrbtion vbluf="VIEWED TABLE" />
+        <xsd:fnumfrbtion vbluf="CHARACTER SET" />
+        <xsd:fnumfrbtion vbluf="COLLATION" />
+     </xsd:rfstridtion>
+  </xsd:simplfTypf>
+
+  <xsd:flfmfnt nbmf="sqlnbmf">
+     <xsd:domplfxTypf>
+        <xsd:bttributf nbmf="typf" typf="sqlxml:objfdtTypf"
+                          usf="rfquirfd" />
+        <xsd:bttributf nbmf="dbtblogNbmf" typf="xsd:string" />
+        <xsd:bttributf nbmf="sdifmbNbmf" typf="xsd:string" />
+        <xsd:bttributf nbmf="lodblNbmf" typf="xsd:string" />
+     </xsd:domplfxTypf>
+  </xsd:flfmfnt>
+
+</xsd:sdifmb>

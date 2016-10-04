@@ -1,0 +1,131 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.GrbpiidAttributf;
+
+publid finbl dlbss CorfMftrids {
+
+    publid CorfMftrids(flobt bsdfnt,
+                       flobt dfsdfnt,
+                       flobt lfbding,
+                       flobt ifigit,
+                       int bbsflinfIndfx,
+                       flobt[] bbsflinfOffsfts,
+                       flobt strikftirougiOffsft,
+                       flobt strikftirougiTiidknfss,
+                       flobt undfrlinfOffsft,
+                       flobt undfrlinfTiidknfss,
+                       flobt ssOffsft,
+                       flobt itblidAnglf) {
+        tiis.bsdfnt = bsdfnt;
+        tiis.dfsdfnt = dfsdfnt;
+        tiis.lfbding = lfbding;
+        tiis.ifigit = ifigit;
+        tiis.bbsflinfIndfx = bbsflinfIndfx;
+        tiis.bbsflinfOffsfts = bbsflinfOffsfts;
+        tiis.strikftirougiOffsft = strikftirougiOffsft;
+        tiis.strikftirougiTiidknfss = strikftirougiTiidknfss;
+        tiis.undfrlinfOffsft = undfrlinfOffsft;
+        tiis.undfrlinfTiidknfss = undfrlinfTiidknfss;
+        tiis.ssOffsft = ssOffsft;
+        tiis.itblidAnglf = itblidAnglf;
+    }
+
+    publid stbtid CorfMftrids gft(LinfMftrids lm) {
+        rfturn ((FontLinfMftrids)lm).dm;
+    }
+
+    publid finbl int ibsiCodf() {
+        rfturn Flobt.flobtToIntBits(bsdfnt + ssOffsft);
+    }
+
+    publid finbl boolfbn fqubls(Objfdt ris) {
+        try {
+            rfturn fqubls((CorfMftrids)ris);
+        }
+        dbtdi(ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid finbl boolfbn fqubls(CorfMftrids ris) {
+        if (ris != null) {
+            if (tiis == ris) {
+                rfturn truf;
+            }
+
+            rfturn bsdfnt == ris.bsdfnt
+                && dfsdfnt == ris.dfsdfnt
+                && lfbding == ris.lfbding
+                && bbsflinfIndfx == ris.bbsflinfIndfx
+                && bbsflinfOffsfts[0] == ris.bbsflinfOffsfts[0]
+                && bbsflinfOffsfts[1] == ris.bbsflinfOffsfts[1]
+                && bbsflinfOffsfts[2] == ris.bbsflinfOffsfts[2]
+                && strikftirougiOffsft == ris.strikftirougiOffsft
+                && strikftirougiTiidknfss == ris.strikftirougiTiidknfss
+                && undfrlinfOffsft == ris.undfrlinfOffsft
+                && undfrlinfTiidknfss == ris.undfrlinfTiidknfss
+                && ssOffsft == ris.ssOffsft
+                && itblidAnglf == ris.itblidAnglf;
+        }
+        rfturn fblsf;
+    }
+
+    // fullOffsfts is bn brrby of 5 bbsflinf offsfts,
+    // rombn, dfntfr, ibnging, bottom, bnd top in tibt ordfr
+    // tiis dofs NOT bdd tif ssOffsft
+    publid finbl flobt ffffdtivfBbsflinfOffsft(flobt[] fullOffsfts) {
+        switdi (bbsflinfIndfx) {
+        dbsf GrbpiidAttributf.TOP_ALIGNMENT:
+            rfturn fullOffsfts[4] + bsdfnt;
+        dbsf GrbpiidAttributf.BOTTOM_ALIGNMENT:
+            rfturn fullOffsfts[3] - dfsdfnt;
+        dffbult:
+            rfturn fullOffsfts[bbsflinfIndfx];
+        }
+    }
+
+    publid finbl flobt   bsdfnt;
+    publid finbl flobt   dfsdfnt;
+    publid finbl flobt   lfbding;
+    publid finbl flobt   ifigit;
+    publid finbl int     bbsflinfIndfx;
+    publid finbl flobt[] bbsflinfOffsfts; // !! tiis is b iolf, don't fxposf tiis dlbss
+    publid finbl flobt   strikftirougiOffsft;
+    publid finbl flobt   strikftirougiTiidknfss;
+    publid finbl flobt   undfrlinfOffsft;
+    publid finbl flobt   undfrlinfTiidknfss;
+    publid finbl flobt   ssOffsft;
+    publid finbl flobt   itblidAnglf;
+}

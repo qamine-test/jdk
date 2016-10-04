@@ -1,0 +1,294 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.SfdurfRbndomSpi;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+
+/**
+ * <p>Tiis dlbss providfs b drytpogrbpiidblly strong psfudo-rbndom numbfr
+ * gfnfrbtor bbsfd on tif SHA-1 ibsi blgoritim.
+ *
+ * <p>Notf tibt if b sffd is not providfd, wf bttfmpt to providf suffidifnt
+ * sffd bytfs to domplftfly rbndomizf tif intfrnbl stbtf of tif gfnfrbtor
+ * (20 bytfs).  Howfvfr, our sffd gfnfrbtion blgoritim ibs not bffn tiorougily
+ * studifd or widfly dfployfd.
+ *
+ * <p>Also notf tibt wifn b rbndom objfdt is dfsfriblizfd,
+ * <b irff="#fnginfNfxtBytfs(bytf[])">fnginfNfxtBytfs</b> invokfd on tif
+ * rfstorfd rbndom objfdt will yifld tif fxbdt sbmf (rbndom) bytfs bs tif
+ * originbl objfdt.  If tiis bfibviour is not dfsirfd, tif rfstorfd rbndom
+ * objfdt siould bf sffdfd, using
+ * <b irff="#fnginfSftSffd(bytf[])">fnginfSftSffd</b>.
+ *
+ * @butior Bfnjbmin Rfnbud
+ * @butior Josi Blodi
+ * @butior Gbdi Guy
+ */
+
+publid finbl dlbss SfdurfRbndom fxtfnds SfdurfRbndomSpi
+implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3581829991155417889L;
+
+    privbtf stbtid finbl int DIGEST_SIZE = 20;
+    privbtf trbnsifnt MfssbgfDigfst digfst;
+    privbtf bytf[] stbtf;
+    privbtf bytf[] rfmbindfr;
+    privbtf int rfmCount;
+
+    /**
+     * Tiis fmpty donstrudtor butombtidblly sffds tif gfnfrbtor.  Wf bttfmpt
+     * to providf suffidifnt sffd bytfs to domplftfly rbndomizf tif intfrnbl
+     * stbtf of tif gfnfrbtor (20 bytfs).  Notf, iowfvfr, tibt our sffd
+     * gfnfrbtion blgoritim ibs not bffn tiorougily studifd or widfly dfployfd.
+     *
+     * <p>Tif first timf tiis donstrudtor is dbllfd in b givfn Virtubl Mbdiinf,
+     * it mby tbkf sfvfrbl sfdonds of CPU timf to sffd tif gfnfrbtor, dfpfnding
+     * on tif undfrlying ibrdwbrf.  Suddfssivf dblls run quidkly bfdbusf tify
+     * rfly on tif sbmf (intfrnbl) psfudo-rbndom numbfr gfnfrbtor for tifir
+     * sffd bits.
+     */
+    publid SfdurfRbndom() {
+        init(null);
+    }
+
+    /**
+     * Tiis donstrudtor is usfd to instbntibtf tif privbtf sffdfr objfdt
+     * witi b givfn sffd from tif SffdGfnfrbtor.
+     *
+     * @pbrbm sffd tif sffd.
+     */
+    privbtf SfdurfRbndom(bytf sffd[]) {
+        init(sffd);
+    }
+
+    /**
+     * Tiis dbll, usfd by tif donstrudtors, instbntibtfs tif SHA digfst
+     * bnd sfts tif sffd, if givfn.
+     */
+    privbtf void init(bytf[] sffd) {
+        try {
+            /*
+             * Usf tif lodbl SUN implfmfntbtion to bvoid nbtivf
+             * pfrformbndf ovfrifbd.
+             */
+            digfst = MfssbgfDigfst.gftInstbndf("SHA", "SUN");
+        } dbtdi (NoSudiProvidfrExdfption | NoSudiAlgoritimExdfption f) {
+            // Fbllbbdk to bny bvbilbblf.
+            try {
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption fxd) {
+                tirow nfw IntfrnblError(
+                    "intfrnbl frror: SHA-1 not bvbilbblf.", fxd);
+            }
+        }
+
+        if (sffd != null) {
+           fnginfSftSffd(sffd);
+        }
+    }
+
+    /**
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.  Wiilf
+     * wf bttfmpt to rfturn b "truly rbndom" sfqufndf of bytfs, wf do not
+     * know fxbdtly iow rbndom tif bytfs rfturnfd by tiis dbll brf.  (Sff
+     * tif fmpty donstrudtor <b irff = "#SfdurfRbndom">SfdurfRbndom</b>
+     * for b briff dfsdription of tif undfrlying blgoritim.)
+     * Tif prudfnt usfr will frr on tif sidf of dbution bnd gft fxtrb
+     * sffd bytfs, bltiougi it siould bf notfd tibt sffd gfnfrbtion is
+     * somfwibt dostly.
+     *
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     *
+     * @rfturn tif sffd bytfs.
+     */
+    @Ovfrridf
+    publid bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        // Nfitifr of tif SffdGfnfrbtor implfmfntbtions rfquirf
+        // lodking, so no synd nffdfd ifrf.
+        bytf[] b = nfw bytf[numBytfs];
+        SffdGfnfrbtor.gfnfrbtfSffd(b);
+        rfturn b;
+    }
+
+    /**
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
+     *
+     * @pbrbm sffd tif sffd.
+     */
+    @Ovfrridf
+    syndironizfd publid void fnginfSftSffd(bytf[] sffd) {
+        if (stbtf != null) {
+            digfst.updbtf(stbtf);
+            for (int i = 0; i < stbtf.lfngti; i++) {
+                stbtf[i] = 0;
+            }
+        }
+        stbtf = digfst.digfst(sffd);
+    }
+
+    privbtf stbtid void updbtfStbtf(bytf[] stbtf, bytf[] output) {
+        int lbst = 1;
+        int v;
+        bytf t;
+        boolfbn zf = fblsf;
+
+        // stbtf(n + 1) = (stbtf(n) + output(n) + 1) % 2^160;
+        for (int i = 0; i < stbtf.lfngti; i++) {
+            // Add two bytfs
+            v = (int)stbtf[i] + (int)output[i] + lbst;
+            // Rfsult is lowfr 8 bits
+            t = (bytf)v;
+            // Storf rfsult. Cifdk for stbtf dollision.
+            zf = zf | (stbtf[i] != t);
+            stbtf[i] = t;
+            // Higi 8 bits brf dbrry. Storf for nfxt itfrbtion.
+            lbst = v >> 8;
+        }
+
+        // Mbkf surf bt lfbst onf bit dibngfs!
+        if (!zf) {
+           stbtf[0]++;
+        }
+    }
+
+    /**
+     * Tiis stbtid objfdt will bf sffdfd by SffdGfnfrbtor, bnd usfd
+     * to sffd futurf instbndfs of SHA1PRNG SfdurfRbndoms.
+     *
+     * Blodi, Efffdtivf Jbvb Sfdond Edition: Itfm 71
+     */
+    privbtf stbtid dlbss SffdfrHoldfr {
+
+        privbtf stbtid finbl SfdurfRbndom sffdfr;
+
+        stbtid {
+            /*
+             * Cbll to SffdGfnfrbtor.gfnfrbtfSffd() to bdd bdditionbl
+             * sffd mbtfribl (likfly from tif Nbtivf implfmfntbtion).
+             */
+            sffdfr = nfw SfdurfRbndom(SffdGfnfrbtor.gftSystfmEntropy());
+            bytf [] b = nfw bytf[DIGEST_SIZE];
+            SffdGfnfrbtor.gfnfrbtfSffd(b);
+            sffdfr.fnginfSftSffd(b);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     *
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     */
+    @Ovfrridf
+    publid syndironizfd void fnginfNfxtBytfs(bytf[] rfsult) {
+        int indfx = 0;
+        int todo;
+        bytf[] output = rfmbindfr;
+
+        if (stbtf == null) {
+            bytf[] sffd = nfw bytf[DIGEST_SIZE];
+            SffdfrHoldfr.sffdfr.fnginfNfxtBytfs(sffd);
+            stbtf = digfst.digfst(sffd);
+        }
+
+        // Usf rfmbindfr from lbst timf
+        int r = rfmCount;
+        if (r > 0) {
+            // How mbny bytfs?
+            todo = (rfsult.lfngti - indfx) < (DIGEST_SIZE - r) ?
+                        (rfsult.lfngti - indfx) : (DIGEST_SIZE - r);
+            // Copy tif bytfs, zfro tif bufffr
+            for (int i = 0; i < todo; i++) {
+                rfsult[i] = output[r];
+                output[r++] = 0;
+            }
+            rfmCount += todo;
+            indfx += todo;
+        }
+
+        // If wf nffd morf bytfs, mbkf tifm.
+        wiilf (indfx < rfsult.lfngti) {
+            // Stfp tif stbtf
+            digfst.updbtf(stbtf);
+            output = digfst.digfst();
+            updbtfStbtf(stbtf, output);
+
+            // How mbny bytfs?
+            todo = (rfsult.lfngti - indfx) > DIGEST_SIZE ?
+                DIGEST_SIZE : rfsult.lfngti - indfx;
+            // Copy tif bytfs, zfro tif bufffr
+            for (int i = 0; i < todo; i++) {
+                rfsult[indfx++] = output[i];
+                output[i] = 0;
+            }
+            rfmCount += todo;
+        }
+
+        // Storf rfmbindfr for nfxt timf
+        rfmbindfr = output;
+        rfmCount %= DIGEST_SIZE;
+    }
+
+    /*
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif rbndom objfdt from
+     * b strfbm.  Wf ibvf to drfbtf b nfw instbndf of MfssbgfDigfst, bfdbusf
+     * it is not indludfd in tif strfbm (it is mbrkfd "trbnsifnt").
+     *
+     * Notf tibt tif fnginfNfxtBytfs() mftiod invokfd on tif rfstorfd rbndom
+     * objfdt will yifld tif fxbdt sbmf (rbndom) bytfs bs tif originbl.
+     * If you do not wbnt tiis bfibviour, you siould rf-sffd tif rfstorfd
+     * rbndom objfdt, using fnginfSftSffd().
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+
+        s.dffbultRfbdObjfdt ();
+
+        try {
+            /*
+             * Usf tif lodbl SUN implfmfntbtion to bvoid nbtivf
+             * pfrformbndf ovfrifbd.
+             */
+            digfst = MfssbgfDigfst.gftInstbndf("SHA", "SUN");
+        } dbtdi (NoSudiProvidfrExdfption | NoSudiAlgoritimExdfption f) {
+            // Fbllbbdk to bny bvbilbblf.
+            try {
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption fxd) {
+                tirow nfw IntfrnblError(
+                    "intfrnbl frror: SHA-1 not bvbilbblf.", fxd);
+            }
+        }
+    }
+}

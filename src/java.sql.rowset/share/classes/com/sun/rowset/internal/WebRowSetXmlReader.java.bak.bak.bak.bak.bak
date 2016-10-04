@@ -1,0 +1,237 @@
+/*
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+
+import org.xml.sbx.*;
+import org.xml.sbx.iflpfrs.*;
+import jbvbx.xml.pbrsfrs.*;
+
+import dom.sun.rowsft.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
+
+/**
+ * An implfmfntbtion of tif <dodf>XmlRfbdfr</dodf> intfrfbdf, wiidi
+ * rfbds bnd pbrsfs bn XML formbttfd <dodf>WfbRowSft</dodf> objfdt.
+ * Tiis implfmfntbtion usfs bn <dodf>org.xml.sbx.Pbrsfr</dodf> objfdt
+ * bs its pbrsfr.
+ */
+publid dlbss WfbRowSftXmlRfbdfr implfmfnts XmlRfbdfr, Sfriblizbblf {
+
+
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    publid WfbRowSftXmlRfbdfr(){
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Pbrsfs tif givfn <dodf>WfbRowSft</dodf> objfdt, gftting its input from
+     * tif givfn <dodf>jbvb.io.Rfbdfr</dodf> objfdt.  Tif pbrsfr will sfnd
+     * notifidbtions of pbrsf fvfnts to tif rowsft's
+     * <dodf>XmlRfbdfrDodHbndlfr</dodf>, wiidi will build tif rowsft bs
+     * bn XML dodumfnt.
+     * <P>
+     * Tiis mftiod is dbllfd intfrnblly by tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf>.
+     * <P>
+     * If b pbrsing frror oddurs, tif fxdfption tirown will indludf
+     * informbtion for lodbting tif frror in tif originbl XML dodumfnt.
+     *
+     * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, wiosf
+     *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+     *        tiis <dodf>XmlRfbdfr</dodf> objfdt
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt from wiidi
+     *        tif pbrsfr will gft its input
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            tiis <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt is not tif
+     *            rfbdfr for tif givfn rowsft
+     * @sff XmlRfbdfrContfntHbndlfr
+     */
+    publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption {
+        try {
+            // Crimson Pbrsfr(bs in J2SE 1.4.1 is NOT bblf to ibndlf
+            // Rfbdfr(s)(FilfRfbdfr).
+            //
+            // But gftting tif filf bs b Strfbm works finf. So wf brf going to tbkf
+            // tif rfbdfr but sfnd it bs b InputStrfbm to tif pbrsfr. Notf tibt tiis
+            // fundtionblity nffds to work bgbinst bny pbrsfr
+            // Crimson(J2SE 1.4.x) / Xfrdfs(J2SE 1.5.x).
+            InputSourdf is = nfw InputSourdf(rfbdfr);
+            DffbultHbndlfr di = nfw XmlErrorHbndlfr();
+            XmlRfbdfrContfntHbndlfr indr = nfw XmlRfbdfrContfntHbndlfr((RowSft)dbllfr);
+            SAXPbrsfrFbdtory fbdtory = SAXPbrsfrFbdtory.nfwInstbndf();
+            fbdtory.sftNbmfspbdfAwbrf(truf);
+            fbdtory.sftVblidbting(truf);
+            SAXPbrsfr pbrsfr = fbdtory.nfwSAXPbrsfr() ;
+
+            pbrsfr.sftPropfrty(
+                               "ittp://jbvb.sun.dom/xml/jbxp/propfrtifs/sdifmbLbngubgf", "ittp://www.w3.org/2001/XMLSdifmb");
+
+            XMLRfbdfr rfbdfr1 = pbrsfr.gftXMLRfbdfr() ;
+            rfbdfr1.sftEntityRfsolvfr(nfw XmlRfsolvfr());
+            rfbdfr1.sftContfntHbndlfr(indr);
+
+            rfbdfr1.sftErrorHbndlfr(di);
+
+            rfbdfr1.pbrsf(is);
+
+        } dbtdi (SAXPbrsfExdfption frr) {
+            Systfm.out.println (MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.pbrsffrr").toString(), nfw Objfdt[]{ frr.gftMfssbgf (), frr.gftLinfNumbfr(), frr.gftSystfmId()}));
+            frr.printStbdkTrbdf();
+            tirow nfw SQLExdfption(frr.gftMfssbgf());
+
+        } dbtdi (SAXExdfption f) {
+            Exdfption   x = f;
+            if (f.gftExdfption () != null)
+                x = f.gftExdfption();
+            x.printStbdkTrbdf ();
+            tirow nfw SQLExdfption(x.gftMfssbgf());
+
+        }
+
+        // Will bf ifrf if trying to writf bfyond tif RowSft limits
+
+         dbtdi (ArrbyIndfxOutOfBoundsExdfption bif) {
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.invbliddp").toString());
+        }
+        dbtdi (Tirowbblf f) {
+            tirow nfw SQLExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.rfbdxml").toString() , f.gftMfssbgf()));
+        }
+
+    }
+
+
+    /**
+     * Pbrsfs tif givfn <dodf>WfbRowSft</dodf> objfdt, gftting its input from
+     * tif givfn <dodf>jbvb.io.InputStrfbm</dodf> objfdt.  Tif pbrsfr will sfnd
+     * notifidbtions of pbrsf fvfnts to tif rowsft's
+     * <dodf>XmlRfbdfrDodHbndlfr</dodf>, wiidi will build tif rowsft bs
+     * bn XML dodumfnt.
+     * <P>
+     * Using strfbms is b mudi fbstfr wby tibn using <dodf>jbvb.io.Rfbdfr</dodf>
+     * <P>
+     * Tiis mftiod is dbllfd intfrnblly by tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf>.
+     * <P>
+     * If b pbrsing frror oddurs, tif fxdfption tirown will indludf
+     * informbtion for lodbting tif frror in tif originbl XML dodumfnt.
+     *
+     * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, wiosf
+     *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+     *        tiis <dodf>XmlRfbdfr</dodf> objfdt
+     * @pbrbm iStrfbm tif <dodf>jbvb.io.InputStrfbm</dodf> objfdt from wiidi
+     *        tif pbrsfr will gft its input
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            tiis <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt is not tif
+     *            rfbdfr for tif givfn rowsft
+     * @sff XmlRfbdfrContfntHbndlfr
+     */
+    publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.InputStrfbm iStrfbm) tirows SQLExdfption {
+        try {
+            InputSourdf is = nfw InputSourdf(iStrfbm);
+            DffbultHbndlfr di = nfw XmlErrorHbndlfr();
+
+            XmlRfbdfrContfntHbndlfr indr = nfw XmlRfbdfrContfntHbndlfr((RowSft)dbllfr);
+            SAXPbrsfrFbdtory fbdtory = SAXPbrsfrFbdtory.nfwInstbndf();
+            fbdtory.sftNbmfspbdfAwbrf(truf);
+            fbdtory.sftVblidbting(truf);
+
+            SAXPbrsfr pbrsfr = fbdtory.nfwSAXPbrsfr() ;
+
+            pbrsfr.sftPropfrty("ittp://jbvb.sun.dom/xml/jbxp/propfrtifs/sdifmbLbngubgf",
+                     "ittp://www.w3.org/2001/XMLSdifmb");
+
+            XMLRfbdfr rfbdfr1 = pbrsfr.gftXMLRfbdfr() ;
+            rfbdfr1.sftEntityRfsolvfr(nfw XmlRfsolvfr());
+            rfbdfr1.sftContfntHbndlfr(indr);
+
+            rfbdfr1.sftErrorHbndlfr(di);
+
+            rfbdfr1.pbrsf(is);
+
+        } dbtdi (SAXPbrsfExdfption frr) {
+            Systfm.out.println (MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.pbrsffrr").toString(), nfw Objfdt[]{frr.gftLinfNumbfr(), frr.gftSystfmId() }));
+            Systfm.out.println("   " + frr.gftMfssbgf ());
+            frr.printStbdkTrbdf();
+            tirow nfw SQLExdfption(frr.gftMfssbgf());
+
+        } dbtdi (SAXExdfption f) {
+            Exdfption   x = f;
+            if (f.gftExdfption () != null)
+                x = f.gftExdfption();
+            x.printStbdkTrbdf ();
+            tirow nfw SQLExdfption(x.gftMfssbgf());
+
+        }
+
+        // Will bf ifrf if trying to writf bfyond tif RowSft limits
+
+         dbtdi (ArrbyIndfxOutOfBoundsExdfption bif) {
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.invbliddp").toString());
+        }
+
+        dbtdi (Tirowbblf f) {
+            tirow nfw SQLExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.rfbdxml").toString() , f.gftMfssbgf()));
+        }
+    }
+
+    /**
+     * For dodf dovfrbgf purposfs only rigit now
+     *
+     */
+
+    publid void rfbdDbtb(RowSftIntfrnbl dbllfr) {
+    }
+
+    /**
+     * Tiis mftiod rf populbtfs tif rfsBundlf
+     * during tif dfsfriblizbtion prodfss
+     *
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
+        }
+
+    }
+
+    stbtid finbl long sfriblVfrsionUID = -9127058392819008014L;
+}

@@ -1,0 +1,1105 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pbdkbgf jbvb.timf.dirono;
+
+import stbtid jbvb.timf.tfmporbl.CironoFifld.EPOCH_DAY;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Propfrtifs;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Tif Hijrbi dblfndbr is b lunbr dblfndbr supporting Islbmid dblfndbrs.
+ * <p>
+ * Tif HijrbiCironology follows tif rulfs of tif Hijrbi dblfndbr systfm. Tif Hijrbi
+ * dblfndbr ibs sfvfrbl vbribnts bbsfd on difffrfndfs in wifn tif nfw moon is
+ * dftfrminfd to ibvf oddurrfd bnd wifrf tif obsfrvbtion is mbdf.
+ * In somf vbribnts tif lfngti of fbdi monti is
+ * domputfd blgoritimidblly from tif bstronomidbl dbtb for tif moon bnd fbrti bnd
+ * in otifrs tif lfngti of tif monti is dftfrminfd by bn butiorizfd sigiting
+ * of tif nfw moon. For tif blgoritimidblly bbsfd dblfndbrs tif dblfndbr
+ * dbn projfdt into tif futurf.
+ * For sigiting bbsfd dblfndbrs only iistoridbl dbtb from pbst
+ * sigitings is bvbilbblf.
+ * <p>
+ * Tif lfngti of fbdi monti is 29 or 30 dbys.
+ * Ordinbry yfbrs ibvf 354 dbys; lfbp yfbrs ibvf 355 dbys.
+ *
+ * <p>
+ * CLDR bnd LDML idfntify vbribnts:
+ * <tbblf dfllpbdding="2" summbry="Vbribnts of Hijrbi Cblfndbrs">
+ * <tifbd>
+ * <tr dlbss="tbblfSubHfbdingColor">
+ * <ti dlbss="dolFirst" blign="lfft" >Cironology ID</ti>
+ * <ti dlbss="dolFirst" blign="lfft" >Cblfndbr Typf</ti>
+ * <ti dlbss="dolFirst" blign="lfft" >Lodblf fxtfnsion, sff {@link jbvb.util.Lodblf}</ti>
+ * <ti dlbss="dolLbst" blign="lfft" >Dfsdription</ti>
+ * </tr>
+ * </tifbd>
+ * <tbody>
+ * <tr dlbss="bltColor">
+ * <td>Hijrbi-umblqurb</td>
+ * <td>islbmid-umblqurb</td>
+ * <td>db-islbmid-umblqurb</td>
+ * <td>Islbmid - Umm Al-Qurb dblfndbr of Sbudi Arbbib</td>
+ * </tr>
+ * </tbody>
+ * </tbblf>
+ * <p>Additionbl vbribnts mby bf bvbilbblf tirougi {@link Cironology#gftAvbilbblfCironologifs()}.
+ *
+ * <p>Exbmplf</p>
+ * <p>
+ * Sflfdting tif dironology from tif lodblf usfs {@link Cironology#ofLodblf}
+ * to find tif Cironology bbsfd on Lodblf supportfd BCP 47 fxtfnsion mfdibnism
+ * to rfqufst b spfdifid dblfndbr ("db"). For fxbmplf,
+ * </p>
+ * <prf>
+ *      Lodblf lodblf = Lodblf.forLbngubgfTbg("fn-US-u-db-islbmid-umblqurb");
+ *      Cironology dirono = Cironology.ofLodblf(lodblf);
+ * </prf>
+ *
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ * @implNotf
+ * Ebdi Hijrbi vbribnt is donfigurfd individublly. Ebdi vbribnt is dffinfd by b
+ * propfrty rfsourdf tibt dffinfs tif {@dodf ID}, tif {@dodf dblfndbr typf},
+ * tif stbrt of tif dblfndbr, tif blignmfnt witi tif
+ * ISO dblfndbr, bnd tif lfngti of fbdi monti for b rbngf of yfbrs.
+ * Tif vbribnts brf idfntififd in tif {@dodf dblfndbrs.propfrtifs} filf.
+ * Tif nfw propfrtifs brf prffixfd witi {@dodf "dblfndbrs.iijrbi."}:
+ * <tbblf dfllpbdding="2" bordfr="0" summbry="Configurbtion of Hijrbi Cblfndbr Vbribnts">
+ * <tifbd>
+ * <tr dlbss="tbblfSubHfbdingColor">
+ * <ti dlbss="dolFirst" blign="lfft">Propfrty Nbmf</ti>
+ * <ti dlbss="dolFirst" blign="lfft">Propfrty vbluf</ti>
+ * <ti dlbss="dolLbst" blign="lfft">Dfsdription </ti>
+ * </tr>
+ * </tifbd>
+ * <tbody>
+ * <tr dlbss="bltColor">
+ * <td>dblfndbrs.iijrbi.{ID}</td>
+ * <td>Tif propfrty rfsourdf dffining tif {@dodf {ID}} vbribnt</td>
+ * <td>Tif propfrty rfsourdf is lodbtfd witi tif {@dodf dblfndbrs.propfrtifs} filf</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td>dblfndbrs.iijrbi.{ID}.typf</td>
+ * <td>Tif dblfndbr typf</td>
+ * <td>LDML dffinfs tif dblfndbr typf nbmfs</td>
+ * </tr>
+ * </tbody>
+ * </tbblf>
+ * <p>
+ * Tif Hijrbi propfrty rfsourdf is b sft of propfrtifs tibt dfsdribf tif dblfndbr.
+ * Tif syntbx is dffinfd by {@dodf jbvb.util.Propfrtifs#lobd(Rfbdfr)}.
+ * <tbblf dfllpbdding="2" summbry="Configurbtion of Hijrbi Cblfndbr">
+ * <tifbd>
+ * <tr dlbss="tbblfSubHfbdingColor">
+ * <ti dlbss="dolFirst" blign="lfft" > Propfrty Nbmf</ti>
+ * <ti dlbss="dolFirst" blign="lfft" > Propfrty vbluf</ti>
+ * <ti dlbss="dolLbst" blign="lfft" > Dfsdription </ti>
+ * </tr>
+ * </tifbd>
+ * <tbody>
+ * <tr dlbss="bltColor">
+ * <td>id</td>
+ * <td>Cironology Id, for fxbmplf, "Hijrbi-umblqurb"</td>
+ * <td>Tif Id of tif dblfndbr in dommon usbgf</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td>typf</td>
+ * <td>Cblfndbr typf, for fxbmplf, "islbmid-umblqurb"</td>
+ * <td>LDML dffinfs tif dblfndbr typfs</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td>vfrsion</td>
+ * <td>Vfrsion, for fxbmplf: "1.8.0_1"</td>
+ * <td>Tif vfrsion of tif Hijrbi vbribnt dbtb</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td>iso-stbrt</td>
+ * <td>ISO stbrt dbtf, formbttfd bs {@dodf yyyy-MM-dd}, for fxbmplf: "1900-04-30"</td>
+ * <td>Tif ISO dbtf of tif first dby of tif minimum Hijrbi yfbr.</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td>yyyy - b numfrid 4 digit yfbr, for fxbmplf "1434"</td>
+ * <td>Tif vbluf is b sfqufndf of 12 monti lfngtis,
+ * for fxbmplf: "29 30 29 30 29 30 30 30 29 30 29 29"</td>
+ * <td>Tif lfngtis of tif 12 montis of tif yfbr sfpbrbtfd by wiitfspbdf.
+ * A numfrid yfbr propfrty must bf prfsfnt for fvfry yfbr witiout bny gbps.
+ * Tif monti lfngtis must bf bftwffn 29-32 indlusivf.
+ * </td>
+ * </tr>
+ * </tbody>
+ * </tbblf>
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss HijrbiCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+
+    /**
+     * Tif Hijrbi Cblfndbr id.
+     */
+    privbtf finbl trbnsifnt String typfId;
+    /**
+     * Tif Hijrbi dblfndbrTypf.
+     */
+    privbtf finbl trbnsifnt String dblfndbrTypf;
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3127340209035924785L;
+    /**
+     * Singlfton instbndf of tif Islbmid Umm Al-Qurb dblfndbr of Sbudi Arbbib.
+     * Otifr Hijrbi dironology vbribnts mby bf bvbilbblf from
+     * {@link Cironology#gftAvbilbblfCironologifs}.
+     */
+    publid stbtid finbl HijrbiCironology INSTANCE;
+    /**
+     * Flbg to indidbtf tif initiblizbtion of donfigurbtion dbtb is domplftf.
+     * @sff #difdkCblfndbrInit()
+     */
+    privbtf trbnsifnt volbtilf boolfbn initComplftf;
+    /**
+     * Arrby of fpodi dbys indfxfd by Hijrbi Epodi monti.
+     * Computfd by {@link #lobdCblfndbrDbtb}.
+     */
+    privbtf trbnsifnt int[] iijrbiEpodiMontiStbrtDbys;
+    /**
+     * Tif minimum fpodi dby of tiis Hijrbi dblfndbr.
+     * Computfd by {@link #lobdCblfndbrDbtb}.
+     */
+    privbtf trbnsifnt int minEpodiDby;
+    /**
+     * Tif mbximum fpodi dby for wiidi dblfndbr dbtb is bvbilbblf.
+     * Computfd by {@link #lobdCblfndbrDbtb}.
+     */
+    privbtf trbnsifnt int mbxEpodiDby;
+    /**
+     * Tif minimum fpodi monti.
+     * Computfd by {@link #lobdCblfndbrDbtb}.
+     */
+    privbtf trbnsifnt int iijrbiStbrtEpodiMonti;
+    /**
+     * Tif minimum lfngti of b monti.
+     * Computfd by {@link #drfbtfEpodiMontis}.
+     */
+    privbtf trbnsifnt int minMontiLfngti;
+    /**
+     * Tif mbximum lfngti of b monti.
+     * Computfd by {@link #drfbtfEpodiMontis}.
+     */
+    privbtf trbnsifnt int mbxMontiLfngti;
+    /**
+     * Tif minimum lfngti of b yfbr in dbys.
+     * Computfd by {@link #drfbtfEpodiMontis}.
+     */
+    privbtf trbnsifnt int minYfbrLfngti;
+    /**
+     * Tif mbximum lfngti of b yfbr in dbys.
+     * Computfd by {@link #drfbtfEpodiMontis}.
+     */
+    privbtf trbnsifnt int mbxYfbrLfngti;
+    /**
+     * A rfffrfndf to tif propfrtifs storfd in
+     * ${jbvb.iomf}/lib/dblfndbrs.propfrtifs
+     */
+    privbtf finbl trbnsifnt stbtid Propfrtifs dblfndbrPropfrtifs;
+
+    /**
+     * Prffix of propfrty nbmfs for Hijrbi dblfndbr vbribnts.
+     */
+    privbtf stbtid finbl String PROP_PREFIX = "dblfndbr.iijrbi.";
+    /**
+     * Suffix of propfrty nbmfs dontbining tif dblfndbr typf of b vbribnt.
+     */
+    privbtf stbtid finbl String PROP_TYPE_SUFFIX = ".typf";
+
+    /**
+     * Stbtid initiblizbtion of tif prfdffinfd dblfndbrs found in tif
+     * lib/dblfndbrs.propfrtifs filf.
+     */
+    stbtid {
+        try {
+            dblfndbrPropfrtifs = sun.util.dblfndbr.BbsfCblfndbr.gftCblfndbrPropfrtifs();
+        } dbtdi (IOExdfption iof) {
+            tirow nfw IntfrnblError("Cbn't initiblizf lib/dblfndbrs.propfrtifs", iof);
+        }
+
+        try {
+            INSTANCE = nfw HijrbiCironology("Hijrbi-umblqurb");
+            // Rfgistfr it by its blibsfs
+            AbstrbdtCironology.rfgistfrCirono(INSTANCE, "Hijrbi");
+            AbstrbdtCironology.rfgistfrCirono(INSTANCE, "islbmid");
+        } dbtdi (DbtfTimfExdfption fx) {
+            // Absfndf of Hijrbi dblfndbr is fbtbl to initiblizing tiis dlbss.
+            PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.timf.dirono");
+            loggfr.sfvfrf("Unbblf to initiblizf Hijrbi dblfndbr: Hijrbi-umblqurb", fx);
+            tirow nfw RuntimfExdfption("Unbblf to initiblizf Hijrbi-umblqurb dblfndbr", fx.gftCbusf());
+        }
+        rfgistfrVbribnts();
+    }
+
+    /**
+     * For fbdi Hijrbi vbribnt listfd, drfbtf tif HijrbiCironology bnd rfgistfr it.
+     * Exdfptions during initiblizbtion brf loggfd but otifrwisf ignorfd.
+     */
+    privbtf stbtid void rfgistfrVbribnts() {
+        for (String nbmf : dblfndbrPropfrtifs.stringPropfrtyNbmfs()) {
+            if (nbmf.stbrtsWiti(PROP_PREFIX)) {
+                String id = nbmf.substring(PROP_PREFIX.lfngti());
+                if (id.indfxOf('.') >= 0) {
+                    dontinuf;   // no nbmf or not b simplf nbmf of b dblfndbr
+                }
+                if (id.fqubls(INSTANCE.gftId())) {
+                    dontinuf;           // do not duplidbtf tif dffbult
+                }
+                try {
+                    // Crfbtf bnd rfgistfr tif vbribnt
+                    HijrbiCironology dirono = nfw HijrbiCironology(id);
+                    AbstrbdtCironology.rfgistfrCirono(dirono);
+                } dbtdi (DbtfTimfExdfption fx) {
+                    // Log frror bnd dontinuf
+                    PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.timf.dirono");
+                    loggfr.sfvfrf("Unbblf to initiblizf Hijrbi dblfndbr: " + id, fx);
+                }
+            }
+        }
+    }
+
+    /**
+     * Crfbtf b HijrbiCironology for tif nbmfd vbribnt.
+     * Tif rfsourdf bnd dblfndbr typf brf rftrifvfd from propfrtifs
+     * in tif {@dodf dblfndbrs.propfrtifs}.
+     * Tif propfrty nbmfs brf {@dodf "dblfndbr.iijrbi." + id}
+     * bnd  {@dodf "dblfndbr.iijrbi." + id + ".typf"}
+     * @pbrbm id tif id of tif dblfndbr
+     * @tirows DbtfTimfExdfption if tif dblfndbr typf is missing from tif propfrtifs filf.
+     * @tirows IllfgblArgumfntExdfption if tif id is fmpty
+     */
+    privbtf HijrbiCironology(String id) tirows DbtfTimfExdfption {
+        if (id.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption("dblfndbr id is fmpty");
+        }
+        String propNbmf = PROP_PREFIX + id + PROP_TYPE_SUFFIX;
+        String dblTypf = dblfndbrPropfrtifs.gftPropfrty(propNbmf);
+        if (dblTypf == null || dblTypf.isEmpty()) {
+            tirow nfw DbtfTimfExdfption("dblfndbrTypf is missing or fmpty for: " + propNbmf);
+        }
+        tiis.typfId = id;
+        tiis.dblfndbrTypf = dblTypf;
+    }
+
+    /**
+     * Cifdk bnd fnsurf tibt tif dblfndbr dbtb ibs bffn initiblizfd.
+     * Tif initiblizbtion difdk is pfrformfd bt tif boundbry bftwffn
+     * publid bnd pbdkbgf mftiods.  If b publid dblls bnotifr publid mftiod
+     * b difdk is not nfdfssbry in tif dbllfr.
+     * Tif donstrudtors of HijrbiDbtf dbll {@link #gftEpodiDby} or
+     * {@link #gftHijrbiDbtfInfo} so fvfry dbll from HijrbiDbtf to b
+     * HijrbiCironology vib pbdkbgf privbtf mftiods ibs bffn difdkfd.
+     *
+     * @tirows DbtfTimfExdfption if tif dblfndbr dbtb donfigurbtion is
+     *     mblformfd or IOExdfptions oddur lobding tif dbtb
+     */
+    privbtf void difdkCblfndbrInit() {
+        // Kffp tiis siort so it dbn bf inlinfd for pfrformbndf
+        if (initComplftf == fblsf) {
+            lobdCblfndbrDbtb();
+            initComplftf = truf;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif ID of tif dironology.
+     * <p>
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}. It dbn bf usfd to
+     * lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     *
+     * @rfturn tif dironology ID, non-null
+     * @sff #gftCblfndbrTypf()
+     */
+    @Ovfrridf
+    publid String gftId() {
+        rfturn typfId;
+    }
+
+    /**
+     * Gfts tif dblfndbr typf of tif Islbmid dblfndbr.
+     * <p>
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     *
+     * @rfturn tif dblfndbr systfm typf; non-null if tif dblfndbr ibs
+     *    b stbndbrd typf, otifrwisf null
+     * @sff #gftId()
+     */
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn dblfndbrTypf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b lodbl dbtf in Hijrbi dblfndbr systfm from tif
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @pbrbm frb  tif Hijrbi frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Hijrbi lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf HijrbiErb}
+     */
+    @Ovfrridf
+    publid HijrbiDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Hijrbi dblfndbr systfm from tif
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Hijrbi lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf
+    publid HijrbiDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn HijrbiDbtf.of(tiis, prolfptidYfbr, monti, dbyOfMonti);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Hijrbi dblfndbr systfm from tif
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     *
+     * @pbrbm frb  tif Hijrbi frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Hijrbi lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf HijrbiErb}
+     */
+    @Ovfrridf
+    publid HijrbiDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Hijrbi dblfndbr systfm from tif
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Hijrbi lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of tif yfbr is out of rbngf,
+     *  or if tif dby-of-yfbr is invblid for tif yfbr
+     */
+    @Ovfrridf
+    publid HijrbiDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+        HijrbiDbtf dbtf = HijrbiDbtf.of(tiis, prolfptidYfbr, 1, 1);
+        if (dbyOfYfbr > dbtf.lfngtiOfYfbr()) {
+            tirow nfw DbtfTimfExdfption("Invblid dbyOfYfbr: " + dbyOfYfbr);
+        }
+        rfturn dbtf.plusDbys(dbyOfYfbr - 1);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in tif Hijrbi dblfndbr systfm from tif fpodi-dby.
+     *
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @rfturn tif Hijrbi lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    publid HijrbiDbtf dbtfEpodiDby(long fpodiDby) {
+        rfturn HijrbiDbtf.ofEpodiDby(tiis, fpodiDby);
+    }
+
+    @Ovfrridf
+    publid HijrbiDbtf dbtfNow() {
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+    }
+
+    @Ovfrridf
+    publid HijrbiDbtf dbtfNow(ZonfId zonf) {
+        rfturn dbtfNow(Clodk.systfm(zonf));
+    }
+
+    @Ovfrridf
+    publid HijrbiDbtf dbtfNow(Clodk dlodk) {
+        rfturn dbtf(LodblDbtf.now(dlodk));
+    }
+
+    @Ovfrridf
+    publid HijrbiDbtf dbtf(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof HijrbiDbtf) {
+            rfturn (HijrbiDbtf) tfmporbl;
+        }
+        rfturn HijrbiDbtf.ofEpodiDby(tiis, tfmporbl.gftLong(EPOCH_DAY));
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoLodblDbtfTimf<HijrbiDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoLodblDbtfTimf<HijrbiDbtf>) supfr.lodblDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<HijrbiDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoZonfdDbtfTimf<HijrbiDbtf>) supfr.zonfdDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<HijrbiDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (CironoZonfdDbtfTimf<HijrbiDbtf>) supfr.zonfdDbtfTimf(instbnt, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+        difdkCblfndbrInit();
+        int fpodiMonti = yfbrToEpodiMonti((int) prolfptidYfbr);
+        if (fpodiMonti < 0 || fpodiMonti > mbxEpodiDby) {
+            tirow nfw DbtfTimfExdfption("Hijrbi dbtf out of rbngf");
+        }
+        int lfn = gftYfbrLfngti((int) prolfptidYfbr);
+        rfturn (lfn > 354);
+    }
+
+    @Ovfrridf
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+        if (frb instbndfof HijrbiErb == fblsf) {
+            tirow nfw ClbssCbstExdfption("Erb must bf HijrbiErb");
+        }
+        rfturn yfbrOfErb;
+    }
+
+    @Ovfrridf
+    publid HijrbiErb frbOf(int frbVbluf) {
+        switdi (frbVbluf) {
+            dbsf 1:
+                rfturn HijrbiErb.AH;
+            dffbult:
+                tirow nfw DbtfTimfExdfption("invblid Hijrbi frb");
+        }
+    }
+
+    @Ovfrridf
+    publid List<Erb> frbs() {
+        rfturn Arrbys.<Erb>bsList(HijrbiErb.vblufs());
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+        difdkCblfndbrInit();
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = fifld;
+            switdi (f) {
+                dbsf DAY_OF_MONTH:
+                    rfturn VblufRbngf.of(1, 1, gftMinimumMontiLfngti(), gftMbximumMontiLfngti());
+                dbsf DAY_OF_YEAR:
+                    rfturn VblufRbngf.of(1, gftMbximumDbyOfYfbr());
+                dbsf ALIGNED_WEEK_OF_MONTH:
+                    rfturn VblufRbngf.of(1, 5);
+                dbsf YEAR:
+                dbsf YEAR_OF_ERA:
+                    rfturn VblufRbngf.of(gftMinimumYfbr(), gftMbximumYfbr());
+                dbsf ERA:
+                    rfturn VblufRbngf.of(1, 1);
+                dffbult:
+                    rfturn fifld.rbngf();
+            }
+        }
+        rfturn fifld.rbngf();
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf  // ovfrridf for rfturn typf
+    publid HijrbiDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        rfturn (HijrbiDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdk tif vblidity of b yfbr.
+     *
+     * @pbrbm prolfptidYfbr tif yfbr to difdk
+     */
+    int difdkVblidYfbr(long prolfptidYfbr) {
+        if (prolfptidYfbr < gftMinimumYfbr() || prolfptidYfbr > gftMbximumYfbr()) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi yfbr: " + prolfptidYfbr);
+        }
+        rfturn (int) prolfptidYfbr;
+    }
+
+    void difdkVblidDbyOfYfbr(int dbyOfYfbr) {
+        if (dbyOfYfbr < 1 || dbyOfYfbr > gftMbximumDbyOfYfbr()) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi dby of yfbr: " + dbyOfYfbr);
+        }
+    }
+
+    void difdkVblidMonti(int monti) {
+        if (monti < 1 || monti > 12) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi monti: " + monti);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns bn brrby dontbining tif Hijrbi yfbr, monti bnd dby
+     * domputfd from tif fpodi dby.
+     *
+     * @pbrbm fpodiDby  tif EpodiDby
+     * @rfturn int[0] = YEAR, int[1] = MONTH, int[2] = DATE
+     */
+    int[] gftHijrbiDbtfInfo(int fpodiDby) {
+        difdkCblfndbrInit();    // fnsurf tibt tif dironology is initiblizfd
+        if (fpodiDby < minEpodiDby || fpodiDby >= mbxEpodiDby) {
+            tirow nfw DbtfTimfExdfption("Hijrbi dbtf out of rbngf");
+        }
+
+        int fpodiMonti = fpodiDbyToEpodiMonti(fpodiDby);
+        int yfbr = fpodiMontiToYfbr(fpodiMonti);
+        int monti = fpodiMontiToMonti(fpodiMonti);
+        int dby1 = fpodiMontiToEpodiDby(fpodiMonti);
+        int dbtf = fpodiDby - dby1; // fpodiDby - dbyOfEpodi(yfbr, monti);
+
+        int dbtfInfo[] = nfw int[3];
+        dbtfInfo[0] = yfbr;
+        dbtfInfo[1] = monti + 1; // dibngf to 1-bbsfd.
+        dbtfInfo[2] = dbtf + 1; // dibngf to 1-bbsfd.
+        rfturn dbtfInfo;
+    }
+
+    /**
+     * Rfturn tif fpodi dby domputfd from Hijrbi yfbr, monti, bnd dby.
+     *
+     * @pbrbm prolfptidYfbr tif yfbr to rfprfsfnt, 0-origin
+     * @pbrbm montiOfYfbr tif monti-of-yfbr to rfprfsfnt, 1-origin
+     * @pbrbm dbyOfMonti tif dby-of-monti to rfprfsfnt, 1-origin
+     * @rfturn tif fpodi dby
+     */
+    long gftEpodiDby(int prolfptidYfbr, int montiOfYfbr, int dbyOfMonti) {
+        difdkCblfndbrInit();    // fnsurf tibt tif dironology is initiblizfd
+        difdkVblidMonti(montiOfYfbr);
+        int fpodiMonti = yfbrToEpodiMonti(prolfptidYfbr) + (montiOfYfbr - 1);
+        if (fpodiMonti < 0 || fpodiMonti >= iijrbiEpodiMontiStbrtDbys.lfngti) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi dbtf, yfbr: " +
+                    prolfptidYfbr +  ", monti: " + montiOfYfbr);
+        }
+        if (dbyOfMonti < 1 || dbyOfMonti > gftMontiLfngti(prolfptidYfbr, montiOfYfbr)) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi dby of monti: " + dbyOfMonti);
+        }
+        rfturn fpodiMontiToEpodiDby(fpodiMonti) + (dbyOfMonti - 1);
+    }
+
+    /**
+     * Rfturns dby of yfbr for tif yfbr bnd monti.
+     *
+     * @pbrbm prolfptidYfbr b prolfptid yfbr
+     * @pbrbm monti b monti, 1-origin
+     * @rfturn tif dby of yfbr, 1-origin
+     */
+    int gftDbyOfYfbr(int prolfptidYfbr, int monti) {
+        rfturn yfbrMontiToDbyOfYfbr(prolfptidYfbr, (monti - 1));
+    }
+
+    /**
+     * Rfturns monti lfngti for tif yfbr bnd monti.
+     *
+     * @pbrbm prolfptidYfbr b prolfptid yfbr
+     * @pbrbm montiOfYfbr b monti, 1-origin.
+     * @rfturn tif lfngti of tif monti
+     */
+    int gftMontiLfngti(int prolfptidYfbr, int montiOfYfbr) {
+        int fpodiMonti = yfbrToEpodiMonti(prolfptidYfbr) + (montiOfYfbr - 1);
+        if (fpodiMonti < 0 || fpodiMonti >= iijrbiEpodiMontiStbrtDbys.lfngti) {
+            tirow nfw DbtfTimfExdfption("Invblid Hijrbi dbtf, yfbr: " +
+                    prolfptidYfbr +  ", monti: " + montiOfYfbr);
+        }
+        rfturn fpodiMontiLfngti(fpodiMonti);
+    }
+
+    /**
+     * Rfturns yfbr lfngti.
+     * Notf: Tif 12ti monti must fxist in tif dbtb.
+     *
+     * @pbrbm prolfptidYfbr b prolfptid yfbr
+     * @rfturn yfbr lfngti in dbys
+     */
+    int gftYfbrLfngti(int prolfptidYfbr) {
+        rfturn yfbrMontiToDbyOfYfbr(prolfptidYfbr, 12);
+    }
+
+    /**
+     * Rfturn tif minimum supportfd Hijrbi yfbr.
+     *
+     * @rfturn tif minimum
+     */
+    int gftMinimumYfbr() {
+        rfturn fpodiMontiToYfbr(0);
+    }
+
+    /**
+     * Rfturn tif mbximum supportfd Hijrbi fbr.
+     *
+     * @rfturn tif minimum
+     */
+    int gftMbximumYfbr() {
+        rfturn fpodiMontiToYfbr(iijrbiEpodiMontiStbrtDbys.lfngti - 1) - 1;
+    }
+
+    /**
+     * Rfturns mbximum dby-of-monti.
+     *
+     * @rfturn mbximum dby-of-monti
+     */
+    int gftMbximumMontiLfngti() {
+        rfturn mbxMontiLfngti;
+    }
+
+    /**
+     * Rfturns smbllfst mbximum dby-of-monti.
+     *
+     * @rfturn smbllfst mbximum dby-of-monti
+     */
+    int gftMinimumMontiLfngti() {
+        rfturn minMontiLfngti;
+    }
+
+    /**
+     * Rfturns mbximum dby-of-yfbr.
+     *
+     * @rfturn mbximum dby-of-yfbr
+     */
+    int gftMbximumDbyOfYfbr() {
+        rfturn mbxYfbrLfngti;
+    }
+
+    /**
+     * Rfturns smbllfst mbximum dby-of-yfbr.
+     *
+     * @rfturn smbllfst mbximum dby-of-yfbr
+     */
+    int gftSmbllfstMbximumDbyOfYfbr() {
+        rfturn minYfbrLfngti;
+    }
+
+    /**
+     * Rfturns tif fpodiMonti found by lodbting tif fpodiDby in tif tbblf. Tif
+     * fpodiMonti is tif indfx in tif tbblf
+     *
+     * @pbrbm fpodiDby
+     * @rfturn Tif indfx of tif flfmfnt of tif stbrt of tif monti dontbining tif
+     * fpodiDby.
+     */
+    privbtf int fpodiDbyToEpodiMonti(int fpodiDby) {
+        // binbry sfbrdi
+        int ndx = Arrbys.binbrySfbrdi(iijrbiEpodiMontiStbrtDbys, fpodiDby);
+        if (ndx < 0) {
+            ndx = -ndx - 2;
+        }
+        rfturn ndx;
+    }
+
+    /**
+     * Rfturns tif yfbr domputfd from tif fpodiMonti
+     *
+     * @pbrbm fpodiMonti tif fpodiMonti
+     * @rfturn tif Hijrbi Yfbr
+     */
+    privbtf int fpodiMontiToYfbr(int fpodiMonti) {
+        rfturn (fpodiMonti + iijrbiStbrtEpodiMonti) / 12;
+    }
+
+    /**
+     * Rfturns tif fpodiMonti for tif Hijrbi Yfbr.
+     *
+     * @pbrbm yfbr tif HijrbiYfbr
+     * @rfturn tif fpodiMonti for tif bfginning of tif yfbr.
+     */
+    privbtf int yfbrToEpodiMonti(int yfbr) {
+        rfturn (yfbr * 12) - iijrbiStbrtEpodiMonti;
+    }
+
+    /**
+     * Rfturns tif Hijrbi monti from tif fpodiMonti.
+     *
+     * @pbrbm fpodiMonti tif fpodiMonti
+     * @rfturn tif monti of tif Hijrbi Yfbr
+     */
+    privbtf int fpodiMontiToMonti(int fpodiMonti) {
+        rfturn (fpodiMonti + iijrbiStbrtEpodiMonti) % 12;
+    }
+
+    /**
+     * Rfturns tif fpodiDby for tif stbrt of tif fpodiMonti.
+     *
+     * @pbrbm fpodiMonti tif fpodiMonti
+     * @rfturn tif fpodiDby for tif stbrt of tif fpodiMonti.
+     */
+    privbtf int fpodiMontiToEpodiDby(int fpodiMonti) {
+        rfturn iijrbiEpodiMontiStbrtDbys[fpodiMonti];
+
+    }
+
+    /**
+     * Rfturns tif dby of yfbr for tif rfqufstfd HijrbiYfbr bnd monti.
+     *
+     * @pbrbm prolfptidYfbr tif Hijrbi yfbr
+     * @pbrbm monti tif Hijrbi monti
+     * @rfturn tif dby of yfbr for tif stbrt of tif monti of tif yfbr
+     */
+    privbtf int yfbrMontiToDbyOfYfbr(int prolfptidYfbr, int monti) {
+        int fpodiMontiFirst = yfbrToEpodiMonti(prolfptidYfbr);
+        rfturn fpodiMontiToEpodiDby(fpodiMontiFirst + monti)
+                - fpodiMontiToEpodiDby(fpodiMontiFirst);
+    }
+
+    /**
+     * Rfturns tif lfngti of tif fpodiMonti. It is domputfd from tif stbrt of
+     * tif following monti minus tif stbrt of tif rfqufstfd monti.
+     *
+     * @pbrbm fpodiMonti tif fpodiMonti; bssumfd to bf witiin rbngf
+     * @rfturn tif lfngti in dbys of tif fpodiMonti
+     */
+    privbtf int fpodiMontiLfngti(int fpodiMonti) {
+        // Tif vfry lbst fntry in tif fpodiMonti tbblf is not tif stbrt of b monti
+        rfturn iijrbiEpodiMontiStbrtDbys[fpodiMonti + 1]
+                - iijrbiEpodiMontiStbrtDbys[fpodiMonti];
+    }
+
+    //-----------------------------------------------------------------------
+    privbtf stbtid finbl String KEY_ID = "id";
+    privbtf stbtid finbl String KEY_TYPE = "typf";
+    privbtf stbtid finbl String KEY_VERSION = "vfrsion";
+    privbtf stbtid finbl String KEY_ISO_START = "iso-stbrt";
+
+    /**
+     * Rfturn tif donfigurbtion propfrtifs from tif rfsourdf.
+     * <p>
+     * Tif dffbult lodbtion of tif vbribnt donfigurbtion rfsourdf is:
+     * <prf>
+     *   "$jbvb.iomf/lib/" + rfsourdf-nbmf
+     * </prf>
+     *
+     * @pbrbm rfsourdf tif nbmf of tif dblfndbr propfrty rfsourdf
+     * @rfturn b Propfrtifs dontbining tif propfrtifs rfbd from tif rfsourdf.
+     * @tirows Exdfption if bddfss to tif propfrty rfsourdf fbils
+     */
+    privbtf stbtid Propfrtifs rfbdConfigPropfrtifs(finbl String rfsourdf) tirows Exdfption {
+        try {
+            rfturn AddfssControllfr
+                    .doPrivilfgfd((jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Propfrtifs>)
+                        () -> {
+                        String libDir = Systfm.gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor + "lib";
+                        Filf filf = nfw Filf(libDir, rfsourdf);
+                        Propfrtifs props = nfw Propfrtifs();
+                        try (InputStrfbm is = nfw FilfInputStrfbm(filf)) {
+                            props.lobd(is);
+                        }
+                        rfturn props;
+                    });
+        } dbtdi (PrivilfgfdAdtionExdfption pbx) {
+            tirow pbx.gftExdfption();
+        }
+    }
+
+    /**
+     * Lobds bnd prodfssfs tif Hijrbi dblfndbr propfrtifs filf for tiis dblfndbrTypf.
+     * Tif stbrting Hijrbi dbtf bnd tif dorrfsponding ISO dbtf brf
+     * fxtrbdtfd bnd usfd to dbldulbtf tif fpodiDbtf offsft.
+     * Tif vfrsion numbfr is idfntififd bnd ignorfd.
+     * Evfrytiing flsf is tif dbtb for b yfbr witi dontbining tif lfngti of fbdi
+     * of 12 montis.
+     *
+     * @tirows DbtfTimfExdfption if initiblizbtion of tif dblfndbr dbtb from tif
+     *     rfsourdf fbils
+     */
+    privbtf void lobdCblfndbrDbtb() {
+        try {
+            String rfsourdfNbmf = dblfndbrPropfrtifs.gftPropfrty(PROP_PREFIX + typfId);
+            Objfdts.rfquirfNonNull(rfsourdfNbmf, "Rfsourdf missing for dblfndbr: " + PROP_PREFIX + typfId);
+            Propfrtifs props = rfbdConfigPropfrtifs(rfsourdfNbmf);
+
+            Mbp<Intfgfr, int[]> yfbrs = nfw HbsiMbp<>();
+            int minYfbr = Intfgfr.MAX_VALUE;
+            int mbxYfbr = Intfgfr.MIN_VALUE;
+            String id = null;
+            String typf = null;
+            String vfrsion = null;
+            int isoStbrt = 0;
+            for (Mbp.Entry<Objfdt, Objfdt> fntry : props.fntrySft()) {
+                String kfy = (String) fntry.gftKfy();
+                switdi (kfy) {
+                    dbsf KEY_ID:
+                        id = (String)fntry.gftVbluf();
+                        brfbk;
+                    dbsf KEY_TYPE:
+                        typf = (String)fntry.gftVbluf();
+                        brfbk;
+                    dbsf KEY_VERSION:
+                        vfrsion = (String)fntry.gftVbluf();
+                        brfbk;
+                    dbsf KEY_ISO_START: {
+                        int[] ymd = pbrsfYMD((String) fntry.gftVbluf());
+                        isoStbrt = (int) LodblDbtf.of(ymd[0], ymd[1], ymd[2]).toEpodiDby();
+                        brfbk;
+                    }
+                    dffbult:
+                        try {
+                            // Evfrytiing flsf is fitifr b yfbr or invblid
+                            int yfbr = Intfgfr.vblufOf(kfy);
+                            int[] montis = pbrsfMontis((String) fntry.gftVbluf());
+                            yfbrs.put(yfbr, montis);
+                            mbxYfbr = Mbti.mbx(mbxYfbr, yfbr);
+                            minYfbr = Mbti.min(minYfbr, yfbr);
+                        } dbtdi (NumbfrFormbtExdfption nff) {
+                            tirow nfw IllfgblArgumfntExdfption("bbd kfy: " + kfy);
+                        }
+                }
+            }
+
+            if (!gftId().fqubls(id)) {
+                tirow nfw IllfgblArgumfntExdfption("Configurbtion is for b difffrfnt dblfndbr: " + id);
+            }
+            if (!gftCblfndbrTypf().fqubls(typf)) {
+                tirow nfw IllfgblArgumfntExdfption("Configurbtion is for b difffrfnt dblfndbr typf: " + typf);
+            }
+            if (vfrsion == null || vfrsion.isEmpty()) {
+                tirow nfw IllfgblArgumfntExdfption("Configurbtion dofs not dontbin b vfrsion");
+            }
+            if (isoStbrt == 0) {
+                tirow nfw IllfgblArgumfntExdfption("Configurbtion dofs not dontbin b ISO stbrt dbtf");
+            }
+
+            // Now drfbtf bnd vblidbtf tif brrby of fpodiDbys indfxfd by fpodiMonti
+            iijrbiStbrtEpodiMonti = minYfbr * 12;
+            minEpodiDby = isoStbrt;
+            iijrbiEpodiMontiStbrtDbys = drfbtfEpodiMontis(minEpodiDby, minYfbr, mbxYfbr, yfbrs);
+            mbxEpodiDby = iijrbiEpodiMontiStbrtDbys[iijrbiEpodiMontiStbrtDbys.lfngti - 1];
+
+            // Computf tif min bnd mbx yfbr lfngti in dbys.
+            for (int yfbr = minYfbr; yfbr < mbxYfbr; yfbr++) {
+                int lfngti = gftYfbrLfngti(yfbr);
+                minYfbrLfngti = Mbti.min(minYfbrLfngti, lfngti);
+                mbxYfbrLfngti = Mbti.mbx(mbxYfbrLfngti, lfngti);
+            }
+        } dbtdi (Exdfption fx) {
+            // Log frror bnd tirow b DbtfTimfExdfption
+            PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.timf.dirono");
+            loggfr.sfvfrf("Unbblf to initiblizf Hijrbi dblfndbr proxy: " + typfId, fx);
+            tirow nfw DbtfTimfExdfption("Unbblf to initiblizf HijrbiCblfndbr: " + typfId, fx);
+        }
+    }
+
+    /**
+     * Convfrts tif mbp of yfbr to monti lfngtis rbnging from minYfbr to mbxYfbr
+     * into b linfbr dontiguous brrby of fpodiDbys. Tif indfx is tif iijrbiMonti
+     * domputfd from yfbr bnd monti bnd offsft by minYfbr. Tif vbluf of fbdi
+     * fntry is tif fpodiDby dorrfsponding to tif first dby of tif monti.
+     *
+     * @pbrbm minYfbr Tif minimum yfbr for wiidi dbtb is providfd
+     * @pbrbm mbxYfbr Tif mbximum yfbr for wiidi dbtb is providfd
+     * @pbrbm yfbrs b Mbp of yfbr to tif brrby of 12 monti lfngtis
+     * @rfturn brrby of fpodiDbys for fbdi monti from min to mbx
+     */
+    privbtf int[] drfbtfEpodiMontis(int fpodiDby, int minYfbr, int mbxYfbr, Mbp<Intfgfr, int[]> yfbrs) {
+        // Computf tif sizf for tif brrby of dbtfs
+        int numMontis = (mbxYfbr - minYfbr + 1) * 12 + 1;
+
+        // Initiblizf tif running fpodiDby bs tif dorrfsponding ISO Epodi dby
+        int fpodiMonti = 0; // indfx into brrby of fpodiMontis
+        int[] fpodiMontis = nfw int[numMontis];
+        minMontiLfngti = Intfgfr.MAX_VALUE;
+        mbxMontiLfngti = Intfgfr.MIN_VALUE;
+
+        // Only wiolf yfbrs brf vblid, bny zfro's in tif brrby brf illfgbl
+        for (int yfbr = minYfbr; yfbr <= mbxYfbr; yfbr++) {
+            int[] montis = yfbrs.gft(yfbr);// must not bf gbps
+            for (int monti = 0; monti < 12; monti++) {
+                int lfngti = montis[monti];
+                fpodiMontis[fpodiMonti++] = fpodiDby;
+
+                if (lfngti < 29 || lfngti > 32) {
+                    tirow nfw IllfgblArgumfntExdfption("Invblid monti lfngti in yfbr: " + minYfbr);
+                }
+                fpodiDby += lfngti;
+                minMontiLfngti = Mbti.min(minMontiLfngti, lfngti);
+                mbxMontiLfngti = Mbti.mbx(mbxMontiLfngti, lfngti);
+            }
+        }
+
+        // Insfrt tif finbl fpodiDby
+        fpodiMontis[fpodiMonti++] = fpodiDby;
+
+        if (fpodiMonti != fpodiMontis.lfngti) {
+            tirow nfw IllfgblStbtfExdfption("Did not fill fpodiMontis fxbdtly: ndx = " + fpodiMonti
+                    + " siould bf " + fpodiMontis.lfngti);
+        }
+
+        rfturn fpodiMontis;
+    }
+
+    /**
+     * Pbrsfs tif 12 montis lfngtis from b propfrty vbluf for b spfdifid yfbr.
+     *
+     * @pbrbm linf tif vbluf of b yfbr propfrty
+     * @rfturn bn brrby of int[12] dontbining tif 12 monti lfngtis
+     * @tirows IllfgblArgumfntExdfption if tif numbfr of montis is not 12
+     * @tirows NumbfrFormbtExdfption if tif 12 tokfns brf not numbfrs
+     */
+    privbtf int[] pbrsfMontis(String linf) {
+        int[] montis = nfw int[12];
+        String[] numbfrs = linf.split("\\s");
+        if (numbfrs.lfngti != 12) {
+            tirow nfw IllfgblArgumfntExdfption("wrong numbfr of montis on linf: " + Arrbys.toString(numbfrs) + "; dount: " + numbfrs.lfngti);
+        }
+        for (int i = 0; i < 12; i++) {
+            try {
+                montis[i] = Intfgfr.vblufOf(numbfrs[i]);
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                tirow nfw IllfgblArgumfntExdfption("bbd kfy: " + numbfrs[i]);
+            }
+        }
+        rfturn montis;
+    }
+
+    /**
+     * Pbrsf yyyy-MM-dd into b 3 flfmfnt brrby [yyyy, mm, dd].
+     *
+     * @pbrbm string tif input string
+     * @rfturn tif 3 flfmfnt brrby witi yfbr, monti, dby
+     */
+    privbtf int[] pbrsfYMD(String string) {
+        // yyyy-MM-dd
+        string = string.trim();
+        try {
+            if (string.dibrAt(4) != '-' || string.dibrAt(7) != '-') {
+                tirow nfw IllfgblArgumfntExdfption("dbtf must bf yyyy-MM-dd");
+            }
+            int[] ymd = nfw int[3];
+            ymd[0] = Intfgfr.vblufOf(string.substring(0, 4));
+            ymd[1] = Intfgfr.vblufOf(string.substring(5, 7));
+            ymd[2] = Intfgfr.vblufOf(string.substring(8, 10));
+            rfturn ymd;
+        } dbtdi (NumbfrFormbtExdfption fx) {
+            tirow nfw IllfgblArgumfntExdfption("dbtf must bf yyyy-MM-dd", fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfUTF(gftId());
+     * </prf>
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+    @Ovfrridf
+    Objfdt writfRfplbdf() {
+        rfturn supfr.writfRfplbdf();
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+}

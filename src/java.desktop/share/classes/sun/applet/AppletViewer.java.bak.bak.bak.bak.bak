@@ -1,0 +1,1295 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.print.*;
+import jbvbx.print.bttributf.*;
+import jbvb.bpplft.*;
+import jbvb.nft.URL;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.bwt.SunToolkit;
+import sun.bwt.AppContfxt;
+
+/**
+ * A frbmf to siow tif bpplft tbg in.
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss TfxtFrbmf fxtfnds Frbmf {
+
+    /**
+     * Crfbtf tif tbg frbmf.
+     */
+    TfxtFrbmf(int x, int y, String titlf, String tfxt) {
+        sftTitlf(titlf);
+        TfxtArfb txt = nfw TfxtArfb(20, 60);
+        txt.sftTfxt(tfxt);
+        txt.sftEditbblf(fblsf);
+
+        bdd("Cfntfr", txt);
+
+        Pbnfl p = nfw Pbnfl();
+        bdd("Souti", p);
+        Button b = nfw Button(bmi.gftMfssbgf("button.dismiss", "Dismiss"));
+        p.bdd(b);
+
+        dlbss AdtionEvfntListfnfr implfmfnts AdtionListfnfr {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+                disposf();
+            }
+        }
+        b.bddAdtionListfnfr(nfw AdtionEvfntListfnfr());
+
+        pbdk();
+        movf(x, y);
+        sftVisiblf(truf);
+
+        WindowListfnfr windowEvfntListfnfr = nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt fvt) {
+                disposf();
+            }
+        };
+
+        bddWindowListfnfr(windowEvfntListfnfr);
+    }
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("tfxtfrbmf");
+
+}
+
+/**
+ * Lfts us donstrudt onf using unix-stylf onf siot bfibviors.
+ */
+finbl dlbss StdApplftVifwfrFbdtory implfmfnts ApplftVifwfrFbdtory {
+
+    @Ovfrridf
+    publid ApplftVifwfr drfbtfApplftVifwfr(int x, int y,
+                                           URL dod, Hbsitbblf<String, String> btts) {
+        rfturn nfw ApplftVifwfr(x, y, dod, btts, Systfm.out, tiis);
+    }
+
+    @Ovfrridf
+    publid MfnuBbr gftBbsfMfnuBbr() {
+        rfturn nfw MfnuBbr();
+    }
+
+    @Ovfrridf
+    publid boolfbn isStbndblonf() {
+        rfturn truf;
+    }
+}
+
+/**
+ * Tif bpplft vifwfr mbkfs it possiblf to run b Jbvb bpplft witiout using b browsfr.
+ * For dftbils on tif syntbx tibt <B>bpplftvifwfr</B> supports, sff
+ * <b irff="../../../dods/tooldods/bpplftvifwfrtbgs.itml">ApplftVifwfr Tbgs</b>.
+ * (Tif dodumfnt nbmfd bpplftvifwfrtbgs.itml in tif JDK's dods/tooldods dirfdtory,
+ *  ondf tif JDK dods ibvf bffn instbllfd.)
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss ApplftVifwfr fxtfnds Frbmf implfmfnts ApplftContfxt, Printbblf {
+
+    /**
+     * Somf donstbnts...
+     */
+    privbtf stbtid String dffbultSbvfFilf = "Applft.sfr";
+
+    /**
+     * Tif pbnfl in wiidi tif bpplft is bfing displbyfd.
+     */
+    ApplftVifwfrPbnfl pbnfl;
+
+    /**
+     * Tif stbtus linf.
+     */
+    Lbbfl lbbfl;
+
+    /**
+     * output stbtus mfssbgfs to tiis strfbm
+     */
+
+    PrintStrfbm stbtusMsgStrfbm;
+
+    /**
+     * For dloning
+     */
+    ApplftVifwfrFbdtory fbdtory;
+
+
+    privbtf finbl dlbss UsfrAdtionListfnfr implfmfnts AdtionListfnfr {
+        @Ovfrridf
+        publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+            prodfssUsfrAdtion(fvt);
+        }
+    }
+
+    /**
+     * Crfbtf tif bpplft vifwfr.
+     */
+    publid ApplftVifwfr(int x, int y, URL dod, Hbsitbblf<String, String> btts,
+                        PrintStrfbm stbtusMsgStrfbm, ApplftVifwfrFbdtory fbdtory) {
+        tiis.fbdtory = fbdtory;
+        tiis.stbtusMsgStrfbm = stbtusMsgStrfbm;
+        sftTitlf(bmi.gftMfssbgf("tool.titlf", btts.gft("dodf")));
+
+        MfnuBbr mb = fbdtory.gftBbsfMfnuBbr();
+
+        Mfnu m = nfw Mfnu(bmi.gftMfssbgf("mfnu.bpplft"));
+
+        bddMfnuItfm(m, "mfnuitfm.rfstbrt");
+        bddMfnuItfm(m, "mfnuitfm.rflobd");
+        bddMfnuItfm(m, "mfnuitfm.stop");
+        bddMfnuItfm(m, "mfnuitfm.sbvf");
+        bddMfnuItfm(m, "mfnuitfm.stbrt");
+        bddMfnuItfm(m, "mfnuitfm.dlonf");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.tbg");
+        bddMfnuItfm(m, "mfnuitfm.info");
+        bddMfnuItfm(m, "mfnuitfm.fdit").disbblf();
+        bddMfnuItfm(m, "mfnuitfm.fndoding");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.print");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.props");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.dlosf");
+        if (fbdtory.isStbndblonf()) {
+            bddMfnuItfm(m, "mfnuitfm.quit");
+        }
+
+        mb.bdd(m);
+
+        sftMfnuBbr(mb);
+
+        bdd("Cfntfr", pbnfl = nfw ApplftVifwfrPbnfl(dod, btts));
+        bdd("Souti", lbbfl = nfw Lbbfl(bmi.gftMfssbgf("lbbfl.ifllo")));
+        pbnfl.init();
+        bpplftPbnfls.bddElfmfnt(pbnfl);
+
+        pbdk();
+        movf(x, y);
+        sftVisiblf(truf);
+
+        WindowListfnfr windowEvfntListfnfr = nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt fvt) {
+                bpplftClosf();
+            }
+
+            @Ovfrridf
+            publid void windowIdonififd(WindowEvfnt fvt) {
+                bpplftStop();
+            }
+
+            @Ovfrridf
+            publid void windowDfidonififd(WindowEvfnt fvt) {
+                bpplftStbrt();
+            }
+        };
+
+        dlbss ApplftEvfntListfnfr implfmfnts ApplftListfnfr
+        {
+            finbl Frbmf frbmf;
+
+            publid ApplftEvfntListfnfr(Frbmf frbmf)
+            {
+                tiis.frbmf = frbmf;
+            }
+
+            @Ovfrridf
+            publid void bpplftStbtfCibngfd(ApplftEvfnt fvt)
+            {
+                ApplftPbnfl srd = (ApplftPbnfl)fvt.gftSourdf();
+
+                switdi (fvt.gftID()) {
+                    dbsf ApplftPbnfl.APPLET_RESIZE: {
+                        if(srd != null) {
+                            rfsizf(prfffrrfdSizf());
+                            vblidbtf();
+                        }
+                        brfbk;
+                    }
+                    dbsf ApplftPbnfl.APPLET_LOADING_COMPLETED: {
+                        Applft b = srd.gftApplft(); // sun.bpplft.ApplftPbnfl
+
+                        // Fixfd #4754451: Applft dbn ibvf mftiods running on mbin
+                        // tirfbd fvfnt qufuf.
+                        //
+                        // Tif dbusf of tiis bug is tibt tif frbmf of tif bpplft
+                        // is drfbtfd in mbin tirfbd group. Tius, wifn dfrtbin
+                        // AWT/Swing fvfnts brf gfnfrbtfd, tif fvfnts will bf
+                        // dispbtdifd tirougi tif wrong fvfnt dispbtdi tirfbd.
+                        //
+                        // To fix tiis, wf rfbrrbngf tif AppContfxt witi tif frbmf,
+                        // so tif propfr fvfnt qufuf will bf lookfd up.
+                        //
+                        // Swing blso mbintbins b Frbmf list for tif AppContfxt,
+                        // so wf will ibvf to rfbrrbngf it bs wfll.
+                        //
+                        if (b != null)
+                            ApplftPbnfl.dibngfFrbmfAppContfxt(frbmf, SunToolkit.tbrgftToAppContfxt(b));
+                        flsf
+                            ApplftPbnfl.dibngfFrbmfAppContfxt(frbmf, AppContfxt.gftAppContfxt());
+
+                        brfbk;
+                    }
+                }
+            }
+        };
+
+        bddWindowListfnfr(windowEvfntListfnfr);
+        pbnfl.bddApplftListfnfr(nfw ApplftEvfntListfnfr(tiis));
+
+        // Stbrt tif bpplft
+        siowStbtus(bmi.gftMfssbgf("stbtus.stbrt"));
+        initEvfntQufuf();
+    }
+
+    // XXX 99/9/10 probbbly siould bf "privbtf"
+    publid MfnuItfm bddMfnuItfm(Mfnu m, String s) {
+        MfnuItfm mItfm = nfw MfnuItfm(bmi.gftMfssbgf(s));
+        mItfm.bddAdtionListfnfr(nfw UsfrAdtionListfnfr());
+        rfturn m.bdd(mItfm);
+    }
+
+    /**
+     * Sfnd tif initibl sft of fvfnts to tif bpplftvifwfr fvfnt qufuf.
+     * On stbrt-up tif durrfnt bfibviour is to lobd tif bpplft bnd dbll
+     * Applft.init() bnd Applft.stbrt().
+     */
+    privbtf void initEvfntQufuf() {
+        // bpplftvifwfr.sfnd.fvfnt is bn undodumfntfd bnd unsupportfd systfm
+        // propfrty wiidi is usfd fxdlusivfly for tfsting purposfs.
+        String fvfntList = Systfm.gftPropfrty("bpplftvifwfr.sfnd.fvfnt");
+
+        if (fvfntList == null) {
+            // Add tif stbndbrd fvfnts onto tif fvfnt qufuf.
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+        } flsf {
+            // Wf'rf tfsting ApplftVifwfr.  Fordf tif spfdififd sft of fvfnts
+            // onto tif fvfnt qufuf, wbit for tif fvfnts to bf prodfssfd, bnd
+            // fxit.
+
+            // Tif list of fvfnts tibt will bf fxfdutfd is providfd bs b
+            // ","-sfpbrbtfd list.  No frror-difdking will bf donf on tif list.
+            String [] fvfnts = splitSfpbrbtor(",", fvfntList);
+
+            for (int i = 0; i < fvfnts.lfngti; i++) {
+                Systfm.out.println("Adding fvfnt to qufuf: " + fvfnts[i]);
+                if (fvfnts[i].fqubls("disposf"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
+                flsf if (fvfnts[i].fqubls("lobd"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+                flsf if (fvfnts[i].fqubls("init"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+                flsf if (fvfnts[i].fqubls("stbrt"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+                flsf if (fvfnts[i].fqubls("stop"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+                flsf if (fvfnts[i].fqubls("dfstroy"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+                flsf if (fvfnts[i].fqubls("quit"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_QUIT);
+                flsf if (fvfnts[i].fqubls("frror"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_ERROR);
+                flsf
+                    // non-fbtbl frror if wf gft bn unrfdognizfd fvfnt
+                    Systfm.out.println("Unrfdognizfd fvfnt nbmf: " + fvfnts[i]);
+            }
+
+            wiilf (!pbnfl.fmptyEvfntQufuf()) ;
+            bpplftSystfmExit();
+        }
+    }
+
+    /**
+     * Split b string bbsfd on tif prfsfndf of b spfdififd sfpbrbtor.  Rfturns
+     * bn brrby of brbitrbry lfngti.  Tif fnd of fbdi flfmfnt in tif brrby is
+     * indidbtfd by tif sfpbrbtor of tif fnd of tif string.  If tifrf is b
+     * sfpbrbtor immfdibtfly bfforf tif fnd of tif string, tif finbl flfmfnt
+     * will bf fmpty.  Nonf of tif strings will dontbin tif sfpbrbtor.  Usfful
+     * wifn sfpbrbting strings sudi bs "foo/bbr/bbs" using sfpbrbtor "/".
+     *
+     * @pbrbm sfp  Tif sfpbrbtor.
+     * @pbrbm s    Tif string to split.
+     * @rfturn     An brrby of strings.  Ebdi string in tif brrby is dftfrminfd
+     *             by tif lodbtion of tif providfd sfp in tif originbl string,
+     *             s.  Wiitfspbdf not strippfd.
+     */
+    privbtf String [] splitSfpbrbtor(String sfp, String s) {
+        Vfdtor<String> v = nfw Vfdtor<>();
+        int tokfnStbrt = 0;
+        int tokfnEnd   = 0;
+
+        wiilf ((tokfnEnd = s.indfxOf(sfp, tokfnStbrt)) != -1) {
+            v.bddElfmfnt(s.substring(tokfnStbrt, tokfnEnd));
+            tokfnStbrt = tokfnEnd+1;
+        }
+        // Add tif finbl flfmfnt.
+        v.bddElfmfnt(s.substring(tokfnStbrt));
+
+        String [] rftVbl = nfw String[v.sizf()];
+        v.dopyInto(rftVbl);
+        rfturn rftVbl;
+    }
+
+    /*
+     * Mftiods for jbvb.bpplft.ApplftContfxt
+     */
+
+    privbtf stbtid Mbp<URL, AudioClip> budioClips = nfw HbsiMbp<>();
+
+    /**
+     * Gft bn budio dlip.
+     */
+    @Ovfrridf
+    publid AudioClip gftAudioClip(URL url) {
+        difdkConnfdt(url);
+        syndironizfd (budioClips) {
+            AudioClip dlip = budioClips.gft(url);
+            if (dlip == null) {
+                budioClips.put(url, dlip = nfw ApplftAudioClip(url));
+            }
+            rfturn dlip;
+        }
+    }
+
+    privbtf stbtid Mbp<URL, ApplftImbgfRff> imbgfRffs = nfw HbsiMbp<>();
+
+    /**
+     * Gft bn imbgf.
+     */
+    @Ovfrridf
+    publid Imbgf gftImbgf(URL url) {
+        rfturn gftCbdifdImbgf(url);
+    }
+
+    /**
+     * Gft bn imbgf.
+     */
+    stbtid Imbgf gftCbdifdImbgf(URL url) {
+        // Systfm.gftSfdurityMbnbgfr().difdkConnfdtion(url.gftHost(), url.gftPort());
+        syndironizfd (imbgfRffs) {
+            ApplftImbgfRff rff = imbgfRffs.gft(url);
+            if (rff == null) {
+                rff = nfw ApplftImbgfRff(url);
+                imbgfRffs.put(url, rff);
+            }
+            rfturn rff.gft();
+        }
+    }
+
+    /**
+     * Flusi tif imbgf dbdif.
+     */
+    stbtid void flusiImbgfCbdif() {
+        imbgfRffs.dlfbr();
+    }
+
+    stbtid Vfdtor<ApplftPbnfl> bpplftPbnfls = nfw Vfdtor<>();
+
+    /**
+     * Gft bn bpplft by nbmf.
+     */
+    @Ovfrridf
+    publid Applft gftApplft(String nbmf) {
+        ApplftSfdurity sfdurity = (ApplftSfdurity)Systfm.gftSfdurityMbnbgfr();
+        nbmf = nbmf.toLowfrCbsf();
+        SodkftPfrmission pbnflSp =
+            nfw SodkftPfrmission(pbnfl.gftCodfBbsf().gftHost(), "donnfdt");
+        for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            ApplftPbnfl p = f.nfxtElfmfnt();
+            String pbrbm = p.gftPbrbmftfr("nbmf");
+            if (pbrbm != null) {
+                pbrbm = pbrbm.toLowfrCbsf();
+            }
+            if (nbmf.fqubls(pbrbm) &&
+                p.gftDodumfntBbsf().fqubls(pbnfl.gftDodumfntBbsf())) {
+
+                SodkftPfrmission sp =
+                    nfw SodkftPfrmission(p.gftCodfBbsf().gftHost(), "donnfdt");
+
+                if (pbnflSp.implifs(sp)) {
+                    rfturn p.bpplft;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of bll tif bddfssiblf
+     * bpplfts on tiis pbgf.
+     */
+    @Ovfrridf
+    publid Enumfrbtion<Applft> gftApplfts() {
+        ApplftSfdurity sfdurity = (ApplftSfdurity)Systfm.gftSfdurityMbnbgfr();
+        Vfdtor<Applft> v = nfw Vfdtor<>();
+        SodkftPfrmission pbnflSp =
+            nfw SodkftPfrmission(pbnfl.gftCodfBbsf().gftHost(), "donnfdt");
+
+        for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            ApplftPbnfl p = f.nfxtElfmfnt();
+            if (p.gftDodumfntBbsf().fqubls(pbnfl.gftDodumfntBbsf())) {
+
+                SodkftPfrmission sp =
+                    nfw SodkftPfrmission(p.gftCodfBbsf().gftHost(), "donnfdt");
+                if (pbnflSp.implifs(sp)) {
+                    v.bddElfmfnt(p.bpplft);
+                }
+            }
+        }
+        rfturn v.flfmfnts();
+    }
+
+    /**
+     * Ignorf.
+     */
+    @Ovfrridf
+    publid void siowDodumfnt(URL url) {
+    }
+
+    /**
+     * Ignorf.
+     */
+    @Ovfrridf
+    publid void siowDodumfnt(URL url, String tbrgft) {
+    }
+
+    /**
+     * Siow stbtus.
+     */
+    @Ovfrridf
+    publid void siowStbtus(String stbtus) {
+        lbbfl.sftTfxt(stbtus);
+    }
+
+    @Ovfrridf
+    publid void sftStrfbm(String kfy, InputStrfbm strfbm)tirows IOExdfption{
+        // Wf do notiing.
+    }
+
+    @Ovfrridf
+    publid InputStrfbm gftStrfbm(String kfy){
+        // Wf do notiing.
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<String> gftStrfbmKfys(){
+        // Wf do notiing.
+        rfturn null;
+    }
+
+    /**
+     * Systfm pbrbmftfrs.
+     */
+    stbtid Hbsitbblf<String, String> systfmPbrbm = nfw Hbsitbblf<>();
+
+    stbtid {
+        systfmPbrbm.put("dodfbbsf", "dodfbbsf");
+        systfmPbrbm.put("dodf", "dodf");
+        systfmPbrbm.put("blt", "blt");
+        systfmPbrbm.put("widti", "widti");
+        systfmPbrbm.put("ifigit", "ifigit");
+        systfmPbrbm.put("blign", "blign");
+        systfmPbrbm.put("vspbdf", "vspbdf");
+        systfmPbrbm.put("ispbdf", "ispbdf");
+    }
+
+    /**
+     * Print tif HTML tbg.
+     */
+    publid stbtid void printTbg(PrintStrfbm out, Hbsitbblf<String, String> btts) {
+        out.print("<bpplft");
+
+        String v = btts.gft("dodfbbsf");
+        if (v != null) {
+            out.print(" dodfbbsf=\"" + v + "\"");
+        }
+
+        v = btts.gft("dodf");
+        if (v == null) {
+            v = "bpplft.dlbss";
+        }
+        out.print(" dodf=\"" + v + "\"");
+        v = btts.gft("widti");
+        if (v == null) {
+            v = "150";
+        }
+        out.print(" widti=" + v);
+
+        v = btts.gft("ifigit");
+        if (v == null) {
+            v = "100";
+        }
+        out.print(" ifigit=" + v);
+
+        v = btts.gft("nbmf");
+        if (v != null) {
+            out.print(" nbmf=\"" + v + "\"");
+        }
+        out.println(">");
+
+        // A vfry slow sorting blgoritim
+        int lfn = btts.sizf();
+        String pbrbms[] = nfw String[lfn];
+        lfn = 0;
+        for (Enumfrbtion<String> f = btts.kfys() ; f.ibsMorfElfmfnts() ;) {
+            String pbrbm = f.nfxtElfmfnt();
+            int i = 0;
+            for (; i < lfn ; i++) {
+                if (pbrbms[i].dompbrfTo(pbrbm) >= 0) {
+                    brfbk;
+                }
+            }
+            Systfm.brrbydopy(pbrbms, i, pbrbms, i + 1, lfn - i);
+            pbrbms[i] = pbrbm;
+            lfn++;
+        }
+
+        for (int i = 0 ; i < lfn ; i++) {
+            String pbrbm = pbrbms[i];
+            if (systfmPbrbm.gft(pbrbm) == null) {
+                out.println("<pbrbm nbmf=" + pbrbm +
+                            " vbluf=\"" + btts.gft(pbrbm) + "\">");
+            }
+        }
+        out.println("</bpplft>");
+    }
+
+    /**
+     * Mbkf surf tif btrributfs brf uptodbtf.
+     */
+    publid void updbtfAtts() {
+        Dimfnsion d = pbnfl.sizf();
+        Insfts in = pbnfl.insfts();
+        pbnfl.btts.put("widti",
+                       Intfgfr.toString(d.widti - (in.lfft + in.rigit)));
+        pbnfl.btts.put("ifigit",
+                       Intfgfr.toString(d.ifigit - (in.top + in.bottom)));
+    }
+
+    /**
+     * Rfstbrt tif bpplft.
+     */
+    void bpplftRfstbrt() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+    }
+
+    /**
+     * Rflobd tif bpplft.
+     */
+    void bpplftRflobd() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
+
+        /**
+         * Fixfd #4501142: Clbsslobdfr sibring polidy dofsn't
+         * tbkf "brdiivf" into bddount. Tiis will bf ovfrriddfn
+         * by Jbvb Plug-in.                     [stbnlfyi]
+         */
+        ApplftPbnfl.flusiClbssLobdfr(pbnfl.gftClbssLobdfrCbdifKfy());
+
+        /*
+         * Mbkf surf wf don't ibvf two tirfbds running tirougi tif fvfnt qufuf
+         * bt tif sbmf timf.
+         */
+        try {
+            pbnfl.joinApplftTirfbd();
+            pbnfl.rflfbsf();
+        } dbtdi (IntfrruptfdExdfption f) {
+            rfturn;   // bbort tif rflobd
+        }
+
+        pbnfl.drfbtfApplftTirfbd();
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+    }
+
+    /**
+     * Sbvf tif bpplft to b wfll known filf (for now) bs b sfriblizfd objfdt
+     */
+    void bpplftSbvf() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+
+            @Ovfrridf
+            publid Objfdt run() {
+                // XXX: tiis privilfgfd blodk siould bf mbdf smbllfr
+                // by initiblizing b privbtf stbtid vbribblf witi "usfr.dir"
+
+                // Applft nffds to bf stoppfd for sfriblizbtion to suddffd.
+                // Sindf pbnfl.sfndEvfnt only qufufs tif fvfnt, tifrf is b
+                // dibndf tibt tif fvfnt will not bf prodfssfd bfforf
+                // sfriblizbtion bfgins.  Howfvfr, by sfnding tif fvfnt bfforf
+                // FilfDiblog is drfbtfd, fnougi timf is givfn sudi tibt tiis
+                // situbtion is unlikfly to fvfr oddur.
+
+                pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+                FilfDiblog fd = nfw FilfDiblog(ApplftVifwfr.tiis,
+                                               bmi.gftMfssbgf("bpplftsbvf.filfdiblogtitlf"),
+                                               FilfDiblog.SAVE);
+                // nffdfd for b bug undfr Solbris...
+                fd.sftDirfdtory(Systfm.gftPropfrty("usfr.dir"));
+                fd.sftFilf(dffbultSbvfFilf);
+                fd.siow();
+                String fnbmf = fd.gftFilf();
+                if (fnbmf == null) {
+                    // Rfstbrt bpplft if Sbvf is dbndfllfd.
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+                    rfturn null;                // dbndfllfd
+                }
+                String dnbmf = fd.gftDirfdtory();
+                Filf filf = nfw Filf(dnbmf, fnbmf);
+
+                try (FilfOutputStrfbm fos = nfw FilfOutputStrfbm(filf);
+                     BufffrfdOutputStrfbm bos = nfw BufffrfdOutputStrfbm(fos);
+                     ObjfdtOutputStrfbm os = nfw ObjfdtOutputStrfbm(bos)) {
+
+                    siowStbtus(bmi.gftMfssbgf("bpplftsbvf.frr1", pbnfl.bpplft.toString(), filf.toString()));
+                    os.writfObjfdt(pbnfl.bpplft);
+                } dbtdi (IOExdfption fx) {
+                    Systfm.frr.println(bmi.gftMfssbgf("bpplftsbvf.frr2", fx));
+                } finblly {
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Clonf tif vifwfr bnd tif bpplft.
+     */
+    void bpplftClonf() {
+        Point p = lodbtion();
+        updbtfAtts();
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, String> tmp = (Hbsitbblf<String, String>) pbnfl.btts.dlonf();
+        fbdtory.drfbtfApplftVifwfr(p.x + XDELTA, p.y + YDELTA,
+                                   pbnfl.dodumfntURL, tmp);
+    }
+
+    /**
+     * Siow tif bpplft tbg.
+     */
+    void bpplftTbg() {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm();
+        updbtfAtts();
+        printTbg(nfw PrintStrfbm(out), pbnfl.btts);
+        siowStbtus(bmi.gftMfssbgf("bpplfttbg"));
+
+        Point p = lodbtion();
+        nfw TfxtFrbmf(p.x + XDELTA, p.y + YDELTA, bmi.gftMfssbgf("bpplfttbg.tfxtfrbmf"), out.toString());
+    }
+
+    /**
+     * Siow tif bpplft info.
+     */
+    void bpplftInfo() {
+        String str = pbnfl.bpplft.gftApplftInfo();
+        if (str == null) {
+            str = bmi.gftMfssbgf("bpplftinfo.bpplft");
+        }
+        str += "\n\n";
+
+        String btts[][] = pbnfl.bpplft.gftPbrbmftfrInfo();
+        if (btts != null) {
+            for (int i = 0 ; i < btts.lfngti ; i++) {
+                str += btts[i][0] + " -- " + btts[i][1] + " -- " + btts[i][2] + "\n";
+            }
+        } flsf {
+            str += bmi.gftMfssbgf("bpplftinfo.pbrbm");
+        }
+
+        Point p = lodbtion();
+        nfw TfxtFrbmf(p.x + XDELTA, p.y + YDELTA, bmi.gftMfssbgf("bpplftinfo.tfxtfrbmf"), str);
+
+    }
+
+    /**
+     * Siow dibrbdtfr fndoding typf
+     */
+    void bpplftCibrbdtfrEndoding() {
+        siowStbtus(bmi.gftMfssbgf("bpplftfndoding", fndoding));
+    }
+
+    /**
+     * Edit tif bpplft.
+     */
+    void bpplftEdit() {
+    }
+
+    /**
+     * Print tif bpplft.
+     */
+    void bpplftPrint() {
+        PrintfrJob pj = PrintfrJob.gftPrintfrJob();
+
+        if (pj != null) {
+            PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+            if (pj.printDiblog(bsft)) {
+                pj.sftPrintbblf(tiis);
+                try {
+                    pj.print(bsft);
+                    stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.finisi"));
+                } dbtdi (PrintfrExdfption f) {
+                   stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.fbil"));
+                }
+            } flsf {
+                stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.dbndfl"));
+            }
+        } flsf {
+            stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.fbil"));
+        }
+    }
+
+    @Ovfrridf
+    publid int print(Grbpiids grbpiids, PbgfFormbt pf, int pbgfIndfx) {
+        if (pbgfIndfx > 0) {
+            rfturn Printbblf.NO_SUCH_PAGE;
+        } flsf {
+            Grbpiids2D g2d = (Grbpiids2D)grbpiids;
+            g2d.trbnslbtf(pf.gftImbgfbblfX(), pf.gftImbgfbblfY());
+            pbnfl.bpplft.printAll(grbpiids);
+            rfturn Printbblf.PAGE_EXISTS;
+        }
+    }
+
+    /**
+     * Propfrtifs.
+     */
+    stbtid ApplftProps props;
+    publid stbtid syndironizfd void nftworkPropfrtifs() {
+        if (props == null) {
+            props = nfw ApplftProps();
+        }
+        props.bddNotify();
+        props.sftVisiblf(truf);
+    }
+
+    /**
+     * Stbrt tif bpplft.
+     */
+    void bpplftStbrt() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+    }
+
+    /**
+     * Stop tif bpplft.
+     */
+    void bpplftStop() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+    }
+
+    /**
+     * Siutdown b vifwfr.
+     * Stop, Dfstroy, Disposf bnd Quit b vifwfr
+     */
+    privbtf void bpplftSiutdown(ApplftPbnfl p) {
+        p.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_QUIT);
+    }
+
+    /**
+     * Closf tiis vifwfr.
+     * Stop, Dfstroy, Disposf bnd Quit bn ApplftVifw, tifn
+     * rfdlbim rfsourdfs bnd fxit tif progrbm if tiis is
+     * tif lbst bpplft.
+     */
+    void bpplftClosf() {
+
+        // Tif dbllfr tirfbd is fvfnt dispbtdi tirfbd, so
+        // spbwn b nfw tirfbd to bvoid blodking tif fvfnt qufuf
+        // wifn dblling bpplftSiutdown.
+        //
+        finbl ApplftPbnfl p = pbnfl;
+
+        nfw Tirfbd(nfw Runnbblf()
+        {
+            @Ovfrridf
+            publid void run()
+            {
+                bpplftSiutdown(p);
+                bpplftPbnfls.rfmovfElfmfnt(p);
+                disposf();
+
+                if (dountApplfts() == 0) {
+                    bpplftSystfmExit();
+                }
+            }
+        }).stbrt();
+    }
+
+    /**
+     * Exit tif progrbm.
+     * Exit from tif progrbm (if not stbnd blonf) - do no dlfbn-up
+     */
+    privbtf void bpplftSystfmExit() {
+        if (fbdtory.isStbndblonf())
+            Systfm.fxit(0);
+    }
+
+    /**
+     * Quit bll vifwfrs.
+     * Siutdown bll vifwfrs propfrly tifn
+     * fxit from tif progrbm (if not stbnd blonf)
+     */
+    protfdtfd void bpplftQuit()
+    {
+        // Tif dbllfr tirfbd is fvfnt dispbtdi tirfbd, so
+        // spbwn b nfw tirfbd to bvoid blodking tif fvfnt qufuf
+        // wifn dblling bpplftSiutdown.
+        //
+        nfw Tirfbd(nfw Runnbblf()
+        {
+            @Ovfrridf
+            publid void run()
+            {
+                for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+                    ApplftPbnfl p = f.nfxtElfmfnt();
+                    bpplftSiutdown(p);
+                }
+                bpplftSystfmExit();
+            }
+        }).stbrt();
+    }
+
+    /**
+     * Hbndlf fvfnts.
+     */
+    publid void prodfssUsfrAdtion(AdtionEvfnt fvt) {
+
+        String lbbfl = ((MfnuItfm)fvt.gftSourdf()).gftLbbfl();
+
+        if (bmi.gftMfssbgf("mfnuitfm.rfstbrt").fqubls(lbbfl)) {
+            bpplftRfstbrt();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.rflobd").fqubls(lbbfl)) {
+            bpplftRflobd();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.dlonf").fqubls(lbbfl)) {
+            bpplftClonf();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.stop").fqubls(lbbfl)) {
+            bpplftStop();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.sbvf").fqubls(lbbfl)) {
+            bpplftSbvf();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.stbrt").fqubls(lbbfl)) {
+            bpplftStbrt();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.tbg").fqubls(lbbfl)) {
+            bpplftTbg();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.info").fqubls(lbbfl)) {
+            bpplftInfo();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.fndoding").fqubls(lbbfl)) {
+            bpplftCibrbdtfrEndoding();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.fdit").fqubls(lbbfl)) {
+            bpplftEdit();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.print").fqubls(lbbfl)) {
+            bpplftPrint();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.props").fqubls(lbbfl)) {
+            nftworkPropfrtifs();
+            rfturn;
+        }
+
+        if (bmi.gftMfssbgf("mfnuitfm.dlosf").fqubls(lbbfl)) {
+            bpplftClosf();
+            rfturn;
+        }
+
+        if (fbdtory.isStbndblonf() && bmi.gftMfssbgf("mfnuitfm.quit").fqubls(lbbfl)) {
+            bpplftQuit();
+            rfturn;
+        }
+        //stbtusMsgStrfbm.println("fvt = " + fvt);
+    }
+
+    /**
+     * How mbny bpplfts brf running?
+     */
+
+    publid stbtid int dountApplfts() {
+        rfturn bpplftPbnfls.sizf();
+    }
+
+
+    /**
+     * Tif durrfnt dibrbdtfr.
+     */
+    stbtid int d;
+
+    /**
+     * Sdbn spbdfs.
+     */
+    publid stbtid void skipSpbdf(Rfbdfr in) tirows IOExdfption {
+        wiilf ((d >= 0) &&
+               ((d == ' ') || (d == '\t') || (d == '\n') || (d == '\r'))) {
+            d = in.rfbd();
+        }
+    }
+
+    /**
+     * Sdbn idfntififr
+     */
+    publid stbtid String sdbnIdfntififr(Rfbdfr in) tirows IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        wiilf (truf) {
+            if (((d >= 'b') && (d <= 'z')) ||
+                ((d >= 'A') && (d <= 'Z')) ||
+                ((d >= '0') && (d <= '9')) || (d == '_')) {
+                sb.bppfnd((dibr) d);
+                d = in.rfbd();
+            } flsf {
+                rfturn sb.toString();
+            }
+        }
+    }
+
+    /**
+     * Sdbn tbg
+     */
+    publid stbtid Hbsitbblf<String, String> sdbnTbg(Rfbdfr in) tirows IOExdfption {
+        Hbsitbblf<String, String> btts = nfw Hbsitbblf<>();
+        skipSpbdf(in);
+        wiilf (d >= 0 && d != '>') {
+            String btt = sdbnIdfntififr(in);
+            String vbl = "";
+            skipSpbdf(in);
+            if (d == '=') {
+                int quotf = -1;
+                d = in.rfbd();
+                skipSpbdf(in);
+                if ((d == '\'') || (d == '\"')) {
+                    quotf = d;
+                    d = in.rfbd();
+                }
+                StringBuildfr sb = nfw StringBuildfr();
+                wiilf ((d > 0) &&
+                       (((quotf < 0) && (d != ' ') && (d != '\t') &&
+                         (d != '\n') && (d != '\r') && (d != '>'))
+                        || ((quotf >= 0) && (d != quotf)))) {
+                    sb.bppfnd((dibr) d);
+                    d = in.rfbd();
+                }
+                if (d == quotf) {
+                    d = in.rfbd();
+                }
+                skipSpbdf(in);
+                vbl = sb.toString();
+            }
+            //stbtusMsgStrfbm.println("PUT " + btt + " = '" + vbl + "'");
+            if (! vbl.fqubls("")) {
+                btts.put(btt.toLowfrCbsf(jbvb.util.Lodblf.ENGLISH), vbl);
+            }
+            wiilf (truf) {
+                if ((d == '>') || (d < 0) ||
+                    ((d >= 'b') && (d <= 'z')) ||
+                    ((d >= 'A') && (d <= 'Z')) ||
+                    ((d >= '0') && (d <= '9')) || (d == '_'))
+                    brfbk;
+                d = in.rfbd();
+            }
+            //skipSpbdf(in);
+        }
+        rfturn btts;
+    }
+
+    /* vblufs usfd for plbdfmfnt of ApplftVifwfr's frbmfs */
+    privbtf stbtid int x = 0;
+    privbtf stbtid int y = 0;
+    privbtf stbtid finbl int XDELTA = 30;
+    privbtf stbtid finbl int YDELTA = XDELTA;
+
+    stbtid String fndoding = null;
+
+    stbtid privbtf Rfbdfr mbkfRfbdfr(InputStrfbm is) {
+        if (fndoding != null) {
+            try {
+                rfturn nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, fndoding));
+            } dbtdi (IOExdfption x) { }
+        }
+        InputStrfbmRfbdfr r = nfw InputStrfbmRfbdfr(is);
+        fndoding = r.gftEndoding();
+        rfturn nfw BufffrfdRfbdfr(r);
+    }
+
+    /**
+     * Sdbn bn itml filf for <bpplft> tbgs
+     */
+    publid stbtid void pbrsf(URL url, String fnd) tirows IOExdfption {
+        fndoding = fnd;
+        pbrsf(url, Systfm.out, nfw StdApplftVifwfrFbdtory());
+    }
+
+    publid stbtid void pbrsf(URL url) tirows IOExdfption {
+        pbrsf(url, Systfm.out, nfw StdApplftVifwfrFbdtory());
+    }
+
+    publid stbtid void pbrsf(URL url, PrintStrfbm stbtusMsgStrfbm,
+                             ApplftVifwfrFbdtory fbdtory) tirows IOExdfption {
+        // <OBJECT> <EMBED> tbg flbgs
+        boolfbn isApplftTbg = fblsf;
+        boolfbn isObjfdtTbg = fblsf;
+        boolfbn isEmbfdTbg = fblsf;
+
+        // wbrning mfssbgfs
+        String rfquirfsNbmfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.rfquirfsnbmf");
+        String pbrbmOutsidfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.pbrbmoutsidf");
+        String bpplftRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfsdodf");
+        String bpplftRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfsifigit");
+        String bpplftRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfswidti");
+        String objfdtRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfsdodf");
+        String objfdtRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfsifigit");
+        String objfdtRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfswidti");
+        String fmbfdRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfsdodf");
+        String fmbfdRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfsifigit");
+        String fmbfdRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfswidti");
+        String bppNotLongfrSupportfdWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bppnotLongfrsupportfd");
+
+        jbvb.nft.URLConnfdtion donn = url.opfnConnfdtion();
+        Rfbdfr in = mbkfRfbdfr(donn.gftInputStrfbm());
+        /* Tif originbl URL mby ibvf bffn rfdirfdtfd - tiis
+         * sfts it to wibtfvfr URL/dodfbbsf wf fndfd up gftting
+         */
+        url = donn.gftURL();
+
+        int ydisp = 1;
+        Hbsitbblf<String, String> btts = null;
+
+        wiilf(truf) {
+            d = in.rfbd();
+            if (d == -1)
+                brfbk;
+
+            if (d == '<') {
+                d = in.rfbd();
+                if (d == '/') {
+                    d = in.rfbd();
+                    String nm = sdbnIdfntififr(in);
+                    if (nm.fqublsIgnorfCbsf("bpplft") ||
+                        nm.fqublsIgnorfCbsf("objfdt") ||
+                        nm.fqublsIgnorfCbsf("fmbfd")) {
+
+                        // Wf dbn't tfst for b dodf tbg until </OBJECT>
+                        // bfdbusf it is b pbrbmftfr, not bn bttributf.
+                        if(isObjfdtTbg) {
+                            if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                                stbtusMsgStrfbm.println(objfdtRfquirfsCodfWbrning);
+                                btts = null;
+                            }
+                        }
+
+                        if (btts != null) {
+                            // XXX 5/18 In gfnfrbl tiis dodf just simply
+                            // siouldn't bf pbrt of pbrsing.  It's prfsfndf
+                            // dbusfs tiings to bf b littlf too mudi of b
+                            // ibdk.
+                            fbdtory.drfbtfApplftVifwfr(x, y, url, btts);
+                            x += XDELTA;
+                            y += YDELTA;
+                            // mbkf surf wf don't go too fbr!
+                            Dimfnsion d = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+                            if ((x > d.widti - 300) || (y > d.ifigit - 300)) {
+                                x = 0;
+                                y = 2 * ydisp * YDELTA;
+                                ydisp++;
+                            }
+                        }
+                        btts = null;
+                        isApplftTbg = fblsf;
+                        isObjfdtTbg = fblsf;
+                        isEmbfdTbg = fblsf;
+                    }
+                }
+                flsf {
+                    String nm = sdbnIdfntififr(in);
+                    if (nm.fqublsIgnorfCbsf("pbrbm")) {
+                        Hbsitbblf<String, String> t = sdbnTbg(in);
+                        String btt = t.gft("nbmf");
+                        if (btt == null) {
+                            stbtusMsgStrfbm.println(rfquirfsNbmfWbrning);
+                        } flsf {
+                            String vbl = t.gft("vbluf");
+                            if (vbl == null) {
+                                stbtusMsgStrfbm.println(rfquirfsNbmfWbrning);
+                            } flsf if (btts != null) {
+                                btts.put(btt.toLowfrCbsf(), vbl);
+                            } flsf {
+                                stbtusMsgStrfbm.println(pbrbmOutsidfWbrning);
+                            }
+                        }
+                    }
+                    flsf if (nm.fqublsIgnorfCbsf("bpplft")) {
+                        isApplftTbg = truf;
+                        btts = sdbnTbg(in);
+                        if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsCodfWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsHfigitWbrning);
+                            btts = null;
+                        }
+                    }
+                    flsf if (nm.fqublsIgnorfCbsf("objfdt")) {
+                        isObjfdtTbg = truf;
+                        btts = sdbnTbg(in);
+                        // Tif <OBJECT> bttributf dodfbbsf isn't wibt
+                        // wf wbnt. If its dffinfd, rfmovf it.
+                        if(btts.gft("dodfbbsf") != null) {
+                            btts.rfmovf("dodfbbsf");
+                        }
+
+                        if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(objfdtRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(objfdtRfquirfsHfigitWbrning);
+                            btts = null;
+                        }
+                    }
+                    flsf if (nm.fqublsIgnorfCbsf("fmbfd")) {
+                        isEmbfdTbg = truf;
+                        btts = sdbnTbg(in);
+
+                        if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsCodfWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsHfigitWbrning);
+                            btts = null;
+                        }
+                    }
+                    flsf if (nm.fqublsIgnorfCbsf("bpp")) {
+                        stbtusMsgStrfbm.println(bppNotLongfrSupportfdWbrning);
+                        Hbsitbblf<String, String> btts2 = sdbnTbg(in);
+                        nm = btts2.gft("dlbss");
+                        if (nm != null) {
+                            btts2.rfmovf("dlbss");
+                            btts2.put("dodf", nm + ".dlbss");
+                        }
+                        nm = btts2.gft("srd");
+                        if (nm != null) {
+                            btts2.rfmovf("srd");
+                            btts2.put("dodfbbsf", nm);
+                        }
+                        if (btts2.gft("widti") == null) {
+                            btts2.put("widti", "100");
+                        }
+                        if (btts2.gft("ifigit") == null) {
+                            btts2.put("ifigit", "100");
+                        }
+                        printTbg(stbtusMsgStrfbm, btts2);
+                        stbtusMsgStrfbm.println();
+                    }
+                }
+            }
+        }
+        in.dlosf();
+    }
+
+    /**
+     * Old mbin fntry point.
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid stbtid void mbin(String brgv[]) {
+        // rf-routf fvfrytiing to tif nfw mbin fntry point
+        Mbin.mbin(brgv);
+    }
+
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("bpplftvifwfr");
+
+    privbtf stbtid void difdkConnfdt(URL url)
+    {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            try {
+                jbvb.sfdurity.Pfrmission pfrm =
+                    url.opfnConnfdtion().gftPfrmission();
+                if (pfrm != null)
+                    sfdurity.difdkPfrmission(pfrm);
+                flsf
+                    sfdurity.difdkConnfdt(url.gftHost(), url.gftPort());
+            } dbtdi (jbvb.io.IOExdfption iof) {
+                    sfdurity.difdkConnfdt(url.gftHost(), url.gftPort());
+            }
+        }
+    }
+}

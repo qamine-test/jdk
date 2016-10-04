@@ -1,114 +1,570 @@
 '\" t
-.\"  Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Troubleshooting Tools
-.\"     Title: jcmd.1
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     Titlf: jdmd.1
+.\"     Titlf: jdmd.1
+.\"     Titlf: jdmd.1
+.\"     Titlf: jdmd.1
+.\"     Titlf: jdmd.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH jcmd 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
+.TH jdmd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-jcmd \- Sends diagnostic command requests to a running Java Virtual Machine (JVM)\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdiinf (JVM)\&.
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdiinf (JVM)\&.
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdiinf (JVM)\&.
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdiinf (JVM)\&.
+jdmd \- Sfnds dibgnostid dommbnd rfqufsts to b running Jbvb Virtubl Mbdiinf (JVM)\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBjcmd\fR [\fB\-l\fR|\fB\-h\fR|\fB\-help\fR]
+
+
+
+
+\fBjdmd\fR [\fB\-l\fR|\fB\-i\fR|\fB\-iflp\fR]
+\fBjdmd\fR [\fB\-l\fR|\fB\-i\fR|\fB\-iflp\fR]
+\fBjdmd\fR [\fB\-l\fR|\fB\-i\fR|\fB\-iflp\fR]
+\fBjdmd\fR [\fB\-l\fR|\fB\-i\fR|\fB\-iflp\fR]
+\fBjdmd\fR [\fB\-l\fR|\fB\-i\fR|\fB\-iflp\fR]
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-
-\fBjcmd\fR \fIpid\fR|\fImain\-class\fR \fBPerfCounter\&.print\fR
-.fi     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBjcmd\fR \fIpid\fR|\fImain\-class\fR \fB\-f\fR \fIfilename\fR
+
+
+
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fBPfrfCountfr\&.print\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
 
-\fBjcmd\fR \fIpid\fR|\fImain\-class\fR \fIcommand\fR[ \fIarguments\fR]
+
+
+
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fB\-f\fR \fIfilfnbmf\fR
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+
+
+
+
+
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fBjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
 .SH DESCRIPTION    
-The \f3jcmd\fR utility is used to send diagnostic command requests to the JVM\&. It must be used on the same machine on which the JVM is running, and have the same effective user and group identifiers that were used to launch the JVM\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to tif JVM\&. It must bf usfd on tif sbmf mbdiinf on wiidi tif JVM is running, bnd ibvf tif sbmf ffffdtivf usfr bnd group idfntififrs tibt wfrf usfd to lbundi tif JVM\&.
+Tif \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to tif JVM\&. It must bf usfd on tif sbmf mbdiinf on wiidi tif JVM is running, bnd ibvf tif sbmf ffffdtivf usfr bnd group idfntififrs tibt wfrf usfd to lbundi tif JVM\&.
+Tif \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to tif JVM\&. It must bf usfd on tif sbmf mbdiinf on wiidi tif JVM is running, bnd ibvf tif sbmf ffffdtivf usfr bnd group idfntififrs tibt wfrf usfd to lbundi tif JVM\&.
+Tif \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to tif JVM\&. It must bf usfd on tif sbmf mbdiinf on wiidi tif JVM is running, bnd ibvf tif sbmf ffffdtivf usfr bnd group idfntififrs tibt wfrf usfd to lbundi tif JVM\&.
+Tif \f3jdmd\fR utility is usfd to sfnd dibgnostid dommbnd rfqufsts to tif JVM\&. It must bf usfd on tif sbmf mbdiinf on wiidi tif JVM is running, bnd ibvf tif sbmf ffffdtivf usfr bnd group idfntififrs tibt wfrf usfd to lbundi tif JVM\&.
 .PP
-\fINote:\fR To invoke diagnostic commands from a remote machine or with different identiers, you can use the \f3com\&.sun\&.management\&.DiagnosticCommandMBean\fR interface\&. For more information about the \f3DiagnosticCommandMBean\fR interface, see the API documentation at http://download\&.java\&.net/jdk8/docs/jre/api/management/extension/com/sun/management/DiagnosticCommandMBean\&.html
 .PP
-If you run \f3jcmd\fR without arguments or with the \f3-l\fR option, it prints the list of running Java process identifiers with the main class and command-line arguments that were used to launch the process\&. Running \f3jcmd\fR with the \f3-h\fR or \f3-help\fR option prints the tool\(cqs help message\&.
 .PP
-If you specify the processes identifier (\fIpid\fR) or the main class (\fImain-class\fR) as the first argument, \f3jcmd\fR sends the diagnostic command request to the Java process with the specified identifier or to all Java processes with the specified name of the main class\&. You can also send the diagnostic command request to all available Java processes by specifying \f30\fR as the process identifier\&. Use one of the following as the diagnostic command request:
+.PP
+.PP
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdiinf or witi difffrfnt idfntifrs, you dbn usf tif \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout tif \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff tif API dodumfntbtion bt ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itml
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdiinf or witi difffrfnt idfntifrs, you dbn usf tif \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout tif \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff tif API dodumfntbtion bt ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itml
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdiinf or witi difffrfnt idfntifrs, you dbn usf tif \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout tif \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff tif API dodumfntbtion bt ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itml
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdiinf or witi difffrfnt idfntifrs, you dbn usf tif \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout tif \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff tif API dodumfntbtion bt ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itml
+\fINotf:\fR To invokf dibgnostid dommbnds from b rfmotf mbdiinf or witi difffrfnt idfntifrs, you dbn usf tif \f3dom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fR intfrfbdf\&. For morf informbtion bbout tif \f3DibgnostidCommbndMBfbn\fR intfrfbdf, sff tif API dodumfntbtion bt ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itml
+.PP
+.PP
+.PP
+.PP
+.PP
+If you run \f3jdmd\fR witiout brgumfnts or witi tif \f3-l\fR option, it prints tif list of running Jbvb prodfss idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts tibt wfrf usfd to lbundi tif prodfss\&. Running \f3jdmd\fR witi tif \f3-i\fR or \f3-iflp\fR option prints tif tool\(dqs iflp mfssbgf\&.
+If you run \f3jdmd\fR witiout brgumfnts or witi tif \f3-l\fR option, it prints tif list of running Jbvb prodfss idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts tibt wfrf usfd to lbundi tif prodfss\&. Running \f3jdmd\fR witi tif \f3-i\fR or \f3-iflp\fR option prints tif tool\(dqs iflp mfssbgf\&.
+If you run \f3jdmd\fR witiout brgumfnts or witi tif \f3-l\fR option, it prints tif list of running Jbvb prodfss idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts tibt wfrf usfd to lbundi tif prodfss\&. Running \f3jdmd\fR witi tif \f3-i\fR or \f3-iflp\fR option prints tif tool\(dqs iflp mfssbgf\&.
+If you run \f3jdmd\fR witiout brgumfnts or witi tif \f3-l\fR option, it prints tif list of running Jbvb prodfss idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts tibt wfrf usfd to lbundi tif prodfss\&. Running \f3jdmd\fR witi tif \f3-i\fR or \f3-iflp\fR option prints tif tool\(dqs iflp mfssbgf\&.
+If you run \f3jdmd\fR witiout brgumfnts or witi tif \f3-l\fR option, it prints tif list of running Jbvb prodfss idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts tibt wfrf usfd to lbundi tif prodfss\&. Running \f3jdmd\fR witi tif \f3-i\fR or \f3-iflp\fR option prints tif tool\(dqs iflp mfssbgf\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+If you spfdify tif prodfssfs idfntififr (\fIpid\fR) or tif mbin dlbss (\fImbin-dlbss\fR) bs tif first brgumfnt, \f3jdmd\fR sfnds tif dibgnostid dommbnd rfqufst to tif Jbvb prodfss witi tif spfdififd idfntififr or to bll Jbvb prodfssfs witi tif spfdififd nbmf of tif mbin dlbss\&. You dbn blso sfnd tif dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs tif prodfss idfntififr\&. Usf onf of tif following bs tif dibgnostid dommbnd rfqufst:
+If you spfdify tif prodfssfs idfntififr (\fIpid\fR) or tif mbin dlbss (\fImbin-dlbss\fR) bs tif first brgumfnt, \f3jdmd\fR sfnds tif dibgnostid dommbnd rfqufst to tif Jbvb prodfss witi tif spfdififd idfntififr or to bll Jbvb prodfssfs witi tif spfdififd nbmf of tif mbin dlbss\&. You dbn blso sfnd tif dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs tif prodfss idfntififr\&. Usf onf of tif following bs tif dibgnostid dommbnd rfqufst:
+If you spfdify tif prodfssfs idfntififr (\fIpid\fR) or tif mbin dlbss (\fImbin-dlbss\fR) bs tif first brgumfnt, \f3jdmd\fR sfnds tif dibgnostid dommbnd rfqufst to tif Jbvb prodfss witi tif spfdififd idfntififr or to bll Jbvb prodfssfs witi tif spfdififd nbmf of tif mbin dlbss\&. You dbn blso sfnd tif dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs tif prodfss idfntififr\&. Usf onf of tif following bs tif dibgnostid dommbnd rfqufst:
+If you spfdify tif prodfssfs idfntififr (\fIpid\fR) or tif mbin dlbss (\fImbin-dlbss\fR) bs tif first brgumfnt, \f3jdmd\fR sfnds tif dibgnostid dommbnd rfqufst to tif Jbvb prodfss witi tif spfdififd idfntififr or to bll Jbvb prodfssfs witi tif spfdififd nbmf of tif mbin dlbss\&. You dbn blso sfnd tif dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs tif prodfss idfntififr\&. Usf onf of tif following bs tif dibgnostid dommbnd rfqufst:
+If you spfdify tif prodfssfs idfntififr (\fIpid\fR) or tif mbin dlbss (\fImbin-dlbss\fR) bs tif first brgumfnt, \f3jdmd\fR sfnds tif dibgnostid dommbnd rfqufst to tif Jbvb prodfss witi tif spfdififd idfntififr or to bll Jbvb prodfssfs witi tif spfdififd nbmf of tif mbin dlbss\&. You dbn blso sfnd tif dibgnostid dommbnd rfqufst to bll bvbilbblf Jbvb prodfssfs by spfdifying \f30\fR bs tif prodfss idfntififr\&. Usf onf of tif following bs tif dibgnostid dommbnd rfqufst:
 .TP     
-Perfcounter\&.print
-Prints the performance counters available for the specified Java process\&. The list of performance counters might vary with the Java process\&.
+.TP     
+.TP     
+.TP     
+.TP     
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Prints tif pfrformbndf dountfrs bvbilbblf for tif spfdififd Jbvb prodfss\&. Tif list of pfrformbndf dountfrs migit vbry witi tif Jbvb prodfss\&.
+Prints tif pfrformbndf dountfrs bvbilbblf for tif spfdififd Jbvb prodfss\&. Tif list of pfrformbndf dountfrs migit vbry witi tif Jbvb prodfss\&.
+Prints tif pfrformbndf dountfrs bvbilbblf for tif spfdififd Jbvb prodfss\&. Tif list of pfrformbndf dountfrs migit vbry witi tif Jbvb prodfss\&.
+Prints tif pfrformbndf dountfrs bvbilbblf for tif spfdififd Jbvb prodfss\&. Tif list of pfrformbndf dountfrs migit vbry witi tif Jbvb prodfss\&.
+Prints tif pfrformbndf dountfrs bvbilbblf for tif spfdififd Jbvb prodfss\&. Tif list of pfrformbndf dountfrs migit vbry witi tif Jbvb prodfss\&.
 .TP
--f \fIfilename\fR
+.TP
+.TP
+.TP
+.TP
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
 .br
-The name of the file from which to read diagnostic commands and send them to the specified Java process\&. Used only with the \f3-f\fR option\&. Each command in the file must be written on a single line\&. Lines starting with a number sign (\f3#\fR) are ignored\&. Processing of the file ends when all lines have been read or when a line containing the \f3stop\fR keyword is read\&.
+.br
+.br
+.br
+.br
+Tif nbmf of tif filf from wiidi to rfbd dibgnostid dommbnds bnd sfnd tifm to tif spfdififd Jbvb prodfss\&. Usfd only witi tif \f3-f\fR option\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Tif nbmf of tif filf from wiidi to rfbd dibgnostid dommbnds bnd sfnd tifm to tif spfdififd Jbvb prodfss\&. Usfd only witi tif \f3-f\fR option\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Tif nbmf of tif filf from wiidi to rfbd dibgnostid dommbnds bnd sfnd tifm to tif spfdififd Jbvb prodfss\&. Usfd only witi tif \f3-f\fR option\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Tif nbmf of tif filf from wiidi to rfbd dibgnostid dommbnds bnd sfnd tifm to tif spfdififd Jbvb prodfss\&. Usfd only witi tif \f3-f\fR option\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Tif nbmf of tif filf from wiidi to rfbd dibgnostid dommbnds bnd sfnd tifm to tif spfdififd Jbvb prodfss\&. Usfd only witi tif \f3-f\fR option\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
 .TP     
-\fIcommand\fR [\fIarguments\fR]
-The command to be sent to the specified Java process\&. The list of available diagnostic commands for a given process can be obtained by sending the \f3help\fR command to this process\&. Each diagnostic command has its own set of arguments\&. To see the description, syntax, and a list of available arguments for a command, use the name of the command as the argument for the \f3help\fR command\&.
+.TP     
+.TP     
+.TP     
+.TP     
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+Tif dommbnd to bf sfnt to tif spfdififd Jbvb prodfss\&. Tif list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding tif \f3iflp\fR dommbnd to tiis prodfss\&. Ebdi dibgnostid dommbnd ibs its own sft of brgumfnts\&. To sff tif dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf tif nbmf of tif dommbnd bs tif brgumfnt for tif \f3iflp\fR dommbnd\&.
+Tif dommbnd to bf sfnt to tif spfdififd Jbvb prodfss\&. Tif list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding tif \f3iflp\fR dommbnd to tiis prodfss\&. Ebdi dibgnostid dommbnd ibs its own sft of brgumfnts\&. To sff tif dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf tif nbmf of tif dommbnd bs tif brgumfnt for tif \f3iflp\fR dommbnd\&.
+Tif dommbnd to bf sfnt to tif spfdififd Jbvb prodfss\&. Tif list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding tif \f3iflp\fR dommbnd to tiis prodfss\&. Ebdi dibgnostid dommbnd ibs its own sft of brgumfnts\&. To sff tif dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf tif nbmf of tif dommbnd bs tif brgumfnt for tif \f3iflp\fR dommbnd\&.
+Tif dommbnd to bf sfnt to tif spfdififd Jbvb prodfss\&. Tif list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding tif \f3iflp\fR dommbnd to tiis prodfss\&. Ebdi dibgnostid dommbnd ibs its own sft of brgumfnts\&. To sff tif dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf tif nbmf of tif dommbnd bs tif brgumfnt for tif \f3iflp\fR dommbnd\&.
+Tif dommbnd to bf sfnt to tif spfdififd Jbvb prodfss\&. Tif list of bvbilbblf dibgnostid dommbnds for b givfn prodfss dbn bf obtbinfd by sfnding tif \f3iflp\fR dommbnd to tiis prodfss\&. Ebdi dibgnostid dommbnd ibs its own sft of brgumfnts\&. To sff tif dfsdription, syntbx, bnd b list of bvbilbblf brgumfnts for b dommbnd, usf tif nbmf of tif dommbnd bs tif brgumfnt for tif \f3iflp\fR dommbnd\&.
 
-\fINote:\fR If any arguments contain spaces, you must surround them with single or double quotation marks (\f3\&'\fR or \f3"\fR)\&. In addition, you must escape single or double quotation marks with a backslash (\f3\e\fR) to prevent the operating system shell from processing quotation marks\&. Alternatively, you can surround these arguments with single quotation marks and then with double quotation marks (or with double quotation marks and then with single quotation marks)\&.
+
+
+
+
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround tifm witi singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks witi b bbdkslbsi (\f3\f\fR) to prfvfnt tif opfrbting systfm sifll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround tifsf brgumfnts witi singlf quotbtion mbrks bnd tifn witi doublf quotbtion mbrks (or witi doublf quotbtion mbrks bnd tifn witi singlf quotbtion mbrks)\&.
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround tifm witi singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks witi b bbdkslbsi (\f3\f\fR) to prfvfnt tif opfrbting systfm sifll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround tifsf brgumfnts witi singlf quotbtion mbrks bnd tifn witi doublf quotbtion mbrks (or witi doublf quotbtion mbrks bnd tifn witi singlf quotbtion mbrks)\&.
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround tifm witi singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks witi b bbdkslbsi (\f3\f\fR) to prfvfnt tif opfrbting systfm sifll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround tifsf brgumfnts witi singlf quotbtion mbrks bnd tifn witi doublf quotbtion mbrks (or witi doublf quotbtion mbrks bnd tifn witi singlf quotbtion mbrks)\&.
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround tifm witi singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks witi b bbdkslbsi (\f3\f\fR) to prfvfnt tif opfrbting systfm sifll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround tifsf brgumfnts witi singlf quotbtion mbrks bnd tifn witi doublf quotbtion mbrks (or witi doublf quotbtion mbrks bnd tifn witi singlf quotbtion mbrks)\&.
+\fINotf:\fR If bny brgumfnts dontbin spbdfs, you must surround tifm witi singlf or doublf quotbtion mbrks (\f3\&'\fR or \f3"\fR)\&. In bddition, you must fsdbpf singlf or doublf quotbtion mbrks witi b bbdkslbsi (\f3\f\fR) to prfvfnt tif opfrbting systfm sifll from prodfssing quotbtion mbrks\&. Altfrnbtivfly, you dbn surround tifsf brgumfnts witi singlf quotbtion mbrks bnd tifn witi doublf quotbtion mbrks (or witi doublf quotbtion mbrks bnd tifn witi singlf quotbtion mbrks)\&.
 .SH OPTIONS    
-Options are mutually exclusive\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+Options brf mutublly fxdlusivf\&.
+Options brf mutublly fxdlusivf\&.
+Options brf mutublly fxdlusivf\&.
+Options brf mutublly fxdlusivf\&.
+Options brf mutublly fxdlusivf\&.
 .TP
--f \fIfilename\fR
-.br
-Reads commands from the specified file\&. This option can be used only if you specify the process identifier or the main class as the first argument\&. Each command in the file must be written on a single line\&. Lines starting with a number sign (\f3#\fR) are ignored\&. Processing of the file ends when all lines have been read or when a line containing the \f3stop\fR keyword is read\&.
 .TP
--h, -help
+.TP
+.TP
+.TP
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
+-f \fIfilfnbmf\fR
 .br
-Prints a help message\&.
+.br
+.br
+.br
+.br
+Rfbds dommbnds from tif spfdififd filf\&. Tiis option dbn bf usfd only if you spfdify tif prodfss idfntififr or tif mbin dlbss bs tif first brgumfnt\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Rfbds dommbnds from tif spfdififd filf\&. Tiis option dbn bf usfd only if you spfdify tif prodfss idfntififr or tif mbin dlbss bs tif first brgumfnt\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Rfbds dommbnds from tif spfdififd filf\&. Tiis option dbn bf usfd only if you spfdify tif prodfss idfntififr or tif mbin dlbss bs tif first brgumfnt\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Rfbds dommbnds from tif spfdififd filf\&. Tiis option dbn bf usfd only if you spfdify tif prodfss idfntififr or tif mbin dlbss bs tif first brgumfnt\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+Rfbds dommbnds from tif spfdififd filf\&. Tiis option dbn bf usfd only if you spfdify tif prodfss idfntififr or tif mbin dlbss bs tif first brgumfnt\&. Ebdi dommbnd in tif filf must bf writtfn on b singlf linf\&. Linfs stbrting witi b numbfr sign (\f3#\fR) brf ignorfd\&. Prodfssing of tif filf fnds wifn bll linfs ibvf bffn rfbd or wifn b linf dontbining tif \f3stop\fR kfyword is rfbd\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-i, -iflp
+-i, -iflp
+-i, -iflp
+-i, -iflp
+-i, -iflp
+.br
+.br
+.br
+.br
+.br
+Prints b iflp mfssbgf\&.
+Prints b iflp mfssbgf\&.
+Prints b iflp mfssbgf\&.
+Prints b iflp mfssbgf\&.
+Prints b iflp mfssbgf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -l
+-l
+-l
+-l
+-l
 .br
-Prints the list of running Java processes identifiers with the main class and command-line arguments\&.
+.br
+.br
+.br
+.br
+Prints tif list of running Jbvb prodfssfs idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts\&.
+Prints tif list of running Jbvb prodfssfs idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts\&.
+Prints tif list of running Jbvb prodfssfs idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts\&.
+Prints tif list of running Jbvb prodfssfs idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts\&.
+Prints tif list of running Jbvb prodfssfs idfntififrs witi tif mbin dlbss bnd dommbnd-linf brgumfnts\&.
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jps(1)
+jps(1)
+jps(1)
+jps(1)
+jps(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

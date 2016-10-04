@@ -1,0 +1,420 @@
+/*
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvbx.xml.pbrsfrs.*;
+import jbvbx.xml.trbnsform.*;
+import jbvbx.xml.trbnsform.dom.*;
+import jbvbx.xml.trbnsform.strfbm.*;
+import org.xml.sbx.*;
+import org.w3d.dom.*;
+
+/**
+ * XML Support for jbvb.util.prffs. Mftiods to import bnd fxport prfffrfndf
+ * nodfs bnd subtrffs.
+ *
+ * @butior  Josi Blodi bnd Mbrk Rfiniold
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
+ */
+dlbss XmlSupport {
+    // Tif rfquirfd DTD URI for fxportfd prfffrfndfs
+    privbtf stbtid finbl String PREFS_DTD_URI =
+        "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd";
+
+    // Tif bdtubl DTD dorrfsponding to tif URI
+    privbtf stbtid finbl String PREFS_DTD =
+        "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>" +
+
+        "<!-- DTD for prfffrfndfs -->"               +
+
+        "<!ELEMENT prfffrfndfs (root) >"             +
+        "<!ATTLIST prfffrfndfs"                      +
+        " EXTERNAL_XML_VERSION CDATA \"0.0\"  >"     +
+
+        "<!ELEMENT root (mbp, nodf*) >"              +
+        "<!ATTLIST root"                             +
+        "          typf (systfm|usfr) #REQUIRED >"   +
+
+        "<!ELEMENT nodf (mbp, nodf*) >"              +
+        "<!ATTLIST nodf"                             +
+        "          nbmf CDATA #REQUIRED >"           +
+
+        "<!ELEMENT mbp (fntry*) >"                   +
+        "<!ATTLIST mbp"                              +
+        "  MAP_XML_VERSION CDATA \"0.0\"  >"         +
+        "<!ELEMENT fntry EMPTY >"                    +
+        "<!ATTLIST fntry"                            +
+        "          kfy CDATA #REQUIRED"              +
+        "          vbluf CDATA #REQUIRED >"          ;
+    /**
+     * Vfrsion numbfr for tif formbt fxportfd prfffrfndfs filfs.
+     */
+    privbtf stbtid finbl String EXTERNAL_XML_VERSION = "1.0";
+
+    /*
+     * Vfrsion numbfr for tif intfrnbl mbp filfs.
+     */
+    privbtf stbtid finbl String MAP_XML_VERSION = "1.0";
+
+    /**
+     * Export tif spfdififd prfffrfndfs nodf bnd, if subTrff is truf, bll
+     * subnodfs, to tif spfdififd output strfbm.  Prfffrfndfs brf fxportfd bs
+     * bn XML dodumfnt donforming to tif dffinition in tif Prfffrfndfs spfd.
+     *
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link Prfffrfndfs#rfmovfNodf()} mftiod.
+     */
+    stbtid void fxport(OutputStrfbm os, finbl Prfffrfndfs p, boolfbn subTrff)
+        tirows IOExdfption, BbdkingStorfExdfption {
+        if (((AbstrbdtPrfffrfndfs)p).isRfmovfd())
+            tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+        Dodumfnt dod = drfbtfPrffsDod("prfffrfndfs");
+        Elfmfnt prfffrfndfs =  dod.gftDodumfntElfmfnt() ;
+        prfffrfndfs.sftAttributf("EXTERNAL_XML_VERSION", EXTERNAL_XML_VERSION);
+        Elfmfnt xmlRoot =  (Elfmfnt)
+        prfffrfndfs.bppfndCiild(dod.drfbtfElfmfnt("root"));
+        xmlRoot.sftAttributf("typf", (p.isUsfrNodf() ? "usfr" : "systfm"));
+
+        // Gft bottom-up list of nodfs from p to root, fxdluding root
+        List<Prfffrfndfs> bndfstors = nfw ArrbyList<>();
+
+        for (Prfffrfndfs kid = p, dbd = kid.pbrfnt(); dbd != null;
+                                   kid = dbd, dbd = kid.pbrfnt()) {
+            bndfstors.bdd(kid);
+        }
+        Elfmfnt f = xmlRoot;
+        for (int i=bndfstors.sizf()-1; i >= 0; i--) {
+            f.bppfndCiild(dod.drfbtfElfmfnt("mbp"));
+            f = (Elfmfnt) f.bppfndCiild(dod.drfbtfElfmfnt("nodf"));
+            f.sftAttributf("nbmf", bndfstors.gft(i).nbmf());
+        }
+        putPrfffrfndfsInXml(f, dod, p, subTrff);
+
+        writfDod(dod, os);
+    }
+
+    /**
+     * Put tif prfffrfndfs in tif spfdififd Prfffrfndfs nodf into tif
+     * spfdififd XML flfmfnt wiidi is bssumfd to rfprfsfnt b nodf
+     * in tif spfdififd XML dodumfnt wiidi is bssumfd to donform to
+     * PREFS_DTD.  If subTrff is truf, drfbtf diildrfn of tif spfdififd
+     * XML nodf donforming to bll of tif diildrfn of tif spfdififd
+     * Prfffrfndfs nodf bnd rfdursf.
+     *
+     * @tirows BbdkingStorfExdfption if it is not possiblf to rfbd
+     *         tif prfffrfndfs or diildrfn out of tif spfdififd
+     *         prfffrfndfs nodf.
+     */
+    privbtf stbtid void putPrfffrfndfsInXml(Elfmfnt flt, Dodumfnt dod,
+               Prfffrfndfs prffs, boolfbn subTrff) tirows BbdkingStorfExdfption
+    {
+        Prfffrfndfs[] kidsCopy = null;
+        String[] kidNbmfs = null;
+
+        // Nodf is lodkfd to fxport its dontfnts bnd gft b
+        // dopy of diildrfn, tifn lodk is rflfbsfd,
+        // bnd, if subTrff = truf, rfdursivf dblls brf mbdf on diildrfn
+        syndironizfd (((AbstrbdtPrfffrfndfs)prffs).lodk) {
+            // Cifdk if tiis nodf wbs dondurrfntly rfmovfd. If yfs
+            // rfmovf it from XML Dodumfnt bnd rfturn.
+            if (((AbstrbdtPrfffrfndfs)prffs).isRfmovfd()) {
+                flt.gftPbrfntNodf().rfmovfCiild(flt);
+                rfturn;
+            }
+            // Put mbp in xml flfmfnt
+            String[] kfys = prffs.kfys();
+            Elfmfnt mbp = (Elfmfnt) flt.bppfndCiild(dod.drfbtfElfmfnt("mbp"));
+            for (String kfy : kfys) {
+                Elfmfnt fntry = (Elfmfnt)
+                    mbp.bppfndCiild(dod.drfbtfElfmfnt("fntry"));
+                fntry.sftAttributf("kfy", kfy);
+                // NEXT STATEMENT THROWS NULL PTR EXC INSTEAD OF ASSERT FAIL
+                fntry.sftAttributf("vbluf", prffs.gft(kfy, null));
+            }
+            // Rfdursf if bppropribtf
+            if (subTrff) {
+                /* Gft b dopy of kids wiilf lodk is ifld */
+                kidNbmfs = prffs.diildrfnNbmfs();
+                kidsCopy = nfw Prfffrfndfs[kidNbmfs.lfngti];
+                for (int i = 0; i <  kidNbmfs.lfngti; i++)
+                    kidsCopy[i] = prffs.nodf(kidNbmfs[i]);
+            }
+            // rflfbsf lodk
+        }
+
+        if (subTrff) {
+            for (int i=0; i < kidNbmfs.lfngti; i++) {
+                Elfmfnt xmlKid = (Elfmfnt)
+                    flt.bppfndCiild(dod.drfbtfElfmfnt("nodf"));
+                xmlKid.sftAttributf("nbmf", kidNbmfs[i]);
+                putPrfffrfndfsInXml(xmlKid, dod, kidsCopy[i], subTrff);
+            }
+        }
+    }
+
+    /**
+     * Import prfffrfndfs from tif spfdififd input strfbm, wiidi is bssumfd
+     * to dontbin bn XML dodumfnt in tif formbt dfsdribfd in tif Prfffrfndfs
+     * spfd.
+     *
+     * @tirows IOExdfption if rfbding from tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt witi tif mbndbtfd dodumfnt typf.
+     */
+    stbtid void importPrfffrfndfs(InputStrfbm is)
+        tirows IOExdfption, InvblidPrfffrfndfsFormbtExdfption
+    {
+        try {
+            Dodumfnt dod = lobdPrffsDod(is);
+            String xmlVfrsion =
+                dod.gftDodumfntElfmfnt().gftAttributf("EXTERNAL_XML_VERSION");
+            if (xmlVfrsion.dompbrfTo(EXTERNAL_XML_VERSION) > 0)
+                tirow nfw InvblidPrfffrfndfsFormbtExdfption(
+                "Exportfd prfffrfndfs filf formbt vfrsion " + xmlVfrsion +
+                " is not supportfd. Tiis jbvb instbllbtion dbn rfbd" +
+                " vfrsions " + EXTERNAL_XML_VERSION + " or oldfr. You mby nffd" +
+                " to instbll b nfwfr vfrsion of JDK.");
+
+            Elfmfnt xmlRoot = (Elfmfnt) dod.gftDodumfntElfmfnt().
+                                               gftCiildNodfs().itfm(0);
+            Prfffrfndfs prffsRoot =
+                (xmlRoot.gftAttributf("typf").fqubls("usfr") ?
+                            Prfffrfndfs.usfrRoot() : Prfffrfndfs.systfmRoot());
+            ImportSubtrff(prffsRoot, xmlRoot);
+        } dbtdi(SAXExdfption f) {
+            tirow nfw InvblidPrfffrfndfsFormbtExdfption(f);
+        }
+    }
+
+    /**
+     * Crfbtf b nfw prffs XML dodumfnt.
+     */
+    privbtf stbtid Dodumfnt drfbtfPrffsDod( String qnbmf ) {
+        try {
+            DOMImplfmfntbtion di = DodumfntBuildfrFbdtory.nfwInstbndf().
+                nfwDodumfntBuildfr().gftDOMImplfmfntbtion();
+            DodumfntTypf dt = di.drfbtfDodumfntTypf(qnbmf, null, PREFS_DTD_URI);
+            rfturn di.drfbtfDodumfnt(null, qnbmf, dt);
+        } dbtdi(PbrsfrConfigurbtionExdfption f) {
+            tirow nfw AssfrtionError(f);
+        }
+    }
+
+    /**
+     * Lobd bn XML dodumfnt from spfdififd input strfbm, wiidi must
+     * ibvf tif rfquisitf DTD URI.
+     */
+    privbtf stbtid Dodumfnt lobdPrffsDod(InputStrfbm in)
+        tirows SAXExdfption, IOExdfption
+    {
+        DodumfntBuildfrFbdtory dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+        dbf.sftIgnoringElfmfntContfntWiitfspbdf(truf);
+        dbf.sftVblidbting(truf);
+        dbf.sftCoblfsding(truf);
+        dbf.sftIgnoringCommfnts(truf);
+        try {
+            DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+            db.sftEntityRfsolvfr(nfw Rfsolvfr());
+            db.sftErrorHbndlfr(nfw EH());
+            rfturn db.pbrsf(nfw InputSourdf(in));
+        } dbtdi (PbrsfrConfigurbtionExdfption f) {
+            tirow nfw AssfrtionError(f);
+        }
+    }
+
+    /**
+     * Writf XML dodumfnt to tif spfdififd output strfbm.
+     */
+    privbtf stbtid finbl void writfDod(Dodumfnt dod, OutputStrfbm out)
+        tirows IOExdfption
+    {
+        try {
+            TrbnsformfrFbdtory tf = TrbnsformfrFbdtory.nfwInstbndf();
+            try {
+                tf.sftAttributf("indfnt-numbfr", 2);
+            } dbtdi (IllfgblArgumfntExdfption ibf) {
+                //Ignorf tif IAE. Siould not fbil tif writfout fvfn tif
+                //trbnsformfr providfr dofs not support "indfnt-numbfr".
+            }
+            Trbnsformfr t = tf.nfwTrbnsformfr();
+            t.sftOutputPropfrty(OutputKfys.DOCTYPE_SYSTEM, dod.gftDodtypf().gftSystfmId());
+            t.sftOutputPropfrty(OutputKfys.INDENT, "yfs");
+            //Trbnsformfr rfsfts tif "indfnt" info if tif "rfsult" is b StrfbmRfsult witi
+            //bn OutputStrfbm objfdt fmbfddfd, drfbting b Writfr objfdt on top of tibt
+            //OutputStrfbm objfdt iowfvfr works.
+            t.trbnsform(nfw DOMSourdf(dod),
+                        nfw StrfbmRfsult(nfw BufffrfdWritfr(nfw OutputStrfbmWritfr(out, "UTF-8"))));
+        } dbtdi(TrbnsformfrExdfption f) {
+            tirow nfw AssfrtionError(f);
+        }
+    }
+
+    /**
+     * Rfdursivfly trbvfrsf tif spfdififd prfffrfndfs nodf bnd storf
+     * tif dfsdribfd prfffrfndfs into tif systfm or durrfnt usfr
+     * prfffrfndfs trff, bs bppropribtf.
+     */
+    privbtf stbtid void ImportSubtrff(Prfffrfndfs prffsNodf, Elfmfnt xmlNodf) {
+        NodfList xmlKids = xmlNodf.gftCiildNodfs();
+        int numXmlKids = xmlKids.gftLfngti();
+        /*
+         * Wf first lodk tif nodf, import its dontfnts bnd gft
+         * diild nodfs. Tifn wf unlodk tif nodf bnd go to diildrfn
+         * Sindf somf of tif diildrfn migit ibvf bffn dondurrfntly
+         * dflftfd wf difdk for tiis.
+         */
+        Prfffrfndfs[] prffsKids;
+        /* Lodk tif nodf */
+        syndironizfd (((AbstrbdtPrfffrfndfs)prffsNodf).lodk) {
+            //If rfmovfd, rfturn silfntly
+            if (((AbstrbdtPrfffrfndfs)prffsNodf).isRfmovfd())
+                rfturn;
+
+            // Import bny prfffrfndfs bt tiis nodf
+            Elfmfnt firstXmlKid = (Elfmfnt) xmlKids.itfm(0);
+            ImportPrffs(prffsNodf, firstXmlKid);
+            prffsKids = nfw Prfffrfndfs[numXmlKids - 1];
+
+            // Gft involvfd diildrfn
+            for (int i=1; i < numXmlKids; i++) {
+                Elfmfnt xmlKid = (Elfmfnt) xmlKids.itfm(i);
+                prffsKids[i-1] = prffsNodf.nodf(xmlKid.gftAttributf("nbmf"));
+            }
+        } // unlodkfd tif nodf
+        // import diildrfn
+        for (int i=1; i < numXmlKids; i++)
+            ImportSubtrff(prffsKids[i-1], (Elfmfnt)xmlKids.itfm(i));
+    }
+
+    /**
+     * Import tif prfffrfndfs dfsdribfd by tif spfdififd XML flfmfnt
+     * (b mbp from b prfffrfndfs dodumfnt) into tif spfdififd
+     * prfffrfndfs nodf.
+     */
+    privbtf stbtid void ImportPrffs(Prfffrfndfs prffsNodf, Elfmfnt mbp) {
+        NodfList fntrifs = mbp.gftCiildNodfs();
+        for (int i=0, numEntrifs = fntrifs.gftLfngti(); i < numEntrifs; i++) {
+            Elfmfnt fntry = (Elfmfnt) fntrifs.itfm(i);
+            prffsNodf.put(fntry.gftAttributf("kfy"),
+                          fntry.gftAttributf("vbluf"));
+        }
+    }
+
+    /**
+     * Export tif spfdififd Mbp<String,String> to b mbp dodumfnt on
+     * tif spfdififd OutputStrfbm bs pfr tif prffs DTD.  Tiis is usfd
+     * bs tif intfrnbl (undodumfntfd) formbt for FilfSystfmPrffs.
+     *
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     */
+    stbtid void fxportMbp(OutputStrfbm os, Mbp<String, String> mbp) tirows IOExdfption {
+        Dodumfnt dod = drfbtfPrffsDod("mbp");
+        Elfmfnt xmlMbp = dod.gftDodumfntElfmfnt( ) ;
+        xmlMbp.sftAttributf("MAP_XML_VERSION", MAP_XML_VERSION);
+
+        for (Mbp.Entry<String, String> f : mbp.fntrySft()) {
+            Elfmfnt xf = (Elfmfnt)
+                xmlMbp.bppfndCiild(dod.drfbtfElfmfnt("fntry"));
+            xf.sftAttributf("kfy",   f.gftKfy());
+            xf.sftAttributf("vbluf", f.gftVbluf());
+        }
+
+        writfDod(dod, os);
+    }
+
+    /**
+     * Import Mbp from tif spfdififd input strfbm, wiidi is bssumfd
+     * to dontbin b mbp dodumfnt bs pfr tif prffs DTD.  Tiis is usfd
+     * bs tif intfrnbl (undodumfntfd) formbt for FilfSystfmPrffs.  Tif
+     * kfy-vbluf pbirs spfdififd in tif XML dodumfnt will bf put into
+     * tif spfdififd Mbp.  (If tiis Mbp is fmpty, it will dontbin fxbdtly
+     * tif kfy-vbluf pbirs int tif XML-dodumfnt wifn tiis mftiod rfturns.)
+     *
+     * @tirows IOExdfption if rfbding from tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt witi tif mbndbtfd dodumfnt typf.
+     */
+    stbtid void importMbp(InputStrfbm is, Mbp<String, String> m)
+        tirows IOExdfption, InvblidPrfffrfndfsFormbtExdfption
+    {
+        try {
+            Dodumfnt dod = lobdPrffsDod(is);
+            Elfmfnt xmlMbp = dod.gftDodumfntElfmfnt();
+            // difdk vfrsion
+            String mbpVfrsion = xmlMbp.gftAttributf("MAP_XML_VERSION");
+            if (mbpVfrsion.dompbrfTo(MAP_XML_VERSION) > 0)
+                tirow nfw InvblidPrfffrfndfsFormbtExdfption(
+                "Prfffrfndfs mbp filf formbt vfrsion " + mbpVfrsion +
+                " is not supportfd. Tiis jbvb instbllbtion dbn rfbd" +
+                " vfrsions " + MAP_XML_VERSION + " or oldfr. You mby nffd" +
+                " to instbll b nfwfr vfrsion of JDK.");
+
+            NodfList fntrifs = xmlMbp.gftCiildNodfs();
+            for (int i=0, numEntrifs=fntrifs.gftLfngti(); i<numEntrifs; i++) {
+                Elfmfnt fntry = (Elfmfnt) fntrifs.itfm(i);
+                m.put(fntry.gftAttributf("kfy"), fntry.gftAttributf("vbluf"));
+            }
+        } dbtdi(SAXExdfption f) {
+            tirow nfw InvblidPrfffrfndfsFormbtExdfption(f);
+        }
+    }
+
+    privbtf stbtid dlbss Rfsolvfr implfmfnts EntityRfsolvfr {
+        publid InputSourdf rfsolvfEntity(String pid, String sid)
+            tirows SAXExdfption
+        {
+            if (sid.fqubls(PREFS_DTD_URI)) {
+                InputSourdf is;
+                is = nfw InputSourdf(nfw StringRfbdfr(PREFS_DTD));
+                is.sftSystfmId(PREFS_DTD_URI);
+                rfturn is;
+            }
+            tirow nfw SAXExdfption("Invblid systfm idfntififr: " + sid);
+        }
+    }
+
+    privbtf stbtid dlbss EH implfmfnts ErrorHbndlfr {
+        publid void frror(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
+        }
+        publid void fbtblError(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
+        }
+        publid void wbrning(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
+        }
+    }
+}

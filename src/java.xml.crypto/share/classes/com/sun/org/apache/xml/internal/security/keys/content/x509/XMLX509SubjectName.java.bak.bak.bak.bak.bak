@@ -1,0 +1,106 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.RFC2253Pbrsfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * @butior $Autior: doifigfb $
+ */
+publid dlbss XMLX509SubjfdtNbmf fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
+
+    /**
+     * Construdtor X509SubjfdtNbmf
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
+     */
+    publid XMLX509SubjfdtNbmf(Elfmfnt flfmfnt, String BbsfURI)
+        tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
+    }
+
+    /**
+     * Construdtor X509SubjfdtNbmf
+     *
+     * @pbrbm dod
+     * @pbrbm X509SubjfdtNbmfString
+     */
+    publid XMLX509SubjfdtNbmf(Dodumfnt dod, String X509SubjfdtNbmfString) {
+        supfr(dod);
+
+        tiis.bddTfxt(X509SubjfdtNbmfString);
+    }
+
+    /**
+     * Construdtor XMLX509SubjfdtNbmf
+     *
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     */
+    publid XMLX509SubjfdtNbmf(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf) {
+        tiis(dod, x509dfrtifidbtf.gftSubjfdtX500Prindipbl().gftNbmf());
+    }
+
+    /**
+     * Mftiod gftSubjfdtNbmf
+     *
+     *
+     * @rfturn tif subjfdt nbmf
+     */
+    publid String gftSubjfdtNbmf() {
+        rfturn RFC2253Pbrsfr.normblizf(tiis.gftTfxtFromTfxtCiild());
+    }
+
+    /** @inifritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509SubjfdtNbmf)) {
+            rfturn fblsf;
+        }
+
+        XMLX509SubjfdtNbmf otifr = (XMLX509SubjfdtNbmf) obj;
+        String otifrSubjfdt = otifr.gftSubjfdtNbmf();
+        String tiisSubjfdt = tiis.gftSubjfdtNbmf();
+
+        rfturn tiisSubjfdt.fqubls(otifrSubjfdt);
+    }
+
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + tiis.gftSubjfdtNbmf().ibsiCodf();
+        rfturn rfsult;
+    }
+
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509SUBJECTNAME;
+    }
+}

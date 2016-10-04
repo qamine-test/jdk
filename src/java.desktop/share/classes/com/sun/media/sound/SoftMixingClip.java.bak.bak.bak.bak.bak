@@ -1,0 +1,541 @@
+/*
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Arrbys;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.Clip;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+
+/**
+ * Clip implfmfntbtion for tif SoftMixingMixfr.
+ *
+ * @butior Kbrl Hflgbson
+ */
+publid finbl dlbss SoftMixingClip fxtfnds SoftMixingDbtbLinf implfmfnts Clip {
+
+    privbtf AudioFormbt formbt;
+
+    privbtf int frbmfsizf;
+
+    privbtf bytf[] dbtb;
+
+    privbtf finbl InputStrfbm dbtbstrfbm = nfw InputStrfbm() {
+
+        publid int rfbd() tirows IOExdfption {
+            bytf[] b = nfw bytf[1];
+            int rft = rfbd(b);
+            if (rft < 0)
+                rfturn rft;
+            rfturn b[0] & 0xFF;
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+
+            if (_loopdount != 0) {
+                int bloopfnd = _loopfnd * frbmfsizf;
+                int bloopstbrt = _loopstbrt * frbmfsizf;
+                int pos = _frbmfposition * frbmfsizf;
+
+                if (pos + lfn >= bloopfnd)
+                    if (pos < bloopfnd) {
+                        int offfnd = off + lfn;
+                        int o = off;
+                        wiilf (off != offfnd) {
+                            if (pos == bloopfnd) {
+                                if (_loopdount == 0)
+                                    brfbk;
+                                pos = bloopstbrt;
+                                if (_loopdount != LOOP_CONTINUOUSLY)
+                                    _loopdount--;
+                            }
+                            lfn = offfnd - off;
+                            int lfft = bloopfnd - pos;
+                            if (lfn > lfft)
+                                lfn = lfft;
+                            Systfm.brrbydopy(dbtb, pos, b, off, lfn);
+                            off += lfn;
+                        }
+                        if (_loopdount == 0) {
+                            lfn = offfnd - off;
+                            int lfft = bloopfnd - pos;
+                            if (lfn > lfft)
+                                lfn = lfft;
+                            Systfm.brrbydopy(dbtb, pos, b, off, lfn);
+                            off += lfn;
+                        }
+                        _frbmfposition = pos / frbmfsizf;
+                        rfturn o - off;
+                    }
+            }
+
+            int pos = _frbmfposition * frbmfsizf;
+            int lfft = bufffrSizf - pos;
+            if (lfft == 0)
+                rfturn -1;
+            if (lfn > lfft)
+                lfn = lfft;
+            Systfm.brrbydopy(dbtb, pos, b, off, lfn);
+            _frbmfposition += lfn / frbmfsizf;
+            rfturn lfn;
+        }
+
+    };
+
+    privbtf int offsft;
+
+    privbtf int bufffrSizf;
+
+    privbtf flobt[] rfbdbufffr;
+
+    privbtf boolfbn opfn = fblsf;
+
+    privbtf AudioFormbt outputformbt;
+
+    privbtf int out_nrofdibnnfls;
+
+    privbtf int in_nrofdibnnfls;
+
+    privbtf int frbmfposition = 0;
+
+    privbtf boolfbn frbmfposition_sg = fblsf;
+
+    privbtf boolfbn bdtivf_sg = fblsf;
+
+    privbtf int loopstbrt = 0;
+
+    privbtf int loopfnd = -1;
+
+    privbtf boolfbn bdtivf = fblsf;
+
+    privbtf int loopdount = 0;
+
+    privbtf boolfbn _bdtivf = fblsf;
+
+    privbtf int _frbmfposition = 0;
+
+    privbtf boolfbn loop_sg = fblsf;
+
+    privbtf int _loopdount = 0;
+
+    privbtf int _loopstbrt = 0;
+
+    privbtf int _loopfnd = -1;
+
+    privbtf flobt _rigitgbin;
+
+    privbtf flobt _lfftgbin;
+
+    privbtf flobt _fff1gbin;
+
+    privbtf flobt _fff2gbin;
+
+    privbtf AudioFlobtInputStrfbm bfis;
+
+    SoftMixingClip(SoftMixingMixfr mixfr, DbtbLinf.Info info) {
+        supfr(mixfr, info);
+    }
+
+    protfdtfd void prodfssControlLogid() {
+
+        _rigitgbin = rigitgbin;
+        _lfftgbin = lfftgbin;
+        _fff1gbin = fff1gbin;
+        _fff2gbin = fff2gbin;
+
+        if (bdtivf_sg) {
+            _bdtivf = bdtivf;
+            bdtivf_sg = fblsf;
+        } flsf {
+            bdtivf = _bdtivf;
+        }
+
+        if (frbmfposition_sg) {
+            _frbmfposition = frbmfposition;
+            frbmfposition_sg = fblsf;
+            bfis = null;
+        } flsf {
+            frbmfposition = _frbmfposition;
+        }
+        if (loop_sg) {
+            _loopdount = loopdount;
+            _loopstbrt = loopstbrt;
+            _loopfnd = loopfnd;
+        }
+
+        if (bfis == null) {
+            bfis = AudioFlobtInputStrfbm.gftInputStrfbm(nfw AudioInputStrfbm(
+                    dbtbstrfbm, formbt, AudioSystfm.NOT_SPECIFIED));
+
+            if (Mbti.bbs(formbt.gftSbmplfRbtf() - outputformbt.gftSbmplfRbtf()) > 0.000001)
+                bfis = nfw AudioFlobtInputStrfbmRfsbmplfr(bfis, outputformbt);
+        }
+
+    }
+
+    protfdtfd void prodfssAudioLogid(SoftAudioBufffr[] bufffrs) {
+        if (_bdtivf) {
+            flobt[] lfft = bufffrs[SoftMixingMbinMixfr.CHANNEL_LEFT].brrby();
+            flobt[] rigit = bufffrs[SoftMixingMbinMixfr.CHANNEL_RIGHT].brrby();
+            int bufffrlfn = bufffrs[SoftMixingMbinMixfr.CHANNEL_LEFT].gftSizf();
+
+            int rfbdlfn = bufffrlfn * in_nrofdibnnfls;
+            if (rfbdbufffr == null || rfbdbufffr.lfngti < rfbdlfn) {
+                rfbdbufffr = nfw flobt[rfbdlfn];
+            }
+            int rft = 0;
+            try {
+                rft = bfis.rfbd(rfbdbufffr);
+                if (rft == -1) {
+                    _bdtivf = fblsf;
+                    rfturn;
+                }
+                if (rft != in_nrofdibnnfls)
+                    Arrbys.fill(rfbdbufffr, rft, rfbdlfn, 0);
+            } dbtdi (IOExdfption f) {
+            }
+
+            int in_d = in_nrofdibnnfls;
+            for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                lfft[i] += rfbdbufffr[ix] * _lfftgbin;
+            }
+
+            if (out_nrofdibnnfls != 1) {
+                if (in_nrofdibnnfls == 1) {
+                    for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                        rigit[i] += rfbdbufffr[ix] * _rigitgbin;
+                    }
+                } flsf {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        rigit[i] += rfbdbufffr[ix] * _rigitgbin;
+                    }
+                }
+
+            }
+
+            if (_fff1gbin > 0.0002) {
+
+                flobt[] fff1 = bufffrs[SoftMixingMbinMixfr.CHANNEL_EFFECT1]
+                        .brrby();
+                for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                    fff1[i] += rfbdbufffr[ix] * _fff1gbin;
+                }
+                if (in_nrofdibnnfls == 2) {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        fff1[i] += rfbdbufffr[ix] * _fff1gbin;
+                    }
+                }
+            }
+
+            if (_fff2gbin > 0.0002) {
+                flobt[] fff2 = bufffrs[SoftMixingMbinMixfr.CHANNEL_EFFECT2]
+                        .brrby();
+                for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                    fff2[i] += rfbdbufffr[ix] * _fff2gbin;
+                }
+                if (in_nrofdibnnfls == 2) {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        fff2[i] += rfbdbufffr[ix] * _fff2gbin;
+                    }
+                }
+            }
+
+        }
+    }
+
+    publid int gftFrbmfLfngti() {
+        rfturn bufffrSizf / formbt.gftFrbmfSizf();
+    }
+
+    publid long gftMidrosfdondLfngti() {
+        rfturn (long) (gftFrbmfLfngti() * (1000000.0 / (doublf) gftFormbt()
+                .gftSbmplfRbtf()));
+    }
+
+    publid void loop(int dount) {
+        LinfEvfnt fvfnt = null;
+
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                if (bdtivf)
+                    rfturn;
+                bdtivf = truf;
+                bdtivf_sg = truf;
+                loopdount = dount;
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.START,
+                        gftLongFrbmfPosition());
+            }
+        }
+
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
+
+    }
+
+    publid void opfn(AudioInputStrfbm strfbm) tirows LinfUnbvbilbblfExdfption,
+            IOExdfption {
+        if (isOpfn()) {
+            tirow nfw IllfgblStbtfExdfption("Clip is blrfbdy opfn witi formbt "
+                    + gftFormbt() + " bnd frbmf lfngi of " + gftFrbmfLfngti());
+        }
+        if (AudioFlobtConvfrtfr.gftConvfrtfr(strfbm.gftFormbt()) == null)
+            tirow nfw IllfgblArgumfntExdfption("Invblid formbt : "
+                    + strfbm.gftFormbt().toString());
+
+        if (strfbm.gftFrbmfLfngti() != AudioSystfm.NOT_SPECIFIED) {
+            bytf[] dbtb = nfw bytf[(int) strfbm.gftFrbmfLfngti()
+                    * strfbm.gftFormbt().gftFrbmfSizf()];
+            int rfbdsizf = 512 * strfbm.gftFormbt().gftFrbmfSizf();
+            int lfn = 0;
+            wiilf (lfn != dbtb.lfngti) {
+                if (rfbdsizf > dbtb.lfngti - lfn)
+                    rfbdsizf = dbtb.lfngti - lfn;
+                int rft = strfbm.rfbd(dbtb, lfn, rfbdsizf);
+                if (rft == -1)
+                    brfbk;
+                if (rft == 0)
+                    Tirfbd.yifld();
+                lfn += rft;
+            }
+            opfn(strfbm.gftFormbt(), dbtb, 0, lfn);
+        } flsf {
+            BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            bytf[] b = nfw bytf[512 * strfbm.gftFormbt().gftFrbmfSizf()];
+            int r = 0;
+            wiilf ((r = strfbm.rfbd(b)) != -1) {
+                if (r == 0)
+                    Tirfbd.yifld();
+                bbos.writf(b, 0, r);
+            }
+            opfn(strfbm.gftFormbt(), bbos.toBytfArrby(), 0, bbos.sizf());
+        }
+
+    }
+
+    publid void opfn(AudioFormbt formbt, bytf[] dbtb, int offsft, int bufffrSizf)
+            tirows LinfUnbvbilbblfExdfption {
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                tirow nfw IllfgblStbtfExdfption(
+                        "Clip is blrfbdy opfn witi formbt " + gftFormbt()
+                                + " bnd frbmf lfngi of " + gftFrbmfLfngti());
+            }
+            if (AudioFlobtConvfrtfr.gftConvfrtfr(formbt) == null)
+                tirow nfw IllfgblArgumfntExdfption("Invblid formbt : "
+                        + formbt.toString());
+            if (bufffrSizf % formbt.gftFrbmfSizf() != 0)
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Bufffr sizf dofs not rfprfsfnt bn intfgrbl numbfr of sbmplf frbmfs!");
+
+            if (dbtb != null) {
+                tiis.dbtb = Arrbys.dopyOf(dbtb, dbtb.lfngti);
+            }
+            tiis.offsft = offsft;
+            tiis.bufffrSizf = bufffrSizf;
+            tiis.formbt = formbt;
+            tiis.frbmfsizf = formbt.gftFrbmfSizf();
+
+            loopstbrt = 0;
+            loopfnd = -1;
+            loop_sg = truf;
+
+            if (!mixfr.isOpfn()) {
+                mixfr.opfn();
+                mixfr.impliditOpfn = truf;
+            }
+
+            outputformbt = mixfr.gftFormbt();
+            out_nrofdibnnfls = outputformbt.gftCibnnfls();
+            in_nrofdibnnfls = formbt.gftCibnnfls();
+
+            opfn = truf;
+
+            mixfr.gftMbinMixfr().opfnLinf(tiis);
+        }
+
+    }
+
+    publid void sftFrbmfPosition(int frbmfs) {
+        syndironizfd (dontrol_mutfx) {
+            frbmfposition_sg = truf;
+            frbmfposition = frbmfs;
+        }
+    }
+
+    publid void sftLoopPoints(int stbrt, int fnd) {
+        syndironizfd (dontrol_mutfx) {
+            if (fnd != -1) {
+                if (fnd < stbrt)
+                    tirow nfw IllfgblArgumfntExdfption("Invblid loop points : "
+                            + stbrt + " - " + fnd);
+                if (fnd * frbmfsizf > bufffrSizf)
+                    tirow nfw IllfgblArgumfntExdfption("Invblid loop points : "
+                            + stbrt + " - " + fnd);
+            }
+            if (stbrt * frbmfsizf > bufffrSizf)
+                tirow nfw IllfgblArgumfntExdfption("Invblid loop points : "
+                        + stbrt + " - " + fnd);
+            if (0 < stbrt)
+                tirow nfw IllfgblArgumfntExdfption("Invblid loop points : "
+                        + stbrt + " - " + fnd);
+            loopstbrt = stbrt;
+            loopfnd = fnd;
+            loop_sg = truf;
+        }
+    }
+
+    publid void sftMidrosfdondPosition(long midrosfdonds) {
+        sftFrbmfPosition((int) (midrosfdonds * (((doublf) gftFormbt()
+                .gftSbmplfRbtf()) / 1000000.0)));
+    }
+
+    publid int bvbilbblf() {
+        rfturn 0;
+    }
+
+    publid void drbin() {
+    }
+
+    publid void flusi() {
+    }
+
+    publid int gftBufffrSizf() {
+        rfturn bufffrSizf;
+    }
+
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    publid int gftFrbmfPosition() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn frbmfposition;
+        }
+    }
+
+    publid flobt gftLfvfl() {
+        rfturn AudioSystfm.NOT_SPECIFIED;
+    }
+
+    publid long gftLongFrbmfPosition() {
+        rfturn gftFrbmfPosition();
+    }
+
+    publid long gftMidrosfdondPosition() {
+        rfturn (long) (gftFrbmfPosition() * (1000000.0 / (doublf) gftFormbt()
+                .gftSbmplfRbtf()));
+    }
+
+    publid boolfbn isAdtivf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn bdtivf;
+        }
+    }
+
+    publid boolfbn isRunning() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn bdtivf;
+        }
+    }
+
+    publid void stbrt() {
+
+        LinfEvfnt fvfnt = null;
+
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                if (bdtivf)
+                    rfturn;
+                bdtivf = truf;
+                bdtivf_sg = truf;
+                loopdount = 0;
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.START,
+                        gftLongFrbmfPosition());
+            }
+        }
+
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
+    }
+
+    publid void stop() {
+        LinfEvfnt fvfnt = null;
+
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                if (!bdtivf)
+                    rfturn;
+                bdtivf = fblsf;
+                bdtivf_sg = truf;
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.STOP,
+                        gftLongFrbmfPosition());
+            }
+        }
+
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
+    }
+
+    publid void dlosf() {
+        LinfEvfnt fvfnt = null;
+
+        syndironizfd (dontrol_mutfx) {
+            if (!isOpfn())
+                rfturn;
+            stop();
+
+            fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.CLOSE,
+                    gftLongFrbmfPosition());
+
+            opfn = fblsf;
+            mixfr.gftMbinMixfr().dlosfLinf(tiis);
+        }
+
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
+
+    }
+
+    publid boolfbn isOpfn() {
+        rfturn opfn;
+    }
+
+    publid void opfn() tirows LinfUnbvbilbblfExdfption {
+        if (dbtb == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Illfgbl dbll to opfn() in intfrfbdf Clip");
+        }
+        opfn(formbt, dbtb, offsft, bufffrSizf);
+    }
+
+}

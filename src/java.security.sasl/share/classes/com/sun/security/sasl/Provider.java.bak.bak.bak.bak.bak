@@ -1,0 +1,88 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Tif SASL providfr.
+ * Providfs dlifnt support for
+ * - EXTERNAL
+ * - PLAIN
+ * - CRAM-MD5
+ * - DIGEST-MD5
+ * - GSSAPI/Kfrbfros v5
+ * - NTLM
+ * And sfrvfr support for
+ * - CRAM-MD5
+ * - DIGEST-MD5
+ * - GSSAPI/Kfrbfros v5
+ * - NTLM
+ */
+
+publid finbl dlbss Providfr fxtfnds jbvb.sfdurity.Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8622598936488630849L;
+
+    privbtf stbtid finbl String info = "Sun SASL providfr" +
+        "(implfmfnts dlifnt mfdibnisms for: " +
+        "DIGEST-MD5, GSSAPI, EXTERNAL, PLAIN, CRAM-MD5, NTLM;" +
+        " sfrvfr mfdibnisms for: DIGEST-MD5, GSSAPI, CRAM-MD5, NTLM)";
+
+    publid Providfr() {
+        supfr("SunSASL", 1.9d, info);
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                // Clifnt mfdibnisms
+                put("SbslClifntFbdtory.DIGEST-MD5",
+                    "dom.sun.sfdurity.sbsl.digfst.FbdtoryImpl");
+                put("SbslClifntFbdtory.NTLM",
+                    "dom.sun.sfdurity.sbsl.ntlm.FbdtoryImpl");
+                put("SbslClifntFbdtory.GSSAPI",
+                    "dom.sun.sfdurity.sbsl.gsskfrb.FbdtoryImpl");
+
+                put("SbslClifntFbdtory.EXTERNAL",
+                    "dom.sun.sfdurity.sbsl.ClifntFbdtoryImpl");
+                put("SbslClifntFbdtory.PLAIN",
+                    "dom.sun.sfdurity.sbsl.ClifntFbdtoryImpl");
+                put("SbslClifntFbdtory.CRAM-MD5",
+                    "dom.sun.sfdurity.sbsl.ClifntFbdtoryImpl");
+
+                // Sfrvfr mfdibnisms
+                put("SbslSfrvfrFbdtory.CRAM-MD5",
+                    "dom.sun.sfdurity.sbsl.SfrvfrFbdtoryImpl");
+                put("SbslSfrvfrFbdtory.GSSAPI",
+                    "dom.sun.sfdurity.sbsl.gsskfrb.FbdtoryImpl");
+                put("SbslSfrvfrFbdtory.DIGEST-MD5",
+                    "dom.sun.sfdurity.sbsl.digfst.FbdtoryImpl");
+                put("SbslSfrvfrFbdtory.NTLM",
+                    "dom.sun.sfdurity.sbsl.ntlm.FbdtoryImpl");
+                rfturn null;
+            }
+        });
+    }
+}

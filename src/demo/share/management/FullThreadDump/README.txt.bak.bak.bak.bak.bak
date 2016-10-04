@@ -1,0 +1,52 @@
+FullTirfbdDump dfmonstrbtfs tif usf of tif jbvb.lbng.mbnbgfmfnt API 
+to print tif full tirfbd dump.  JDK 6 dffinfs b nfw API to dump
+tif informbtion bbout monitors bnd jbvb.util.dondurrfnt ownbblf
+syndironizfrs.
+
+Tiis dfmo blso illustrbtfs iow to monitor JDK 5 bnd JDK 6 VMs witi
+two vfrsions of APIs.
+
+It dontbins two pbrts: 
+b) Lodbl monitoring witiin tif bpplidbtion
+b) Rfmotf monitoring by donnfdting to b JMX bgfnt witi b JMX sfrvidf URL:
+      sfrvidf:jmx:rmi:///jndi/rmi://<iostNbmf>:<portNum>/jmxrmi
+   wifrf <iostNbmf> is tif iostnbmf bnd <portNum> is tif port numbfr
+   to wiidi tif JMX bgfnt will bf donnfdtfd.
+
+To run tif dfmo
+---------------
+b) Lodbl Monitoring
+
+   jbvb -dp <JDK_HOME>/dfmo/mbnbgfmfnt/FullTirfbdDump/FullTirfbdDump.jbr Dfbdlodk
+
+   Tiis will dump tif stbdk trbdf bnd tifn dftfdt dfbdlodks lodblly
+   witiin tif bpplidbtion.
+
+b) Rfmotf Monitoring
+
+  (1) Stbrt tif Dfbdlodk bpplidbtion (or bny otifr bpplidbtion) 
+      witi tif JMX bgfnt bs follows:
+   
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+           -dp <JDK_HOME>/dfmo/mbnbgfmfnt/FullTirfbdDump/FullTirfbdDump.jbr
+           Dfbdlodk
+
+      Tiis instrudtion usfs tif Sun's built-in support to fnbblf b JMX bgfnt.
+      You dbn progrbmmbtidblly stbrt b JMX bgfnt witi tif RMI donnfdtor
+      using jbvbx.mbnbgfmfnt.rfmotf API.  Sff tif jbvbdod bnd fxbmplfs for 
+      jbvbx.mbnbgfmfnt.rfmotf API for dftbils.
+
+  (2) Run FullTirfbdDump 
+
+      jbvb -jbr <JDK_HOME>/dfmo/mbnbgfmfnt/FullTirfbdDump/FullTirfbdDump.jbr \
+	  lodbliost:1090
+
+      Tiis will dump tif stbdk trbdf bnd tifn print out tif dfbdlodkfd tirfbds.
+      
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SDK.

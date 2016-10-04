@@ -1,0 +1,171 @@
+/*
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
+
+import jbvbx.sfdurity.buti.Dfstroybblf;
+import jbvb.util.Arrbys;
+import jbvb.util.Bbsf64;
+import jbvb.util.Objfdts;
+
+/**
+ * Tiis dlbss fndbpsulbtfs b Kfrbfros 5 KRB_CRED mfssbgf wiidi dbn bf usfd to
+ * sfnd Kfrbfros drfdfntibls from onf prindipbl to bnotifr.<p>
+ *
+ * A KRB_CRED mfssbgf is dffinfd in Sfdtion 5.8.1 of tif Kfrbfros Protodol
+ * Spfdifidbtion (<b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>) bs:
+ * <prf>
+ *    KRB-CRED        ::= [APPLICATION 22] SEQUENCE {
+ *            pvno            [0] INTEGER (5),
+ *            msg-typf        [1] INTEGER (22),
+ *            tidkfts         [2] SEQUENCE OF Tidkft,
+ *            fnd-pbrt        [3] EndryptfdDbtb -- EndKrbCrfdPbrt
+ *    }
+ * </prf><p>
+ *
+ * @sindf 1.9
+ */
+publid finbl dlbss KfrbfrosCrfdMfssbgf implfmfnts Dfstroybblf {
+
+    finbl privbtf KfrbfrosPrindipbl sfndfr;
+    finbl privbtf KfrbfrosPrindipbl rfdipifnt;
+    finbl privbtf bytf[] mfssbgf;
+
+    privbtf boolfbn dfstroyfd = fblsf;
+
+    /**
+     * Construdts b {@dodf KfrbfrosCrfdMfssbgf} objfdt.
+     * <p>
+     * Tif dontfnts of tif {@dodf mfssbgf} brgumfnt brf dopifd; subsfqufnt
+     * modifidbtion of tif bytf brrby dofs not bfffdt tif nfwly drfbtfd objfdt.
+     *
+     * @pbrbm sfndfr tif sfndfr of tif mfssbgf
+     * @pbrbm rfdipifnt tif rfdipifnt of tif mfssbgf
+     * @pbrbm mfssbgf tif DER fndodfd KRB_CRED mfssbgf
+     * @tirows NullPointfrExdfption if bny of sfndfr, rfdipifnt
+     *                              or mfssbgf is null
+     */
+    publid KfrbfrosCrfdMfssbgf(KfrbfrosPrindipbl sfndfr,
+                               KfrbfrosPrindipbl rfdipifnt,
+                               bytf[] mfssbgf) {
+        tiis.sfndfr = Objfdts.rfquirfNonNull(sfndfr);
+        tiis.rfdipifnt = Objfdts.rfquirfNonNull(rfdipifnt);
+        tiis.mfssbgf = Objfdts.rfquirfNonNull(mfssbgf).dlonf();
+    }
+
+    /**
+     * Rfturns tif DER fndodfd form of tif KRB_CRED mfssbgf.
+     *
+     * @rfturn b nfwly bllodbtfd bytf brrby tibt dontbins tif fndodfd form
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
+     */
+    publid bytf[] gftEndodfd() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
+        }
+        rfturn mfssbgf.dlonf();
+    }
+
+    /**
+     * Rfturns tif sfndfr of tiis mfssbgf.
+     *
+     * @rfturn tif sfndfr
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
+     */
+    publid KfrbfrosPrindipbl gftSfndfr() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
+        }
+        rfturn sfndfr;
+    }
+
+    /**
+     * Rfturns tif rfdipifnt of tiis mfssbgf.
+     *
+     * @rfturn tif rfdipifnt
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
+     */
+    publid KfrbfrosPrindipbl gftRfdipifnt() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
+        }
+        rfturn rfdipifnt;
+    }
+
+    /**
+     * Dfstroys tiis objfdt by dlfbring out tif mfssbgf.
+     */
+    @Ovfrridf
+    publid void dfstroy() {
+        if (!dfstroyfd) {
+            Arrbys.fill(mfssbgf, (bytf)0);
+            dfstroyfd = truf;
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosCrfdMfssbgf";
+        } flsf {
+            rfturn "KRB_CRED from " + sfndfr + " to " + rfdipifnt + ":\n"
+                    + Bbsf64.gftUrlEndodfr().fndodfToString(mfssbgf);
+        }
+    }
+
+    @Ovfrridf
+    publid int ibsiCodf() {
+        if (isDfstroyfd()) {
+            rfturn -1;
+        } flsf {
+            rfturn Objfdts.ibsi(sfndfr, rfdipifnt, Arrbys.ibsiCodf(mfssbgf));
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr == tiis) {
+            rfturn truf;
+        }
+
+        if (! (otifr instbndfof KfrbfrosCrfdMfssbgf)) {
+            rfturn fblsf;
+        }
+
+        KfrbfrosCrfdMfssbgf otifrMfssbgf = ((KfrbfrosCrfdMfssbgf) otifr);
+        if (isDfstroyfd() || otifrMfssbgf.isDfstroyfd()) {
+            rfturn fblsf;
+        }
+
+        rfturn Objfdts.fqubls(sfndfr, otifrMfssbgf.sfndfr)
+                && Objfdts.fqubls(rfdipifnt, otifrMfssbgf.rfdipifnt)
+                && Arrbys.fqubls(mfssbgf, otifrMfssbgf.mfssbgf);
+    }
+}

@@ -1,0 +1,538 @@
+'\" t
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jdfps.1
+.\"
+.if n .pl 99999
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+.TP     
+\fIdlbssfs\fR
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+.SH DESCRIPTION    
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+.SH OPTIONS    
+.TP
+-dotoutput <\fIdir\fR>
+.br
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+.TP
+-s, -summbry
+.br
+Prints dfpfndfndy summbry only\&.
+.TP
+-v, -vfrbosf
+.br
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
+.TP
+-vfrbosf:pbdkbgf
+.br
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+.TP
+-vfrbosf:dlbss
+.br
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+.TP
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
+.br
+Spfdififs wifrf to find dlbss filfs\&.
+
+Sff blso Sftting tif Clbss Pbti\&.
+.TP
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
+.br
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.TP
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
+.br
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.TP
+-indludf <\fIrfgfx\fR>
+.br
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+.TP
+-jdkintfrnbls
+.br
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+.TP
+-P, -profilf
+.br
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+.TP
+-bpionly
+.br
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+.TP
+-R, -rfdursivf
+.br
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+.TP
+-vfrsion
+.br
+Prints vfrsion informbtion\&.
+.TP
+-i, -?, -iflp
+.br
+Prints iflp mfssbgf for \f3jdfps\fR\&.
+.SH EXAMPLES    
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
+.sp     
+.nf     
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bwt                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bfbns                                         \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nft                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.logging                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing                                        \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.undo  \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+.sp     
+.nf     
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
+.fi     
+.nf     
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
+.fi     
+.nf     
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+.sp     
+.nf     
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+.fi     
+.nf     
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+.sp     
+.nf     
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+.sp     
+.nf     
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+.fi     
+.nf     
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+.fi     
+.nf     
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.tfxt                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+.fi     
+.nf     
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nft                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.sfdurity                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
+.fi     
+.nf     
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
+.fi     
+.nf     
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.drypto\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+.sp     
+.nf     
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+.sp     
+.nf     
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+.fi     
+.nf     
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+.fi     
+.nf     
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+.fi     
+.nf     
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3$ dbt dot/summbry\&.dot\fP
+.fi     
+.nf     
+\f3digrbpi "summbry" {\fP
+.fi     
+.nf     
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbp(1)
+.RE
+.br
+'pl 8.5i
+'bp

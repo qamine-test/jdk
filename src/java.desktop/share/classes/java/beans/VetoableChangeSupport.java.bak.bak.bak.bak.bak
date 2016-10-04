@@ -1,0 +1,543 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp.Entry;
+
+/**
+ * Tiis is b utility dlbss tibt dbn bf usfd by bfbns tibt support donstrbinfd
+ * propfrtifs.  It mbnbgfs b list of listfnfrs bnd dispbtdifs
+ * {@link PropfrtyCibngfEvfnt}s to tifm.  You dbn usf bn instbndf of tiis dlbss
+ * bs b mfmbfr fifld of your bfbn bnd dflfgbtf tifsf typfs of work to it.
+ * Tif {@link VftobblfCibngfListfnfr} dbn bf rfgistfrfd for bll propfrtifs
+ * or for b propfrty spfdififd by nbmf.
+ * <p>
+ * Hfrf is bn fxbmplf of {@dodf VftobblfCibngfSupport} usbgf tibt follows
+ * tif rulfs bnd rfdommfndbtions lbid out in tif JbvbBfbns&trbdf; spfdifidbtion:
+ * <prf>{@dodf
+ * publid dlbss MyBfbn {
+ *     privbtf finbl VftobblfCibngfSupport vds = nfw VftobblfCibngfSupport(tiis);
+ *
+ *     publid void bddVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+ *         tiis.vds.bddVftobblfCibngfListfnfr(listfnfr);
+ *     }
+ *
+ *     publid void rfmovfVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+ *         tiis.vds.rfmovfVftobblfCibngfListfnfr(listfnfr);
+ *     }
+ *
+ *     privbtf String vbluf;
+ *
+ *     publid String gftVbluf() {
+ *         rfturn tiis.vbluf;
+ *     }
+ *
+ *     publid void sftVbluf(String nfwVbluf) tirows PropfrtyVftoExdfption {
+ *         String oldVbluf = tiis.vbluf;
+ *         tiis.vds.firfVftobblfCibngf("vbluf", oldVbluf, nfwVbluf);
+ *         tiis.vbluf = nfwVbluf;
+ *     }
+ *
+ *     [...]
+ * }
+ * }</prf>
+ * <p>
+ * A {@dodf VftobblfCibngfSupport} instbndf is tirfbd-sbff.
+ * <p>
+ * Tiis dlbss is sfriblizbblf.  Wifn it is sfriblizfd it will sbvf
+ * (bnd rfstorf) bny listfnfrs tibt brf tifmsflvfs sfriblizbblf.  Any
+ * non-sfriblizbblf listfnfrs will bf skippfd during sfriblizbtion.
+ *
+ * @sff PropfrtyCibngfSupport
+ * @sindf 1.1
+ */
+publid dlbss VftobblfCibngfSupport implfmfnts Sfriblizbblf {
+    privbtf VftobblfCibngfListfnfrMbp mbp = nfw VftobblfCibngfListfnfrMbp();
+
+    /**
+     * Construdts b <dodf>VftobblfCibngfSupport</dodf> objfdt.
+     *
+     * @pbrbm sourdfBfbn  Tif bfbn to bf givfn bs tif sourdf for bny fvfnts.
+     */
+    publid VftobblfCibngfSupport(Objfdt sourdfBfbn) {
+        if (sourdfBfbn == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        sourdf = sourdfBfbn;
+    }
+
+    /**
+     * Add b VftobblfCibngfListfnfr to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf, bnd will bf dbllfd
+     * bs mbny timfs bs it is bddfd.
+     * If <dodf>listfnfr</dodf> is null, no fxdfption is tirown bnd no bdtion
+     * is tbkfn.
+     *
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf bddfd
+     */
+    publid void bddVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        if (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+            VftobblfCibngfListfnfrProxy proxy =
+                    (VftobblfCibngfListfnfrProxy)listfnfr;
+            // Cbll two brgumfnt bdd mftiod.
+            bddVftobblfCibngfListfnfr(proxy.gftPropfrtyNbmf(),
+                                      proxy.gftListfnfr());
+        } flsf {
+            tiis.mbp.bdd(null, listfnfr);
+        }
+    }
+
+    /**
+     * Rfmovf b VftobblfCibngfListfnfr from tif listfnfr list.
+     * Tiis rfmovfs b VftobblfCibngfListfnfr tibt wbs rfgistfrfd
+     * for bll propfrtifs.
+     * If <dodf>listfnfr</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd.
+     * If <dodf>listfnfr</dodf> is null, or wbs nfvfr bddfd, no fxdfption is
+     * tirown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf rfmovfd
+     */
+    publid void rfmovfVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        if (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+            VftobblfCibngfListfnfrProxy proxy =
+                    (VftobblfCibngfListfnfrProxy)listfnfr;
+            // Cbll two brgumfnt rfmovf mftiod.
+            rfmovfVftobblfCibngfListfnfr(proxy.gftPropfrtyNbmf(),
+                                         proxy.gftListfnfr());
+        } flsf {
+            tiis.mbp.rfmovf(null, listfnfr);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif listfnfrs tibt wfrf bddfd to tif
+     * VftobblfCibngfSupport objfdt witi bddVftobblfCibngfListfnfr().
+     * <p>
+     * If somf listfnfrs ibvf bffn bddfd witi b nbmfd propfrty, tifn
+     * tif rfturnfd brrby will bf b mixturf of VftobblfCibngfListfnfrs
+     * bnd <dodf>VftobblfCibngfListfnfrProxy</dodf>s. If tif dblling
+     * mftiod is intfrfstfd in distinguisiing tif listfnfrs tifn it must
+     * tfst fbdi flfmfnt to sff if it's b
+     * <dodf>VftobblfCibngfListfnfrProxy</dodf>, pfrform tif dbst, bnd fxbminf
+     * tif pbrbmftfr.
+     *
+     * <prf>{@dodf
+     * VftobblfCibngfListfnfr[] listfnfrs = bfbn.gftVftobblfCibngfListfnfrs();
+     * for (int i = 0; i < listfnfrs.lfngti; i++) {
+     *        if (listfnfrs[i] instbndfof VftobblfCibngfListfnfrProxy) {
+     *     VftobblfCibngfListfnfrProxy proxy =
+     *                    (VftobblfCibngfListfnfrProxy)listfnfrs[i];
+     *     if (proxy.gftPropfrtyNbmf().fqubls("foo")) {
+     *       // proxy is b VftobblfCibngfListfnfr wiidi wbs bssodibtfd
+     *       // witi tif propfrty nbmfd "foo"
+     *     }
+     *   }
+     * }
+     * }</prf>
+     *
+     * @sff VftobblfCibngfListfnfrProxy
+     * @rfturn bll of tif <dodf>VftobblfCibngfListfnfrs</dodf> bddfd or bn
+     *         fmpty brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid VftobblfCibngfListfnfr[] gftVftobblfCibngfListfnfrs(){
+        rfturn tiis.mbp.gftListfnfrs();
+    }
+
+    /**
+     * Add b VftobblfCibngfListfnfr for b spfdifid propfrty.  Tif listfnfr
+     * will bf invokfd only wifn b dbll on firfVftobblfCibngf nbmfs tibt
+     * spfdifid propfrty.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf.  For fbdi
+     * propfrty,  tif listfnfr will bf invokfd tif numbfr of timfs it wbs bddfd
+     * for tibt propfrty.
+     * If <dodf>propfrtyNbmf</dodf> or <dodf>listfnfr</dodf> is null, no
+     * fxdfption is tirown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty to listfn on.
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf bddfd
+     * @sindf 1.2
+     */
+    publid void bddVftobblfCibngfListfnfr(
+                                String propfrtyNbmf,
+                VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null || propfrtyNbmf == null) {
+            rfturn;
+        }
+        listfnfr = tiis.mbp.fxtrbdt(listfnfr);
+        if (listfnfr != null) {
+            tiis.mbp.bdd(propfrtyNbmf, listfnfr);
+        }
+    }
+
+    /**
+     * Rfmovf b VftobblfCibngfListfnfr for b spfdifid propfrty.
+     * If <dodf>listfnfr</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf for tif spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>propfrtyNbmf</dodf> is null, no fxdfption is tirown bnd no
+     * bdtion is tbkfn.
+     * If <dodf>listfnfr</dodf> is null, or wbs nfvfr bddfd for tif spfdififd
+     * propfrty, no fxdfption is tirown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty tibt wbs listfnfd on.
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf rfmovfd
+     * @sindf 1.2
+     */
+    publid void rfmovfVftobblfCibngfListfnfr(
+                                String propfrtyNbmf,
+                VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null || propfrtyNbmf == null) {
+            rfturn;
+        }
+        listfnfr = tiis.mbp.fxtrbdt(listfnfr);
+        if (listfnfr != null) {
+            tiis.mbp.rfmovf(propfrtyNbmf, listfnfr);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif listfnfrs wiidi ibvf bffn bssodibtfd
+     * witi tif nbmfd propfrty.
+     *
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty bfing listfnfd to
+     * @rfturn bll tif <dodf>VftobblfCibngfListfnfrs</dodf> bssodibtfd witi
+     *         tif nbmfd propfrty.  If no sudi listfnfrs ibvf bffn bddfd,
+     *         or if <dodf>propfrtyNbmf</dodf> is null, bn fmpty brrby is
+     *         rfturnfd.
+     * @sindf 1.4
+     */
+    publid VftobblfCibngfListfnfr[] gftVftobblfCibngfListfnfrs(String propfrtyNbmf) {
+        rfturn tiis.mbp.gftListfnfrs(propfrtyNbmf);
+    }
+
+    /**
+     * Rfports b donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl bnd non-null.
+     * <p>
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(PropfrtyCibngfEvfnt)} mftiod.
+     *
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     */
+    publid void firfVftobblfCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf == null || nfwVbluf == null || !oldVbluf.fqubls(nfwVbluf)) {
+            firfVftobblfCibngf(nfw PropfrtyCibngfEvfnt(tiis.sourdf, propfrtyNbmf, oldVbluf, nfwVbluf));
+        }
+    }
+
+    /**
+     * Rfports bn intfgfr donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl.
+     * <p>
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(String, Objfdt, Objfdt)} mftiod.
+     *
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
+     */
+    publid void firfVftobblfCibngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf != nfwVbluf) {
+            firfVftobblfCibngf(propfrtyNbmf, Intfgfr.vblufOf(oldVbluf), Intfgfr.vblufOf(nfwVbluf));
+        }
+    }
+
+    /**
+     * Rfports b boolfbn donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl.
+     * <p>
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(String, Objfdt, Objfdt)} mftiod.
+     *
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
+     */
+    publid void firfVftobblfCibngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf != nfwVbluf) {
+            firfVftobblfCibngf(propfrtyNbmf, Boolfbn.vblufOf(oldVbluf), Boolfbn.vblufOf(nfwVbluf));
+        }
+    }
+
+    /**
+     * Firfs b propfrty dibngf fvfnt to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if tif givfn fvfnt's old bnd nfw vblufs brf fqubl bnd non-null.
+     *
+     * @pbrbm fvfnt  tif {@dodf PropfrtyCibngfEvfnt} to bf firfd
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
+     */
+    publid void firfVftobblfCibngf(PropfrtyCibngfEvfnt fvfnt)
+            tirows PropfrtyVftoExdfption {
+        Objfdt oldVbluf = fvfnt.gftOldVbluf();
+        Objfdt nfwVbluf = fvfnt.gftNfwVbluf();
+        if (oldVbluf == null || nfwVbluf == null || !oldVbluf.fqubls(nfwVbluf)) {
+            String nbmf = fvfnt.gftPropfrtyNbmf();
+
+            VftobblfCibngfListfnfr[] dommon = tiis.mbp.gft(null);
+            VftobblfCibngfListfnfr[] nbmfd = (nbmf != null)
+                        ? tiis.mbp.gft(nbmf)
+                        : null;
+
+            VftobblfCibngfListfnfr[] listfnfrs;
+            if (dommon == null) {
+                listfnfrs = nbmfd;
+            }
+            flsf if (nbmfd == null) {
+                listfnfrs = dommon;
+            }
+            flsf {
+                listfnfrs = nfw VftobblfCibngfListfnfr[dommon.lfngti + nbmfd.lfngti];
+                Systfm.brrbydopy(dommon, 0, listfnfrs, 0, dommon.lfngti);
+                Systfm.brrbydopy(nbmfd, 0, listfnfrs, dommon.lfngti, nbmfd.lfngti);
+            }
+            if (listfnfrs != null) {
+                int durrfnt = 0;
+                try {
+                    wiilf (durrfnt < listfnfrs.lfngti) {
+                        listfnfrs[durrfnt].vftobblfCibngf(fvfnt);
+                        durrfnt++;
+                    }
+                }
+                dbtdi (PropfrtyVftoExdfption vfto) {
+                    fvfnt = nfw PropfrtyCibngfEvfnt(tiis.sourdf, nbmf, nfwVbluf, oldVbluf);
+                    for (int i = 0; i < durrfnt; i++) {
+                        try {
+                            listfnfrs[i].vftobblfCibngf(fvfnt);
+                        }
+                        dbtdi (PropfrtyVftoExdfption fxdfption) {
+                            // ignorf fxdfptions tibt oddur during rolling bbdk
+                        }
+                    }
+                    tirow vfto; // rftirow tif vfto fxdfption
+                }
+            }
+        }
+    }
+
+    /**
+     * Cifdk if tifrf brf bny listfnfrs for b spfdifid propfrty, indluding
+     * tiosf rfgistfrfd on bll propfrtifs.  If <dodf>propfrtyNbmf</dodf>
+     * is null, only difdk for listfnfrs rfgistfrfd on bll propfrtifs.
+     *
+     * @pbrbm propfrtyNbmf  tif propfrty nbmf.
+     * @rfturn truf if tifrf brf onf or morf listfnfrs for tif givfn propfrty
+     * @sindf 1.2
+     */
+    publid boolfbn ibsListfnfrs(String propfrtyNbmf) {
+        rfturn tiis.mbp.ibsListfnfrs(propfrtyNbmf);
+    }
+
+    /**
+     * @sfriblDbtb Null tfrminbtfd list of <dodf>VftobblfCibngfListfnfrs</dodf>.
+     * <p>
+     * At sfriblizbtion timf wf skip non-sfriblizbblf listfnfrs bnd
+     * only sfriblizf tif sfriblizbblf listfnfrs.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        Hbsitbblf<String, VftobblfCibngfSupport> diildrfn = null;
+        VftobblfCibngfListfnfr[] listfnfrs = null;
+        syndironizfd (tiis.mbp) {
+            for (Entry<String, VftobblfCibngfListfnfr[]> fntry : tiis.mbp.gftEntrifs()) {
+                String propfrty = fntry.gftKfy();
+                if (propfrty == null) {
+                    listfnfrs = fntry.gftVbluf();
+                } flsf {
+                    if (diildrfn == null) {
+                        diildrfn = nfw Hbsitbblf<>();
+                    }
+                    VftobblfCibngfSupport vds = nfw VftobblfCibngfSupport(tiis.sourdf);
+                    vds.mbp.sft(null, fntry.gftVbluf());
+                    diildrfn.put(propfrty, vds);
+                }
+            }
+        }
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("diildrfn", diildrfn);
+        fiflds.put("sourdf", tiis.sourdf);
+        fiflds.put("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", 2);
+        s.writfFiflds();
+
+        if (listfnfrs != null) {
+            for (VftobblfCibngfListfnfr l : listfnfrs) {
+                if (l instbndfof Sfriblizbblf) {
+                    s.writfObjfdt(l);
+                }
+            }
+        }
+        s.writfObjfdt(null);
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ClbssNotFoundExdfption, IOExdfption {
+        tiis.mbp = nfw VftobblfCibngfListfnfrMbp();
+
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, VftobblfCibngfSupport> diildrfn = (Hbsitbblf<String, VftobblfCibngfSupport>)fiflds.gft("diildrfn", null);
+        tiis.sourdf = fiflds.gft("sourdf", null);
+        fiflds.gft("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", 2);
+
+        Objfdt listfnfrOrNull;
+        wiilf (null != (listfnfrOrNull = s.rfbdObjfdt())) {
+            tiis.mbp.bdd(null, (VftobblfCibngfListfnfr)listfnfrOrNull);
+        }
+        if (diildrfn != null) {
+            for (Entry<String, VftobblfCibngfSupport> fntry : diildrfn.fntrySft()) {
+                for (VftobblfCibngfListfnfr listfnfr : fntry.gftVbluf().gftVftobblfCibngfListfnfrs()) {
+                    tiis.mbp.bdd(fntry.gftKfy(), listfnfr);
+                }
+            }
+        }
+    }
+
+    /**
+     * Tif objfdt to bf providfd bs tif "sourdf" for bny gfnfrbtfd fvfnts.
+     */
+    privbtf Objfdt sourdf;
+
+    /**
+     * @sfriblFifld diildrfn                                   Hbsitbblf
+     * @sfriblFifld sourdf                                     Objfdt
+     * @sfriblFifld vftobblfCibngfSupportSfriblizfdDbtbVfrsion int
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+            nfw ObjfdtStrfbmFifld("diildrfn", Hbsitbblf.dlbss),
+            nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+            nfw ObjfdtStrfbmFifld("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", Intfgfr.TYPE)
+    };
+
+    /**
+     * Sfriblizbtion vfrsion ID, so wf'rf dompbtiblf witi JDK 1.1
+     */
+    stbtid finbl long sfriblVfrsionUID = -5090210921595982017L;
+
+    /**
+     * Tiis is b {@link CibngfListfnfrMbp CibngfListfnfrMbp} implfmfntbtion
+     * tibt works witi {@link VftobblfCibngfListfnfr VftobblfCibngfListfnfr} objfdts.
+     */
+    privbtf stbtid finbl dlbss VftobblfCibngfListfnfrMbp fxtfnds CibngfListfnfrMbp<VftobblfCibngfListfnfr> {
+        privbtf stbtid finbl VftobblfCibngfListfnfr[] EMPTY = {};
+
+        /**
+         * Crfbtfs bn brrby of {@link VftobblfCibngfListfnfr VftobblfCibngfListfnfr} objfdts.
+         * Tiis mftiod usfs tif sbmf instbndf of tif fmpty brrby
+         * wifn {@dodf lfngti} fqubls {@dodf 0}.
+         *
+         * @pbrbm lfngti  tif brrby lfngti
+         * @rfturn        bn brrby witi spfdififd lfngti
+         */
+        @Ovfrridf
+        protfdtfd VftobblfCibngfListfnfr[] nfwArrby(int lfngti) {
+            rfturn (0 < lfngti)
+                    ? nfw VftobblfCibngfListfnfr[lfngti]
+                    : EMPTY;
+        }
+
+        /**
+         * Crfbtfs b {@link VftobblfCibngfListfnfrProxy VftobblfCibngfListfnfrProxy}
+         * objfdt for tif spfdififd propfrty.
+         *
+         * @pbrbm nbmf      tif nbmf of tif propfrty to listfn on
+         * @pbrbm listfnfr  tif listfnfr to prodfss fvfnts
+         * @rfturn          b {@dodf VftobblfCibngfListfnfrProxy} objfdt
+         */
+        @Ovfrridf
+        protfdtfd VftobblfCibngfListfnfr nfwProxy(String nbmf, VftobblfCibngfListfnfr listfnfr) {
+            rfturn nfw VftobblfCibngfListfnfrProxy(nbmf, listfnfr);
+        }
+
+        /**
+         * {@inifritDod}
+         */
+        publid finbl VftobblfCibngfListfnfr fxtrbdt(VftobblfCibngfListfnfr listfnfr) {
+            wiilf (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+                listfnfr = ((VftobblfCibngfListfnfrProxy) listfnfr).gftListfnfr();
+            }
+            rfturn listfnfr;
+        }
+    }
+}

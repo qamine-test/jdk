@@ -1,0 +1,125 @@
+/*
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn;
+import dom.sun.mbnbgfmfnt.GdInfo;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Sft;
+import jbvb.util.Mbp;
+
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+
+publid dlbss MfmoryPoolProxy {
+    privbtf String poolNbmf;
+    privbtf ProxyClifnt dlifnt;
+    privbtf MfmoryPoolMXBfbn pool;
+    privbtf Mbp<ObjfdtNbmf,Long> gdMBfbns;
+    privbtf GdInfo lbstGdInfo;
+
+    publid MfmoryPoolProxy(ProxyClifnt dlifnt, ObjfdtNbmf poolNbmf) tirows jbvb.io.IOExdfption {
+        tiis.dlifnt = dlifnt;
+        tiis.pool = dlifnt.gftMXBfbn(poolNbmf, MfmoryPoolMXBfbn.dlbss);
+        tiis.poolNbmf = tiis.pool.gftNbmf();
+        tiis.gdMBfbns = nfw HbsiMbp<ObjfdtNbmf,Long>();
+        tiis.lbstGdInfo = null;
+
+        String[] mgrNbmfs = pool.gftMfmoryMbnbgfrNbmfs();
+        for (String nbmf : mgrNbmfs) {
+            try {
+                ObjfdtNbmf mbfbnNbmf = nfw ObjfdtNbmf(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
+                                                      ",nbmf=" + nbmf);
+                if (dlifnt.isRfgistfrfd(mbfbnNbmf)) {
+                    gdMBfbns.put(mbfbnNbmf, 0L);
+                }
+            } dbtdi (Exdfption f) {
+                bssfrt fblsf;
+            }
+
+        }
+    }
+
+    publid boolfbn isCollfdtfdMfmoryPool() {
+        rfturn (gdMBfbns.sizf() != 0);
+    }
+
+    publid MfmoryPoolStbt gftStbt() tirows jbvb.io.IOExdfption {
+        long usbgfTirfsiold = (pool.isUsbgfTirfsioldSupportfd()
+                                  ? pool.gftUsbgfTirfsiold()
+                                  : -1);
+        long dollfdtTirfsiold = (pool.isCollfdtionUsbgfTirfsioldSupportfd()
+                                  ? pool.gftCollfdtionUsbgfTirfsiold()
+                                  : -1);
+        long lbstGdStbrtTimf = 0;
+        long lbstGdEndTimf = 0;
+        MfmoryUsbgf bfforfGdUsbgf = null;
+        MfmoryUsbgf bftfrGdUsbgf = null;
+        long gdId = 0;
+        if (lbstGdInfo != null) {
+            gdId = lbstGdInfo.gftId();
+            lbstGdStbrtTimf = lbstGdInfo.gftStbrtTimf();
+            lbstGdEndTimf = lbstGdInfo.gftEndTimf();
+            bfforfGdUsbgf = lbstGdInfo.gftMfmoryUsbgfBfforfGd().gft(poolNbmf);
+            bftfrGdUsbgf = lbstGdInfo.gftMfmoryUsbgfAftfrGd().gft(poolNbmf);
+        }
+
+        Sft<Mbp.Entry<ObjfdtNbmf,Long>> sft = gdMBfbns.fntrySft();
+        for (Mbp.Entry<ObjfdtNbmf,Long> f : sft) {
+            GbrbbgfCollfdtorMXBfbn gd =
+                dlifnt.gftMXBfbn(f.gftKfy(),
+                                 dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn.dlbss);
+            Long gdCount = f.gftVbluf();
+            Long nfwCount = gd.gftCollfdtionCount();
+            if (nfwCount > gdCount) {
+                gdMBfbns.put(f.gftKfy(), nfwCount);
+                lbstGdInfo = gd.gftLbstGdInfo();
+                if (lbstGdInfo.gftEndTimf() > lbstGdEndTimf) {
+                    gdId = lbstGdInfo.gftId();
+                    lbstGdStbrtTimf = lbstGdInfo.gftStbrtTimf();
+                    lbstGdEndTimf = lbstGdInfo.gftEndTimf();
+                    bfforfGdUsbgf = lbstGdInfo.gftMfmoryUsbgfBfforfGd().gft(poolNbmf);
+                    bftfrGdUsbgf = lbstGdInfo.gftMfmoryUsbgfAftfrGd().gft(poolNbmf);
+                    bssfrt(bfforfGdUsbgf != null);
+                    bssfrt(bftfrGdUsbgf != null);
+                }
+            }
+        }
+
+        MfmoryUsbgf usbgf = pool.gftUsbgf();
+        rfturn nfw MfmoryPoolStbt(poolNbmf,
+                                  usbgfTirfsiold,
+                                  usbgf,
+                                  gdId,
+                                  lbstGdStbrtTimf,
+                                  lbstGdEndTimf,
+                                  dollfdtTirfsiold,
+                                  bfforfGdUsbgf,
+                                  bftfrGdUsbgf);
+    }
+}

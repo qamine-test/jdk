@@ -1,0 +1,787 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.util.EvfntObjfdt;
+import jbvb.util.Vfdtor;
+
+/**
+ * A <dodf>TrffCfllEditor</dodf>. You nffd to supply bn
+ * instbndf of <dodf>DffbultTrffCfllRfndfrfr</dodf>
+ * so tibt tif idons dbn bf obtbinfd. You dbn optionblly supply
+ * b <dodf>TrffCfllEditor</dodf> tibt will bf lbyfd out bddording
+ * to tif idon in tif <dodf>DffbultTrffCfllRfndfrfr</dodf>.
+ * If you do not supply b <dodf>TrffCfllEditor</dodf>,
+ * b <dodf>TfxtFifld</dodf> will bf usfd. Editing is stbrtfd
+ * on b triplf mousf dlidk, or bftfr b dlidk, pbusf, dlidk bnd
+ * b dflby of 1200 millisfdonds.
+ *<p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.JTrff
+ *
+ * @butior Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTrffCfllEditor implfmfnts AdtionListfnfr, TrffCfllEditor,
+            TrffSflfdtionListfnfr {
+    /** Editor ibndling tif fditing. */
+    protfdtfd TrffCfllEditor               rfblEditor;
+
+    /** Rfndfrfr, usfd to gft bordfr bnd offsfts from. */
+    protfdtfd DffbultTrffCfllRfndfrfr      rfndfrfr;
+
+    /** Editing dontbinfr, will dontbin tif <dodf>fditorComponfnt</dodf>. */
+    protfdtfd Contbinfr                    fditingContbinfr;
+
+    /**
+     * Componfnt usfd in fditing, obtbinfd from tif
+     * <dodf>fditingContbinfr</dodf>.
+     */
+    trbnsifnt protfdtfd Componfnt          fditingComponfnt;
+
+    /**
+     * As of Jbvb 2 plbtform v1.4 tiis fifld siould no longfr bf usfd. If
+     * you wisi to providf similbr bfibvior you siould dirfdtly ovfrridf
+     * <dodf>isCfllEditbblf</dodf>.
+     */
+    protfdtfd boolfbn                      dbnEdit;
+
+    /**
+     * Usfd in fditing. Indidbtfs x position to plbdf
+     * <dodf>fditingComponfnt</dodf>.
+     */
+    protfdtfd trbnsifnt int                offsft;
+
+    /** <dodf>JTrff</dodf> instbndf listfning too. */
+    protfdtfd trbnsifnt JTrff              trff;
+
+    /** Lbst pbti tibt wbs sflfdtfd. */
+    protfdtfd trbnsifnt TrffPbti           lbstPbti;
+
+    /** Usfd bfforf stbrting tif fditing sfssion. */
+    protfdtfd trbnsifnt Timfr              timfr;
+
+    /**
+     * Row tibt wbs lbst pbssfd into
+     * <dodf>gftTrffCfllEditorComponfnt</dodf>.
+     */
+    protfdtfd trbnsifnt int                lbstRow;
+
+    /** Truf if tif bordfr sflfdtion dolor siould bf drbwn. */
+    protfdtfd Color                        bordfrSflfdtionColor;
+
+    /** Idon to usf wifn fditing. */
+    protfdtfd trbnsifnt Idon               fditingIdon;
+
+    /**
+     * Font to pbint witi, <dodf>null</dodf> indidbtfs
+     * font of rfndfrfr is to bf usfd.
+     */
+    protfdtfd Font                         font;
+
+
+    /**
+     * Construdts b <dodf>DffbultTrffCfllEditor</dodf>
+     * objfdt for b JTrff using tif spfdififd rfndfrfr bnd
+     * b dffbult fditor. (Usf tiis donstrudtor for normbl fditing.)
+     *
+     * @pbrbm trff      b <dodf>JTrff</dodf> objfdt
+     * @pbrbm rfndfrfr  b <dodf>DffbultTrffCfllRfndfrfr</dodf> objfdt
+     */
+    publid DffbultTrffCfllEditor(JTrff trff,
+                                 DffbultTrffCfllRfndfrfr rfndfrfr) {
+        tiis(trff, rfndfrfr, null);
+    }
+
+    /**
+     * Construdts b <dodf>DffbultTrffCfllEditor</dodf>
+     * objfdt for b <dodf>JTrff</dodf> using tif
+     * spfdififd rfndfrfr bnd tif spfdififd fditor. (Usf tiis donstrudtor
+     * for spfdiblizfd fditing.)
+     *
+     * @pbrbm trff      b <dodf>JTrff</dodf> objfdt
+     * @pbrbm rfndfrfr  b <dodf>DffbultTrffCfllRfndfrfr</dodf> objfdt
+     * @pbrbm fditor    b <dodf>TrffCfllEditor</dodf> objfdt
+     */
+    publid DffbultTrffCfllEditor(JTrff trff, DffbultTrffCfllRfndfrfr rfndfrfr,
+                                 TrffCfllEditor fditor) {
+        tiis.rfndfrfr = rfndfrfr;
+        rfblEditor = fditor;
+        if(rfblEditor == null)
+            rfblEditor = drfbtfTrffCfllEditor();
+        fditingContbinfr = drfbtfContbinfr();
+        sftTrff(trff);
+        sftBordfrSflfdtionColor(UIMbnbgfr.gftColor
+                                ("Trff.fditorBordfrSflfdtionColor"));
+    }
+
+    /**
+      * Sfts tif dolor to usf for tif bordfr.
+      * @pbrbm nfwColor tif nfw bordfr dolor
+      */
+    publid void sftBordfrSflfdtionColor(Color nfwColor) {
+        bordfrSflfdtionColor = nfwColor;
+    }
+
+    /**
+      * Rfturns tif dolor tif bordfr is drbwn.
+      * @rfturn tif bordfr sflfdtion dolor
+      */
+    publid Color gftBordfrSflfdtionColor() {
+        rfturn bordfrSflfdtionColor;
+    }
+
+    /**
+     * Sfts tif font to fdit witi. <dodf>null</dodf> indidbtfs
+     * tif rfndfrfrs font siould bf usfd. Tiis will NOT
+     * ovfrridf bny font you ibvf sft in tif fditor
+     * tif rfdfivfr wbs instbntibtfd witi. If <dodf>null</dodf>
+     * for bn fditor wbs pbssfd in b dffbult fditor will bf
+     * drfbtfd tibt will pidk up tiis font.
+     *
+     * @pbrbm font  tif fditing <dodf>Font</dodf>
+     * @sff #gftFont
+     */
+    publid void sftFont(Font font) {
+        tiis.font = font;
+    }
+
+    /**
+     * Gfts tif font usfd for fditing.
+     *
+     * @rfturn tif fditing <dodf>Font</dodf>
+     * @sff #sftFont
+     */
+    publid Font gftFont() {
+        rfturn font;
+    }
+
+    //
+    // TrffCfllEditor
+    //
+
+    /**
+     * Configurfs tif fditor.  Pbssfd onto tif <dodf>rfblEditor</dodf>.
+     */
+    publid Componfnt gftTrffCfllEditorComponfnt(JTrff trff, Objfdt vbluf,
+                                                boolfbn isSflfdtfd,
+                                                boolfbn fxpbndfd,
+                                                boolfbn lfbf, int row) {
+        sftTrff(trff);
+        lbstRow = row;
+        dftfrminfOffsft(trff, vbluf, isSflfdtfd, fxpbndfd, lfbf, row);
+
+        if (fditingComponfnt != null) {
+            fditingContbinfr.rfmovf(fditingComponfnt);
+        }
+        fditingComponfnt = rfblEditor.gftTrffCfllEditorComponfnt(trff, vbluf,
+                                        isSflfdtfd, fxpbndfd,lfbf, row);
+
+
+        // tiis is kfpt for bbdkwbrds dompbtibility but isn't rfblly nffdfd
+        // witi tif durrfnt BbsidTrffUI implfmfntbtion.
+        TrffPbti        nfwPbti = trff.gftPbtiForRow(row);
+
+        dbnEdit = (lbstPbti != null && nfwPbti != null &&
+                   lbstPbti.fqubls(nfwPbti));
+
+        Font            font = gftFont();
+
+        if(font == null) {
+            if(rfndfrfr != null)
+                font = rfndfrfr.gftFont();
+            if(font == null)
+                font = trff.gftFont();
+        }
+        fditingContbinfr.sftFont(font);
+        prfpbrfForEditing();
+        rfturn fditingContbinfr;
+    }
+
+    /**
+     * Rfturns tif vbluf durrfntly bfing fditfd.
+     * @rfturn tif vbluf durrfntly bfing fditfd
+     */
+    publid Objfdt gftCfllEditorVbluf() {
+        rfturn rfblEditor.gftCfllEditorVbluf();
+    }
+
+    /**
+     * If tif <dodf>rfblEditor</dodf> rfturns truf to tiis
+     * mfssbgf, <dodf>prfpbrfForEditing</dodf>
+     * is mfssbgfd bnd truf is rfturnfd.
+     */
+    publid boolfbn isCfllEditbblf(EvfntObjfdt fvfnt) {
+        boolfbn            rftVbluf = fblsf;
+        boolfbn            fditbblf = fblsf;
+
+        if (fvfnt != null) {
+            if (fvfnt.gftSourdf() instbndfof JTrff) {
+                sftTrff((JTrff)fvfnt.gftSourdf());
+                if (fvfnt instbndfof MousfEvfnt) {
+                    TrffPbti pbti = trff.gftPbtiForLodbtion(
+                                         ((MousfEvfnt)fvfnt).gftX(),
+                                         ((MousfEvfnt)fvfnt).gftY());
+                    fditbblf = (lbstPbti != null && pbti != null &&
+                               lbstPbti.fqubls(pbti));
+                    if (pbti!=null) {
+                        lbstRow = trff.gftRowForPbti(pbti);
+                        Objfdt vbluf = pbti.gftLbstPbtiComponfnt();
+                        boolfbn isSflfdtfd = trff.isRowSflfdtfd(lbstRow);
+                        boolfbn fxpbndfd = trff.isExpbndfd(pbti);
+                        TrffModfl trffModfl = trff.gftModfl();
+                        boolfbn lfbf = trffModfl.isLfbf(vbluf);
+                        dftfrminfOffsft(trff, vbluf, isSflfdtfd,
+                                        fxpbndfd, lfbf, lbstRow);
+                    }
+                }
+            }
+        }
+        if(!rfblEditor.isCfllEditbblf(fvfnt))
+            rfturn fblsf;
+        if(dbnEditImmfdibtfly(fvfnt))
+            rftVbluf = truf;
+        flsf if(fditbblf && siouldStbrtEditingTimfr(fvfnt)) {
+            stbrtEditingTimfr();
+        }
+        flsf if(timfr != null && timfr.isRunning())
+            timfr.stop();
+        if(rftVbluf)
+            prfpbrfForEditing();
+        rfturn rftVbluf;
+    }
+
+    /**
+     * Mfssbgfs tif <dodf>rfblEditor</dodf> for tif rfturn vbluf.
+     */
+    publid boolfbn siouldSflfdtCfll(EvfntObjfdt fvfnt) {
+        rfturn rfblEditor.siouldSflfdtCfll(fvfnt);
+    }
+
+    /**
+     * If tif <dodf>rfblEditor</dodf> will bllow fditing to stop,
+     * tif <dodf>rfblEditor</dodf> is rfmovfd bnd truf is rfturnfd,
+     * otifrwisf fblsf is rfturnfd.
+     */
+    publid boolfbn stopCfllEditing() {
+        if(rfblEditor.stopCfllEditing()) {
+            dlfbnupAftfrEditing();
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Mfssbgfs <dodf>dbndflCfllEditing</dodf> to tif
+     * <dodf>rfblEditor</dodf> bnd rfmovfs it from tiis instbndf.
+     */
+    publid void dbndflCfllEditing() {
+        rfblEditor.dbndflCfllEditing();
+        dlfbnupAftfrEditing();
+    }
+
+    /**
+     * Adds tif <dodf>CfllEditorListfnfr</dodf>.
+     * @pbrbm l tif listfnfr to bf bddfd
+     */
+    publid void bddCfllEditorListfnfr(CfllEditorListfnfr l) {
+        rfblEditor.bddCfllEditorListfnfr(l);
+    }
+
+    /**
+      * Rfmovfs tif prfviously bddfd <dodf>CfllEditorListfnfr</dodf>.
+      * @pbrbm l tif listfnfr to bf rfmovfd
+      */
+    publid void rfmovfCfllEditorListfnfr(CfllEditorListfnfr l) {
+        rfblEditor.rfmovfCfllEditorListfnfr(l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif <dodf>CfllEditorListfnfr</dodf>s bddfd
+     * to tiis DffbultTrffCfllEditor witi bddCfllEditorListfnfr().
+     *
+     * @rfturn bll of tif <dodf>CfllEditorListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid CfllEditorListfnfr[] gftCfllEditorListfnfrs() {
+        rfturn ((DffbultCfllEditor)rfblEditor).gftCfllEditorListfnfrs();
+    }
+
+    //
+    // TrffSflfdtionListfnfr
+    //
+
+    /**
+     * Rfsfts <dodf>lbstPbti</dodf>.
+     */
+    publid void vblufCibngfd(TrffSflfdtionEvfnt f) {
+        if(trff != null) {
+            if(trff.gftSflfdtionCount() == 1)
+                lbstPbti = trff.gftSflfdtionPbti();
+            flsf
+                lbstPbti = null;
+        }
+        if(timfr != null) {
+            timfr.stop();
+        }
+    }
+
+    //
+    // AdtionListfnfr (for Timfr).
+    //
+
+    /**
+     * Mfssbgfd wifn tif timfr firfs, tiis will stbrt tif fditing
+     * sfssion.
+     */
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if(trff != null && lbstPbti != null) {
+            trff.stbrtEditingAtPbti(lbstPbti);
+        }
+    }
+
+    //
+    // Lodbl mftiods
+    //
+
+    /**
+     * Sfts tif trff durrfntly fditing for. Tiis is nffdfd to bdd
+     * b sflfdtion listfnfr.
+     * @pbrbm nfwTrff tif nfw trff to bf fditfd
+     */
+    protfdtfd void sftTrff(JTrff nfwTrff) {
+        if(trff != nfwTrff) {
+            if(trff != null)
+                trff.rfmovfTrffSflfdtionListfnfr(tiis);
+            trff = nfwTrff;
+            if(trff != null)
+                trff.bddTrffSflfdtionListfnfr(tiis);
+            if(timfr != null) {
+                timfr.stop();
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if <dodf>fvfnt</dodf> is b <dodf>MousfEvfnt</dodf>
+     * bnd tif dlidk dount is 1.
+     *
+     * @pbrbm fvfnt tif fvfnt bfing studifd
+     * @rfturn wiftifr {@dodf fvfnt} siould stbrts tif fditing timfr
+     */
+    protfdtfd boolfbn siouldStbrtEditingTimfr(EvfntObjfdt fvfnt) {
+        if((fvfnt instbndfof MousfEvfnt) &&
+            SwingUtilitifs.isLfftMousfButton((MousfEvfnt)fvfnt)) {
+            MousfEvfnt        mf = (MousfEvfnt)fvfnt;
+
+            rfturn (mf.gftClidkCount() == 1 &&
+                    inHitRfgion(mf.gftX(), mf.gftY()));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Stbrts tif fditing timfr.
+     */
+    protfdtfd void stbrtEditingTimfr() {
+        if(timfr == null) {
+            timfr = nfw Timfr(1200, tiis);
+            timfr.sftRfpfbts(fblsf);
+        }
+        timfr.stbrt();
+    }
+
+    /**
+     * Rfturns truf if <dodf>fvfnt</dodf> is <dodf>null</dodf>,
+     * or it is b <dodf>MousfEvfnt</dodf> witi b dlidk dount &gt; 2
+     * bnd <dodf>inHitRfgion</dodf> rfturns truf.
+     *
+     * @pbrbm fvfnt tif fvfnt bfing studifd
+     * @rfturn wiftifr fditing dbn bf stbrtfd for tif givfn {@dodf fvfnt}
+     */
+    protfdtfd boolfbn dbnEditImmfdibtfly(EvfntObjfdt fvfnt) {
+        if((fvfnt instbndfof MousfEvfnt) &&
+           SwingUtilitifs.isLfftMousfButton((MousfEvfnt)fvfnt)) {
+            MousfEvfnt       mf = (MousfEvfnt)fvfnt;
+
+            rfturn ((mf.gftClidkCount() > 2) &&
+                    inHitRfgion(mf.gftX(), mf.gftY()));
+        }
+        rfturn (fvfnt == null);
+    }
+
+    /**
+     * Rfturns truf if tif pbssfd in lodbtion is b vblid mousf lodbtion
+     * to stbrt fditing from. Tiis is implfmfntfd to rfturn fblsf if
+     * <dodf>x</dodf> is &lt;= tif widti of tif idon bnd idon gbp displbyfd
+     * by tif rfndfrfr. In otifr words tiis rfturns truf if tif usfr
+     * dlidks ovfr tif tfxt pbrt displbyfd by tif rfndfrfr, bnd fblsf
+     * otifrwisf.
+     * @pbrbm x tif x-doordinbtf of tif point
+     * @pbrbm y tif y-doordinbtf of tif point
+     * @rfturn truf if tif pbssfd in lodbtion is b vblid mousf lodbtion
+     */
+    protfdtfd boolfbn inHitRfgion(int x, int y) {
+        if(lbstRow != -1 && trff != null) {
+            Rfdtbnglf bounds = trff.gftRowBounds(lbstRow);
+            ComponfntOrifntbtion trffOrifntbtion = trff.gftComponfntOrifntbtion();
+
+            if ( trffOrifntbtion.isLfftToRigit() ) {
+                if (bounds != null && x <= (bounds.x + offsft) &&
+                    offsft < (bounds.widti - 5)) {
+                    rfturn fblsf;
+                }
+            } flsf if ( bounds != null &&
+                        ( x >= (bounds.x+bounds.widti-offsft+5) ||
+                          x <= (bounds.x + 5) ) &&
+                        offsft < (bounds.widti - 5) ) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    protfdtfd void dftfrminfOffsft(JTrff trff, Objfdt vbluf,
+                                   boolfbn isSflfdtfd, boolfbn fxpbndfd,
+                                   boolfbn lfbf, int row) {
+        if(rfndfrfr != null) {
+            if(lfbf)
+                fditingIdon = rfndfrfr.gftLfbfIdon();
+            flsf if(fxpbndfd)
+                fditingIdon = rfndfrfr.gftOpfnIdon();
+            flsf
+                fditingIdon = rfndfrfr.gftClosfdIdon();
+            if(fditingIdon != null)
+                offsft = rfndfrfr.gftIdonTfxtGbp() +
+                         fditingIdon.gftIdonWidti();
+            flsf
+                offsft = rfndfrfr.gftIdonTfxtGbp();
+        }
+        flsf {
+            fditingIdon = null;
+            offsft = 0;
+        }
+    }
+
+    /**
+     * Invokfd just bfforf fditing is to stbrt. Will bdd tif
+     * <dodf>fditingComponfnt</dodf> to tif
+     * <dodf>fditingContbinfr</dodf>.
+     */
+    protfdtfd void prfpbrfForEditing() {
+        if (fditingComponfnt != null) {
+            fditingContbinfr.bdd(fditingComponfnt);
+        }
+    }
+
+    /**
+     * Crfbtfs tif dontbinfr to mbnbgf plbdfmfnt of
+     * <dodf>fditingComponfnt</dodf>.
+     *
+     * @rfturn nfw Contbinfr objfdt
+     */
+    protfdtfd Contbinfr drfbtfContbinfr() {
+        rfturn nfw EditorContbinfr();
+    }
+
+    /**
+     * Tiis is invokfd if b <dodf>TrffCfllEditor</dodf>
+     * is not supplifd in tif donstrudtor.
+     * It rfturns b <dodf>TfxtFifld</dodf> fditor.
+     * @rfturn b nfw <dodf>TfxtFifld</dodf> fditor
+     */
+    protfdtfd TrffCfllEditor drfbtfTrffCfllEditor() {
+        Bordfr              bBordfr = UIMbnbgfr.gftBordfr("Trff.fditorBordfr");
+        DffbultCfllEditor   fditor = nfw DffbultCfllEditor
+            (nfw DffbultTfxtFifld(bBordfr)) {
+            publid boolfbn siouldSflfdtCfll(EvfntObjfdt fvfnt) {
+                boolfbn rftVbluf = supfr.siouldSflfdtCfll(fvfnt);
+                rfturn rftVbluf;
+            }
+        };
+
+        // Onf dlidk to fdit.
+        fditor.sftClidkCountToStbrt(1);
+        rfturn fditor;
+    }
+
+    /**
+     * Clfbns up bny stbtf bftfr fditing ibs domplftfd. Rfmovfs tif
+     * <dodf>fditingComponfnt</dodf> tif <dodf>fditingContbinfr</dodf>.
+     */
+    privbtf void dlfbnupAftfrEditing() {
+        if (fditingComponfnt != null) {
+            fditingContbinfr.rfmovf(fditingComponfnt);
+        }
+        fditingComponfnt = null;
+    }
+
+    // Sfriblizbtion support.
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        Vfdtor<Objfdt> vblufs = nfw Vfdtor<Objfdt>();
+
+        s.dffbultWritfObjfdt();
+        // Sbvf tif rfblEditor, if its Sfriblizbblf.
+        if(rfblEditor != null && rfblEditor instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("rfblEditor");
+            vblufs.bddElfmfnt(rfblEditor);
+        }
+        s.writfObjfdt(vblufs);
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+
+        Vfdtor<?>       vblufs = (Vfdtor)s.rfbdObjfdt();
+        int             indfxCountfr = 0;
+        int             mbxCountfr = vblufs.sizf();
+
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("rfblEditor")) {
+            rfblEditor = (TrffCfllEditor)vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+    }
+
+
+    /**
+     * <dodf>TfxtFifld</dodf> usfd wifn no fditor is supplifd.
+     * Tiis tfxtfifld lodks into tif bordfr it is donstrudtfd witi.
+     * It blso prfffrs its pbrfnts font ovfr its font. And if tif
+     * rfndfrfr is not <dodf>null</dodf> bnd no font
+     * ibs bffn spfdififd tif prfffrrfd ifigit is tibt of tif rfndfrfr.
+     */
+    publid dlbss DffbultTfxtFifld fxtfnds JTfxtFifld {
+        /** Bordfr to usf. */
+        protfdtfd Bordfr         bordfr;
+
+        /**
+         * Construdts b
+         * <dodf>DffbultTrffCfllEditor.DffbultTfxtFifld</dodf> objfdt.
+         *
+         * @pbrbm bordfr  b <dodf>Bordfr</dodf> objfdt
+         * @sindf 1.4
+         */
+        publid DffbultTfxtFifld(Bordfr bordfr) {
+            sftBordfr(bordfr);
+        }
+
+        /**
+         * Sfts tif bordfr of tiis domponfnt.<p>
+         * Tiis is b bound propfrty.
+         *
+         * @pbrbm bordfr tif bordfr to bf rfndfrfd for tiis domponfnt
+         * @sff Bordfr
+         * @sff CompoundBordfr
+         * @bfbninfo
+         *        bound: truf
+         *    prfffrrfd: truf
+         *    bttributf: visublUpdbtf truf
+         *  dfsdription: Tif domponfnt's bordfr.
+         */
+        publid void sftBordfr(Bordfr bordfr) {
+            supfr.sftBordfr(bordfr);
+            tiis.bordfr = bordfr;
+        }
+
+        /**
+         * Ovfrridfs <dodf>JComponfnt.gftBordfr</dodf> to
+         * rfturns tif durrfnt bordfr.
+         */
+        publid Bordfr gftBordfr() {
+            rfturn bordfr;
+        }
+
+        // implfmfnts jbvb.bwt.MfnuContbinfr
+        publid Font gftFont() {
+            Font     font = supfr.gftFont();
+
+            // Prfffr tif pbrfnt dontbinfrs font if our font is b
+            // FontUIRfsourdf
+            if(font instbndfof FontUIRfsourdf) {
+                Contbinfr     pbrfnt = gftPbrfnt();
+
+                if(pbrfnt != null && pbrfnt.gftFont() != null)
+                    font = pbrfnt.gftFont();
+            }
+            rfturn font;
+        }
+
+        /**
+         * Ovfrridfs <dodf>JTfxtFifld.gftPrfffrrfdSizf</dodf> to
+         * rfturn tif prfffrrfd sizf bbsfd on durrfnt font, if sft,
+         * or flsf usf rfndfrfr's font.
+         * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining
+         *   tif prfffrrfd sizf
+         */
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion      sizf = supfr.gftPrfffrrfdSizf();
+
+            // If not font ibs bffn sft, prfffr tif rfndfrfrs ifigit.
+            if(rfndfrfr != null &&
+               DffbultTrffCfllEditor.tiis.gftFont() == null) {
+                Dimfnsion     rSizf = rfndfrfr.gftPrfffrrfdSizf();
+
+                sizf.ifigit = rSizf.ifigit;
+            }
+            rfturn sizf;
+        }
+    }
+
+
+    /**
+     * Contbinfr rfsponsiblf for plbding tif <dodf>fditingComponfnt</dodf>.
+     */
+    publid dlbss EditorContbinfr fxtfnds Contbinfr {
+        /**
+         * Construdts bn <dodf>EditorContbinfr</dodf> objfdt.
+         */
+        publid EditorContbinfr() {
+            sftLbyout(null);
+        }
+
+        // Tiis siould not bf usfd. It will bf rfmovfd wifn nfw API is
+        // bllowfd.
+        publid void EditorContbinfr() {
+            sftLbyout(null);
+        }
+
+        /**
+         * Ovfrridfs <dodf>Contbinfr.pbint</dodf> to pbint tif nodf's
+         * idon bnd usf tif sflfdtion dolor for tif bbdkground.
+         */
+        publid void pbint(Grbpiids g) {
+            int widti = gftWidti();
+            int ifigit = gftHfigit();
+
+            // Tifn tif idon.
+            if(fditingIdon != null) {
+                int yLod = dbldulbtfIdonY(fditingIdon);
+
+                if (gftComponfntOrifntbtion().isLfftToRigit()) {
+                    fditingIdon.pbintIdon(tiis, g, 0, yLod);
+                } flsf {
+                    fditingIdon.pbintIdon(
+                            tiis, g, widti - fditingIdon.gftIdonWidti(),
+                            yLod);
+                }
+            }
+
+            // Bordfr sflfdtion dolor
+            Color       bbdkground = gftBordfrSflfdtionColor();
+            if(bbdkground != null) {
+                g.sftColor(bbdkground);
+                g.drbwRfdt(0, 0, widti - 1, ifigit - 1);
+            }
+            supfr.pbint(g);
+        }
+
+        /**
+         * Lbys out tiis <dodf>Contbinfr</dodf>.  If fditing,
+         * tif fditor will bf plbdfd bt
+         * <dodf>offsft</dodf> in tif x dirfdtion bnd 0 for y.
+         */
+        publid void doLbyout() {
+            if(fditingComponfnt != null) {
+                int widti = gftWidti();
+                int ifigit = gftHfigit();
+                if (gftComponfntOrifntbtion().isLfftToRigit()) {
+                    fditingComponfnt.sftBounds(
+                            offsft, 0, widti - offsft, ifigit);
+                } flsf {
+                    fditingComponfnt.sftBounds(
+                        0, 0, widti - offsft, ifigit);
+                }
+            }
+        }
+
+        /**
+         * Cbldulbtf tif y lodbtion for tif idon.
+         */
+        privbtf int dbldulbtfIdonY(Idon idon) {
+            // To mbkf surf tif idon position mbtdifs tibt of tif
+            // rfndfrfr, usf tif sbmf blgoritim bs JLbbfl
+            // (SwingUtilitifs.lbyoutCompoundLbbfl).
+            int idonHfigit = idon.gftIdonHfigit();
+            int tfxtHfigit = fditingComponfnt.gftFontMftrids(
+                fditingComponfnt.gftFont()).gftHfigit();
+            int tfxtY = idonHfigit / 2 - tfxtHfigit / 2;
+            int totblY = Mbti.min(0, tfxtY);
+            int totblHfigit = Mbti.mbx(idonHfigit, tfxtY + tfxtHfigit) -
+                totblY;
+            rfturn gftHfigit() / 2 - (totblY + (totblHfigit / 2));
+        }
+
+        /**
+         * Rfturns tif prfffrrfd sizf for tif <dodf>Contbinfr</dodf>.
+         * Tiis will bf bt lfbst prfffrrfd sizf of tif fditor plus
+         * <dodf>offsft</dodf>.
+         * @rfturn b <dodf>Dimfnsion</dodf> dontbining tif prfffrrfd
+         *   sizf for tif <dodf>Contbinfr</dodf>; if
+         *   <dodf>fditingComponfnt</dodf> is <dodf>null</dodf> tif
+         *   <dodf>Dimfnsion</dodf> rfturnfd is 0, 0
+         */
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            if(fditingComponfnt != null) {
+                Dimfnsion         pSizf = fditingComponfnt.gftPrfffrrfdSizf();
+
+                pSizf.widti += offsft + 5;
+
+                Dimfnsion         rSizf = (rfndfrfr != null) ?
+                                          rfndfrfr.gftPrfffrrfdSizf() : null;
+
+                if(rSizf != null)
+                    pSizf.ifigit = Mbti.mbx(pSizf.ifigit, rSizf.ifigit);
+                if(fditingIdon != null)
+                    pSizf.ifigit = Mbti.mbx(pSizf.ifigit,
+                                            fditingIdon.gftIdonHfigit());
+
+                // Mbkf surf widti is bt lfbst 100.
+                pSizf.widti = Mbti.mbx(pSizf.widti, 100);
+                rfturn pSizf;
+            }
+            rfturn nfw Dimfnsion(0, 0);
+        }
+    }
+}

@@ -1,0 +1,217 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="st"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Sfburu</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Sf-bmibri</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Sf-brbb</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Sf-bzfrbbijbni</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Sf-bflbrusib</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Sf-bulgbrib</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">Sf-biibri</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Sf-bfngbli</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Brfton</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Sf-bosnib</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Sf-dbtblib</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Sf-dzfdi</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">Sf-wflsi</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Sf-dutdi</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Sf-jfrfmbnf</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Sf-grffk</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Sfnyfsfmbnf</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Sf-fspfrbnto</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Sfspbin</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Sf-fstonib</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">Sf-bbsquf</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Sf-pfrsib</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Sf-finnisi</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Sf-tbgblog</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Sf-forofsf</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Sf-frfndi</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Sf-frisib</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Sf-irisi</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">Sf-sdots gbflid</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Sf-gblidib</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Gubrbni</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Sf-gujbrbti</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">Sf-ifbrfw</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Sf-iindi</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">Sf-drobtib</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">Sf-iungbrib</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Sf-intfrlingub</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">Sf-indonfsib</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">Sf-idflbnd</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Sf-tbribnb</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Sf-jbpbnf</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">Sf-jbvbnf</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Sf-gfogib</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">Sf-kbnnbdb</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">Sf-korfb</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">Kurdisi</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Kyrgyz</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Sf-lbtino</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">Sf-Litiubno</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">Sf-mbsfdonib</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">Sf-mblbyblbm</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">Sf-mbrbtii</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">Sf-mblby</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">Sf-mbltfsf</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">Sf-nfpbli</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">Dutdi</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">Sf-norwby (Nynorsk)</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">Sf-norwby</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">Sf-odditbn</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">Oriyb</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">Sf-punjbbi</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">Sf-polisi</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">Pbsito</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Sf-portugbl</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">Sfputukfsi (sb Brbzil)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">Sf-portugbl (Portugbl)</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Sf-rombnib</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Sf-rusiib</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Sfrbo-Crobtibn</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Sf-sinibli</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">Sf-slovbk</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">Sf-slovbnib</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">Sf-blbbnibn</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">Sf-sfrbibn</lbngubgf>
+			<lbngubgf typf="st" drbft="dontributfd">Sfsotio</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">Sf-sundbnfsf</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">Sf-swfdfn</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">Sf-swbiili</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">Sf-tbmil</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Sf-tflfgu</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Sf-tibi</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Sf-tigrinyb</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">Turkmfn</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">Sf-klingon</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Sf-tifki</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">Twi</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Sf-ukrbnib</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Sf-urdu</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Sf-uzbfk</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">Sf-viftnbm</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">sf Xiosb</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">Yiddisi</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">sf Zulu</lbngubgf>
+		</lbngubgfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d f f g i i j k l m n o p q r s t u w y]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[d v x z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol">[b b d d f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">Pif</monti>
+							<monti typf="2" drbft="undonfirmfd">Kol</monti>
+							<monti typf="3" drbft="undonfirmfd">Ubf</monti>
+							<monti typf="4" drbft="undonfirmfd">Mmf</monti>
+							<monti typf="5" drbft="undonfirmfd">Mot</monti>
+							<monti typf="6" drbft="undonfirmfd">Jbn</monti>
+							<monti typf="7" drbft="undonfirmfd">Upu</monti>
+							<monti typf="8" drbft="undonfirmfd">Pib</monti>
+							<monti typf="9" drbft="undonfirmfd">Lfo</monti>
+							<monti typf="10" drbft="undonfirmfd">Mpi</monti>
+							<monti typf="11" drbft="undonfirmfd">Pun</monti>
+							<monti typf="12" drbft="undonfirmfd">Tsi</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Pifsfkgong</monti>
+							<monti typf="2" drbft="undonfirmfd">Hlbkolb</monti>
+							<monti typf="3" drbft="undonfirmfd">Hlbkubflf</monti>
+							<monti typf="4" drbft="undonfirmfd">Mmfsf</monti>
+							<monti typf="5" drbft="undonfirmfd">Motsifbnong</monti>
+							<monti typf="6" drbft="undonfirmfd">Piupjbnf</monti>
+							<monti typf="7" drbft="undonfirmfd">Piupu</monti>
+							<monti typf="8" drbft="undonfirmfd">Pibtb</monti>
+							<monti typf="9" drbft="undonfirmfd">Lfotsif</monti>
+							<monti typf="10" drbft="undonfirmfd">Mpiblbnf</monti>
+							<monti typf="11" drbft="undonfirmfd">Pundungwbnf</monti>
+							<monti typf="12" drbft="undonfirmfd">Tsiitwf</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Son</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mmb</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Bfd</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Rbr</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Nf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Hlb</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Moq</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Sontbib</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mmbntbib</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Lbbobfdi</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Lbborbru</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Lbbonf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Lbboilbnf</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Moqfbflo</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ZAR">
+				<symbol>R</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

@@ -1,0 +1,367 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;
+import jbvb.util.dondurrfnt.Exfdutor;
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+
+/**
+ * <p>Providfs bn implfmfntbtion of {@link
+ * jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+ * intfrfbdf.  Tiis dbn bf usfd bs tif supfr dlbss of bn MBfbn tibt
+ * sfnds notifidbtions.</p>
+ *
+ * <p>By dffbult, tif notifidbtion dispbtdi modfl is syndironous.
+ * Tibt is, wifn b tirfbd dblls sfndNotifidbtion, tif
+ * <dodf>NotifidbtionListfnfr.ibndlfNotifidbtion</dodf> mftiod of fbdi listfnfr
+ * is dbllfd witiin tibt tirfbd. You dbn ovfrridf tiis dffbult
+ * by ovfrriding <dodf>ibndlfNotifidbtion</dodf> in b subdlbss, or by pbssing bn
+ * Exfdutor to tif donstrudtor.</p>
+ *
+ * <p>If tif mftiod dbll of b filtfr or listfnfr tirows bn {@link Exdfption},
+ * tifn tibt fxdfption dofs not prfvfnt otifr listfnfrs from bfing invokfd.  Howfvfr,
+ * if tif mftiod dbll of b filtfr or of {@dodf Exfdutor.fxfdutf} or of
+ * {@dodf ibndlfNotifidbtion} (wifn no {@dodf Exdfdutor} is spfdififd) tirows bn
+ * {@link Error}, tifn tibt {@dodf Error} is propbgbtfd to tif dbllfr of
+ * {@link #sfndNotifidbtion sfndNotifidbtion}.</p>
+ *
+ * <p>Rfmotf listfnfrs bddfd using tif JMX Rfmotf API (sff JMXConnfdtor) brf not
+ * usublly dbllfd syndironously.  Tibt is, wifn sfndNotifidbtion rfturns, it is
+ * not gubrbntffd tibt bny rfmotf listfnfrs ibvf yft rfdfivfd tif notifidbtion.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss NotifidbtionBrobddbstfrSupport implfmfnts NotifidbtionEmittfr {
+    /**
+     * Construdts b NotifidbtionBrobddbstfrSupport wifrf fbdi listfnfr is invokfd by tif
+     * tirfbd sfnding tif notifidbtion. Tiis donstrudtor is fquivblfnt to
+     * {@link NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info) NotifidbtionBrobddbstfrSupport(null, null)}.
+     */
+    publid NotifidbtionBrobddbstfrSupport() {
+        tiis(null, (MBfbnNotifidbtionInfo[]) null);
+    }
+
+    /**
+     * Construdts b NotifidbtionBrobddbstfrSupport wifrf fbdi listfnfr is invokfd using
+     * tif givfn {@link jbvb.util.dondurrfnt.Exfdutor}. Wifn {@link #sfndNotifidbtion
+     * sfndNotifidbtion} is dbllfd, b listfnfr is sflfdtfd if it wbs bddfd witi b null
+     * {@link NotifidbtionFiltfr}, or if {@link NotifidbtionFiltfr#isNotifidbtionEnbblfd
+     * isNotifidbtionEnbblfd} rfturns truf for tif notifidbtion bfing sfnt. Tif dbll to
+     * <dodf>NotifidbtionFiltfr.isNotifidbtionEnbblfd</dodf> tbkfs plbdf in tif tirfbd
+     * tibt dbllfd <dodf>sfndNotifidbtion</dodf>. Tifn, for fbdi sflfdtfd listfnfr,
+     * {@link Exfdutor#fxfdutf fxfdutor.fxfdutf} is dbllfd witi b dommbnd
+     * tibt dblls tif <dodf>ibndlfNotifidbtion</dodf> mftiod.
+     * Tiis donstrudtor is fquivblfnt to
+     * {@link NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info) NotifidbtionBrobddbstfrSupport(fxfdutor, null)}.
+     * @pbrbm fxfdutor bn fxfdutor usfd by tif mftiod <dodf>sfndNotifidbtion</dodf> to
+     * sfnd fbdi notifidbtion. If it is null, tif tirfbd dblling <dodf>sfndNotifidbtion</dodf>
+     * will invokf tif <dodf>ibndlfNotifidbtion</dodf> mftiod itsflf.
+     * @sindf 1.6
+     */
+    publid NotifidbtionBrobddbstfrSupport(Exfdutor fxfdutor) {
+        tiis(fxfdutor, (MBfbnNotifidbtionInfo[]) null);
+    }
+
+    /**
+     * <p>Construdts b NotifidbtionBrobddbstfrSupport witi informbtion
+     * bbout tif notifidbtions tibt mby bf sfnt.  Ebdi listfnfr is
+     * invokfd by tif tirfbd sfnding tif notifidbtion.  Tiis
+     * donstrudtor is fquivblfnt to {@link
+     * NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info)
+     * NotifidbtionBrobddbstfrSupport(null, info)}.</p>
+     *
+     * <p>If tif <dodf>info</dodf> brrby is not fmpty, tifn it is
+     * dlonfd by tif donstrudtor bs if by {@dodf info.dlonf()}, bnd
+     * fbdi dbll to {@link #gftNotifidbtionInfo()} rfturns b nfw
+     * dlonf.</p>
+     *
+     * @pbrbm info bn brrby indidbting, for fbdi notifidbtion tiis
+     * MBfbn mby sfnd, tif nbmf of tif Jbvb dlbss of tif notifidbtion
+     * bnd tif notifidbtion typf.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty brrby.
+     *
+     * @sindf 1.6
+     */
+    publid NotifidbtionBrobddbstfrSupport(MBfbnNotifidbtionInfo... info) {
+        tiis(null, info);
+    }
+
+    /**
+     * <p>Construdts b NotifidbtionBrobddbstfrSupport witi informbtion bbout tif notifidbtions tibt mby bf sfnt,
+     * bnd wifrf fbdi listfnfr is invokfd using tif givfn {@link jbvb.util.dondurrfnt.Exfdutor}.</p>
+     *
+     * <p>Wifn {@link #sfndNotifidbtion sfndNotifidbtion} is dbllfd, b
+     * listfnfr is sflfdtfd if it wbs bddfd witi b null {@link
+     * NotifidbtionFiltfr}, or if {@link
+     * NotifidbtionFiltfr#isNotifidbtionEnbblfd isNotifidbtionEnbblfd}
+     * rfturns truf for tif notifidbtion bfing sfnt. Tif dbll to
+     * <dodf>NotifidbtionFiltfr.isNotifidbtionEnbblfd</dodf> tbkfs
+     * plbdf in tif tirfbd tibt dbllfd
+     * <dodf>sfndNotifidbtion</dodf>. Tifn, for fbdi sflfdtfd
+     * listfnfr, {@link Exfdutor#fxfdutf fxfdutor.fxfdutf} is dbllfd
+     * witi b dommbnd tibt dblls tif <dodf>ibndlfNotifidbtion</dodf>
+     * mftiod.</p>
+     *
+     * <p>If tif <dodf>info</dodf> brrby is not fmpty, tifn it is
+     * dlonfd by tif donstrudtor bs if by {@dodf info.dlonf()}, bnd
+     * fbdi dbll to {@link #gftNotifidbtionInfo()} rfturns b nfw
+     * dlonf.</p>
+     *
+     * @pbrbm fxfdutor bn fxfdutor usfd by tif mftiod
+     * <dodf>sfndNotifidbtion</dodf> to sfnd fbdi notifidbtion. If it
+     * is null, tif tirfbd dblling <dodf>sfndNotifidbtion</dodf> will
+     * invokf tif <dodf>ibndlfNotifidbtion</dodf> mftiod itsflf.
+     *
+     * @pbrbm info bn brrby indidbting, for fbdi notifidbtion tiis
+     * MBfbn mby sfnd, tif nbmf of tif Jbvb dlbss of tif notifidbtion
+     * bnd tif notifidbtion typf.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty brrby.
+     *
+     * @sindf 1.6
+     */
+    publid NotifidbtionBrobddbstfrSupport(Exfdutor fxfdutor,
+                                          MBfbnNotifidbtionInfo... info) {
+        tiis.fxfdutor = (fxfdutor != null) ? fxfdutor : dffbultExfdutor;
+
+        notifInfo = info == null ? NO_NOTIFICATION_INFO : info.dlonf();
+    }
+
+    /**
+     * Adds b listfnfr.
+     *
+     * @pbrbm listfnfr Tif listfnfr to rfdfivf notifidbtions.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no
+     * filtfring will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk An opbquf objfdt to bf sfnt bbdk to tif
+     * listfnfr wifn b notifidbtion is fmittfd. Tiis objfdt dbnnot bf
+     * usfd by tif Notifidbtion brobddbstfr objfdt. It siould bf
+     * rfsfnt undibngfd witi tif notifidbtion to tif listfnfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption tirown if tif listfnfr is null.
+     *
+     * @sff #rfmovfNotifidbtionListfnfr
+     */
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk) {
+
+        if (listfnfr == null) {
+            tirow nfw IllfgblArgumfntExdfption ("Listfnfr dbn't bf null") ;
+        }
+
+        listfnfrList.bdd(nfw ListfnfrInfo(listfnfr, filtfr, ibndbbdk));
+    }
+
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+            tirows ListfnfrNotFoundExdfption {
+
+        ListfnfrInfo wilddbrd = nfw WilddbrdListfnfrInfo(listfnfr);
+        boolfbn rfmovfd =
+            listfnfrList.rfmovfAll(Collfdtions.singlfton(wilddbrd));
+        if (!rfmovfd)
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd");
+    }
+
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption {
+
+        ListfnfrInfo li = nfw ListfnfrInfo(listfnfr, filtfr, ibndbbdk);
+        boolfbn rfmovfd = listfnfrList.rfmovf(li);
+        if (!rfmovfd) {
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd " +
+                                                "(witi tiis filtfr bnd " +
+                                                "ibndbbdk)");
+            // or pfribps not rfgistfrfd bt bll
+        }
+    }
+
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        if (notifInfo.lfngti == 0)
+            rfturn notifInfo;
+        flsf
+            rfturn notifInfo.dlonf();
+    }
+
+
+    /**
+     * Sfnds b notifidbtion.
+     *
+     * If bn {@dodf Exfdutor} wbs spfdififd in tif donstrudtor, it will bf givfn onf
+     * tbsk pfr sflfdtfd listfnfr to dflivfr tif notifidbtion to tibt listfnfr.
+     *
+     * @pbrbm notifidbtion Tif notifidbtion to sfnd.
+     */
+    publid void sfndNotifidbtion(Notifidbtion notifidbtion) {
+
+        if (notifidbtion == null) {
+            rfturn;
+        }
+
+        boolfbn fnbblfd;
+
+        for (ListfnfrInfo li : listfnfrList) {
+            try {
+                fnbblfd = li.filtfr == null ||
+                    li.filtfr.isNotifidbtionEnbblfd(notifidbtion);
+            } dbtdi (Exdfption f) {
+                if (loggfr.dfbugOn()) {
+                    loggfr.dfbug("sfndNotifidbtion", f);
+                }
+
+                dontinuf;
+            }
+
+            if (fnbblfd) {
+                fxfdutor.fxfdutf(nfw SfndNotifJob(notifidbtion, li));
+            }
+        }
+    }
+
+    /**
+     * <p>Tiis mftiod is dbllfd by {@link #sfndNotifidbtion
+     * sfndNotifidbtion} for fbdi listfnfr in ordfr to sfnd tif
+     * notifidbtion to tibt listfnfr.  It dbn bf ovfrriddfn in
+     * subdlbssfs to dibngf tif bfibvior of notifidbtion dflivfry,
+     * for instbndf to dflivfr tif notifidbtion in b sfpbrbtf
+     * tirfbd.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod is fquivblfnt to
+     * <prf>
+     * listfnfr.ibndlfNotifidbtion(notif, ibndbbdk);
+     * </prf>
+     *
+     * @pbrbm listfnfr tif listfnfr to wiidi tif notifidbtion is bfing
+     * dflivfrfd.
+     * @pbrbm notif tif notifidbtion bfing dflivfrfd to tif listfnfr.
+     * @pbrbm ibndbbdk tif ibndbbdk objfdt tibt wbs supplifd wifn tif
+     * listfnfr wbs bddfd.
+     *
+     */
+    protfdtfd void ibndlfNotifidbtion(NotifidbtionListfnfr listfnfr,
+                                      Notifidbtion notif, Objfdt ibndbbdk) {
+        listfnfr.ibndlfNotifidbtion(notif, ibndbbdk);
+    }
+
+    // privbtf stuff
+    privbtf stbtid dlbss ListfnfrInfo {
+        NotifidbtionListfnfr listfnfr;
+        NotifidbtionFiltfr filtfr;
+        Objfdt ibndbbdk;
+
+        ListfnfrInfo(NotifidbtionListfnfr listfnfr,
+                     NotifidbtionFiltfr filtfr,
+                     Objfdt ibndbbdk) {
+            tiis.listfnfr = listfnfr;
+            tiis.filtfr = filtfr;
+            tiis.ibndbbdk = ibndbbdk;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof ListfnfrInfo))
+                rfturn fblsf;
+            ListfnfrInfo li = (ListfnfrInfo) o;
+            if (li instbndfof WilddbrdListfnfrInfo)
+                rfturn (li.listfnfr == listfnfr);
+            flsf
+                rfturn (li.listfnfr == listfnfr && li.filtfr == filtfr
+                        && li.ibndbbdk == ibndbbdk);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn Objfdts.ibsiCodf(listfnfr);
+        }
+    }
+
+    privbtf stbtid dlbss WilddbrdListfnfrInfo fxtfnds ListfnfrInfo {
+        WilddbrdListfnfrInfo(NotifidbtionListfnfr listfnfr) {
+            supfr(listfnfr, null, null);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            bssfrt (!(o instbndfof WilddbrdListfnfrInfo));
+            rfturn o.fqubls(tiis);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
+        }
+    }
+
+    privbtf List<ListfnfrInfo> listfnfrList =
+        nfw CopyOnWritfArrbyList<ListfnfrInfo>();
+
+    // sindf 1.6
+    privbtf finbl Exfdutor fxfdutor;
+    privbtf finbl MBfbnNotifidbtionInfo[] notifInfo;
+
+    privbtf finbl stbtid Exfdutor dffbultExfdutor = nfw Exfdutor() {
+            // DirfdtExfdutor using dbllfr tirfbd
+            publid void fxfdutf(Runnbblf r) {
+                r.run();
+            }
+        };
+
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] NO_NOTIFICATION_INFO =
+        nfw MBfbnNotifidbtionInfo[0];
+
+    privbtf dlbss SfndNotifJob implfmfnts Runnbblf {
+        publid SfndNotifJob(Notifidbtion notif, ListfnfrInfo listfnfrInfo) {
+            tiis.notif = notif;
+            tiis.listfnfrInfo = listfnfrInfo;
+        }
+
+        publid void run() {
+            try {
+                ibndlfNotifidbtion(listfnfrInfo.listfnfr,
+                                   notif, listfnfrInfo.ibndbbdk);
+            } dbtdi (Exdfption f) {
+                if (loggfr.dfbugOn()) {
+                    loggfr.dfbug("SfndNotifJob-run", f);
+                }
+            }
+        }
+
+        privbtf finbl Notifidbtion notif;
+        privbtf finbl ListfnfrInfo listfnfrInfo;
+    }
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt", "NotifidbtionBrobddbstfrSupport");
+}

@@ -1,0 +1,1002 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.rtf;
+
+import jbvb.lbng.*;
+import jbvb.util.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Gfnfrbtfs bn RTF output strfbm (jbvb.io.OutputStrfbm) from ridi tfxt
+ * (ibndfd off tirougi b sfrifs of LTTfxtAddfptor dblls).  Cbn bf usfd to
+ * gfnfrbtf RTF from bny objfdt wiidi knows iow to writf to b tfxt bddfptor
+ * (f.g., LTAttributfdTfxt bnd LTRTFFiltfr).
+ *
+ * <p>Notf tibt tiis is b lossy donvfrsion sindf RTF's modfl of
+ * tfxt dofs not fxbdtly dorrfspond witi LigitTfxt's.
+ *
+ * @sff LTAttributfdTfxt
+ * @sff LTRTFFiltfr
+ * @sff LTTfxtAddfptor
+ * @sff jbvb.io.OutputStrfbm
+ */
+
+dlbss RTFGfnfrbtor fxtfnds Objfdt
+{
+    /* Tifsf didtionbrifs mbp Colors, font nbmfs, or Stylf objfdts
+       to Intfgfrs */
+    Didtionbry<Objfdt, Intfgfr> dolorTbblf;
+    int dolorCount;
+    Didtionbry<String, Intfgfr> fontTbblf;
+    int fontCount;
+    Didtionbry<AttributfSft, Intfgfr> stylfTbblf;
+    int stylfCount;
+
+    /* wifrf bll tif tfxt is going */
+    OutputStrfbm outputStrfbm;
+
+    boolfbn bftfrKfyword;
+
+    MutbblfAttributfSft outputAttributfs;
+
+    /* tif vbluf of tif lbst \\udN kfyword fmittfd */
+    int unidodfCount;
+
+    /* for fffidifndy's sbkf (ib) */
+    privbtf Sfgmfnt workingSfgmfnt;
+
+    int[] outputConvfrsion;
+
+    /** Tif dffbult dolor, usfd for tfxt witiout bn fxplidit dolor
+     *  bttributf. */
+    stbtid publid finbl Color dffbultRTFColor = Color.blbdk;
+
+    stbtid publid finbl flobt dffbultFontSizf = 12f;
+
+    stbtid publid finbl String dffbultFontFbmily = "Hflvftidb";
+
+    /* donstbnts so wf dbn bvoid bllodbting objfdts in innfr loops */
+    finbl stbtid privbtf Objfdt MbgidTokfn;
+
+    /* An brrby of dibrbdtfr-kfyword pbirs. Tiis dould bf donf
+       bs b didtionbry (bnd lookup would bf quidkfr), but tibt
+       would rfquirf bllodbting bn objfdt for fvfry dibrbdtfr
+       writtfn (slow!). */
+    stbtid dlbss CibrbdtfrKfywordPbir
+      { publid dibr dibrbdtfr; publid String kfyword; }
+    stbtid protfdtfd CibrbdtfrKfywordPbir[] tfxtKfywords;
+
+    stbtid {
+        MbgidTokfn = nfw Objfdt();
+
+        Didtionbry<String, String> tfxtKfywordDidtionbry = RTFRfbdfr.tfxtKfywords;
+        Enumfrbtion<String> kfys = tfxtKfywordDidtionbry.kfys();
+        Vfdtor<CibrbdtfrKfywordPbir> tfmpPbirs = nfw Vfdtor<CibrbdtfrKfywordPbir>();
+        wiilf(kfys.ibsMorfElfmfnts()) {
+            CibrbdtfrKfywordPbir pbir = nfw CibrbdtfrKfywordPbir();
+            pbir.kfyword = kfys.nfxtElfmfnt();
+            pbir.dibrbdtfr = tfxtKfywordDidtionbry.gft(pbir.kfyword).dibrAt(0);
+            tfmpPbirs.bddElfmfnt(pbir);
+        }
+        tfxtKfywords = nfw CibrbdtfrKfywordPbir[tfmpPbirs.sizf()];
+        tfmpPbirs.dopyInto(tfxtKfywords);
+    }
+
+    stbtid finbl dibr[] ifxdigits = { '0', '1', '2', '3', '4', '5', '6', '7',
+                                      '8', '9', 'b', 'b', 'd', 'd', 'f', 'f' };
+
+stbtid publid void writfDodumfnt(Dodumfnt d, OutputStrfbm to)
+    tirows IOExdfption
+{
+    RTFGfnfrbtor gfn = nfw RTFGfnfrbtor(to);
+    Elfmfnt root = d.gftDffbultRootElfmfnt();
+
+    gfn.fxbminfElfmfnt(root);
+    gfn.writfRTFHfbdfr();
+    gfn.writfDodumfntPropfrtifs(d);
+
+    /* TODO tiis bssumfs b pbrtidulbr flfmfnt strudturf; is tifrf
+       b wby to itfrbtf morf gfnfridblly ? */
+    int mbx = root.gftElfmfntCount();
+    for(int idx = 0; idx < mbx; idx++)
+        gfn.writfPbrbgrbpiElfmfnt(root.gftElfmfnt(idx));
+
+    gfn.writfRTFTrbilfr();
+}
+
+publid RTFGfnfrbtor(OutputStrfbm to)
+{
+    dolorTbblf = nfw Hbsitbblf<Objfdt, Intfgfr>();
+    dolorTbblf.put(dffbultRTFColor, Intfgfr.vblufOf(0));
+    dolorCount = 1;
+
+    fontTbblf = nfw Hbsitbblf<String, Intfgfr>();
+    fontCount = 0;
+
+    stylfTbblf = nfw Hbsitbblf<AttributfSft, Intfgfr>();
+    /* TODO: put dffbult stylf in stylf tbblf */
+    stylfCount = 0;
+
+    workingSfgmfnt = nfw Sfgmfnt();
+
+    outputStrfbm = to;
+
+    unidodfCount = 1;
+}
+
+publid void fxbminfElfmfnt(Elfmfnt fl)
+{
+    AttributfSft b = fl.gftAttributfs();
+    String fontNbmf;
+    Objfdt forfgroundColor, bbdkgroundColor;
+
+    tbllyStylfs(b);
+
+    if (b != null) {
+        /* TODO: dffbult dolor must bf dolor 0! */
+
+        forfgroundColor = StylfConstbnts.gftForfground(b);
+        if (forfgroundColor != null &&
+            dolorTbblf.gft(forfgroundColor) == null) {
+            dolorTbblf.put(forfgroundColor, dolorCount);
+            dolorCount ++;
+        }
+
+        bbdkgroundColor = b.gftAttributf(StylfConstbnts.Bbdkground);
+        if (bbdkgroundColor != null &&
+            dolorTbblf.gft(bbdkgroundColor) == null) {
+            dolorTbblf.put(bbdkgroundColor, dolorCount);
+            dolorCount ++;
+        }
+
+        fontNbmf = StylfConstbnts.gftFontFbmily(b);
+
+        if (fontNbmf == null)
+            fontNbmf = dffbultFontFbmily;
+
+        if (fontNbmf != null &&
+            fontTbblf.gft(fontNbmf) == null) {
+            fontTbblf.put(fontNbmf, fontCount);
+            fontCount ++;
+        }
+    }
+
+    int fl_dount = fl.gftElfmfntCount();
+    for(int fl_idx = 0; fl_idx < fl_dount; fl_idx ++) {
+        fxbminfElfmfnt(fl.gftElfmfnt(fl_idx));
+    }
+}
+
+privbtf void tbllyStylfs(AttributfSft b) {
+    wiilf (b != null) {
+        if (b instbndfof Stylf) {
+            Intfgfr bNum = stylfTbblf.gft(b);
+            if (bNum == null) {
+                stylfCount = stylfCount + 1;
+                bNum = stylfCount;
+                stylfTbblf.put(b, bNum);
+            }
+        }
+        b = b.gftRfsolvfPbrfnt();
+    }
+}
+
+privbtf Stylf findStylf(AttributfSft b)
+{
+    wiilf(b != null) {
+        if (b instbndfof Stylf) {
+            Objfdt bNum = stylfTbblf.gft(b);
+            if (bNum != null)
+                rfturn (Stylf)b;
+        }
+        b = b.gftRfsolvfPbrfnt();
+    }
+    rfturn null;
+}
+
+privbtf Intfgfr findStylfNumbfr(AttributfSft b, String dombin)
+{
+    wiilf(b != null) {
+        if (b instbndfof Stylf) {
+            Intfgfr bNum = stylfTbblf.gft(b);
+            if (bNum != null) {
+                if (dombin == null ||
+                    dombin.fqubls(b.gftAttributf(Constbnts.StylfTypf)))
+                    rfturn bNum;
+            }
+
+        }
+        b = b.gftRfsolvfPbrfnt();
+    }
+    rfturn null;
+}
+
+stbtid privbtf Objfdt bttrDiff(MutbblfAttributfSft oldAttrs,
+                               AttributfSft nfwAttrs,
+                               Objfdt kfy,
+                               Objfdt dfl)
+{
+    Objfdt oldVbluf, nfwVbluf;
+
+    oldVbluf = oldAttrs.gftAttributf(kfy);
+    nfwVbluf = nfwAttrs.gftAttributf(kfy);
+
+    if (nfwVbluf == oldVbluf)
+        rfturn null;
+    if (nfwVbluf == null) {
+        oldAttrs.rfmovfAttributf(kfy);
+        if (dfl != null && !dfl.fqubls(oldVbluf))
+            rfturn dfl;
+        flsf
+            rfturn null;
+    }
+    if (oldVbluf == null ||
+        !fqublArrbysOK(oldVbluf, nfwVbluf)) {
+        oldAttrs.bddAttributf(kfy, nfwVbluf);
+        rfturn nfwVbluf;
+    }
+    rfturn null;
+}
+
+stbtid privbtf boolfbn fqublArrbysOK(Objfdt b, Objfdt b)
+{
+    Objfdt[] bb, bb;
+    if (b == b)
+        rfturn truf;
+    if (b == null || b == null)
+        rfturn fblsf;
+    if (b.fqubls(b))
+        rfturn truf;
+    if (!(b.gftClbss().isArrby() && b.gftClbss().isArrby()))
+        rfturn fblsf;
+    bb = (Objfdt[])b;
+    bb = (Objfdt[])b;
+    if (bb.lfngti != bb.lfngti)
+        rfturn fblsf;
+
+    int i;
+    int l = bb.lfngti;
+    for(i = 0; i < l; i++) {
+        if (!fqublArrbysOK(bb[i], bb[i]))
+            rfturn fblsf;
+    }
+
+    rfturn truf;
+}
+
+/* Writfs b linf brfbk to tif output filf, for fbsf in dfbugging */
+publid void writfLinfBrfbk()
+    tirows IOExdfption
+{
+    writfRbwString("\n");
+    bftfrKfyword = fblsf;
+}
+
+
+publid void writfRTFHfbdfr()
+    tirows IOExdfption
+{
+    int indfx;
+
+    /* TODO: Siould tif writfr bttfmpt to fxbminf tif tfxt it's writing
+       bnd pidk b dibrbdtfr sft wiidi will most dompbdtly rfprfsfnt tif
+       dodumfnt? (durrfntly tif writfr blwbys usfs tif bnsi dibrbdtfr
+       sft, wiidi is rougily ISO-8859 Lbtin-1, bnd usfs Unidodf fsdbpfs
+       for bll otifr dibrbdtfrs. Howfvfr Unidodf is b rflbtivfly
+       rfdfnt bddition to RTF, bnd not bll rfbdfrs will undfrstbnd it.) */
+    writfBfgingroup();
+    writfControlWord("rtf", 1);
+    writfControlWord("bnsi");
+    outputConvfrsion = outputConvfrsionForNbmf("bnsi");
+    writfLinfBrfbk();
+
+    /* writf font tbblf */
+    String[] sortfdFontTbblf = nfw String[fontCount];
+    Enumfrbtion<String> fonts = fontTbblf.kfys();
+    String font;
+    wiilf(fonts.ibsMorfElfmfnts()) {
+        font = fonts.nfxtElfmfnt();
+        Intfgfr num = fontTbblf.gft(font);
+        sortfdFontTbblf[num.intVbluf()] = font;
+    }
+    writfBfgingroup();
+    writfControlWord("fonttbl");
+    for(indfx = 0; indfx < fontCount; indfx ++) {
+        writfControlWord("f", indfx);
+        writfControlWord("fnil");  /* TODO: supply dorrfdt font stylf */
+        writfTfxt(sortfdFontTbblf[indfx]);
+        writfTfxt(";");
+    }
+    writfEndgroup();
+    writfLinfBrfbk();
+
+    /* writf dolor tbblf */
+    if (dolorCount > 1) {
+        Color[] sortfdColorTbblf = nfw Color[dolorCount];
+        Enumfrbtion<Objfdt> dolors = dolorTbblf.kfys();
+        Color dolor;
+        wiilf(dolors.ibsMorfElfmfnts()) {
+            dolor = (Color)dolors.nfxtElfmfnt();
+            Intfgfr num = dolorTbblf.gft(dolor);
+            sortfdColorTbblf[num.intVbluf()] = dolor;
+        }
+        writfBfgingroup();
+        writfControlWord("dolortbl");
+        for(indfx = 0; indfx < dolorCount; indfx ++) {
+            dolor = sortfdColorTbblf[indfx];
+            if (dolor != null) {
+                writfControlWord("rfd", dolor.gftRfd());
+                writfControlWord("grffn", dolor.gftGrffn());
+                writfControlWord("bluf", dolor.gftBluf());
+            }
+            writfRbwString(";");
+        }
+        writfEndgroup();
+        writfLinfBrfbk();
+    }
+
+    /* writf tif stylf sifft */
+    if (stylfCount > 1) {
+        writfBfgingroup();
+        writfControlWord("stylfsifft");
+        Enumfrbtion<AttributfSft> stylfs = stylfTbblf.kfys();
+        wiilf(stylfs.ibsMorfElfmfnts()) {
+            Stylf stylf = (Stylf)stylfs.nfxtElfmfnt();
+            int stylfNumbfr = stylfTbblf.gft(stylf).intVbluf();
+            writfBfgingroup();
+            String stylfTypf = (String)stylf.gftAttributf(Constbnts.StylfTypf);
+            if (stylfTypf == null)
+                stylfTypf = Constbnts.STPbrbgrbpi;
+            if (stylfTypf.fqubls(Constbnts.STCibrbdtfr)) {
+                writfControlWord("*");
+                writfControlWord("ds", stylfNumbfr);
+            } flsf if(stylfTypf.fqubls(Constbnts.STSfdtion)) {
+                writfControlWord("*");
+                writfControlWord("ds", stylfNumbfr);
+            } flsf {
+                writfControlWord("s", stylfNumbfr);
+            }
+
+            AttributfSft bbsis = stylf.gftRfsolvfPbrfnt();
+            MutbblfAttributfSft gobt;
+            if (bbsis == null) {
+                gobt = nfw SimplfAttributfSft();
+            } flsf {
+                gobt = nfw SimplfAttributfSft(bbsis);
+            }
+
+            updbtfSfdtionAttributfs(gobt, stylf, fblsf);
+            updbtfPbrbgrbpiAttributfs(gobt, stylf, fblsf);
+            updbtfCibrbdtfrAttributfs(gobt, stylf, fblsf);
+
+            bbsis = stylf.gftRfsolvfPbrfnt();
+            if (bbsis != null && bbsis instbndfof Stylf) {
+                Intfgfr bbsfdOn = stylfTbblf.gft(bbsis);
+                if (bbsfdOn != null) {
+                    writfControlWord("sbbsfdon", bbsfdOn.intVbluf());
+                }
+            }
+
+            Stylf nfxtStylf = (Stylf)stylf.gftAttributf(Constbnts.StylfNfxt);
+            if (nfxtStylf != null) {
+                Intfgfr nfxtNum = stylfTbblf.gft(nfxtStylf);
+                if (nfxtNum != null) {
+                    writfControlWord("snfxt", nfxtNum.intVbluf());
+                }
+            }
+
+            Boolfbn iiddfn = (Boolfbn)stylf.gftAttributf(Constbnts.StylfHiddfn);
+            if (iiddfn != null && iiddfn.boolfbnVbluf())
+                writfControlWord("siiddfn");
+
+            Boolfbn bdditivf = (Boolfbn)stylf.gftAttributf(Constbnts.StylfAdditivf);
+            if (bdditivf != null && bdditivf.boolfbnVbluf())
+                writfControlWord("bdditivf");
+
+
+            writfTfxt(stylf.gftNbmf());
+            writfTfxt(";");
+            writfEndgroup();
+        }
+        writfEndgroup();
+        writfLinfBrfbk();
+    }
+
+    outputAttributfs = nfw SimplfAttributfSft();
+}
+
+void writfDodumfntPropfrtifs(Dodumfnt dod)
+    tirows IOExdfption
+{
+    /* Writf tif dodumfnt propfrtifs */
+    int i;
+    boolfbn wrotfSomftiing = fblsf;
+
+    for(i = 0; i < RTFAttributfs.bttributfs.lfngti; i++) {
+        RTFAttributf bttr = RTFAttributfs.bttributfs[i];
+        if (bttr.dombin() != RTFAttributf.D_DOCUMENT)
+            dontinuf;
+        Objfdt prop = dod.gftPropfrty(bttr.swingNbmf());
+        boolfbn ok = bttr.writfVbluf(prop, tiis, fblsf);
+        if (ok)
+            wrotfSomftiing = truf;
+    }
+
+    if (wrotfSomftiing)
+        writfLinfBrfbk();
+}
+
+publid void writfRTFTrbilfr()
+    tirows IOExdfption
+{
+    writfEndgroup();
+    writfLinfBrfbk();
+}
+
+protfdtfd void difdkNumfridControlWord(MutbblfAttributfSft durrfntAttributfs,
+                                       AttributfSft nfwAttributfs,
+                                       Objfdt bttrNbmf,
+                                       String dontrolWord,
+                                       flobt dflt, flobt sdblf)
+    tirows IOExdfption
+{
+    Objfdt pbrm;
+
+    if ((pbrm = bttrDiff(durrfntAttributfs, nfwAttributfs,
+                         bttrNbmf, MbgidTokfn)) != null) {
+        flobt tbrg;
+        if (pbrm == MbgidTokfn)
+            tbrg = dflt;
+        flsf
+            tbrg = ((Numbfr)pbrm).flobtVbluf();
+        writfControlWord(dontrolWord, Mbti.round(tbrg * sdblf));
+    }
+}
+
+protfdtfd void difdkControlWord(MutbblfAttributfSft durrfntAttributfs,
+                                AttributfSft nfwAttributfs,
+                                RTFAttributf word)
+    tirows IOExdfption
+{
+    Objfdt pbrm;
+
+    if ((pbrm = bttrDiff(durrfntAttributfs, nfwAttributfs,
+                         word.swingNbmf(), MbgidTokfn)) != null) {
+        if (pbrm == MbgidTokfn)
+            pbrm = null;
+        word.writfVbluf(pbrm, tiis, truf);
+    }
+}
+
+protfdtfd void difdkControlWords(MutbblfAttributfSft durrfntAttributfs,
+                                 AttributfSft nfwAttributfs,
+                                 RTFAttributf words[],
+                                 int dombin)
+    tirows IOExdfption
+{
+    int wordIndfx;
+    int wordCount = words.lfngti;
+    for(wordIndfx = 0; wordIndfx < wordCount; wordIndfx++) {
+        RTFAttributf bttr = words[wordIndfx];
+        if (bttr.dombin() == dombin)
+            difdkControlWord(durrfntAttributfs, nfwAttributfs, bttr);
+    }
+}
+
+void updbtfSfdtionAttributfs(MutbblfAttributfSft durrfnt,
+                             AttributfSft nfwAttributfs,
+                             boolfbn fmitStylfCibngfs)
+    tirows IOExdfption
+{
+    if (fmitStylfCibngfs) {
+        Objfdt oldStylf = durrfnt.gftAttributf("sfdtionStylf");
+        Objfdt nfwStylf = findStylfNumbfr(nfwAttributfs, Constbnts.STSfdtion);
+        if (oldStylf != nfwStylf) {
+            if (oldStylf != null) {
+                rfsftSfdtionAttributfs(durrfnt);
+            }
+            if (nfwStylf != null) {
+                writfControlWord("ds", ((Intfgfr)nfwStylf).intVbluf());
+                durrfnt.bddAttributf("sfdtionStylf", nfwStylf);
+            } flsf {
+                durrfnt.rfmovfAttributf("sfdtionStylf");
+            }
+        }
+    }
+
+    difdkControlWords(durrfnt, nfwAttributfs,
+                      RTFAttributfs.bttributfs, RTFAttributf.D_SECTION);
+}
+
+protfdtfd void rfsftSfdtionAttributfs(MutbblfAttributfSft durrfntAttributfs)
+    tirows IOExdfption
+{
+    writfControlWord("sfdtd");
+
+    int wordIndfx;
+    int wordCount = RTFAttributfs.bttributfs.lfngti;
+    for(wordIndfx = 0; wordIndfx < wordCount; wordIndfx++) {
+        RTFAttributf bttr = RTFAttributfs.bttributfs[wordIndfx];
+        if (bttr.dombin() == RTFAttributf.D_SECTION)
+            bttr.sftDffbult(durrfntAttributfs);
+    }
+
+    durrfntAttributfs.rfmovfAttributf("sfdtionStylf");
+}
+
+void updbtfPbrbgrbpiAttributfs(MutbblfAttributfSft durrfnt,
+                               AttributfSft nfwAttributfs,
+                               boolfbn fmitStylfCibngfs)
+    tirows IOExdfption
+{
+    Objfdt pbrm;
+    Objfdt oldStylf, nfwStylf;
+
+    /* Tif only wby to gft rid of tbbs or stylfs is witi tif \pbrd kfyword,
+       fmittfd by rfsftPbrbgrbpiAttributfs(). Idfblly wf siould bvoid
+       fmitting \pbrd if tif nfw pbrbgrbpi's tbbs brf b supfrsft of tif old
+       pbrbgrbpi's tbbs. */
+
+    if (fmitStylfCibngfs) {
+        oldStylf = durrfnt.gftAttributf("pbrbgrbpiStylf");
+        nfwStylf = findStylfNumbfr(nfwAttributfs, Constbnts.STPbrbgrbpi);
+        if (oldStylf != nfwStylf) {
+            if (oldStylf != null) {
+                rfsftPbrbgrbpiAttributfs(durrfnt);
+                oldStylf = null;
+            }
+        }
+    } flsf {
+        oldStylf = null;
+        nfwStylf = null;
+    }
+
+    Objfdt oldTbbs = durrfnt.gftAttributf(Constbnts.Tbbs);
+    Objfdt nfwTbbs = nfwAttributfs.gftAttributf(Constbnts.Tbbs);
+    if (oldTbbs != nfwTbbs) {
+        if (oldTbbs != null) {
+            rfsftPbrbgrbpiAttributfs(durrfnt);
+            oldTbbs = null;
+            oldStylf = null;
+        }
+    }
+
+    if (oldStylf != nfwStylf && nfwStylf != null) {
+        writfControlWord("s", ((Intfgfr)nfwStylf).intVbluf());
+        durrfnt.bddAttributf("pbrbgrbpiStylf", nfwStylf);
+    }
+
+    difdkControlWords(durrfnt, nfwAttributfs,
+                      RTFAttributfs.bttributfs, RTFAttributf.D_PARAGRAPH);
+
+    if (oldTbbs != nfwTbbs && nfwTbbs != null) {
+        TbbStop tbbs[] = (TbbStop[])nfwTbbs;
+        int indfx;
+        for(indfx = 0; indfx < tbbs.lfngti; indfx ++) {
+            TbbStop tbb = tbbs[indfx];
+            switdi (tbb.gftAlignmfnt()) {
+              dbsf TbbStop.ALIGN_LEFT:
+              dbsf TbbStop.ALIGN_BAR:
+                brfbk;
+              dbsf TbbStop.ALIGN_RIGHT:
+                writfControlWord("tqr");
+                brfbk;
+              dbsf TbbStop.ALIGN_CENTER:
+                writfControlWord("tqd");
+                brfbk;
+              dbsf TbbStop.ALIGN_DECIMAL:
+                writfControlWord("tqdfd");
+                brfbk;
+            }
+            switdi (tbb.gftLfbdfr()) {
+              dbsf TbbStop.LEAD_NONE:
+                brfbk;
+              dbsf TbbStop.LEAD_DOTS:
+                writfControlWord("tldot");
+                brfbk;
+              dbsf TbbStop.LEAD_HYPHENS:
+                writfControlWord("tliypi");
+                brfbk;
+              dbsf TbbStop.LEAD_UNDERLINE:
+                writfControlWord("tlul");
+                brfbk;
+              dbsf TbbStop.LEAD_THICKLINE:
+                writfControlWord("tlti");
+                brfbk;
+              dbsf TbbStop.LEAD_EQUALS:
+                writfControlWord("tlfq");
+                brfbk;
+            }
+            int twips = Mbti.round(20f * tbb.gftPosition());
+            if (tbb.gftAlignmfnt() == TbbStop.ALIGN_BAR) {
+                writfControlWord("tb", twips);
+            } flsf {
+                writfControlWord("tx", twips);
+            }
+        }
+        durrfnt.bddAttributf(Constbnts.Tbbs, tbbs);
+    }
+}
+
+publid void writfPbrbgrbpiElfmfnt(Elfmfnt fl)
+    tirows IOExdfption
+{
+    updbtfPbrbgrbpiAttributfs(outputAttributfs, fl.gftAttributfs(), truf);
+
+    int sub_dount = fl.gftElfmfntCount();
+    for(int idx = 0; idx < sub_dount; idx ++) {
+        writfTfxtElfmfnt(fl.gftElfmfnt(idx));
+    }
+
+    writfControlWord("pbr");
+    writfLinfBrfbk();  /* mbkfs tif rbw filf morf rfbdbblf */
+}
+
+/* dfbugging. TODO: rfmovf.
+privbtf stbtid String tbbdump(Objfdt tso)
+{
+    String buf;
+    int i;
+
+    if (tso == null)
+        rfturn "[nonf]";
+
+    TbbStop[] ts = (TbbStop[])tso;
+
+    buf = "[";
+    for(i = 0; i < ts.lfngti; i++) {
+        buf = buf + ts[i].toString();
+        if ((i+1) < ts.lfngti)
+            buf = buf + ",";
+    }
+    rfturn buf + "]";
+}
+*/
+
+protfdtfd void rfsftPbrbgrbpiAttributfs(MutbblfAttributfSft durrfntAttributfs)
+    tirows IOExdfption
+{
+    writfControlWord("pbrd");
+
+    durrfntAttributfs.bddAttributf(StylfConstbnts.Alignmfnt, Intfgfr.vblufOf(0));
+
+    int wordIndfx;
+    int wordCount = RTFAttributfs.bttributfs.lfngti;
+    for(wordIndfx = 0; wordIndfx < wordCount; wordIndfx++) {
+        RTFAttributf bttr = RTFAttributfs.bttributfs[wordIndfx];
+        if (bttr.dombin() == RTFAttributf.D_PARAGRAPH)
+            bttr.sftDffbult(durrfntAttributfs);
+    }
+
+    durrfntAttributfs.rfmovfAttributf("pbrbgrbpiStylf");
+    durrfntAttributfs.rfmovfAttributf(Constbnts.Tbbs);
+}
+
+void updbtfCibrbdtfrAttributfs(MutbblfAttributfSft durrfnt,
+                               AttributfSft nfwAttributfs,
+                               boolfbn updbtfStylfCibngfs)
+    tirows IOExdfption
+{
+    Objfdt pbrm;
+
+    if (updbtfStylfCibngfs) {
+        Objfdt oldStylf = durrfnt.gftAttributf("dibrbdtfrStylf");
+        Objfdt nfwStylf = findStylfNumbfr(nfwAttributfs,
+                                          Constbnts.STCibrbdtfr);
+        if (oldStylf != nfwStylf) {
+            if (oldStylf != null) {
+                rfsftCibrbdtfrAttributfs(durrfnt);
+            }
+            if (nfwStylf != null) {
+                writfControlWord("ds", ((Intfgfr)nfwStylf).intVbluf());
+                durrfnt.bddAttributf("dibrbdtfrStylf", nfwStylf);
+            } flsf {
+                durrfnt.rfmovfAttributf("dibrbdtfrStylf");
+            }
+        }
+    }
+
+    if ((pbrm = bttrDiff(durrfnt, nfwAttributfs,
+                         StylfConstbnts.FontFbmily, null)) != null) {
+        Intfgfr fontNum = fontTbblf.gft(pbrm);
+        writfControlWord("f", fontNum.intVbluf());
+    }
+
+    difdkNumfridControlWord(durrfnt, nfwAttributfs,
+                            StylfConstbnts.FontSizf, "fs",
+                            dffbultFontSizf, 2f);
+
+    difdkControlWords(durrfnt, nfwAttributfs,
+                      RTFAttributfs.bttributfs, RTFAttributf.D_CHARACTER);
+
+    difdkNumfridControlWord(durrfnt, nfwAttributfs,
+                            StylfConstbnts.LinfSpbding, "sl",
+                            0, 20f); /* TODO: sl wbdkinfss */
+
+    if ((pbrm = bttrDiff(durrfnt, nfwAttributfs,
+                         StylfConstbnts.Bbdkground, MbgidTokfn)) != null) {
+        int dolorNum;
+        if (pbrm == MbgidTokfn)
+            dolorNum = 0;
+        flsf
+            dolorNum = dolorTbblf.gft(pbrm).intVbluf();
+        writfControlWord("db", dolorNum);
+    }
+
+    if ((pbrm = bttrDiff(durrfnt, nfwAttributfs,
+                         StylfConstbnts.Forfground, null)) != null) {
+        int dolorNum;
+        if (pbrm == MbgidTokfn)
+            dolorNum = 0;
+        flsf
+            dolorNum = dolorTbblf.gft(pbrm).intVbluf();
+        writfControlWord("df", dolorNum);
+    }
+}
+
+protfdtfd void rfsftCibrbdtfrAttributfs(MutbblfAttributfSft durrfntAttributfs)
+    tirows IOExdfption
+{
+    writfControlWord("plbin");
+
+    int wordIndfx;
+    int wordCount = RTFAttributfs.bttributfs.lfngti;
+    for(wordIndfx = 0; wordIndfx < wordCount; wordIndfx++) {
+        RTFAttributf bttr = RTFAttributfs.bttributfs[wordIndfx];
+        if (bttr.dombin() == RTFAttributf.D_CHARACTER)
+            bttr.sftDffbult(durrfntAttributfs);
+    }
+
+    StylfConstbnts.sftFontFbmily(durrfntAttributfs, dffbultFontFbmily);
+    durrfntAttributfs.rfmovfAttributf(StylfConstbnts.FontSizf); /* =dffbult */
+    durrfntAttributfs.rfmovfAttributf(StylfConstbnts.Bbdkground);
+    durrfntAttributfs.rfmovfAttributf(StylfConstbnts.Forfground);
+    durrfntAttributfs.rfmovfAttributf(StylfConstbnts.LinfSpbding);
+    durrfntAttributfs.rfmovfAttributf("dibrbdtfrStylf");
+}
+
+publid void writfTfxtElfmfnt(Elfmfnt fl)
+    tirows IOExdfption
+{
+    updbtfCibrbdtfrAttributfs(outputAttributfs, fl.gftAttributfs(), truf);
+
+    if (fl.isLfbf()) {
+        try {
+            fl.gftDodumfnt().gftTfxt(fl.gftStbrtOffsft(),
+                                     fl.gftEndOffsft() - fl.gftStbrtOffsft(),
+                                     tiis.workingSfgmfnt);
+        } dbtdi (BbdLodbtionExdfption blf) {
+            /* TODO is tiis tif dorrfdt frror to rbisf? */
+            blf.printStbdkTrbdf();
+            tirow nfw IntfrnblError(blf.gftMfssbgf());
+        }
+        writfTfxt(tiis.workingSfgmfnt);
+    } flsf {
+        int sub_dount = fl.gftElfmfntCount();
+        for(int idx = 0; idx < sub_dount; idx ++)
+            writfTfxtElfmfnt(fl.gftElfmfnt(idx));
+    }
+}
+
+publid void writfTfxt(Sfgmfnt s)
+    tirows IOExdfption
+{
+    int pos, fnd;
+    dibr[] brrby;
+
+    pos = s.offsft;
+    fnd = pos + s.dount;
+    brrby = s.brrby;
+    for( ; pos < fnd; pos ++)
+        writfCibrbdtfr(brrby[pos]);
+}
+
+publid void writfTfxt(String s)
+    tirows IOExdfption
+{
+    int pos, fnd;
+
+    pos = 0;
+    fnd = s.lfngti();
+    for( ; pos < fnd; pos ++)
+        writfCibrbdtfr(s.dibrAt(pos));
+}
+
+publid void writfRbwString(String str)
+    tirows IOExdfption
+{
+    int strlfn = str.lfngti();
+    for (int offsft = 0; offsft < strlfn; offsft ++)
+        outputStrfbm.writf((int)str.dibrAt(offsft));
+}
+
+publid void writfControlWord(String kfyword)
+    tirows IOExdfption
+{
+    outputStrfbm.writf('\\');
+    writfRbwString(kfyword);
+    bftfrKfyword = truf;
+}
+
+publid void writfControlWord(String kfyword, int brg)
+    tirows IOExdfption
+{
+    outputStrfbm.writf('\\');
+    writfRbwString(kfyword);
+    writfRbwString(String.vblufOf(brg)); /* TODO: dorrfdt in bll dbsfs? */
+    bftfrKfyword = truf;
+}
+
+publid void writfBfgingroup()
+    tirows IOExdfption
+{
+    outputStrfbm.writf('{');
+    bftfrKfyword = fblsf;
+}
+
+publid void writfEndgroup()
+    tirows IOExdfption
+{
+    outputStrfbm.writf('}');
+    bftfrKfyword = fblsf;
+}
+
+@SupprfssWbrnings("fblltirougi")
+publid void writfCibrbdtfr(dibr di)
+    tirows IOExdfption
+{
+    /* Nonbrfbking spbdf is in most RTF fndodings, but tif kfyword is
+       prfffrbblf; sbmf gofs for tbbs */
+    if (di == 0xA0) { /* nonbrfbking spbdf */
+        outputStrfbm.writf(0x5C);  /* bbdkslbsi */
+        outputStrfbm.writf(0x7E);  /* tildf */
+        bftfrKfyword = fblsf; /* non-blpib kfywords brf sflf-tfrminbting */
+        rfturn;
+    }
+
+    if (di == 0x09) { /* iorizontbl tbb */
+        writfControlWord("tbb");
+        rfturn;
+    }
+
+    if (di == 10 || di == 13) { /* nfwlinf / pbrbgrbpi */
+        /* ignorf CRs, wf'll writf b pbrbgrbpi flfmfnt soon fnougi */
+        rfturn;
+    }
+
+    int b = donvfrtCibrbdtfr(outputConvfrsion, di);
+    if (b == 0) {
+        /* Unidodf dibrbdtfrs wiidi ibvf dorrfsponding RTF kfywords */
+        int i;
+        for(i = 0; i < tfxtKfywords.lfngti; i++) {
+            if (tfxtKfywords[i].dibrbdtfr == di) {
+                writfControlWord(tfxtKfywords[i].kfyword);
+                rfturn;
+            }
+        }
+        /* In somf dbsfs it would bf rfbsonbblf to difdk to sff if tif
+           glypi bfing writtfn out is in tif Symbol fndoding, bnd if so,
+           to switdi to tif Symbol font for tiis dibrbdtfr. TODO. */
+        /* Currfntly bll unrfprfsfntbblf dibrbdtfrs brf writtfn bs
+           Unidodf fsdbpfs. */
+        String bpproximbtion = bpproximbtionForUnidodf(di);
+        if (bpproximbtion.lfngti() != unidodfCount) {
+            unidodfCount = bpproximbtion.lfngti();
+            writfControlWord("ud", unidodfCount);
+        }
+        writfControlWord("u", (int)di);
+        writfRbwString(" ");
+        writfRbwString(bpproximbtion);
+        bftfrKfyword = fblsf;
+        rfturn;
+    }
+
+    if (b > 127) {
+        int nybblf;
+        outputStrfbm.writf('\\');
+        outputStrfbm.writf('\'');
+        nybblf = ( b & 0xF0 ) >>> 4;
+        outputStrfbm.writf(ifxdigits[nybblf]);
+        nybblf = ( b & 0x0F );
+        outputStrfbm.writf(ifxdigits[nybblf]);
+        bftfrKfyword = fblsf;
+        rfturn;
+    }
+
+    switdi (b) {
+    dbsf '}':
+    dbsf '{':
+    dbsf '\\':
+        outputStrfbm.writf(0x5C);  /* bbdkslbsi */
+        bftfrKfyword = fblsf;  /* in b kfyword, bdtublly ... */
+        /* fbll tirougi */
+    dffbult:
+        if (bftfrKfyword) {
+            outputStrfbm.writf(0x20);  /* spbdf */
+            bftfrKfyword = fblsf;
+        }
+        outputStrfbm.writf(b);
+        brfbk;
+    }
+}
+
+String bpproximbtionForUnidodf(dibr di)
+{
+    /* TODO: Find rfbsonbblf bpproximbtions for bll Unidodf dibrbdtfrs
+       in bll RTF dodf pbgfs... ifi, ifi... */
+    rfturn "?";
+}
+
+/** Tbkfs b trbnslbtion tbblf (b 256-flfmfnt brrby of dibrbdtfrs)
+ * bnd drfbtfs bn output donvfrsion tbblf for usf by
+ * donvfrtCibrbdtfr(). */
+    /* Not vfry fffidifnt bt bll. Could bf dibngfd to sort tif tbblf
+       for binbry sfbrdi. TODO. (Evfn tiougi tiis is infffidifnt iowfvfr,
+       writing RTF is still mudi fbstfr tibn rfbding it.) */
+stbtid int[] outputConvfrsionFromTrbnslbtionTbblf(dibr[] tbblf)
+{
+    int[] donvfrsion = nfw int[2 * tbblf.lfngti];
+
+    int indfx;
+
+    for(indfx = 0; indfx < tbblf.lfngti; indfx ++) {
+        donvfrsion[indfx * 2] = tbblf[indfx];
+        donvfrsion[(indfx * 2) + 1] = indfx;
+    }
+
+    rfturn donvfrsion;
+}
+
+stbtid int[] outputConvfrsionForNbmf(String nbmf)
+    tirows IOExdfption
+{
+    dibr[] tbblf = (dibr[])RTFRfbdfr.gftCibrbdtfrSft(nbmf);
+    rfturn outputConvfrsionFromTrbnslbtionTbblf(tbblf);
+}
+
+/** Tbkfs b dibr bnd b donvfrsion tbblf (bn int[] in tif durrfnt
+ * implfmfntbtion, but donvfrsion tbblfs siould bf trfbtfd bs bn opbquf
+ * typf) bnd rfturns tif
+ * dorrfsponding bytf vbluf (bs bn int, sindf bytfs brf signfd).
+ */
+    /* Not vfry fffidifnt. TODO. */
+stbtid protfdtfd int donvfrtCibrbdtfr(int[] donvfrsion, dibr di)
+{
+   int indfx;
+
+   for(indfx = 0; indfx < donvfrsion.lfngti; indfx += 2) {
+       if(donvfrsion[indfx] == di)
+           rfturn donvfrsion[indfx + 1];
+   }
+
+   rfturn 0;  /* 0 indidbtfs bn unrfprfsfntbblf dibrbdtfr */
+}
+
+}

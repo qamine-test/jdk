@@ -1,0 +1,585 @@
+/*
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * A dlbss implfmfnting b simplf prfdidtivf pbrsfr for output formbt
+ * spfdifidbtion lbngubgf for tif jstbt dommbnd.
+ *
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ */
+publid dlbss Pbrsfr {
+
+    privbtf stbtid boolfbn pdfbug = Boolfbn.gftBoolfbn("jstbt.pbrsfr.dfbug");
+    privbtf stbtid boolfbn ldfbug = Boolfbn.gftBoolfbn("jstbt.lfx.dfbug");
+
+    privbtf stbtid finbl dibr OPENBLOCK = '{';
+    privbtf stbtid finbl dibr CLOSEBLOCK = '}';
+    privbtf stbtid finbl dibr DOUBLEQUOTE = '"';
+    privbtf stbtid finbl dibr PERCENT_CHAR = '%';
+    privbtf stbtid finbl dibr OPENPAREN = '(';
+    privbtf stbtid finbl dibr CLOSEPAREN = ')';
+
+    privbtf stbtid finbl dibr OPERATOR_PLUS = '+';
+    privbtf stbtid finbl dibr OPERATOR_MINUS = '-';
+    privbtf stbtid finbl dibr OPERATOR_MULTIPLY = '*';
+    privbtf stbtid finbl dibr OPERATOR_DIVIDE = '/';
+
+    privbtf stbtid finbl String OPTION = "option";
+    privbtf stbtid finbl String COLUMN = "dolumn";
+    privbtf stbtid finbl String DATA = "dbtb";
+    privbtf stbtid finbl String HEADER = "ifbdfr";
+    privbtf stbtid finbl String WIDTH = "widti";
+    privbtf stbtid finbl String FORMAT = "formbt";
+    privbtf stbtid finbl String ALIGN = "blign";
+    privbtf stbtid finbl String SCALE = "sdblf";
+
+    privbtf stbtid finbl String START = OPTION;
+
+    privbtf stbtid finbl Sft<String> sdblfKfyWords = Sdblf.kfySft();
+    privbtf stbtid finbl Sft<String> blignKfyWords = Alignmfnt.kfySft();
+    privbtf stbtid String[] otifrKfyWords = {
+        OPTION, COLUMN, DATA, HEADER, WIDTH, FORMAT, ALIGN, SCALE
+    };
+
+    privbtf stbtid dibr[] infixOps = {
+        OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_MULTIPLY, OPERATOR_DIVIDE
+    };
+
+    privbtf stbtid dibr[] dflimitfrs = {
+        OPENBLOCK, CLOSEBLOCK, PERCENT_CHAR, OPENPAREN, CLOSEPAREN
+    };
+
+
+    privbtf stbtid Sft<String> rfsfrvfdWords;
+
+    privbtf StrfbmTokfnizfr st;
+    privbtf String filfnbmf;
+    privbtf Tokfn lookbifbd;
+    privbtf Tokfn prfvious;
+    privbtf int dolumnCount;
+    privbtf OptionFormbt optionFormbt;
+
+    publid Pbrsfr(String filfnbmf) tirows FilfNotFoundExdfption {
+        tiis.filfnbmf = filfnbmf;
+        Rfbdfr r = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(filfnbmf));
+    }
+
+    publid Pbrsfr(Rfbdfr r) {
+        st = nfw StrfbmTokfnizfr(r);
+
+        // bllow boti d++ stylf dommfnts
+        st.ordinbryCibr('/');
+        st.wordCibrs('_','_');
+        st.slbsiSlbsiCommfnts(truf);
+        st.slbsiStbrCommfnts(truf);
+
+        rfsfrvfdWords = nfw HbsiSft<String>();
+        for (int i = 0; i < otifrKfyWords.lfngti; i++) {
+            rfsfrvfdWords.bdd(otifrKfyWords[i]);
+        }
+
+        for (int i = 0; i < dflimitfrs.lfngti; i++ ) {
+            st.ordinbryCibr(dflimitfrs[i]);
+        }
+
+        for (int i = 0; i < infixOps.lfngti; i++ ) {
+            st.ordinbryCibr(infixOps[i]);
+        }
+    }
+
+    /**
+     * pusi bbdk tif lookbifbd tokfn bnd rfstorf tif lookbifbd tokfn
+     * to tif prfvious tokfn.
+     */
+    privbtf void pusiBbdk() {
+        lookbifbd = prfvious;
+        st.pusiBbdk();
+    }
+
+    /**
+     * rftrifvf tif nfxt tokfn, plbding tif tokfn vbluf in tif lookbifbd
+     * mfmbfr vbribblf, storing its prfvious vbluf in tif prfvious mfmbfr
+     * vbribblf.
+     */
+    privbtf void nfxtTokfn() tirows PbrsfrExdfption, IOExdfption {
+        int t = st.nfxtTokfn();
+        prfvious = lookbifbd;
+        lookbifbd = nfw Tokfn(st.ttypf, st.svbl, st.nvbl);
+        log(ldfbug, "lookbifbd = " + lookbifbd);
+    }
+
+    /**
+     * mbtdi onf of tif tokfn vblufs in tif givfn sft of kfy words
+     * tokfn is bssumfd to bf of typf TT_WORD, bnd tif sft is bssumfd
+     * to dontbin String objfdts.
+     */
+    privbtf Tokfn mbtdiOnf(Sft<String> kfyWords) tirows PbrsfrExdfption, IOExdfption {
+        if ((lookbifbd.ttypf == StrfbmTokfnizfr.TT_WORD)
+                && kfyWords.dontbins(lookbifbd.svbl)) {
+            Tokfn t = lookbifbd;
+            nfxtTokfn();
+            rfturn t;
+        }
+        tirow nfw SyntbxExdfption(st.linfno(), kfyWords, lookbifbd);
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE=typf, bnd tif tokfn vbluf is b givfn sfqufndf
+     * of dibrbdtfrs.
+     */
+    privbtf void mbtdi(int ttypf, String tokfn)
+                 tirows PbrsfrExdfption, IOExdfption {
+        if (lookbifbd.ttypf == ttypf && lookbifbd.svbl.dompbrfTo(tokfn) == 0) {
+            nfxtTokfn();
+        } flsf {
+           tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn(ttypf, tokfn),
+                                     lookbifbd);
+        }
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE=typf
+     */
+    privbtf void mbtdi(int ttypf) tirows PbrsfrExdfption, IOExdfption {
+        if (lookbifbd.ttypf == ttypf) {
+            nfxtTokfn();
+        } flsf {
+           tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn(ttypf), lookbifbd);
+        }
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE=dibr, wifrf tif tokfn vbluf is tif givfn dibr.
+     */
+    privbtf void mbtdi(dibr ttypf) tirows PbrsfrExdfption, IOExdfption {
+      if (lookbifbd.ttypf == (int)ttypf) {
+          nfxtTokfn();
+      }
+      flsf {
+          tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn((int)ttypf),
+                                    lookbifbd);
+      }
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE='"', wifrf tif tokfn vbluf is b sfqufndf
+     * of dibrbdtfrs bftwffn mbtdiing quotf dibrbdtfrs.
+     */
+    privbtf void mbtdiQuotfdString() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(DOUBLEQUOTE);
+    }
+
+    /**
+     * mbtdi b TT_NUMBER tokfn tibt mbtdifs b pbrsfd numbfr vbluf
+     */
+    privbtf void mbtdiNumbfr() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_NUMBER);
+    }
+
+    /**
+     * mbtdi b TT_WORD tokfn tibt mbtdifs bn brbitrbry, not quotfd tokfn.
+     */
+    privbtf void mbtdiID() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_WORD);
+    }
+
+    /**
+     * mbtdi b TT_WORD tokfn tibt mbtdifs tif givfn string
+     */
+    privbtf void mbtdi(String tokfn) tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_WORD, tokfn);
+    }
+
+    /**
+     * dftfrminf if tif givfn word is b rfsfrvfd kfy word
+     */
+    privbtf boolfbn isRfsfrvfdWord(String word) {
+        rfturn rfsfrvfdWords.dontbins(word);
+    }
+
+    /**
+     * dftfrminf if tif givf work is b rfsfrvfd kfy word
+     */
+    privbtf boolfbn isInfixOpfrbtor(dibr op) {
+        for (int i = 0; i < infixOps.lfngti; i++) {
+            if (op == infixOps[i]) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * sdblfstmt -> 'sdblf' sdblfspfd
+     * sdblfspfd -> <sff bbovf sdblfTfrminbls brrby>
+     */
+    privbtf void sdblfStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(SCALE);
+        Tokfn t = mbtdiOnf(sdblfKfyWords);
+        df.sftSdblf(Sdblf.toSdblf(t.svbl));
+        String sdblfString = t.svbl;
+        log(pdfbug, "Pbrsfd: sdblf -> " + sdblfString);
+    }
+
+    /**
+     * blignstmt -> 'blign' blignspfd
+     * blignspfd -> <sff bbovf blignTfrminbls brrby>
+     */
+    privbtf void blignStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(ALIGN);
+        Tokfn t = mbtdiOnf(blignKfyWords);
+        df.sftAlignmfnt(Alignmfnt.toAlignmfnt(t.svbl));
+        String blignString = t.svbl;
+        log(pdfbug, "Pbrsfd: blign -> " + blignString);
+    }
+
+    /**
+     * ifbdfrstmt -> 'ifbdfr' quotfdstring
+     */
+    privbtf void ifbdfrStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(HEADER);
+        String ifbdfrString = lookbifbd.svbl;
+        mbtdiQuotfdString();
+        df.sftHfbdfr(ifbdfrString);
+        log(pdfbug, "Pbrsfd: ifbdfr -> " + ifbdfrString);
+    }
+
+    /**
+     * widtistmt -> 'widti' intfgfr
+     */
+    privbtf void widtiStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(WIDTH);
+        doublf widti = lookbifbd.nvbl;
+        mbtdiNumbfr();
+        df.sftWidti((int)widti);
+        log(pdfbug, "Pbrsfd: widti -> " + widti );
+    }
+
+    /**
+     * formbtstmt -> 'formbt' quotfdstring
+     */
+    privbtf void formbtStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(FORMAT);
+        String formbtString = lookbifbd.svbl;
+        mbtdiQuotfdString();
+        df.sftFormbt(formbtString);
+        log(pdfbug, "Pbrsfd: formbt -> " + formbtString);
+    }
+
+    /**
+     *  Primbry -> Litfrbl | Idfntififr | '(' Exprfssion ')'
+     */
+    privbtf Exprfssion primbry() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = null;
+
+        switdi (lookbifbd.ttypf) {
+        dbsf OPENPAREN:
+            mbtdi(OPENPAREN);
+            f = fxprfssion();
+            mbtdi(CLOSEPAREN);
+            brfbk;
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            String s = lookbifbd.svbl;
+            if (isRfsfrvfdWord(s)) {
+                tirow nfw SyntbxExdfption(st.linfno(), "IDENTIFIER",
+                                          "Rfsfrvfd Word: " + lookbifbd.svbl);
+            }
+            mbtdiID();
+            f = nfw Idfntififr(s);
+            log(pdfbug, "Pbrsfd: ID -> " + s);
+            brfbk;
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            doublf litfrbl = lookbifbd.nvbl;
+            mbtdiNumbfr();
+            f = nfw Litfrbl(nfw Doublf(litfrbl));
+            log(pdfbug, "Pbrsfd: numbfr -> " + litfrbl);
+            brfbk;
+        dffbult:
+            tirow nfw SyntbxExdfption(st.linfno(), "IDENTIFIER", lookbifbd);
+        }
+        log(pdfbug, "Pbrsfd: primbry -> " + f);
+        rfturn f;
+    }
+
+    /**
+     * Unbry -> ('+'|'-') Unbry | Primbry
+     */
+    privbtf Exprfssion unbry() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = null;
+        Opfrbtor op = null;
+
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_PLUS:
+                mbtdi(OPERATOR_PLUS);
+                op = Opfrbtor.PLUS;
+                brfbk;
+            dbsf OPERATOR_MINUS:
+                mbtdi(OPERATOR_MINUS);
+                op = Opfrbtor.MINUS;
+                brfbk;
+            dffbult:
+                f = primbry();
+                log(pdfbug, "Pbrsfd: unbry -> " + f);
+                rfturn f;
+            }
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftRigit(f);
+            log(pdfbug, "Pbrsfd: unbry -> " + f1);
+            f1.sftLfft(nfw Litfrbl(nfw Doublf(0)));
+            f = f1;
+        }
+    }
+
+    /**
+     *  MultExprfssion -> Unbry (('*' | '/') Unbry)*
+     */
+    privbtf Exprfssion multExprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = unbry();
+        Opfrbtor op = null;
+
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_MULTIPLY:
+                mbtdi(OPERATOR_MULTIPLY);
+                op = Opfrbtor.MULTIPLY;
+                brfbk;
+            dbsf OPERATOR_DIVIDE:
+                mbtdi(OPERATOR_DIVIDE);
+                op = Opfrbtor.DIVIDE;
+                brfbk;
+            dffbult:
+                log(pdfbug, "Pbrsfd: multExprfssion -> " + f);
+                rfturn f;
+            }
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftLfft(f);
+            f1.sftRigit(unbry());
+            f = f1;
+            log(pdfbug, "Pbrsfd: multExprfssion -> " + f);
+        }
+    }
+
+    /**
+     *  AddExprfssion -> MultExprfssion (('+' | '-') MultExprfssion)*
+     */
+    privbtf Exprfssion bddExprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = multExprfssion();
+        Opfrbtor op = null;
+
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_PLUS:
+                mbtdi(OPERATOR_PLUS);
+                op = Opfrbtor.PLUS;
+                brfbk;
+            dbsf OPERATOR_MINUS:
+                mbtdi(OPERATOR_MINUS);
+                op = Opfrbtor.MINUS;
+                brfbk;
+            dffbult:
+                log(pdfbug, "Pbrsfd: bddExprfssion -> " + f);
+                rfturn f;
+            }
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftLfft(f);
+            f1.sftRigit(multExprfssion());
+            f = f1;
+            log(pdfbug, "Pbrsfd: bddExprfssion -> " + f);
+        }
+    }
+
+    /**
+     *  Exprfssion -> AddExprfssion
+     */
+    privbtf Exprfssion fxprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = bddExprfssion();
+        log(pdfbug, "Pbrsfd: fxprfssion -> " + f);
+        rfturn f;
+    }
+
+    /**
+     * dbtbstmt -> 'dbtb' fxprfssion
+     */
+    privbtf void dbtbStmt(ColumnFormbt df) tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(DATA);
+        Exprfssion f = fxprfssion();
+        df.sftExprfssion(f);
+        log(pdfbug, "Pbrsfd: dbtb -> " + f);
+    }
+
+    /**
+     * stbtfmfntlist -> optionblstmt stbtfmfntlist
+     * optionblstmt -> 'dbtb' fxprfssion
+     *                 'ifbdfr' quotfdstring
+     *                 'widti' intfgfr
+     *                 'formbt' formbtstring
+     *                 'blign' blignspfd
+     *                 'sdblf' sdblfspfd
+     */
+    privbtf void stbtfmfntList(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        wiilf (truf) {
+            if (lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD) {
+                rfturn;
+            }
+
+            if (lookbifbd.svbl.dompbrfTo(DATA) == 0) {
+                dbtbStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(HEADER) == 0) {
+                ifbdfrStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(WIDTH) == 0) {
+                widtiStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(FORMAT) == 0) {
+                formbtStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(ALIGN) == 0) {
+                blignStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(SCALE) == 0) {
+                sdblfStmt(df);
+            } flsf {
+                rfturn;
+            }
+        }
+    }
+
+    /**
+     * optionlist -> dolumspfd optionlist
+     *               null
+     * dolumspfd -> 'dolumn' '{' stbtfmfntlist '}'
+     */
+    privbtf void optionList(OptionFormbt of)
+                 tirows PbrsfrExdfption, IOExdfption {
+        wiilf (truf) {
+            if (lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD) {
+                rfturn;
+            }
+
+            mbtdi(COLUMN);
+            mbtdi(OPENBLOCK);
+            ColumnFormbt df = nfw ColumnFormbt(dolumnCount++);
+            stbtfmfntList(df);
+              mbtdi(CLOSEBLOCK);
+            df.vblidbtf();
+            of.bddSubFormbt(df);
+        }
+    }
+
+    /**
+     * optionstmt -> 'option' ID '{' optionlist '}'
+     */
+    privbtf OptionFormbt optionStmt() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(OPTION);
+        String optionNbmf=lookbifbd.svbl;
+        mbtdiID();
+        mbtdi(OPENBLOCK);
+        OptionFormbt of = nfw OptionFormbt(optionNbmf);
+        optionList(of);
+        mbtdi(CLOSEBLOCK);
+        rfturn of;
+    }
+
+    /**
+     * pbrsf tif spfdifidbtion for tif givfn option idfntififr
+     */
+    publid OptionFormbt pbrsf(String option)
+                        tirows PbrsfrExdfption, IOExdfption {
+        nfxtTokfn();
+
+        /*
+         * tiis sfbrdi stops on tif first oddurbndf of bn option
+         * stbtfmfnt witi b nbmf mbtdiing tif givfn option. Any
+         * duplidbtf options brf ignorfd.
+         */
+        wiilf (lookbifbd.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            // look for tif stbrt symbol
+            if ((lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD)
+                    || (lookbifbd.svbl.dompbrfTo(START) != 0)) {
+                // skip tokfns until b stbrt symbol is found
+                nfxtTokfn();
+                dontinuf;
+            }
+
+            // difdk if tif option nbmf is tif onf wf brf intfrfstfd in
+            mbtdi(START);
+
+            if ((lookbifbd.ttypf == StrfbmTokfnizfr.TT_WORD)
+                    && (lookbifbd.svbl.dompbrfTo(option) == 0)) {
+                // tiis is tif onf wf brf looking for, pbrsf it
+                pusiBbdk();
+                rfturn optionStmt();
+            } flsf {
+                // not wibt wf brf looking for, stbrt skipping tokfns
+                nfxtTokfn();
+            }
+        }
+        rfturn null;
+    }
+
+    publid Sft<OptionFormbt> pbrsfOptions() tirows PbrsfrExdfption, IOExdfption {
+        Sft<OptionFormbt> options = nfw HbsiSft<OptionFormbt>();
+
+        nfxtTokfn();
+
+        wiilf (lookbifbd.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            // look for tif stbrt symbol
+            if ((lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD)
+                    || (lookbifbd.svbl.dompbrfTo(START) != 0)) {
+                // skip tokfns until b stbrt symbol is found
+                nfxtTokfn();
+                dontinuf;
+            }
+
+            // notf: if b duplidbtf option stbtfmfnt fxists, tifn
+            // first onf fndountfrfd is tif diosfn dffinition.
+            OptionFormbt of = optionStmt();
+            options.bdd(of);
+        }
+        rfturn options;
+    }
+
+    OptionFormbt gftOptionFormbt() {
+       rfturn optionFormbt;
+    }
+
+    privbtf void log(boolfbn logging, String s) {
+        if (logging) {
+            Systfm.out.println(s);
+        }
+    }
+}

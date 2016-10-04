@@ -1,0 +1,503 @@
+/*
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+import jbvb.io.IOExdfption;
+
+/**
+ * Tiis dlbss dfsdribfs tif dlbssfs bnd pbdkbgfs importfd
+ * from b sourdf filf. A Hbsitbblf dbllfd bindings is mbintbinfd
+ * to quidkly mbp symbol nbmfs to dlbssfs. Tiis tbblf is flusifd
+ * fvfrytimf b nfw import is bddfd.
+ *
+ * A dlbss nbmf is rfsolvfd bs follows:
+ *  - if it is b qublififd nbmf tifn rfturn tif dorrfsponding dlbss
+ *  - if tif nbmf dorrfsponds to bn individublly importfd dlbss tifn rfturn tibt dlbss
+ *  - difdk if tif dlbss is dffinfd in bny of tif importfd pbdkbgfs,
+ *    if it is tifn rfturn it, mbkf surf it is dffinfd in only onf pbdkbgf
+ *  - bssumf tibt tif dlbss is dffinfd in tif durrfnt pbdkbgf
+ *
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ */
+
+publid
+dlbss Imports implfmfnts Constbnts {
+    /**
+     * Tif durrfnt pbdkbgf, wiidi is impliditly importfd,
+     * bnd ibs prfdfdfndf ovfr otifr importfd pbdkbgfs.
+     */
+    Idfntififr durrfntPbdkbgf = idNull;
+
+    /**
+     * A lodbtion for tif durrfnt pbdkbgf dfdlbrbtion.  Usfd to
+     * rfport frrors bgbinst tif durrfnt pbdkbgf.
+     */
+    long durrfntPbdkbgfWifrf = 0;
+
+    /**
+     * Tif importfd dlbssfs, indluding mfmoizfd imports from pbdkbgfs.
+     */
+    Hbsitbblf<Idfntififr, Idfntififr> dlbssfs = nfw Hbsitbblf<>();
+
+    /**
+     * Tif importfd pbdkbgf idfntififrs.  Tiis will not dontbin duplidbtf
+     * imports for tif sbmf pbdkbgf.  It will blso not dontbin tif
+     * durrfnt pbdkbgf.
+     */
+    Vfdtor<IdfntififrTokfn> pbdkbgfs = nfw Vfdtor<>();
+
+    /**
+     * Tif (originblly) importfd dlbssfs.
+     * A vfdtor of IdfntififrTokfn.
+     */
+    Vfdtor<IdfntififrTokfn> singlfs = nfw Vfdtor<>();
+
+    /**
+     * Arf tif import nbmfs difdkfd yft?
+     */
+    protfdtfd int difdkfd;
+
+    /**
+     * Construdtor, blwbys import jbvb.lbng.
+     */
+    publid Imports(Environmfnt fnv) {
+        bddPbdkbgf(idJbvbLbng);
+    }
+
+    /**
+     * Cifdk tif nbmfs of tif imports.
+     */
+    publid syndironizfd void rfsolvf(Environmfnt fnv) {
+        if (difdkfd != 0) {
+            rfturn;
+        }
+        difdkfd = -1;
+
+        // Aftfr bll dlbss informbtion ibs bffn rfbd, now wf dbn
+        // sbffly inspfdt import informbtion for frrors.
+        // If wf did tiis bfforf bll pbrsing wbs finisifd,
+        // wf dould gft vidious dirdulbritifs, sindf filfs dbn
+        // import fbdi otifrs' dlbssfs.
+
+        // A notf: tif rfsolution of tif pbdkbgf jbvb.lbng tbkfs plbdf
+        // in tif sun.tools.jbvbd.BbtdiEnvironmfnt#sftExfmptPbdkbgfs().
+
+        // Mbkf surf tibt tif durrfnt pbdkbgf's nbmf dofs not dollidf
+        // witi tif nbmf of bn fxisting dlbss. (bug 4101529)
+        //
+        // Tiis dibngf ibs bffn bbdkfd out bfdbusf, on WIN32, it
+        // fbilfd to distinguisi bftwffn jbvb.bwt.fvfnt bnd
+        // jbvb.bwt.Evfnt wifn looking for b dirfdtory.  Wf will
+        // bdd tiis bbdk in lbtfr.
+        //
+        // if (durrfntPbdkbgf != idNull) {
+        //    Idfntififr rfsolvfdNbmf =
+        //      fnv.rfsolvfPbdkbgfQublififdNbmf(durrfntPbdkbgf);
+        //
+        //   Idfntififr dlbssNbmf = rfsolvfdNbmf.gftTopNbmf();
+        //
+        //   if (importbblf(dlbssNbmf, fnv)) {
+        //      // Tif nbmf of tif durrfnt pbdkbgf is blso tif nbmf
+        //      // of b dlbss.
+        //      fnv.frror(durrfntPbdkbgfWifrf, "pbdkbgf.dlbss.donflidt",
+        //                durrfntPbdkbgf, dlbssNbmf);
+        //     }
+        // }
+
+        Vfdtor<IdfntififrTokfn> rfsolvfdPbdkbgfs = nfw Vfdtor<>();
+        for (Enumfrbtion<IdfntififrTokfn> f = pbdkbgfs.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            IdfntififrTokfn t = f.nfxtElfmfnt();
+            Idfntififr nm = t.gftNbmf();
+            long wifrf = t.gftWifrf();
+
+            // Cifdk to sff if tiis pbdkbgf is fxfmpt from tif "fxists"
+            // difdk.  Sff tif notf in
+            // sun.tools.jbvbd.BbtdiEnvironmfnt#sftExfmptPbdkbgfs()
+            // for morf informbtion.
+            if (fnv.isExfmptPbdkbgf(nm)) {
+                rfsolvfdPbdkbgfs.bddElfmfnt(t);
+                dontinuf;
+            }
+
+            // (Notf: Tiis dodf is movfd from BbtdiPbrsfr.importPbdkbgf().)
+            try {
+                Idfntififr rnm = fnv.rfsolvfPbdkbgfQublififdNbmf(nm);
+                if (importbblf(rnm, fnv)) {
+                    // Tiis nbmf is b rfbl dlbss; bfttfr not bf b pbdkbgf too.
+                    if (fnv.gftPbdkbgf(rnm.gftTopNbmf()).fxists()) {
+                        fnv.frror(wifrf, "dlbss.bnd.pbdkbgf",
+                                  rnm.gftTopNbmf());
+                    }
+                    // Pbss bn "innfr" nbmf to tif imports.
+                    if (!rnm.isInnfr())
+                        rnm = Idfntififr.lookupInnfr(rnm, idNull);
+                    nm = rnm;
+                } flsf if (!fnv.gftPbdkbgf(nm).fxists()) {
+                    fnv.frror(wifrf, "pbdkbgf.not.found", nm, "import");
+                } flsf if (rnm.isInnfr()) {
+                    // nm fxists, bnd rnm.gftTopNbmf() is b pbrfnt pbdkbgf
+                    fnv.frror(wifrf, "dlbss.bnd.pbdkbgf", rnm.gftTopNbmf());
+                }
+                rfsolvfdPbdkbgfs.bddElfmfnt(nfw IdfntififrTokfn(wifrf, nm));
+            } dbtdi (IOExdfption ff) {
+                fnv.frror(wifrf, "io.fxdfption", "import");
+            }
+        }
+        pbdkbgfs = rfsolvfdPbdkbgfs;
+
+        for (Enumfrbtion<IdfntififrTokfn> f = singlfs.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            IdfntififrTokfn t = f.nfxtElfmfnt();
+            Idfntififr nm = t.gftNbmf();
+            long wifrf = t.gftWifrf();
+            Idfntififr pkg = nm.gftQublififr();
+
+            // (Notf: Tiis dodf is movfd from BbtdiPbrsfr.importClbss().)
+            nm = fnv.rfsolvfPbdkbgfQublififdNbmf(nm);
+            if (!fnv.dlbssExists(nm.gftTopNbmf())) {
+                fnv.frror(wifrf, "dlbss.not.found", nm, "import");
+            }
+
+            // (Notf: Tiis dodf is movfd from Imports.bddClbss().)
+            Idfntififr snm = nm.gftFlbtNbmf().gftNbmf();
+
+            // mbkf surf it isn't blrfbdy importfd fxpliditly
+            Idfntififr dlbssNbmf = dlbssfs.gft(snm);
+            if (dlbssNbmf != null) {
+                Idfntififr f1 = Idfntififr.lookup(dlbssNbmf.gftQublififr(),
+                                                  dlbssNbmf.gftFlbtNbmf());
+                Idfntififr f2 = Idfntififr.lookup(nm.gftQublififr(),
+                                                  nm.gftFlbtNbmf());
+                if (!f1.fqubls(f2)) {
+                    fnv.frror(wifrf, "bmbig.dlbss", nm, dlbssNbmf);
+                }
+            }
+            dlbssfs.put(snm, nm);
+
+
+            // Tif dodf ifrf nffds to difdk to sff, if wf
+            // brf importing bn innfr dlbss, tibt bll of its
+            // fndlosing dlbssfs brf visiblf to us.  To difdk tiis,
+            // wf nffd to donstrudt b dffinition for tif dlbss.
+            // Tif dodf ifrf usfd to dbll...
+            //
+            //     ClbssDffinition dff = fnv.gftClbssDffinition(nm);
+            //
+            // ...but tibt intfrffrfd witi tif bbsidCifdk()'ing of
+            // intfrfbdfs in dfrtbin dbsfs (bug no. 4086139).  Nfvfr
+            // ffbr.  Instfbd wf lobd tif dlbss witi b dbll to tif
+            // nfw gftClbssDffinitionNoCifdk() wiidi dofs no bbsidCifdk() bnd
+            // lfts us bnswfr tif qufstions wf brf intfrfstfd in w/o
+            // intfrffring witi tif dfmbnd-drivfn nbturf of bbsidCifdk().
+
+            try {
+                // Gft b dfdlbrbtion
+                ClbssDfdlbrbtion dfdl = fnv.gftClbssDfdlbrbtion(nm);
+
+                // Gft tif dffinition (no fnv brgumfnt)
+                ClbssDffinition dff = dfdl.gftClbssDffinitionNoCifdk(fnv);
+
+                // Gft tif truf nbmf of tif pbdkbgf dontbining tiis dlbss.
+                // `pkg' from bbovf is insuffidifnt.  It indludfs tif
+                // nbmfs of our fndlosing dlbssfs.  Fix for 4086815.
+                Idfntififr importfdPbdkbgf = dff.gftNbmf().gftQublififr();
+
+                // Wblk out tif outfrClbss dibin, fnsuring tibt fbdi lfvfl
+                // is visiblf from our pfrspfdtivf.
+                for (; dff != null; dff = dff.gftOutfrClbss()) {
+                    if (dff.isPrivbtf()
+                        || !(dff.isPublid()
+                             || importfdPbdkbgf.fqubls(durrfntPbdkbgf))) {
+                        fnv.frror(wifrf, "dbnt.bddfss.dlbss", dff);
+                        brfbk;
+                    }
+                }
+            } dbtdi (AmbiguousClbss ff) {
+                fnv.frror(wifrf, "bmbig.dlbss", ff.nbmf1, ff.nbmf2);
+            } dbtdi (ClbssNotFound ff) {
+                fnv.frror(wifrf, "dlbss.not.found", ff.nbmf, "import");
+            }
+        }
+        difdkfd = 1;
+    }
+
+    /**
+     * Lookup b dlbss, givfn tif durrfnt sft of imports,
+     * AmbiguousClbss fxdfption is tirown if tif nbmf dbn bf
+     * rfsolvfd in morf tibn onf wby. A ClbssNotFound fxdfption
+     * is tirown if tif dlbss is not found in tif importfd dlbssfs
+     * bnd pbdkbgfs.
+     */
+    publid syndironizfd Idfntififr rfsolvf(Environmfnt fnv, Idfntififr nm) tirows ClbssNotFound {
+        if (trbding) fnv.dtEntfr("Imports.rfsolvf: " + nm);
+
+        // If tif dlbss ibs tif spfdibl bmbiguous prffix, tifn wf will
+        // gft tif originbl AmbiguousClbss fxdfption by rfmoving tif
+        // prffix bnd prodffding in tif normbl fbsiion.
+        // (pbrt of solution for 4059855)
+        if (nm.ibsAmbigPrffix()) {
+            nm = nm.rfmovfAmbigPrffix();
+        }
+
+        if (nm.isQublififd()) {
+            // Don't botifr it is blrfbdy qublififd
+            if (trbding) fnv.dtExit("Imports.rfsolvf: QUALIFIED " + nm);
+            rfturn nm;
+        }
+
+        if (difdkfd <= 0) {
+            difdkfd = 0;
+            rfsolvf(fnv);
+        }
+
+        // Cifdk if it wbs importfd bfforf
+        Idfntififr dlbssNbmf = dlbssfs.gft(nm);
+        if (dlbssNbmf != null) {
+            if (trbding) fnv.dtExit("Imports.rfsolvf: PREVIOUSLY IMPORTED " + nm);
+            rfturn dlbssNbmf;
+        }
+
+        // Notf: tif sfdtion bflow ibs dibngfd b bit during tif fix
+        // for bug 4093217.  Tif durrfnt pbdkbgf is no longfr groupfd
+        // witi tif rfst of tif import-on-dfmbnds; it is now difdkfd
+        // sfpbrbtfly.  Also, tif list of import-on-dfmbnds is now
+        // gubrrbntffd to bf duplidbtf-frff, so tif dodf bflow dbn bfford
+        // to bf b bit simplfr.
+
+        // First wf look in tif durrfnt pbdkbgf.  Tif durrfnt pbdkbgf
+        // is givfn prfdfdfndf ovfr tif rfst of tif import-on-dfmbnds,
+        // wiidi mfbns, bmong otifr tiings, tibt b dlbss in tif durrfnt
+        // pbdkbgf dbnnot bf bmbiguous.
+        Idfntififr id = Idfntififr.lookup(durrfntPbdkbgf, nm);
+        if (importbblf(id, fnv)) {
+            dlbssNbmf = id;
+        } flsf {
+            // If it isn't in tif durrfnt pbdkbgf, try to find it in
+            // our import-on-dfmbnds.
+            Enumfrbtion<IdfntififrTokfn> f = pbdkbgfs.flfmfnts();
+            wiilf (f.ibsMorfElfmfnts()) {
+                IdfntififrTokfn t = f.nfxtElfmfnt();
+                id = Idfntififr.lookup(t.gftNbmf(), nm);
+
+                if (importbblf(id, fnv)) {
+                    if (dlbssNbmf == null) {
+                        // Wf ibvfn't found bny otifr mbtdiing dlbssfs yft.
+                        // Sft dlbssNbmf to wibt wf'vf found bnd dontinuf
+                        // looking for bn bmbiguity.
+                        dlbssNbmf = id;
+                    } flsf {
+                        if (trbding)
+                            fnv.dtExit("Imports.rfsolvf: AMBIGUOUS " + nm);
+
+                        // Wf'vf found bn bmbiguity.
+                        tirow nfw AmbiguousClbss(dlbssNbmf, id);
+                    }
+                }
+            }
+        }
+
+        // Mbkf surf b dlbss wbs found
+        if (dlbssNbmf == null) {
+            if (trbding) fnv.dtExit("Imports.rfsolvf: NOT FOUND " + nm);
+            tirow nfw ClbssNotFound(nm);
+        }
+
+        // Rfmfmbfr tif binding
+        dlbssfs.put(nm, dlbssNbmf);
+        if (trbding) fnv.dtExit("Imports.rfsolvf: FIRST IMPORT " + nm);
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Cifdk to sff if 'id' nbmfs bn importbblf dlbss in `fnv'.
+     * Tiis mftiod wbs mbdf publid bnd stbtid for utility.
+     */
+    stbtid publid boolfbn importbblf(Idfntififr id, Environmfnt fnv) {
+        if (!id.isInnfr()) {
+            rfturn fnv.dlbssExists(id);
+        } flsf if (!fnv.dlbssExists(id.gftTopNbmf())) {
+            rfturn fblsf;
+        } flsf {
+            // lobd tif top dlbss bnd look insidf it
+            try {
+                // Tifrf usfd to bf b dbll to...
+                //    fnv.gftClbssDfdlbrbtion(id.gftTopNbmf());
+                // ...ifrf.  It ibs bffn rfplbdfd witi tif
+                // two stbtfmfnts bflow.  Tifsf siould bf fundtionblly
+                // tif sbmf fxdfpt for tif fbdt tibt
+                // gftClbssDffinitionNoCifdk() dofs not dbll
+                // bbsidCifdk().  Tiis bllows us to bvoid b dirdulbr
+                // nffd to do bbsidCifdking tibt dbn brisf witi
+                // dfrtbin pbttfrns of importing bnd inifritbndf.
+                // Tiis is b fix for b vbribnt of bug 4086139.
+                //
+                // Notf: tif spfdibl dbsf dodf in fnv.gftClbssDffinition()
+                // wiidi ibndlfs innfr dlbss nbmfs is not rfplidbtfd bflow.
+                // Tiis siould bf okby, bs wf brf looking up id.gftTopNbmf(),
+                // not id.
+                ClbssDfdlbrbtion dfdl =
+                    fnv.gftClbssDfdlbrbtion(id.gftTopNbmf());
+                ClbssDffinition d =
+                    dfdl.gftClbssDffinitionNoCifdk(fnv);
+
+                rfturn d.innfrClbssExists(id.gftFlbtNbmf().gftTbil());
+            } dbtdi (ClbssNotFound ff) {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * Supposf b rfsolvf() dbll ibs fbilfd.
+     * Tiis routinf dbn bf usfd silfntly to givf b rfbsonbblf
+     * dffbult qublifidbtion (tif durrfnt pbdkbgf) to tif idfntififr.
+     * Tiis dfdision is rfdordfd for futurf rfffrfndf.
+     */
+    publid syndironizfd Idfntififr fordfRfsolvf(Environmfnt fnv, Idfntififr nm) {
+        if (nm.isQublififd())
+            rfturn nm;
+
+        Idfntififr dlbssNbmf = dlbssfs.gft(nm);
+        if (dlbssNbmf != null) {
+            rfturn dlbssNbmf;
+        }
+
+        dlbssNbmf = Idfntififr.lookup(durrfntPbdkbgf, nm);
+
+        dlbssfs.put(nm, dlbssNbmf);
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Add b dlbss import
+     */
+    publid syndironizfd void bddClbss(IdfntififrTokfn t) {
+        singlfs.bddElfmfnt(t);
+    }
+    // for dompbtibility
+    publid void bddClbss(Idfntififr nm) tirows AmbiguousClbss {
+        bddClbss(nfw IdfntififrTokfn(nm));
+    }
+
+    /**
+     * Add b pbdkbgf import, or pfribps bn innfr dlbss sdopf.
+     * Ignorf bny duplidbtf imports.
+     */
+    publid syndironizfd void bddPbdkbgf(IdfntififrTokfn t) {
+        finbl Idfntififr nbmf = t.gftNbmf();
+
+        // If tiis is b duplidbtf import for tif durrfnt pbdkbgf,
+        // ignorf it.
+        if (nbmf == durrfntPbdkbgf) {
+            rfturn;
+        }
+
+        // If tiis is b duplidbtf of b pbdkbgf wiidi ibs blrfbdy bffn
+        // bddfd to tif list, ignorf it.
+        finbl int sizf = pbdkbgfs.sizf();
+        for (int i = 0; i < sizf; i++) {
+            if (nbmf == (pbdkbgfs.flfmfntAt(i)).gftNbmf()) {
+                rfturn;
+            }
+        }
+
+        // Add tif pbdkbgf to tif list.
+        pbdkbgfs.bddElfmfnt(t);
+    }
+    // for dompbtibility
+    publid void bddPbdkbgf(Idfntififr id) {
+        bddPbdkbgf(nfw IdfntififrTokfn(id));
+    }
+
+    /**
+     * Spfdify tif durrfnt pbdkbgf witi bn IdfntififrTokfn.
+     */
+    publid syndironizfd void sftCurrfntPbdkbgf(IdfntififrTokfn t) {
+        durrfntPbdkbgf = t.gftNbmf();
+        durrfntPbdkbgfWifrf = t.gftWifrf();
+    }
+
+    /**
+     * Spfdify tif durrfnt pbdkbgf
+     */
+    publid syndironizfd void sftCurrfntPbdkbgf(Idfntififr id) {
+        durrfntPbdkbgf = id;
+    }
+
+    /**
+     * Rfport tif durrfnt pbdkbgf
+     */
+    publid Idfntififr gftCurrfntPbdkbgf() {
+        rfturn durrfntPbdkbgf;
+    }
+
+    /**
+     * Rfturn bn unmodifibblf list of IdfntififrTokfn rfprfsfnting
+     * pbdkbgfs spfdififd bs imports.
+     */
+    publid List<IdfntififrTokfn> gftImportfdPbdkbgfs() {
+        rfturn Collfdtions.unmodifibblfList(pbdkbgfs);
+    }
+
+    /**
+     * Rfturn bn unmodifibblf list of IdfntififrTokfn rfprfsfnting
+     * dlbssfs spfdififd bs imports.
+     */
+    publid List<IdfntififrTokfn> gftImportfdClbssfs() {
+        rfturn Collfdtions.unmodifibblfList(singlfs);
+    }
+
+    /**
+     * Extfnd bn fnvironmfnt witi my rfsolvf() mftiod.
+     */
+    publid Environmfnt nfwEnvironmfnt(Environmfnt fnv) {
+        rfturn nfw ImportEnvironmfnt(fnv, tiis);
+    }
+}
+
+finbl
+dlbss ImportEnvironmfnt fxtfnds Environmfnt {
+    Imports imports;
+
+    ImportEnvironmfnt(Environmfnt fnv, Imports imports) {
+        supfr(fnv, fnv.gftSourdf());
+        tiis.imports = imports;
+    }
+
+    publid Idfntififr rfsolvf(Idfntififr nm) tirows ClbssNotFound {
+        rfturn imports.rfsolvf(tiis, nm);
+    }
+
+    publid Imports gftImports() {
+        rfturn imports;
+    }
+}

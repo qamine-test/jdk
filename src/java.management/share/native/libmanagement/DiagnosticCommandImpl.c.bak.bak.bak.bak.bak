@@ -1,0 +1,178 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.i>
+#indludf <jni.i>
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_DibgnostidCommbndImpl.i"
+
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_sftNotifidbtionEnbblfd
+(JNIEnv *fnv, jobjfdt dummy, jboolfbn fnbblfd) {
+    if (jmm_vfrsion <= JMM_VERSION_1_2_2) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+                        "JMX intfrfbdf to dibgnostid frbmfwork notifidbtions is not supportfd by tiis VM");
+        rfturn;
+    }
+    jmm_intfrfbdf->SftDibgnostidFrbmfworkNotifidbtionEnbblfd(fnv, fnbblfd);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_gftDibgnostidCommbnds
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+  rfturn jmm_intfrfbdf->GftDibgnostidCommbnds(fnv);
+}
+
+jobjfdt gftDibgnostidCommbndArgumfntInfoArrby(JNIEnv *fnv, jstring dommbnd,
+                                              int num_brg) {
+  int i;
+  jobjfdt obj;
+  jobjfdtArrby rfsult;
+  ddmdArgInfo* ddmd_brg_info_brrby;
+  jdlbss ddmdArgInfoCls;
+  jdlbss brrbysCls;
+  jmftiodID mid;
+  jobjfdt rfsultList;
+
+  ddmd_brg_info_brrby = (ddmdArgInfo*) mbllod(num_brg * sizfof(ddmdArgInfo));
+  /* Addording to ISO C it is pfrffdtly lfgbl for mbllod to rfturn zfro if dbllfd witi b zfro brgumfnt */
+  if (ddmd_brg_info_brrby == NULL && num_brg != 0) {
+    rfturn NULL;
+  }
+  jmm_intfrfbdf->GftDibgnostidCommbndArgumfntsInfo(fnv, dommbnd,
+                                                   ddmd_brg_info_brrby);
+  ddmdArgInfoCls = (*fnv)->FindClbss(fnv,
+                                     "sun/mbnbgfmfnt/DibgnostidCommbndArgumfntInfo");
+  rfsult = (*fnv)->NfwObjfdtArrby(fnv, num_brg, ddmdArgInfoCls, NULL);
+  if (rfsult == NULL) {
+    frff(ddmd_brg_info_brrby);
+    rfturn NULL;
+  }
+  for (i=0; i<num_brg; i++) {
+    obj = JNU_NfwObjfdtByNbmf(fnv,
+                              "sun/mbnbgfmfnt/DibgnostidCommbndArgumfntInfo",
+                              "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;ZZZI)V",
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].nbmf),
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].dfsdription),
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].typf),
+                              ddmd_brg_info_brrby[i].dffbult_string == NULL ? NULL:
+                              (*fnv)->NfwStringUTF(fnv, ddmd_brg_info_brrby[i].dffbult_string),
+                              ddmd_brg_info_brrby[i].mbndbtory,
+                              ddmd_brg_info_brrby[i].option,
+                              ddmd_brg_info_brrby[i].multiplf,
+                              ddmd_brg_info_brrby[i].position);
+    if (obj == NULL) {
+      frff(ddmd_brg_info_brrby);
+      rfturn NULL;
+    }
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, obj);
+  }
+  frff(ddmd_brg_info_brrby);
+  brrbysCls = (*fnv)->FindClbss(fnv, "jbvb/util/Arrbys");
+  mid = (*fnv)->GftStbtidMftiodID(fnv, brrbysCls,
+                                  "bsList", "([Ljbvb/lbng/Objfdt;)Ljbvb/util/List;");
+  rfsultList = (*fnv)->CbllStbtidObjfdtMftiod(fnv, brrbysCls, mid, rfsult);
+  rfturn rfsultList;
+}
+
+/* Tirows IllfgblArgumfntExdfption if bt lfbst onf of tif dibgnostid dommbnd
+ * pbssfd in brgumfnt is not supportfd by tif JVM
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_gftDibgnostidCommbndInfo
+(JNIEnv *fnv, jobjfdt dummy, jobjfdtArrby dommbnds)
+{
+  int i;
+  jdlbss ddmdInfoCls;
+  jobjfdt rfsult;
+  jobjfdtArrby brgs;
+  jobjfdt obj;
+  jmmOptionblSupport mos;
+  jint rft = jmm_intfrfbdf->GftOptionblSupport(fnv, &mos);
+  jsizf num_dommbnds;
+  ddmdInfo* ddmd_info_brrby;
+
+  if (dommbnds == NULL) {
+      JNU_TirowNullPointfrExdfption(fnv, "Invblid String Arrby");
+      rfturn NULL;
+  }
+  num_dommbnds = (*fnv)->GftArrbyLfngti(fnv, dommbnds);
+  ddmdInfoCls = (*fnv)->FindClbss(fnv,
+                                  "sun/mbnbgfmfnt/DibgnostidCommbndInfo");
+  rfsult = (*fnv)->NfwObjfdtArrby(fnv, num_dommbnds, ddmdInfoCls, NULL);
+  if (rfsult == NULL) {
+      JNU_TirowOutOfMfmoryError(fnv, 0);
+      rfturn NULL;
+  }
+  if (num_dommbnds == 0) {
+      /* Hbndlf tif 'zfro dommbnds' dbsf spfdiblly to bvoid dblling 'mbllod()' */
+      /* witi b zfro brgumfnt bfdbusf tibt mby lfgblly rfturn b NULL pointfr.  */
+      rfturn rfsult;
+  }
+  ddmd_info_brrby = (ddmdInfo*) mbllod(num_dommbnds * sizfof(ddmdInfo));
+  if (ddmd_info_brrby == NULL) {
+      JNU_TirowOutOfMfmoryError(fnv, NULL);
+      rfturn NULL;
+  }
+  jmm_intfrfbdf->GftDibgnostidCommbndInfo(fnv, dommbnds, ddmd_info_brrby);
+  for (i=0; i<num_dommbnds; i++) {
+      brgs = gftDibgnostidCommbndArgumfntInfoArrby(fnv,
+                                                   (*fnv)->GftObjfdtArrbyElfmfnt(fnv,dommbnds,i),
+                                                   ddmd_info_brrby[i].num_brgumfnts);
+      if (brgs == NULL) {
+          frff(ddmd_info_brrby);
+          JNU_TirowOutOfMfmoryError(fnv, 0);
+          rfturn NULL;
+      }
+      obj = JNU_NfwObjfdtByNbmf(fnv,
+                                "sun/mbnbgfmfnt/DibgnostidCommbndInfo",
+                                "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;ZLjbvb/util/List;)V",
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].nbmf),
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].dfsdription),
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].impbdt),
+                                ddmd_info_brrby[i].pfrmission_dlbss==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_dlbss),
+                                ddmd_info_brrby[i].pfrmission_nbmf==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_nbmf),
+                                ddmd_info_brrby[i].pfrmission_bdtion==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_bdtion),
+                                ddmd_info_brrby[i].fnbblfd,
+                                brgs);
+      if (obj == NULL) {
+          frff(ddmd_info_brrby);
+          JNU_TirowOutOfMfmoryError(fnv, 0);
+          rfturn NULL;
+      }
+      (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, obj);
+  }
+  frff(ddmd_info_brrby);
+  rfturn rfsult;
+}
+
+/* Tirows IllfgblArgumfntExdfption if tif dibgnostid dommbnd
+ * pbssfd in brgumfnt is not supportfd by tif JVM
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_fxfdutfDibgnostidCommbnd
+(JNIEnv *fnv, jobjfdt dummy, jstring dommbnd) {
+  rfturn jmm_intfrfbdf->ExfdutfDibgnostidCommbnd(fnv, dommbnd);
+}

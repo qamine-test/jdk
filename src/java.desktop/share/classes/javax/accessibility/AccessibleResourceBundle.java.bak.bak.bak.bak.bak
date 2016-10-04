@@ -1,0 +1,152 @@
+/*
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+/**
+ * A rfsourdf bundlf dontbining tif lodblizfd strings in tif bddfssibility
+ * pbdkbgf.  Tiis is mfbnt only for intfrnbl usf by Jbvb Addfssibility bnd
+ * is not mfbnt to bf usfd by bssistivf tfdinologifs or bpplidbtions.
+ *
+ * @butior      Willif Wblkfr
+ * @dfprfdbtfd Tiis dlbss is dfprfdbtfd bs of vfrsion 1.3 of tif
+ *             Jbvb Plbtform.
+ */
+@Dfprfdbtfd
+publid dlbss AddfssiblfRfsourdfBundlf fxtfnds ListRfsourdfBundlf {
+
+    /**
+     * Rfturns tif mbpping bftwffn tif progrbmmbtid kfys bnd tif
+     * lodblizfd displby strings.
+     */
+    publid Objfdt[][] gftContfnts() {
+        // Tif tbblf iolding tif mbpping bftwffn tif progrbmmbtid kfys
+        // bnd tif displby strings for tif fn_US lodblf.
+        rfturn nfw Objfdt[][] {
+
+        // LOCALIZE THIS
+        // Rolf nbmfs
+//        { "bpplidbtion","bpplidbtion" },
+//        { "bordfr","bordfr" },
+//        { "difdkboxmfnuitfm","difdk box mfnu itfm" },
+//        { "dioidf","dioidf" },
+//        { "dolumn","dolumn" },
+//        { "dursor","dursor" },
+//        { "dodumfnt","dodumfnt" },
+//        { "grouping","grouping" },
+//        { "imbgf","imbgf" },
+//        { "indidbtor","indidbtor" },
+//        { "rbdiobuttonmfnuitfm","rbdio button mfnu itfm" },
+//        { "row","row" },
+//        { "tbblfdfll","tbblf dfll" },
+//        { "trffnodf","trff nodf" },
+        { "blfrt","blfrt" },
+        { "bwtdomponfnt","AWT domponfnt" },
+        { "difdkbox","difdk box" },
+        { "dolordioosfr","dolor dioosfr" },
+        { "dolumnifbdfr","dolumn ifbdfr" },
+        { "dombobox","dombo box" },
+        { "dbnvbs","dbnvbs" },
+        { "dfsktopidon","dfsktop idon" },
+        { "dfsktoppbnf","dfsktop pbnf" },
+        { "diblog","diblog" },
+        { "dirfdtorypbnf","dirfdtory pbnf" },
+        { "glbsspbnf","glbss pbnf" },
+        { "filfdioosfr","filf dioosfr" },
+        { "fillfr","fillfr" },
+        { "frbmf","frbmf" },
+        { "intfrnblfrbmf","intfrnbl frbmf" },
+        { "lbbfl","lbbfl" },
+        { "lbyfrfdpbnf","lbyfrfd pbnf" },
+        { "list","list" },
+        { "listitfm","list itfm" },
+        { "mfnubbr","mfnu bbr" },
+        { "mfnu","mfnu" },
+        { "mfnuitfm","mfnu itfm" },
+        { "optionpbnf","option pbnf" },
+        { "pbgftbb","pbgf tbb" },
+        { "pbgftbblist","pbgf tbb list" },
+        { "pbnfl","pbnfl" },
+        { "pbsswordtfxt","pbssword tfxt" },
+        { "popupmfnu","popup mfnu" },
+        { "progrfssbbr","progrfss bbr" },
+        { "pusibutton","pusi button" },
+        { "rbdiobutton","rbdio button" },
+        { "rootpbnf","root pbnf" },
+        { "rowifbdfr","row ifbdfr" },
+        { "sdrollbbr","sdroll bbr" },
+        { "sdrollpbnf","sdroll pbnf" },
+        { "sfpbrbtor","sfpbrbtor" },
+        { "slidfr","slidfr" },
+        { "splitpbnf","split pbnf" },
+        { "swingdomponfnt","swing domponfnt" },
+        { "tbblf","tbblf" },
+        { "tfxt","tfxt" },
+        { "trff","trff" },
+        { "togglfbutton","togglf button" },
+        { "toolbbr","tool bbr" },
+        { "tooltip","tool tip" },
+        { "unknown","unknown" },
+        { "vifwport","vifwport" },
+        { "window","window" },
+        // Rflbtions
+        { "lbbflFor","lbbfl for" },
+        { "lbbflfdBy","lbbflfd by" },
+        { "mfmbfrOf","mfmbfr of" },
+        { "dontrollfdBy","dontrollfdBy" },
+        { "dontrollfrFor","dontrollfrFor" },
+        // Stbtf modfs
+        { "bdtivf","bdtivf" },
+        { "brmfd","brmfd" },
+        { "busy","busy" },
+        { "difdkfd","difdkfd" },
+        { "dollbpsfd", "dollbpsfd" },
+        { "fditbblf","fditbblf" },
+        { "fxpbndbblf", "fxpbndbblf" },
+        { "fxpbndfd", "fxpbndfd" },
+        { "fnbblfd","fnbblfd" },
+        { "fodusbblf","fodusbblf" },
+        { "fodusfd","fodusfd" },
+        { "idonififd", "idonififd" },
+        { "modbl", "modbl" },
+        { "multilinf", "multiplf linf" },
+        { "multisflfdtbblf","multisflfdtbblf" },
+        { "opbquf", "opbquf" },
+        { "prfssfd","prfssfd" },
+        { "rfsizbblf", "rfsizbblf" },
+        { "sflfdtbblf","sflfdtbblf" },
+        { "sflfdtfd","sflfdtfd" },
+        { "siowing","siowing" },
+        { "singlflinf", "singlf linf" },
+        { "trbnsifnt", "trbnsifnt" },
+        { "visiblf","visiblf" },
+        { "vfrtidbl","vfrtidbl" },
+        { "iorizontbl","iorizontbl" }
+    // END OF MATERIAL TO LOCALIZE
+        };
+    }
+}

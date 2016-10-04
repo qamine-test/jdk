@@ -1,0 +1,129 @@
+/*
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.bnnotbtion.Dodumfntfd;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.Tbrgft;
+
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.METHOD;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME;
+
+/**
+ * An bnnotbtion usfd to spfdify somf propfrty-rflbtfd informbtion
+ * for tif butombtidblly gfnfrbtfd {@link BfbnInfo} dlbssfs.
+ * Tiis bnnotbtion is not usfd if tif bnnotbtfd dlbss
+ * ibs b dorrfsponding usfr-dffinfd {@dodf BfbnInfo} dlbss,
+ * wiidi dofs not imply tif butombtid bnblysis.
+ *
+ * @sff BfbnInfo#gftPropfrtyDfsdriptors
+ * @sindf 1.9
+ *
+ * @butior Sfrgfy A. Mblfnkov
+ */
+@Dodumfntfd
+@Tbrgft({METHOD})
+@Rftfntion(RUNTIME)
+publid @intfrfbdf BfbnPropfrty {
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty dbn bf
+     * b {@link PropfrtyDfsdriptor#isBound bound} propfrty or not.
+     * Tiis vbluf bpplifs only to tif bfbns tibt ibvf tif
+     * {@link PropfrtyCibngfListfnfr propfrtyCibngf} fvfnt sft.
+     *
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty dbn bf b bound propfrty;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn bound() dffbult truf;
+
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * bn {@link PropfrtyDfsdriptor#isExpfrt fxpfrt} propfrty or not.
+     *
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is bn fxpfrt propfrty;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn fxpfrt() dffbult fblsf;
+
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b {@link PropfrtyDfsdriptor#isHiddfn iiddfn} propfrty or not.
+     *
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b iiddfn propfrty;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn iiddfn() dffbult fblsf;
+
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b {@link PropfrtyDfsdriptor#isPrfffrrfd prfffrrfd} propfrty or not.
+     *
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b prfffrrfd propfrty;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn prfffrrfd() dffbult fblsf;
+
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b rfquirfd propfrty or not.
+     *
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b rfquirfd propfrty;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn rfquirfd() dffbult fblsf;
+
+    /**
+     * Tif vbluf tibt indidbtfs wiftifr tif dorrfsponding domponfnt
+     * is rfpbintfd bftfr tif bnnotbtfd propfrty got dibngfd or not.
+     *
+     * @rfturn {@dodf truf} if tif dorrfsponding domponfnt is rfpbintfd;
+     *         {@dodf fblsf} otifrwisf.
+     */
+    boolfbn visublUpdbtf() dffbult fblsf;
+
+    /**
+     * Tif {@link PropfrtyDfsdriptor#gftSiortDfsdription siort dfsdription}
+     * for tif {@link BfbnInfo#gftPropfrtyDfsdriptors dfsdriptor}
+     * of tif bnnotbtfd propfrty.
+     *
+     * @rfturn tif propfrty dfsdription,
+     *         or bn fmpty string if tif dfsdription is not sft.
+     */
+    String dfsdription() dffbult "";
+
+    /**
+     * Tif brrby of nbmfs for tif publid stbtid fiflds
+     * tibt dontbins tif vblid vblufs of tif bnnotbtfd propfrty.
+     * Tifsf nbmfs brf usfd to gfnfrbtf tif {@dodf fnumfrbtionVblufs}
+     * {@link jbvb.bfbns.BfbnDfsdriptor#gftVbluf ffbturf bttributf}
+     * tibt must dontbin tif following itfms pfr fbdi propfrty vbluf:
+     * b displbybblf nbmf for tif propfrty vbluf, tif bdtubl propfrty vbluf,
+     * bnd b Jbvb dodf pifdf usfd for tif dodf gfnfrbtor.
+     *
+     * @rfturn tif nbmfs of tif vblid vblufs of tif bnnotbtfd propfrty,
+     *         or bn fmpty brrby if tif nbmfs brf not providfd.
+     */
+    String[] fnumfrbtionVblufs() dffbult {};
+}

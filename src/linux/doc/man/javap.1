@@ -1,443 +1,2215 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: javap.1
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbp.1
+.\"     Titlf: jbvbp.1
+.\"     Titlf: jbvbp.1
+.\"     Titlf: jbvbp.1
+.\"     Titlf: jbvbp.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH javap 1 "21 November 2013" "JDK 8" "Basic Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-javap \- Disassembles one or more class files\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBjavap\fR [\fIoptions\fR] \fIclassfile\fR\&.\&.\&.
+
+
+
+
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fIclassfile\fR
-One or more classes separated by spaces to be processed for annotations such as DocFooter\&.class\&. You can specify a class that can be found in the class path, by its file name or with a URL such as \f3file:///home/user/myproject/src/DocFooter\&.class\fR\&.
+.TP     
+.TP     
+.TP     
+.TP     
+\fIdlbssfilf\fR
+\fIdlbssfilf\fR
+\fIdlbssfilf\fR
+\fIdlbssfilf\fR
+\fIdlbssfilf\fR
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
 .SH DESCRIPTION    
-The \f3javap\fR command disassembles one or more class files\&. The output depends on the options used\&. When no options are used, then the \f3javap\fR command prints the package, protected and public fields, and methods of the classes passed to it\&. The \f3javap\fR command prints its output to \f3stdout\fR\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
--help, --help, -?
-.br
-Prints a help message for the \f3javap\fR command\&.
 .TP
--version
+.TP
+.TP
+.TP
+-iflp, --iflp, -?
+-iflp, --iflp, -?
+-iflp, --iflp, -?
+-iflp, --iflp, -?
+-iflp, --iflp, -?
 .br
-Prints release information\&.
+.br
+.br
+.br
+.br
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+.br
+.br
+.br
+.br
+.br
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -l
+-l
+-l
+-l
+-l
 .br
-Prints line and local variable tables\&.
+.br
+.br
+.br
+.br
+Prints linf bnd lodbl vbribblf tbblfs\&.
+Prints linf bnd lodbl vbribblf tbblfs\&.
+Prints linf bnd lodbl vbribblf tbblfs\&.
+Prints linf bnd lodbl vbribblf tbblfs\&.
+Prints linf bnd lodbl vbribblf tbblfs\&.
 .TP
--public
-.br
-Shows only public classes and members\&.
 .TP
--protected
-.br
-Shows only protected and public classes and members\&.
 .TP
--private, -p
+.TP
+.TP
+-publid
+-publid
+-publid
+-publid
+-publid
 .br
-Shows all classes and members\&.
+.br
+.br
+.br
+.br
+Siows only publid dlbssfs bnd mfmbfrs\&.
+Siows only publid dlbssfs bnd mfmbfrs\&.
+Siows only publid dlbssfs bnd mfmbfrs\&.
+Siows only publid dlbssfs bnd mfmbfrs\&.
+Siows only publid dlbssfs bnd mfmbfrs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-protfdtfd
+-protfdtfd
+-protfdtfd
+-protfdtfd
+-protfdtfd
+.br
+.br
+.br
+.br
+.br
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-privbtf, -p
+-privbtf, -p
+-privbtf, -p
+-privbtf, -p
+-privbtf, -p
+.br
+.br
+.br
+.br
+.br
+Siows bll dlbssfs bnd mfmbfrs\&.
+Siows bll dlbssfs bnd mfmbfrs\&.
+Siows bll dlbssfs bnd mfmbfrs\&.
+Siows bll dlbssfs bnd mfmbfrs\&.
+Siows bll dlbssfs bnd mfmbfrs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
 .br
-Passes the specified option to the JVM\&. For example:
+.br
+.br
+.br
+.br
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3javap \-J\-version\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvbp \-J\-vfrsion\fP
+\f3jbvbp \-J\-vfrsion\fP
+\f3jbvbp \-J\-vfrsion\fP
+\f3jbvbp \-J\-vfrsion\fP
+\f3jbvbp \-J\-vfrsion\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3javap \-J\-Djava\&.security\&.manager \-J\-Djava\&.security\&.policy=MyPolicy MyClassName\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 
 
-For more information about JVM options, see the \f3java(1)\fR command documentation\&.
+
+
+
+
+
+
+
+
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -s
+-s
+-s
+-s
+-s
 .br
-Prints internal type signatures\&.
+.br
+.br
+.br
+.br
+Prints intfrnbl typf signbturfs\&.
+Prints intfrnbl typf signbturfs\&.
+Prints intfrnbl typf signbturfs\&.
+Prints intfrnbl typf signbturfs\&.
+Prints intfrnbl typf signbturfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -sysinfo
+-sysinfo
+-sysinfo
+-sysinfo
+-sysinfo
 .br
-Shows system information (path, size, date, MD5 hash) of the class being processed\&.
+.br
+.br
+.br
+.br
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
 .TP
--constants
-.br
-Shows \f3static final\fR constants\&.
 .TP
--c
-.br
-Prints disassembled code, for example, the instructions that comprise the Java bytecodes, for each of the methods in the class\&.
 .TP
--verbose
-.br
-Prints stack size, number of locals and arguments for methods\&.
 .TP
--classpath \fIpath\fR
-.br
-Specifies the path the \f3javap\fR command uses to look up classes\&. Overrides the default or the \f3CLASSPATH\fR environment variable when it is set\&.
 .TP
--bootclasspath \fIpath\fR
+-donstbnts
+-donstbnts
+-donstbnts
+-donstbnts
+-donstbnts
 .br
-Specifies the path from which to load bootstrap classes\&. By default, the bootstrap classes are the classes that implement the core Java platform located in \f3jre/lib/rt\&.jar\fR and several other JAR files\&.
+.br
+.br
+.br
+.br
+Siows \f3stbtid finbl\fR donstbnts\&.
+Siows \f3stbtid finbl\fR donstbnts\&.
+Siows \f3stbtid finbl\fR donstbnts\&.
+Siows \f3stbtid finbl\fR donstbnts\&.
+Siows \f3stbtid finbl\fR donstbnts\&.
 .TP
--extdir \fIdirs\fR
+.TP
+.TP
+.TP
+.TP
+-d
+-d
+-d
+-d
+-d
 .br
-Overrides the location at which installed extensions are searched for\&. The default location for extensions is the value of \f3java\&.ext\&.dirs\fR\&.
+.br
+.br
+.br
+.br
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
+.br
+.br
+.br
+.br
+.br
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+.br
+.br
+.br
+.br
+.br
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+-bootdlbsspbti \fIpbti\fR
+.br
+.br
+.br
+.br
+.br
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-fxtdir \fIdirs\fR
+-fxtdir \fIdirs\fR
+-fxtdir \fIdirs\fR
+-fxtdir \fIdirs\fR
+-fxtdir \fIdirs\fR
+.br
+.br
+.br
+.br
+.br
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
 .SH EXAMPLE    
-Compile the following \f3DocFooter\fR class:
+.SH EXAMPLE    
+.SH EXAMPLE    
+.SH EXAMPLE    
+.SH EXAMPLE    
+Compilf tif following \f3DodFootfr\fR dlbss:
+Compilf tif following \f3DodFootfr\fR dlbss:
+Compilf tif following \f3DodFootfr\fR dlbss:
+Compilf tif following \f3DodFootfr\fR dlbss:
+Compilf tif following \f3DodFootfr\fR dlbss:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3import java\&.awt\&.*;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3import jbvb\&.bwt\&.*;\fP
+\f3import jbvb\&.bwt\&.*;\fP
+\f3import jbvb\&.bwt\&.*;\fP
+\f3import jbvb\&.bwt\&.*;\fP
+\f3import jbvb\&.bwt\&.*;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3import java\&.applet\&.*;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3import jbvb\&.bpplft\&.*;\fP
+\f3import jbvb\&.bpplft\&.*;\fP
+\f3import jbvb\&.bpplft\&.*;\fP
+\f3import jbvb\&.bpplft\&.*;\fP
+\f3import jbvb\&.bpplft\&.*;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
-.fi     
-.nf     
-\f3public class DocFooter extends Applet {\fP
-.fi     
-.nf     
-\f3        String date;\fP
-.fi     
-.nf     
-\f3        String email;\fP
-.fi     
-.nf     
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
-.nf     
-\f3        public void init() {\fP
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3                resize(500,100);\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3                date = getParameter("LAST_UPDATED");\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        String dbtf;\fP
+\f3        String dbtf;\fP
+\f3        String dbtf;\fP
+\f3        String dbtf;\fP
+\f3        String dbtf;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3                email = getParameter("EMAIL");\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        String fmbil;\fP
+\f3        String fmbil;\fP
+\f3        String fmbil;\fP
+\f3        String fmbil;\fP
+\f3        String fmbil;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        publid void init() {\fP
+\f3        publid void init() {\fP
+\f3        publid void init() {\fP
+\f3        publid void init() {\fP
+\f3        publid void init() {\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                rfsizf(500,100);\fP
+\f3                rfsizf(500,100);\fP
+\f3                rfsizf(500,100);\fP
+\f3                rfsizf(500,100);\fP
+\f3                rfsizf(500,100);\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3        }\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3        public void paint(Graphics g) {\fP
-.fi     
-.nf     
-\f3                g\&.drawString(date + " by ",100, 15);\fP
-.fi     
-.nf     
-\f3                g\&.drawString(email,290,15);\fP
-.fi     
-.nf     
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
 \f3        }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        publid void pbint(Grbpiids g) {\fP
+\f3        publid void pbint(Grbpiids g) {\fP
+\f3        publid void pbint(Grbpiids g) {\fP
+\f3        publid void pbint(Grbpiids g) {\fP
+\f3        publid void pbint(Grbpiids g) {\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                g\&.drbwString(fmbil,290,15);\fP
+\f3                g\&.drbwString(fmbil,290,15);\fP
+\f3                g\&.drbwString(fmbil,290,15);\fP
+\f3                g\&.drbwString(fmbil,290,15);\fP
+\f3                g\&.drbwString(fmbil,290,15);\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-The output from the \f3javap DocFooter\&.class\fR command yields the following:
-.sp     
-.nf     
-\f3Compiled from "DocFooter\&.java"\fP
-.fi     
-.nf     
-\f3public class DocFooter extends java\&.applet\&.Applet {\fP
-.fi     
-.nf     
-\f3  java\&.lang\&.String date;\fP
-.fi     
-.nf     
-\f3  java\&.lang\&.String email;\fP
-.fi     
-.nf     
-\f3  public DocFooter();\fP
-.fi     
-.nf     
-\f3  public void init();\fP
-.fi     
-.nf     
-\f3  public void paint(java\&.awt\&.Graphics);\fP
-.fi     
-.nf     
+\f3}\fP
+\f3}\fP
+\f3}\fP
 \f3}\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
-The output from \f3javap -c DocFooter\&.class\fR command yields the following:
+.sp     
+.sp     
+.sp     
+.sp     
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3Compiled from "DocFooter\&.java"\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3public class DocFooter extends java\&.applet\&.Applet {\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3  java\&.lang\&.String date;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3  java\&.lang\&.String email;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
-.fi     
-.nf     
-\f3  public DocFooter();\fP
-.fi     
-.nf     
-\f3    Code:\fP
-.fi     
-.nf     
-\f3       0: aload_0       \fP
-.fi     
-.nf     
-\f3       1: invokespecial #1                  // Method\fP
-.fi     
-.nf     
-\f3java/applet/Applet\&."<init>":()V\fP
-.fi     
-.nf     
-\f3       4: return        \fP
-.fi     
-.nf     
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
 .nf     
-\f3  public void init();\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3    Code:\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       0: aload_0       \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       1: sipush        500\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       4: bipush        100\fP
-.fi     
 .nf     
-\f3       6: invokevirtual #2                  // Method resize:(II)V\fP
-.fi     
 .nf     
-\f3       9: aload_0       \fP
-.fi     
 .nf     
-\f3      10: aload_0       \fP
-.fi     
-.nf     
-\f3      11: ldc           #3                  // String LAST_UPDATED\fP
-.fi     
-.nf     
-\f3      13: invokevirtual #4                  // Method\fP
-.fi     
-.nf     
-\f3 getParameter:(Ljava/lang/String;)Ljava/lang/String;\fP
-.fi     
-.nf     
-\f3      16: putfield      #5                  // Field date:Ljava/lang/String;\fP
-.fi     
-.nf     
-\f3      19: aload_0       \fP
-.fi     
-.nf     
-\f3      20: aload_0       \fP
-.fi     
-.nf     
-\f3      21: ldc           #6                  // String EMAIL\fP
-.fi     
-.nf     
-\f3      23: invokevirtual #4                  // Method\fP
-.fi     
-.nf     
-\f3 getParameter:(Ljava/lang/String;)Ljava/lang/String;\fP
-.fi     
-.nf     
-\f3      26: putfield      #7                  // Field email:Ljava/lang/String;\fP
-.fi     
-.nf     
-\f3      29: return        \fP
-.fi     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3  public void paint(java\&.awt\&.Graphics);\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+\f3  publid DodFootfr();\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3    Code:\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       0: aload_1       \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       1: new           #8                  // class java/lang/StringBuilder\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       4: rfturn        \fP
+\f3       4: rfturn        \fP
+\f3       4: rfturn        \fP
+\f3       4: rfturn        \fP
+\f3       4: rfturn        \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+\f3  publid void init();\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+\f3       0: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       1: sipusi        500\fP
+\f3       1: sipusi        500\fP
+\f3       1: sipusi        500\fP
+\f3       1: sipusi        500\fP
+\f3       1: sipusi        500\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       4: bipusi        100\fP
+\f3       4: bipusi        100\fP
+\f3       4: bipusi        100\fP
+\f3       4: bipusi        100\fP
+\f3       4: bipusi        100\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       9: blobd_0       \fP
+\f3       9: blobd_0       \fP
+\f3       9: blobd_0       \fP
+\f3       9: blobd_0       \fP
+\f3       9: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      10: blobd_0       \fP
+\f3      10: blobd_0       \fP
+\f3      10: blobd_0       \fP
+\f3      10: blobd_0       \fP
+\f3      10: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      19: blobd_0       \fP
+\f3      19: blobd_0       \fP
+\f3      19: blobd_0       \fP
+\f3      19: blobd_0       \fP
+\f3      19: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      20: blobd_0       \fP
+\f3      20: blobd_0       \fP
+\f3      20: blobd_0       \fP
+\f3      20: blobd_0       \fP
+\f3      20: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      21: ldd           #6                  // String EMAIL\fP
+\f3      21: ldd           #6                  // String EMAIL\fP
+\f3      21: ldd           #6                  // String EMAIL\fP
+\f3      21: ldd           #6                  // String EMAIL\fP
+\f3      21: ldd           #6                  // String EMAIL\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      29: rfturn        \fP
+\f3      29: rfturn        \fP
+\f3      29: rfturn        \fP
+\f3      29: rfturn        \fP
+\f3      29: rfturn        \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+\f3    Codf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       0: blobd_1       \fP
+\f3       0: blobd_1       \fP
+\f3       0: blobd_1       \fP
+\f3       0: blobd_1       \fP
+\f3       0: blobd_1       \fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3       4: dup           \fP
+\f3       4: dup           \fP
+\f3       4: dup           \fP
+\f3       4: dup           \fP
+\f3       4: dup           \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       5: invokespecial #9                  // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&."<init>":()V\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       8: aload_0       \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       8: blobd_0       \fP
+\f3       8: blobd_0       \fP
+\f3       8: blobd_0       \fP
+\f3       8: blobd_0       \fP
+\f3       8: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3       9: getfield      #5                  // Field date:Ljava/lang/String;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      12: invokevirtual #10                 // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      15: ldc           #11                 // String  by \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      15: ldd           #11                 // String  by \fP
+\f3      15: ldd           #11                 // String  by \fP
+\f3      15: ldd           #11                 // String  by \fP
+\f3      15: ldd           #11                 // String  by \fP
+\f3      15: ldd           #11                 // String  by \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      17: invokevirtual #10                 // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      20: invokevirtual #12                 // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.toString:()Ljava/lang/String;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      23: bipush        100\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      23: bipusi        100\fP
+\f3      23: bipusi        100\fP
+\f3      23: bipusi        100\fP
+\f3      23: bipusi        100\fP
+\f3      23: bipusi        100\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      25: bipush        15\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      25: bipusi        15\fP
+\f3      25: bipusi        15\fP
+\f3      25: bipusi        15\fP
+\f3      25: bipusi        15\fP
+\f3      25: bipusi        15\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      27: invokevirtual #13                 // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3 java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      30: aload_1       \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      30: blobd_1       \fP
+\f3      30: blobd_1       \fP
+\f3      30: blobd_1       \fP
+\f3      30: blobd_1       \fP
+\f3      30: blobd_1       \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      31: aload_0       \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      31: blobd_0       \fP
+\f3      31: blobd_0       \fP
+\f3      31: blobd_0       \fP
+\f3      31: blobd_0       \fP
+\f3      31: blobd_0       \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      32: getfield      #7                  // Field email:Ljava/lang/String;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      35: sipush        290\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      35: sipusi        290\fP
+\f3      35: sipusi        290\fP
+\f3      35: sipusi        290\fP
+\f3      35: sipusi        290\fP
+\f3      35: sipusi        290\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      38: bipush        15\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      38: bipusi        15\fP
+\f3      38: bipusi        15\fP
+\f3      38: bipusi        15\fP
+\f3      38: bipusi        15\fP
+\f3      38: bipusi        15\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      40: invokevirtual #13                 // Method\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      43: return        \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      43: rfturn        \fP
+\f3      43: rfturn        \fP
+\f3      43: rfturn        \fP
+\f3      43: rfturn        \fP
+\f3      43: rfturn        \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-javac(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-java(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-javah(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-javadoc(1)
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

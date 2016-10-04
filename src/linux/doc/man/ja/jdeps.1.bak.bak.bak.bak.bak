@@ -1,0 +1,367 @@
+'\" t
+.\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jdfps
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jdfps \- Jbvbクラス依存性アナライザ。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIdlbssfs\fR
+.RS 4
+分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+.RE
+.SH "説明"
+.PP
+\fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+.SH "オプション"
+.PP
+\-dotoutput <\fIdir\fR>
+.RS 4
+DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
+.RE
+.PP
+\-s, \-summbry
+.RS 4
+依存関係のサマリーのみを出力します。
+.RE
+.PP
+\-v, \-vfrbosf
+.RS 4
+すべてのクラスレベルの依存関係を出力します。
+.RE
+.PP
+\-vfrbosf:pbdkbgf
+.RS 4
+同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
+.RE
+.PP
+\-vfrbosf:dlbss
+.RS 4
+同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
+.RE
+.PP
+\-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+.RS 4
+クラス・ファイルの検索場所を指定します。
+.sp
+Sftting tif Clbss Pbti も参照してください。
+.RE
+.PP
+\-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+.RS 4
+指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+.RE
+.PP
+\-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+.RS 4
+指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+.RE
+.PP
+\-indludf <\fIrfgfx\fR>
+.RS 4
+分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
+.RE
+.PP
+\-jdkintfrnbls
+.RS 4
+JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+.sp
+\fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
+.RE
+.PP
+\-P, \-profilf
+.RS 4
+パッケージを含むプロファイルまたはファイルを表示します。
+.RE
+.PP
+\-bpionly
+.RS 4
+フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
+.RE
+.PP
+\-R, \-rfdursivf
+.RS 4
+すべての依存関係を再帰的に走査します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+バージョン情報を出力します。
+.RE
+.PP
+\-i, \-?, \-iflp
+.RS 4
+\fIjdfps\fRに関するヘルプ・メッセージを出力します。
+.RE
+.SH "例"
+.PP
+Notfpbd\&.jbrの依存関係の分析。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+ 
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   <unnbmfd> (Notfpbd\&.jbr)
+      \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt\&.fvfnt                                     
+      \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util\&.logging                                  
+      \-> jbvbx\&.swing                                        
+      \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.fvfnt                                  
+      \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.trff                                   
+      \-> jbvbx\&.swing\&.undo  
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
+   <unnbmfd> (Notfpbd\&.jbr)
+      \-> jbvb\&.bwt                                           Full JRE
+      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bfbns                                         Full JRE
+      \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.lbng                                          dompbdt1
+      \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.util                                          dompbdt1
+      \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvbx\&.swing                                        Full JRE
+      \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
+      \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.trff                                   Full JRE
+      \-> jbvbx\&.swing\&.undo                                   Full JRE
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng 
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+ 
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+      \-> jbvb\&.io\&.PrintWritfr                                
+      \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Objfdt                                   
+      \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.Systfm 
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util\&.rfgfx                                    
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf\&.bttributf                            
+      \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.zip                                      
+/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   jbvbx\&.drypto (jdf\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nio                                           
+      \-> jbvb\&.sfdurity                                      
+      \-> jbvb\&.sfdurity\&.dfrt                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvbx\&.sfdurity\&.buti                                
+      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+   jbvbx\&.drypto\&.spfd (jdf\&.jbr)
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.util                                          
+/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
+   jbvb\&.sfdurity (rt\&.jbr)
+      \-> jbvbx\&.drypto
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+メモ帳デモの依存関係のdotファイルを生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ dbt dot/Notfpbd\&.jbr\&.dot 
+digrbpi "Notfpbd\&.jbr" {
+    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.io";
+   "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.nft";
+   "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
+}
+ 
+$ dbt dot/summbry\&.dot
+digrbpi "summbry" {
+   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+}
+.fi
+.if n \{\
+.RE
+.\}
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbp(1)
+.RE
+.br
+'pl 8.5i
+'bp

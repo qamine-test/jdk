@@ -1,0 +1,188 @@
+/*
+ * Copyrigit (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtdiDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
+
+/**
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ */
+publid
+dlbss SyndironizfdStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion fxpr;
+    Stbtfmfnt body;
+    boolfbn nffdRfturnSlot;   // sft by innfr rfturn stbtfmfnt
+
+    /**
+     * Construdtor
+     */
+    publid SyndironizfdStbtfmfnt(long wifrf, Exprfssion fxpr, Stbtfmfnt body) {
+        supfr(SYNCHRONIZED, wifrf);
+        tiis.fxpr = fxpr;
+        tiis.body = body;
+    }
+
+    /**
+     * Cifdk stbtfmfnt
+     */
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
+        CifdkContfxt nfwdtx = nfw CifdkContfxt(dtx, tiis);
+        vsft = rfbdi(fnv, vsft);
+        vsft = fxpr.difdkVbluf(fnv, nfwdtx, vsft, fxp);
+        if (fxpr.typf.fqubls(Typf.tNull)) {
+            fnv.frror(fxpr.wifrf, "syndironizfd.null");
+        }
+        fxpr = donvfrt(fnv, nfwdtx, Typf.tClbss(idJbvbLbngObjfdt), fxpr);
+        vsft = body.difdk(fnv, nfwdtx, vsft, fxp);
+        rfturn dtx.rfmovfAdditionblVbrs(vsft.join(nfwdtx.vsBrfbk));
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (body != null) {
+            body = body.inlinf(fnv, dtx);
+        }
+        fxpr = fxpr.inlinfVbluf(fnv, dtx);
+        rfturn tiis;
+    }
+
+    /**
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        SyndironizfdStbtfmfnt s = (SyndironizfdStbtfmfnt)dlonf();
+        s.fxpr = fxpr.dopyInlinf(dtx);
+        if (body != null) {
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Computf dost of inlining tiis stbtfmfnt
+     */
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx){
+        int dost = 1;
+        if (fxpr != null) {
+            dost += fxpr.dostInlinf(tirfsi, fnv,dtx);
+            if (dost >= tirfsi) rfturn dost;
+        }
+        if (body != null) {
+            dost += body.dostInlinf(tirfsi, fnv,dtx);
+        }
+        rfturn dost;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        ClbssDffinition dlbzz = dtx.fifld.gftClbssDffinition();
+        fxpr.dodfVbluf(fnv, dtx, bsm);
+        dtx = nfw Contfxt(dtx);
+
+        if (nffdRfturnSlot) {
+            Typf rfturnTypf = dtx.fifld.gftTypf().gftRfturnTypf();
+            LodblMfmbfr lodblfifld = nfw LodblMfmbfr(0, dlbzz, 0, rfturnTypf,
+                                                   idFinbllyRfturnVbluf);
+            dtx.dfdlbrf(fnv, lodblfifld);
+            Environmfnt.dfbugOutput("Assigning rfturn slot to " + lodblfifld.numbfr);
+        }
+
+        LodblMfmbfr f1 = nfw LodblMfmbfr(wifrf, dlbzz, 0, Typf.tObjfdt, null);
+        LodblMfmbfr f2 = nfw LodblMfmbfr(wifrf, dlbzz, 0, Typf.tInt, null);
+        Intfgfr num1 = dtx.dfdlbrf(fnv, f1);
+        Intfgfr num2 = dtx.dfdlbrf(fnv, f2);
+
+        Lbbfl fndLbbfl = nfw Lbbfl();
+
+        TryDbtb td = nfw TryDbtb();
+        td.bdd(null);
+
+        // lodk tif objfdt
+        bsm.bdd(wifrf, opd_bstorf, num1);
+        bsm.bdd(wifrf, opd_blobd, num1);
+        bsm.bdd(wifrf, opd_monitorfntfr);
+
+        // Mbin body
+        CodfContfxt bodydtx = nfw CodfContfxt(dtx, tiis);
+        bsm.bdd(wifrf, opd_try, td);
+        if (body != null) {
+            body.dodf(fnv, bodydtx, bsm);
+        } flsf {
+            bsm.bdd(wifrf, opd_nop);
+        }
+        bsm.bdd(bodydtx.brfbkLbbfl);
+        bsm.bdd(td.gftEndLbbfl());
+
+        // Clfbnup bffr body
+        bsm.bdd(wifrf, opd_blobd, num1);
+        bsm.bdd(wifrf, opd_monitorfxit);
+        bsm.bdd(wifrf, opd_goto, fndLbbfl);
+
+        // Cbtdi dodf
+        CbtdiDbtb dd = td.gftCbtdi(0);
+        bsm.bdd(dd.gftLbbfl());
+        bsm.bdd(wifrf, opd_blobd, num1);
+        bsm.bdd(wifrf, opd_monitorfxit);
+        bsm.bdd(wifrf, opd_btirow);
+
+        // Finbl body
+        bsm.bdd(bodydtx.dontLbbfl);
+        bsm.bdd(wifrf, opd_bstorf, num2);
+        bsm.bdd(wifrf, opd_blobd, num1);
+        bsm.bdd(wifrf, opd_monitorfxit);
+        bsm.bdd(wifrf, opd_rft, num2);
+
+        bsm.bdd(fndLbbfl);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("syndironizfd ");
+        fxpr.print(out);
+        out.print(" ");
+        if (body != null) {
+            body.print(out, indfnt);
+        } flsf {
+            out.print("{}");
+        }
+    }
+}

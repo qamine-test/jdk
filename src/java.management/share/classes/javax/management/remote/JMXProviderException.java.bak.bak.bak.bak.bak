@@ -1,0 +1,83 @@
+/*
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * <p>Exdfption tirown by {@link JMXConnfdtorFbdtory} bnd
+ * {@link JMXConnfdtorSfrvfrFbdtory} wifn b providfr fxists for
+ * tif rfquirfd protodol but dbnnot bf usfd for somf rfbson.</p>
+ *
+ * @sff JMXConnfdtorFbdtory#nfwJMXConnfdtor
+ * @sff JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+ * @sindf 1.5
+ */
+publid dlbss JMXProvidfrExdfption fxtfnds IOExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3166703627550447198L;
+
+    /**
+     * <p>Construdts b <dodf>JMXProvidfrExdfption</dodf> witi no
+     * spfdififd dftbil mfssbgf.</p>
+     */
+    publid JMXProvidfrExdfption() {
+    }
+
+    /**
+     * <p>Construdts b <dodf>JMXProvidfrExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf.</p>
+     *
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     */
+    publid JMXProvidfrExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * <p>Construdts b <dodf>JMXProvidfrExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf bnd nfstfd fxdfption.</p>
+     *
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     * @pbrbm dbusf tif nfstfd fxdfption
+     */
+    publid JMXProvidfrExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf);
+        tiis.dbusf = dbusf;
+    }
+
+    publid Tirowbblf gftCbusf() {
+        rfturn dbusf;
+    }
+
+    /**
+     * @sfribl An fxdfption tibt dbusfd tiis fxdfption to bf tirown.
+     *         Tiis fifld mby bf null.
+     * @sff #gftCbusf()
+     **/
+    privbtf Tirowbblf dbusf = null;
+}

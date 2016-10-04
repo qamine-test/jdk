@@ -1,0 +1,148 @@
+<itml>
+<ifbd>
+<titlf>jbvbx.mbnbgfmfnt.rflbtion pbdkbgf</titlf>
+<!--
+Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+</ifbd>
+<body bgdolor="wiitf">
+      <p>Providfs tif dffinition of tif Rflbtion Sfrvidf.  Tif
+	Rflbtion Sfrvidf is usfd to rfdord rflbtionsiips bftwffn
+	MBfbns in bn MBfbn Sfrvfr.  Tif Rflbtion Sfrvidf is itsflf bn
+	MBfbn.  Morf tibn onf instbndf of b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidf RflbtionSfrvidf}
+	MBfbn dbn bf rfgistfrfd in bn MBfbn Sfrvfr.</p>
+
+      <p>A <fm>rflbtion typf</fm> dffinfs b rflbtionsiip bftwffn MBfbns.
+	It dontbins <fm>rolfs</fm> tibt tif MBfbns plby in tif
+	rflbtionsiip.  Usublly tifrf brf bt lfbst two rolfs in b
+	rflbtion typf.</p>
+
+      <p>A <fm>rflbtion</fm> is b nbmfd instbndf of b rflbtion typf,
+	wifrf spfdifid MBfbns bppfbr in tif rolfs, rfprfsfntfd by
+	tifir {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf}s.</p>
+
+      <p>For fxbmplf, supposf tifrf brf <dodf>Modulf</dodf> MBfbns,
+	rfprfsfnting modulfs witiin bn bpplidbtion.  A
+	<dodf>DfpfndsOn</dodf> rflbtion typf dould fxprfss tif
+	rflbtionsiip tibt somf modulfs dfpfnd on otifrs, wiidi dould
+	bf usfd to dftfrminf tif ordfr in wiidi tif modulfs brf
+	stbrtfd or stoppfd.  Tif <dodf>DfpfndsOn</dodf> rflbtion typf
+	would ibvf two rolfs, <dodf>dfpfndfnt</dodf> bnd
+	<dodf>dfpfndfdOn</dodf>.</p>
+
+      <p>Evfry rolf is <fm>typfd</fm>, mfbning tibt bn MBfbn tibt
+	bppfbrs in tibt rolf must bf bn instbndf of tif rolf's typf.
+	In tif <dodf>DfpfndsOn</dodf> fxbmplf, boti rolfs would bf of
+	typf <dodf>Modulf</dodf>.</p>
+
+      <p>Evfry rolf ibs b <fm>dbrdinblity</fm>, wiidi providfs lowfr
+	bnd uppfr bounds on tif numbfr of MBfbns tibt dbn bppfbr in
+	tibt rolf in b givfn rflbtion instbndf.  Usublly, tif lowfr
+	bnd uppfr bounds brf boti 1, witi fxbdtly onf MBfbn bppfbring
+	in tif rolf.  Tif dbrdinblity only limits tif numbfr of MBfbns
+	in tif rolf pfr rflbtion instbndf.  Tif sbmf MBfbn dbn bppfbr
+	in tif sbmf rolf in bny numbfr of instbndfs of b rflbtion
+	typf.  In tif <dodf>DfpfndsOn</dodf> fxbmplf, b givfn modulf
+	dbn dfpfnd on mbny otifr modulfs, bnd bf dfpfndfd on by mbny
+	otifrs, but bny givfn rflbtion instbndf links fxbdtly onf
+	<dodf>dfpfndfnt</dodf> modulf witi fxbdtly onf
+	<dodf>dfpfndfdOn</dodf> modulf.</p>
+
+      <p>A rflbtion typf dbn bf drfbtfd fxpliditly, bs bn objfdt
+	implfmfnting tif {@link jbvbx.mbnbgfmfnt.rflbtion.RflbtionTypf
+	RflbtionTypf} intfrfbdf, typidblly b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionTypfSupport
+	RflbtionTypfSupport}.  Altfrnbtivfly, it dbn bf drfbtfd
+	impliditly using tif Rflbtion Sfrvidf's {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidfMBfbn#drfbtfRflbtionTypf(String,
+	RolfInfo[]) drfbtfRflbtionTypf} mftiod.</p>
+
+      <p>A rflbtion instbndf dbn bf drfbtfd fxpliditly, bs bn objfdt
+	implfmfnting tif {@link jbvbx.mbnbgfmfnt.rflbtion.Rflbtion
+	Rflbtion} intfrfbdf, typidblly b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSupport RflbtionSupport}.
+	(A <dodf>RflbtionSupport</dodf> is itsflf b vblid MBfbn, so it
+	dbn bf rfgistfrfd in tif MBfbn Sfrvfr, tiougi tiis is not
+	rfquirfd.)  Altfrnbtivfly, b rflbtion instbndf dbn bf drfbtfd
+	impliditly using tif Rflbtion Sfrvidf's {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidfMBfbn#drfbtfRflbtion(String,
+	String, RolfList) drfbtfRflbtion} mftiod.</p>
+
+      <p>Tif <dodf>DfpfndsOn</dodf> fxbmplf migit bf dodfd bs follows.</p>
+
+<prf>
+import jbvb.util.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rflbtion.*;
+
+// ...
+MBfbnSfrvfr mbs = ...;
+
+// Crfbtf tif Rflbtion Sfrvidf MBfbn
+ObjfdtNbmf rflSvdNbmf = nfw ObjfdtNbmf(":typf=RflbtionSfrvidf");
+RflbtionSfrvidf rflSvdObjfdt = nfw RflbtionSfrvidf(truf);
+mbs.rfgistfrMBfbn(rflSvdObjfdt, rflSvdNbmf);
+
+// Crfbtf bn MBfbn proxy for fbsifr bddfss to tif Rflbtion Sfrvidf
+RflbtionSfrvidfMBfbn rflSvd =
+    MBfbnSfrvfrInvodbtionHbndlfr.nfwProxyInstbndf(mbs, rflSvdNbmf,
+						  RflbtionSfrvidfMBfbn.dlbss,
+						  fblsf);
+
+// Dffinf tif DfpfndsOn rflbtion typf
+RolfInfo[] dfpfndsOnRolfs = {
+    nfw RolfInfo("dfpfndfnt", Modulf.dlbss.gftNbmf()),
+    nfw RolfInfo("dfpfndfdOn", Modulf.dlbss.gftNbmf())
+};
+rflSvd.drfbtfRflbtionTypf("DfpfndsOn", dfpfndsOnRolfs);
+
+// Now dffinf b rflbtion instbndf "modulfA DfpfndsOn modulfB"
+
+ObjfdtNbmf modulfA = nfw ObjfdtNbmf(":typf=Modulf,nbmf=A");
+ObjfdtNbmf modulfB = nfw ObjfdtNbmf(":typf=Modulf,nbmf=B");
+
+Rolf dfpfndfnt = nfw Rolf("dfpfndfnt", Collfdtions.singlftonList(modulfA));
+Rolf dfpfndfdOn = nfw Rolf("dfpfndfdOn", Collfdtions.singlftonList(modulfB));
+Rolf[] rolfArrby = {dfpfndfnt, dfpfndfdOn};
+RolfList rolfs = nfw RolfList(Arrbys.bsList(rolfArrby));
+rflSvd.drfbtfRflbtion("A-DfpfndsOn-B", "DfpfndsOn", rolfs);
+
+// Qufry tif Rflbtion Sfrvidf to find wibt modulfs modulfA dfpfnds on
+Mbp&lt;ObjfdtNbmf,List&lt;String&gt;&gt; dfpfndfntAMbp =
+    rflSvd.findAssodibtfdMBfbns(modulfA, "DfpfndsOn", "dfpfndfnt");
+Sft&lt;ObjfdtNbmf&gt; dfpfndfntASft = dfpfndfntAMbp.kfySft();
+// Sft of ObjfdtNbmf dontbining modulfB
+</prf>
+
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+
+      @sindf 1.5
+
+</BODY>
+</HTML>

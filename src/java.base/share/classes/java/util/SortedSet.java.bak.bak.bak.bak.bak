@@ -1,0 +1,264 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A {@link Sft} tibt furtifr providfs b <i>totbl ordfring</i> on its flfmfnts.
+ * Tif flfmfnts brf ordfrfd using tifir {@linkplbin Compbrbblf nbturbl
+ * ordfring}, or by b {@link Compbrbtor} typidblly providfd bt sortfd
+ * sft drfbtion timf.  Tif sft's itfrbtor will trbvfrsf tif sft in
+ * bsdfnding flfmfnt ordfr. Sfvfrbl bdditionbl opfrbtions brf providfd
+ * to tbkf bdvbntbgf of tif ordfring.  (Tiis intfrfbdf is tif sft
+ * bnbloguf of {@link SortfdMbp}.)
+ *
+ * <p>All flfmfnts insfrtfd into b sortfd sft must implfmfnt tif <tt>Compbrbblf</tt>
+ * intfrfbdf (or bf bddfptfd by tif spfdififd dompbrbtor).  Furtifrmorf, bll
+ * sudi flfmfnts must bf <i>mutublly dompbrbblf</i>: <tt>f1.dompbrfTo(f2)</tt>
+ * (or <tt>dompbrbtor.dompbrf(f1, f2)</tt>) must not tirow b
+ * <tt>ClbssCbstExdfption</tt> for bny flfmfnts <tt>f1</tt> bnd <tt>f2</tt> in
+ * tif sortfd sft.  Attfmpts to violbtf tiis rfstridtion will dbusf tif
+ * offfnding mftiod or donstrudtor invodbtion to tirow b
+ * <tt>ClbssCbstExdfption</tt>.
+ *
+ * <p>Notf tibt tif ordfring mbintbinfd by b sortfd sft (wiftifr or not bn
+ * fxplidit dompbrbtor is providfd) must bf <i>donsistfnt witi fqubls</i> if
+ * tif sortfd sft is to dorrfdtly implfmfnt tif <tt>Sft</tt> intfrfbdf.  (Sff
+ * tif <tt>Compbrbblf</tt> intfrfbdf or <tt>Compbrbtor</tt> intfrfbdf for b
+ * prfdisf dffinition of <i>donsistfnt witi fqubls</i>.)  Tiis is so bfdbusf
+ * tif <tt>Sft</tt> intfrfbdf is dffinfd in tfrms of tif <tt>fqubls</tt>
+ * opfrbtion, but b sortfd sft pfrforms bll flfmfnt dompbrisons using its
+ * <tt>dompbrfTo</tt> (or <tt>dompbrf</tt>) mftiod, so two flfmfnts tibt brf
+ * dffmfd fqubl by tiis mftiod brf, from tif stbndpoint of tif sortfd sft,
+ * fqubl.  Tif bfibvior of b sortfd sft <i>is</i> wfll-dffinfd fvfn if its
+ * ordfring is indonsistfnt witi fqubls; it just fbils to obfy tif gfnfrbl
+ * dontrbdt of tif <tt>Sft</tt> intfrfbdf.
+ *
+ * <p>All gfnfrbl-purposf sortfd sft implfmfntbtion dlbssfs siould
+ * providf four "stbndbrd" donstrudtors: 1) A void (no brgumfnts)
+ * donstrudtor, wiidi drfbtfs bn fmpty sortfd sft sortfd bddording to
+ * tif nbturbl ordfring of its flfmfnts.  2) A donstrudtor witi b
+ * singlf brgumfnt of typf <tt>Compbrbtor</tt>, wiidi drfbtfs bn fmpty
+ * sortfd sft sortfd bddording to tif spfdififd dompbrbtor.  3) A
+ * donstrudtor witi b singlf brgumfnt of typf <tt>Collfdtion</tt>,
+ * wiidi drfbtfs b nfw sortfd sft witi tif sbmf flfmfnts bs its
+ * brgumfnt, sortfd bddording to tif nbturbl ordfring of tif flfmfnts.
+ * 4) A donstrudtor witi b singlf brgumfnt of typf <tt>SortfdSft</tt>,
+ * wiidi drfbtfs b nfw sortfd sft witi tif sbmf flfmfnts bnd tif sbmf
+ * ordfring bs tif input sortfd sft.  Tifrf is no wby to fnfordf tiis
+ * rfdommfndbtion, bs intfrfbdfs dbnnot dontbin donstrudtors.
+ *
+ * <p>Notf: sfvfrbl mftiods rfturn subsfts witi rfstridtfd rbngfs.
+ * Sudi rbngfs brf <i>iblf-opfn</i>, tibt is, tify indludf tifir low
+ * fndpoint but not tifir iigi fndpoint (wifrf bpplidbblf).
+ * If you nffd b <i>dlosfd rbngf</i> (wiidi indludfs boti fndpoints), bnd
+ * tif flfmfnt typf bllows for dbldulbtion of tif suddfssor of b givfn
+ * vbluf, mfrfly rfqufst tif subrbngf from <tt>lowEndpoint</tt> to
+ * <tt>suddfssor(iigiEndpoint)</tt>.  For fxbmplf, supposf tibt <tt>s</tt>
+ * is b sortfd sft of strings.  Tif following idiom obtbins b vifw
+ * dontbining bll of tif strings in <tt>s</tt> from <tt>low</tt> to
+ * <tt>iigi</tt>, indlusivf:<prf>
+ *   SortfdSft&lt;String&gt; sub = s.subSft(low, iigi+"\0");</prf>
+ *
+ * A similbr tfdiniquf dbn bf usfd to gfnfrbtf bn <i>opfn rbngf</i> (wiidi
+ * dontbins nfitifr fndpoint).  Tif following idiom obtbins b vifw
+ * dontbining bll of tif Strings in <tt>s</tt> from <tt>low</tt> to
+ * <tt>iigi</tt>, fxdlusivf:<prf>
+ *   SortfdSft&lt;String&gt; sub = s.subSft(low+"\0", iigi);</prf>
+ *
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
+ *
+ * @butior  Josi Blodi
+ * @sff Sft
+ * @sff TrffSft
+ * @sff SortfdMbp
+ * @sff Collfdtion
+ * @sff Compbrbblf
+ * @sff Compbrbtor
+ * @sff ClbssCbstExdfption
+ * @sindf 1.2
+ */
+
+publid intfrfbdf SortfdSft<E> fxtfnds Sft<E> {
+    /**
+     * Rfturns tif dompbrbtor usfd to ordfr tif flfmfnts in tiis sft,
+     * or <tt>null</tt> if tiis sft usfs tif {@linkplbin Compbrbblf
+     * nbturbl ordfring} of its flfmfnts.
+     *
+     * @rfturn tif dompbrbtor usfd to ordfr tif flfmfnts in tiis sft,
+     *         or <tt>null</tt> if tiis sft usfs tif nbturbl ordfring
+     *         of its flfmfnts
+     */
+    Compbrbtor<? supfr E> dompbrbtor();
+
+    /**
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts rbngf
+     * from <tt>fromElfmfnt</tt>, indlusivf, to <tt>toElfmfnt</tt>,
+     * fxdlusivf.  (If <tt>fromElfmfnt</tt> bnd <tt>toElfmfnt</tt> brf
+     * fqubl, tif rfturnfd sft is fmpty.)  Tif rfturnfd sft is bbdkfd
+     * by tiis sft, so dibngfs in tif rfturnfd sft brf rfflfdtfd in
+     * tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft supports bll
+     * optionbl sft opfrbtions tibt tiis sft supports.
+     *
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm fromElfmfnt low fndpoint (indlusivf) of tif rfturnfd sft
+     * @pbrbm toElfmfnt iigi fndpoint (fxdlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts rbngf from
+     *         <tt>fromElfmfnt</tt>, indlusivf, to <tt>toElfmfnt</tt>, fxdlusivf
+     * @tirows ClbssCbstExdfption if <tt>fromElfmfnt</tt> bnd
+     *         <tt>toElfmfnt</tt> dbnnot bf dompbrfd to onf bnotifr using tiis
+     *         sft's dompbrbtor (or, if tif sft ibs no dompbrbtor, using
+     *         nbturbl ordfring).  Implfmfntbtions mby, but brf not rfquirfd
+     *         to, tirow tiis fxdfption if <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts durrfntly in
+     *         tif sft.
+     * @tirows NullPointfrExdfption if <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> is null bnd tiis sft dofs not pfrmit null
+     *         flfmfnts
+     * @tirows IllfgblArgumfntExdfption if <tt>fromElfmfnt</tt> is
+     *         grfbtfr tibn <tt>toElfmfnt</tt>; or if tiis sft itsflf
+     *         ibs b rfstridtfd rbngf, bnd <tt>fromElfmfnt</tt> or
+     *         <tt>toElfmfnt</tt> lifs outsidf tif bounds of tif rbngf
+     */
+    SortfdSft<E> subSft(E fromElfmfnt, E toElfmfnt);
+
+    /**
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf
+     * stridtly lfss tibn <tt>toElfmfnt</tt>.  Tif rfturnfd sft is
+     * bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf
+     * rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft
+     * supports bll optionbl sft opfrbtions tibt tiis sft supports.
+     *
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm toElfmfnt iigi fndpoint (fxdlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf stridtly
+     *         lfss tibn <tt>toElfmfnt</tt>
+     * @tirows ClbssCbstExdfption if <tt>toElfmfnt</tt> is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if <tt>toElfmfnt</tt> dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if <tt>toElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if <tt>toElfmfnt</tt> is null bnd
+     *         tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd <tt>toElfmfnt</tt> lifs outsidf tif
+     *         bounds of tif rbngf
+     */
+    SortfdSft<E> ifbdSft(E toElfmfnt);
+
+    /**
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf
+     * grfbtfr tibn or fqubl to <tt>fromElfmfnt</tt>.  Tif rfturnfd
+     * sft is bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf
+     * rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft
+     * supports bll optionbl sft opfrbtions tibt tiis sft supports.
+     *
+     * <p>Tif rfturnfd sft will tirow bn <tt>IllfgblArgumfntExdfption</tt>
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm fromElfmfnt low fndpoint (indlusivf) of tif rfturnfd sft
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf grfbtfr
+     *         tibn or fqubl to <tt>fromElfmfnt</tt>
+     * @tirows ClbssCbstExdfption if <tt>fromElfmfnt</tt> is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if <tt>fromElfmfnt</tt> dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if <tt>fromElfmfnt</tt> dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if <tt>fromElfmfnt</tt> is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd <tt>fromElfmfnt</tt> lifs outsidf tif
+     *         bounds of tif rbngf
+     */
+    SortfdSft<E> tbilSft(E fromElfmfnt);
+
+    /**
+     * Rfturns tif first (lowfst) flfmfnt durrfntly in tiis sft.
+     *
+     * @rfturn tif first (lowfst) flfmfnt durrfntly in tiis sft
+     * @tirows NoSudiElfmfntExdfption if tiis sft is fmpty
+     */
+    E first();
+
+    /**
+     * Rfturns tif lbst (iigifst) flfmfnt durrfntly in tiis sft.
+     *
+     * @rfturn tif lbst (iigifst) flfmfnt durrfntly in tiis sft
+     * @tirows NoSudiElfmfntExdfption if tiis sft is fmpty
+     */
+    E lbst();
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sortfd sft.
+     *
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#DISTINCT},
+     * {@link Splitfrbtor#SORTED} bnd {@link Splitfrbtor#ORDERED}.
+     * Implfmfntbtions siould dodumfnt tif rfporting of bdditionbl
+     * dibrbdtfristid vblufs.
+     *
+     * <p>Tif splitfrbtor's dompbrbtor (sff
+     * {@link jbvb.util.Splitfrbtor#gftCompbrbtor()}) must bf {@dodf null} if
+     * tif sortfd sft's dompbrbtor (sff {@link #dompbrbtor()}) is {@dodf null}.
+     * Otifrwisf, tif splitfrbtor's dompbrbtor must bf tif sbmf bs or imposf tif
+     * sbmf totbl ordfring bs tif sortfd sft's dompbrbtor.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion drfbtfs b
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm> splitfrbtor
+     * from tif sortfd sft's {@dodf Itfrbtor}.  Tif splitfrbtor inifrits tif
+     * <fm>fbil-fbst</fm> propfrtifs of tif sft's itfrbtor.  Tif
+     * splitfrbtor's dompbrbtor is tif sbmf bs tif sortfd sft's dompbrbtor.
+     * <p>
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SIZED}.
+     *
+     * @implNotf
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SUBSIZED}.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sortfd sft
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    dffbult Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw Splitfrbtors.ItfrbtorSplitfrbtor<E>(
+                tiis, Splitfrbtor.DISTINCT | Splitfrbtor.SORTED | Splitfrbtor.ORDERED) {
+            @Ovfrridf
+            publid Compbrbtor<? supfr E> gftCompbrbtor() {
+                rfturn SortfdSft.tiis.dompbrbtor();
+            }
+        };
+    }
+}

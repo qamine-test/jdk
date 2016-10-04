@@ -1,0 +1,102 @@
+// pfrmissions rfquirfd by fbdi domponfnt
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/zipfs.jbr" {
+        pfrmission jbvb.io.FilfPfrmission "<<ALL FILES>>", "rfbd,writf,dflftf";
+        pfrmission jbvb.lbng.RuntimfPfrmission "filfSystfmProvidfr";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/dldrdbtb.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.tfxt.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.util.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/lodblfdbtb.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.tfxt.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.util.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/dnsns.jbr" {
+        pfrmission jbvb.sfdurity.AllPfrmission;
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/nbsiorn.jbr" {
+        pfrmission jbvb.sfdurity.AllPfrmission;
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunfd.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "lobdLibrbry.sunfd";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.SunEC";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.SunEC";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.SunEC";
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunjdf_providfr.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.misd";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.SunJCE";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.SunJCE";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.SunJCE";
+};
+
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunpkds11.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.nio.di";
+        pfrmission jbvb.lbng.RuntimfPfrmission "lobdLibrbry.j2pkds11";
+        // nffds "sfdurity.pkds11.bllowSinglfTirfbdfdModulfs"
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "gftPropfrty.buti.login.dffbultCbllbbdkHbndlfr";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "butiProvidfr.*";
+        // Nffdfd for rfbding PKCS11 donfig filf bnd NSS librbry difdk
+        pfrmission jbvb.io.FilfPfrmission "<<ALL FILES>>", "rfbd";
+};
+
+// dffbult pfrmissions grbntfd to bll dombins
+
+grbnt {
+        // Allows bny tirfbd to stop itsflf using tif jbvb.lbng.Tirfbd.stop()
+        // mftiod tibt tbkfs no brgumfnt.
+        // Notf tibt tiis pfrmission is grbntfd by dffbult only to rfmbin
+        // bbdkwbrds dompbtiblf.
+        // It is strongly rfdommfndfd tibt you fitifr rfmovf tiis pfrmission
+        // from tiis polidy filf or furtifr rfstridt it to dodf sourdfs
+        // tibt you spfdify, bfdbusf Tirfbd.stop() is potfntiblly unsbff.
+        // Sff tif API spfdifidbtion of jbvb.lbng.Tirfbd.stop() for morf
+        // informbtion.
+        pfrmission jbvb.lbng.RuntimfPfrmission "stopTirfbd";
+
+        // bllows bnyonf to listfn on dynbmid ports
+        pfrmission jbvb.nft.SodkftPfrmission "lodbliost:0", "listfn";
+
+        // "stbndbrd" propfrifs tibt dbn bf rfbd by bnyonf
+
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfndor.url", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.dlbss.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.nbmf", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.brdi", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "filf.sfpbrbtor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "pbti.sfpbrbtor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "linf.sfpbrbtor", "rfbd";
+
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.nbmf", "rfbd";
+
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.nbmf", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.nbmf", "rfbd";
+};
+

@@ -1,0 +1,73 @@
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
+
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+tbrgft        CDATA  #IMPLIED>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
+
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
+                                    JAVACLASS CDATA  #REQUIRED >
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
+
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
+<!ELEMENT TrbnsformAlgoritim EMPTY>
+
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+                                JAVACLASS CDATA  #REQUIRED >
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+
+<!ELEMENT Providfrs (Providfr+)>
+
+<!ELEMENT Providfr EMPTY>
+
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+                      Clbss       CDATA  #REQUIRED
+                      Info        CDATA  #IMPLIED
+                      ProvidfrURL CDATA  #IMPLIED >
+<!ELEMENT Algoritims (Algoritim+)>
+
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
+
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+                       Dfsdription    CDATA  #IMPLIED
+                       AlgoritimClbss CDATA  #IMPLIED >
+<!ELEMENT ProvidfrAlgo EMPTY>
+
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCEAlibs   CDATA  #IMPLIED >
+<!ELEMENT Log4J EMPTY>
+
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
+
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
+                             dffbultCountryCodf  CDATA  'DE' >
+<!ELEMENT RfsourdfBundlf EMPTY>
+
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
+                            LOCATION     CDATA  #REQUIRED >
+<!ELEMENT UnitTfsts (UnitTfst+)>
+
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
+
+<!ELEMENT Rfsolvfr EMPTY>
+
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
+                      DESCRIPTION CDATA  #IMPLIED >
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+
+<!ELEMENT KfyRfsolvfr EMPTY>
+
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+                         JAVACLASS CDATA  #REQUIRED >
+<!ELEMENT UnitTfst (#PCDATA)>
+
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >

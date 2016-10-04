@@ -1,0 +1,474 @@
+/*
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synti;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidProgrfssBbrUI;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JProgrfssBbr}.
+ *
+ * @butior Josiub Outwbtfr
+ * @sindf 1.7
+ */
+publid dlbss SyntiProgrfssBbrUI fxtfnds BbsidProgrfssBbrUI
+                                implfmfnts SyntiUI, PropfrtyCibngfListfnfr {
+    privbtf SyntiStylf stylf;
+    privbtf int progrfssPbdding;
+    privbtf boolfbn rotbtfTfxt; // bddfd for Nimbus LAF
+    privbtf boolfbn pbintOutsidfClip;
+    privbtf boolfbn tilfWifnIndftfrminbtf; //wiftifr to tilf indftfrminbtf pbinting
+    privbtf int tilfWidti; //tif widti of fbdi tilf
+
+    /**
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
+     *
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SyntiProgrfssBbrUI();
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        progrfssBbr.bddPropfrtyCibngfListfnfr(tiis);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        progrfssBbr.rfmovfPropfrtyCibngfListfnfr(tiis);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(progrfssBbr);
+    }
+
+    privbtf void updbtfStylf(JProgrfssBbr d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        sftCfllLfngti(stylf.gftInt(dontfxt, "ProgrfssBbr.dfllLfngti", 1));
+        sftCfllSpbding(stylf.gftInt(dontfxt, "ProgrfssBbr.dfllSpbding", 0));
+        progrfssPbdding = stylf.gftInt(dontfxt,
+                "ProgrfssBbr.progrfssPbdding", 0);
+        pbintOutsidfClip = stylf.gftBoolfbn(dontfxt,
+                "ProgrfssBbr.pbintOutsidfClip", fblsf);
+        rotbtfTfxt = stylf.gftBoolfbn(dontfxt,
+                "ProgrfssBbr.rotbtfTfxt", fblsf);
+        tilfWifnIndftfrminbtf = stylf.gftBoolfbn(dontfxt, "ProgrfssBbr.tilfWifnIndftfrminbtf", fblsf);
+        tilfWidti = stylf.gftInt(dontfxt, "ProgrfssBbr.tilfWidti", 15);
+        // ibndlf sdbling for sizfVbrifnts for spfdibl dbsf domponfnts. Tif
+        // kfy "JComponfnt.sizfVbribnt" sdblfs for lbrgf/smbll/mini
+        // domponfnts brf bbsfd on Applfs LAF
+        String sdblfKfy = (String)progrfssBbr.gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null){
+            if ("lbrgf".fqubls(sdblfKfy)){
+                tilfWidti *= 1.15;
+            } flsf if ("smbll".fqubls(sdblfKfy)){
+                tilfWidti *= 0.857;
+            } flsf if ("mini".fqubls(sdblfKfy)){
+                tilfWidti *= 0.784;
+            }
+        }
+        dontfxt.disposf();
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(progrfssBbr, ENABLED);
+
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
+    }
+
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
+    }
+
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        if (progrfssBbr.isStringPbintfd() &&
+                progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            SyntiContfxt dontfxt = gftContfxt(d);
+            Font font = dontfxt.gftStylf().gftFont(dontfxt);
+            FontMftrids mftrids = progrfssBbr.gftFontMftrids(font);
+            dontfxt.disposf();
+            rfturn (ifigit - mftrids.gftAsdfnt() - mftrids.gftDfsdfnt()) / 2 +
+                    mftrids.gftAsdfnt();
+        }
+        rfturn -1;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd Rfdtbnglf gftBox(Rfdtbnglf r) {
+        if (tilfWifnIndftfrminbtf) {
+            rfturn SwingUtilitifs.dbldulbtfInnfrArfb(progrfssBbr, r);
+        } flsf {
+            rfturn supfr.gftBox(r);
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    protfdtfd void sftAnimbtionIndfx(int nfwVbluf) {
+        if (pbintOutsidfClip) {
+            if (gftAnimbtionIndfx() == nfwVbluf) {
+                rfturn;
+            }
+            supfr.sftAnimbtionIndfx(nfwVbluf);
+            progrfssBbr.rfpbint();
+        } flsf {
+            supfr.sftAnimbtionIndfx(nfwVbluf);
+        }
+    }
+
+    /**
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
+     *
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
+     *
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
+     */
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
+
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintProgrfssBbrBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit(),
+                          progrfssBbr.gftOrifntbtion());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
+     *
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
+     */
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
+
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints tif spfdififd domponfnt.
+     *
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
+     */
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        JProgrfssBbr pBbr = (JProgrfssBbr)dontfxt.gftComponfnt();
+        int x = 0, y = 0, widti = 0, ifigit = 0;
+        if (!pBbr.isIndftfrminbtf()) {
+            Insfts pBbrInsfts = pBbr.gftInsfts();
+            doublf pfrdfntComplftf = pBbr.gftPfrdfntComplftf();
+            if (pfrdfntComplftf != 0.0) {
+                if (pBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+                    x = pBbrInsfts.lfft + progrfssPbdding;
+                    y = pBbrInsfts.top + progrfssPbdding;
+                    widti = (int)(pfrdfntComplftf * (pBbr.gftWidti()
+                            - (pBbrInsfts.lfft + progrfssPbdding
+                             + pBbrInsfts.rigit + progrfssPbdding)));
+                    ifigit = pBbr.gftHfigit()
+                            - (pBbrInsfts.top + progrfssPbdding
+                             + pBbrInsfts.bottom + progrfssPbdding);
+
+                    if (!SyntiLookAndFffl.isLfftToRigit(pBbr)) {
+                        x = pBbr.gftWidti() - pBbrInsfts.rigit - widti
+                                - progrfssPbdding;
+                    }
+                } flsf {  // JProgrfssBbr.VERTICAL
+                    x = pBbrInsfts.lfft + progrfssPbdding;
+                    widti = pBbr.gftWidti()
+                            - (pBbrInsfts.lfft + progrfssPbdding
+                            + pBbrInsfts.rigit + progrfssPbdding);
+                    ifigit = (int)(pfrdfntComplftf * (pBbr.gftHfigit()
+                            - (pBbrInsfts.top + progrfssPbdding
+                             + pBbrInsfts.bottom + progrfssPbdding)));
+                    y = pBbr.gftHfigit() - pBbrInsfts.bottom - ifigit
+                            - progrfssPbdding;
+
+                    // Wifn tif progrfss bbr is vfrtidbl wf blwbys pbint
+                    // from bottom to top, not mbttfr wibt tif domponfnt
+                    // orifntbtion is.
+                }
+            }
+        } flsf {
+            boxRfdt = gftBox(boxRfdt);
+            x = boxRfdt.x + progrfssPbdding;
+            y = boxRfdt.y + progrfssPbdding;
+            widti = boxRfdt.widti - progrfssPbdding - progrfssPbdding;
+            ifigit = boxRfdt.ifigit - progrfssPbdding - progrfssPbdding;
+        }
+
+        //if tiling bnd indftfrminbtf, tifn pbint tif progrfss bbr forfground b
+        //bit widfr tibn it siould bf. Siift bs nffdfd to fnsurf tibt tifrf is
+        //bn bnimbtfd ffffdt
+        if (tilfWifnIndftfrminbtf && pBbr.isIndftfrminbtf()) {
+            doublf pfrdfntComplftf = (doublf)gftAnimbtionIndfx() / (doublf)gftFrbmfCount();
+            int offsft = (int)(pfrdfntComplftf * tilfWidti);
+            Sibpf dlip = g.gftClip();
+            g.dlipRfdt(x, y, widti, ifigit);
+            if (pBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+                //pbint fbdi tilf iorizontblly
+                for (int i=x-tilfWidti+offsft; i<=widti; i+=tilfWidti) {
+                    dontfxt.gftPbintfr().pbintProgrfssBbrForfground(
+                            dontfxt, g, i, y, tilfWidti, ifigit, pBbr.gftOrifntbtion());
+                }
+            } flsf { //JProgrfssBbr.VERTICAL
+                //pbint fbdi tilf vfrtidblly
+                for (int i=y-offsft; i<ifigit+tilfWidti; i+=tilfWidti) {
+                    dontfxt.gftPbintfr().pbintProgrfssBbrForfground(
+                            dontfxt, g, x, i, widti, tilfWidti, pBbr.gftOrifntbtion());
+                }
+            }
+            g.sftClip(dlip);
+        } flsf {
+            dontfxt.gftPbintfr().pbintProgrfssBbrForfground(dontfxt, g,
+                    x, y, widti, ifigit, pBbr.gftOrifntbtion());
+        }
+
+        if (pBbr.isStringPbintfd()) {
+            pbintTfxt(dontfxt, g, pBbr.gftString());
+        }
+    }
+
+    /**
+     * Pbints tif domponfnt's tfxt.
+     *
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm titlf tif tfxt to pbint
+     */
+    protfdtfd void pbintTfxt(SyntiContfxt dontfxt, Grbpiids g, String titlf) {
+        if (progrfssBbr.isStringPbintfd()) {
+            SyntiStylf stylf = dontfxt.gftStylf();
+            Font font = stylf.gftFont(dontfxt);
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(
+                    progrfssBbr, g, font);
+            int strLfngti = stylf.gftGrbpiidsUtils(dontfxt).
+                domputfStringWidti(dontfxt, font, fm, titlf);
+            Rfdtbnglf bounds = progrfssBbr.gftBounds();
+
+            if (rotbtfTfxt &&
+                    progrfssBbr.gftOrifntbtion() == JProgrfssBbr.VERTICAL){
+                Grbpiids2D g2 = (Grbpiids2D)g;
+                // Cbldulbtf tif position for tif tfxt.
+                Point tfxtPos;
+                AffinfTrbnsform rotbtion;
+                if (progrfssBbr.gftComponfntOrifntbtion().isLfftToRigit()){
+                    rotbtion = AffinfTrbnsform.gftRotbtfInstbndf(-Mbti.PI/2);
+                    tfxtPos = nfw Point(
+                        (bounds.widti+fm.gftAsdfnt()-fm.gftDfsdfnt())/2,
+                           (bounds.ifigit+strLfngti)/2);
+                } flsf {
+                    rotbtion = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI/2);
+                    tfxtPos = nfw Point(
+                        (bounds.widti-fm.gftAsdfnt()+fm.gftDfsdfnt())/2,
+                           (bounds.ifigit-strLfngti)/2);
+                }
+
+                // Progrfss bbr isn't widf fnougi for tif font.  Don't pbint it.
+                if (tfxtPos.x < 0) {
+                    rfturn;
+                }
+
+                // Pbint tif tfxt.
+                font = font.dfrivfFont(rotbtion);
+                g2.sftFont(font);
+                g2.sftColor(stylf.gftColor(dontfxt, ColorTypf.TEXT_FOREGROUND));
+                stylf.gftGrbpiidsUtils(dontfxt).pbintTfxt(dontfxt, g, titlf,
+                                                     tfxtPos.x, tfxtPos.y, -1);
+            } flsf {
+                // Cbldulbtf tif bounds for tif tfxt.
+                Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf(
+                    (bounds.widti / 2) - (strLfngti / 2),
+                    (bounds.ifigit -
+                        (fm.gftAsdfnt() + fm.gftDfsdfnt())) / 2,
+                    0, 0);
+
+                // Progrfss bbr isn't tbll fnougi for tif font.  Don't pbint it.
+                if (tfxtRfdt.y < 0) {
+                    rfturn;
+                }
+
+                // Pbint tif tfxt.
+                g.sftColor(stylf.gftColor(dontfxt, ColorTypf.TEXT_FOREGROUND));
+                g.sftFont(font);
+                stylf.gftGrbpiidsUtils(dontfxt).pbintTfxt(dontfxt, g, titlf,
+                                                     tfxtRfdt.x, tfxtRfdt.y, -1);
+            }
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintProgrfssBbrBordfr(dontfxt, g, x, y, w, i,
+                                                    progrfssBbr.gftOrifntbtion());
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f) ||
+                "indftfrminbtf".fqubls(f.gftPropfrtyNbmf())) {
+            updbtfStylf((JProgrfssBbr)f.gftSourdf());
+        }
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion sizf = null;
+        Insfts bordfr = progrfssBbr.gftInsfts();
+        FontMftrids fontSizfr = progrfssBbr.gftFontMftrids(progrfssBbr.gftFont());
+        String progString = progrfssBbr.gftString();
+        int stringHfigit = fontSizfr.gftHfigit() + fontSizfr.gftDfsdfnt();
+
+        if (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            sizf = nfw Dimfnsion(gftPrfffrrfdInnfrHorizontbl());
+            if (progrfssBbr.isStringPbintfd()) {
+                // bdjust tif ifigit if nfdfssbry to mbkf room for tif string
+                if (stringHfigit > sizf.ifigit) {
+                    sizf.ifigit = stringHfigit;
+                }
+
+                // bdjust tif widti if nfdfssbry to mbkf room for tif string
+                int stringWidti = SwingUtilitifs2.stringWidti(
+                                       progrfssBbr, fontSizfr, progString);
+                if (stringWidti > sizf.widti) {
+                    sizf.widti = stringWidti;
+                }
+            }
+        } flsf {
+            sizf = nfw Dimfnsion(gftPrfffrrfdInnfrVfrtidbl());
+            if (progrfssBbr.isStringPbintfd()) {
+                // mbkf surf tif widti is big fnougi for tif string
+                if (stringHfigit > sizf.widti) {
+                    sizf.widti = stringHfigit;
+                }
+
+                // mbkf surf tif ifigit is big fnougi for tif string
+                int stringWidti = SwingUtilitifs2.stringWidti(
+                                       progrfssBbr, fontSizfr, progString);
+                if (stringWidti > sizf.ifigit) {
+                    sizf.ifigit = stringWidti;
+                }
+            }
+        }
+
+        // ibndlf sdbling for sizfVbrifnts for spfdibl dbsf domponfnts. Tif
+        // kfy "JComponfnt.sizfVbribnt" sdblfs for lbrgf/smbll/mini
+        // domponfnts brf bbsfd on Applfs LAF
+        String sdblfKfy = (String)progrfssBbr.gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null){
+            if ("lbrgf".fqubls(sdblfKfy)){
+                sizf.widti *= 1.15f;
+                sizf.ifigit *= 1.15f;
+            } flsf if ("smbll".fqubls(sdblfKfy)){
+                sizf.widti *= 0.90f;
+                sizf.ifigit *= 0.90f;
+            } flsf if ("mini".fqubls(sdblfKfy)){
+                sizf.widti *= 0.784f;
+                sizf.ifigit *= 0.784f;
+            }
+        }
+
+        sizf.widti += bordfr.lfft + bordfr.rigit;
+        sizf.ifigit += bordfr.top + bordfr.bottom;
+
+        rfturn sizf;
+    }
+}

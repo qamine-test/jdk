@@ -1,0 +1,694 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.util.Hbsitbblf;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPbrbmftfrs;
+
+import dom.sun.jmx.snmp.SnmpOidTbblf;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpCountfr;
+import dom.sun.jmx.snmp.SnmpCountfr64;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.Enumfrbtfd;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTbblf;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIB;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmoryMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmTirfbdingMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmRuntimfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmClbssLobdingMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmCompilbtionMftb;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.SnmpCbdifdDbtb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+
+//jbvb mbnbgfmfnt imports
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
+
+publid dlbss JVM_MANAGEMENT_MIB_IMPL fxtfnds JVM_MANAGEMENT_MIB {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8104825586888859831L;
+
+    privbtf stbtid finbl MibLoggfr log =
+        nfw MibLoggfr(JVM_MANAGEMENT_MIB_IMPL.dlbss);
+
+    privbtf stbtid WfbkRfffrfndf<SnmpOidTbblf> tbblfRff;
+
+    publid stbtid SnmpOidTbblf gftOidTbblf() {
+        SnmpOidTbblf tbblf = null;
+        if(tbblfRff == null) {
+            tbblf =  nfw JVM_MANAGEMENT_MIBOidTbblf();
+            tbblfRff = nfw WfbkRfffrfndf<>(tbblf);
+            rfturn tbblf;
+        }
+
+        tbblf = tbblfRff.gft();
+        if(tbblf == null) {
+            tbblf = nfw JVM_MANAGEMENT_MIBOidTbblf();
+            tbblfRff = nfw WfbkRfffrfndf<>(tbblf);
+        }
+
+        rfturn tbblf;
+    }
+
+    /**
+     * Hbndlfr wbiting for mfmory <CODE>Notifidbtion</CODE>.
+     * Trbnslbtf fbdi JMX notifidbtion in SNMP trbp.
+     */
+    privbtf dlbss NotifidbtionHbndlfr implfmfnts NotifidbtionListfnfr {
+        publid void ibndlfNotifidbtion(Notifidbtion notifidbtion,
+                                       Objfdt ibndbbdk) {
+            log.dfbug("ibndlfNotifidbtion", "Rfdfivfd notifidbtion [ " +
+                      notifidbtion.gftTypf() + "]");
+
+            String typf = notifidbtion.gftTypf();
+            if (typf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+                typf.fqubls(MfmoryNotifidbtionInfo.
+                    MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
+                MfmoryNotifidbtionInfo minfo = MfmoryNotifidbtionInfo.
+                    from((CompositfDbtb) notifidbtion.gftUsfrDbtb());
+                SnmpCountfr64 dount = nfw SnmpCountfr64(minfo.gftCount());
+                SnmpCountfr64 usfd =
+                    nfw SnmpCountfr64(minfo.gftUsbgf().gftUsfd());
+                SnmpString poolNbmf = nfw SnmpString(minfo.gftPoolNbmf());
+                SnmpOid fntryIndfx =
+                    gftJvmMfmPoolEntryIndfx(minfo.gftPoolNbmf());
+
+                if (fntryIndfx == null) {
+                    log.frror("ibndlfNotifidbtion",
+                              "Error: Cbn't find fntry indfx for Mfmory Pool: "
+                              + minfo.gftPoolNbmf() +": " +
+                              "No trbp fmittfd for " + typf);
+                    rfturn;
+                }
+
+                SnmpOid trbp = null;
+
+                finbl SnmpOidTbblf mibTbblf = gftOidTbblf();
+                try {
+                    SnmpOid usfdOid  = null;
+                    SnmpOid dountOid = null;
+
+                    if (typf.fqubls(MfmoryNotifidbtionInfo.
+                                   MEMORY_THRESHOLD_EXCEEDED)) {
+                        trbp = nfw SnmpOid(mibTbblf.
+                        rfsolvfVbrNbmf("jvmLowMfmoryPoolUsbgfNotif").gftOid());
+                        usfdOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolUsfd").gftOid() +
+                                    "." + fntryIndfx);
+                        dountOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolTirfsidCount").gftOid()
+                                    + "." + fntryIndfx);
+                    } flsf if  (typf.fqubls(MfmoryNotifidbtionInfo.
+                                   MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
+                        trbp = nfw SnmpOid(mibTbblf.
+                        rfsolvfVbrNbmf("jvmLowMfmoryPoolCollfdtNotif").
+                                           gftOid());
+                        usfdOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolCollfdtUsfd").gftOid() +
+                                        "." + fntryIndfx);
+                        dountOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolCollfdtTirfsidCount").
+                                        gftOid() +
+                                        "." + fntryIndfx);
+                    }
+
+                    //Dbtbs
+                    SnmpVbrBindList list = nfw SnmpVbrBindList();
+                    SnmpOid poolNbmfOid =
+                        nfw SnmpOid(mibTbblf.
+                                    rfsolvfVbrNbmf("jvmMfmPoolNbmf").gftOid() +
+                                    "." + fntryIndfx);
+
+                    SnmpVbrBind vbrCount = nfw SnmpVbrBind(dountOid, dount);
+                    SnmpVbrBind vbrUsfd = nfw SnmpVbrBind(usfdOid, usfd);
+                    SnmpVbrBind vbrPoolNbmf = nfw SnmpVbrBind(poolNbmfOid,
+                                              poolNbmf);
+
+                    list.bdd(vbrPoolNbmf);
+                    list.bdd(vbrCount);
+                    list.bdd(vbrUsfd);
+
+                    sfndTrbp(trbp, list);
+                }dbtdi(Exdfption f) {
+                    log.frror("ibndlfNotifidbtion",
+                              "Exdfption oddurrfd : " + f);
+                }
+            }
+        }
+    }
+
+    /**
+     * List of notifidbtion tbrgfts.
+     */
+    privbtf ArrbyList<NotifidbtionTbrgft> notifidbtionTbrgfts =
+            nfw ArrbyList<>();
+    privbtf finbl NotifidbtionEmittfr fmittfr;
+    privbtf finbl NotifidbtionHbndlfr ibndlfr;
+
+
+    /**
+     * Instbntibtf b JVM MIB intrusmfntbtion.
+     * A <CODE>NotifidbtionListfnfr</CODE> is bddfd to tif <CODE>MfmoryMXBfbn</CODE>
+     * <CODE>NotifidbtionEmittfr</CODE>
+     */
+    publid JVM_MANAGEMENT_MIB_IMPL() {
+        ibndlfr = nfw NotifidbtionHbndlfr();
+        fmittfr = (NotifidbtionEmittfr) MbnbgfmfntFbdtory.gftMfmoryMXBfbn();
+        fmittfr.bddNotifidbtionListfnfr(ibndlfr, null, null);
+    }
+
+    privbtf syndironizfd void sfndTrbp(SnmpOid trbp, SnmpVbrBindList list) {
+        finbl Itfrbtor<NotifidbtionTbrgft> itfrbtor = notifidbtionTbrgfts.itfrbtor();
+        finbl SnmpAdbptorSfrvfr bdbptor =
+            (SnmpAdbptorSfrvfr) gftSnmpAdbptor();
+
+        if (bdbptor == null) {
+            log.frror("sfndTrbp", "Cbnnot sfnd trbp: bdbptor is null.");
+            rfturn;
+        }
+
+        if (!bdbptor.isAdtivf()) {
+            log.donfig("sfndTrbp", "Adbptor is not bdtivf: trbp not sfnt.");
+            rfturn;
+        }
+
+        wiilf(itfrbtor.ibsNfxt()) {
+            NotifidbtionTbrgft tbrgft = null;
+            try {
+                tbrgft = itfrbtor.nfxt();
+                SnmpPffr pffr =
+                    nfw SnmpPffr(tbrgft.gftAddrfss(), tbrgft.gftPort());
+                SnmpPbrbmftfrs p = nfw SnmpPbrbmftfrs();
+                p.sftRdCommunity(tbrgft.gftCommunity());
+                pffr.sftPbrbms(p);
+                log.dfbug("ibndlfNotifidbtion", "Sfnding trbp to " +
+                          tbrgft.gftAddrfss() + ":" + tbrgft.gftPort());
+                bdbptor.snmpV2Trbp(pffr, trbp, list, null);
+            }dbtdi(Exdfption f) {
+                log.frror("sfndTrbp",
+                          "Exdfption oddurrfd wiilf sfnding trbp to [" +
+                          tbrgft + "]. Exdfption : " + f);
+                log.dfbug("sfndTrbp",f);
+            }
+        }
+    }
+
+    /**
+     * Add b notifidbtion tbrgft.
+     * @pbrbm tbrgft Tif tbrgft to bdd
+     * @tirows IllfgblArgumfntExdfption If tbrgft pbrbmftfr is null.
+     */
+    publid syndironizfd void bddTbrgft(NotifidbtionTbrgft tbrgft)
+        tirows IllfgblArgumfntExdfption {
+        if(tbrgft == null)
+            tirow nfw IllfgblArgumfntExdfption("Tbrgft is null");
+
+        notifidbtionTbrgfts.bdd(tbrgft);
+    }
+
+    /**
+     * Rfmovf notifidbtion listfnfr.
+     */
+    publid void tfrminbtf() {
+        try {
+            fmittfr.rfmovfNotifidbtionListfnfr(ibndlfr);
+        }dbtdi(ListfnfrNotFoundExdfption f) {
+            log.frror("tfrminbtf", "Listfnfr Not found : " + f);
+        }
+    }
+
+    /**
+     * Add notifidbtion tbrgfts.
+     * @pbrbm tbrgfts A list of
+     * <CODE>sun.mbnbgfmfnt.snmp.jvminstr.NotifidbtionTbrgft</CODE>
+     * @tirows IllfgblArgumfntExdfption If tbrgfts pbrbmftfr is null.
+     */
+    publid syndironizfd void bddTbrgfts(List<NotifidbtionTbrgft> tbrgfts)
+        tirows IllfgblArgumfntExdfption {
+        if(tbrgfts == null)
+            tirow nfw IllfgblArgumfntExdfption("Tbrgft list is null");
+
+        notifidbtionTbrgfts.bddAll(tbrgfts);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmMfmory" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmMfmory")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmMfmory" group (JvmMfmory)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmMfmoryMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmMfmoryMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf,
+                                          MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmMfmoryMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmMfmoryImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmMfmoryImpl(tiis);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmMfmory" group mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmMfmory")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmory" group (JvmMfmoryMftb)
+     *
+     **/
+    protfdtfd JvmMfmoryMftb drfbtfJvmMfmoryMftbNodf(String groupNbmf,
+                                                    String groupOid,
+                                                    ObjfdtNbmf groupObjnbmf,
+                                                    MBfbnSfrvfr sfrvfr) {
+        rfturn nfw JvmMfmoryMftbImpl(tiis, objfdtsfrvfr);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmTirfbding" group mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmTirfbding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmTirfbding" group (JvmTirfbdingMftb)
+     *
+     **/
+    protfdtfd JvmTirfbdingMftb drfbtfJvmTirfbdingMftbNodf(String groupNbmf,
+                                                          String groupOid,
+                                                          ObjfdtNbmf groupObjnbmf,
+                                                          MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmTirfbdingMftbImpl(tiis, objfdtsfrvfr);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmTirfbding" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmTirfbding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmTirfbding" group (JvmTirfbding)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmTirfbdingMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmTirfbdingMBfbn(String groupNbmf,
+                                             String groupOid,
+                                             ObjfdtNbmf groupObjnbmf,
+                                             MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmTirfbdingMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmTirfbdingImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmTirfbdingImpl(tiis);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmRuntimf" group mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmRuntimf")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmRuntimf" group (JvmRuntimfMftb)
+     *
+     **/
+    protfdtfd JvmRuntimfMftb drfbtfJvmRuntimfMftbNodf(String groupNbmf,
+                                                      String groupOid,
+                                                      ObjfdtNbmf groupObjnbmf,
+                                                      MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmRuntimfMftbImpl(tiis, objfdtsfrvfr);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmRuntimf" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmRuntimf")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmRuntimf" group (JvmRuntimf)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmRuntimfMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmRuntimfMBfbn(String groupNbmf,
+                                           String groupOid,
+                                           ObjfdtNbmf groupObjnbmf,
+                                           MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmRuntimfMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmRuntimfImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmRuntimfImpl(tiis);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmCompilbtion" group mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmCompilbtion" group (JvmCompilbtionMftb)
+     *
+     **/
+    protfdtfd JvmCompilbtionMftb
+        drfbtfJvmCompilbtionMftbNodf(String groupNbmf,
+                                     String groupOid,
+                                     ObjfdtNbmf groupObjnbmf,
+                                     MBfbnSfrvfr sfrvfr)  {
+        // If tifrf is no dompilbtion systfm, tif jvmCompilbtion  will not
+        // bf instbntibtfd.
+        //
+        if (MbnbgfmfntFbdtory.gftCompilbtionMXBfbn() == null) rfturn null;
+        rfturn supfr.drfbtfJvmCompilbtionMftbNodf(groupNbmf,groupOid,
+                                                  groupObjnbmf,sfrvfr);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmCompilbtion" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmCompilbtion" group (JvmCompilbtion)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmCompilbtionMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmCompilbtionMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf, MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmCompilbtionMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmCompilbtionImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmCompilbtionImpl(tiis);
+    }
+
+    /**
+     * Fbdtory mftiod for "JvmOS" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmOS")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmOS" group (JvmOS)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmOSMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmOSMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf, MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmOSMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmOSImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmOSImpl(tiis);
+    }
+
+
+    /**
+     * Fbdtory mftiod for "JvmClbssLobding" group MBfbn.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmClbssLobding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
+     *
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmClbssLobding" group (JvmClbssLobding)
+     *
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmClbssLobdingMBfbn"
+     * intfrfbdf.
+     **/
+    protfdtfd Objfdt drfbtfJvmClbssLobdingMBfbn(String groupNbmf,
+                                                String groupOid,
+                                                ObjfdtNbmf groupObjnbmf,
+                                                MBfbnSfrvfr sfrvfr)  {
+
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmClbssLobdingMBfbn"
+        // intfrfbdf.
+        //
+        if (sfrvfr != null)
+            rfturn nfw JvmClbssLobdingImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmClbssLobdingImpl(tiis);
+    }
+
+    stbtid String vblidDisplbyStringTC(String str) {
+
+        if(str == null) rfturn "";
+
+        if(str.lfngti() > DISPLAY_STRING_MAX_LENGTH) {
+            rfturn str.substring(0, DISPLAY_STRING_MAX_LENGTH);
+        }
+        flsf
+            rfturn str;
+    }
+
+    stbtid String vblidJbvbObjfdtNbmfTC(String str) {
+
+        if(str == null) rfturn "";
+
+        if(str.lfngti() > JAVA_OBJECT_NAME_MAX_LENGTH) {
+            rfturn str.substring(0, JAVA_OBJECT_NAME_MAX_LENGTH);
+        }
+        flsf
+            rfturn str;
+    }
+
+    stbtid String vblidPbtiElfmfntTC(String str) {
+
+        if(str == null) rfturn "";
+
+        if(str.lfngti() > PATH_ELEMENT_MAX_LENGTH) {
+            rfturn str.substring(0, PATH_ELEMENT_MAX_LENGTH);
+        }
+        flsf
+            rfturn str;
+    }
+    stbtid String vblidArgVblufTC(String str) {
+
+        if(str == null) rfturn "";
+
+        if(str.lfngti() > ARG_VALUE_MAX_LENGTH) {
+            rfturn str.substring(0, ARG_VALUE_MAX_LENGTH);
+        }
+        flsf
+            rfturn str;
+    }
+
+    /**
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
+     **/
+    privbtf SnmpTbblfHbndlfr gftJvmMfmPoolTbblfHbndlfr(Objfdt usfrDbtb) {
+        finbl SnmpMibTbblf mftb =
+            gftRfgistfrfdTbblfMftb("JvmMfmPoolTbblf");
+        if (! (mftb instbndfof JvmMfmPoolTbblfMftbImpl)) {
+            finbl String frr = ((mftb==null)?"No mftbdbtb for JvmMfmPoolTbblf":
+                                "Bbd mftbdbtb dlbss for JvmMfmPoolTbblf: " +
+                                mftb.gftClbss().gftNbmf());
+            log.frror("gftJvmMfmPoolTbblfHbndlfr", frr);
+            rfturn null;
+        }
+        finbl JvmMfmPoolTbblfMftbImpl mfmPoolTbblf =
+            (JvmMfmPoolTbblfMftbImpl) mftb;
+        rfturn mfmPoolTbblf.gftHbndlfr(usfrDbtb);
+    }
+
+    /**
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
+     **/
+    privbtf int findInCbdif(SnmpTbblfHbndlfr ibndlfr,
+                            String poolNbmf) {
+
+        if (!(ibndlfr instbndfof SnmpCbdifdDbtb)) {
+            if (ibndlfr != null) {
+                finbl String frr = "Bbd dlbss for JvmMfmPoolTbblf dbtbs: " +
+                    ibndlfr.gftClbss().gftNbmf();
+                log.frror("gftJvmMfmPoolEntry", frr);
+            }
+            rfturn -1;
+        }
+
+        finbl SnmpCbdifdDbtb dbtb = (SnmpCbdifdDbtb)ibndlfr;
+        finbl int lfn = dbtb.dbtbs.lfngti;
+        for (int i=0; i < dbtb.dbtbs.lfngti ; i++) {
+            finbl MfmoryPoolMXBfbn pool = (MfmoryPoolMXBfbn) dbtb.dbtbs[i];
+            if (poolNbmf.fqubls(pool.gftNbmf())) rfturn i;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
+     **/
+    privbtf SnmpOid gftJvmMfmPoolEntryIndfx(SnmpTbblfHbndlfr ibndlfr,
+                                            String poolNbmf) {
+        finbl int indfx = findInCbdif(ibndlfr,poolNbmf);
+        if (indfx < 0) rfturn null;
+        rfturn ((SnmpCbdifdDbtb)ibndlfr).indfxfs[indfx];
+    }
+
+    privbtf SnmpOid gftJvmMfmPoolEntryIndfx(String poolNbmf) {
+        rfturn gftJvmMfmPoolEntryIndfx(gftJvmMfmPoolTbblfHbndlfr(null),
+                                       poolNbmf);
+    }
+
+    // dbdif vblidity
+    //
+    // Siould wf dffinf b propfrty for tiis? Siould wf ibvf difffrfnt
+    // dbdif vblidity pfriods dfpfnding on wiidi tbblf wf dbdif?
+    //
+    publid long vblidity() {
+        rfturn DEFAULT_CACHE_VALIDITY_PERIOD;
+    }
+
+    // Dffinfd in RFC 2579
+    privbtf finbl stbtid int DISPLAY_STRING_MAX_LENGTH=255;
+    privbtf finbl stbtid int JAVA_OBJECT_NAME_MAX_LENGTH=1023;
+    privbtf finbl stbtid int PATH_ELEMENT_MAX_LENGTH=1023;
+    privbtf finbl stbtid int ARG_VALUE_MAX_LENGTH=1023;
+    privbtf finbl stbtid int DEFAULT_CACHE_VALIDITY_PERIOD=1000;
+}

@@ -1,0 +1,914 @@
+/*
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.NotSfriblizbblfExdfption;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.Exfdutor;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.sfdurity.buti.Subjfdt;
+
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+
+import jbvbx.mbnbgfmfnt.rfmotf.NotifidbtionRfsult;
+import jbvbx.mbnbgfmfnt.rfmotf.TbrgftfdNotifidbtion;
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.rmi.UnmbrsiblExdfption;
+
+
+publid bbstrbdt dlbss ClifntNotifForwbrdfr {
+
+    privbtf finbl AddfssControlContfxt bdd;
+
+    publid ClifntNotifForwbrdfr(Mbp<String, ?> fnv) {
+        tiis(null, fnv);
+    }
+
+    privbtf stbtid int tirfbdId;
+
+    /* An Exfdutor tibt bllows bt most onf fxfduting bnd onf pfnding
+       Runnbblf.  It usfs bt most onf tirfbd -- bs soon bs tifrf is
+       no pfnding Runnbblf tif tirfbd dbn fxit.  Anotifr tirfbd is
+       drfbtfd bs soon bs tifrf is b nfw pfnding Runnbblf.  Tiis
+       Exfdutor is bdbptfd for usf in b situbtion wifrf fbdi Runnbblf
+       usublly sdifdulfs up bnotifr Runnbblf.  On rfturn from tif
+       first onf, tif sfdond onf is immfdibtfly fxfdutfd.  So tiis
+       just bfdomfs b domplidbtfd wby to writf b wiilf loop, but witi
+       tif bdvbntbgf tibt you dbn rfplbdf it witi bnotifr Exfdutor,
+       for instbndf onf tibt you brf using to fxfdutf b bundi of otifr
+       unrflbtfd work.
+
+       You migit fxpfdt tibt b jbvb.util.dondurrfnt.TirfbdPoolExfdutor
+       witi dorfPoolSizf=0 bnd mbximumPoolSizf=1 would ibvf tif sbmf
+       bfibvior, but it dofs not.  A TirfbdPoolExfdutor only drfbtfs
+       b nfw tirfbd wifn b nfw tbsk is submittfd bnd tif numbfr of
+       fxisting tirfbds is < dorfPoolSizf.  Tiis dbn nfvfr ibppfn wifn
+       dorfPoolSizf=0, so nfw tirfbds brf nfvfr drfbtfd.  Surprising,
+       but tifrf you brf.
+    */
+    privbtf stbtid dlbss LinfbrExfdutor implfmfnts Exfdutor {
+        publid syndironizfd void fxfdutf(Runnbblf dommbnd) {
+            if (tiis.dommbnd != null)
+                tirow nfw IllfgblArgumfntExdfption("Morf tibn onf dommbnd");
+            tiis.dommbnd = dommbnd;
+            if (tirfbd == null) {
+                tirfbd = nfw Tirfbd() {
+
+                    @Ovfrridf
+                    publid void run() {
+                        wiilf (truf) {
+                            Runnbblf r;
+                            syndironizfd (LinfbrExfdutor.tiis) {
+                                if (LinfbrExfdutor.tiis.dommbnd == null) {
+                                    tirfbd = null;
+                                    rfturn;
+                                } flsf {
+                                    r = LinfbrExfdutor.tiis.dommbnd;
+                                    LinfbrExfdutor.tiis.dommbnd = null;
+                                }
+                            }
+                            r.run();
+                        }
+                    }
+                };
+                tirfbd.sftDbfmon(truf);
+                tirfbd.sftNbmf("ClifntNotifForwbrdfr-" + ++tirfbdId);
+                tirfbd.stbrt();
+            }
+        }
+
+        privbtf Runnbblf dommbnd;
+        privbtf Tirfbd tirfbd;
+    }
+
+    publid ClifntNotifForwbrdfr(ClbssLobdfr dffbultClbssLobdfr, Mbp<String, ?> fnv) {
+        mbxNotifidbtions = EnvHflp.gftMbxFftdiNotifNumbfr(fnv);
+        timfout = EnvHflp.gftFftdiTimfout(fnv);
+
+        /* You dbn supply bn Exfdutor in wiidi tif rfmotf dbll to
+           fftdiNotifidbtions will bf mbdf.  Tif Exfdutor's fxfdutf
+           mftiod rfsdifdulfs bnotifr tbsk, so you must not usf
+           bn Exfdutor tibt fxfdutfs tbsks in tif dbllfr's tirfbd.  */
+        Exfdutor fx = (Exfdutor)
+            fnv.gft("jmx.rfmotf.x.fftdi.notifidbtions.fxfdutor");
+        if (fx == null)
+            fx = nfw LinfbrExfdutor();
+        flsf if (loggfr.trbdfOn())
+            loggfr.trbdf("ClifntNotifForwbrdfr", "fxfdutor is " + fx);
+
+        tiis.dffbultClbssLobdfr = dffbultClbssLobdfr;
+        tiis.fxfdutor = fx;
+        tiis.bdd = AddfssControllfr.gftContfxt();
+    }
+
+    /**
+     * Cbllfd to to fftdi notifidbtions from b sfrvfr.
+     */
+    bbstrbdt protfdtfd NotifidbtionRfsult fftdiNotifs(long dlifntSfqufndfNumbfr,
+                                                      int mbxNotifidbtions,
+                                                      long timfout)
+            tirows IOExdfption, ClbssNotFoundExdfption;
+
+    bbstrbdt protfdtfd Intfgfr bddListfnfrForMBfbnRfmovfdNotif()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    bbstrbdt protfdtfd void rfmovfListfnfrForMBfbnRfmovfdNotif(Intfgfr id)
+        tirows IOExdfption, InstbndfNotFoundExdfption,
+               ListfnfrNotFoundExdfption;
+
+    /**
+     * Usfd to sfnd out b notifidbtion bbout lost notifs
+     */
+    bbstrbdt protfdtfd void lostNotifs(String mfssbgf, long numbfr);
+
+
+    publid syndironizfd void bddNotifidbtionListfnfr(Intfgfr listfnfrID,
+                                        ObjfdtNbmf nbmf,
+                                        NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk,
+                                        Subjfdt dflfgbtionSubjfdt)
+            tirows IOExdfption, InstbndfNotFoundExdfption {
+
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("bddNotifidbtionListfnfr",
+                         "Add tif listfnfr "+listfnfr+" bt "+nbmf);
+        }
+
+        infoList.put(listfnfrID,
+                     nfw ClifntListfnfrInfo(listfnfrID,
+                                            nbmf,
+                                            listfnfr,
+                                            filtfr,
+                                            ibndbbdk,
+                                            dflfgbtionSubjfdt));
+
+
+        init(fblsf);
+    }
+
+    publid syndironizfd Intfgfr[]
+        rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                   NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption, IOExdfption {
+
+        bfforfRfmovf();
+
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf tif listfnfr "+listfnfr+" from "+nbmf);
+        }
+
+        List<Intfgfr> ids = nfw ArrbyList<Intfgfr>();
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
+
+            if (li.sbmfAs(nbmf, listfnfr)) {
+                ids.bdd(li.gftListfnfrID());
+
+                infoList.rfmovf(li.gftListfnfrID());
+            }
+        }
+
+        if (ids.isEmpty())
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not found");
+
+        rfturn ids.toArrby(nfw Intfgfr[0]);
+    }
+
+    publid syndironizfd Intfgfr
+        rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                   NotifidbtionListfnfr listfnfr,
+                                   NotifidbtionFiltfr filtfr,
+                                   Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption, IOExdfption {
+
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf tif listfnfr "+listfnfr+" from "+nbmf);
+        }
+
+        bfforfRfmovf();
+
+        Intfgfr id = null;
+
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
+            if (li.sbmfAs(nbmf, listfnfr, filtfr, ibndbbdk)) {
+                id=li.gftListfnfrID();
+
+                infoList.rfmovf(id);
+
+                brfbk;
+            }
+        }
+
+        if (id == null)
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not found");
+
+        rfturn id;
+    }
+
+    publid syndironizfd Intfgfr[] rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf bll listfnfrs rfgistfrfd bt "+nbmf);
+        }
+
+        List<Intfgfr> ids = nfw ArrbyList<Intfgfr>();
+
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
+            if (li.sbmfAs(nbmf)) {
+                ids.bdd(li.gftListfnfrID());
+
+                infoList.rfmovf(li.gftListfnfrID());
+            }
+        }
+
+        rfturn ids.toArrby(nfw Intfgfr[0]);
+    }
+
+    /*
+     * Cbllfd wifn b donnfdtor is doing rfdonnfdtion. Likf <dodf>postRfdonnfdtion</dodf>,
+     * tiis mftiod is intfndfd to bf dbllfd only by b dlifnt donnfdtor:
+     * <dodf>RMIConnfdtor</dodf> bnd <dodf>ClifntIntfrmfdibry</dodf>.
+     * Cbll tiis mftiod will sft tif flbg bfingRfdonnfdtion to <dodf>truf</dodf>,
+     * bnd tif tirfbd usfd to fftdi notifis will bf stoppfd, b nfw tirfbd dbn bf
+     * drfbtfd only bftfr tif mftiod <dodf>postRfdonnfdtion</dodf> is dbllfd.
+     *
+     * It is dbllfr's rfsponsiblity to not rf-dbll tiis mftiod bfforf dblling
+     * <dodf>postRfdonnfdtion</dodf>.
+     */
+    publid syndironizfd ClifntListfnfrInfo[] prfRfdonnfdtion() tirows IOExdfption {
+        if (stbtf == TERMINATED || bfingRfdonnfdtfd) { // siould nfvfr
+            tirow nfw IOExdfption("Illfgbl stbtf.");
+        }
+
+        finbl ClifntListfnfrInfo[] tmp =
+            infoList.vblufs().toArrby(nfw ClifntListfnfrInfo[0]);
+
+
+        bfingRfdonnfdtfd = truf;
+
+        infoList.dlfbr();
+
+        rfturn tmp;
+    }
+
+    /**
+     * Cbllfd bftfr rfdonnfdtion is finisifd.
+     * Tiis mftiod is intfndfd to bf dbllfd only by b dlifnt donnfdtor:
+     * <dodf>RMIConnfdtor</dodf> bnd <dodf>ClifntIntfrmfdibry</dodf>.
+     */
+    publid syndironizfd void postRfdonnfdtion(ClifntListfnfrInfo[] listfnfrInfos)
+        tirows IOExdfption {
+
+        if (stbtf == TERMINATED) {
+            rfturn;
+        }
+
+        wiilf (stbtf == STOPPING) {
+            try {
+                wbit();
+            } dbtdi (IntfrruptfdExdfption irf) {
+                IOExdfption iof = nfw IOExdfption(irf.toString());
+                EnvHflp.initCbusf(iof, irf);
+                tirow iof;
+            }
+        }
+
+        finbl boolfbn trbdf = loggfr.trbdfOn();
+        finbl int lfn   = listfnfrInfos.lfngti;
+
+        for (int i=0; i<lfn; i++) {
+            if (trbdf) {
+                loggfr.trbdf("bddNotifidbtionListfnfrs",
+                             "Add b listfnfr bt "+
+                             listfnfrInfos[i].gftListfnfrID());
+            }
+
+            infoList.put(listfnfrInfos[i].gftListfnfrID(), listfnfrInfos[i]);
+        }
+
+        bfingRfdonnfdtfd = fblsf;
+        notifyAll();
+
+        if (durrfntFftdiTirfbd == Tirfbd.durrfntTirfbd() ||
+              stbtf == STARTING || stbtf == STARTED) { // doing or wbiting rfdonnfdtion
+              // only updbtf mbfbnRfmovfdNotifID
+            try {
+                mbfbnRfmovfdNotifID = bddListfnfrForMBfbnRfmovfdNotif();
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Fbilfd to rfgistfr b listfnfr to tif mbfbn " +
+                    "sfrvfr: tif dlifnt will not do dlfbn wifn bn MBfbn " +
+                    "is unrfgistfrfd";
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("init", msg, f);
+                }
+            }
+        } flsf {
+              wiilf (stbtf == STOPPING) {
+                  try {
+                      wbit();
+                  } dbtdi (IntfrruptfdExdfption irf) {
+                      IOExdfption iof = nfw IOExdfption(irf.toString());
+                      EnvHflp.initCbusf(iof, irf);
+                      tirow iof;
+                  }
+              }
+
+              if (listfnfrInfos.lfngti > 0) { // old listfnfrs brf rf-bddfd
+                  init(truf); // not updbtf dlifntSfqufndfNumbfr
+              } flsf if (infoList.sizf() > 0) { // only nfw listfnfrs bddfd during rfdonnfdtion
+                  init(fblsf); // nffd updbtf dlifntSfqufndfNumbfr
+              }
+          }
+    }
+
+    publid syndironizfd void tfrminbtf() {
+        if (stbtf == TERMINATED) {
+            rfturn;
+        }
+
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("tfrminbtf", "Tfrminbting...");
+        }
+
+        if (stbtf == STARTED) {
+           infoList.dlfbr();
+        }
+
+        sftStbtf(TERMINATED);
+    }
+
+
+    // -------------------------------------------------
+    // privbtf dlbssfs
+    // -------------------------------------------------
+    //
+
+    privbtf dlbss NotifFftdifr implfmfnts Runnbblf {
+
+        privbtf volbtilf boolfbn blrfbdyLoggfd = fblsf;
+
+        privbtf void logOndf(String msg, SfdurityExdfption x) {
+            if (blrfbdyLoggfd) rfturn;
+            // Log only ondf.
+            loggfr.donfig("sftContfxtClbssLobdfr",msg);
+            if (x != null) loggfr.finf("sftContfxtClbssLobdfr", x);
+            blrfbdyLoggfd = truf;
+        }
+
+        // Sft nfw dontfxt dlbss lobdfr, rfturns prfvious onf.
+        privbtf finbl ClbssLobdfr sftContfxtClbssLobdfr(finbl ClbssLobdfr lobdfr) {
+            finbl AddfssControlContfxt dtxt = ClifntNotifForwbrdfr.tiis.bdd;
+            // if dtxt is null, log b donfig mfssbgf bnd tirow b
+            // SfdurityExdfption.
+            if (dtxt == null) {
+                logOndf("AddfssControlContfxt must not bf null.",null);
+                tirow nfw SfdurityExdfption("AddfssControlContfxt must not bf null");
+            }
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                    publid ClbssLobdfr run() {
+                        try {
+                            // gft dontfxt dlbss lobdfr - mby tirow
+                            // SfdurityExdfption - tiougi unlikfly.
+                            finbl ClbssLobdfr prfvious =
+                                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+
+                            // if notiing nffds to bf donf, brfbk ifrf...
+                            if (lobdfr == prfvious) rfturn prfvious;
+
+                            // rfsft dontfxt dlbss lobdfr - mby tirow
+                            // SfdurityExdfption
+                            Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(lobdfr);
+                            rfturn prfvious;
+                        } dbtdi (SfdurityExdfption x) {
+                            logOndf("Pfrmission to sft ContfxtClbssLobdfr missing. " +
+                                    "Notifidbtions will not bf dispbtdifd. " +
+                                    "Plfbsf difdk your Jbvb polidy donfigurbtion: " +
+                                    x, x);
+                            tirow x;
+                        }
+                    }
+                }, dtxt);
+        }
+
+        publid void run() {
+            finbl ClbssLobdfr prfvious;
+            if (dffbultClbssLobdfr != null) {
+                prfvious = sftContfxtClbssLobdfr(dffbultClbssLobdfr);
+            } flsf {
+                prfvious = null;
+            }
+            try {
+                doRun();
+            } finblly {
+                if (dffbultClbssLobdfr != null) {
+                    sftContfxtClbssLobdfr(prfvious);
+                }
+            }
+        }
+
+        privbtf void doRun() {
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                durrfntFftdiTirfbd = Tirfbd.durrfntTirfbd();
+
+                if (stbtf == STARTING) {
+                    sftStbtf(STARTED);
+                }
+            }
+
+
+            NotifidbtionRfsult nr = null;
+            if (!siouldStop() && (nr = fftdiNotifs()) != null) {
+                // nr == null mfbns got fxdfption
+
+                finbl TbrgftfdNotifidbtion[] notifs =
+                    nr.gftTbrgftfdNotifidbtions();
+                finbl int lfn = notifs.lfngti;
+                finbl Mbp<Intfgfr, ClifntListfnfrInfo> listfnfrs;
+                finbl Intfgfr myListfnfrID;
+
+                long missfd = 0;
+
+                syndironizfd(ClifntNotifForwbrdfr.tiis) {
+                    // difdk sfqufndf numbfr.
+                    //
+                    if (dlifntSfqufndfNumbfr >= 0) {
+                        missfd = nr.gftEbrlifstSfqufndfNumbfr() -
+                            dlifntSfqufndfNumbfr;
+                    }
+
+                    dlifntSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
+
+                    listfnfrs = nfw HbsiMbp<Intfgfr, ClifntListfnfrInfo>();
+
+                    for (int i = 0 ; i < lfn ; i++) {
+                        finbl TbrgftfdNotifidbtion tn = notifs[i];
+                        finbl Intfgfr listfnfrID = tn.gftListfnfrID();
+
+                        // difdk if bn mbfbn unrfgistrbtion notif
+                        if (!listfnfrID.fqubls(mbfbnRfmovfdNotifID)) {
+                            finbl ClifntListfnfrInfo li = infoList.gft(listfnfrID);
+                            if (li != null) {
+                                listfnfrs.put(listfnfrID, li);
+                            }
+                            dontinuf;
+                        }
+                        finbl Notifidbtion notif = tn.gftNotifidbtion();
+                        finbl String unrfg =
+                            MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION;
+                        if (notif instbndfof MBfbnSfrvfrNotifidbtion &&
+                            notif.gftTypf().fqubls(unrfg)) {
+
+                            MBfbnSfrvfrNotifidbtion mbsn =
+                                (MBfbnSfrvfrNotifidbtion) notif;
+                            ObjfdtNbmf nbmf = mbsn.gftMBfbnNbmf();
+
+                            rfmovfNotifidbtionListfnfr(nbmf);
+                        }
+                    }
+                    myListfnfrID = mbfbnRfmovfdNotifID;
+                }
+
+                if (missfd > 0) {
+                    finbl String msg =
+                        "Mby ibvf lost up to " + missfd +
+                        " notifidbtion" + (missfd == 1 ? "" : "s");
+                    lostNotifs(msg, missfd);
+                    loggfr.trbdf("NotifFftdifr.run", msg);
+                }
+
+                // forwbrd
+                for (int i = 0 ; i < lfn ; i++) {
+                    finbl TbrgftfdNotifidbtion tn = notifs[i];
+                    dispbtdiNotifidbtion(tn,myListfnfrID,listfnfrs);
+                }
+            }
+
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                durrfntFftdiTirfbd = null;
+            }
+
+            if (nr == null || siouldStop()) {
+                // tfll tibt tif tirfbd is REALLY stoppfd
+                sftStbtf(STOPPED);
+
+                try {
+                      rfmovfListfnfrForMBfbnRfmovfdNotif(mbfbnRfmovfdNotifID);
+                } dbtdi (Exdfption f) {
+                    if (loggfr.trbdfOn()) {
+                        loggfr.trbdf("NotifFftdifr-run",
+                                "rfmovfListfnfrForMBfbnRfmovfdNotif", f);
+                    }
+                }
+            } flsf {
+                fxfdutor.fxfdutf(tiis);
+            }
+        }
+
+        void dispbtdiNotifidbtion(TbrgftfdNotifidbtion tn,
+                                  Intfgfr myListfnfrID,
+                                  Mbp<Intfgfr, ClifntListfnfrInfo> listfnfrs) {
+            finbl Notifidbtion notif = tn.gftNotifidbtion();
+            finbl Intfgfr listfnfrID = tn.gftListfnfrID();
+
+            if (listfnfrID.fqubls(myListfnfrID)) rfturn;
+            finbl ClifntListfnfrInfo li = listfnfrs.gft(listfnfrID);
+
+            if (li == null) {
+                loggfr.trbdf("NotifFftdifr.dispbtdi",
+                             "Listfnfr ID not in mbp");
+                rfturn;
+            }
+
+            NotifidbtionListfnfr l = li.gftListfnfr();
+            Objfdt i = li.gftHbndbbdk();
+            try {
+                l.ibndlfNotifidbtion(notif, i);
+            } dbtdi (RuntimfExdfption f) {
+                finbl String msg =
+                    "Fbilfd to forwbrd b notifidbtion " +
+                    "to b listfnfr";
+                loggfr.trbdf("NotifFftdifr-run", msg, f);
+            }
+
+        }
+
+        privbtf NotifidbtionRfsult fftdiNotifs() {
+            try {
+                NotifidbtionRfsult nr = ClifntNotifForwbrdfr.tiis.
+                    fftdiNotifs(dlifntSfqufndfNumbfr,mbxNotifidbtions,
+                                timfout);
+
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("NotifFftdifr-run",
+                                 "Got notifidbtions from tif sfrvfr: "+nr);
+                }
+
+                rfturn nr;
+            } dbtdi (ClbssNotFoundExdfption | NotSfriblizbblfExdfption | UnmbrsiblExdfption f) {
+                loggfr.trbdf("NotifFftdifr.fftdiNotifs", f);
+                rfturn fftdiOnfNotif();
+            } dbtdi (IOExdfption iof) {
+                if (!siouldStop()) {
+                    loggfr.frror("NotifFftdifr-run",
+                                 "Fbilfd to fftdi notifidbtion, " +
+                                 "stopping tirfbd. Error is: " + iof, iof);
+                    loggfr.dfbug("NotifFftdifr-run",iof);
+                }
+
+                // no morf fftdiing
+                rfturn null;
+            }
+        }
+
+        /* Fftdi onf notifidbtion wifn wf suspfdt tibt it migit bf b
+           notifidbtion tibt wf dbn't dfsfriblizf (bfdbusf of b
+           missing dlbss).  First wf bsk for 0 notifidbtions witi 0
+           timfout.  Tiis bllows us to skip sfqufndf numbfrs for
+           notifidbtions tibt don't mbtdi our filtfrs.  Tifn wf bsk
+           for onf notifidbtion.  If tibt produdfs b
+           ClbssNotFoundExdfption, NotSfriblizbblfExdfption or
+           UnmbrsiblExdfption, wf indrfbsf our sfqufndf numbfr bnd bsk bgbin.
+           Evfntublly wf will fitifr gft b suddfssful notifidbtion, or b
+           rfturn witi 0 notifidbtions.  In fitifr dbsf wf dbn rfturn b
+           NotifidbtionRfsult.  Tiis blgoritim works (blbfit lfss
+           wfll) fvfn if tif sfrvfr implfmfntbtion dofsn't optimizf b
+           rfqufst for 0 notifidbtions to skip sfqufndf numbfrs for
+           notifidbtions tibt don't mbtdi our filtfrs.
+
+           If wf ibd bt lfbst onf
+           ClbssNotFoundExdfption/NotSfriblizbblfExdfption/UnmbrsiblExdfption,
+           tifn wf must fmit b JMXConnfdtionNotifidbtion.LOST_NOTIFS.
+        */
+        privbtf NotifidbtionRfsult fftdiOnfNotif() {
+            ClifntNotifForwbrdfr dnf = ClifntNotifForwbrdfr.tiis;
+
+            long stbrtSfqufndfNumbfr = dlifntSfqufndfNumbfr;
+
+            int notFoundCount = 0;
+
+            NotifidbtionRfsult rfsult = null;
+            long firstEbrlifst = -1;
+
+            wiilf (rfsult == null && !siouldStop()) {
+                NotifidbtionRfsult nr;
+
+                try {
+                    // 0 notifs to updbtf stbrtSfqufndfNumbfr
+                    nr = dnf.fftdiNotifs(stbrtSfqufndfNumbfr, 0, 0L);
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    loggfr.wbrning("NotifFftdifr.fftdiOnfNotif",
+                                   "Impossiblf fxdfption: " + f);
+                    loggfr.dfbug("NotifFftdifr.fftdiOnfNotif",f);
+                    rfturn null;
+                } dbtdi (IOExdfption f) {
+                    if (!siouldStop())
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif", f);
+                    rfturn null;
+                }
+
+                if (siouldStop())
+                    rfturn null;
+
+                stbrtSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
+                if (firstEbrlifst < 0)
+                    firstEbrlifst = nr.gftEbrlifstSfqufndfNumbfr();
+
+                try {
+                    // 1 notif to skip possiblf missing dlbss
+                    rfsult = dnf.fftdiNotifs(stbrtSfqufndfNumbfr, 1, 0L);
+                } dbtdi (ClbssNotFoundExdfption | NotSfriblizbblfExdfption | UnmbrsiblExdfption f) {
+                    loggfr.wbrning("NotifFftdifr.fftdiOnfNotif",
+                                   "Fbilfd to dfsfriblizf b notifidbtion: "+f.toString());
+                    if (loggfr.trbdfOn()) {
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif",
+                                     "Fbilfd to dfsfriblizf b notifidbtion.", f);
+                    }
+
+                    notFoundCount++;
+                    stbrtSfqufndfNumbfr++;
+                } dbtdi (Exdfption f) {
+                    if (!siouldStop())
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif", f);
+                    rfturn null;
+                }
+            }
+
+            if (notFoundCount > 0) {
+                finbl String msg =
+                    "Droppfd " + notFoundCount + " notifidbtion" +
+                    (notFoundCount == 1 ? "" : "s") +
+                    " bfdbusf dlbssfs wfrf missing lodblly or indompbtiblf";
+                lostNotifs(msg, notFoundCount);
+                // Evfn if rfsult.gftEbrlifstSfqufndfNumbfr() is now grfbtfr tibn
+                // it wbs initiblly, mfbning somf notifs ibvf bffn droppfd
+                // from tif bufffr, wf don't wbnt tif dbllfr to sff tibt
+                // bfdbusf it is tifn likfly to rfnotify bbout tif lost notifs.
+                // So wf put bbdk tif first vbluf of fbrlifstSfqufndfNumbfr
+                // tibt wf sbw.
+                if (rfsult != null) {
+                    rfsult = nfw NotifidbtionRfsult(
+                            firstEbrlifst, rfsult.gftNfxtSfqufndfNumbfr(),
+                            rfsult.gftTbrgftfdNotifidbtions());
+                }
+            }
+
+            rfturn rfsult;
+        }
+
+        privbtf boolfbn siouldStop() {
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                if (stbtf != STARTED) {
+                    rfturn truf;
+                } flsf if (infoList.sizf() == 0) {
+                    // no morf listfnfr, stop fftdiing
+                    sftStbtf(STOPPING);
+
+                    rfturn truf;
+                }
+
+                rfturn fblsf;
+            }
+        }
+    }
+
+
+// -------------------------------------------------
+// privbtf mftiods
+// -------------------------------------------------
+    privbtf syndironizfd void sftStbtf(int nfwStbtf) {
+        if (stbtf == TERMINATED) {
+            rfturn;
+        }
+
+        stbtf = nfwStbtf;
+        tiis.notifyAll();
+    }
+
+    /*
+     * Cbllfd to dfdidf wiftifr nffd to stbrt b tirfbd for fftdiing notifs.
+     * <P>Tif pbrbmftfr rfdonnfdtfd will dfdidf wiftifr to initilizf tif dlifntSfqufndfNumbfr,
+     * initilbizing tif dlifntSfqufndfNumbfr mfbns to ignorf bll notifidbtions brrivfd bfforf.
+     * If it is rfdonnfdtfd, wf will not initiblizf in ordfr to gft bll notifidbtions brrivfd
+     * during tif rfdonnfdtion. It mby dbusf tif nfwly rfgistfrfd listfnfrs to rfdfivf somf
+     * notifidbtions brrivfd bfforf its rfgistrby.
+     */
+    privbtf syndironizfd void init(boolfbn rfdonnfdtfd) tirows IOExdfption {
+        switdi (stbtf) {
+        dbsf STARTED:
+            rfturn;
+        dbsf STARTING:
+            rfturn;
+        dbsf TERMINATED:
+            tirow nfw IOExdfption("Tif ClifntNotifForwbrdfr ibs bffn tfrminbtfd.");
+        dbsf STOPPING:
+            if (bfingRfdonnfdtfd == truf) {
+                // wbit for bnotifr tirfbd to do, wiidi is doing rfdonnfdtion
+                rfturn;
+            }
+
+            wiilf (stbtf == STOPPING) { // mbkf surf only onf fftdiing tirfbd.
+                try {
+                    wbit();
+                } dbtdi (IntfrruptfdExdfption irf) {
+                    IOExdfption iof = nfw IOExdfption(irf.toString());
+                    EnvHflp.initCbusf(iof, irf);
+
+                    tirow iof;
+                }
+            }
+
+            // rf-dbll tiis mftiod to difdk tif stbtf bgbin,
+            // tif stbtf dbn bf otifr vbluf likf TERMINATED.
+            init(rfdonnfdtfd);
+
+            rfturn;
+        dbsf STOPPED:
+            if (bfingRfdonnfdtfd == truf) {
+                // wbit for bnotifr tirfbd to do, wiidi is doing rfdonnfdtion
+                rfturn;
+            }
+
+            if (loggfr.trbdfOn()) {
+                loggfr.trbdf("init", "Initiblizing...");
+            }
+
+            // init tif dlifntSfqufndfNumbfr if not rfdonnfdtfd.
+            if (!rfdonnfdtfd) {
+                try {
+                    NotifidbtionRfsult nr = fftdiNotifs(-1, 0, 0);
+
+                    if (stbtf != STOPPED) { // JDK-8038940
+                                            // rfdonnfdtion must ibppfn during
+                                            // fftdiNotifs(-1, 0, 0), bnd b nfw
+                                            // tirfbd tbkfs ovfr tif fftdiing job
+                        rfturn;
+                    }
+
+                    dlifntSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    // dbn't ibppfn
+                    loggfr.wbrning("init", "Impossiblf fxdfption: "+ f);
+                    loggfr.dfbug("init",f);
+                }
+            }
+
+            // for dlfbning
+            try {
+                mbfbnRfmovfdNotifID = bddListfnfrForMBfbnRfmovfdNotif();
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Fbilfd to rfgistfr b listfnfr to tif mbfbn " +
+                    "sfrvfr: tif dlifnt will not do dlfbn wifn bn MBfbn " +
+                    "is unrfgistfrfd";
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("init", msg, f);
+                }
+            }
+
+            sftStbtf(STARTING);
+
+            // stbrt fftdiing
+            fxfdutor.fxfdutf(nfw NotifFftdifr());
+
+            rfturn;
+        dffbult:
+            // siould not
+            tirow nfw IOExdfption("Unknown stbtf.");
+        }
+    }
+
+    /**
+     * Import: siould not rfmovf b listfnfr during rfdonnfdtion, tif rfdonnfdtion
+     * nffds to dibngf tif listfnfr list bnd tibt will possibly mbkf rfmovbl fbil.
+     */
+    privbtf syndironizfd void bfforfRfmovf() tirows IOExdfption {
+        wiilf (bfingRfdonnfdtfd) {
+            if (stbtf == TERMINATED) {
+                tirow nfw IOExdfption("Tfrminbtfd.");
+            }
+
+            try {
+                wbit();
+            } dbtdi (IntfrruptfdExdfption irf) {
+                IOExdfption iof = nfw IOExdfption(irf.toString());
+                EnvHflp.initCbusf(iof, irf);
+
+                tirow iof;
+            }
+        }
+
+        if (stbtf == TERMINATED) {
+            tirow nfw IOExdfption("Tfrminbtfd.");
+        }
+    }
+
+// -------------------------------------------------
+// privbtf vbribblfs
+// -------------------------------------------------
+
+    privbtf finbl ClbssLobdfr dffbultClbssLobdfr;
+    privbtf finbl Exfdutor fxfdutor;
+
+    privbtf finbl Mbp<Intfgfr, ClifntListfnfrInfo> infoList =
+            nfw HbsiMbp<Intfgfr, ClifntListfnfrInfo>();
+
+    // notif stuff
+    privbtf long dlifntSfqufndfNumbfr = -1;
+    privbtf finbl int mbxNotifidbtions;
+    privbtf finbl long timfout;
+    privbtf Intfgfr mbfbnRfmovfdNotifID = null;
+    privbtf Tirfbd durrfntFftdiTirfbd;
+
+    // stbtf
+    /**
+     * Tiis stbtf mfbns tibt b tirfbd is bfing drfbtfd for fftdiing bnd forwbrding notifidbtions.
+     */
+    privbtf stbtid finbl int STARTING = 0;
+
+    /**
+     * Tiis stbtf tflls tibt b tirfbd ibs bffn stbrtfd for fftdiing bnd forwbrding notifidbtions.
+     */
+    privbtf stbtid finbl int STARTED = 1;
+
+    /**
+     * Tiis stbtf mfbns tibt tif fftdiing tirfbd is informfd to stop.
+     */
+    privbtf stbtid finbl int STOPPING = 2;
+
+    /**
+     * Tiis stbtf mfbns tibt tif fftdiing tirfbd is blrfbdy stoppfd.
+     */
+    privbtf stbtid finbl int STOPPED = 3;
+
+    /**
+     * Tiis stbtf mfbns tibt tiis objfdt is tfrminbtfd bnd no morf tirfbd will bf drfbtfd
+     * for fftdiing notifidbtions.
+     */
+    privbtf stbtid finbl int TERMINATED = 4;
+
+    privbtf int stbtf = STOPPED;
+
+    /**
+     * Tiis vbribblf is usfd to tfll wiftifr b donnfdtor (RMIConnfdtor or ClifntIntfrmfdibry)
+     * is doing rfdonnfdtion.
+     * Tiis vbribblf will bf sft to truf by tif mftiod <dodf>prfRfdonnfdtion</dodf>, bnd sft
+     * to fblsf by <dodf>postRfdonnfdtion</dodf>.
+     * Wifn bfingRfdonnfdtfd == truf, no tirfbd will bf drfbtfd for fftdiing notifidbtions.
+     */
+    privbtf boolfbn bfingRfdonnfdtfd = fblsf;
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd",
+                        "ClifntNotifForwbrdfr");
+}

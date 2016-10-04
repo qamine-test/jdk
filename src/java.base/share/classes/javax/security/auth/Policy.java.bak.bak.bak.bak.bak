@@ -1,0 +1,362 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buti;
+
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Objfdts;
+import sun.sfdurity.util.Dfbug;
+
+/**
+ * <p> Tiis is bn bbstrbdt dlbss for rfprfsfnting tif systfm polidy for
+ * Subjfdt-bbsfd butiorizbtion.  A subdlbss implfmfntbtion
+ * of tiis dlbss providfs b mfbns to spfdify b Subjfdt-bbsfd
+ * bddfss dontrol {@dodf Polidy}.
+ *
+ * <p> A {@dodf Polidy} objfdt dbn bf qufrifd for tif sft of
+ * Pfrmissions grbntfd to dodf running bs b
+ * {@dodf Prindipbl} in tif following mbnnfr:
+ *
+ * <prf>
+ *      polidy = Polidy.gftPolidy();
+ *      PfrmissionCollfdtion pfrms = polidy.gftPfrmissions(subjfdt,
+ *                                                      dodfSourdf);
+ * </prf>
+ *
+ * Tif {@dodf Polidy} objfdt donsults tif lodbl polidy bnd rfturns
+ * bnd bppropribtf {@dodf Pfrmissions} objfdt witi tif
+ * Pfrmissions grbntfd to tif Prindipbls bssodibtfd witi tif
+ * providfd <i>subjfdt</i>, bnd grbntfd to tif dodf spfdififd
+ * by tif providfd <i>dodfSourdf</i>.
+ *
+ * <p> A {@dodf Polidy} dontbins tif following informbtion.
+ * Notf tibt tiis fxbmplf only rfprfsfnts tif syntbx for tif dffbult
+ * {@dodf Polidy} implfmfntbtion. Subdlbss implfmfntbtions of tiis dlbss
+ * mby implfmfnt bltfrnbtivf syntbxfs bnd mby rftrifvf tif
+ * {@dodf Polidy} from bny sourdf sudi bs filfs, dbtbbbsfs,
+ * or sfrvfrs.
+ *
+ * <p> Ebdi fntry in tif {@dodf Polidy} is rfprfsfntfd bs
+ * b <b><i>grbnt</i></b> fntry.  Ebdi <b><i>grbnt</i></b> fntry
+ * spfdififs b dodfbbsf, dodf signfrs, bnd Prindipbls triplft,
+ * bs wfll bs tif Pfrmissions grbntfd to tibt triplft.
+ *
+ * <prf>
+ *      grbnt CodfBbsf ["URL"], Signfdby ["signfrs"],
+ *            Prindipbl [Prindipbl_Clbss] "Prindipbl_Nbmf" {
+ *          Pfrmission Pfrmission_Clbss ["Tbrgft_Nbmf"]
+ *                                      [, "Pfrmission_Adtions"]
+ *                                      [, signfdBy "SignfrNbmf"];
+ *      };
+ * </prf>
+ *
+ * Tif CodfBbsf bnd Signfdby domponfnts of tif triplft nbmf/vbluf pbirs
+ * brf optionbl.  If tify brf not prfsfnt, tifn bny bny dodfbbsf will mbtdi,
+ * bnd bny signfr (indluding unsignfd dodf) will mbtdi.
+ * For Exbmplf,
+ *
+ * <prf>
+ *      grbnt CodfBbsf "foo.dom", Signfdby "foo",
+ *            Prindipbl dom.sun.sfdurity.buti.SolbrisPrindipbl "dukf" {
+ *          pfrmission jbvb.io.FilfPfrmission "/iomf/dukf", "rfbd, writf";
+ *      };
+ * </prf>
+ *
+ * Tiis <b><i>grbnt</i></b> fntry spfdififs tibt dodf from "foo.dom",
+ * signfd by "foo', bnd running bs b {@dodf SolbrisPrindipbl} witi tif
+ * nbmf, dukf, ibs onf {@dodf Pfrmission}.  Tiis {@dodf Pfrmission}
+ * pfrmits tif fxfduting dodf to rfbd bnd writf filfs in tif dirfdtory,
+ * "/iomf/dukf".
+ *
+ * <p> To "run" bs b pbrtidulbr {@dodf Prindipbl},
+ * dodf invokfs tif {@dodf Subjfdt.doAs(subjfdt, ...)} mftiod.
+ * Aftfr invoking tibt mftiod, tif dodf runs bs bll tif Prindipbls
+ * bssodibtfd witi tif spfdififd {@dodf Subjfdt}.
+ * Notf tibt tiis {@dodf Polidy} (bnd tif Pfrmissions
+ * grbntfd in tiis {@dodf Polidy}) only bfdomf ffffdtivf
+ * bftfr tif dbll to {@dodf Subjfdt.doAs} ibs oddurrfd.
+ *
+ * <p> Multiplf Prindipbls mby bf listfd witiin onf <b><i>grbnt</i></b> fntry.
+ * All tif Prindipbls in tif grbnt fntry must bf bssodibtfd witi
+ * tif {@dodf Subjfdt} providfd to {@dodf Subjfdt.doAs}
+ * for tibt {@dodf Subjfdt} to bf grbntfd tif spfdififd Pfrmissions.
+ *
+ * <prf>
+ *      grbnt Prindipbl dom.sun.sfdurity.buti.SolbrisPrindipbl "dukf",
+ *            Prindipbl dom.sun.sfdurity.buti.SolbrisNumfridUsfrPrindipbl "0" {
+ *          pfrmission jbvb.io.FilfPfrmission "/iomf/dukf", "rfbd, writf";
+ *          pfrmission jbvb.nft.SodkftPfrmission "dukf.dom", "donnfdt";
+ *      };
+ * </prf>
+ *
+ * Tiis fntry grbnts bny dodf running bs boti "dukf" bnd "0"
+ * pfrmission to rfbd bnd writf filfs in dukf's iomf dirfdtory,
+ * bs wfll bs pfrmission to mbkf sodkft donnfdtions to "dukf.dom".
+ *
+ * <p> Notf tibt non Prindipbl-bbsfd grbnt fntrifs brf not pfrmittfd
+ * in tiis {@dodf Polidy}.  Tifrfforf, grbnt fntrifs sudi bs:
+ *
+ * <prf>
+ *      grbnt CodfBbsf "foo.dom", Signfdby "foo" {
+ *          pfrmission jbvb.io.FilfPfrmission "/tmp/sdrbtdi", "rfbd, writf";
+ *      };
+ * </prf>
+ *
+ * brf rfjfdtfd.  Sudi pfrmission must bf listfd in tif
+ * {@dodf jbvb.sfdurity.Polidy}.
+ *
+ * <p> Tif dffbult {@dodf Polidy} implfmfntbtion dbn bf dibngfd by
+ * sftting tif vbluf of tif {@dodf buti.polidy.providfr} sfdurity propfrty to
+ * tif fully qublififd nbmf of tif dfsirfd {@dodf Polidy} implfmfntbtion dlbss.
+ *
+ * @dfprfdbtfd  bs of JDK vfrsion 1.4 -- Rfplbdfd by jbvb.sfdurity.Polidy.
+ *              jbvb.sfdurity.Polidy ibs b mftiod:
+ * <prf>
+ *      publid PfrmissionCollfdtion gftPfrmissions
+ *          (jbvb.sfdurity.ProtfdtionDombin pd)
+ *
+ * </prf>
+ * bnd ProtfdtionDombin ibs b donstrudtor:
+ * <prf>
+ *      publid ProtfdtionDombin
+ *          (CodfSourdf ds,
+ *           PfrmissionCollfdtion pfrmissions,
+ *           ClbssLobdfr lobdfr,
+ *           Prindipbl[] prindipbls)
+ * </prf>
+ *
+ * Tifsf two APIs providf dbllfrs tif mfbns to qufry tif
+ * Polidy for Prindipbl-bbsfd Pfrmission fntrifs.
+ *
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+@Dfprfdbtfd
+publid bbstrbdt dlbss Polidy {
+
+    privbtf stbtid Polidy polidy;
+    privbtf finbl stbtid String AUTH_POLICY =
+        "sun.sfdurity.providfr.AutiPolidyFilf";
+
+    privbtf finbl jbvb.sfdurity.AddfssControlContfxt bdd =
+            jbvb.sfdurity.AddfssControllfr.gftContfxt();
+
+    // truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt is sft
+    privbtf stbtid boolfbn isCustomPolidy;
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd Polidy() { }
+
+    /**
+     * Rfturns tif instbllfd Polidy objfdt.
+     * Tiis mftiod first dblls
+     * {@dodf SfdurityMbnbgfr.difdkPfrmission} witi tif
+     * {@dodf AutiPfrmission("gftPolidy")} pfrmission
+     * to fnsurf tif dbllfr ibs pfrmission to gft tif Polidy objfdt.
+     *
+     * <p>
+     *
+     * @rfturn tif instbllfd Polidy.  Tif rfturn vbluf dbnnot bf
+     *          {@dodf null}.
+     *
+     * @fxdfption jbvb.lbng.SfdurityExdfption if tif durrfnt tirfbd dofs not
+     *      ibvf pfrmission to gft tif Polidy objfdt.
+     *
+     * @sff #sftPolidy
+     */
+    publid stbtid Polidy gftPolidy() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(nfw AutiPfrmission("gftPolidy"));
+        rfturn gftPolidyNoCifdk();
+    }
+
+    /**
+     * Rfturns tif instbllfd Polidy objfdt, skipping tif sfdurity difdk.
+     *
+     * @rfturn tif instbllfd Polidy.
+     *
+     */
+    stbtid Polidy gftPolidyNoCifdk() {
+        if (polidy == null) {
+
+            syndironizfd(Polidy.dlbss) {
+
+                if (polidy == null) {
+                    String polidy_dlbss = null;
+                    polidy_dlbss = AddfssControllfr.doPrivilfgfd
+                        (nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn jbvb.sfdurity.Sfdurity.gftPropfrty
+                                ("buti.polidy.providfr");
+                        }
+                    });
+                    if (polidy_dlbss == null) {
+                        polidy_dlbss = AUTH_POLICY;
+                    }
+
+                    try {
+                        finbl String finblClbss = polidy_dlbss;
+
+                        Polidy untrustfdImpl = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<Polidy>() {
+                                    publid Polidy run() tirows ClbssNotFoundExdfption,
+                                            InstbntibtionExdfption,
+                                            IllfgblAddfssExdfption {
+                                        Clbss<? fxtfnds Polidy> implClbss = Clbss.forNbmf(
+                                                finblClbss, fblsf,
+                                                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr()
+                                        ).bsSubdlbss(Polidy.dlbss);
+                                        rfturn implClbss.nfwInstbndf();
+                                    }
+                                });
+                        AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                                    publid Void run() {
+                                        sftPolidy(untrustfdImpl);
+                                        isCustomPolidy = !finblClbss.fqubls(AUTH_POLICY);
+                                        rfturn null;
+                                    }
+                                }, Objfdts.rfquirfNonNull(untrustfdImpl.bdd)
+                        );
+                    } dbtdi (Exdfption f) {
+                        tirow nfw SfdurityExdfption
+                                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                                ("unbblf.to.instbntibtf.Subjfdt.bbsfd.polidy"));
+                    }
+                }
+            }
+        }
+        rfturn polidy;
+    }
+
+
+    /**
+     * Sfts tif systfm-widf Polidy objfdt. Tiis mftiod first dblls
+     * {@dodf SfdurityMbnbgfr.difdkPfrmission} witi tif
+     * {@dodf AutiPfrmission("sftPolidy")}
+     * pfrmission to fnsurf tif dbllfr ibs pfrmission to sft tif Polidy.
+     *
+     * <p>
+     *
+     * @pbrbm polidy tif nfw systfm Polidy objfdt.
+     *
+     * @fxdfption jbvb.lbng.SfdurityExdfption if tif durrfnt tirfbd dofs not
+     *          ibvf pfrmission to sft tif Polidy.
+     *
+     * @sff #gftPolidy
+     */
+    publid stbtid void sftPolidy(Polidy polidy) {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(nfw AutiPfrmission("sftPolidy"));
+        Polidy.polidy = polidy;
+        // bll non-null polidy objfdts brf bssumfd to bf dustom
+        isCustomPolidy = polidy != null ? truf : fblsf;
+    }
+
+    /**
+     * Rfturns truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt
+     * ibs bffn sft or instbllfd. Tiis mftiod is dbllfd by
+     * SubjfdtDombinCombinfr to providf bbdkwbrds dompbtibility for
+     * dfvflopfrs tibt providf tifir own jbvbx.sfdurity.buti.Polidy
+     * implfmfntbtions.
+     *
+     * @rfturn truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt
+     * ibs bffn sft; fblsf otifrwisf
+     */
+    stbtid boolfbn isCustomPolidySft(Dfbug dfbug) {
+        if (polidy != null) {
+            if (dfbug != null && isCustomPolidy) {
+                dfbug.println("Providing bbdkwbrds dompbtibility for " +
+                              "jbvbx.sfdurity.buti.polidy implfmfntbtion: " +
+                              polidy.toString());
+            }
+            rfturn isCustomPolidy;
+        }
+        // difdk if dustom polidy ibs bffn sft using buti.polidy.providfr prop
+        String polidyClbss = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty("buti.polidy.providfr");
+                }
+        });
+        if (polidyClbss != null && !polidyClbss.fqubls(AUTH_POLICY)) {
+            if (dfbug != null) {
+                dfbug.println("Providing bbdkwbrds dompbtibility for " +
+                              "jbvbx.sfdurity.buti.polidy implfmfntbtion: " +
+                              polidyClbss);
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rftrifvf tif Pfrmissions grbntfd to tif Prindipbls bssodibtfd witi
+     * tif spfdififd {@dodf CodfSourdf}.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt tif {@dodf Subjfdt}
+     *                  wiosf bssodibtfd Prindipbls,
+     *                  in donjundtion witi tif providfd
+     *                  {@dodf CodfSourdf}, dftfrminfs tif Pfrmissions
+     *                  rfturnfd by tiis mftiod.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
+     *
+     * @pbrbm ds tif dodf spfdififd by its {@dodf CodfSourdf}
+     *                  tibt dftfrminfs, in donjundtion witi tif providfd
+     *                  {@dodf Subjfdt}, tif Pfrmissions
+     *                  rfturnfd by tiis mftiod.  Tiis pbrbmftfr mby bf
+     *                  {@dodf null}.
+     *
+     * @rfturn tif Collfdtion of Pfrmissions grbntfd to bll tif
+     *                  {@dodf Subjfdt} bnd dodf spfdififd in
+     *                  tif providfd <i>subjfdt</i> bnd <i>ds</i>
+     *                  pbrbmftfrs.
+     */
+    publid bbstrbdt jbvb.sfdurity.PfrmissionCollfdtion gftPfrmissions
+                                        (Subjfdt subjfdt,
+                                        jbvb.sfdurity.CodfSourdf ds);
+
+    /**
+     * Rffrfsi bnd rflobd tif Polidy.
+     *
+     * <p>Tiis mftiod dbusfs tiis objfdt to rffrfsi/rflobd its durrfnt
+     * Polidy. Tiis is implfmfntbtion-dfpfndfnt.
+     * For fxbmplf, if tif Polidy objfdt is storfd in
+     * b filf, dblling {@dodf rffrfsi} will dbusf tif filf to bf rf-rfbd.
+     *
+     * <p>
+     *
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                          to rffrfsi tif Polidy.
+     */
+    publid bbstrbdt void rffrfsi();
+}

@@ -1,0 +1,109 @@
+/*
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+import jbvb.nft.SodkftAddrfss;
+
+/**
+ * Notifidbtion fmittfd wifn b dfstinbtion bddrfss on b multi-iomfd pffr
+ * fndountfrs b dibngf.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss PffrAddrfssCibngfNotifidbtion
+    implfmfnts Notifidbtion
+{
+    /**
+     * Dffinfs tif typf of bddrfss dibngf fvfnt tibt oddurrfd to tif dfstinbtion
+     * bddrfss on b multi-iomfd pffr wifn it fndountfrs b dibngf of intfrfbdf
+     * dftbils.
+     *
+     * <P> Somf of tifsf fvfnts typfs brf only gfnfrbtfd wifn tif bssodibtion
+     * supports dynbmid bddrfss rfdonfigurbtion, f.g. {@dodf SCTP_ADDR_ADDED},
+     * {@dodf SCTP_ADDR_REMOVED}, ftd.
+     *
+     * @sindf 1.7
+     */
+    @jdk.Exportfd
+    publid fnum AddrfssCibngfEvfnt {
+        /**
+         * Tiis bddrfss is now rfbdibblf.
+         */
+       ADDR_AVAILABLE,
+
+       /**
+        * Tif bddrfss spfdififd dbn no longfr bf rfbdifd. Any dbtb sfnt to tiis
+        * bddrfss is rfroutfd to bn bltfrnbtf until tiis bddrfss bfdomfs rfbdibblf.
+        */
+       ADDR_UNREACHABLE,
+
+       /**
+        * Tif bddrfss is no longfr pbrt of tif bssodibtion.
+        */
+       ADDR_REMOVED,
+
+       /**
+        * Tif bddrfss is now pbrt of tif bssodibtion.
+        */
+       ADDR_ADDED,
+
+       /**
+        * Tiis bddrfss ibs now bffn mbdf to bf tif primbry dfstinbtion bddrfss.
+        */
+       ADDR_MADE_PRIMARY,
+
+       /**
+        * Tiis bddrfss ibs now bffn donfirmfd bs b vblid bddrfss.
+        */
+       ADDR_CONFIRMED;
+    }
+
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     */
+    protfdtfd PffrAddrfssCibngfNotifidbtion() {}
+
+    /**
+     * Rfturns tif pffr bddrfss.
+     *
+     * @rfturn  Tif pffr bddrfss
+     */
+    publid bbstrbdt SodkftAddrfss bddrfss();
+
+    /**
+     * Rfturns tif bssodibtion tibt tiis notifidbtion is bpplidbblf to.
+     *
+     * @rfturn  Tif bssodibtion wiosf pffr bddrfss dibngfd
+     */
+    publid bbstrbdt Assodibtion bssodibtion();
+
+    /**
+     * Rfturns tif typf of dibngf fvfnt.
+     *
+     * @rfturn  Tif fvfnt
+     */
+    publid bbstrbdt AddrfssCibngfEvfnt fvfnt();
+}

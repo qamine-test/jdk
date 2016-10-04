@@ -1,0 +1,203 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+/**
+ * Tiis dlbss spfdififs tif pbrbmftfrs usfd witi tif
+ * <b irff="ittp://www.iftf.org/rfd/rfd2040.txt"><i>RC5</i></b>
+ * blgoritim.
+ *
+ * <p> Tif pbrbmftfrs donsist of b vfrsion numbfr, b rounds dount, b word
+ * sizf, bnd optionblly bn initiblizbtion vfdtor (IV) (only in fffdbbdk modf).
+ *
+ * <p> Tiis dlbss dbn bf usfd to initiblizf b <dodf>Cipifr</dodf> objfdt tibt
+ * implfmfnts tif <i>RC5</i> blgoritim bs supplifd by
+ * <b irff="ittp://www.rsbsfdurity.dom">RSA Sfdurity Ind.</b>,
+ * or bny pbrtifs butiorizfd by RSA Sfdurity.
+ *
+ * @butior Jbn Lufif
+ *
+ * @sindf 1.4
+ */
+publid dlbss RC5PbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
+
+    privbtf bytf[] iv = null;
+    privbtf int vfrsion;
+    privbtf int rounds;
+    privbtf int wordSizf; // tif word sizf in bits
+
+    /**
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds bnd word sizf (in bits).
+     *
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
+     */
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf) {
+        tiis.vfrsion = vfrsion;
+        tiis.rounds = rounds;
+        tiis.wordSizf = wordSizf;
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds, word sizf (in bits), bnd IV.
+     *
+     * <p> Notf tibt tif sizf of tif IV (blodk sizf) must bf twidf tif word
+     * sizf. Tif bytfs tibt donstitutf tif IV brf tiosf bftwffn
+     * <dodf>iv[0]</dodf> bnd <dodf>iv[2*(wordSizf/8)-1]</dodf> indlusivf.
+     *
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
+     * @pbrbm iv tif bufffr witi tif IV. Tif first <dodf>2*(wordSizf/8)
+     * </dodf> bytfs of tif bufffr brf dopifd to protfdt bgbinst subsfqufnt
+     * modifidbtion.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is
+     * <dodf>null</dodf> or {@dodf (iv.lfngti < 2 * (wordSizf / 8))}
+     */
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf, bytf[] iv) {
+        tiis(vfrsion, rounds, wordSizf, iv, 0);
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds, word sizf (in bits), bnd IV.
+     *
+     * <p> Tif IV is tbkfn from <dodf>iv</dodf>, stbrting bt
+     * <dodf>offsft</dodf> indlusivf.
+     * Notf tibt tif sizf of tif IV (blodk sizf), stbrting bt
+     * <dodf>offsft</dodf> indlusivf, must bf twidf tif word sizf.
+     * Tif bytfs tibt donstitutf tif IV brf tiosf bftwffn
+     * <dodf>iv[offsft]</dodf> bnd <dodf>iv[offsft+2*(wordSizf/8)-1]</dodf>
+     * indlusivf.
+     *
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
+     * @pbrbm iv tif bufffr witi tif IV. Tif first <dodf>2*(wordSizf/8)
+     * </dodf> bytfs of tif bufffr bfginning bt <dodf>offsft</dodf>
+     * indlusivf brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft tif offsft in <dodf>iv</dodf> wifrf tif IV stbrts.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is
+     * <dodf>null</dodf> or
+     * {@dodf (iv.lfngti - offsft < 2 * (wordSizf / 8))}
+     */
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf,
+                            bytf[] iv, int offsft) {
+        tiis.vfrsion = vfrsion;
+        tiis.rounds = rounds;
+        tiis.wordSizf = wordSizf;
+        if (iv == null) tirow nfw IllfgblArgumfntExdfption("IV missing");
+        int blodkSizf = (wordSizf / 8) * 2;
+        if (iv.lfngti - offsft < blodkSizf) {
+            tirow nfw IllfgblArgumfntExdfption("IV too siort");
+        }
+        tiis.iv = nfw bytf[blodkSizf];
+        Systfm.brrbydopy(iv, offsft, tiis.iv, 0, blodkSizf);
+    }
+
+    /**
+     * Rfturns tif vfrsion.
+     *
+     * @rfturn tif vfrsion.
+     */
+    publid int gftVfrsion() {
+        rfturn tiis.vfrsion;
+    }
+
+    /**
+     * Rfturns tif numbfr of rounds.
+     *
+     * @rfturn tif numbfr of rounds.
+     */
+    publid int gftRounds() {
+        rfturn tiis.rounds;
+    }
+
+    /**
+     * Rfturns tif word sizf in bits.
+     *
+     * @rfturn tif word sizf in bits.
+     */
+    publid int gftWordSizf() {
+        rfturn tiis.wordSizf;
+    }
+
+    /**
+     * Rfturns tif IV or null if tiis pbrbmftfr sft dofs not dontbin bn IV.
+     *
+     * @rfturn tif IV or null if tiis pbrbmftfr sft dofs not dontbin bn IV.
+     * Rfturns b nfw brrby fbdi timf tiis mftiod is dbllfd.
+     */
+    publid bytf[] gftIV() {
+        rfturn (iv == null? null:iv.dlonf());
+    }
+
+   /**
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * objfdt. Two RC5PbrbmftfrSpfd objfdts brf donsidfrfd fqubl if tifir
+     * vfrsion numbfrs, numbfr of rounds, word sizfs, bnd IVs brf fqubl.
+     * (Two IV rfffrfndfs brf donsidfrfd fqubl if boti brf <tt>null</tt>.)
+     *
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
+     *
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf if
+     * <dodf>obj</dodf> is null or otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof RC5PbrbmftfrSpfd)) {
+            rfturn fblsf;
+        }
+        RC5PbrbmftfrSpfd otifr = (RC5PbrbmftfrSpfd) obj;
+
+        rfturn ((vfrsion == otifr.vfrsion) &&
+                (rounds == otifr.rounds) &&
+                (wordSizf == otifr.wordSizf) &&
+                jbvb.util.Arrbys.fqubls(iv, otifr.iv));
+    }
+
+    /**
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.
+     * Objfdts tibt brf fqubl will blso ibvf tif sbmf ibsidodf.
+     */
+    publid int ibsiCodf() {
+        int rftvbl = 0;
+        if (iv != null) {
+            for (int i = 1; i < iv.lfngti; i++) {
+                rftvbl += iv[i] * i;
+            }
+        }
+        rftvbl += (vfrsion + rounds + wordSizf);
+        rfturn rftvbl;
+    }
+}

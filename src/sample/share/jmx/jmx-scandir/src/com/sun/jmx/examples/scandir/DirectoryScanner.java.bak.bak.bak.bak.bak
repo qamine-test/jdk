@@ -1,0 +1,591 @@
+/*
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.gftNfxtSfqNumbfr;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig.Adtion.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig.Adtion;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import jbvb.io.Filf;
+import jbvb.io.FilfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.LinkfdList;
+import jbvb.util.Sft;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+
+/**
+ * A <dodf>DirfdtorySdbnnfr</dodf> is bn MBfbn tibt
+ * sdbns b filf systfm stbrting bt b givfn root dirfdtory,
+ * bnd tifn looks for filfs tibt mbtdi b givfn dritfrib.
+ * <p>
+ * Wifn sudi b filf is found, tif <dodf>DirfdtorySdbnnfr</dodf> tbkfs
+ * tif bdtion for wiidi it wbs donfigurfd: fmit b notifidbtion,
+ * <i>bnd or</i> log b {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord} for tiis filf,
+ * <i>bnd or</i> dflftf tibt filf.
+ * </p>
+ * <p>
+ * Tif dodf tibt would bdtublly dflftf tif filf is dommfntfd out - so tibt
+ * notiing vblubblf is lost if tiis fxbmplf is run by mistbkf on tif wrong
+ * sft of dirfdtorifs.<br>
+ * Loggfd rfsults brf loggfd by sfnding tifm to tif {@link RfsultLogMbnbgfr}.
+ * </p>
+ * <p>
+ * <dodf>DirfdtorySdbnnfrMXBfbns</dodf> brf drfbtfd, initiblizfd, bnd
+ * rfgistfrfd by tif {@link SdbnMbnbgfrMXBfbn}.
+ * Tif {@link SdbnMbnbgfrMXBfbn} will blso sdifdulf bnd run tifm in
+ * bbdkground by dblling tifir {@link #sdbn} mftiod.
+ * </p>
+ * <p>Clifnt dodf is not fxpfdtfd to drfbtf or rfgistfr dirfdtly bny sudi
+ * MBfbn. Instfbd, dlifnts brf fxpfdtfd to modify tif donfigurbtion, using
+ * tif {@link SdbnDirConfigMXBfbn}, bnd tifn bpply it, using tif {@link
+ * SdbnMbnbgfrMXBfbn}. Instbndfs of <dodf>DirfdtorySdbnnfrMXBfbns</dodf>
+ * will tifn bf drfbtfd bnd rfgistfrfd (or unrfgistfrfd bnd gbrbbgf dollfdtfd)
+ * bs b sidf ffffdt of bpplying tibt donfigurbtion.
+ * </p>
+ *
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
+ */
+publid dlbss DirfdtorySdbnnfr implfmfnts
+        DirfdtorySdbnnfrMXBfbn, NotifidbtionEmittfr {
+
+    /**
+     * Tif typf for <i>dom.sun.jmx.fxbmplfs.sdbndir.filfmbtdi</i> notifidbtions.
+     * Notifidbtions of tiis typf will bf fmittfd wifnfvfr b filf tibt
+     * mbtdifs tiis {@dodf DirfdtorySdbnnfr} dritfrib is found, but only if
+     * tiis {@dodf DirfdtorySdbnnfr} wbs donfigurfd to {@link
+     * Adtion#NOTIFY notify} for mbtdiing filfs.
+     **/
+    publid stbtid finbl String FILE_MATCHES_NOTIFICATION =
+            "dom.sun.jmx.fxbmplfs.sdbndir.filfmbtdi";
+
+    /**
+     * A loggfr for tiis dlbss.
+     **/
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(DirfdtorySdbnnfr.dlbss.gftNbmf());
+
+    // Attributf : Stbtf
+    //
+    privbtf volbtilf SdbnStbtf stbtf = STOPPED;
+
+    // Tif DirfdtorySdbnnfr dflfgbtfs tif implfmfntbtion of
+    // tif NotifidbtionEmittfr intfrfbdf to b wrbppfd instbndf
+    // of NotifidbtionBrobddbstfrSupport.
+    //
+    privbtf finbl NotifidbtionBrobddbstfrSupport brobddbstfr;
+
+    // Tif root dirfdtory bt wiidi tiis DirfdtorySdbnnfr will stbrt
+    // sdbnning. Construdtfd from donfig.gftRootDirfdtory().
+    //
+    privbtf finbl Filf rootFilf;
+
+    // Tiis DirfdtorySdbnnfr donfig - tiis is b donstbnt wiidi is
+    // providfd bt donstrudtion timf by tif {@link SdbnMbnbgfr}.
+    //
+    privbtf finbl DirfdtorySdbnnfrConfig donfig;
+
+    // Tif sft of bdtions for wiidi tiis DirfdtorySdbnnfr is donfigurfd.
+    // Construdtfd from donfig.gftAdtions()
+    //
+    finbl Sft<Adtion> bdtions;
+
+    // Tif RfsultLogMbnbgfr tibt tiis DirfdtorySdbnnfr will usf to log
+    // info. Tiis is b ibrd rfffrfndf to bnotifr MBfbn, providfd
+    // bt donstrudtion timf by tif SdbnMbnbgfr.
+    // Tif SdbnMbnbgfr mbkfs surf tibt tif liff dydlf of tifsf two MBfbns
+    // is donsistfnt.
+    //
+    finbl RfsultLogMbnbgfr logMbnbgfr;
+
+    /**
+     * Construdts b nfw {@dodf DirfdtorySdbnnfr}.
+     * <p>Tiis donstrudtor is
+     * pbdkbgf protfdtfd, bnd tiis MBfbn dbnnot bf drfbtfd by b rfmotf
+     * dlifnt, bfdbusf it nffds b rfffrfndf to tif {@link RfsultLogMbnbgfr},
+     * wiidi dbnnot bf providfd from rfmotf.
+     * </p>
+     * <p>Tiis is b donsdious dfsign dioidf: {@dodf DirfdtorySdbnnfr} MBfbns
+     * brf fxpfdtfd to bf domplftfly mbnbgfd (drfbtfd, rfgistfrfd, unrfgistfrfd)
+     * by tif {@link SdbnMbnbgfr} wiidi dofs providf tiis rfffrfndf.
+     * </p>
+     *
+     * @pbrbm donfig Tiis {@dodf DirfdtorySdbnnfr} donfigurbtion.
+     * @pbrbm logMbnbgfr Tif info log mbnbgfr witi wiidi to log tif info
+     *        rfdords.
+     * @tirows IllfgblArgumfntExdfption if onf of tif pbrbmftfr is null, or if
+     *         tif providfd {@dodf donfig} dofsn't ibvf its {@dodf nbmf} sft,
+     *         or if tif {@link DirfdtorySdbnnfrConfig#gftRootDirfdtory
+     *         root dirfdtory} providfd in tif {@dodf donfig} is not bddfptbblf
+     *         (not providfd or not found or not rfbdbblf, ftd...).
+     **/
+    publid DirfdtorySdbnnfr(DirfdtorySdbnnfrConfig donfig,
+                            RfsultLogMbnbgfr logMbnbgfr)
+        tirows IllfgblArgumfntExdfption {
+        if (logMbnbgfr == null)
+            tirow nfw IllfgblArgumfntExdfption("log=null");
+        if (donfig == null)
+            tirow nfw IllfgblArgumfntExdfption("donfig=null");
+        if (donfig.gftNbmf() == null)
+            tirow nfw IllfgblArgumfntExdfption("donfig.nbmf=null");
+
+         brobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
+
+         // Clonf tif donfig: fnsurf dbtb fndbpsulbtion.
+         //
+         tiis.donfig = XmlConfigUtils.xmlClonf(donfig);
+
+         // Cifdks tibt tif providfd root dirfdtory is vblid.
+         // Tirows IllfgblArgumfntExdfption if it isn't.
+         //
+         rootFilf = vblidbtfRoot(donfig.gftRootDirfdtory());
+
+         // Initiblizf tif Sft<Adtion> for wiidi tiis DirfdtorySdbnnfr
+         // is donfigurfd.
+         //
+         if (donfig.gftAdtions() == null)
+             bdtions = Collfdtions.fmptySft();
+         flsf
+             bdtions = EnumSft.dopyOf(Arrbys.bsList(donfig.gftAdtions()));
+         tiis.logMbnbgfr = logMbnbgfr;
+    }
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid void stop() {
+        // switdi stbtf to stop bnd sfnd AttributfVblufCibngfNotifidbtion
+        sftStbtfAndNotify(STOPPED);
+    }
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid String gftRootDirfdtory() {
+        rfturn rootFilf.gftAbsolutfPbti();
+    }
+
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid SdbnStbtf gftStbtf() {
+        rfturn stbtf;
+    }
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid DirfdtorySdbnnfrConfig gftConfigurbtion() {
+        rfturn donfig;
+    }
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid String gftCurrfntSdbnInfo() {
+        finbl SdbnTbsk durrfntOrLbstTbsk = durrfntTbsk;
+        if (durrfntOrLbstTbsk == null) rfturn "Nfvfr Run";
+        rfturn durrfntOrLbstTbsk.gftSdbnInfo();
+    }
+
+    // Tiis vbribblf points to tif durrfnt (or lbtfst) sdbn.
+    //
+    privbtf volbtilf SdbnTbsk durrfntTbsk = null;
+
+    // sff DirfdtorySdbnnfrMXBfbn
+    publid void sdbn() {
+        finbl SdbnTbsk tbsk;
+
+        syndironizfd (tiis) {
+            finbl LinkfdList<Filf> list;
+            switdi (stbtf) {
+                dbsf RUNNING:
+                dbsf SCHEDULED:
+                    tirow nfw IllfgblStbtfExdfption(stbtf.toString());
+                dbsf STOPPED:
+                dbsf COMPLETED:
+                    // only bddfpt to sdbn if stbtf is STOPPED or COMPLETED.
+                    list = nfw LinkfdList<Filf>();
+                    list.bdd(rootFilf);
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblStbtfExdfption(String.vblufOf(stbtf));
+            }
+
+            // Crfbtf b nfw SdbnTbsk objfdt for our root dirfdtory filf.
+            //
+            durrfntTbsk = tbsk = nfw SdbnTbsk(list,tiis);
+
+            // trbnsifnt stbtf... will bf switdifd to RUNNING wifn
+            // tbsk.fxfdutf() is dbllfd. Tiis dodf dould in fbdt bf modififd
+            // to usf jbvb.util.dondurfnt.Futurf bnd, to pusi tif tbsk to
+            // bn fxfdutor. Wf would tifn nffd to wbit for tif tbsk to
+            // domplftf bfforf rfturning.  Howfvfr, tiis wouldn't buy us
+            // bnytiing - sindf tiis mftiod siould wbit for tif tbsk to
+            // finisi bnywby: so wiy would wf do it?
+            // As it stbnds, wf simply dbll tbsk.fxfdutf() in tif durrfnt
+            // tirfbd - brbvf bnd ffbrlfss rfbdfrs mby wbnt to bttfmpt tif
+            // modifidbtion ;-)
+            //
+            sftStbtfAndNotify(SCHEDULED);
+        }
+        tbsk.fxfdutf();
+    }
+
+    // Tiis mftiod is invokfd to dbrry out tif donfigurfd bdtions on b
+    // mbtdiing filf.
+    // Do not dbll tiis mftiod from witiin syndironizfd() { } bs tiis
+    // mftiod mby sfnd notifidbtions!
+    //
+    void bdtOn(Filf filf) {
+
+        // Wiidi bdtion wfrf bdtublly tbkfn
+        //
+        finbl Sft<Adtion> tbkfn = nfw HbsiSft<Adtion>();
+        boolfbn logrfsult = fblsf;
+
+        // Cifdk out wiidi bdtions brf donfigurfd bnd dbrry tifm out.
+        //
+        for (Adtion bdtion : bdtions) {
+            switdi (bdtion) {
+                dbsf DELETE:
+                    if (dflftfFilf(filf)) {
+                        // Dflftf suddffdfd: bdd DELETE to tif sft of
+                        // bdtions dbrrifd out.
+                        tbkfn.bdd(DELETE);
+                    }
+                    brfbk;
+                dbsf NOTIFY:
+                    if (notifyMbtdi(filf)) {
+                        // Notify suddffdfd: bdd NOTIFY to tif sft of
+                        // bdtions dbrrifd out.
+                        tbkfn.bdd(NOTIFY);
+                    }
+                    brfbk;
+                dbsf LOGRESULT:
+                    // LOGRESULT wbs donfigurfd - log bdtions dbrrifd out.
+                    // => wf must fxfdutf tiis bdtion bs tif lbst bdtion.
+                    //    simply sft logrfsult=truf for now. Wf will do
+                    //    tif logging lbtfr
+                    logrfsult = truf;
+                    brfbk;
+                dffbult:
+                    LOG.finf("Fbilfd to fxfdutf bdtion: " +bdtion +
+                            " - bdtion not supportfd");
+                    brfbk;
+            }
+        }
+
+        // Now is timf for logging:
+        if (logrfsult) {
+            tbkfn.bdd(LOGRESULT);
+            if (!logRfsult(filf,tbkfn.toArrby(nfw Adtion[tbkfn.sizf()])))
+                tbkfn.rfmovf(LOGRESULT); // just for tif lbst trbdf bflow...
+        }
+
+        LOG.finfst("Filf prodfssfd: "+tbkfn+" - "+filf.gftAbsolutfPbti());
+    }
+
+    // Dflftfs b mbtdiing filf.
+    privbtf boolfbn dflftfFilf(Filf filf) {
+        try {
+            // filf.dflftf() is dommfntfd so tibt wf don't do bnytiing
+            // bbd if tif fxbmplf is mistbkfnly run on tif wrong sft of
+            // dirfdtorifs.
+            //
+            /* filf.dflftf(); */
+            Systfm.out.println("DELETE not implfmfntfd for sbffty rfbsons.");
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to dflftf: "+filf.gftAbsolutfPbti());
+        }
+        rfturn fblsf;
+    }
+
+    // Notififs of b mbtdiing filf.
+    privbtf boolfbn notifyMbtdi(Filf filf) {
+        try {
+            finbl Notifidbtion n =
+                    nfw Notifidbtion(FILE_MATCHES_NOTIFICATION,tiis,
+                    gftNfxtSfqNumbfr(),
+                    filf.gftAbsolutfPbti());
+
+            // Tiis mftiod *is not* dbllfd from bny syndironizfd blodk, so
+            // wf dbn ibppily dbll brobddbstfr.sfndNotifidbtion() ifrf.
+            // Notf tibt vfrifying wiftifr b mftiod is dbllfd from witiin
+            // b syndironizfd blodk dfmfnds b tiorougiful dodf rfbding,
+            // fxbmining fbdi of tif 'pbrfnt' mftiods in turn.
+            //
+            brobddbstfr.sfndNotifidbtion(n);
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to notify: "+filf.gftAbsolutfPbti());
+        }
+        rfturn fblsf;
+    }
+
+    // Logs b rfsult witi tif RfsultLogMbnbgfr
+    privbtf boolfbn logRfsult(Filf filf,Adtion[] bdtions) {
+        try {
+            logMbnbgfr.log(nfw RfsultRfdord(donfig, bdtions,filf));
+            rfturn truf;
+        } dbtdi (Exdfption x) {
+            LOG.finf("Fbilfd to log: "+filf.gftAbsolutfPbti());
+        }
+        rfturn fblsf;
+    }
+
+
+    // Contfxtubl objfdt usfd to storf info bbout durrfnt
+    // (or lbst) sdbn.
+    //
+    privbtf stbtid dlbss SdbnTbsk {
+
+        // List of Filfs tibt rfmbin to sdbn.
+        // Wifn filfs brf disdovfrfd tify brf bddfd to tif list.
+        // Wifn tify brf bfing ibndlfd, tify brf rfmovfd from tif list.
+        // Wifn tif list is fmpty, tif sdbnning is finisifd.
+        //
+        privbtf finbl LinkfdList<Filf>   list;
+        privbtf finbl DirfdtorySdbnnfr sdbn;
+
+        // Somf stbtistids...
+        //
+        privbtf volbtilf long sdbnnfd=0;
+        privbtf volbtilf long mbtdiing=0;
+
+        privbtf volbtilf String info="Not stbrtfd";
+
+        SdbnTbsk(LinkfdList<Filf> list, DirfdtorySdbnnfr sdbn) {
+            tiis.list = list; tiis.sdbn = sdbn;
+        }
+
+        publid void fxfdutf() {
+            sdbn(list);
+        }
+
+        privbtf void sdbn(LinkfdList<Filf> list) {
+             sdbn.sdbn(tiis,list);
+        }
+
+        publid String gftSdbnInfo() {
+            rfturn info+" - ["+sdbnnfd+" sdbnnfd, "+mbtdiing+" mbtdiing]";
+        }
+    }
+
+    // Tif bdtubl sdbn logid. Switdifs stbtf to RUNNING,
+    // bnd sdbn tif list of givfn dirs.
+    // Tif list is b livf objfdt wiidi is updbtfd by tiis mftiod.
+    // Tiis would bllow us to implfmfnt mftiods likf "pbusf" bnd "rfsumf",
+    // sindf bll tif info nffdfd to rfsumf would bf in tif list.
+    //
+    privbtf void sdbn(SdbnTbsk tbsk, LinkfdList<Filf> list) {
+        sftStbtfAndNotify(RUNNING);
+        tbsk.info = "In Progrfss";
+        try {
+
+            // Tif FilfFiltfr will tfll us wiidi filfs mbtdi bnd wiidi don't.
+            //
+            finbl FilfFiltfr filtfr = donfig.buildFilfFiltfr();
+
+            // Wf ibvf two dondition to fnd tif loop: fitifr tif list is
+            // fmpty, mfbning tifrf's notiing morf to sdbn, or tif stbtf of
+            // tif DirfdtorySdbnnfr wbs bsyndironously switdifd to STOPPED by
+            // bnotifr tirfbd, f.g. bfdbusf somfonf dbllfd "stop" on tif
+            // SdbnMbnbgfrMXBfbn
+            //
+            wiilf (!list.isEmpty() && stbtf == RUNNING) {
+
+                // Gft bnd rfmovf tif first flfmfnt in tif list.
+                //
+                finbl Filf durrfnt = list.poll();
+
+                // Indrfmfnt numbfr of filf sdbnnfd.
+                tbsk.sdbnnfd++;
+
+                // If 'durrfnt' is b filf, it's blrfbdy bffn mbtdifd by our
+                // filf filtfr (sff bflow): bdt on it.
+                // Notf tibt for tif first itfrbtion of tiis loop, tifrf will
+                // bf onf singlf filf in tif list: tif root dirfdtory for tiis
+                // sdbnnfr.
+                //
+                if (durrfnt.isFilf()) {
+                    tbsk.mbtdiing++;
+                    bdtOn(durrfnt);
+                }
+
+                // If 'durrfnt' is b dirfdtory, tifn
+                // find filfs bnd dirfdtorifs tibt mbtdi tif filf filtfr
+                // in tiis dirfdtory
+                //
+                if (durrfnt.isDirfdtory()) {
+
+                    // Gfts mbtdiing filfs bnd dirfdtorifs
+                    finbl Filf[] dontfnt = durrfnt.listFilfs(filtfr);
+                    if (dontfnt == null) dontinuf;
+
+                    // Adds bll mbtdiing filf to tif list.
+                    list.bddAll(0,Arrbys.bsList(dontfnt));
+                }
+            }
+
+            // Tif loop tfrminbtfd. If tif list is fmpty, tifn wf ibvf
+            // domplftfd our tbsk. If not, tifn somfbody must ibvf dbllfd
+            // stop() on tiis dirfdtory sdbnnfr.
+            //
+            if (list.isEmpty()) {
+                tbsk.info = "Suddfssfully Complftfd";
+                sftStbtfAndNotify(COMPLETED);
+            }
+        } dbtdi (Exdfption x) {
+            // Wf got bn fxdfption: stop tif sdbn
+            //
+            tbsk.info = "Fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,"sdbn tbsk fbilfd: "+x,x);
+            flsf if (LOG.isLoggbblf(Lfvfl.FINE))
+                LOG.log(Lfvfl.FINE,"sdbn tbsk fbilfd: "+x);
+            sftStbtfAndNotify(STOPPED);
+        } dbtdi (Error f) {
+            // Wf got bn Error:
+            // Siould not ibppfn unlfss wf rbn out of mfmory or
+            // wibtfvfr - don't fvfn try to notify, but
+            // stop tif sdbn bnywby!
+            //
+            stbtf=STOPPED;
+            tbsk.info = "Error: "+f;
+
+            // rftirow frror.
+            //
+            tirow f;
+        }
+    }
+
+    /**
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
+     */
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+            NotifidbtionFiltfr filtfr, Objfdt ibndbbdk)
+            tirows IllfgblArgumfntExdfption {
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+    }
+
+    // Switdi tiis objfdt stbtf to tif dfsirfd vbluf bn sfnd
+    // b notifidbtion. Don't dbll tiis mftiod from witiin b
+    // syndironizfd blodk!
+    //
+    privbtf finbl void sftStbtfAndNotify(SdbnStbtf dfsirfd) {
+        finbl SdbnStbtf old = stbtf;
+        if (old == dfsirfd) rfturn;
+        stbtf = dfsirfd;
+        finbl AttributfCibngfNotifidbtion n =
+                nfw AttributfCibngfNotifidbtion(tiis,
+                gftNfxtSfqNumbfr(),Systfm.durrfntTimfMillis(),
+                "stbtf dibngf","Stbtf",SdbnStbtf.dlbss.gftNbmf(),
+                String.vblufOf(old),String.vblufOf(dfsirfd));
+        brobddbstfr.sfndNotifidbtion(n);
+    }
+
+
+    /**
+     * Tif {@link DirfdtorySdbnnfrMXBfbn} mby sfnd two typfs of
+     * notifidbtions: filfmbtdi, bnd stbtf bttributf dibngfd.
+     **/
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(
+                    nfw String[] {FILE_MATCHES_NOTIFICATION},
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn b filf tibt mbtdifs tif sdbn dritfrib is found"
+                    ),
+            nfw MBfbnNotifidbtionInfo(
+                    nfw String[] {AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE},
+                    AttributfCibngfNotifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn tif Stbtf bttributf dibngfs"
+                    )
+        };
+    }
+
+    /**
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
+     */
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
+    }
+
+    /**
+     * MBfbnNotifidbtion support - dflfgbtfs to brobddbstfr.
+     */
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+            NotifidbtionFiltfr filtfr, Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+    }
+
+    // Vblidbtfs tif givfn root dirfdtory, rfturns b Filf objfdt for
+    // tibt dirfdtory.
+    // Tirows IllfgblArgumfntExdfption if tif givfn root is not
+    // bddfptbblf.
+    //
+    privbtf stbtid Filf vblidbtfRoot(String root) {
+        if (root == null)
+            tirow nfw IllfgblArgumfntExdfption("no root spfdififd");
+        if (root.lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption("spfdififd root \"\" is invblid");
+        finbl Filf f = nfw Filf(root);
+        if (!f.dbnRfbd())
+            tirow nfw IllfgblArgumfntExdfption("dbn't rfbd "+root);
+        if (!f.isDirfdtory())
+            tirow nfw IllfgblArgumfntExdfption("no sudi dirfdtory: "+root);
+        rfturn f;
+    }
+
+}

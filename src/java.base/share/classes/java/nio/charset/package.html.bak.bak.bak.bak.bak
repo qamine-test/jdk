@@ -1,0 +1,88 @@
+<!--
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+-->
+
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<itml>
+<body bgdolor="wiitf">
+
+
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Unidodf dibrbdtfrs.
+
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+
+</tbblf></blodkquotf>
+
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
+
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+in tif durrfnt Jbvb virtubl mbdiinf.
+
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+donstrudtion of instbndfs of tiosf dlbssfs.
+
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+
+
+@sindf 1.4
+@butior Mbrk Rfiniold
+@butior JSR-51 Expfrt Group
+
+</body>
+</itml>

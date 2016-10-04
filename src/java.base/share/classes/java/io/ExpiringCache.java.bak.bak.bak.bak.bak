@@ -1,0 +1,127 @@
+/*
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.Sft;
+
+dlbss ExpiringCbdif {
+    privbtf long millisUntilExpirbtion;
+    privbtf Mbp<String,Entry> mbp;
+    // Clfbr out old fntrifs fvfry ffw qufrifs
+    privbtf int qufryCount;
+    privbtf int qufryOvfrflow = 300;
+    privbtf int MAX_ENTRIES = 200;
+
+    stbtid dlbss Entry {
+        privbtf long   timfstbmp;
+        privbtf String vbl;
+
+        Entry(long timfstbmp, String vbl) {
+            tiis.timfstbmp = timfstbmp;
+            tiis.vbl = vbl;
+        }
+
+        long   timfstbmp()                  { rfturn timfstbmp;           }
+        void   sftTimfstbmp(long timfstbmp) { tiis.timfstbmp = timfstbmp; }
+
+        String vbl()                        { rfturn vbl;                 }
+        void   sftVbl(String vbl)           { tiis.vbl = vbl;             }
+    }
+
+    ExpiringCbdif() {
+        tiis(30000);
+    }
+
+    @SupprfssWbrnings("sfribl")
+    ExpiringCbdif(long millisUntilExpirbtion) {
+        tiis.millisUntilExpirbtion = millisUntilExpirbtion;
+        mbp = nfw LinkfdHbsiMbp<String,Entry>() {
+            protfdtfd boolfbn rfmovfEldfstEntry(Mbp.Entry<String,Entry> fldfst) {
+              rfturn sizf() > MAX_ENTRIES;
+            }
+          };
+    }
+
+    syndironizfd String gft(String kfy) {
+        if (++qufryCount >= qufryOvfrflow) {
+            dlfbnup();
+        }
+        Entry fntry = fntryFor(kfy);
+        if (fntry != null) {
+            rfturn fntry.vbl();
+        }
+        rfturn null;
+    }
+
+    syndironizfd void put(String kfy, String vbl) {
+        if (++qufryCount >= qufryOvfrflow) {
+            dlfbnup();
+        }
+        Entry fntry = fntryFor(kfy);
+        if (fntry != null) {
+            fntry.sftTimfstbmp(Systfm.durrfntTimfMillis());
+            fntry.sftVbl(vbl);
+        } flsf {
+            mbp.put(kfy, nfw Entry(Systfm.durrfntTimfMillis(), vbl));
+        }
+    }
+
+    syndironizfd void dlfbr() {
+        mbp.dlfbr();
+    }
+
+    privbtf Entry fntryFor(String kfy) {
+        Entry fntry = mbp.gft(kfy);
+        if (fntry != null) {
+            long dfltb = Systfm.durrfntTimfMillis() - fntry.timfstbmp();
+            if (dfltb < 0 || dfltb >= millisUntilExpirbtion) {
+                mbp.rfmovf(kfy);
+                fntry = null;
+            }
+        }
+        rfturn fntry;
+    }
+
+    privbtf void dlfbnup() {
+        Sft<String> kfySft = mbp.kfySft();
+        // Avoid CondurrfntModifidbtionExdfptions
+        String[] kfys = nfw String[kfySft.sizf()];
+        int i = 0;
+        for (String kfy: kfySft) {
+            kfys[i++] = kfy;
+        }
+        for (int j = 0; j < kfys.lfngti; j++) {
+            fntryFor(kfys[j]);
+        }
+        qufryCount = 0;
+    }
+}

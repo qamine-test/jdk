@@ -1,0 +1,4740 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfPbttfrn>{0} ({1})</lodblfPbttfrn>
+			<lodblfSfpbrbtor>، </lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">آفاری</lbngubgf>
+			<lbngubgf typf="bb">آبخازی</lbngubgf>
+			<lbngubgf typf="bdf">آچئی</lbngubgf>
+			<lbngubgf typf="bdi">آچولیایی</lbngubgf>
+			<lbngubgf typf="bdb">آدانگمه‌ای</lbngubgf>
+			<lbngubgf typf="bdy">آدیجیایی</lbngubgf>
+			<lbngubgf typf="bf">اوستایی</lbngubgf>
+			<lbngubgf typf="bf">آفریکانس</lbngubgf>
+			<lbngubgf typf="bfb">زبان افریقا و آسیایی</lbngubgf>
+			<lbngubgf typf="bfi">آفریهیلی</lbngubgf>
+			<lbngubgf typf="bin">آینویی</lbngubgf>
+			<lbngubgf typf="bk">آکان</lbngubgf>
+			<lbngubgf typf="bkk">آکدی</lbngubgf>
+			<lbngubgf typf="blf">آلئوتی</lbngubgf>
+			<lbngubgf typf="blg">زبان آلگونکینی</lbngubgf>
+			<lbngubgf typf="blt">آلتایی جنوبی</lbngubgf>
+			<lbngubgf typf="bm">امهری</lbngubgf>
+			<lbngubgf typf="bn">آراگونی</lbngubgf>
+			<lbngubgf typf="bng">انگلیسی باستان</lbngubgf>
+			<lbngubgf typf="bnp" drbft="dontributfd">آنگیکا</lbngubgf>
+			<lbngubgf typf="bpb">زبان آپاچیایی</lbngubgf>
+			<lbngubgf typf="br">عربی</lbngubgf>
+			<lbngubgf typf="brd">آرامی</lbngubgf>
+			<lbngubgf typf="brn">آروکانیایی</lbngubgf>
+			<lbngubgf typf="brp">آراپاهویی</lbngubgf>
+			<lbngubgf typf="brt">زبان ساختگی</lbngubgf>
+			<lbngubgf typf="brw">آراواکی</lbngubgf>
+			<lbngubgf typf="bs">آسامی</lbngubgf>
+			<lbngubgf typf="bti">زبان آتاپاسکایی</lbngubgf>
+			<lbngubgf typf="bus">زبان استرالیایی</lbngubgf>
+			<lbngubgf typf="bv">آواری</lbngubgf>
+			<lbngubgf typf="by">آیمارایی</lbngubgf>
+			<lbngubgf typf="bz">ترکی آذربایجانی</lbngubgf>
+			<lbngubgf typf="bz" blt="siort">آذری</lbngubgf>
+			<lbngubgf typf="bz" blt="vbribnt">آذربایجانی</lbngubgf>
+			<lbngubgf typf="bb">باشغیری</lbngubgf>
+			<lbngubgf typf="bbd">باندایی</lbngubgf>
+			<lbngubgf typf="bbl">بلوچی</lbngubgf>
+			<lbngubgf typf="bbn">بالیایی</lbngubgf>
+			<lbngubgf typf="bbs">باسایی</lbngubgf>
+			<lbngubgf typf="bbt">زبان بالتیکی</lbngubgf>
+			<lbngubgf typf="bf">بلوروسی</lbngubgf>
+			<lbngubgf typf="bfj">بجایی</lbngubgf>
+			<lbngubgf typf="bfm">بمبایی</lbngubgf>
+			<lbngubgf typf="bfr">بربری</lbngubgf>
+			<lbngubgf typf="bg">بلغاری</lbngubgf>
+			<lbngubgf typf="bi">بیهاری</lbngubgf>
+			<lbngubgf typf="bio">بوجپوری</lbngubgf>
+			<lbngubgf typf="bi">بیسلاما</lbngubgf>
+			<lbngubgf typf="bik">بیکولی</lbngubgf>
+			<lbngubgf typf="bin" drbft="dontributfd">بینی</lbngubgf>
+			<lbngubgf typf="bm">بامبارایی</lbngubgf>
+			<lbngubgf typf="bn">بنگالی</lbngubgf>
+			<lbngubgf typf="bnt">بانتویی</lbngubgf>
+			<lbngubgf typf="bo">تبتی</lbngubgf>
+			<lbngubgf typf="br">برتانیایی</lbngubgf>
+			<lbngubgf typf="brb" drbft="dontributfd">براج</lbngubgf>
+			<lbngubgf typf="bs">بوسنیایی</lbngubgf>
+			<lbngubgf typf="btk">باتاکی</lbngubgf>
+			<lbngubgf typf="bub">بوریاتی</lbngubgf>
+			<lbngubgf typf="bug">بوگیایی</lbngubgf>
+			<lbngubgf typf="byn" drbft="dontributfd">بلین</lbngubgf>
+			<lbngubgf typf="db">کاتالان</lbngubgf>
+			<lbngubgf typf="dbd">کادویی</lbngubgf>
+			<lbngubgf typf="dbi">زبان سرخپوستی امریکای مرکزی</lbngubgf>
+			<lbngubgf typf="dbr">کاریبی</lbngubgf>
+			<lbngubgf typf="dbu">زبان قفقازی</lbngubgf>
+			<lbngubgf typf="df">چچنی</lbngubgf>
+			<lbngubgf typf="dfb">سبویی</lbngubgf>
+			<lbngubgf typf="dfl">زبان سلتی</lbngubgf>
+			<lbngubgf typf="di">چامورویی</lbngubgf>
+			<lbngubgf typf="dib" drbft="dontributfd">چیبچا</lbngubgf>
+			<lbngubgf typf="dig">جغتایی</lbngubgf>
+			<lbngubgf typf="dik">چوکی</lbngubgf>
+			<lbngubgf typf="dim">ماریایی</lbngubgf>
+			<lbngubgf typf="dio">چوکتویی</lbngubgf>
+			<lbngubgf typf="dip">چیپه‌ویه‌ای</lbngubgf>
+			<lbngubgf typf="dir">چروکیایی</lbngubgf>
+			<lbngubgf typf="diy">شایانی</lbngubgf>
+			<lbngubgf typf="do" drbft="dontributfd">کورسی</lbngubgf>
+			<lbngubgf typf="dop">قبطی</lbngubgf>
+			<lbngubgf typf="dpf">کریول یا پیجین مبتنی بر انگلیسی</lbngubgf>
+			<lbngubgf typf="dpf">کریول یا پیجین مبتنی بر فرانسوی</lbngubgf>
+			<lbngubgf typf="dpp">کریول یا پیجین مبتنی بر پرتغالی</lbngubgf>
+			<lbngubgf typf="dr">کریایی</lbngubgf>
+			<lbngubgf typf="dri">ترکی کریمه</lbngubgf>
+			<lbngubgf typf="drp">کریول یا پیجین</lbngubgf>
+			<lbngubgf typf="ds">چکی</lbngubgf>
+			<lbngubgf typf="dsb">کاشوبی</lbngubgf>
+			<lbngubgf typf="du">اسلاوی کلیسایی</lbngubgf>
+			<lbngubgf typf="dus">زبان کوشی</lbngubgf>
+			<lbngubgf typf="dv">چوواشی</lbngubgf>
+			<lbngubgf typf="dy">ویلزی</lbngubgf>
+			<lbngubgf typf="db">دانمارکی</lbngubgf>
+			<lbngubgf typf="dbk">داکوتایی</lbngubgf>
+			<lbngubgf typf="dbr">دارقینی</lbngubgf>
+			<lbngubgf typf="dby" drbft="dontributfd">دایاک</lbngubgf>
+			<lbngubgf typf="df">آلمانی</lbngubgf>
+			<lbngubgf typf="df_AT">آلمانی اتریش</lbngubgf>
+			<lbngubgf typf="df_CH">آلمانی علیای سوئیس</lbngubgf>
+			<lbngubgf typf="dfl">دلاواری</lbngubgf>
+			<lbngubgf typf="dgr" drbft="dontributfd">دوگریب</lbngubgf>
+			<lbngubgf typf="din">دینکایی</lbngubgf>
+			<lbngubgf typf="doi" drbft="dontributfd">دوگری</lbngubgf>
+			<lbngubgf typf="drb">زبان دراویدی</lbngubgf>
+			<lbngubgf typf="dsb">صُربی سفلی</lbngubgf>
+			<lbngubgf typf="dub">دوآلایی</lbngubgf>
+			<lbngubgf typf="dum">هلندی میانه</lbngubgf>
+			<lbngubgf typf="dv">مالدیوی</lbngubgf>
+			<lbngubgf typf="dyu">دایولایی</lbngubgf>
+			<lbngubgf typf="dz">جونخایی</lbngubgf>
+			<lbngubgf typf="ff">اوه‌ای</lbngubgf>
+			<lbngubgf typf="ffi">افیکی</lbngubgf>
+			<lbngubgf typf="fgy">مصری کهن</lbngubgf>
+			<lbngubgf typf="fkb" drbft="dontributfd">اکاجوک</lbngubgf>
+			<lbngubgf typf="fl">یونانی</lbngubgf>
+			<lbngubgf typf="flx">عیلامی</lbngubgf>
+			<lbngubgf typf="fn">انگلیسی</lbngubgf>
+			<lbngubgf typf="fn_AU">انگلیسی استرالیا</lbngubgf>
+			<lbngubgf typf="fn_CA">انگلیسی کانادا</lbngubgf>
+			<lbngubgf typf="fn_GB">انگلیسی بریتانیا</lbngubgf>
+			<lbngubgf typf="fn_US">انگلیسی امریکا</lbngubgf>
+			<lbngubgf typf="fnm">انگلیسی میانه</lbngubgf>
+			<lbngubgf typf="fo">اسپرانتو</lbngubgf>
+			<lbngubgf typf="fs">اسپانیایی</lbngubgf>
+			<lbngubgf typf="fs_419">اسپانیایی امریکای لاتین</lbngubgf>
+			<lbngubgf typf="fs_ES">اسپانیایی اسپانیا</lbngubgf>
+			<lbngubgf typf="ft">استونیایی</lbngubgf>
+			<lbngubgf typf="fu">باسکی</lbngubgf>
+			<lbngubgf typf="fwo" drbft="dontributfd">اواندو</lbngubgf>
+			<lbngubgf typf="fb">فارسی</lbngubgf>
+			<lbngubgf typf="fbn">فانکی</lbngubgf>
+			<lbngubgf typf="fbt">فانتیایی</lbngubgf>
+			<lbngubgf typf="ff">فولایی</lbngubgf>
+			<lbngubgf typf="fi">فنلاندی</lbngubgf>
+			<lbngubgf typf="fil">فیلیپینی</lbngubgf>
+			<lbngubgf typf="fiu">زبان فین و اوگرایی</lbngubgf>
+			<lbngubgf typf="fj">فیجیایی</lbngubgf>
+			<lbngubgf typf="fo">فارویی</lbngubgf>
+			<lbngubgf typf="fon">فونی</lbngubgf>
+			<lbngubgf typf="fr">فرانسوی</lbngubgf>
+			<lbngubgf typf="fr_CA">فرانسوی کانادا</lbngubgf>
+			<lbngubgf typf="fr_CH">فرانسوی سوئیس</lbngubgf>
+			<lbngubgf typf="frm">فرانسوی میانه</lbngubgf>
+			<lbngubgf typf="fro">فرانسوی باستان</lbngubgf>
+			<lbngubgf typf="frr">فریزی شمالی</lbngubgf>
+			<lbngubgf typf="frs">فریزی شرقی</lbngubgf>
+			<lbngubgf typf="fur">فریولیایی</lbngubgf>
+			<lbngubgf typf="fy">فریزی غربی</lbngubgf>
+			<lbngubgf typf="gb">ایرلندی</lbngubgf>
+			<lbngubgf typf="gbb">گایی</lbngubgf>
+			<lbngubgf typf="gby">گایویی</lbngubgf>
+			<lbngubgf typf="gbb">گبایایی</lbngubgf>
+			<lbngubgf typf="gd">گیلی اسکاتلندی</lbngubgf>
+			<lbngubgf typf="gfm">زبان ژرمنی</lbngubgf>
+			<lbngubgf typf="gfz">گی‌ئزی</lbngubgf>
+			<lbngubgf typf="gil">گیلبرتی</lbngubgf>
+			<lbngubgf typf="gl">گالیسیایی</lbngubgf>
+			<lbngubgf typf="gmi">آلمانی علیای میانه</lbngubgf>
+			<lbngubgf typf="gn">گوارانی</lbngubgf>
+			<lbngubgf typf="goi">آلمانی علیای باستان</lbngubgf>
+			<lbngubgf typf="gon">گوندی</lbngubgf>
+			<lbngubgf typf="gor" drbft="dontributfd">گورونتالو</lbngubgf>
+			<lbngubgf typf="got">گوتی</lbngubgf>
+			<lbngubgf typf="grb">گریبویی</lbngubgf>
+			<lbngubgf typf="grd">یونانی کهن</lbngubgf>
+			<lbngubgf typf="gsw">آلمانی سوئیسی</lbngubgf>
+			<lbngubgf typf="gu">گجراتی</lbngubgf>
+			<lbngubgf typf="gv">مانی</lbngubgf>
+			<lbngubgf typf="gwi" drbft="dontributfd">گویچ این</lbngubgf>
+			<lbngubgf typf="ib">هوسیایی</lbngubgf>
+			<lbngubgf typf="ibi">هایدایی</lbngubgf>
+			<lbngubgf typf="ibw">هاوائیایی</lbngubgf>
+			<lbngubgf typf="if">عبری</lbngubgf>
+			<lbngubgf typf="ii">هندی</lbngubgf>
+			<lbngubgf typf="iil">هیلی‌گاینونی</lbngubgf>
+			<lbngubgf typf="iim" drbft="dontributfd">هیماچالی</lbngubgf>
+			<lbngubgf typf="iit">هیتی</lbngubgf>
+			<lbngubgf typf="imn" drbft="dontributfd">همونگ</lbngubgf>
+			<lbngubgf typf="io">موتویی هیری</lbngubgf>
+			<lbngubgf typf="ir">کروات</lbngubgf>
+			<lbngubgf typf="isb">صُربی علیا</lbngubgf>
+			<lbngubgf typf="it">هائیتیایی</lbngubgf>
+			<lbngubgf typf="iu">مجاری</lbngubgf>
+			<lbngubgf typf="iup" drbft="dontributfd">هوپا</lbngubgf>
+			<lbngubgf typf="iy">ارمنی</lbngubgf>
+			<lbngubgf typf="iz">هریرویی</lbngubgf>
+			<lbngubgf typf="ib">میان‌زبان</lbngubgf>
+			<lbngubgf typf="ibb" drbft="dontributfd">آیبن</lbngubgf>
+			<lbngubgf typf="id">اندونزیایی</lbngubgf>
+			<lbngubgf typf="if">اکسیدنتال</lbngubgf>
+			<lbngubgf typf="ig">ایگبویی</lbngubgf>
+			<lbngubgf typf="ii">یی سیچوان</lbngubgf>
+			<lbngubgf typf="ijo">ایجویی</lbngubgf>
+			<lbngubgf typf="ik">اینوپیک</lbngubgf>
+			<lbngubgf typf="ilo">ایلوکویی</lbngubgf>
+			<lbngubgf typf="ind">زبان هندیک</lbngubgf>
+			<lbngubgf typf="inf">زبان هند و اروپایی</lbngubgf>
+			<lbngubgf typf="ini">اینگوشی</lbngubgf>
+			<lbngubgf typf="io" drbft="dontributfd">ایدو</lbngubgf>
+			<lbngubgf typf="irb">زبان ایرانی</lbngubgf>
+			<lbngubgf typf="iro">زبان ایروکوایی</lbngubgf>
+			<lbngubgf typf="is">ایسلندی</lbngubgf>
+			<lbngubgf typf="it">ایتالیایی</lbngubgf>
+			<lbngubgf typf="iu">اینوکتیتوت</lbngubgf>
+			<lbngubgf typf="jb">ژاپنی</lbngubgf>
+			<lbngubgf typf="jbo" drbft="dontributfd">لوجبان</lbngubgf>
+			<lbngubgf typf="jpr">فارسی یهودی</lbngubgf>
+			<lbngubgf typf="jrb">عربی یهودی</lbngubgf>
+			<lbngubgf typf="jv">جاوه‌ای</lbngubgf>
+			<lbngubgf typf="kb">گرجی</lbngubgf>
+			<lbngubgf typf="kbb">قره‌قالپاقی</lbngubgf>
+			<lbngubgf typf="kbb">قبایلی</lbngubgf>
+			<lbngubgf typf="kbd">کاچینی</lbngubgf>
+			<lbngubgf typf="kbj" drbft="dontributfd">جو</lbngubgf>
+			<lbngubgf typf="kbm">کامبایی</lbngubgf>
+			<lbngubgf typf="kbr">کارنی</lbngubgf>
+			<lbngubgf typf="kbw">کاویایی</lbngubgf>
+			<lbngubgf typf="kbd">کاباردینی</lbngubgf>
+			<lbngubgf typf="kdg" drbft="undonfirmfd">تایپه ای</lbngubgf>
+			<lbngubgf typf="kfo" drbft="dontributfd">کورو</lbngubgf>
+			<lbngubgf typf="kg">کنگویی</lbngubgf>
+			<lbngubgf typf="kib">خاسیایی</lbngubgf>
+			<lbngubgf typf="kii">زبان خواسی</lbngubgf>
+			<lbngubgf typf="kio">ختنی</lbngubgf>
+			<lbngubgf typf="ki">کیکویویی</lbngubgf>
+			<lbngubgf typf="kj">کوانیاما</lbngubgf>
+			<lbngubgf typf="kk">قزاقی</lbngubgf>
+			<lbngubgf typf="kl">گرینلندی</lbngubgf>
+			<lbngubgf typf="km">خمری</lbngubgf>
+			<lbngubgf typf="kmb">کیمبوندویی</lbngubgf>
+			<lbngubgf typf="kn">کاناده‌ای</lbngubgf>
+			<lbngubgf typf="ko">کره‌ای</lbngubgf>
+			<lbngubgf typf="kok">کنکانی</lbngubgf>
+			<lbngubgf typf="kpf">کپله‌ای</lbngubgf>
+			<lbngubgf typf="kr">کانوریایی</lbngubgf>
+			<lbngubgf typf="krd">قره‌چایی‐بالکاری</lbngubgf>
+			<lbngubgf typf="kro">کرویی</lbngubgf>
+			<lbngubgf typf="kru">کوروخی</lbngubgf>
+			<lbngubgf typf="ks">کشمیری</lbngubgf>
+			<lbngubgf typf="ku">کردی</lbngubgf>
+			<lbngubgf typf="kum">کومیکی</lbngubgf>
+			<lbngubgf typf="kut" drbft="dontributfd">کوتنی</lbngubgf>
+			<lbngubgf typf="kv">کومیایی</lbngubgf>
+			<lbngubgf typf="kw">کرنوالی</lbngubgf>
+			<lbngubgf typf="ky">قرقیزی</lbngubgf>
+			<lbngubgf typf="lb">لاتینی</lbngubgf>
+			<lbngubgf typf="lbd">لادینو</lbngubgf>
+			<lbngubgf typf="lbi">لاهندا</lbngubgf>
+			<lbngubgf typf="lbm" drbft="dontributfd">لامبا</lbngubgf>
+			<lbngubgf typf="lb">لوگزامبورگی</lbngubgf>
+			<lbngubgf typf="lfz">لزگی</lbngubgf>
+			<lbngubgf typf="lg">گاندایی</lbngubgf>
+			<lbngubgf typf="li">لیمبورگی</lbngubgf>
+			<lbngubgf typf="ln">لینگالا</lbngubgf>
+			<lbngubgf typf="lo">لائوسی</lbngubgf>
+			<lbngubgf typf="lol">مونگویی</lbngubgf>
+			<lbngubgf typf="loz">لوزیایی</lbngubgf>
+			<lbngubgf typf="lt">لیتوانیایی</lbngubgf>
+			<lbngubgf typf="lu">لوبایی‐کاتانگا</lbngubgf>
+			<lbngubgf typf="lub">لوبایی‐لولوا</lbngubgf>
+			<lbngubgf typf="lui" drbft="dontributfd">لویسنو</lbngubgf>
+			<lbngubgf typf="lun">لوندایی</lbngubgf>
+			<lbngubgf typf="luo">لوئویی</lbngubgf>
+			<lbngubgf typf="lus">لوشه‌ای</lbngubgf>
+			<lbngubgf typf="lv">لتونیایی</lbngubgf>
+			<lbngubgf typf="mbd">مادورایی</lbngubgf>
+			<lbngubgf typf="mbg">ماگاهیایی</lbngubgf>
+			<lbngubgf typf="mbi">مایدیلی</lbngubgf>
+			<lbngubgf typf="mbk" drbft="dontributfd">ماکاسار</lbngubgf>
+			<lbngubgf typf="mbn">ماندینگویی</lbngubgf>
+			<lbngubgf typf="mbp">زبان آسترونیزیایی</lbngubgf>
+			<lbngubgf typf="mbs">ماسایی</lbngubgf>
+			<lbngubgf typf="mdf">مکشایی</lbngubgf>
+			<lbngubgf typf="mdr" drbft="dontributfd">ماندار</lbngubgf>
+			<lbngubgf typf="mfn">منده‌ای</lbngubgf>
+			<lbngubgf typf="mg">مالاگاسیایی</lbngubgf>
+			<lbngubgf typf="mgb">ایرلندی میانه</lbngubgf>
+			<lbngubgf typf="mi">مارشالی</lbngubgf>
+			<lbngubgf typf="mi">مائوریایی</lbngubgf>
+			<lbngubgf typf="mid">میکماکی</lbngubgf>
+			<lbngubgf typf="min">مینانگ‌کابویی</lbngubgf>
+			<lbngubgf typf="mis">زبان متفرقه</lbngubgf>
+			<lbngubgf typf="mk">مقدونی</lbngubgf>
+			<lbngubgf typf="mki">زبان مون‌خمری</lbngubgf>
+			<lbngubgf typf="ml">مالایالامی</lbngubgf>
+			<lbngubgf typf="mn">مغولی</lbngubgf>
+			<lbngubgf typf="mnd">مانچویی</lbngubgf>
+			<lbngubgf typf="mni">میته‌ای</lbngubgf>
+			<lbngubgf typf="mno" drbft="dontributfd">زبان مانوبو</lbngubgf>
+			<lbngubgf typf="mo">مولداویایی</lbngubgf>
+			<lbngubgf typf="moi">موهاکی</lbngubgf>
+			<lbngubgf typf="mos">ماسیایی</lbngubgf>
+			<lbngubgf typf="mr">مراتی</lbngubgf>
+			<lbngubgf typf="ms">مالایی</lbngubgf>
+			<lbngubgf typf="mt">مالتی</lbngubgf>
+			<lbngubgf typf="mul">چندین زبان</lbngubgf>
+			<lbngubgf typf="mun">زبان موندایی</lbngubgf>
+			<lbngubgf typf="mus">کریکی</lbngubgf>
+			<lbngubgf typf="mwr" drbft="dontributfd">مارواری</lbngubgf>
+			<lbngubgf typf="my">برمه‌ای</lbngubgf>
+			<lbngubgf typf="myn">زبان مایایی</lbngubgf>
+			<lbngubgf typf="myv">ارزیایی</lbngubgf>
+			<lbngubgf typf="nb">نائورویی</lbngubgf>
+			<lbngubgf typf="nbi">ناواتلی</lbngubgf>
+			<lbngubgf typf="nbi">زبان سرخپوستی امریکای شمالی</lbngubgf>
+			<lbngubgf typf="nbp">ناپلی</lbngubgf>
+			<lbngubgf typf="nb">بوکسمال نروژی</lbngubgf>
+			<lbngubgf typf="nd">انده‌بله‌ای شمالی</lbngubgf>
+			<lbngubgf typf="nds">آلمانی سفلی</lbngubgf>
+			<lbngubgf typf="nf">نپالی</lbngubgf>
+			<lbngubgf typf="nfw">نواریایی</lbngubgf>
+			<lbngubgf typf="ng">اندونگایی</lbngubgf>
+			<lbngubgf typf="nib">نیاسی</lbngubgf>
+			<lbngubgf typf="niu">نیویی</lbngubgf>
+			<lbngubgf typf="nl">هلندی</lbngubgf>
+			<lbngubgf typf="nl_BE">فلمنگی</lbngubgf>
+			<lbngubgf typf="nn">نرس جدید نروژی</lbngubgf>
+			<lbngubgf typf="no">نروژی</lbngubgf>
+			<lbngubgf typf="nog">نغایی</lbngubgf>
+			<lbngubgf typf="non">نرس باستان</lbngubgf>
+			<lbngubgf typf="nr">انده‌بله‌ای جنوبی</lbngubgf>
+			<lbngubgf typf="nso">سوتویی شمالی</lbngubgf>
+			<lbngubgf typf="nub">زبان نوبیایی</lbngubgf>
+			<lbngubgf typf="nv">ناواهویی</lbngubgf>
+			<lbngubgf typf="nwd">نواریایی کلاسیک</lbngubgf>
+			<lbngubgf typf="ny">نیانجایی</lbngubgf>
+			<lbngubgf typf="nym">نیام‌وزیایی</lbngubgf>
+			<lbngubgf typf="nyn">نیانکوله‌ای</lbngubgf>
+			<lbngubgf typf="nyo">نیورویی</lbngubgf>
+			<lbngubgf typf="nzi" drbft="dontributfd">نزیمایی</lbngubgf>
+			<lbngubgf typf="od" drbft="dontributfd">اوکیتایی</lbngubgf>
+			<lbngubgf typf="oj">اوجیبوایی</lbngubgf>
+			<lbngubgf typf="om" drbft="dontributfd">اورومویی</lbngubgf>
+			<lbngubgf typf="or">اوریه‌ای</lbngubgf>
+			<lbngubgf typf="os">آسی</lbngubgf>
+			<lbngubgf typf="osb">اوسیجی</lbngubgf>
+			<lbngubgf typf="otb">ترکی عثمانی</lbngubgf>
+			<lbngubgf typf="oto">زبان اتومیایی</lbngubgf>
+			<lbngubgf typf="pb">پنجابی</lbngubgf>
+			<lbngubgf typf="pbb">زبان پاپوایی</lbngubgf>
+			<lbngubgf typf="pbg">پانگاسینانی</lbngubgf>
+			<lbngubgf typf="pbl">پهلوی</lbngubgf>
+			<lbngubgf typf="pbm">پامپانگایی</lbngubgf>
+			<lbngubgf typf="pbp">پاپیامنتو</lbngubgf>
+			<lbngubgf typf="pbu">پالائویی</lbngubgf>
+			<lbngubgf typf="pfo">فارسی باستان</lbngubgf>
+			<lbngubgf typf="pii">زبان فیلیپینی</lbngubgf>
+			<lbngubgf typf="pin">فنیقی</lbngubgf>
+			<lbngubgf typf="pi">پالی</lbngubgf>
+			<lbngubgf typf="pl">لهستانی</lbngubgf>
+			<lbngubgf typf="pon">پانپیی</lbngubgf>
+			<lbngubgf typf="prb">زبان پراکریتی</lbngubgf>
+			<lbngubgf typf="pro">پرووانسی باستان</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt">پشتو</lbngubgf>
+			<lbngubgf typf="pt">پرتغالی</lbngubgf>
+			<lbngubgf typf="pt_BR">پرتغالی برزیل</lbngubgf>
+			<lbngubgf typf="pt_PT">پرتغالی پرتغال</lbngubgf>
+			<lbngubgf typf="qu">کچوایی</lbngubgf>
+			<lbngubgf typf="rbj">راجستانی</lbngubgf>
+			<lbngubgf typf="rbp" drbft="dontributfd">راپانویی</lbngubgf>
+			<lbngubgf typf="rbr">راروتونگایی</lbngubgf>
+			<lbngubgf typf="rm">رومانش</lbngubgf>
+			<lbngubgf typf="rn">روندیایی</lbngubgf>
+			<lbngubgf typf="ro">رومانیایی</lbngubgf>
+			<lbngubgf typf="rob">زبان رومیایی</lbngubgf>
+			<lbngubgf typf="rom">رومانویی</lbngubgf>
+			<lbngubgf typf="root">ریشه</lbngubgf>
+			<lbngubgf typf="ru">روسی</lbngubgf>
+			<lbngubgf typf="rw">کینیارواندایی</lbngubgf>
+			<lbngubgf typf="sb">سنسکریت</lbngubgf>
+			<lbngubgf typf="sbd">سانداوه‌ای</lbngubgf>
+			<lbngubgf typf="sbi">یاقوتی</lbngubgf>
+			<lbngubgf typf="sbi">زبان سرخپوستی امریکای جنوبی</lbngubgf>
+			<lbngubgf typf="sbl">زبان سالیشی</lbngubgf>
+			<lbngubgf typf="sbm">آرامی سامری</lbngubgf>
+			<lbngubgf typf="sbs">ساساکی</lbngubgf>
+			<lbngubgf typf="sbt">سانتالی</lbngubgf>
+			<lbngubgf typf="sd">ساردینیایی</lbngubgf>
+			<lbngubgf typf="sdn">سیسیلی</lbngubgf>
+			<lbngubgf typf="sdo">اسکاتلندی</lbngubgf>
+			<lbngubgf typf="sd">سندی</lbngubgf>
+			<lbngubgf typf="sf">سامی شمالی</lbngubgf>
+			<lbngubgf typf="sfl">سلکوپی</lbngubgf>
+			<lbngubgf typf="sfm">زبان سامی</lbngubgf>
+			<lbngubgf typf="sg">سانگویی</lbngubgf>
+			<lbngubgf typf="sgb">ایرلندی باستان</lbngubgf>
+			<lbngubgf typf="sgn">زبان اشاره</lbngubgf>
+			<lbngubgf typf="si">صرب و کرواتی</lbngubgf>
+			<lbngubgf typf="sin">شانی</lbngubgf>
+			<lbngubgf typf="si">سینهالی</lbngubgf>
+			<lbngubgf typf="sid">سیدامویی</lbngubgf>
+			<lbngubgf typf="sio">زبان سویی</lbngubgf>
+			<lbngubgf typf="sit">زبان چین و تبتی</lbngubgf>
+			<lbngubgf typf="sk">اسلواکی</lbngubgf>
+			<lbngubgf typf="sl">اسلووینیایی</lbngubgf>
+			<lbngubgf typf="slb">زبان اسلاوی</lbngubgf>
+			<lbngubgf typf="sm">ساموآیی</lbngubgf>
+			<lbngubgf typf="sn">شونایی</lbngubgf>
+			<lbngubgf typf="snk">سونینکه‌ای</lbngubgf>
+			<lbngubgf typf="so">سومالیایی</lbngubgf>
+			<lbngubgf typf="sog">سغدی</lbngubgf>
+			<lbngubgf typf="son">سونغایی</lbngubgf>
+			<lbngubgf typf="sq">آلبانیایی</lbngubgf>
+			<lbngubgf typf="sr">صربی</lbngubgf>
+			<lbngubgf typf="srn">تاکی‌تاکی</lbngubgf>
+			<lbngubgf typf="srr">سریری</lbngubgf>
+			<lbngubgf typf="ss">سوازیایی</lbngubgf>
+			<lbngubgf typf="ssb">زبان نیلی و صحرایی</lbngubgf>
+			<lbngubgf typf="st">سوتویی جنوبی</lbngubgf>
+			<lbngubgf typf="su">سوندایی</lbngubgf>
+			<lbngubgf typf="suk">سوکومایی</lbngubgf>
+			<lbngubgf typf="sus">سوسویی</lbngubgf>
+			<lbngubgf typf="sux">سومری</lbngubgf>
+			<lbngubgf typf="sv">سوئدی</lbngubgf>
+			<lbngubgf typf="sw">سواحلی</lbngubgf>
+			<lbngubgf typf="swb">کوموری</lbngubgf>
+			<lbngubgf typf="syd">سریانی کلاسیک</lbngubgf>
+			<lbngubgf typf="syr">سریانی</lbngubgf>
+			<lbngubgf typf="tb">تامیلی</lbngubgf>
+			<lbngubgf typf="tbi">زبان تایی</lbngubgf>
+			<lbngubgf typf="tf">تلوگویی</lbngubgf>
+			<lbngubgf typf="tfm">تمنه‌ای</lbngubgf>
+			<lbngubgf typf="tfr" drbft="dontributfd">ترنو</lbngubgf>
+			<lbngubgf typf="tft">تتومی</lbngubgf>
+			<lbngubgf typf="tg">تاجیکی</lbngubgf>
+			<lbngubgf typf="ti">تایلندی</lbngubgf>
+			<lbngubgf typf="ti">تیگرینیایی</lbngubgf>
+			<lbngubgf typf="tig">تیگره‌ای</lbngubgf>
+			<lbngubgf typf="tiv">تیوی</lbngubgf>
+			<lbngubgf typf="tk">ترکمنی</lbngubgf>
+			<lbngubgf typf="tl">تاگالوگی</lbngubgf>
+			<lbngubgf typf="tli">کلینگون</lbngubgf>
+			<lbngubgf typf="tli">تلین‌گیتی</lbngubgf>
+			<lbngubgf typf="tmi">تاماشقی</lbngubgf>
+			<lbngubgf typf="tn">تسوانایی</lbngubgf>
+			<lbngubgf typf="to">تونگایی</lbngubgf>
+			<lbngubgf typf="tog">تونگایی نیاسا</lbngubgf>
+			<lbngubgf typf="tpi">توک‌پیسینی</lbngubgf>
+			<lbngubgf typf="tr">ترکی استانبولی</lbngubgf>
+			<lbngubgf typf="tr" blt="sfdondbry">ترکی</lbngubgf>
+			<lbngubgf typf="ts">تسونگایی</lbngubgf>
+			<lbngubgf typf="tsi">تسیم‌شیانی</lbngubgf>
+			<lbngubgf typf="tt">تاتاری</lbngubgf>
+			<lbngubgf typf="tum">تومبوکایی</lbngubgf>
+			<lbngubgf typf="tup">زبان توپیایی</lbngubgf>
+			<lbngubgf typf="tut">زبان آلتاییک</lbngubgf>
+			<lbngubgf typf="tvl">تووالویی</lbngubgf>
+			<lbngubgf typf="tw">توی‌یایی</lbngubgf>
+			<lbngubgf typf="ty">تاهیتیایی</lbngubgf>
+			<lbngubgf typf="tyv">تووایی</lbngubgf>
+			<lbngubgf typf="udm">اودمورتی</lbngubgf>
+			<lbngubgf typf="ug">اویغوری</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt">اویغوری</lbngubgf>
+			<lbngubgf typf="ugb" drbft="dontributfd">اوگاریتی</lbngubgf>
+			<lbngubgf typf="uk">اوکراینی</lbngubgf>
+			<lbngubgf typf="umb">امبوندویی</lbngubgf>
+			<lbngubgf typf="und">زبان نامشخص</lbngubgf>
+			<lbngubgf typf="ur">اردو</lbngubgf>
+			<lbngubgf typf="uz">ازبکی</lbngubgf>
+			<lbngubgf typf="vbi">ویایی</lbngubgf>
+			<lbngubgf typf="vf">وندایی</lbngubgf>
+			<lbngubgf typf="vi">ویتنامی</lbngubgf>
+			<lbngubgf typf="vo">ولاپوک</lbngubgf>
+			<lbngubgf typf="vot">وتی</lbngubgf>
+			<lbngubgf typf="wb">والونی</lbngubgf>
+			<lbngubgf typf="wbk">زبان واکاشی</lbngubgf>
+			<lbngubgf typf="wbl" drbft="dontributfd">والامو</lbngubgf>
+			<lbngubgf typf="wbr">وارایی</lbngubgf>
+			<lbngubgf typf="wbs" drbft="dontributfd">واشویی</lbngubgf>
+			<lbngubgf typf="wfn">زبان صُربی</lbngubgf>
+			<lbngubgf typf="wo">ولوفی</lbngubgf>
+			<lbngubgf typf="xbl">قلموقی</lbngubgf>
+			<lbngubgf typf="xi">خوسایی</lbngubgf>
+			<lbngubgf typf="ybo">یائویی</lbngubgf>
+			<lbngubgf typf="ybp">یاپی</lbngubgf>
+			<lbngubgf typf="yi">یدی</lbngubgf>
+			<lbngubgf typf="yo">یوروبایی</lbngubgf>
+			<lbngubgf typf="ypk">زبان یوپیکی</lbngubgf>
+			<lbngubgf typf="yuf">کانتونیز</lbngubgf>
+			<lbngubgf typf="zb">چوانگی</lbngubgf>
+			<lbngubgf typf="zbp">زاپوتکی</lbngubgf>
+			<lbngubgf typf="zfn" drbft="dontributfd">زناگا</lbngubgf>
+			<lbngubgf typf="zi">چینی</lbngubgf>
+			<lbngubgf typf="zi_Hbns">چینی ساده‌شده</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">چینی سنتی</lbngubgf>
+			<lbngubgf typf="znd">زانده‌ای</lbngubgf>
+			<lbngubgf typf="zu">زولویی</lbngubgf>
+			<lbngubgf typf="zun">زونیایی</lbngubgf>
+			<lbngubgf typf="zxx">بدون محتوای زبانی</lbngubgf>
+			<lbngubgf typf="zzb" drbft="dontributfd">زازایی</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">عربی</sdript>
+			<sdript typf="Arbb" blt="vbribnt">فارسی-عربی</sdript>
+			<sdript typf="Armi">آرامی هخامنشی</sdript>
+			<sdript typf="Armn">ارمنی</sdript>
+			<sdript typf="Avst">اوستایی</sdript>
+			<sdript typf="Bbli">بالیایی</sdript>
+			<sdript typf="Bbtk">باتاکی</sdript>
+			<sdript typf="Bfng">بنگالی</sdript>
+			<sdript typf="Blis" drbft="dontributfd">نمادهای بلیس</sdript>
+			<sdript typf="Bopo">بوپوموفو</sdript>
+			<sdript typf="Brbi">براهمی</sdript>
+			<sdript typf="Brbi">بریل</sdript>
+			<sdript typf="Bugi">بوگیایی</sdript>
+			<sdript typf="Buid" drbft="dontributfd">بوهید</sdript>
+			<sdript typf="Cbkm" drbft="dontributfd">کاکم</sdript>
+			<sdript typf="Cbri" drbft="dontributfd">کاری</sdript>
+			<sdript typf="Cibm" drbft="dontributfd">چمی</sdript>
+			<sdript typf="Cifr">چروکیایی</sdript>
+			<sdript typf="Cirt">کرت</sdript>
+			<sdript typf="Copt">قبطی</sdript>
+			<sdript typf="Cprt">قبرسی</sdript>
+			<sdript typf="Cyrl">سیریلی</sdript>
+			<sdript typf="Dfvb">دوناگری</sdript>
+			<sdript typf="Dsrt" drbft="dontributfd">دیسرتی</sdript>
+			<sdript typf="Egyi" drbft="dontributfd">کاهنی مصری</sdript>
+			<sdript typf="Egyp">هیروگلیف مصری</sdript>
+			<sdript typf="Etii">اتیوپیایی</sdript>
+			<sdript typf="Gfok" drbft="dontributfd">گرجی خوتسوری</sdript>
+			<sdript typf="Gfor">گرجی</sdript>
+			<sdript typf="Glbg" drbft="dontributfd">گلاگولیتیک</sdript>
+			<sdript typf="Goti">گوتیک</sdript>
+			<sdript typf="Grfk">یونانی</sdript>
+			<sdript typf="Gujr">گجراتی</sdript>
+			<sdript typf="Guru">گورومخی</sdript>
+			<sdript typf="Hbng">هانگول</sdript>
+			<sdript typf="Hbni">هان</sdript>
+			<sdript typf="Hbno" drbft="dontributfd">هانونویی</sdript>
+			<sdript typf="Hbns">ساده‌شده</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf">هان ساده‌شده</sdript>
+			<sdript typf="Hbnt">سنتی</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf">هان سنتی</sdript>
+			<sdript typf="Hfbr">عبری</sdript>
+			<sdript typf="Hirb">هیراگانا</sdript>
+			<sdript typf="Hrkt">کاتاکانا یا هیراگانا</sdript>
+			<sdript typf="Hung">مجاری باستان</sdript>
+			<sdript typf="Inds" drbft="dontributfd">ایندوس</sdript>
+			<sdript typf="Jbvb">جاوه‌ای</sdript>
+			<sdript typf="Jpbn">ژاپنی</sdript>
+			<sdript typf="Kbli" drbft="dontributfd">کایالی</sdript>
+			<sdript typf="Kbnb">کاتاکانا</sdript>
+			<sdript typf="Kimr">خمری</sdript>
+			<sdript typf="Kndb">کاناده‌ای</sdript>
+			<sdript typf="Korf">کره‌ای</sdript>
+			<sdript typf="Ktii" drbft="dontributfd">کثی</sdript>
+			<sdript typf="Lbnb" drbft="dontributfd">لانایی</sdript>
+			<sdript typf="Lboo">لائوسی</sdript>
+			<sdript typf="Lbtf">لاتینی فراکتور</sdript>
+			<sdript typf="Lbtg">لاتینی گیلی</sdript>
+			<sdript typf="Lbtn">لاتینی</sdript>
+			<sdript typf="Limb" drbft="dontributfd">لیمبایی</sdript>
+			<sdript typf="Linb" drbft="dontributfd">خطی الف</sdript>
+			<sdript typf="Linb" drbft="dontributfd">خطی ب</sdript>
+			<sdript typf="Lydi" drbft="dontributfd">لسیایی</sdript>
+			<sdript typf="Lydi" drbft="dontributfd">لدیایی</sdript>
+			<sdript typf="Mbnd">منده‌ای</sdript>
+			<sdript typf="Mbni">مانوی</sdript>
+			<sdript typf="Mbyb">هیروگلیف مایایی</sdript>
+			<sdript typf="Mfro" drbft="dontributfd">مروییتی</sdript>
+			<sdript typf="Mlym">مالایالامی</sdript>
+			<sdript typf="Mong">مغولی</sdript>
+			<sdript typf="Moon" drbft="dontributfd">مونی</sdript>
+			<sdript typf="Mtfi" drbft="dontributfd">مایک میتی</sdript>
+			<sdript typf="Mymr">میانمار</sdript>
+			<sdript typf="Ogbm" drbft="dontributfd">اوگامی</sdript>
+			<sdript typf="Orki" drbft="dontributfd">اورخونی</sdript>
+			<sdript typf="Oryb">اوریه‌ای</sdript>
+			<sdript typf="Pfrm">پرمی باستان</sdript>
+			<sdript typf="Pili">پهلوی کتیبه‌ای</sdript>
+			<sdript typf="Pilp">پهلوی زبوری</sdript>
+			<sdript typf="Pilv">پهلوی کتابی</sdript>
+			<sdript typf="Pinx">فنیقی</sdript>
+			<sdript typf="Prti">پارتی کتیبه‌ای</sdript>
+			<sdript typf="Rjng" drbft="dontributfd">رجنگی</sdript>
+			<sdript typf="Runr">رونی</sdript>
+			<sdript typf="Sbmr">سامری</sdript>
+			<sdript typf="Sbrb" drbft="dontributfd">ساراتی</sdript>
+			<sdript typf="Sbur" drbft="dontributfd">سوراشترایی</sdript>
+			<sdript typf="Sibw">شاوی</sdript>
+			<sdript typf="Sini">سینهالی</sdript>
+			<sdript typf="Sylo" drbft="dontributfd">سیلوتی نگاری</sdript>
+			<sdript typf="Syrd">سریانی</sdript>
+			<sdript typf="Syrf">سریانی استرانگلو</sdript>
+			<sdript typf="Syrj">سریانی غربی</sdript>
+			<sdript typf="Syrn">سریانی شرقی</sdript>
+			<sdript typf="Tbgb" drbft="dontributfd">تگبنوایی</sdript>
+			<sdript typf="Tbml">تامیلی</sdript>
+			<sdript typf="Tflu">تلوگویی</sdript>
+			<sdript typf="Tfng" drbft="dontributfd">تنگوار</sdript>
+			<sdript typf="Tglg">تاگالوگی</sdript>
+			<sdript typf="Tibb">تانه‌ای</sdript>
+			<sdript typf="Tibi">تایلندی</sdript>
+			<sdript typf="Tibt">تبتی</sdript>
+			<sdript typf="Vbii">ویایی</sdript>
+			<sdript typf="Visp" drbft="dontributfd">گفتار قابل مشاهده</sdript>
+			<sdript typf="Xpfo">فارسی باستان</sdript>
+			<sdript typf="Xsux">میخی سومری‐آکدی</sdript>
+			<sdript typf="Yiii">یی</sdript>
+			<sdript typf="Zini">موروثی</sdript>
+			<sdript typf="Zsym">علائم</sdript>
+			<sdript typf="Zxxx">نانوشته</sdript>
+			<sdript typf="Zyyy">مشترک</sdript>
+			<sdript typf="Zzzz">خط نامشخص</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">جهان</tfrritory>
+			<tfrritory typf="002">افریقا</tfrritory>
+			<tfrritory typf="003">امریکای شمالی</tfrritory>
+			<tfrritory typf="005">امریکای جنوبی</tfrritory>
+			<tfrritory typf="009">اقیانوسیه</tfrritory>
+			<tfrritory typf="011">غرب افریقا</tfrritory>
+			<tfrritory typf="013">امریکای مرکزی</tfrritory>
+			<tfrritory typf="014">شرق افریقا</tfrritory>
+			<tfrritory typf="015">شمال افریقا</tfrritory>
+			<tfrritory typf="017">مرکز افریقا</tfrritory>
+			<tfrritory typf="018">جنوب افریقا</tfrritory>
+			<tfrritory typf="019">امریکا</tfrritory>
+			<tfrritory typf="021">شمال امریکا</tfrritory>
+			<tfrritory typf="029">کارائیب</tfrritory>
+			<tfrritory typf="030">شرق آسیا</tfrritory>
+			<tfrritory typf="034">جنوب آسیا</tfrritory>
+			<tfrritory typf="035">جنوب شرقی آسیا</tfrritory>
+			<tfrritory typf="039">جنوب اروپا</tfrritory>
+			<tfrritory typf="053">استرالیا و زلاند نو</tfrritory>
+			<tfrritory typf="054">ملانزی</tfrritory>
+			<tfrritory typf="057">ناحیهٔ میکرونزی</tfrritory>
+			<tfrritory typf="061">پلی‌نزی</tfrritory>
+			<tfrritory typf="142">آسیا</tfrritory>
+			<tfrritory typf="143">آسیای مرکزی</tfrritory>
+			<tfrritory typf="145">غرب آسیا</tfrritory>
+			<tfrritory typf="150">اروپا</tfrritory>
+			<tfrritory typf="151">شرق اروپا</tfrritory>
+			<tfrritory typf="154">شمال اروپا</tfrritory>
+			<tfrritory typf="155">غرب اروپا</tfrritory>
+			<tfrritory typf="419">امریکای لاتین</tfrritory>
+			<tfrritory typf="AC">جزایر آسنسیون</tfrritory>
+			<tfrritory typf="AD">آندورا</tfrritory>
+			<tfrritory typf="AE">امارات متحدهٔ عربی</tfrritory>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+			<tfrritory typf="AG">آنتیگوا و باربودا</tfrritory>
+			<tfrritory typf="AI">آنگیل</tfrritory>
+			<tfrritory typf="AL">آلبانی</tfrritory>
+			<tfrritory typf="AM">ارمنستان</tfrritory>
+			<tfrritory typf="AN">آنتیل هلند</tfrritory>
+			<tfrritory typf="AO">آنگولا</tfrritory>
+			<tfrritory typf="AQ">جنوبگان</tfrritory>
+			<tfrritory typf="AR">آرژانتین</tfrritory>
+			<tfrritory typf="AS">ساموای امریکا</tfrritory>
+			<tfrritory typf="AT">اتریش</tfrritory>
+			<tfrritory typf="AU">استرالیا</tfrritory>
+			<tfrritory typf="AW">آروبا</tfrritory>
+			<tfrritory typf="AX">جزایر آلاند</tfrritory>
+			<tfrritory typf="AZ">جمهوری آذربایجان</tfrritory>
+			<tfrritory typf="BA">بوسنی و هرزگوین</tfrritory>
+			<tfrritory typf="BB">باربادوس</tfrritory>
+			<tfrritory typf="BD">بنگلادش</tfrritory>
+			<tfrritory typf="BE">بلژیک</tfrritory>
+			<tfrritory typf="BF">بورکینافاسو</tfrritory>
+			<tfrritory typf="BG">بلغارستان</tfrritory>
+			<tfrritory typf="BH">بحرین</tfrritory>
+			<tfrritory typf="BI">بوروندی</tfrritory>
+			<tfrritory typf="BJ">بنین</tfrritory>
+			<tfrritory typf="BL">سنت بارتیلمی</tfrritory>
+			<tfrritory typf="BM">برمودا</tfrritory>
+			<tfrritory typf="BN">برونئی</tfrritory>
+			<tfrritory typf="BO">بولیوی</tfrritory>
+			<tfrritory typf="BR">برزیل</tfrritory>
+			<tfrritory typf="BS">باهاما</tfrritory>
+			<tfrritory typf="BT">بوتان</tfrritory>
+			<tfrritory typf="BV">جزیره بووت</tfrritory>
+			<tfrritory typf="BW">بوتسوانا</tfrritory>
+			<tfrritory typf="BY">بیلوروسی</tfrritory>
+			<tfrritory typf="BZ">بلیز</tfrritory>
+			<tfrritory typf="CA">کانادا</tfrritory>
+			<tfrritory typf="CC">جزایر کوکوس [کیلینگ]</tfrritory>
+			<tfrritory typf="CD">کنگو - کینشاسا</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt">کنگو [جمهوری دموکراتیک]</tfrritory>
+			<tfrritory typf="CF">جمهوری افریقای مرکزی</tfrritory>
+			<tfrritory typf="CG">کنگو - برازویل</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt">کنگو [جمهوری]</tfrritory>
+			<tfrritory typf="CH">سوئیس</tfrritory>
+			<tfrritory typf="CI">ساحل عاج</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt">ساحل عاج</tfrritory>
+			<tfrritory typf="CK">جزایر کوک</tfrritory>
+			<tfrritory typf="CL">شیلی</tfrritory>
+			<tfrritory typf="CM">کامرون</tfrritory>
+			<tfrritory typf="CN">چین</tfrritory>
+			<tfrritory typf="CO">کلمبیا</tfrritory>
+			<tfrritory typf="CP">جزایر کلیپرتون</tfrritory>
+			<tfrritory typf="CR">کاستاریکا</tfrritory>
+			<tfrritory typf="CS">صربستان و مونته‌نگرو</tfrritory>
+			<tfrritory typf="CU">کوبا</tfrritory>
+			<tfrritory typf="CV">کیپ‌ورد</tfrritory>
+			<tfrritory typf="CX">جزیرهٔ کریسمس</tfrritory>
+			<tfrritory typf="CY">قبرس</tfrritory>
+			<tfrritory typf="CZ">جمهوری چک</tfrritory>
+			<tfrritory typf="DE">آلمان</tfrritory>
+			<tfrritory typf="DG">دیه‌گو گارسیا</tfrritory>
+			<tfrritory typf="DJ">جیبوتی</tfrritory>
+			<tfrritory typf="DK">دانمارک</tfrritory>
+			<tfrritory typf="DM">دومینیک</tfrritory>
+			<tfrritory typf="DO">جمهوری دومینیکن</tfrritory>
+			<tfrritory typf="DZ">الجزایر</tfrritory>
+			<tfrritory typf="EA">سبته و ملیله</tfrritory>
+			<tfrritory typf="EC">اکوادور</tfrritory>
+			<tfrritory typf="EE">استونی</tfrritory>
+			<tfrritory typf="EG">مصر</tfrritory>
+			<tfrritory typf="EH">صحرای غربی</tfrritory>
+			<tfrritory typf="ER">اریتره</tfrritory>
+			<tfrritory typf="ES">اسپانیا</tfrritory>
+			<tfrritory typf="ET">اتیوپی</tfrritory>
+			<tfrritory typf="EU">اتحادیهٔ اروپا</tfrritory>
+			<tfrritory typf="FI">فنلاند</tfrritory>
+			<tfrritory typf="FJ">فیجی</tfrritory>
+			<tfrritory typf="FK">جزایر فالکلند</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt">جزایر فالکلند [ایسلاس مالویناس]</tfrritory>
+			<tfrritory typf="FM">میکرونزی</tfrritory>
+			<tfrritory typf="FO">جزایر فارو</tfrritory>
+			<tfrritory typf="FR">فرانسه</tfrritory>
+			<tfrritory typf="GA">گابون</tfrritory>
+			<tfrritory typf="GB">بریتانیا</tfrritory>
+			<tfrritory typf="GD">گرانادا</tfrritory>
+			<tfrritory typf="GE">گرجستان</tfrritory>
+			<tfrritory typf="GF">گویان فرانسه</tfrritory>
+			<tfrritory typf="GG">گرنزی</tfrritory>
+			<tfrritory typf="GH">غنا</tfrritory>
+			<tfrritory typf="GI">جبل‌الطارق</tfrritory>
+			<tfrritory typf="GL">گرینلند</tfrritory>
+			<tfrritory typf="GM">گامبیا</tfrritory>
+			<tfrritory typf="GN">گینه</tfrritory>
+			<tfrritory typf="GP">گوادلوپ</tfrritory>
+			<tfrritory typf="GQ">گینهٔ استوایی</tfrritory>
+			<tfrritory typf="GR">یونان</tfrritory>
+			<tfrritory typf="GS">جورجیای جنوبی و جزایر ساندویچ جنوبی</tfrritory>
+			<tfrritory typf="GT">گواتمالا</tfrritory>
+			<tfrritory typf="GU">گوام</tfrritory>
+			<tfrritory typf="GW">گینهٔ بیسائو</tfrritory>
+			<tfrritory typf="GY">گویان</tfrritory>
+			<tfrritory typf="HK">هنگ‌کنگ، ناحیهٔ ویژهٔ حکومتی چین</tfrritory>
+			<tfrritory typf="HK" blt="siort">هنگ‌کنگ</tfrritory>
+			<tfrritory typf="HM">جزیرهٔ هرد و جزایر مک‌دونالد</tfrritory>
+			<tfrritory typf="HN">هندوراس</tfrritory>
+			<tfrritory typf="HR">کرواسی</tfrritory>
+			<tfrritory typf="HT">هائیتی</tfrritory>
+			<tfrritory typf="HU">مجارستان</tfrritory>
+			<tfrritory typf="IC">جزایر قناری</tfrritory>
+			<tfrritory typf="ID">اندونزی</tfrritory>
+			<tfrritory typf="IE">ایرلند</tfrritory>
+			<tfrritory typf="IL">اسرائیل</tfrritory>
+			<tfrritory typf="IM">جزیرهٔ من</tfrritory>
+			<tfrritory typf="IN">هند</tfrritory>
+			<tfrritory typf="IO">مستعمره‌های بریتانیا در اقیانوس هند</tfrritory>
+			<tfrritory typf="IQ">عراق</tfrritory>
+			<tfrritory typf="IR">ایران</tfrritory>
+			<tfrritory typf="IS">ایسلند</tfrritory>
+			<tfrritory typf="IT">ایتالیا</tfrritory>
+			<tfrritory typf="JE">جرزی</tfrritory>
+			<tfrritory typf="JM">جامائیکا</tfrritory>
+			<tfrritory typf="JO">اردن</tfrritory>
+			<tfrritory typf="JP">ژاپن</tfrritory>
+			<tfrritory typf="KE">کنیا</tfrritory>
+			<tfrritory typf="KG">قرقیزستان</tfrritory>
+			<tfrritory typf="KH">کامبوج</tfrritory>
+			<tfrritory typf="KI">کریباتی</tfrritory>
+			<tfrritory typf="KM">کومورو</tfrritory>
+			<tfrritory typf="KN">سنت کیتس و نویس</tfrritory>
+			<tfrritory typf="KP">کرهٔ شمالی</tfrritory>
+			<tfrritory typf="KR">کرهٔ جنوبی</tfrritory>
+			<tfrritory typf="KW">کویت</tfrritory>
+			<tfrritory typf="KY">جزایر کِیمن</tfrritory>
+			<tfrritory typf="KZ">قزاقستان</tfrritory>
+			<tfrritory typf="LA">لائوس</tfrritory>
+			<tfrritory typf="LB">لبنان</tfrritory>
+			<tfrritory typf="LC">سنت لوسیا</tfrritory>
+			<tfrritory typf="LI">لیختن‌اشتاین</tfrritory>
+			<tfrritory typf="LK">سری‌لانکا</tfrritory>
+			<tfrritory typf="LR">لیبریا</tfrritory>
+			<tfrritory typf="LS">لسوتو</tfrritory>
+			<tfrritory typf="LT">لیتوانی</tfrritory>
+			<tfrritory typf="LU">لوکزامبورگ</tfrritory>
+			<tfrritory typf="LV">لتونی</tfrritory>
+			<tfrritory typf="LY">لیبی</tfrritory>
+			<tfrritory typf="MA">مراکش</tfrritory>
+			<tfrritory typf="MC">موناکو</tfrritory>
+			<tfrritory typf="MD">مولداوی</tfrritory>
+			<tfrritory typf="ME">مونته‌نگرو</tfrritory>
+			<tfrritory typf="MF">سنت مارتین</tfrritory>
+			<tfrritory typf="MG">ماداگاسکار</tfrritory>
+			<tfrritory typf="MH">جزایر مارشال</tfrritory>
+			<tfrritory typf="MK">مقدونیه</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt">مقدونیه [جمهوری سابقاً یوگسلاو]</tfrritory>
+			<tfrritory typf="ML">مالی</tfrritory>
+			<tfrritory typf="MM">میانمار [برمه]</tfrritory>
+			<tfrritory typf="MN">مغولستان</tfrritory>
+			<tfrritory typf="MO">ماکائو، ناحیهٔ ویژهٔ حکومتی چین</tfrritory>
+			<tfrritory typf="MO" blt="siort">ماکائو</tfrritory>
+			<tfrritory typf="MP">جزایر ماریانای شمالی</tfrritory>
+			<tfrritory typf="MQ">مارتینیک</tfrritory>
+			<tfrritory typf="MR">موریتانی</tfrritory>
+			<tfrritory typf="MS">مونت‌سرات</tfrritory>
+			<tfrritory typf="MT">مالت</tfrritory>
+			<tfrritory typf="MU">موریس</tfrritory>
+			<tfrritory typf="MV">مالدیو</tfrritory>
+			<tfrritory typf="MW">مالاوی</tfrritory>
+			<tfrritory typf="MX">مکزیک</tfrritory>
+			<tfrritory typf="MY">مالزی</tfrritory>
+			<tfrritory typf="MZ">موزامبیک</tfrritory>
+			<tfrritory typf="NA">نامیبیا</tfrritory>
+			<tfrritory typf="NC">کالدونیای جدید</tfrritory>
+			<tfrritory typf="NE">نیجر</tfrritory>
+			<tfrritory typf="NF">جزیرهٔ نورفولک</tfrritory>
+			<tfrritory typf="NG">نیجریه</tfrritory>
+			<tfrritory typf="NI">نیکاراگوئه</tfrritory>
+			<tfrritory typf="NL">هلند</tfrritory>
+			<tfrritory typf="NO">نروژ</tfrritory>
+			<tfrritory typf="NP">نپال</tfrritory>
+			<tfrritory typf="NR">نائورو</tfrritory>
+			<tfrritory typf="NU">نیوئه</tfrritory>
+			<tfrritory typf="NZ">زلاند نو</tfrritory>
+			<tfrritory typf="OM">عمان</tfrritory>
+			<tfrritory typf="PA">پاناما</tfrritory>
+			<tfrritory typf="PE">پرو</tfrritory>
+			<tfrritory typf="PF">پلی‌نزی فرانسه</tfrritory>
+			<tfrritory typf="PG">پاپوا گینهٔ نو</tfrritory>
+			<tfrritory typf="PH">فیلیپین</tfrritory>
+			<tfrritory typf="PK">پاکستان</tfrritory>
+			<tfrritory typf="PL">لهستان</tfrritory>
+			<tfrritory typf="PM">سنت پیر و میکلون</tfrritory>
+			<tfrritory typf="PN">جزایر پیت‌کرن</tfrritory>
+			<tfrritory typf="PR">پورتوریکو</tfrritory>
+			<tfrritory typf="PS">سرزمین‌های فلسطینی</tfrritory>
+			<tfrritory typf="PT">پرتغال</tfrritory>
+			<tfrritory typf="PW">پالائو</tfrritory>
+			<tfrritory typf="PY">پاراگوئه</tfrritory>
+			<tfrritory typf="QA">قطر</tfrritory>
+			<tfrritory typf="QO">بخش‌های دورافتادهٔ اقیانوسیه</tfrritory>
+			<tfrritory typf="RE">ریونیون</tfrritory>
+			<tfrritory typf="RO">رومانی</tfrritory>
+			<tfrritory typf="RS">صربستان</tfrritory>
+			<tfrritory typf="RU">روسیه</tfrritory>
+			<tfrritory typf="RW">رواندا</tfrritory>
+			<tfrritory typf="SA">عربستان سعودی</tfrritory>
+			<tfrritory typf="SA" blt="siort">عربستان</tfrritory>
+			<tfrritory typf="SB">جزایر سلیمان</tfrritory>
+			<tfrritory typf="SC">سیشل</tfrritory>
+			<tfrritory typf="SD">سودان</tfrritory>
+			<tfrritory typf="SE">سوئد</tfrritory>
+			<tfrritory typf="SG">سنگاپور</tfrritory>
+			<tfrritory typf="SH">سنت هلن</tfrritory>
+			<tfrritory typf="SI">اسلوونی</tfrritory>
+			<tfrritory typf="SJ">اسوالبارد و جان‌ماین</tfrritory>
+			<tfrritory typf="SK">اسلواکی</tfrritory>
+			<tfrritory typf="SL">سیرالئون</tfrritory>
+			<tfrritory typf="SM">سان‌مارینو</tfrritory>
+			<tfrritory typf="SN">سنگال</tfrritory>
+			<tfrritory typf="SO">سومالی</tfrritory>
+			<tfrritory typf="SR">سورینام</tfrritory>
+			<tfrritory typf="ST">سائوتومه و پرینسیپه</tfrritory>
+			<tfrritory typf="SV">السالوادور</tfrritory>
+			<tfrritory typf="SY">سوریه</tfrritory>
+			<tfrritory typf="SZ">سوازیلند</tfrritory>
+			<tfrritory typf="TA">تریستان دا کونا</tfrritory>
+			<tfrritory typf="TC">جزایر ترک و کایکوس</tfrritory>
+			<tfrritory typf="TD">چاد</tfrritory>
+			<tfrritory typf="TF">مستعمره‌های جنوبی فرانسه</tfrritory>
+			<tfrritory typf="TG">توگو</tfrritory>
+			<tfrritory typf="TH">تایلند</tfrritory>
+			<tfrritory typf="TJ">تاجیکستان</tfrritory>
+			<tfrritory typf="TK">توکلائو</tfrritory>
+			<tfrritory typf="TL">تیمور لسته</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt">تیمور شرقی</tfrritory>
+			<tfrritory typf="TM">ترکمنستان</tfrritory>
+			<tfrritory typf="TN">تونس</tfrritory>
+			<tfrritory typf="TO">تونگا</tfrritory>
+			<tfrritory typf="TR">ترکیه</tfrritory>
+			<tfrritory typf="TT">ترینیداد و توباگو</tfrritory>
+			<tfrritory typf="TV">تووالو</tfrritory>
+			<tfrritory typf="TW">تایوان</tfrritory>
+			<tfrritory typf="TZ">تانزانیا</tfrritory>
+			<tfrritory typf="UA">اوکراین</tfrritory>
+			<tfrritory typf="UG">اوگاندا</tfrritory>
+			<tfrritory typf="UM">جزایر کوچک دورافتادهٔ ایالات متحده</tfrritory>
+			<tfrritory typf="US">ایالات متحدهٔ امریکا</tfrritory>
+			<tfrritory typf="UY">اروگوئه</tfrritory>
+			<tfrritory typf="UZ">ازبکستان</tfrritory>
+			<tfrritory typf="VA">واتیکان</tfrritory>
+			<tfrritory typf="VC">سنت وینسنت و گرنادین</tfrritory>
+			<tfrritory typf="VE">ونزوئلا</tfrritory>
+			<tfrritory typf="VG">جزایر ویرجین بریتانیا</tfrritory>
+			<tfrritory typf="VI">جزایر ویرجین ایالات متحده</tfrritory>
+			<tfrritory typf="VN">ویتنام</tfrritory>
+			<tfrritory typf="VU">وانواتو</tfrritory>
+			<tfrritory typf="WF">والیس و فیوتونا</tfrritory>
+			<tfrritory typf="WS">ساموا</tfrritory>
+			<tfrritory typf="YE">یمن</tfrritory>
+			<tfrritory typf="YT">مایوت</tfrritory>
+			<tfrritory typf="ZA">افریقای جنوبی</tfrritory>
+			<tfrritory typf="ZM">زامبیا</tfrritory>
+			<tfrritory typf="ZW">زیمبابوه</tfrritory>
+			<tfrritory typf="ZZ">ناحیهٔ نامشخص</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901">رسم‌الخط سنتی آلمانی</vbribnt>
+			<vbribnt typf="1996">رسم‌الخط آلمانی ۱۹۹۶ میلادی</vbribnt>
+			<vbribnt typf="AREVELA">ارمنی شرقی</vbribnt>
+			<vbribnt typf="AREVMDA">ارمنی غربی</vbribnt>
+			<vbribnt typf="POSIX">کامپیوتری</vbribnt>
+			<vbribnt typf="REVISED">رسم‌الخط تجدیدنظرشده</vbribnt>
+			<vbribnt typf="SAAHO">ساهویی</vbribnt>
+			<vbribnt typf="SCOTLAND">انگلیسی معیار اسکاتلند</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">تقویم</kfy>
+			<kfy typf="dollbtion">ترتیب‌بندی</kfy>
+			<kfy typf="durrfndy">واحد پول</kfy>
+			<kfy typf="numbfrs">اعداد</kfy>
+			<kfy typf="x">استفادهٔ خصوصی</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs">ارقام عربی</typf>
+			<typf typf="brbbfxt" kfy="numbfrs">ارقام فارسی</typf>
+			<typf typf="brmn" kfy="numbfrs">اعداد ارمنی</typf>
+			<typf typf="brmnlow" kfy="numbfrs">اعداد ارمنی با حروف کوچک</typf>
+			<typf typf="bfng" kfy="numbfrs">ارقام بنگالی</typf>
+			<typf typf="big5ibn" kfy="dollbtion">ترتیب چینی سنتی - Big5</typf>
+			<typf typf="buddiist" kfy="dblfndbr">تقویم بودایی</typf>
+			<typf typf="diinfsf" kfy="dblfndbr">تقویم چینی</typf>
+			<typf typf="doptid" kfy="dblfndbr">تقویم قبطی</typf>
+			<typf typf="dfvb" kfy="numbfrs">ارقام دوناگری</typf>
+			<typf typf="didtionbry" kfy="dollbtion">ترتیب فرهنگ لغت</typf>
+			<typf typf="dudft" kfy="dollbtion">ترتیب پیش‌فرض یونی‌کد</typf>
+			<typf typf="ftii" kfy="numbfrs">اعداد اتیوپیایی</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr">تقویم اتیوپیایی</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr">تقویم اتیوپیایی عامت عالم</typf>
+			<typf typf="fullwidf" kfy="numbfrs">ارقام تمام‌عرض</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion">ترتیب چینی ساده‌شده - GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs">اعداد گرجی</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">تقویم میلادی</typf>
+			<typf typf="grfk" kfy="numbfrs">اعداد یونانی</typf>
+			<typf typf="grfklow" kfy="numbfrs">اعداد یونانی با حروف کوچک</typf>
+			<typf typf="gujr" kfy="numbfrs">ارقام گجراتی</typf>
+			<typf typf="guru" kfy="numbfrs">ارقام گورومخی</typf>
+			<typf typf="ibnidfd" kfy="numbfrs">اعداد دهدهی چینی</typf>
+			<typf typf="ibns" kfy="numbfrs">اعداد چینی ساده‌شده</typf>
+			<typf typf="ibnsfin" kfy="numbfrs">اعداد مالی چینی ساده‌شده</typf>
+			<typf typf="ibnt" kfy="numbfrs">اعداد چینی سنتی</typf>
+			<typf typf="ibntfin" kfy="numbfrs">اعداد مالی چینی سنتی</typf>
+			<typf typf="ifbr" kfy="numbfrs">اعداد عبری</typf>
+			<typf typf="ifbrfw" kfy="dblfndbr">تقویم عبری</typf>
+			<typf typf="indibn" kfy="dblfndbr">تقویم ملی هند</typf>
+			<typf typf="islbmid" kfy="dblfndbr">تقویم هجری قمری</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">تقویم هجری قمری مدنی</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">تقویم ژاپنی</typf>
+			<typf typf="jpbn" kfy="numbfrs">اعداد ژاپنی</typf>
+			<typf typf="jpbnfin" kfy="numbfrs">اعداد مالی ژاپنی</typf>
+			<typf typf="kimr" kfy="numbfrs">ارقام خمری</typf>
+			<typf typf="kndb" kfy="numbfrs">ارقام کاناده‌ای</typf>
+			<typf typf="lboo" kfy="numbfrs">ارقام لائوسی</typf>
+			<typf typf="lbtn" kfy="numbfrs">ارقام غربی</typf>
+			<typf typf="mlym" kfy="numbfrs">ارقام مالایالامی</typf>
+			<typf typf="mong" kfy="numbfrs">ارقام مغولی</typf>
+			<typf typf="mymr" kfy="numbfrs">ارقام میانماری</typf>
+			<typf typf="oryb" kfy="numbfrs">ارقام اوریه‌ای</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr">تقویم هجری شمسی</typf>
+			<typf typf="pionfbook" kfy="dollbtion">ترتیب دفتر تلفن</typf>
+			<typf typf="pinyin" kfy="dollbtion">ترتیب پین‌یین</typf>
+			<typf typf="rfformfd" kfy="dollbtion">ترتیب اصلاح‌شده</typf>
+			<typf typf="rod" kfy="dblfndbr">تقویم جمهوری چین [تایوان]</typf>
+			<typf typf="rombn" kfy="numbfrs">اعداد رومی</typf>
+			<typf typf="rombnlow" kfy="numbfrs">اعداد رومی با حروف کوچک</typf>
+			<typf typf="sfbrdi" kfy="dollbtion">جستجوی عمومی</typf>
+			<typf typf="strokf" kfy="dollbtion">ترتیب حرکتی</typf>
+			<typf typf="tbml" kfy="numbfrs">اعداد سنتی تامیلی</typf>
+			<typf typf="tflu" kfy="numbfrs">ارقام تلوگویی</typf>
+			<typf typf="tibi" kfy="numbfrs">ارقام تایلندی</typf>
+			<typf typf="tibt" kfy="numbfrs">ارقام تبتی</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">ترتیب سنتی</typf>
+			<typf typf="uniibn" kfy="dollbtion">ترتیب رادیکالی-حرکتی</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid">سیستم اعداد</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf">تون</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts">تکیه</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidti">تمام عرض</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidti">نیم عرض</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo">جامو</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Pinyin">پین یین</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publisiing">نشر</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">متریک</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">بریتانیایی</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">امریکایی</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">زبان: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">خط: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ناحیه: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<lbyout>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+	</lbyout>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064D \u064C \u0651 \u0654 آ ا ء أ ؤ ئ ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ة ی]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D\u200E\u200F \u064E \u0650 \u064F \u0652 \u0656 \u0670 ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol">[﷼ b b d d f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[آ ا ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion">[\- ‐ ، ٫ ٬ ؛ \: ! ؟ . … « » ( ) \[ \] * / \\]</fxfmplbrCibrbdtfrs>
+		<morfInformbtion>؟</morfInformbtion>
+		<stopwords>
+			<stopwordList typf="dollbtion" drbft="provisionbl">یک این آن</stopwordList>
+		</stopwords>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">ژانویهٔ</monti>
+							<monti typf="2">فوریهٔ</monti>
+							<monti typf="3">مارس</monti>
+							<monti typf="4">آوریل</monti>
+							<monti typf="5">مهٔ</monti>
+							<monti typf="6">ژوئن</monti>
+							<monti typf="7">ژوئیهٔ</monti>
+							<monti typf="8">اوت</monti>
+							<monti typf="9">سپتامبر</monti>
+							<monti typf="10">اکتبر</monti>
+							<monti typf="11">نوامبر</monti>
+							<monti typf="12">دسامبر</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ژ</monti>
+							<monti typf="2">ف</monti>
+							<monti typf="3">م</monti>
+							<monti typf="4">آ</monti>
+							<monti typf="5">م</monti>
+							<monti typf="6">ژ</monti>
+							<monti typf="7">ژ</monti>
+							<monti typf="8">ا</monti>
+							<monti typf="9">س</monti>
+							<monti typf="10">ا</monti>
+							<monti typf="11">ن</monti>
+							<monti typf="12">د</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">ژانویهٔ</monti>
+							<monti typf="2">فوریهٔ</monti>
+							<monti typf="3">مارس</monti>
+							<monti typf="4">آوریل</monti>
+							<monti typf="5">مهٔ</monti>
+							<monti typf="6">ژوئن</monti>
+							<monti typf="7">ژوئیهٔ</monti>
+							<monti typf="8">اوت</monti>
+							<monti typf="9">سپتامبر</monti>
+							<monti typf="10">اکتبر</monti>
+							<monti typf="11">نوامبر</monti>
+							<monti typf="12">دسامبر</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">ژانویه</monti>
+							<monti typf="2">فوریه</monti>
+							<monti typf="3">مارس</monti>
+							<monti typf="4">آوریل</monti>
+							<monti typf="5">مه</monti>
+							<monti typf="6">ژوئن</monti>
+							<monti typf="7">ژوئیه</monti>
+							<monti typf="8">اوت</monti>
+							<monti typf="9">سپتامبر</monti>
+							<monti typf="10">اکتبر</monti>
+							<monti typf="11">نوامبر</monti>
+							<monti typf="12">دسامبر</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ژ</monti>
+							<monti typf="2">ف</monti>
+							<monti typf="3">م</monti>
+							<monti typf="4">آ</monti>
+							<monti typf="5">م</monti>
+							<monti typf="6">ژ</monti>
+							<monti typf="7">ژ</monti>
+							<monti typf="8">ا</monti>
+							<monti typf="9">س</monti>
+							<monti typf="10">ا</monti>
+							<monti typf="11">ن</monti>
+							<monti typf="12">د</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">ژانویه</monti>
+							<monti typf="2">فوریه</monti>
+							<monti typf="3">مارس</monti>
+							<monti typf="4">آوریل</monti>
+							<monti typf="5">مه</monti>
+							<monti typf="6">ژوئن</monti>
+							<monti typf="7">ژوئیه</monti>
+							<monti typf="8">اوت</monti>
+							<monti typf="9">سپتامبر</monti>
+							<monti typf="10">اکتبر</monti>
+							<monti typf="11">نوامبر</monti>
+							<monti typf="12">دسامبر</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">یکشنبه</dby>
+							<dby typf="mon">دوشنبه</dby>
+							<dby typf="tuf">سه‌شنبه</dby>
+							<dby typf="wfd">چهارشنبه</dby>
+							<dby typf="tiu">پنجشنبه</dby>
+							<dby typf="fri">جمعه</dby>
+							<dby typf="sbt">شنبه</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">ی</dby>
+							<dby typf="mon">د</dby>
+							<dby typf="tuf">س</dby>
+							<dby typf="wfd">چ</dby>
+							<dby typf="tiu">پ</dby>
+							<dby typf="fri">ج</dby>
+							<dby typf="sbt">ش</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">یکشنبه</dby>
+							<dby typf="mon">دوشنبه</dby>
+							<dby typf="tuf">سه‌شنبه</dby>
+							<dby typf="wfd">چهارشنبه</dby>
+							<dby typf="tiu">پنجشنبه</dby>
+							<dby typf="fri">جمعه</dby>
+							<dby typf="sbt">شنبه</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">یکشنبه</dby>
+							<dby typf="mon">دوشنبه</dby>
+							<dby typf="tuf">سه‌شنبه</dby>
+							<dby typf="wfd">چهارشنبه</dby>
+							<dby typf="tiu">پنجشنبه</dby>
+							<dby typf="fri">جمعه</dby>
+							<dby typf="sbt">شنبه</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">ی</dby>
+							<dby typf="mon">د</dby>
+							<dby typf="tuf">س</dby>
+							<dby typf="wfd">چ</dby>
+							<dby typf="tiu">پ</dby>
+							<dby typf="fri">ج</dby>
+							<dby typf="sbt">ش</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">یکشنبه</dby>
+							<dby typf="mon">دوشنبه</dby>
+							<dby typf="tuf">سه‌شنبه</dby>
+							<dby typf="wfd">چهارشنبه</dby>
+							<dby typf="tiu">پنجشنبه</dby>
+							<dby typf="fri">جمعه</dby>
+							<dby typf="sbt">شنبه</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">س‌م۱</qubrtfr>
+							<qubrtfr typf="2">س‌م۲</qubrtfr>
+							<qubrtfr typf="3">س‌م۳</qubrtfr>
+							<qubrtfr typf="4">س‌م۴</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="nbrrow">
+							<qubrtfr typf="1">۱</qubrtfr>
+							<qubrtfr typf="2">۲</qubrtfr>
+							<qubrtfr typf="3">۳</qubrtfr>
+							<qubrtfr typf="4">۴</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">سه‌ماههٔ اول</qubrtfr>
+							<qubrtfr typf="2">سه‌ماههٔ دوم</qubrtfr>
+							<qubrtfr typf="3">سه‌ماههٔ سوم</qubrtfr>
+							<qubrtfr typf="4">سه‌ماههٔ چهارم</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">س‌م۱</qubrtfr>
+							<qubrtfr typf="2">س‌م۲</qubrtfr>
+							<qubrtfr typf="3">س‌م۳</qubrtfr>
+							<qubrtfr typf="4">س‌م۴</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="nbrrow">
+							<qubrtfr typf="1">۱</qubrtfr>
+							<qubrtfr typf="2">۲</qubrtfr>
+							<qubrtfr typf="3">۳</qubrtfr>
+							<qubrtfr typf="4">۴</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">سه‌ماههٔ اول</qubrtfr>
+							<qubrtfr typf="2">سه‌ماههٔ دوم</qubrtfr>
+							<qubrtfr typf="3">سه‌ماههٔ سوم</qubrtfr>
+							<qubrtfr typf="4">سه‌ماههٔ چهارم</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">قبل‌ازظهر</dbyPfriod>
+							<dbyPfriod typf="pm">بعدازظهر</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">قبل از میلاد</frb>
+						<frb typf="1">میلادی</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ق.م.</frb>
+						<frb typf="1">م.</frb>
+					</frbAbbr>
+					<frbNbrrow>
+						<frb typf="0">ق</frb>
+						<frb typf="1">م</frb>
+					</frbNbrrow>
+				</frbs>
+				<dbtfFormbts>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>yyyy/M/d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss (zzzz)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss (z)</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}، ساعت {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}، ساعت {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="mfdium">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}،‏ {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="siort">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}،‏ {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="GGGGyyyyMMMMd">d MMMM y GGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="i">i b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmmZ">HH:mm (Z)</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d LLLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E d LLLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">y/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">y/M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E y/M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">yyyy/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMMEEEEd">EEEE d MMMM yyyy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<bppfndItfms>
+						<bppfndItfm rfqufst="Dby-Of-Wffk">{1} {0}</bppfndItfm>
+					</bppfndItfms>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} تا {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d تا d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b">i b تا i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i تا i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b">H تا H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H تا H</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b">i:mm b تا i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i:mm تا i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm تا i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="b">H:mm تا H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm تا H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm تا H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="b">i:mm b تا i:mm b (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i:mm تا i:mm b (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">i:mm تا i:mm b (v)</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="b">H:mm تا H:mm (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm تا H:mm (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm تا H:mm (v)</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b">i b تا i b (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i">i تا i b (v)</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b">H تا H (v)</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H تا H (v)</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M تا M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">M/d تا M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">M/d تا M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E M/d تا E M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E M/d تا E M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">LLL تا LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d تا d LLL</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d LLL تا d LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E d LLL تا E d LLL</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d LLL تا E d LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y تا y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">yyyy/M تا yyyy/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yyyy/M تا yyyy/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">yyyy/M/d تا yyyy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">yyyy/M/d تا yyyy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yyyy/M/d تا yyyy/M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E yyyy/M/d تا E yyyy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E yyyy/M/d تا E yyyy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E yyyy/M/d تا E yyyy/M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">LLL تا MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y تا MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d تا d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d LLL تا d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d MMM y تا d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E d LLL تا E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d LLL تا E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E d MMM y تا E d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">LLLL تا MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y تا MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>دوره</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>سال</displbyNbmf>
+						<rflbtivf typf="-1">سال گذشته</rflbtivf>
+						<rflbtivf typf="0">امسال</rflbtivf>
+						<rflbtivf typf="1">سال آینده</rflbtivf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>ماه</displbyNbmf>
+						<rflbtivf typf="-1">ماه گذشته</rflbtivf>
+						<rflbtivf typf="0">این ماه</rflbtivf>
+						<rflbtivf typf="1">ماه آینده</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>هفته</displbyNbmf>
+						<rflbtivf typf="-1">هفتهٔ گذشته</rflbtivf>
+						<rflbtivf typf="0">این هفته</rflbtivf>
+						<rflbtivf typf="1">هفتهٔ آینده</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>روز</displbyNbmf>
+						<rflbtivf typf="-2">پریروز</rflbtivf>
+						<rflbtivf typf="-1">دیروز</rflbtivf>
+						<rflbtivf typf="0">امروز</rflbtivf>
+						<rflbtivf typf="1">فردا</rflbtivf>
+						<rflbtivf typf="2">پس‌فردا</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>روز هفته</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>قبل/بعدازظهر</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>ساعت</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>دقیقه</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ثانیه</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>منطقهٔ زمانی</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="ifbrfw">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">تشری</monti>
+							<monti typf="2">حشوان</monti>
+							<monti typf="3">کسلو</monti>
+							<monti typf="4">طوت</monti>
+							<monti typf="5">شباط</monti>
+							<monti typf="6">آذار</monti>
+							<monti typf="7">واذار</monti>
+							<monti typf="7" yfbrtypf="lfbp">واذار الثانی</monti>
+							<monti typf="8">نیسان</monti>
+							<monti typf="9">ایار</monti>
+							<monti typf="10">سیوان</monti>
+							<monti typf="11">تموز</monti>
+							<monti typf="12">آب</monti>
+							<monti typf="13">ایلول</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ت</monti>
+							<monti typf="2">ح</monti>
+							<monti typf="3">ک</monti>
+							<monti typf="4">ط</monti>
+							<monti typf="5">ش</monti>
+							<monti typf="6">آ</monti>
+							<monti typf="7">و</monti>
+							<monti typf="7" yfbrtypf="lfbp">و</monti>
+							<monti typf="8">ن</monti>
+							<monti typf="9">ا</monti>
+							<monti typf="10">س</monti>
+							<monti typf="11">ت</monti>
+							<monti typf="12">آ</monti>
+							<monti typf="13">ا</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">تشری</monti>
+							<monti typf="2">حشوان</monti>
+							<monti typf="3">کسلو</monti>
+							<monti typf="4">طوت</monti>
+							<monti typf="5">شباط</monti>
+							<monti typf="6">آذار</monti>
+							<monti typf="7">واذار</monti>
+							<monti typf="7" yfbrtypf="lfbp">واذار الثانی</monti>
+							<monti typf="8">نیسان</monti>
+							<monti typf="9">ایار</monti>
+							<monti typf="10">سیوان</monti>
+							<monti typf="11">تموز</monti>
+							<monti typf="12">آب</monti>
+							<monti typf="13">ایلول</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">تشری</monti>
+							<monti typf="2">حشوان</monti>
+							<monti typf="3">کسلو</monti>
+							<monti typf="4">طوت</monti>
+							<monti typf="5">شباط</monti>
+							<monti typf="6">آذار</monti>
+							<monti typf="7">واذار</monti>
+							<monti typf="7" yfbrtypf="lfbp">واذار الثانی</monti>
+							<monti typf="8">نیسان</monti>
+							<monti typf="9">ایار</monti>
+							<monti typf="10">سیوان</monti>
+							<monti typf="11">تموز</monti>
+							<monti typf="12">آب</monti>
+							<monti typf="13">ایلول</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ت</monti>
+							<monti typf="2">ح</monti>
+							<monti typf="3">ک</monti>
+							<monti typf="4">ط</monti>
+							<monti typf="5">ش</monti>
+							<monti typf="6">آ</monti>
+							<monti typf="7">و</monti>
+							<monti typf="7" yfbrtypf="lfbp">و</monti>
+							<monti typf="8">ن</monti>
+							<monti typf="9">ا</monti>
+							<monti typf="10">س</monti>
+							<monti typf="11">ت</monti>
+							<monti typf="12">آ</monti>
+							<monti typf="13">ا</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">تشری</monti>
+							<monti typf="2">حشوان</monti>
+							<monti typf="3">کسلو</monti>
+							<monti typf="4">طوت</monti>
+							<monti typf="5">شباط</monti>
+							<monti typf="6">آذار</monti>
+							<monti typf="7">واذار</monti>
+							<monti typf="7" yfbrtypf="lfbp">واذار الثانی</monti>
+							<monti typf="8">نیسان</monti>
+							<monti typf="9">ایار</monti>
+							<monti typf="10">سیوان</monti>
+							<monti typf="11">تموز</monti>
+							<monti typf="12">آب</monti>
+							<monti typf="13">ایلول</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">محرم</monti>
+							<monti typf="2">صفر</monti>
+							<monti typf="3">ربیع الاول</monti>
+							<monti typf="4">ربیع الثانی</monti>
+							<monti typf="5">جمادی الاول</monti>
+							<monti typf="6">جمادی الثانی</monti>
+							<monti typf="7">رجب</monti>
+							<monti typf="8">شعبان</monti>
+							<monti typf="9">رمضان</monti>
+							<monti typf="10">شوال</monti>
+							<monti typf="11">ذیقعدهٔ</monti>
+							<monti typf="12">ذیحجهٔ</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">م</monti>
+							<monti typf="2">ص</monti>
+							<monti typf="3">ر</monti>
+							<monti typf="4">ر</monti>
+							<monti typf="5">ج</monti>
+							<monti typf="6">ج</monti>
+							<monti typf="7">ر</monti>
+							<monti typf="8">ش</monti>
+							<monti typf="9">ر</monti>
+							<monti typf="10">ش</monti>
+							<monti typf="11">ذ</monti>
+							<monti typf="12">ذ</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">محرم</monti>
+							<monti typf="2">صفر</monti>
+							<monti typf="3">ربیع الاول</monti>
+							<monti typf="4">ربیع الثانی</monti>
+							<monti typf="5">جمادی الاول</monti>
+							<monti typf="6">جمادی الثانی</monti>
+							<monti typf="7">رجب</monti>
+							<monti typf="8">شعبان</monti>
+							<monti typf="9">رمضان</monti>
+							<monti typf="10">شوال</monti>
+							<monti typf="11">ذیقعدهٔ</monti>
+							<monti typf="12">ذیحجهٔ</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">محرم</monti>
+							<monti typf="2">صفر</monti>
+							<monti typf="3">ربیع الاول</monti>
+							<monti typf="4">ربیع الثانی</monti>
+							<monti typf="5">جمادی الاول</monti>
+							<monti typf="6">جمادی الثانی</monti>
+							<monti typf="7">رجب</monti>
+							<monti typf="8">شعبان</monti>
+							<monti typf="9">رمضان</monti>
+							<monti typf="10">شوال</monti>
+							<monti typf="11">ذیقعده</monti>
+							<monti typf="12">ذیحجه</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">م</monti>
+							<monti typf="2">ص</monti>
+							<monti typf="3">ر</monti>
+							<monti typf="4">ر</monti>
+							<monti typf="5">ج</monti>
+							<monti typf="6">ج</monti>
+							<monti typf="7">ر</monti>
+							<monti typf="8">ش</monti>
+							<monti typf="9">ر</monti>
+							<monti typf="10">ش</monti>
+							<monti typf="11">ذ</monti>
+							<monti typf="12">ذ</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">محرم</monti>
+							<monti typf="2">صفر</monti>
+							<monti typf="3">ربیع الاول</monti>
+							<monti typf="4">ربیع الثانی</monti>
+							<monti typf="5">جمادی الاول</monti>
+							<monti typf="6">جمادی الثانی</monti>
+							<monti typf="7">رجب</monti>
+							<monti typf="8">شعبان</monti>
+							<monti typf="9">رمضان</monti>
+							<monti typf="10">شوال</monti>
+							<monti typf="11">ذیقعده</monti>
+							<monti typf="12">ذیحجه</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">هجری قمری</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ه‍.ق.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y GGGG</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>yyyy/M/d G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>yy/M/d G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="i">i b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d LLLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E d LLLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">yyyy/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E yyyy/M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="pfrsibn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">فروردین</monti>
+							<monti typf="2">اردیبهشت</monti>
+							<monti typf="3">خرداد</monti>
+							<monti typf="4">تیر</monti>
+							<monti typf="5">مرداد</monti>
+							<monti typf="6">شهریور</monti>
+							<monti typf="7">مهر</monti>
+							<monti typf="8">آبان</monti>
+							<monti typf="9">آذر</monti>
+							<monti typf="10">دی</monti>
+							<monti typf="11">بهمن</monti>
+							<monti typf="12">اسفند</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ف</monti>
+							<monti typf="2">ا</monti>
+							<monti typf="3">خ</monti>
+							<monti typf="4">ت</monti>
+							<monti typf="5">م</monti>
+							<monti typf="6">ش</monti>
+							<monti typf="7">م</monti>
+							<monti typf="8">آ</monti>
+							<monti typf="9">آ</monti>
+							<monti typf="10">د</monti>
+							<monti typf="11">ب</monti>
+							<monti typf="12">ا</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">فروردین</monti>
+							<monti typf="2">اردیبهشت</monti>
+							<monti typf="3">خرداد</monti>
+							<monti typf="4">تیر</monti>
+							<monti typf="5">مرداد</monti>
+							<monti typf="6">شهریور</monti>
+							<monti typf="7">مهر</monti>
+							<monti typf="8">آبان</monti>
+							<monti typf="9">آذر</monti>
+							<monti typf="10">دی</monti>
+							<monti typf="11">بهمن</monti>
+							<monti typf="12">اسفند</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">فروردین</monti>
+							<monti typf="2">اردیبهشت</monti>
+							<monti typf="3">خرداد</monti>
+							<monti typf="4">تیر</monti>
+							<monti typf="5">مرداد</monti>
+							<monti typf="6">شهریور</monti>
+							<monti typf="7">مهر</monti>
+							<monti typf="8">آبان</monti>
+							<monti typf="9">آذر</monti>
+							<monti typf="10">دی</monti>
+							<monti typf="11">بهمن</monti>
+							<monti typf="12">اسفند</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ف</monti>
+							<monti typf="2">ا</monti>
+							<monti typf="3">خ</monti>
+							<monti typf="4">ت</monti>
+							<monti typf="5">م</monti>
+							<monti typf="6">ش</monti>
+							<monti typf="7">م</monti>
+							<monti typf="8">آ</monti>
+							<monti typf="9">آ</monti>
+							<monti typf="10">د</monti>
+							<monti typf="11">ب</monti>
+							<monti typf="12">ا</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">فروردین</monti>
+							<monti typf="2">اردیبهشت</monti>
+							<monti typf="3">خرداد</monti>
+							<monti typf="4">تیر</monti>
+							<monti typf="5">مرداد</monti>
+							<monti typf="6">شهریور</monti>
+							<monti typf="7">مهر</monti>
+							<monti typf="8">آبان</monti>
+							<monti typf="9">آذر</monti>
+							<monti typf="10">دی</monti>
+							<monti typf="11">بهمن</monti>
+							<monti typf="12">اسفند</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">هجری شمسی</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ه‍.ش.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt>+HH:mm;−HH:mm</iourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<rfgionFormbt>وقت {0}</rfgionFormbt>
+			<fbllbbdkFormbt>{1} ({0})</fbllbbdkFormbt>
+			<fbllbbdkRfgionFormbt>وقت {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Amfridb/Norti_Dbkotb/Bfulbi">
+				<fxfmplbrCity>بیولا، داکوتای شمالی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>شهر نامشخص</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity>آندورا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity>دبی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity>آنتیگوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity>آنگوئیلا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity>تیرانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity>ایروان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity>کوراسائو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity>لواندا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rotifrb">
+				<fxfmplbrCity drbft="dontributfd">روترا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity>پالمر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Souti_Polf">
+				<fxfmplbrCity>قطب جنوب</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="dontributfd">سی ووا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity drbft="dontributfd">ماوسون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity>دیویس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity>ووستوک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity>کیسی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="dontributfd">دومونت د اورویل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity drbft="dontributfd">مک موردو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity drbft="dontributfd">ریو گالگوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity>مندوسا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity>سن‌خوان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Usiubib">
+				<fxfmplbrCity drbft="dontributfd">اوشوایا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity drbft="dontributfd">لاریوجا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity>سن‌لوئیس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity>کاتامارکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity>سالتا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity>خوخوی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity drbft="dontributfd">توکومن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity>کوردووا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity>بوئنوس‌آیرس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity>پاگوپاگو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity>وین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrti">
+				<fxfmplbrCity>پرت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity drbft="dontributfd">اوکلا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity>داروین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity>آدلاید</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity>بروکن‌هیل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity drbft="dontributfd">کوری</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity>ملبورن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity>هوبارت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity>لیندمن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity>سیدنی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity>بریسبین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity drbft="dontributfd">لردهاو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity>اروبا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifibmn">
+				<fxfmplbrCity>ماریه‌هامن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity>باکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity>سارایوو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity>باربادوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dibkb">
+				<fxfmplbrCity>داکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity>بروکسل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity>اوآگادوگو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity>صوفیه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbirbin">
+				<fxfmplbrCity>بحرین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity>بوجومبورا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity>پورتو نووو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrtiflfmy">
+				<fxfmplbrCity>سنت بارتلمی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity>برمودا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity>برونئی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity>لاپاز</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity drbft="dontributfd">ایرونپه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity>ریوبرانکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflio">
+				<fxfmplbrCity>پورتوولیو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity>بوئاویشتا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity>ماناوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity>کویاوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity>سنتارم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity>کمپو گرانده</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity drbft="dontributfd">بلم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity>آراگواینا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity>سائوپائولو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbiib">
+				<fxfmplbrCity drbft="dontributfd">باهیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity>فورتالزا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity>ماسیو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity>ریسیفی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronib">
+				<fxfmplbrCity>نورونیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity>ناسائو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tiimpiu">
+				<fxfmplbrCity>تیمفو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity>گابورون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity>مینسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity>بلیز</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity>داوسن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Wiitfiorsf">
+				<fxfmplbrCity>وایت‌هورس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity>اینوویک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity>ونکوور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity>داوسن کریک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity>یلونایف</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity>ادمونتون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity drbft="dontributfd">سوئیفت کورنت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity>خلیج کمبریج</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity>رجاینا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity>وینیپگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity>رزولوت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity>رینی‌ریور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity>خلیجک رنکین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity>اتکوکان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tiundfr_Bby">
+				<fxfmplbrCity>تاندربی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity>نیپیگان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity>تورنتو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity>مونرئال</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity>ایکلوئت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity>پانگنیرتونگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity>مانکتون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity>هلیفکس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity>گوس‌بی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity>گلیس‌بی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity drbft="dontributfd">بلنک-سابلن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Joins">
+				<fxfmplbrCity drbft="dontributfd">سنت جان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity>کوکوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinsibsb">
+				<fxfmplbrCity>کینشاسا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbsii">
+				<fxfmplbrCity>لوبومباشی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity>بانگی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity>برازویل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridi">
+				<fxfmplbrCity>زوریخ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity>آبیجان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity>راروتونگا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity>ایستر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntibgo">
+				<fxfmplbrCity>سانتیاگو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity>دوآلا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbsigbr">
+				<fxfmplbrCity>کاشغر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity>ارومچی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ciongqing">
+				<fxfmplbrCity>چونگ‌کینگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sibngibi">
+				<fxfmplbrCity>شانگهای</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity>هاربین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity>بوگوتا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity>کاستاریکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity>هاوانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity>کیپ‌ورد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Ciristmbs">
+				<fxfmplbrCity>کریسمس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity>نیکوزیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity>پراگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity>برلین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity>جیبوتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnibgfn">
+				<fxfmplbrCity>کپنهاگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity>دومینیکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity>سانتو دومینگو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity>الجزیره</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity>گالاپاگوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubybquil">
+				<fxfmplbrCity>گوایاکیل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity>تالین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity>قاهره</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity>العیون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity>اسمره</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>قناری</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity>سبته</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbdrid">
+				<fxfmplbrCity>مادرید</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity>آدیس آبابا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity>هلسینکی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity>فیجی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity>استانلی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity>چوک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity>پانپی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity drbft="dontributfd">کوساره</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity>فارو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity>پاریس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity>لیبرویل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>لندن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity>گرانادا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity>تفلیس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity>کاین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity>گرنزی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity>اکرا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity>جبل‌الطارق</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tiulf">
+				<fxfmplbrCity drbft="dontributfd">تول</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godtibb">
+				<fxfmplbrCity>گودهوب</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity drbft="dontributfd">اسکورسبیساند</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrksibvn">
+				<fxfmplbrCity>دانمارک‌شاون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity>بانجول</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity>کوناکری</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity>گوادلوپ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity>مالابو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Atifns">
+				<fxfmplbrCity>آتن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Souti_Gforgib">
+				<fxfmplbrCity>جورجیای جنوبی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity>گواتمالا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity>گوام</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity>بیسائو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity>گویان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity>هنگ‌کنگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity>تگوسیگالپا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity>زاگرب</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity>پورتوپرنس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity>بوداپست</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity>جاکارتا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity>پونتیاناک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity>ماکاسار</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity>جایاپورا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity>دوبلین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity>اورشلیم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity>جزیرهٔ من</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity>کلکته</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Cibgos">
+				<fxfmplbrCity>شاگوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbgidbd">
+				<fxfmplbrCity>بغداد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfirbn">
+				<fxfmplbrCity>تهران</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity>ریکیاویک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity>رم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity>جرزی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity>جامائیکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity>عمان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity>توکیو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity>نایروبی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bisikfk">
+				<fxfmplbrCity>بیشکک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pinom_Pfni">
+				<fxfmplbrCity>پنوم‌پن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity>اندربری</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity>کریتیماتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity>تاراوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity>کومورو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity>سنت کیتس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity>پیونگ‌یانگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity>سئول</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity>کویت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity>کیمن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>آقتاو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity>اورال</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>آقتوبه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity>قیزیل‌اوردا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>آلماتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity>وینتیان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity>بیروت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity>سنت لوسیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity>فادوتس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity>کلمبو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity>مونروویا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity>ماسرو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity>ویلنیوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity>لوکزامبورگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity>ریگا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity>طرابلس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity>کازابلانکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity>موناکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ciisinbu">
+				<fxfmplbrCity>کیشیناو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity>پادگاریتسا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrigot">
+				<fxfmplbrCity>ماریگات</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity>آنتاناناریوو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity drbft="dontributfd">کواجالین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity drbft="dontributfd">ماجورو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity>اسکوپیه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbmbko">
+				<fxfmplbrCity>باماکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity>یانگون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity>خوود</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity>اولان‌باتور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cioibblsbn">
+				<fxfmplbrCity>چویبالسان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity>ماکائو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity>سایپان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity>مارتینیک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdiott">
+				<fxfmplbrCity>نوآکشوت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity>مونتسرات</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>مالت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity>موریس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity>مالدیو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity>بلانتیره</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity>تیخوانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity>ارموسیو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity>ماساتلان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciiiubiub">
+				<fxfmplbrCity>چیئوائوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity>مونتری</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity>مکزیکوسیتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity>مریدا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity>کانکون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kublb_Lumpur">
+				<fxfmplbrCity>کوالالامپور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudiing">
+				<fxfmplbrCity drbft="dontributfd">کوچینگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity>ماپوتو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windiofk">
+				<fxfmplbrCity>ویندهوک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity>نومئا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity>نیامی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity>نورفولک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity>لاگوس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity>ماناگوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity>آمستردام</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity>اسلو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbtmbndu">
+				<fxfmplbrCity>کاتماندو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity>نائورو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity>نیوئه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Cibtibm">
+				<fxfmplbrCity drbft="dontributfd">چاتام</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Audklbnd">
+				<fxfmplbrCity>اوکلند</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity>مسقط</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity>پاناما</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity>لیما</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbiiti">
+				<fxfmplbrCity>تاهیتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity>مارکوزه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity drbft="dontributfd">گامبیر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity>پورت‌مورزبی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity>مانیل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdii">
+				<fxfmplbrCity>کراچی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity>ورشو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity>میکلون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity>پیت‌کرن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity>پورتوریکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity>غزه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="dontributfd">آزورس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity>مادیرا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Lisbon">
+				<fxfmplbrCity>لیسبون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity>پالائو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity>آسونسیون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity>قطر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity>ریونیون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budibrfst">
+				<fxfmplbrCity>بخارست</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity>بلگراد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity>کالینینگراد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity>مسکو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity>ولگاگراد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity>سامارا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity>یکاترینبرگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity>اومسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity>نووسیبیریسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity drbft="dontributfd">کراسنویارسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity>ایرکوتسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity>یاکوتسک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity>ولادی‌وستوک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkiblin">
+				<fxfmplbrCity>ساخالین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity>ماگادان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdibtkb">
+				<fxfmplbrCity>کامچاتکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity drbft="dontributfd">آنادیر</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity>کیگالی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdi">
+				<fxfmplbrCity>ریاض</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity>گوادال کانال</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbif">
+				<fxfmplbrCity>ماهه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kibrtoum">
+				<fxfmplbrCity>خارطوم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkiolm">
+				<fxfmplbrCity>استکهلم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity>سنگاپور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/St_Hflfnb">
+				<fxfmplbrCity>سنت هلنا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity>لیوبلیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity>لانگ‌یربین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity>براتیسلاوا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity>فری‌تاون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity>سان‌مارینو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity>داکار</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdisiu">
+				<fxfmplbrCity>موگادیشو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity>پاراماریبو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity>سائو تومه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity>السالوادور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity>دمشق</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity>مبابانه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity>گراند تورک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity>انجامنا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity>کرگولن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity>لومه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity>بانکوک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dusibnbf">
+				<fxfmplbrCity>دوشنبه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity>فاکائوفو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity>دیلی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Asigbbbt">
+				<fxfmplbrCity>عشق‌آباد</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity>تونس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity>تونگاتاپو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity>استانبول</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port_of_Spbin">
+				<fxfmplbrCity>پورت‌آواسپین</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity>فونافوتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity>تایپه</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity>دارالسلام</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzigorod">
+				<fxfmplbrCity>اوژگورود</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity>کیف</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity>سیمفروپل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporoziyf">
+				<fxfmplbrCity>زاپوروژیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity>کامپالا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity>میدوی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Joinston">
+				<fxfmplbrCity>جانستون</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity>ویک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity>ایدک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity>نوم</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity>هونولولو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andiorbgf">
+				<fxfmplbrCity>انکریج</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="dontributfd">یاکوتات</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity>جونو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity>لوس‌آنجلس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity>بویسی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Piofnix">
+				<fxfmplbrCity>فینکس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Siiprodk">
+				<fxfmplbrCity>شیپراک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity>دنور</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity>نیوسالم، داکوتای شمالی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Cfntfr">
+				<fxfmplbrCity>سنتر، داکوتای شمالی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciidbgo">
+				<fxfmplbrCity>شیکاگو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity>منامینی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity>وینسنس، اندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity>پیترزبرگ، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity>تل‌سیتی، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity>ناکس، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity>ویناماک، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity>مارنگو، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity>ایندیاناپولیس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity>لوئیزویل</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity>ویوی، ایندیانا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity>مانتیسلو، کنتاکی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity>دترویت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity>نیویورک</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity>مونته‌ویدئو</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity>سمرقند</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbsikfnt">
+				<fxfmplbrCity>تاشکند</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity>واتیکان</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity>سنت وینسنت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity>کاراکاس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity>تورتولا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Tiombs">
+				<fxfmplbrCity>سنت توماس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity>هوشی‌مین‌سیتی</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity>افاته</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity>والیس</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity>آپیا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity>عدن</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity>مایوت</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Joibnnfsburg">
+				<fxfmplbrCity>ژوهانسبورگ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity>لوزاکا</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity>هراره</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afgibnistbn">
+				<long>
+					<gfnfrid>وقت افغانستان</gfnfrid>
+					<stbndbrd>وقت عادی افغانستان</stbndbrd>
+					<dbyligit>وقت تابستانی افغانستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd>وقت مرکز افریقا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd>وقت شرق افریقا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Soutifrn">
+				<long>
+					<stbndbrd>وقت عادی جنوب افریقا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid>وقت غرب افریقا</gfnfrid>
+					<stbndbrd>وقت عادی غرب افریقا</stbndbrd>
+					<dbyligit>وقت تابستانی غرب افریقا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid>وقت آلاسکا</gfnfrid>
+					<stbndbrd>وقت عادی آلاسکا</stbndbrd>
+					<dbyligit>وقت تابستانی آلاسکا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb_Hbwbii">
+				<long>
+					<gfnfrid>وقت آلاسکا‐هاوائی</gfnfrid>
+					<stbndbrd>وقت عادی آلاسکا‐هاوائی</stbndbrd>
+					<dbyligit>وقت تابستانی آلاسکا‐هاوائی</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid>وقت آمازون</gfnfrid>
+					<stbndbrd>وقت عادی آمازون</stbndbrd>
+					<dbyligit>وقت تابستانی آمازون</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid>وقت مرکز امریکا</gfnfrid>
+					<stbndbrd>وقت عادی مرکز امریکا</stbndbrd>
+					<dbyligit>وقت تابستانی مرکز امریکا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid>وقت شرق امریکا</gfnfrid>
+					<stbndbrd>وقت عادی شرق امریکا</stbndbrd>
+					<dbyligit>وقت تابستانی شرق امریکا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid>وقت کوهستانی امریکا</gfnfrid>
+					<stbndbrd>وقت عادی کوهستانی امریکا</stbndbrd>
+					<dbyligit>وقت تابستانی کوهستانی امریکا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid>وقت غرب امریکا</gfnfrid>
+					<stbndbrd>وقت عادی غرب امریکا</stbndbrd>
+					<dbyligit>وقت تابستانی غرب امریکا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid>ساعت آنادیر</gfnfrid>
+					<stbndbrd>ساعت عادی آنادیر</stbndbrd>
+					<dbyligit>ساعت تابستانی آنادیر</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Arbbibn">
+				<long>
+					<gfnfrid>وقت عربستان</gfnfrid>
+					<stbndbrd>وقت عادی عربستان</stbndbrd>
+					<dbyligit>وقت تابستانی عربستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid>وقت آرژانتین</gfnfrid>
+					<stbndbrd>وقت عادی آرژانتین</stbndbrd>
+					<dbyligit>وقت تابستانی آرژانتین</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid>وقت غرب آرژانتین</gfnfrid>
+					<stbndbrd>وقت عادی غرب آرژانتین</stbndbrd>
+					<dbyligit>وقت تابستانی غرب آرژانتین</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Armfnib">
+				<long>
+					<gfnfrid>وقت ارمنستان</gfnfrid>
+					<stbndbrd>وقت عادی ارمنستان</stbndbrd>
+					<dbyligit>وقت تابستانی ارمنستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Asikibbbd">
+				<long>
+					<gfnfrid>وقت عشق‌آباد</gfnfrid>
+					<stbndbrd>وقت عادی عشق‌آباد</stbndbrd>
+					<dbyligit>وقت تابستانی عشق‌آباد</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>وقت آتلانتیک</gfnfrid>
+					<stbndbrd>وقت عادی آتلانتیک</stbndbrd>
+					<dbyligit>وقت تابستانی آتلانتیک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>وقت مرکز استرالیا</gfnfrid>
+					<stbndbrd>وقت عادی مرکز استرالیا</stbndbrd>
+					<dbyligit>وقت تابستانی مرکز استرالیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>ساعت مرکزی غرب استرالیا</gfnfrid>
+					<stbndbrd>ساعت استاندارد مرکزی غرب استرالیا</stbndbrd>
+					<dbyligit>ساعت تابستانی مرکزی غرب استرالیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>وقت شرق استرالیا</gfnfrid>
+					<stbndbrd>وقت عادی شرق استرالیا</stbndbrd>
+					<dbyligit>وقت تابستانی شرق استرالیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>وقت غرب استرالیا</gfnfrid>
+					<stbndbrd>وقت عادی غرب استرالیا</stbndbrd>
+					<dbyligit>وقت تابستانی غرب استرالیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azfrbbijbn">
+				<long>
+					<gfnfrid>وقت جمهوری آذربایجان</gfnfrid>
+					<stbndbrd>وقت عادی جمهوری آذربایجان</stbndbrd>
+					<dbyligit>وقت تابستانی جمهوری آذربایجان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbku">
+				<long>
+					<gfnfrid>وقت باکو</gfnfrid>
+					<stbndbrd>وقت عادی باکو</stbndbrd>
+					<dbyligit>وقت تابستانی باکو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbnglbdfsi">
+				<long>
+					<stbndbrd>وقت بنگلادش</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bfring">
+				<long>
+					<gfnfrid>وقت برینگ</gfnfrid>
+					<stbndbrd>وقت عادی برینگ</stbndbrd>
+					<dbyligit>وقت تابستانی برینگ</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Biutbn">
+				<long>
+					<stbndbrd>وقت بوتان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bolivib">
+				<long>
+					<stbndbrd>وقت بولیوی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid>وقت برازیلیا</gfnfrid>
+					<stbndbrd>وقت عادی برازیلیا</stbndbrd>
+					<dbyligit>وقت تابستانی برازیلیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cbpf_Vfrdf">
+				<long>
+					<gfnfrid>وقت کیپ‌ورد</gfnfrid>
+					<stbndbrd>وقت عادی کیپ‌ورد</stbndbrd>
+					<dbyligit>وقت تابستانی کیپ‌ورد</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciilf">
+				<long>
+					<gfnfrid>وقت شیلی</gfnfrid>
+					<stbndbrd>وقت عادی شیلی</stbndbrd>
+					<dbyligit>وقت تابستانی شیلی</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciinb">
+				<long>
+					<gfnfrid>وقت چین</gfnfrid>
+					<stbndbrd>وقت عادی چین</stbndbrd>
+					<dbyligit>وقت تابستانی چین</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cioibblsbn">
+				<long>
+					<gfnfrid>وقت چویبالسان</gfnfrid>
+					<stbndbrd>وقت عادی چویبالسان</stbndbrd>
+					<dbyligit>وقت تابستانی چویبالسان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciristmbs">
+				<long>
+					<stbndbrd>وقت جزیرهٔ کریسمس</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Codos">
+				<long>
+					<stbndbrd>وقت جزایر کوکوس</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Colombib">
+				<long>
+					<gfnfrid>وقت کلمبیا</gfnfrid>
+					<stbndbrd>وقت عادی کلمبیا</stbndbrd>
+					<dbyligit>وقت تابستانی کلمبیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cook">
+				<long>
+					<stbndbrd>وقت جزایر کوک</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cubb">
+				<long>
+					<gfnfrid>وقت کوبا</gfnfrid>
+					<stbndbrd>وقت عادی کوبا</stbndbrd>
+					<dbyligit>وقت تابستانی کوبا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dbvis">
+				<long>
+					<stbndbrd>وقت دیویس</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dusibnbf">
+				<long>
+					<gfnfrid>وقت دوشنبه</gfnfrid>
+					<stbndbrd>وقت عادی دوشنبه</stbndbrd>
+					<dbyligit>وقت تابستانی دوشنبه</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dutdi_Guibnb">
+				<long>
+					<stbndbrd>وقت گویان هلند</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebst_Timor">
+				<long>
+					<stbndbrd>وقت تیمور شرقی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebstfr">
+				<long>
+					<gfnfrid>وقت جزیرهٔ ایستر</gfnfrid>
+					<stbndbrd>وقت عادی جزیرهٔ ایستر</stbndbrd>
+					<dbyligit>وقت تابستانی جزیرهٔ ایستر</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Edubdor">
+				<long>
+					<stbndbrd>وقت اکوادور</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid>وقت مرکز اروپا</gfnfrid>
+					<stbndbrd>وقت عادی مرکز اروپا</stbndbrd>
+					<dbyligit>وقت تابستانی مرکز اروپا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid>وقت شرق اروپا</gfnfrid>
+					<stbndbrd>وقت عادی شرق اروپا</stbndbrd>
+					<dbyligit>وقت تابستانی شرق اروپا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid>وقت غرب اروپا</gfnfrid>
+					<stbndbrd>وقت عادی غرب اروپا</stbndbrd>
+					<dbyligit>وقت تابستانی غرب اروپا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fblklbnd">
+				<long>
+					<gfnfrid>وقت جزایر فالکلند</gfnfrid>
+					<stbndbrd>وقت عادی جزایر فالکلند</stbndbrd>
+					<dbyligit>وقت تابستانی جزایر فالکلند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fiji">
+				<long>
+					<gfnfrid>وقت فیجی</gfnfrid>
+					<stbndbrd>وقت عادی فیجی</stbndbrd>
+					<dbyligit>وقت تابستانی فیجی</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndi_Guibnb">
+				<long>
+					<stbndbrd>وقت گویان فرانسه</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gblbpbgos">
+				<long>
+					<stbndbrd>وقت گالاپاگوس</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gforgib">
+				<long>
+					<gfnfrid>وقت گرجستان</gfnfrid>
+					<stbndbrd>وقت عادی گرجستان</stbndbrd>
+					<dbyligit>وقت تابستانی گرجستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd>وقت گرینویچ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Cfntrbl">
+				<long>
+					<gfnfrid>وقت مرکز گروئنلند</gfnfrid>
+					<stbndbrd>وقت عادی مرکز گروئنلند</stbndbrd>
+					<dbyligit>وقت تابستانی مرکز گروئنلند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Ebstfrn">
+				<long>
+					<gfnfrid>وقت شرق گروئنلند</gfnfrid>
+					<stbndbrd>وقت عادی شرق گروئنلند</stbndbrd>
+					<dbyligit>وقت تابستانی شرق گروئنلند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Wfstfrn">
+				<long>
+					<gfnfrid>وقت غرب گروئنلند</gfnfrid>
+					<stbndbrd>وقت عادی غرب گروئنلند</stbndbrd>
+					<dbyligit>وقت تابستانی غرب گروئنلند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gubm">
+				<long>
+					<stbndbrd>وقت عادی گوام</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Guybnb">
+				<long>
+					<stbndbrd>وقت گویان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hbwbii_Alfutibn">
+				<long>
+					<gfnfrid>ساعت هاوایی آلوشن</gfnfrid>
+					<stbndbrd>ساعت عادی هاوایی آلوشن</stbndbrd>
+					<dbyligit>ساعت تابستانی هاوایی آلوشن</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hong_Kong">
+				<long>
+					<gfnfrid>وقت هنگ‌کنگ</gfnfrid>
+					<stbndbrd>وقت عادی هنگ‌کنگ</stbndbrd>
+					<dbyligit>وقت تابستانی هنگ‌کنگ</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid>وقت خوود</gfnfrid>
+					<stbndbrd>وقت عادی خوود</stbndbrd>
+					<dbyligit>وقت تابستانی خوود</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd>وقت عادی هند</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
+				<long>
+					<stbndbrd>وقت اقیانوس هند</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indodiinb">
+				<long>
+					<stbndbrd>وقت هندوچین</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd>وقت مرکز اندونزی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd>وقت شرق اندونزی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd>وقت غرب اندونزی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irbn">
+				<long>
+					<gfnfrid>وقت ایران</gfnfrid>
+					<stbndbrd>وقت عادی ایران</stbndbrd>
+					<dbyligit>وقت تابستانی ایران</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid>وقت ایرکوتسک</gfnfrid>
+					<stbndbrd>وقت عادی ایرکوتسک</stbndbrd>
+					<dbyligit>وقت تابستانی ایرکوتسک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Isrbfl">
+				<long>
+					<gfnfrid>وقت اسرائیل</gfnfrid>
+					<stbndbrd>وقت عادی اسرائیل</stbndbrd>
+					<dbyligit>وقت تابستانی اسرائیل</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Jbpbn">
+				<long>
+					<gfnfrid>وقت ژاپن</gfnfrid>
+					<stbndbrd>وقت عادی ژاپن</stbndbrd>
+					<dbyligit>وقت تابستانی ژاپن</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdibtkb">
+				<long>
+					<gfnfrid>ساعت کامچاتکا</gfnfrid>
+					<stbndbrd>ساعت عادی پتروپاولوسک-کامچاتسکی</stbndbrd>
+					<dbyligit>ساعت تابستانی پتروپاولوسک-کامچاتسکی</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbrbdii">
+				<long>
+					<stbndbrd>وقت کراچی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbsigbr">
+				<long>
+					<stbndbrd>وقت کاشغر</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkistbn_Ebstfrn">
+				<long>
+					<stbndbrd>وقت شرق قزاقستان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkistbn_Wfstfrn">
+				<long>
+					<stbndbrd>وقت غرب قزاقستان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Korfb">
+				<long>
+					<gfnfrid>وقت کره</gfnfrid>
+					<stbndbrd>وقت عادی کره</stbndbrd>
+					<dbyligit>وقت تابستانی کره</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid>وقت کراسنویارسک</gfnfrid>
+					<stbndbrd>وقت عادی کراسنویارسک</stbndbrd>
+					<dbyligit>وقت تابستانی کراسنویارسک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kyrgystbn">
+				<long>
+					<stbndbrd>وقت قرقیزستان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lbnkb">
+				<long>
+					<stbndbrd>وقت لانکا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid>ساعت لردهو</gfnfrid>
+					<stbndbrd>ساعت استاندارد لردهو</stbndbrd>
+					<dbyligit>ساعت تابستانی لردهو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdbu">
+				<long>
+					<gfnfrid>وقت ماکائو</gfnfrid>
+					<stbndbrd>وقت عادی ماکائو</stbndbrd>
+					<dbyligit>وقت تابستانی ماکائو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<gfnfrid>ساعت ماکواری</gfnfrid>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid>وقت ماگادان</gfnfrid>
+					<stbndbrd>وقت عادی ماگادان</stbndbrd>
+					<dbyligit>وقت تابستانی ماگادان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbysib">
+				<long>
+					<stbndbrd>وقت مالزی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbldivfs">
+				<long>
+					<stbndbrd>وقت مالدیو</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrsibll_Islbnds">
+				<long>
+					<stbndbrd>وقت جزایر مارشال</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid>وقت اولان‌باتور</gfnfrid>
+					<stbndbrd>وقت عادی اولان‌باتور</stbndbrd>
+					<dbyligit>وقت تابستانی اولان‌باتور</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>وقت مسکو</gfnfrid>
+					<stbndbrd>وقت عادی مسکو</stbndbrd>
+					<dbyligit>وقت تابستانی مسکو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mybnmbr">
+				<long>
+					<stbndbrd>وقت میانمار</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nburu">
+				<long>
+					<stbndbrd>وقت نائورو</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfpbl">
+				<long>
+					<stbndbrd>وقت نپال</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<long>
+					<gfnfrid>وقت زلاند نو</gfnfrid>
+					<stbndbrd>وقت عادی زلاند نو</stbndbrd>
+					<dbyligit>وقت تابستانی زلاند نو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid>ساعت نیوفوندلند</gfnfrid>
+					<stbndbrd>ساعت استاندارد نیوفوندلند</stbndbrd>
+					<dbyligit>ساعت تابستانی نیوفوندلند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronib">
+				<long>
+					<gfnfrid>ساعت فرناندو دی نورونیا</gfnfrid>
+					<stbndbrd>ساعت عادی فرناندو دی نورونیا</stbndbrd>
+					<dbyligit>ساعت تابستانی فرناندو دی نورونیا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Norti_Mbribnb">
+				<long>
+					<stbndbrd>وقت جزایر ماریانای شمالی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid>وقت نووسیبیرسک</gfnfrid>
+					<stbndbrd>وقت عادی نووسیبیرسک</stbndbrd>
+					<dbyligit>وقت تابستانی نووسیبیرسک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid>وقت اومسک</gfnfrid>
+					<stbndbrd>وقت عادی اومسک</stbndbrd>
+					<dbyligit>وقت تابستانی اومسک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbkistbn">
+				<long>
+					<gfnfrid>وقت پاکستان</gfnfrid>
+					<stbndbrd>وقت عادی پاکستان</stbndbrd>
+					<dbyligit>وقت تابستانی پاکستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pblbu">
+				<long>
+					<stbndbrd>وقت پالائو</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbpub_Nfw_Guinfb">
+				<long>
+					<stbndbrd>وقت پاپوا گینهٔ نو</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbrbguby">
+				<long>
+					<gfnfrid>وقت پاراگوئه</gfnfrid>
+					<stbndbrd>وقت عادی پاراگوئه</stbndbrd>
+					<dbyligit>وقت تابستانی پاراگوئه</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pfru">
+				<long>
+					<gfnfrid>وقت پرو</gfnfrid>
+					<stbndbrd>وقت عادی پرو</stbndbrd>
+					<dbyligit>وقت تابستانی پرو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Piilippinfs">
+				<long>
+					<gfnfrid>وقت فیلیپین</gfnfrid>
+					<stbndbrd>وقت عادی فیلیپین</stbndbrd>
+					<dbyligit>وقت تابستانی فیلیپین</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkiblin">
+				<long>
+					<gfnfrid>وقت ساخالین</gfnfrid>
+					<stbndbrd>وقت عادی ساخالین</stbndbrd>
+					<dbyligit>وقت تابستانی ساخالین</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid>ساعت سامارا</gfnfrid>
+					<stbndbrd>ساعت عادی سامارا</stbndbrd>
+					<dbyligit>ساعت تابستانی سامارا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrkbnd">
+				<long>
+					<gfnfrid>وقت سمرقند</gfnfrid>
+					<stbndbrd>وقت عادی سمرقند</stbndbrd>
+					<dbyligit>وقت تابستانی سمرقند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmob">
+				<long>
+					<stbndbrd>وقت عادی ساموا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sfydifllfs">
+				<long>
+					<stbndbrd>وقت سیشل</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Singbporf">
+				<long>
+					<stbndbrd>وقت عادی سنگاپور</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Solomon">
+				<long>
+					<stbndbrd>وقت جزایر سلیمان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Souti_Gforgib">
+				<long>
+					<stbndbrd>وقت جورجیای جنوبی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Surinbmf">
+				<long>
+					<stbndbrd>وقت سورینام</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbiiti">
+				<long>
+					<stbndbrd>وقت تاهیتی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbjikistbn">
+				<long>
+					<stbndbrd>وقت تاجیکستان</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbsikfnt">
+				<long>
+					<gfnfrid>وقت تاشکند</gfnfrid>
+					<stbndbrd>وقت عادی تاشکند</stbndbrd>
+					<dbyligit>وقت تابستانی تاشکند</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbilisi">
+				<long>
+					<gfnfrid>وقت تفلیس</gfnfrid>
+					<stbndbrd>وقت عادی تفلیس</stbndbrd>
+					<dbyligit>وقت تابستانی تفلیس</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tongb">
+				<long>
+					<gfnfrid>وقت تونگا</gfnfrid>
+					<stbndbrd>وقت عادی تونگا</stbndbrd>
+					<dbyligit>وقت تابستانی تونگا</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid>وقت ترکیه</gfnfrid>
+					<stbndbrd>وقت عادی ترکیه</stbndbrd>
+					<dbyligit>وقت تابستانی ترکیه</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkmfnistbn">
+				<long>
+					<gfnfrid>وقت ترکمنستان</gfnfrid>
+					<stbndbrd>وقت عادی ترکمنستان</stbndbrd>
+					<dbyligit>وقت تابستانی ترکمنستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tuvblu">
+				<long>
+					<stbndbrd>وقت تووالو</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uruguby">
+				<long>
+					<gfnfrid>وقت اروگوئه</gfnfrid>
+					<stbndbrd>وقت عادی اروگوئه</stbndbrd>
+					<dbyligit>وقت تابستانی اروگوئه</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Urumqi">
+				<long>
+					<stbndbrd>وقت ارومچی</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uzbfkistbn">
+				<long>
+					<gfnfrid>وقت ازبکستان</gfnfrid>
+					<stbndbrd>وقت عادی ازبکستان</stbndbrd>
+					<dbyligit>وقت تابستانی ازبکستان</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vbnubtu">
+				<long>
+					<gfnfrid>وقت واناتو</gfnfrid>
+					<stbndbrd>وقت عادی واناتو</stbndbrd>
+					<dbyligit>وقت تابستانی واناتو</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vfnfzuflb">
+				<long>
+					<stbndbrd>وقت ونزوئلا</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid>وقت ولادی‌وستوک</gfnfrid>
+					<stbndbrd>وقت عادی ولادی‌وستوک</stbndbrd>
+					<dbyligit>وقت تابستانی ولادی‌وستوک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid>وقت ولگاگراد</gfnfrid>
+					<stbndbrd>وقت عادی ولگاگراد</stbndbrd>
+					<dbyligit>وقت تابستانی ولگاگراد</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Wbkf">
+				<long>
+					<stbndbrd>وقت جزیرهٔ ویک</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid>وقت یاکوتسک</gfnfrid>
+					<stbndbrd>وقت عادی یاکوتسک</stbndbrd>
+					<dbyligit>وقت تابستانی یاکوتسک</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid>وقت یکاترینبورگ</gfnfrid>
+					<stbndbrd>وقت عادی یکاترینبورگ</stbndbrd>
+					<dbyligit>وقت تابستانی یکاترینبورگ</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfrfvbn">
+				<long>
+					<gfnfrid>وقت ایروان</gfnfrid>
+					<stbndbrd>وقت عادی ایروان</stbndbrd>
+					<dbyligit>وقت تابستانی ایروان</dbyligit>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>brbbfxt</nbtivf>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="brbbfxt">
+			<dfdimbl>٫</dfdimbl>
+			<group>٬</group>
+			<list>؛</list>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<fxponfntibl>×۱۰^</fxponfntibl>
+			<pfrMillf>؉</pfrMillf>
+		</symbols>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+			<list>;</list>
+			<pfrdfntSign>%</pfrdfntSign>
+			<plusSign>+</plusSign>
+			<minusSign>−</minusSign>
+			<fxponfntibl>E</fxponfntibl>
+			<pfrMillf>‰</pfrMillf>
+			<infinity>∞</infinity>
+			<nbn>NbN</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti typf="siort">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0K</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00K</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000K</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0B</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00B</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0T</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00T</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000T</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤;−#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			<unitPbttfrn dount="otifr">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf>پزتای آندورا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf>درهم امارات متحدهٔ عربی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFA">
+				<displbyNbmf>افغانی افغانستان (۱۹۲۷ تا ۲۰۰۲)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>افغانی افغانستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>لک آلبانی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>درم ارمنستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>گیلدر آنتیل هلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>کوانزای آنگولا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>پزوی آرژانتین (۱۹۸۳ تا ۱۹۸۵)‏</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>پزوی آرژانتین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf>شیلینگ اتریش</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>دلار استرالیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>فلورین آروبا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf>منات جمهوری آذربایجان (۱۹۹۳ تا ۲۰۰۶)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>منات جمهوری آذربایجان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf>دینار بوسنی و هرزگوین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>مارک تبدیل‌پذیر بوسنی و هرزگوین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>دلار باربادوس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>تاکای بنگلادش</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>فرانک بلژیک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf>فرانک بلژیک (مالی)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>لف بلغارستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>دینار بحرین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>فرانک بوروندی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>دلار برمودا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>دلار برونئی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>بولیویانوی بولیوی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>پزوی بولیوی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>رئال برزیل</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>دلار باهاما</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>انگولتروم بوتان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>پولای بوتسوانا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>روبل جدید بیلوروسی (۱۹۹۴ تا ۱۹۹۹)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>روبل بیلوروسی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>دلار بلیز</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>دلار کانادا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>فرانک کنگو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>فرانک سوئیس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>پزوی شیلی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>یوآن چین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>پزوی کلمبیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>کولون کاستاریکا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSD">
+				<displbyNbmf>دینار قدیم صربستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf>پزوی تبدیل‌پذیر کوبا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>پزوی کوبا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>اسکودوی کیپ‌ورد</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>پوند قبرس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>کورونای جمهوری چک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf>مارک آلمان شرقی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf>مارک آلمان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>فرانک جیبوتی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>کرون دانمارک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>پزوی جمهوری دومینیکن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>دینار الجزایر</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>لیرهٔ مصر</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>ناکفای اریتره</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>بیر اتیوپی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>یورو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>دلار فیجی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>پوند جزایر فالکلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf>فرانک فرانسه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>پوند بریتانیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf>لاری گرجستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf>سدی غنا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>پوند جبل‌الطارق</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>دالاسی گامبیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>فرانک گینه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf>دراخمای یونان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf>کتزال گواتمالا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf>پزوی گینهٔ بیسائو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf>دلار گویان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>دلار هنگ‌کنگ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf>لمپیرای هندوراس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf>دینار کرواسی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>کونای کرواسی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf>گورد هائیتی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf>فورینت مجارستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>روپیهٔ اندونزی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf>پوند ایرلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf>شقل جدید اسرائیل</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>روپیهٔ هند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf>دینار عراق</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf>ریال ایران</displbyNbmf>
+				<symbol>﷼</symbol>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf>کرونای ایسلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf>لیرهٔ ایتالیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>دلار جامائیکا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf>دینار اردن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>ین ژاپن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>شیلینگ کنیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf>سوم قرقیزستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>ری‌یل کامبوج</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>فرانک کومورو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>وون کرهٔ شمالی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>وون کرهٔ جنوبی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf>دینار کویت</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>دلار جزایر کِیمن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>تنگهٔ قزاقستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf>کیپ لائوس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>لیرهٔ لبنان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>روپیهٔ سری‌لانکا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>دلار لیبریا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>لوتی لسوتو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf>لیتاس لیتوانی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf>فرانک لوکزامبورگ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUL">
+				<displbyNbmf>فرانک مالی لوگزامبورگ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf>لاتس لتونی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf>روبل لتونی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>دینار لیبی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>درهم مراکش</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf>فرانک مراکش</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf>لئوی مولداوی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>آریاری مالاگاسی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf>فرانک ماداگاسکار</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf>دینار مقدونیه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf>فرانک مالی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>کیات میانمار</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf>توگریک مغولستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf>پاتاکای ماکائو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>اوگوئیای موریتانی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf>لیرهٔ مالت</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf>پوند مالت</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>روپیهٔ موریس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf>روپیهٔ مالدیو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>کواچای مالاوی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>پزوی مکزیک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf>پزوی نقرهٔ مکزیک (۱۸۶۱ تا ۱۹۹۲)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>رینگیت مالزی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf>اسکودوی موزامبیک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>دلار نامیبیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>نایرای نیجریه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>کوردوبای نیکاراگوئه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>گیلدر هلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>کرون نروژ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>روپیهٔ نپال</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>دلار زلاند نو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf>ریال عمان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf>بالبوای پاناما</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf>نوئووسول پرو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf>کینای پاپوا گینهٔ نو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>پزوی فیلیپین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>روپیهٔ پاکستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>زواتی لهستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf>اسکودوی پرتغال</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf>گوارانی پاراگوئه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf>ریال قطر</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RHD">
+				<displbyNbmf>دلار رودزیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf>دینار صربستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>روبل روسیه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf>روبل روسیه (۱۹۹۱ تا ۱۹۹۸)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>فرانک رواندا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>ریال سعودی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>دلار جزایر سلیمان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>روپیهٔ سیشل</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDD">
+				<displbyNbmf>دینار قدیم سودان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>لیرهٔ سودان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>کرون سوئد</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>دلار سنگاپور</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>پوند سنت هلن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>لئون سیرالئون</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>شیلینگ سومالی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf>دلار سورینام</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRG">
+				<displbyNbmf>گیلدر سورینام</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>دوبرای سائوتومه و پرنسیپ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf>روبل شوروی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf>لیرهٔ سوریه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>لیلانگنی سوازیلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>بات تایلند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf>روبل تاجیکستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>سامانی تاجیکستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf>منات ترکمنستان (۱۹۹۳ تا ۲۰۰۹)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf>منات ترکمنستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>دینار تونس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf>پاآنگای تونگا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TPE">
+				<displbyNbmf>اسکودوی تیمور</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf>لیرهٔ قدیم ترکیه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>لیرهٔ ترکیه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf>دلار ترینیداد و توباگو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>دلار جدید تایوان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>شیلینگ تانزانیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf>هریونیای اوکراین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf>شیلینگ اوگاندا (۱۹۶۶ تا ۱۹۸۷)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>شیلینگ اوگاندا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>دلار امریکا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf>دلار امریکا (روز بعد)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf>دلار امریکا (همان روز)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf>پزوی اوروگوئه (۱۹۷۵ تا ۱۹۹۳)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf>پزوی اوروگوئه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf>سوم ازبکستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf>بولیوار ونزوئلا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>دانگ ویتنام</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf>واتوی وانوواتو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf>تالای ساموا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>فرانک CFA مرکز آفریقا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf>نقره</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf>طلا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf>دلار شرق کارائیب</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf>فرانک طلای فرانسه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>فرانک CFA غرب آفریقا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPD">
+				<displbyNbmf>پالادیم</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>فرانک CFP</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPT">
+				<displbyNbmf>پلاتین</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>ارز نامشخص</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf>دینار یمن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf>ریال یمن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>راند افریقای جنوبی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>کواچای زامبیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>دلار زیمبابوه</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWL">
+				<displbyNbmf>دلار زیمبابوه (۲۰۰۹)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWR">
+				<displbyNbmf>دلار زیمبابوه (۲۰۰۸)</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="0" blt="siort">0 روز</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 روز</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} روز</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} روز</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0">در 0 روز</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 روز</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} روز بعد</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0">0 روز قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 روز قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} روز پیش</unitPbttfrn>
+		</unit>
+		<unit typf="iour">
+			<unitPbttfrn dount="0" blt="siort">0 ساعت</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 ساعت</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ساعت</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} ساعت</unitPbttfrn>
+		</unit>
+		<unit typf="iour-futurf">
+			<unitPbttfrn dount="0">در 0 ساعت</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 ساعت</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ساعت بعد</unitPbttfrn>
+		</unit>
+		<unit typf="iour-pbst">
+			<unitPbttfrn dount="0">0 ساعت قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ساعت قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ساعت پیش</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="0" blt="siort">0 دقیقه</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 دقیقه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} دقیقه</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} دقیقه</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0">در 0 دقیقه</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 دقیقه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} دقیقه بعد</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0">0 دقیقه قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 دقیقه قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} دقیقه پیش</unitPbttfrn>
+		</unit>
+		<unit typf="monti">
+			<unitPbttfrn dount="0" blt="siort">0 ماه</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 ماه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ماه</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} ماه</unitPbttfrn>
+		</unit>
+		<unit typf="monti-futurf">
+			<unitPbttfrn dount="0">در 0 ماه</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 ماه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ماه بعد</unitPbttfrn>
+		</unit>
+		<unit typf="monti-pbst">
+			<unitPbttfrn dount="0">0 ماه قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ماه قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ماه پیش</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="0" blt="siort">0 ثانیه</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 ثانیه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ثانیه</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} ثانیه</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0">در 0 ثانیه</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 ثانیه</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ثانیه بعد</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0">0 ثانیه قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ثانیه قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ثانیه پیش</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="0" blt="siort">0 هفته</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 هفته</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} هفته</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} هفته</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0">در 0 هفته</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 هفته</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} هفته بعد</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0">0 هفته قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 هفته قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} هفته پیش</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="0" blt="siort">0 سال</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="siort">1 سال</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} سال</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} سال</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0">در 0 سال</unitPbttfrn>
+			<unitPbttfrn dount="1">در 1 سال</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} سال بعد</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0">0 سال قبل</unitPbttfrn>
+			<unitPbttfrn dount="1">1 سال قبل</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} سال پیش</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0} و {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0}، و {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="middlf">{0}،‏ {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="stbrt">{0}،‏ {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>بله:ب:آری:آ</yfsstr>
+			<nostr>نه:ن:خیر:خ</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

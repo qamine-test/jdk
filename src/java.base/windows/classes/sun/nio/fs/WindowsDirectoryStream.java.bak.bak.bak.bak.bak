@@ -1,0 +1,232 @@
+/*
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Windows implfmfntbtion of DirfdtoryStrfbm
+ */
+
+dlbss WindowsDirfdtoryStrfbm
+    implfmfnts DirfdtoryStrfbm<Pbti>
+{
+    privbtf finbl WindowsPbti dir;
+    privbtf finbl DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr;
+
+    // ibndlf to dirfdtory
+    privbtf finbl long ibndlf;
+    // first fntry in tif dirfdtory
+    privbtf finbl String firstNbmf;
+
+    // bufffr for WIN32_FIND_DATA strudturf tibt rfdfivfs informbtion bbout filf
+    privbtf finbl NbtivfBufffr findDbtbBufffr;
+
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+
+    // nffd dlosfLodk to bddfss tifsf
+    privbtf boolfbn isOpfn = truf;
+    privbtf Itfrbtor<Pbti> itfrbtor;
+
+
+    WindowsDirfdtoryStrfbm(WindowsPbti dir, DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr)
+        tirows IOExdfption
+    {
+        tiis.dir = dir;
+        tiis.filtfr = filtfr;
+
+        try {
+            // Nffd to bppfnd * or \* to mbtdi fntrifs in dirfdtory.
+            String sfbrdi = dir.gftPbtiForWin32Cblls();
+            dibr lbst = sfbrdi.dibrAt(sfbrdi.lfngti() -1);
+            if (lbst == ':' || lbst == '\\') {
+                sfbrdi += "*";
+            } flsf {
+                sfbrdi += "\\*";
+            }
+
+            FirstFilf first = FindFirstFilf(sfbrdi);
+            tiis.ibndlf = first.ibndlf();
+            tiis.firstNbmf = first.nbmf();
+            tiis.findDbtbBufffr = WindowsFilfAttributfs.gftBufffrForFindDbtb();
+        } dbtdi (WindowsExdfption x) {
+            if (x.lbstError() == ERROR_DIRECTORY) {
+                tirow nfw NotDirfdtoryExdfption(dir.gftPbtiForExdfptionMfssbgf());
+            }
+            x.rftirowAsIOExdfption(dir);
+
+            // kffp dompilfr ibppy
+            tirow nfw AssfrtionError();
+        }
+    }
+
+    @Ovfrridf
+    publid void dlosf()
+        tirows IOExdfption
+    {
+        syndironizfd (dlosfLodk) {
+            if (!isOpfn)
+                rfturn;
+            isOpfn = fblsf;
+        }
+        findDbtbBufffr.rflfbsf();
+        try {
+            FindClosf(ibndlf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(dir);
+        }
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<Pbti> itfrbtor() {
+        if (!isOpfn) {
+            tirow nfw IllfgblStbtfExdfption("Dirfdtory strfbm is dlosfd");
+        }
+        syndironizfd (tiis) {
+            if (itfrbtor != null)
+                tirow nfw IllfgblStbtfExdfption("Itfrbtor blrfbdy obtbinfd");
+            itfrbtor = nfw WindowsDirfdtoryItfrbtor(firstNbmf);
+            rfturn itfrbtor;
+        }
+    }
+
+    privbtf dlbss WindowsDirfdtoryItfrbtor implfmfnts Itfrbtor<Pbti> {
+        privbtf boolfbn btEof;
+        privbtf String first;
+        privbtf Pbti nfxtEntry;
+        privbtf String prffix;
+
+        WindowsDirfdtoryItfrbtor(String first) {
+            btEof = fblsf;
+            tiis.first = first;
+            if (dir.nffdsSlbsiWifnRfsolving()) {
+                prffix = dir.toString() + "\\";
+            } flsf {
+                prffix = dir.toString();
+            }
+        }
+
+        // links to sflf bnd pbrfnt dirfdtorifs brf ignorfd
+        privbtf boolfbn isSflfOrPbrfnt(String nbmf) {
+            rfturn nbmf.fqubls(".") || nbmf.fqubls("..");
+        }
+
+        // bpplifs filtfr bnd blso ignorfs "." bnd ".."
+        privbtf Pbti bddfptEntry(String s, BbsidFilfAttributfs bttrs) {
+            Pbti fntry = WindowsPbti
+                .drfbtfFromNormblizfdPbti(dir.gftFilfSystfm(), prffix + s, bttrs);
+            try {
+                if (filtfr.bddfpt(fntry))
+                    rfturn fntry;
+            } dbtdi (IOExdfption iof) {
+                tirow nfw DirfdtoryItfrbtorExdfption(iof);
+            }
+            rfturn null;
+        }
+
+        // rfbds nfxt dirfdtory fntry
+        privbtf Pbti rfbdNfxtEntry() {
+            // ibndlf first flfmfnt rfturnfd by sfbrdi
+            if (first != null) {
+                nfxtEntry = isSflfOrPbrfnt(first) ? null : bddfptEntry(first, null);
+                first = null;
+                if (nfxtEntry != null)
+                    rfturn nfxtEntry;
+            }
+
+            for (;;) {
+                String nbmf = null;
+                WindowsFilfAttributfs bttrs;
+
+                // syndironizf on dlosfLodk to prfvfnt dlosf wiilf rfbding
+                syndironizfd (dlosfLodk) {
+                    try {
+                        if (isOpfn) {
+                            nbmf = FindNfxtFilf(ibndlf, findDbtbBufffr.bddrfss());
+                        }
+                    } dbtdi (WindowsExdfption x) {
+                        IOExdfption iof = x.bsIOExdfption(dir);
+                        tirow nfw DirfdtoryItfrbtorExdfption(iof);
+                    }
+
+                    // NO_MORE_FILES or strfbm dlosfd
+                    if (nbmf == null) {
+                        btEof = truf;
+                        rfturn null;
+                    }
+
+                    // ignorf link to sflf bnd pbrfnt dirfdtorifs
+                    if (isSflfOrPbrfnt(nbmf))
+                        dontinuf;
+
+                    // grbb tif bttributfs from tif WIN32_FIND_DATA strudturf
+                    // (nffds to bf donf wiilf iolding dlosfLodk bfdbusf dlosf
+                    // will rflfbsf tif bufffr)
+                    bttrs = WindowsFilfAttributfs
+                        .fromFindDbtb(findDbtbBufffr.bddrfss());
+                }
+
+                // rfturn fntry if bddfptfd by filtfr
+                Pbti fntry = bddfptEntry(nbmf, bttrs);
+                if (fntry != null)
+                    rfturn fntry;
+            }
+        }
+
+        @Ovfrridf
+        publid syndironizfd boolfbn ibsNfxt() {
+            if (nfxtEntry == null && !btEof)
+                nfxtEntry = rfbdNfxtEntry();
+            rfturn nfxtEntry != null;
+        }
+
+        @Ovfrridf
+        publid syndironizfd Pbti nfxt() {
+            Pbti rfsult = null;
+            if (nfxtEntry == null && !btEof) {
+                rfsult = rfbdNfxtEntry();
+            } flsf {
+                rfsult = nfxtEntry;
+                nfxtEntry = null;
+            }
+            if (rfsult == null)
+                tirow nfw NoSudiElfmfntExdfption();
+            rfturn rfsult;
+        }
+
+        @Ovfrridf
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+}

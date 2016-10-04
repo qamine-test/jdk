@@ -1,0 +1,550 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+/**
+ * Tiis dlbss gfnfrbtfs sffds for tif SHA1PRNG dryptogrbpiidblly strong
+ * rbndom numbfr gfnfrbtor.
+ * <p>
+ * Tif sffd is produdfd using onf of two tfdiniqufs, vib b domputbtion
+ * of durrfnt systfm bdtivity or from bn fntropy gbtifring dfvidf.
+ * <p>
+ * In tif dffbult tfdiniquf tif sffd is produdfd by dounting tif
+ * numbfr of timfs tif VM mbnbgfs to loop in b givfn pfriod. Tiis numbfr
+ * rougily rfflfdts tif mbdiinf lobd bt tibt point in timf.
+ * Tif sbmplfs brf trbnslbtfd using b pfrmutbtion (s-box)
+ * bnd tifn XORfd togftifr. Tiis prodfss is non linfbr bnd
+ * siould prfvfnt tif sbmplfs from "bvfrbging out". Tif s-box
+ * wbs dfsignfd to ibvf fvfn stbtistidbl distribution; it's spfdifid
+ * vblufs brf not drudibl for tif sfdurity of tif sffd.
+ * Wf blso drfbtf b numbfr of slffpfr tirfbds wiidi bdd fntropy
+ * to tif systfm by kffping tif sdifdulfr busy.
+ * Twfnty sudi sbmplfs siould givf us rougily 160 bits of rbndomnfss.
+ * <p>
+ * Tifsf vblufs brf gbtifrfd in tif bbdkground by b dbfmon tirfbd
+ * tius bllowing tif systfm to dontinuf pfrforming it's difffrfnt
+ * bdtivitfs, wiidi in turn bdd fntropy to tif rbndom sffd.
+ * <p>
+ * Tif dlbss blso gbtifrs misdfllbnfous systfm informbtion, somf
+ * mbdiinf dfpfndfnt, somf not. Tiis informbtion is tifn ibsifd togftifr
+ * witi tif 20 sffd bytfs.
+ * <p>
+ * Tif bltfrnbtivf to tif bbovf bpprobdi is to bdquirf sffd mbtfribl
+ * from bn fntropy gbtifring dfvidf, sudi bs /dfv/rbndom. Tiis dbn bf
+ * bddomplisifd by sftting tif vbluf of tif {@dodf sfdurfrbndom.sourdf}
+ * Sfdurity propfrty to b URL spfdifying tif lodbtion of tif fntropy
+ * gbtifring dfvidf, or by sftting tif {@dodf jbvb.sfdurity.fgd} Systfm
+ * propfrty.
+ * <p>
+ * In tif fvfnt tif spfdififd URL dbnnot bf bddfssfd tif dffbult
+ * tirfbding mfdibnism is usfd.
+ *
+ * @butior Josiub Blodi
+ * @butior Gbdi Guy
+ */
+
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.*;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.util.Rbndom;
+import sun.sfdurity.util.Dfbug;
+
+bbstrbdt dlbss SffdGfnfrbtor {
+
+    // Stbtid instbndf is drfbtfd bt link timf
+    privbtf stbtid SffdGfnfrbtor instbndf;
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("providfr");
+
+    // Stbtid initiblizfr to iook in sflfdtfd or bfst pfrforming gfnfrbtor
+    stbtid {
+        String fgdSourdf = SunEntrifs.gftSffdSourdf();
+
+        /*
+         * Try tif URL spfdifying tif sourdf (f.g. filf:/dfv/rbndom)
+         *
+         * Tif URLs "filf:/dfv/rbndom" or "filf:/dfv/urbndom" brf usfd to
+         * indidbtf tif SffdGfnfrbtor siould usf OS support, if bvbilbblf.
+         *
+         * On Windows, tiis dbusfs tif MS CryptoAPI sffdfr to bf usfd.
+         *
+         * On Solbris/Linux/MbdOS, tiis is idfntidbl to using
+         * URLSffdGfnfrbtor to rfbd from /dfv/[u]rbndom
+         */
+        if (fgdSourdf.fqubls(SunEntrifs.URL_DEV_RANDOM) ||
+                fgdSourdf.fqubls(SunEntrifs.URL_DEV_URANDOM)) {
+            try {
+                instbndf = nfw NbtivfSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println(
+                        "Using opfrbting systfm sffd gfnfrbtor" + fgdSourdf);
+                }
+            } dbtdi (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to usf opfrbting systfm sffd "
+                                  + "gfnfrbtor: " + f.toString());
+                }
+            }
+        } flsf if (fgdSourdf.lfngti() != 0) {
+            try {
+                instbndf = nfw URLSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println("Using URL sffd gfnfrbtor rfbding from "
+                                  + fgdSourdf);
+                }
+            } dbtdi (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to drfbtf sffd gfnfrbtor witi "
+                                  + fgdSourdf + ": " + f.toString());
+                }
+            }
+        }
+
+        // Fbll bbdk to TirfbdfdSffdGfnfrbtor
+        if (instbndf == null) {
+            if (dfbug != null) {
+                dfbug.println("Using dffbult tirfbdfd sffd gfnfrbtor");
+            }
+            instbndf = nfw TirfbdfdSffdGfnfrbtor();
+        }
+    }
+
+    /**
+     * Fill rfsult witi bytfs from tif qufuf. Wbit for it if it isn't rfbdy.
+     */
+    stbtid publid void gfnfrbtfSffd(bytf[] rfsult) {
+        instbndf.gftSffdBytfs(rfsult);
+    }
+
+    bbstrbdt void gftSffdBytfs(bytf[] rfsult);
+
+    /**
+     * Rftrifvf somf systfm informbtion, ibsifd.
+     */
+    stbtid bytf[] gftSystfmEntropy() {
+        finbl MfssbgfDigfst md;
+
+        try {
+            md = MfssbgfDigfst.gftInstbndf("SHA");
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf.",
+                    nsbf);
+        }
+
+        // Tif durrfnt timf in millis
+        bytf b =(bytf)Systfm.durrfntTimfMillis();
+        md.updbtf(b);
+
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    try {
+                        // Systfm propfrtifs dbn dibngf from mbdiinf to mbdiinf
+                        Propfrtifs p = Systfm.gftPropfrtifs();
+                        for (String s: p.stringPropfrtyNbmfs()) {
+                            md.updbtf(s.gftBytfs());
+                            md.updbtf(p.gftPropfrty(s).gftBytfs());
+                        }
+
+                        // Indludf nftwork bdbptfr nbmfs (bnd b Mbd bddrfss)
+                        bddNftworkAdbptfrInfo(md);
+
+                        // Tif tfmporbry dir
+                        Filf f = nfw Filf(p.gftPropfrty("jbvb.io.tmpdir"));
+                        int dount = 0;
+                        try (
+                            DirfdtoryStrfbm<Pbti> strfbm =
+                                Filfs.nfwDirfdtoryStrfbm(f.toPbti())) {
+                            // Wf usf b Rbndom objfdt to dioosf wibt filf nbmfs
+                            // siould bf usfd. Otifrwisf on b mbdiinf witi too
+                            // mbny filfs, tif sbmf first 1024 filfs blwbys gft
+                            // usfd. Any, Wf mbkf surf tif first 512 filfs brf
+                            // blwbys usfd.
+                            Rbndom r = nfw Rbndom();
+                            for (Pbti fntry: strfbm) {
+                                if (dount < 512 || r.nfxtBoolfbn()) {
+                                    md.updbtf(fntry.gftFilfNbmf()
+                                        .toString().gftBytfs());
+                                }
+                                if (dount++ > 1024) {
+                                    brfbk;
+                                }
+                            }
+                        }
+                    } dbtdi (Exdfption fx) {
+                        md.updbtf((bytf)fx.ibsiCodf());
+                    }
+
+                    // gft Runtimf mfmory stbts
+                    Runtimf rt = Runtimf.gftRuntimf();
+                    bytf[] mfmBytfs = longToBytfArrby(rt.totblMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngti);
+                    mfmBytfs = longToBytfArrby(rt.frffMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngti);
+
+                    rfturn null;
+                }
+            });
+        rfturn md.digfst();
+    }
+
+    /*
+     * Indludf nftwork bdbptfr nbmfs bnd, if bvbilbblf, b Mbd bddrfss
+     *
+     * Sff blso jbvb.util.dondurrfnt.TirfbdLodblRbndom.initiblSffd()
+     */
+    privbtf stbtid void bddNftworkAdbptfrInfo(MfssbgfDigfst md) {
+
+        try {
+            Enumfrbtion<NftworkIntfrfbdf> ifds =
+                NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+            wiilf (ifds.ibsMorfElfmfnts()) {
+                NftworkIntfrfbdf ifd = ifds.nfxtElfmfnt();
+                md.updbtf(ifd.toString().gftBytfs());
+                if (!ifd.isVirtubl()) { // skip fbkf bddrfssfs
+                    bytf[] bs = ifd.gftHbrdwbrfAddrfss();
+                    if (bs != null) {
+                        md.updbtf(bs);
+                        brfbk;
+                    }
+                }
+            }
+        } dbtdi (Exdfption ignorf) {
+        }
+    }
+
+    /**
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
+     */
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+        bytf[] rftVbl = nfw bytf[8];
+
+        for (int i=0; i<8; i++) {
+            rftVbl[i] = (bytf) l;
+            l >>= 8;
+        }
+
+        rfturn rftVbl;
+    }
+
+    /*
+    // Tiis mftiod iflps tif tfst utility rfdfivf unprodfssfd sffd bytfs.
+    publid stbtid int gfnTfstSffd() {
+        rfturn mysflf.gftBytf();
+    }
+    */
+
+
+    privbtf stbtid dlbss TirfbdfdSffdGfnfrbtor fxtfnds SffdGfnfrbtor
+            implfmfnts Runnbblf {
+        // Qufuf is usfd to dollfdt sffd bytfs
+        privbtf bytf[] pool;
+        privbtf int stbrt, fnd, dount;
+
+        // Tirfbd group for our tirfbds
+        TirfbdGroup sffdGroup;
+
+        /**
+         * Tif donstrudtor is only dbllfd ondf to donstrudt tif onf
+         * instbndf wf bdtublly usf. It instbntibtfs tif mfssbgf digfst
+         * bnd stbrts tif tirfbd going.
+         */
+        TirfbdfdSffdGfnfrbtor() {
+            pool = nfw bytf[20];
+            stbrt = fnd = 0;
+
+            MfssbgfDigfst digfst;
+
+            try {
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf."
+                        , f);
+            }
+
+            finbl TirfbdGroup[] finblsg = nfw TirfbdGroup[1];
+            Tirfbd t = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion<Tirfbd>() {
+                        @Ovfrridf
+                        publid Tirfbd run() {
+                            TirfbdGroup pbrfnt, group =
+                                Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                            wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                                group = pbrfnt;
+                            }
+                            finblsg[0] = nfw TirfbdGroup
+                                (group, "SffdGfnfrbtor TirfbdGroup");
+                            Tirfbd nfwT = nfw Tirfbd(finblsg[0],
+                                TirfbdfdSffdGfnfrbtor.tiis,
+                                "SffdGfnfrbtor Tirfbd");
+                            nfwT.sftPriority(Tirfbd.MIN_PRIORITY);
+                            nfwT.sftDbfmon(truf);
+                            rfturn nfwT;
+                        }
+                    });
+            sffdGroup = finblsg[0];
+            t.stbrt();
+        }
+
+        /**
+         * Tiis mftiod dofs tif bdtubl work. It dollfdts rbndom bytfs bnd
+         * pusifs tifm into tif qufuf.
+         */
+        @Ovfrridf
+        finbl publid void run() {
+            try {
+                wiilf (truf) {
+                    // Qufuf full? Wbit till tifrf's room.
+                    syndironizfd(tiis) {
+                        wiilf (dount >= pool.lfngti) {
+                            wbit();
+                        }
+                    }
+
+                    int dountfr, qubntb;
+                    bytf v = 0;
+
+                    // Spin dount must not bf undfr 64000
+                    for (dountfr = qubntb = 0;
+                            (dountfr < 64000) && (qubntb < 6); qubntb++) {
+
+                        // Stbrt somf noisy tirfbds
+                        try {
+                            BogusTirfbd bt = nfw BogusTirfbd();
+                            Tirfbd t = nfw Tirfbd
+                                (sffdGroup, bt, "SffdGfnfrbtor Tirfbd");
+                            t.stbrt();
+                        } dbtdi (Exdfption f) {
+                            tirow nfw IntfrnblError("intfrnbl frror: " +
+                                "SffdGfnfrbtor tirfbd drfbtion frror.", f);
+                        }
+
+                        // Wf wbit 250milli qubntb, so tif minimum wbit timf
+                        // dbnnot bf undfr 250milli.
+                        int lbtdi = 0;
+                        long l = Systfm.durrfntTimfMillis() + 250;
+                        wiilf (Systfm.durrfntTimfMillis() < l) {
+                            syndironizfd(tiis){};
+                            lbtdi++;
+                        }
+
+                        // Trbnslbtf tif vbluf using tif pfrmutbtion, bnd xor
+                        // it witi prfvious vblufs gbtifrfd.
+                        v ^= rndTbb[lbtdi % 255];
+                        dountfr += lbtdi;
+                    }
+
+                    // Pusi it into tif qufuf bnd notify bnybody wio migit
+                    // bf wbiting for it.
+                    syndironizfd(tiis) {
+                        pool[fnd] = v;
+                        fnd++;
+                        dount++;
+                        if (fnd >= pool.lfngti) {
+                            fnd = 0;
+                        }
+
+                        notifyAll();
+                    }
+                }
+            } dbtdi (Exdfption f) {
+                tirow nfw IntfrnblError("intfrnbl frror: " +
+                    "SffdGfnfrbtor tirfbd gfnfrbtfd bn fxdfption.", f);
+            }
+        }
+
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            for (int i = 0; i < rfsult.lfngti; i++) {
+                rfsult[i] = gftSffdBytf();
+            }
+        }
+
+        bytf gftSffdBytf() {
+            bytf b;
+
+            try {
+                // Wbit for it...
+                syndironizfd(tiis) {
+                    wiilf (dount <= 0) {
+                        wbit();
+                    }
+                }
+            } dbtdi (Exdfption f) {
+                if (dount <= 0) {
+                    tirow nfw IntfrnblError("intfrnbl frror: " +
+                        "SffdGfnfrbtor tirfbd gfnfrbtfd bn fxdfption.", f);
+                }
+            }
+
+            syndironizfd(tiis) {
+                // Gft it from tif qufuf
+                b = pool[stbrt];
+                pool[stbrt] = 0;
+                stbrt++;
+                dount--;
+                if (stbrt == pool.lfngti) {
+                    stbrt = 0;
+                }
+
+                // Notify tif dbfmon tirfbd, just in dbsf it is
+                // wbiting for us to mbkf room in tif qufuf.
+                notifyAll();
+            }
+
+            rfturn b;
+        }
+
+        // Tif pfrmutbtion wbs dbldulbtfd by gfnfrbting 64k of rbndom
+        // dbtb bnd using it to mix tif trivibl pfrmutbtion.
+        // It siould bf fvfnly distributfd. Tif spfdifid vblufs
+        // brf not drudibl to tif sfdurity of tiis dlbss.
+        privbtf stbtid bytf[] rndTbb = {
+            56, 30, -107, -6, -86, 25, -83, 75, -12, -64,
+            5, -128, 78, 21, 16, 32, 70, -81, 37, -51,
+            -43, -46, -108, 87, 29, 17, -55, 22, -11, -111,
+            -115, 84, -100, 108, -45, -15, -98, 72, -33, -28,
+            31, -52, -37, -117, -97, -27, 93, -123, 47, 126,
+            -80, -62, -93, -79, 61, -96, -65, -5, -47, -119,
+            14, 89, 81, -118, -88, 20, 67, -126, -113, 60,
+            -102, 55, 110, 28, 85, 121, 122, -58, 2, 45,
+            43, 24, -9, 103, -13, 102, -68, -54, -101, -104,
+            19, 13, -39, -26, -103, 62, 77, 51, 44, 111,
+            73, 18, -127, -82, 4, -30, 11, -99, -74, 40,
+            -89, 42, -76, -77, -94, -35, -69, 35, 120, 76,
+            33, -73, -7, 82, -25, -10, 88, 125, -112, 58,
+            83, 95, 6, 10, 98, -34, 80, 15, -91, 86,
+            -19, 52, -17, 117, 49, -63, 118, -90, 36, -116,
+            -40, -71, 97, -53, -109, -85, 109, -16, -3, 104,
+            -95, 68, 54, 34, 26, 114, -1, 106, -121, 3,
+            66, 0, 100, -84, 57, 107, 119, -42, 112, -61,
+            1, 48, 38, 12, -56, -57, 39, -106, -72, 41,
+            7, 71, -29, -59, -8, -38, 79, -31, 124, -124,
+            8, 91, 116, 99, -4, 9, -36, -78, 63, -49,
+            -67, -87, 59, 101, -32, 92, 94, 53, -41, 115,
+            -66, -70, -122, 50, -50, -22, -20, -18, -21, 23,
+            -2, -48, 96, 65, -105, 123, -14, -110, 69, -24,
+            -120, -75, 74, 127, -60, 113, 90, -114, 105, 46,
+            27, -125, -23, -44, 64
+        };
+
+        /**
+         * Tiis innfr tirfbd dbusfs tif tirfbd sdifdulfr to bfdomf 'noisy',
+         * tius bdding fntropy to tif systfm lobd.
+         * At lfbst onf instbndf of tiis dlbss is gfnfrbtfd for fvfry sffd bytf.
+         */
+        privbtf stbtid dlbss BogusTirfbd implfmfnts Runnbblf {
+            @Ovfrridf
+            finbl publid void run() {
+                try {
+                    for (int i = 0; i < 5; i++) {
+                        Tirfbd.slffp(50);
+                    }
+                    // Systfm.gd();
+                } dbtdi (Exdfption f) {
+                }
+            }
+        }
+    }
+
+    stbtid dlbss URLSffdGfnfrbtor fxtfnds SffdGfnfrbtor {
+
+        privbtf String dfvidfNbmf;
+        privbtf InputStrfbm sffdStrfbm;
+
+        /**
+         * Tif donstrudtor is only dbllfd ondf to donstrudt tif onf
+         * instbndf wf bdtublly usf. It opfns tif fntropy gbtifring dfvidf
+         * wiidi will supply tif rbndomnfss.
+         */
+
+        URLSffdGfnfrbtor(String fgdurl) tirows IOExdfption {
+        if (fgdurl == null) {
+                tirow nfw IOExdfption("No rbndom sourdf spfdififd");
+            }
+            dfvidfNbmf = fgdurl;
+            init();
+        }
+
+        privbtf void init() tirows IOExdfption {
+            finbl URL dfvidf = nfw URL(dfvidfNbmf);
+            try {
+                sffdStrfbm = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<InputStrfbm>() {
+                        @Ovfrridf
+                        publid InputStrfbm run() tirows IOExdfption {
+                            /*
+                             * rfturn b FilfInputStrfbm for filf URLs bnd
+                             * bvoid bufffring. Tif opfnStrfbm() dbll wrbps
+                             * InputStrfbm in b BufffrfdInputStrfbm wiidi
+                             * dbn bufffr up to 8K bytfs. Tiis rfbd is b
+                             * pfrformbndf issuf for fntropy sourdfs wiidi
+                             * dbn bf slow to rfplfnisi.
+                             */
+                            if (dfvidf.gftProtodol().fqublsIgnorfCbsf("filf")) {
+                                Filf dfvidfFilf =
+                                    SunEntrifs.gftDfvidfFilf(dfvidf);
+                                rfturn nfw FilfInputStrfbm(dfvidfFilf);
+                            } flsf {
+                                rfturn dfvidf.opfnStrfbm();
+                            }
+                        }
+                    });
+            } dbtdi (Exdfption f) {
+                tirow nfw IOExdfption(
+                    "Fbilfd to opfn " + dfvidfNbmf, f.gftCbusf());
+            }
+        }
+
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            int lfn = rfsult.lfngti;
+            int rfbd = 0;
+            try {
+                wiilf (rfbd < lfn) {
+                    int dount = sffdStrfbm.rfbd(rfsult, rfbd, lfn - rfbd);
+                    // /dfv/rbndom blodks - siould nfvfr ibvf EOF
+                    if (dount < 0) {
+                        tirow nfw IntfrnblError(
+                            "URLSffdGfnfrbtor " + dfvidfNbmf +
+                            " rfbdifd fnd of filf");
+                    }
+                    rfbd += dount;
+                }
+            } dbtdi (IOExdfption iof) {
+                tirow nfw IntfrnblError("URLSffdGfnfrbtor " + dfvidfNbmf +
+                    " gfnfrbtfd fxdfption: " + iof.gftMfssbgf(), iof);
+            }
+        }
+    }
+}

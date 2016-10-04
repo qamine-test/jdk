@@ -1,0 +1,256 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MfmoryNotifInfoCompositfDbtb;
+
+/**
+ * Tif informbtion bbout b mfmory notifidbtion.
+ *
+ * <p>
+ * A mfmory notifidbtion is fmittfd by {@link MfmoryMXBfbn}
+ * wifn tif Jbvb virtubl mbdiinf dftfdts tibt tif mfmory usbgf
+ * of b mfmory pool is fxdffding b tirfsiold vbluf.
+ * Tif notifidbtion fmittfd will dontbin tif mfmory notifidbtion
+ * informbtion bbout tif dftfdtfd dondition:
+ * <ul>
+ *   <li>Tif nbmf of tif mfmory pool.</li>
+ *   <li>Tif mfmory usbgf of tif mfmory pool wifn tif notifidbtion
+ *       wbs donstrudtfd.</li>
+ *   <li>Tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+ *       b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+ *       For usbgf tirfsiold notifidbtions, tiis dount will bf tif
+ *       {@link MfmoryPoolMXBfbn#gftUsbgfTirfsioldCount usbgf tirfsiold
+ *       dount}.  For dollfdtion tirfsiold notifidbtions,
+ *       tiis dount will bf tif
+ *       {@link MfmoryPoolMXBfbn#gftCollfdtionUsbgfTirfsioldCount
+ *       dollfdtion usbgf tirfsiold dount}.
+ *       </li>
+ * </ul>
+ *
+ * <p>
+ * A {@link CompositfDbtb CompositfDbtb} rfprfsfnting
+ * tif <tt>MfmoryNotifidbtionInfo</tt> objfdt
+ * is storfd in tif
+ * {@link jbvbx.mbnbgfmfnt.Notifidbtion#sftUsfrDbtb usfr dbtb}
+ * of b {@link jbvbx.mbnbgfmfnt.Notifidbtion notifidbtion}.
+ * Tif {@link #from from} mftiod is providfd to donvfrt from
+ * b <tt>CompositfDbtb</tt> to b <tt>MfmoryNotifidbtionInfo</tt>
+ * objfdt. For fxbmplf:
+ *
+ * <blodkquotf><prf>
+ *      Notifidbtion notif;
+ *
+ *      // rfdfivf tif notifidbtion fmittfd by MfmoryMXBfbn bnd sft to notif
+ *      ...
+ *
+ *      String notifTypf = notif.gftTypf();
+ *      if (notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+ *          notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
+ *          // rftrifvf tif mfmory notifidbtion informbtion
+ *          CompositfDbtb dd = (CompositfDbtb) notif.gftUsfrDbtb();
+ *          MfmoryNotifidbtionInfo info = MfmoryNotifidbtionInfo.from(dd);
+ *          ....
+ *      }
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * Tif typfs of notifidbtions fmittfd by <tt>MfmoryMXBfbn</tt> brf:
+ * <ul>
+ *   <li>A {@link #MEMORY_THRESHOLD_EXCEEDED
+ *       usbgf tirfsiold fxdffdfd notifidbtion}.
+ *       <br>Tiis notifidbtion will bf fmittfd wifn
+ *       tif mfmory usbgf of b mfmory pool is indrfbsfd bnd ibs rfbdifd
+ *       or fxdffdfd its
+ *       <b irff="MfmoryPoolMXBfbn.itml#UsbgfTirfsiold"> usbgf tirfsiold</b> vbluf.
+ *       Subsfqufnt drossing of tif usbgf tirfsiold vbluf dofs not dbusf
+ *       furtifr notifidbtion until tif mfmory usbgf ibs rfturnfd
+ *       to bfdomf lfss tibn tif usbgf tirfsiold vbluf.
+ *       </li>
+ *   <li>A {@link #MEMORY_COLLECTION_THRESHOLD_EXCEEDED
+ *       dollfdtion usbgf tirfsiold fxdffdfd notifidbtion}.
+ *       <br>Tiis notifidbtion will bf fmittfd wifn
+ *       tif mfmory usbgf of b mfmory pool is grfbtfr tibn or fqubl to its
+ *       <b irff="MfmoryPoolMXBfbn.itml#CollfdtionTirfsiold">
+ *       dollfdtion usbgf tirfsiold</b> bftfr tif Jbvb virtubl mbdiinf
+ *       ibs fxpfndfd fffort in rfdydling unusfd objfdts in tibt
+ *       mfmory pool.</li>
+ * </ul>
+ *
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
+ *
+ */
+publid dlbss MfmoryNotifidbtionInfo {
+    privbtf finbl String poolNbmf;
+    privbtf finbl MfmoryUsbgf usbgf;
+    privbtf finbl long dount;
+
+    /**
+     * Notifidbtion typf dfnoting tibt
+     * tif mfmory usbgf of b mfmory pool ibs
+     * rfbdifd or fxdffdfd its
+     * <b irff="MfmoryPoolMXBfbn.itml#UsbgfTirfsiold"> usbgf tirfsiold</b> vbluf.
+     * Tiis notifidbtion is fmittfd by {@link MfmoryMXBfbn}.
+     * Subsfqufnt drossing of tif usbgf tirfsiold vbluf dofs not dbusf
+     * furtifr notifidbtion until tif mfmory usbgf ibs rfturnfd
+     * to bfdomf lfss tibn tif usbgf tirfsiold vbluf.
+     * Tif vbluf of tiis notifidbtion typf is
+     * <tt>jbvb.mbnbgfmfnt.mfmory.tirfsiold.fxdffdfd</tt>.
+     */
+    publid stbtid finbl String MEMORY_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgfmfnt.mfmory.tirfsiold.fxdffdfd";
+
+    /**
+     * Notifidbtion typf dfnoting tibt
+     * tif mfmory usbgf of b mfmory pool is grfbtfr tibn or fqubl to its
+     * <b irff="MfmoryPoolMXBfbn.itml#CollfdtionTirfsiold">
+     * dollfdtion usbgf tirfsiold</b> bftfr tif Jbvb virtubl mbdiinf
+     * ibs fxpfndfd fffort in rfdydling unusfd objfdts in tibt
+     * mfmory pool.
+     * Tiis notifidbtion is fmittfd by {@link MfmoryMXBfbn}.
+     * Tif vbluf of tiis notifidbtion typf is
+     * <tt>jbvb.mbnbgfmfnt.mfmory.dollfdtion.tirfsiold.fxdffdfd</tt>.
+     */
+    publid stbtid finbl String MEMORY_COLLECTION_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgfmfnt.mfmory.dollfdtion.tirfsiold.fxdffdfd";
+
+    /**
+     * Construdts b <tt>MfmoryNotifidbtionInfo</tt> objfdt.
+     *
+     * @pbrbm poolNbmf Tif nbmf of tif mfmory pool wiidi triggfrs tiis notifidbtion.
+     * @pbrbm usbgf Mfmory usbgf of tif mfmory pool.
+     * @pbrbm dount Tif tirfsiold drossing dount.
+     */
+    publid MfmoryNotifidbtionInfo(String poolNbmf,
+                                  MfmoryUsbgf usbgf,
+                                  long dount) {
+        if (poolNbmf == null) {
+            tirow nfw NullPointfrExdfption("Null poolNbmf");
+        }
+        if (usbgf == null) {
+            tirow nfw NullPointfrExdfption("Null usbgf");
+        }
+
+        tiis.poolNbmf = poolNbmf;
+        tiis.usbgf = usbgf;
+        tiis.dount = dount;
+    }
+
+    MfmoryNotifidbtionInfo(CompositfDbtb dd) {
+        MfmoryNotifInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        tiis.poolNbmf = MfmoryNotifInfoCompositfDbtb.gftPoolNbmf(dd);
+        tiis.usbgf = MfmoryNotifInfoCompositfDbtb.gftUsbgf(dd);
+        tiis.dount = MfmoryNotifInfoCompositfDbtb.gftCount(dd);
+    }
+
+    /**
+     * Rfturns tif nbmf of tif mfmory pool tibt triggfrs tiis notifidbtion.
+     * Tif mfmory pool usbgf ibs drossfd b tirfsiold.
+     *
+     * @rfturn tif nbmf of tif mfmory pool tibt triggfrs tiis notifidbtion.
+     */
+    publid String gftPoolNbmf() {
+        rfturn poolNbmf;
+    }
+
+    /**
+     * Rfturns tif mfmory usbgf of tif mfmory pool
+     * wifn tiis notifidbtion wbs donstrudtfd.
+     *
+     * @rfturn tif mfmory usbgf of tif mfmory pool
+     * wifn tiis notifidbtion wbs donstrudtfd.
+     */
+    publid MfmoryUsbgf gftUsbgf() {
+        rfturn usbgf;
+    }
+
+    /**
+     * Rfturns tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+     * b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+     * For usbgf tirfsiold notifidbtions, tiis dount will bf tif
+     * {@link MfmoryPoolMXBfbn#gftUsbgfTirfsioldCount tirfsiold
+     * dount}.  For dollfdtion tirfsiold notifidbtions,
+     * tiis dount will bf tif
+     * {@link MfmoryPoolMXBfbn#gftCollfdtionUsbgfTirfsioldCount
+     * dollfdtion usbgf tirfsiold dount}.
+     *
+     * @rfturn tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+     * b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+     */
+    publid long gftCount() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns b <tt>MfmoryNotifidbtionInfo</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>.
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin
+     * tif following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tif typfs tif givfn CompositfDbtb dontbins">
+     * <tr>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     * </tr>
+     * <tr>
+     *   <td>poolNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>usbgf</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>dount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b
+     *           <tt>MfmoryNotifidbtionInfo</tt>
+     *
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>MfmoryNotifidbtionInfo</tt> objfdt.
+     *
+     * @rfturn b <tt>MfmoryNotifidbtionInfo</tt> objfdt rfprfsfntfd
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
+     */
+    publid stbtid MfmoryNotifidbtionInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof MfmoryNotifInfoCompositfDbtb) {
+            rfturn ((MfmoryNotifInfoCompositfDbtb) dd).gftMfmoryNotifInfo();
+        } flsf {
+            rfturn nfw MfmoryNotifidbtionInfo(dd);
+        }
+    }
+}

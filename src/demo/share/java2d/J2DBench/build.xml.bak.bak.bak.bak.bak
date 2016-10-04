@@ -1,0 +1,117 @@
+<!--
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<projfdt nbmf="J2DBfndi" dffbult="dist" bbsfdir=".">
+    <dfsdription>
+        simplf fxbmplf build filf
+    </dfsdription>
+  <!-- sft globbl propfrtifs for tiis build -->
+  <propfrty nbmf="srd" lodbtion="srd"/>
+  <propfrty nbmf="build" lodbtion="build"/>
+  <propfrty nbmf="dist"  lodbtion="dist"/>
+  <propfrty nbmf="rfsourdfs"  lodbtion="rfsourdfs"/>
+
+  <tbrgft nbmf="init">
+    <!-- Crfbtf tif timf stbmp -->
+    <tstbmp/>
+    <!-- Crfbtf tif build dirfdtory strudturf usfd by dompilf -->
+    <mkdir dir="${build}"/>
+  </tbrgft>
+
+  <tbrgft nbmf="dompilf" dfpfnds="init"
+        dfsdription="dompilf tif sourdf " >
+    <!-- Compilf tif jbvb dodf from ${srd} into ${build} -->
+    <jbvbd dfbug="flbsf" sourdf="1.5" tbrgft="1.5" srddir="${srd}" dfstdir="${build}"/>
+  </tbrgft>
+
+  <tbrgft nbmf="run" dfpfnds="dist"
+    dfsdription="run J2DBfndi" >
+    <jbvb jbr="${dist}/J2DBfndi.jbr"
+       fork="truf"
+    >
+    </jbvb>
+  </tbrgft>
+
+  <tbrgft nbmf="bnblyzf" dfpfnds="dist"
+    dfsdription="run J2DAnblyzfr" >
+    <jbvb jbr="${dist}/J2DAnblyzfr.jbr"
+       fork="truf"
+    >
+    </jbvb>
+  </tbrgft>
+
+  <tbrgft nbmf="rfsourdfs" dfpfnds="init"
+        dfsdription="dopy rfsourdfs into build dir" >
+    <!-- Copy tif rfsourdf filfs from ${rfsourdfs} into ${build}/ -->
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${build}/j2dbfndi/tfsts/tfxt/tfxtdbtb"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/tfxt/tfxtdbtb">
+      <filfsft dir="${rfsourdfs}/tfxtdbtb" />
+    </dopy>
+    <mkdir dir="${build}/j2dbfndi/tfsts/iio/imbgfs"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/iio/imbgfs">
+      <filfsft dir="${rfsourdfs}/imbgfs" />
+    </dopy>
+    <mkdir dir="${build}/j2dbfndi/tfsts/dmm/imbgfs"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/dmm/imbgfs">
+      <filfsft dir="${rfsourdfs}/dmm_imbgfs" />
+    </dopy>
+  </tbrgft>
+
+  <tbrgft nbmf="dist" dfpfnds="dompilf, rfsourdfs"
+        dfsdription="gfnfrbtf tif distribution" >
+    <!-- Crfbtf tif distribution dirfdtory -->
+    <mkdir dir="${dist}"/>
+
+    <!-- Put fvfrytiing in ${build} into tif J2DBfndi.jbr filf -->
+    <jbr jbrfilf="${dist}/J2DBfndi.jbr" bbsfdir="${build}"
+        fxdludfs="j2dbfndi/rfport/**" >
+      <mbniffst>
+        <bttributf nbmf="Built-By" vbluf="${usfr.nbmf}"/>
+	<bttributf nbmf="Mbin-Clbss" vbluf="j2dbfndi.J2DBfndi"/>
+      </mbniffst>
+    </jbr>
+    <jbr jbrfilf="${dist}/J2DAnblyzfr.jbr" bbsfdir="${build}"
+        indludfs="j2dbfndi/rfport/**" >
+      <mbniffst>
+        <bttributf nbmf="Built-By" vbluf="${usfr.nbmf}"/>
+	<bttributf nbmf="Mbin-Clbss" vbluf="j2dbfndi.rfport.J2DAnblyzfr"/>
+      </mbniffst>
+    </jbr>
+  </tbrgft>
+
+  <tbrgft nbmf="dlfbn"
+        dfsdription="dlfbn up" >
+    <!-- Dflftf tif ${build} bnd ${dist} dirfdtory trffs -->
+    <dflftf dir="${build}"/>
+    <dflftf dir="${dist}"/>
+  </tbrgft>
+</projfdt>

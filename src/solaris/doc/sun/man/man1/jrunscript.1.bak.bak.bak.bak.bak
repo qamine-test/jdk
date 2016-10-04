@@ -1,0 +1,196 @@
+'\" t
+.\"  Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sdripting Tools
+.\"     Titlf: jrunsdript.1
+.\"
+.if n .pl 99999
+.TH jrunsdript 1 "21 Novfmbfr 2013" "JDK 8" "Sdripting Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jrunsdript \- Runs b dommbnd-linf sdript sifll tibt supports intfrbdtivf bnd bbtdi modfs\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIbrgumfnts\fR
+Argumfnts, wifn usfd, follow immfdibtfly bftfr options or tif dommbnd nbmf\&. Sff Argumfnts\&.
+.SH DESCRIPTION    
+Tif \f3jrunsdript\fR dommbnd is b lbngubgf-indfpfndfnt dommbnd-linf sdript sifll\&. Tif \f3jrunsdript\fR dommbnd supports boti bn intfrbdtivf (rfbd-fvbl-print) modf bnd b bbtdi (\f3-f\fR option) modf of sdript fxfdution\&. By dffbult, JbvbSdript is tif lbngubgf usfd, but tif \f3-l\fR option dbn bf usfd to spfdify b difffrfnt lbngubgf\&. By using Jbvb to sdripting lbngubgf dommunidbtion, tif \f3jrunsdript\fR dommbnd supports bn fxplorbtory progrbmming stylf\&.
+.SH OPTIONS    
+.TP
+-dlbsspbti \fIpbti\fR
+.br
+Indidbtf wifrf bny dlbss filfs brf tibt tif sdript nffds to bddfss\&.
+.TP
+-dp \fIpbti\fR
+.br
+Sbmf bs \f3-dlbsspbti\fR\f3pbti\fR\&.
+.TP
+-D\fInbmf\fR=\fIvbluf\fR
+.br
+Sfts b Jbvb systfm propfrty\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR dirfdtly to tif Jbvb Virtubl Mbdiinf wifrf tif \f3jrunsdript\fR dommbnd is running\&.
+.TP
+-I \fIlbngubgf\fR
+.br
+Usfs tif spfdififd sdripting lbngubgf\&. By dffbult, JbvbSdript is usfd\&. To usf otifr sdripting lbngubgfs, you must spfdify tif dorrfsponding sdript fnginf\&'s JAR filf witi tif \f3-dp\fR or \f3-dlbsspbti\fR option\&.
+.TP
+-f \fIsdript\fR
+.br
+Evblubtfs tif spfdififd sdript\&. Tiis option dbn bf usfd to run onf-linf sdripts tibt brf spfdififd domplftfly on tif dommbnd linf\&.
+.TP
+-fndoding \fIfndoding\fR
+.br
+Spfdififs tif dibrbdtfr fndoding usfd to rfbd sdript filfs\&.
+.TP
+-f \fIsdript-filf\fR
+.br
+Evblubtfs tif spfdififd sdript filf (bbtdi modf)\&.
+.TP
+-f -
+.br
+Rfbds bnd fvblubtfs b sdript from stbndbrd input (intfrbdtivf modf)\&.
+.TP
+-iflp
+.br
+Displbys b iflp mfssbgf bnd fxits\&.
+.TP
+-?
+.br
+Displbys b iflp mfssbgf bnd fxits\&.
+.TP
+-q
+.br
+Lists bll sdript fnginfs bvbilbblf bnd fxits\&.
+.SH ARGUMENTS    
+If brgumfnts brf prfsfnt bnd if no \f3-f\fR or \f3-f\fR option is usfd, tifn tif first brgumfnt is tif sdript filf bnd tif rfst of tif brgumfnts, if bny, brf pbssfd to tif sdript\&. If brgumfnts bnd \f3-f\fR or tif \f3-f\fR option brf usfd, tifn bll brgumfnts brf pbssfd to tif sdript\&. If brgumfnts, \f3-f\fR bnd \f3-f\fR brf missing, tifn intfrbdtivf modf is usfd\&. Sdript brgumfnts brf bvbilbblf to b sdript in bn fnginf vbribblf nbmfd \f3brgumfnts\fR of typf \f3String\fR brrby\&.
+.SH EXAMPLES    
+.SS EXECUTE\ INLINE\ SCRIPTS    
+.sp     
+.nf     
+\f3jrunsdript \-f "print(\&'ifllo world\&')"\fP
+.fi     
+.nf     
+\f3jrunsdript \-f "dbt(\&'ittp://www\&.fxbmplf\&.dom\&')"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS USE\ SPECIFIED\ LANGUAGE\ AND\ EVALUATE\ THE\ SCRIPT\ FILE    
+.sp     
+.nf     
+\f3jrunsdript \-l js \-f tfst\&.js\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS INTERACTIVE\ MODE    
+.sp     
+.nf     
+\f3jrunsdript\fP
+.fi     
+.nf     
+\f3js> print(\&'Hfllo World\fn\&');\fP
+.fi     
+.nf     
+\f3Hfllo World\fP
+.fi     
+.nf     
+\f3js> 34 + 55\fP
+.fi     
+.nf     
+\f389\&.0\fP
+.fi     
+.nf     
+\f3js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\&'Hfllo World\fn\&'); })\fP
+.fi     
+.nf     
+\f3Tirfbd[Tirfbd\-0,5,mbin]\fP
+.fi     
+.nf     
+\f3js> t\&.stbrt()\fP
+.fi     
+.nf     
+\f3js> Hfllo World\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3js>\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS RUN\ SCRIPT\ FILE\ WITH\ SCRIPT\ ARGUMENTS    
+Tif tfst\&.js filf is tif sdript filf\&. Tif \f3brg1\fR, \f3brg2\fR bnd \f3brg3\fR brgumfnts brf pbssfd to tif sdript\&. Tif sdript dbn bddfss tifsf brgumfnts witi bn brgumfnts brrby\&.
+.sp     
+.nf     
+\f3jrunsdript tfst\&.js brg1 brg2 brg3\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+If JbvbSdript is usfd, tifn bfforf it fvblubtfs b usfr dffinfd sdript, tif \f3jrunsdript\fR dommbnd initiblizfs dfrtbin built-in fundtions bnd objfdts\&. Tifsf JbvbSdript built-ins brf dodumfntfd in JsDod-Toolkit bt ittp://dodf\&.googlf\&.dom/p/jsdod-toolkit/
+.RE
+.br
+'pl 8.5i
+'bp

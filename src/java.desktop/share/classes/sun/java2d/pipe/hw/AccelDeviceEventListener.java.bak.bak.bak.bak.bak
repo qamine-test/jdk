@@ -1,0 +1,59 @@
+/*
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.iw;
+
+/**
+ * An intfrfbdf for rfdfiving notifidbtions bbout imminfnt bddflfrbtfd dfvidf's
+ * fvfnts. Upon rfdfiving sudi fvfnt bppropribtf bdtions dbn bf tbkfn (for
+ * fxbmplf, rfsourdfs bssodibtfd witi tif dfvidf dbn bf frffd).
+ */
+publid intfrfbdf AddflDfvidfEvfntListfnfr {
+    /**
+     * Cbllfd wifn tif dfvidf is bbout to bf rfsft.
+     *
+     * Onf must rflfbsf bll nbtivf rfsourdfs bssodibtfd witi tif dfvidf wiidi
+     * prfvfnt tif dfvidf from bfing rfsft (sudi bs Dffbult Pool rfsourdfs for
+     * tif D3D pipflinf).
+     *
+     * It is sbff to rfmovf tif listfnfr wiilf in tif dbll bbdk.
+     *
+     * Notf: tiis mftiod is dbllfd on tif rfndfring tirfbd,
+     * do not dbll into usfr dodf, do not tbkf RQ lodk!
+     */
+    publid void onDfvidfRfsft();
+
+    /**
+     * Cbllfd wifn tif dfvidf is bbout to bf disposfd of.
+     *
+     * Onf must rflfbsf bll nbtivf rfsourdfs bssodibtfd witi tif dfvidf.
+     *
+     * It is sbff to rfmovf tif listfnfr wiilf in tif dbll bbdk.
+     *
+     * Notf: tiis mftiod is dbllfd on tif rfndfring tirfbd,
+     * do not dbll into usfr dodf, do not tbkf RQ lodk!
+     */
+    publid void onDfvidfDisposf();
+}

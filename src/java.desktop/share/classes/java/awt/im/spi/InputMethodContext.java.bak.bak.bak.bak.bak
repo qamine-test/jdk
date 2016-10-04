@@ -1,0 +1,148 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.im.spi;
+
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Window;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvbx.swing.JFrbmf;
+
+/**
+ * Providfs mftiods tibt input mftiods
+ * dbn usf to dommunidbtf witi tifir dlifnt domponfnts or to rfqufst
+ * otifr sfrvidfs.  Tiis intfrfbdf is implfmfntfd by tif input mftiod
+ * frbmfwork, bnd input mftiods dbll its mftiods on tif instbndf tify
+ * rfdfivf tirougi
+ * {@link jbvb.bwt.im.spi.InputMftiod#sftInputMftiodContfxt}.
+ * Tifrf siould bf no otifr implfmfntors or dbllfrs.
+ *
+ * @sindf 1.3
+ *
+ * @butior JbvbSoft Intfrnbtionbl
+ */
+
+publid intfrfbdf InputMftiodContfxt fxtfnds InputMftiodRfqufsts {
+
+    /**
+     * Crfbtfs bn input mftiod fvfnt from tif brgumfnts givfn
+     * bnd dispbtdifs it to tif dlifnt domponfnt. For brgumfnts,
+     * sff {@link jbvb.bwt.fvfnt.InputMftiodEvfnt#InputMftiodEvfnt}.
+     * @pbrbm id tif fvfnt typf
+     * @pbrbm tfxt tif dombinfd dommittfd bnd domposfd tfxt
+     * @pbrbm dommittfdCibrbdtfrCount tif numbfr of dommittfd dibrbdtfrs in tif tfxt
+     * @pbrbm dbrft tif dbrft (b.k.b. insfrtion point); null if
+     * tifrf's no dbrft witiin durrfnt domposfd tfxt
+     * @pbrbm visiblfPosition tif position tibt's most importbnt to bf
+     * visiblf; null if tifrf's no rfdommfndbtion for b visiblf
+     * position witiin durrfnt domposfd tfxt
+     */
+    publid void dispbtdiInputMftiodEvfnt(int id,
+                AttributfdCibrbdtfrItfrbtor tfxt, int dommittfdCibrbdtfrCount,
+                TfxtHitInfo dbrft, TfxtHitInfo visiblfPosition);
+
+    /**
+     * Crfbtfs b top-lfvfl window for usf by tif input mftiod.
+     * Tif intfndfd bfibvior of tiis window is:
+     * <ul>
+     * <li>it flobts bbovf bll dodumfnt windows bnd diblogs
+     * <li>it bnd bll domponfnts tibt it dontbins do not rfdfivf tif fodus
+     * <li>it ibs ligitwfigit dfdorbtions, sudi bs b rfdudfd drbg rfgion witiout titlf
+     * </ul>
+     * Howfvfr, tif bdtubl bfibvior witi rfspfdt to tifsf tirff itfms is plbtform dfpfndfnt.
+     * <p>
+     * Tif titlf mby or mby not bf displbyfd, dfpfnding on tif bdtubl typf of window drfbtfd.
+     * <p>
+     * If bttbdiToInputContfxt is truf, tif nfw window will sibrf tif input dontfxt tibt
+     * dorrfsponds to tiis input mftiod dontfxt, so tibt fvfnts for domponfnts in tif window
+     * brf butombtidblly dispbtdifd to tif input mftiod.
+     * Also, wifn tif window is opfnfd using sftVisiblf(truf), tif input dontfxt will prfvfnt
+     * dfbdtivbtf bnd bdtivbtf dblls to tif input mftiod tibt migit otifrwisf bf dbusfd.
+     * <p>
+     * Input mftiods must dbll {@link jbvb.bwt.Window#disposf() Window.disposf} on tif
+     * rfturnfd input mftiod window wifn it is no longfr nffdfd.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tif window's titlf bbr,
+     *              if tifrf is sudi b titlf bbr.
+     *              A <dodf>null</dodf> vbluf is trfbtfd bs bn fmpty string, "".
+     * @pbrbm bttbdiToInputContfxt wiftifr tiis window siould sibrf tif input dontfxt
+     *              tibt dorrfsponds to tiis input mftiod dontfxt
+     * @rfturn b window witi spfdibl dibrbdtfristids for usf by input mftiods
+     * @fxdfption HfbdlfssExdfption if <dodf>GrbpiidsEnvironmfnt.isHfbdlfss
+     *              </dodf> rfturns <dodf>truf</dodf>
+     */
+    publid Window drfbtfInputMftiodWindow(String titlf, boolfbn bttbdiToInputContfxt);
+
+    /**
+     * Crfbtfs b top-lfvfl Swing JFrbmf for usf by tif input mftiod.
+     * Tif intfndfd bfibvior of tiis window is:
+     * <ul>
+     * <li>it flobts bbovf bll dodumfnt windows bnd diblogs
+     * <li>it bnd bll domponfnts tibt it dontbins do not rfdfivf tif fodus
+     * <li>it ibs ligitwfigit dfdorbtions, sudi bs b rfdudfd drbg rfgion witiout titlf
+     * </ul>
+     * Howfvfr, tif bdtubl bfibvior witi rfspfdt to tifsf tirff itfms is plbtform dfpfndfnt.
+     * <p>
+     * Tif titlf mby or mby not bf displbyfd, dfpfnding on tif bdtubl typf of window drfbtfd.
+     * <p>
+     * If bttbdiToInputContfxt is truf, tif nfw window will sibrf tif input dontfxt tibt
+     * dorrfsponds to tiis input mftiod dontfxt, so tibt fvfnts for domponfnts in tif window
+     * brf butombtidblly dispbtdifd to tif input mftiod.
+     * Also, wifn tif window is opfnfd using sftVisiblf(truf), tif input dontfxt will prfvfnt
+     * dfbdtivbtf bnd bdtivbtf dblls to tif input mftiod tibt migit otifrwisf bf dbusfd.
+     * <p>
+     * Input mftiods must dbll {@link jbvb.bwt.Window#disposf() Window.disposf} on tif
+     * rfturnfd input mftiod window wifn it is no longfr nffdfd.
+     *
+     * @pbrbm titlf tif titlf to bf displbyfd in tif window's titlf bbr,
+     *              if tifrf is sudi b titlf bbr.
+     *              A <dodf>null</dodf> vbluf is trfbtfd bs bn fmpty string, "".
+     * @pbrbm bttbdiToInputContfxt wiftifr tiis window siould sibrf tif input dontfxt
+     *              tibt dorrfsponds to tiis input mftiod dontfxt
+     * @rfturn b JFrbmf witi spfdibl dibrbdtfristids for usf by input mftiods
+     * @fxdfption HfbdlfssExdfption if <dodf>GrbpiidsEnvironmfnt.isHfbdlfss
+     *              </dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sindf 1.4
+     */
+    publid JFrbmf drfbtfInputMftiodJFrbmf(String titlf, boolfbn bttbdiToInputContfxt);
+
+    /**
+     * Enbblfs or disbblfs notifidbtion of tif durrfnt dlifnt window's
+     * lodbtion bnd stbtf for tif spfdififd input mftiod. Wifn
+     * notifidbtion is fnbblfd, tif input mftiod's {@link
+     * jbvb.bwt.im.spi.InputMftiod#notifyClifntWindowCibngf
+     * notifyClifntWindowCibngf} mftiod is dbllfd bs dfsdribfd in tibt
+     * mftiod's spfdifidbtion. Notifidbtion is butombtidblly disbblfd
+     * wifn tif input mftiod is disposfd.
+     *
+     * @pbrbm inputMftiod tif input mftiod for wiidi notifidbtions brf
+     * fnbblfd or disbblfd
+     * @pbrbm fnbblf truf to fnbblf, fblsf to disbblf
+     */
+    publid void fnbblfClifntWindowNotifidbtion(InputMftiod inputMftiod, boolfbn fnbblf);
+}

@@ -1,0 +1,364 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dirono;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+
+/**
+ * Tif Minguo dblfndbr systfm.
+ * <p>
+ * Tiis dironology dffinfs tif rulfs of tif Minguo dblfndbr systfm.
+ * Tiis dblfndbr systfm is primbrily usfd in tif Rfpublid of Ciinb, oftfn known bs Tbiwbn.
+ * Dbtfs brf blignfd sudi tibt {@dodf 0001-01-01 (Minguo)} is {@dodf 1912-01-01 (ISO)}.
+ * <p>
+ * Tif fiflds brf dffinfd bs follows:
+ * <ul>
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Rfpublid' (ERA_ROC) bnd tif prfvious frb (ERA_BEFORE_ROC).
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr minus 1911.
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr minus 1911.
+ * <li>monti-of-yfbr - Tif Minguo monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif Minguo dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif Minguo dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>lfbp-yfbr - Tif Minguo lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ *  brf nfvfr out of stfp.
+ * </ul>
+ *
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss MinguoCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+
+    /**
+     * Singlfton instbndf for tif Minguo dironology.
+     */
+    publid stbtid finbl MinguoCironology INSTANCE = nfw MinguoCironology();
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1039765215346859963L;
+    /**
+     * Tif difffrfndf in yfbrs bftwffn ISO bnd Minguo.
+     */
+    stbtid finbl int YEARS_DIFFERENCE = 1911;
+
+    /**
+     * Rfstridtfd donstrudtor.
+     */
+    privbtf MinguoCironology() {
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif ID of tif dironology - 'Minguo'.
+     * <p>
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     *
+     * @rfturn tif dironology ID - 'Minguo'
+     * @sff #gftCblfndbrTypf()
+     */
+    @Ovfrridf
+    publid String gftId() {
+        rfturn "Minguo";
+    }
+
+    /**
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'rod'.
+     * <p>
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     *
+     * @rfturn tif dblfndbr systfm typf - 'rod'
+     * @sff #gftId()
+     */
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn "rod";
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b lodbl dbtf in Minguo dblfndbr systfm from tif
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @pbrbm frb  tif Minguo frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Minguo lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf MinguoErb}
+     */
+    @Ovfrridf
+    publid MinguoDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Minguo dblfndbr systfm from tif
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Minguo lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf
+    publid MinguoDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw MinguoDbtf(LodblDbtf.of(prolfptidYfbr + YEARS_DIFFERENCE, monti, dbyOfMonti));
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Minguo dblfndbr systfm from tif
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     *
+     * @pbrbm frb  tif Minguo frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Minguo lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf MinguoErb}
+     */
+    @Ovfrridf
+    publid MinguoDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Minguo dblfndbr systfm from tif
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Minguo lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf
+    publid MinguoDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+        rfturn nfw MinguoDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr + YEARS_DIFFERENCE, dbyOfYfbr));
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in tif Minguo dblfndbr systfm from tif fpodi-dby.
+     *
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @rfturn tif Minguo lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    publid MinguoDbtf dbtfEpodiDby(long fpodiDby) {
+        rfturn nfw MinguoDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+    }
+
+    @Ovfrridf
+    publid MinguoDbtf dbtfNow() {
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+    }
+
+    @Ovfrridf
+    publid MinguoDbtf dbtfNow(ZonfId zonf) {
+        rfturn dbtfNow(Clodk.systfm(zonf));
+    }
+
+    @Ovfrridf
+    publid MinguoDbtf dbtfNow(Clodk dlodk) {
+        rfturn dbtf(LodblDbtf.now(dlodk));
+    }
+
+    @Ovfrridf
+    publid MinguoDbtf dbtf(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof MinguoDbtf) {
+            rfturn (MinguoDbtf) tfmporbl;
+        }
+        rfturn nfw MinguoDbtf(LodblDbtf.from(tfmporbl));
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoLodblDbtfTimf<MinguoDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoLodblDbtfTimf<MinguoDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<MinguoDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoZonfdDbtfTimf<MinguoDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<MinguoDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (CironoZonfdDbtfTimf<MinguoDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * <p>
+     * Minguo lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     */
+    @Ovfrridf
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr + YEARS_DIFFERENCE);
+    }
+
+    @Ovfrridf
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+        if (frb instbndfof MinguoErb == fblsf) {
+            tirow nfw ClbssCbstExdfption("Erb must bf MinguoErb");
+        }
+        rfturn (frb == MinguoErb.ROC ? yfbrOfErb : 1 - yfbrOfErb);
+    }
+
+    @Ovfrridf
+    publid MinguoErb frbOf(int frbVbluf) {
+        rfturn MinguoErb.of(frbVbluf);
+    }
+
+    @Ovfrridf
+    publid List<Erb> frbs() {
+        rfturn Arrbys.<Erb>bsList(MinguoErb.vblufs());
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+        switdi (fifld) {
+            dbsf PROLEPTIC_MONTH: {
+                VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                rfturn VblufRbngf.of(rbngf.gftMinimum() - YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() - YEARS_DIFFERENCE * 12L);
+            }
+            dbsf YEAR_OF_ERA: {
+                VblufRbngf rbngf = YEAR.rbngf();
+                rfturn VblufRbngf.of(1, rbngf.gftMbximum() - YEARS_DIFFERENCE, -rbngf.gftMinimum() + 1 + YEARS_DIFFERENCE);
+            }
+            dbsf YEAR: {
+                VblufRbngf rbngf = YEAR.rbngf();
+                rfturn VblufRbngf.of(rbngf.gftMinimum() - YEARS_DIFFERENCE, rbngf.gftMbximum() - YEARS_DIFFERENCE);
+            }
+        }
+        rfturn fifld.rbngf();
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf  // ovfrridf for rfturn typf
+    publid MinguoDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        rfturn (MinguoDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfUTF(gftId());
+     * </prf>
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+    @Ovfrridf
+    Objfdt writfRfplbdf() {
+        rfturn supfr.writfRfplbdf();
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+}

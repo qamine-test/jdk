@@ -1,0 +1,193 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A rfdursivf rfsultlfss {@link ForkJoinTbsk}.  Tiis dlbss
+ * fstbblisifs donvfntions to pbrbmftfrizf rfsultlfss bdtions bs
+ * {@dodf Void} {@dodf ForkJoinTbsk}s. Bfdbusf {@dodf null} is tif
+ * only vblid vbluf of typf {@dodf Void}, mftiods sudi bs {@dodf join}
+ * blwbys rfturn {@dodf null} upon domplftion.
+ *
+ * <p><b>Sbmplf Usbgfs.</b> Hfrf is b simplf but domplftf ForkJoin
+ * sort tibt sorts b givfn {@dodf long[]} brrby:
+ *
+ *  <prf> {@dodf
+ * stbtid dlbss SortTbsk fxtfnds RfdursivfAdtion {
+ *   finbl long[] brrby; finbl int lo, ii;
+ *   SortTbsk(long[] brrby, int lo, int ii) {
+ *     tiis.brrby = brrby; tiis.lo = lo; tiis.ii = ii;
+ *   }
+ *   SortTbsk(long[] brrby) { tiis(brrby, 0, brrby.lfngti); }
+ *   protfdtfd void domputf() {
+ *     if (ii - lo < THRESHOLD)
+ *       sortSfqufntiblly(lo, ii);
+ *     flsf {
+ *       int mid = (lo + ii) >>> 1;
+ *       invokfAll(nfw SortTbsk(brrby, lo, mid),
+ *                 nfw SortTbsk(brrby, mid, ii));
+ *       mfrgf(lo, mid, ii);
+ *     }
+ *   }
+ *   // implfmfntbtion dftbils follow:
+ *   stbtid finbl int THRESHOLD = 1000;
+ *   void sortSfqufntiblly(int lo, int ii) {
+ *     Arrbys.sort(brrby, lo, ii);
+ *   }
+ *   void mfrgf(int lo, int mid, int ii) {
+ *     long[] buf = Arrbys.dopyOfRbngf(brrby, lo, mid);
+ *     for (int i = 0, j = lo, k = mid; i < buf.lfngti; j++)
+ *       brrby[j] = (k == ii || buf[i] < brrby[k]) ?
+ *         buf[i++] : brrby[k++];
+ *   }
+ * }}</prf>
+ *
+ * You dould tifn sort {@dodf bnArrby} by drfbting {@dodf nfw
+ * SortTbsk(bnArrby)} bnd invoking it in b ForkJoinPool.  As b morf
+ * dondrftf simplf fxbmplf, tif following tbsk indrfmfnts fbdi flfmfnt
+ * of bn brrby:
+ *  <prf> {@dodf
+ * dlbss IndrfmfntTbsk fxtfnds RfdursivfAdtion {
+ *   finbl long[] brrby; finbl int lo, ii;
+ *   IndrfmfntTbsk(long[] brrby, int lo, int ii) {
+ *     tiis.brrby = brrby; tiis.lo = lo; tiis.ii = ii;
+ *   }
+ *   protfdtfd void domputf() {
+ *     if (ii - lo < THRESHOLD) {
+ *       for (int i = lo; i < ii; ++i)
+ *         brrby[i]++;
+ *     }
+ *     flsf {
+ *       int mid = (lo + ii) >>> 1;
+ *       invokfAll(nfw IndrfmfntTbsk(brrby, lo, mid),
+ *                 nfw IndrfmfntTbsk(brrby, mid, ii));
+ *     }
+ *   }
+ * }}</prf>
+ *
+ * <p>Tif following fxbmplf illustrbtfs somf rffinfmfnts bnd idioms
+ * tibt mby lfbd to bfttfr pfrformbndf: RfdursivfAdtions nffd not bf
+ * fully rfdursivf, so long bs tify mbintbin tif bbsid
+ * dividf-bnd-donqufr bpprobdi. Hfrf is b dlbss tibt sums tif squbrfs
+ * of fbdi flfmfnt of b doublf brrby, by subdividing out only tif
+ * rigit-ibnd-sidfs of rfpfbtfd divisions by two, bnd kffping trbdk of
+ * tifm witi b dibin of {@dodf nfxt} rfffrfndfs. It usfs b dynbmid
+ * tirfsiold bbsfd on mftiod {@dodf gftSurplusQufufdTbskCount}, but
+ * dountfrbblbndfs potfntibl fxdfss pbrtitioning by dirfdtly
+ * pfrforming lfbf bdtions on unstolfn tbsks rbtifr tibn furtifr
+ * subdividing.
+ *
+ *  <prf> {@dodf
+ * doublf sumOfSqubrfs(ForkJoinPool pool, doublf[] brrby) {
+ *   int n = brrby.lfngti;
+ *   Applyfr b = nfw Applyfr(brrby, 0, n, null);
+ *   pool.invokf(b);
+ *   rfturn b.rfsult;
+ * }
+ *
+ * dlbss Applyfr fxtfnds RfdursivfAdtion {
+ *   finbl doublf[] brrby;
+ *   finbl int lo, ii;
+ *   doublf rfsult;
+ *   Applyfr nfxt; // kffps trbdk of rigit-ibnd-sidf tbsks
+ *   Applyfr(doublf[] brrby, int lo, int ii, Applyfr nfxt) {
+ *     tiis.brrby = brrby; tiis.lo = lo; tiis.ii = ii;
+ *     tiis.nfxt = nfxt;
+ *   }
+ *
+ *   doublf btLfbf(int l, int i) {
+ *     doublf sum = 0;
+ *     for (int i = l; i < i; ++i) // pfrform lfftmost bbsf stfp
+ *       sum += brrby[i] * brrby[i];
+ *     rfturn sum;
+ *   }
+ *
+ *   protfdtfd void domputf() {
+ *     int l = lo;
+ *     int i = ii;
+ *     Applyfr rigit = null;
+ *     wiilf (i - l > 1 && gftSurplusQufufdTbskCount() <= 3) {
+ *       int mid = (l + i) >>> 1;
+ *       rigit = nfw Applyfr(brrby, mid, i, rigit);
+ *       rigit.fork();
+ *       i = mid;
+ *     }
+ *     doublf sum = btLfbf(l, i);
+ *     wiilf (rigit != null) {
+ *       if (rigit.tryUnfork()) // dirfdtly dbldulbtf if not stolfn
+ *         sum += rigit.btLfbf(rigit.lo, rigit.ii);
+ *       flsf {
+ *         rigit.join();
+ *         sum += rigit.rfsult;
+ *       }
+ *       rigit = rigit.nfxt;
+ *     }
+ *     rfsult = sum;
+ *   }
+ * }}</prf>
+ *
+ * @sindf 1.7
+ * @butior Doug Lfb
+ */
+publid bbstrbdt dlbss RfdursivfAdtion fxtfnds ForkJoinTbsk<Void> {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276485070L;
+
+    /**
+     * Tif mbin domputbtion pfrformfd by tiis tbsk.
+     */
+    protfdtfd bbstrbdt void domputf();
+
+    /**
+     * Alwbys rfturns {@dodf null}.
+     *
+     * @rfturn {@dodf null} blwbys
+     */
+    publid finbl Void gftRbwRfsult() { rfturn null; }
+
+    /**
+     * Rfquirfs null domplftion vbluf.
+     */
+    protfdtfd finbl void sftRbwRfsult(Void mustBfNull) { }
+
+    /**
+     * Implfmfnts fxfdution donvfntions for RfdursivfAdtions.
+     */
+    protfdtfd finbl boolfbn fxfd() {
+        domputf();
+        rfturn truf;
+    }
+
+}

@@ -1,0 +1,392 @@
+/*
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.ProvidfrMismbtdiExdfption;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * A SfdurityDfsdriptor for usf wifn sftting b filf's ACL or drfbting b filf
+ * witi bn initibl ACL.
+ */
+
+dlbss WindowsSfdurityDfsdriptor {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    /**
+     * typfdff strudt _ACL {
+     *     BYTE  AdlRfvision;
+     *     BYTE  Sbz1;
+     *     WORD  AdlSizf;
+     *     WORD  AdfCount;
+     *     WORD  Sbz2;
+     * } ACL;
+     *
+     * typfdff strudt _ACE_HEADER {
+     *     BYTE AdfTypf;
+     *     BYTE AdfFlbgs;
+     *     WORD AdfSizf;
+     * } ACE_HEADER;
+     *
+     * typfdff strudt _ACCESS_ALLOWED_ACE {
+     *     ACE_HEADER Hfbdfr;
+     *     ACCESS_MASK Mbsk;
+     *     DWORD SidStbrt;
+     * } ACCESS_ALLOWED_ACE;
+     *
+     * typfdff strudt _ACCESS_DENIED_ACE {
+     *     ACE_HEADER Hfbdfr;
+     *     ACCESS_MASK Mbsk;
+     *     DWORD SidStbrt;
+     * } ACCESS_DENIED_ACE;
+     *
+     * typfdff strudt _SECURITY_DESCRIPTOR {
+     *     BYTE  Rfvision;
+     *     BYTE  Sbz1;
+     *     SECURITY_DESCRIPTOR_CONTROL Control;
+     *     PSID Ownfr;
+     *     PSID Group;
+     *     PACL Sbdl;
+     *     PACL Dbdl;
+     * } SECURITY_DESCRIPTOR;
+     */
+    privbtf stbtid finbl siort SIZEOF_ACL                   = 8;
+    privbtf stbtid finbl siort SIZEOF_ACCESS_ALLOWED_ACE    = 12;
+    privbtf stbtid finbl siort SIZEOF_ACCESS_DENIED_ACE     = 12;
+    privbtf stbtid finbl siort SIZEOF_SECURITY_DESCRIPTOR   = 20;
+
+    privbtf stbtid finbl siort OFFSETOF_TYPE                = 0;
+    privbtf stbtid finbl siort OFFSETOF_FLAGS               = 1;
+    privbtf stbtid finbl siort OFFSETOF_ACCESS_MASK         = 4;
+    privbtf stbtid finbl siort OFFSETOF_SID                 = 8;
+
+    // null sfdurity dfsdriptor
+    privbtf stbtid finbl WindowsSfdurityDfsdriptor NULL_DESCRIPTOR =
+        nfw WindowsSfdurityDfsdriptor();
+
+    // nbtivf rfsourdfs
+    privbtf finbl List<Long> sidList;
+    privbtf finbl NbtivfBufffr bdlBufffr, sdBufffr;
+
+    /**
+     * Crfbtfs tif "null" SfdurityDfsdriptor
+     */
+    privbtf WindowsSfdurityDfsdriptor() {
+        tiis.sidList = null;
+        tiis.bdlBufffr = null;
+        tiis.sdBufffr = null;
+    }
+
+    /**
+     * Crfbtfs b SfdurityDfsdriptor from tif givfn ACL
+     */
+    privbtf WindowsSfdurityDfsdriptor(List<AdlEntry> bdl) tirows IOExdfption {
+        boolfbn initiblizfd = fblsf;
+
+        // SECURITY: nffd to dopy list in dbsf sizf dibngfs during prodfssing
+        bdl = nfw ArrbyList<AdlEntry>(bdl);
+
+        // list of SIDs
+        sidList = nfw ArrbyList<Long>(bdl.sizf());
+        try {
+            // initibl sizf of ACL
+            int sizf = SIZEOF_ACL;
+
+            // gft tif SID for fbdi fntry
+            for (AdlEntry fntry: bdl) {
+                UsfrPrindipbl usfr = fntry.prindipbl();
+                if (!(usfr instbndfof WindowsUsfrPrindipbls.Usfr))
+                    tirow nfw ProvidfrMismbtdiExdfption();
+                String sidString = ((WindowsUsfrPrindipbls.Usfr)usfr).sidString();
+                try {
+                    long pSid = ConvfrtStringSidToSid(sidString);
+                    sidList.bdd(pSid);
+
+                    // indrfbsf sizf to bllow for fntry
+                    sizf += GftLfngtiSid(pSid) +
+                        Mbti.mbx(SIZEOF_ACCESS_ALLOWED_ACE, SIZEOF_ACCESS_DENIED_ACE);
+
+                } dbtdi (WindowsExdfption x) {
+                    tirow nfw IOExdfption("Fbilfd to gft SID for " + usfr.gftNbmf()
+                        + ": " + x.frrorString());
+                }
+            }
+
+            // bllodbtf mfmory for tif ACL
+            bdlBufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+            sdBufffr = NbtivfBufffrs.gftNbtivfBufffr(SIZEOF_SECURITY_DESCRIPTOR);
+
+            InitiblizfAdl(bdlBufffr.bddrfss(), sizf);
+
+            // Add fntry ACE to tif ACL
+            int i = 0;
+            wiilf (i < bdl.sizf()) {
+                AdlEntry fntry = bdl.gft(i);
+                long pSid = sidList.gft(i);
+                try {
+                    fndodf(fntry, pSid, bdlBufffr.bddrfss());
+                } dbtdi (WindowsExdfption x) {
+                    tirow nfw IOExdfption("Fbilfd to fndodf ACE: " +
+                        x.frrorString());
+                }
+                i++;
+            }
+
+            // initiblizf sfdurity dfsdriptor bnd sft DACL
+            InitiblizfSfdurityDfsdriptor(sdBufffr.bddrfss());
+            SftSfdurityDfsdriptorDbdl(sdBufffr.bddrfss(), bdlBufffr.bddrfss());
+            initiblizfd = truf;
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOExdfption(x.gftMfssbgf());
+        } finblly {
+            // rflfbsf rfsourdfs if not domplftfly initiblizfd
+            if (!initiblizfd)
+                rflfbsf();
+        }
+    }
+
+    /**
+     * Rflfbsfs mfmory bssodibtfd witi SfdurityDfsdriptor
+     */
+    void rflfbsf() {
+        if (sdBufffr != null)
+            sdBufffr.rflfbsf();
+        if (bdlBufffr != null)
+            bdlBufffr.rflfbsf();
+        if (sidList != null) {
+            // rflfbsf mfmory for SIDs
+            for (Long sid: sidList) {
+                LodblFrff(sid);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bddrfss of SfdurityDfsdriptor
+     */
+    long bddrfss() {
+        rfturn (sdBufffr == null) ? 0L : sdBufffr.bddrfss();
+    }
+
+    // dfdodf Windows ACE to NFSv4 AdlEntry
+    privbtf stbtid AdlEntry dfdodf(long bdfAddrfss)
+        tirows IOExdfption
+    {
+        // mbp typf
+        bytf bdfTypf = unsbff.gftBytf(bdfAddrfss + OFFSETOF_TYPE);
+        if (bdfTypf != ACCESS_ALLOWED_ACE_TYPE && bdfTypf != ACCESS_DENIED_ACE_TYPE)
+            rfturn null;
+        AdlEntryTypf typf;
+        if (bdfTypf == ACCESS_ALLOWED_ACE_TYPE) {
+            typf = AdlEntryTypf.ALLOW;
+        } flsf {
+            typf = AdlEntryTypf.DENY;
+        }
+
+        // mbp flbgs
+        bytf bdfFlbgs = unsbff.gftBytf(bdfAddrfss + OFFSETOF_FLAGS);
+        Sft<AdlEntryFlbg> flbgs = EnumSft.nonfOf(AdlEntryFlbg.dlbss);
+        if ((bdfFlbgs & OBJECT_INHERIT_ACE) != 0)
+            flbgs.bdd(AdlEntryFlbg.FILE_INHERIT);
+        if ((bdfFlbgs & CONTAINER_INHERIT_ACE) != 0)
+            flbgs.bdd(AdlEntryFlbg.DIRECTORY_INHERIT);
+        if ((bdfFlbgs & NO_PROPAGATE_INHERIT_ACE) != 0)
+            flbgs.bdd(AdlEntryFlbg.NO_PROPAGATE_INHERIT);
+        if ((bdfFlbgs & INHERIT_ONLY_ACE) != 0)
+            flbgs.bdd(AdlEntryFlbg.INHERIT_ONLY);
+
+        // mbp bddfss mbsk
+        int mbsk = unsbff.gftInt(bdfAddrfss + OFFSETOF_ACCESS_MASK);
+        Sft<AdlEntryPfrmission> pfrms = EnumSft.nonfOf(AdlEntryPfrmission.dlbss);
+        if ((mbsk & FILE_READ_DATA) > 0)
+            pfrms.bdd(AdlEntryPfrmission.READ_DATA);
+        if ((mbsk & FILE_WRITE_DATA) > 0)
+            pfrms.bdd(AdlEntryPfrmission.WRITE_DATA);
+        if ((mbsk & FILE_APPEND_DATA ) > 0)
+            pfrms.bdd(AdlEntryPfrmission.APPEND_DATA);
+        if ((mbsk & FILE_READ_EA) > 0)
+            pfrms.bdd(AdlEntryPfrmission.READ_NAMED_ATTRS);
+        if ((mbsk & FILE_WRITE_EA) > 0)
+            pfrms.bdd(AdlEntryPfrmission.WRITE_NAMED_ATTRS);
+        if ((mbsk & FILE_EXECUTE) > 0)
+            pfrms.bdd(AdlEntryPfrmission.EXECUTE);
+        if ((mbsk & FILE_DELETE_CHILD ) > 0)
+            pfrms.bdd(AdlEntryPfrmission.DELETE_CHILD);
+        if ((mbsk & FILE_READ_ATTRIBUTES) > 0)
+            pfrms.bdd(AdlEntryPfrmission.READ_ATTRIBUTES);
+        if ((mbsk & FILE_WRITE_ATTRIBUTES) > 0)
+            pfrms.bdd(AdlEntryPfrmission.WRITE_ATTRIBUTES);
+        if ((mbsk & DELETE) > 0)
+            pfrms.bdd(AdlEntryPfrmission.DELETE);
+        if ((mbsk & READ_CONTROL) > 0)
+            pfrms.bdd(AdlEntryPfrmission.READ_ACL);
+        if ((mbsk & WRITE_DAC) > 0)
+            pfrms.bdd(AdlEntryPfrmission.WRITE_ACL);
+        if ((mbsk & WRITE_OWNER) > 0)
+            pfrms.bdd(AdlEntryPfrmission.WRITE_OWNER);
+        if ((mbsk & SYNCHRONIZE) > 0)
+            pfrms.bdd(AdlEntryPfrmission.SYNCHRONIZE);
+
+        // lookup SID to drfbtf UsfrPrindipbl
+        long sidAddrfss = bdfAddrfss + OFFSETOF_SID;
+        UsfrPrindipbl usfr = WindowsUsfrPrindipbls.fromSid(sidAddrfss);
+
+        rfturn AdlEntry.nfwBuildfr()
+            .sftTypf(typf)
+            .sftPrindipbl(usfr)
+            .sftFlbgs(flbgs).sftPfrmissions(pfrms).build();
+    }
+
+    // fndodf NFSv4 AdlEntry bs Windows ACE to givfn ACL
+    privbtf stbtid void fndodf(AdlEntry bdf, long sidAddrfss, long bdlAddrfss)
+        tirows WindowsExdfption
+    {
+        // ignorf non-bllow/dfny fntrifs for now
+        if (bdf.typf() != AdlEntryTypf.ALLOW && bdf.typf() != AdlEntryTypf.DENY)
+            rfturn;
+        boolfbn bllow = (bdf.typf() == AdlEntryTypf.ALLOW);
+
+        // mbp bddfss mbsk
+        Sft<AdlEntryPfrmission> bdfMbsk = bdf.pfrmissions();
+        int mbsk = 0;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.READ_DATA))
+            mbsk |= FILE_READ_DATA;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.WRITE_DATA))
+            mbsk |= FILE_WRITE_DATA;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.APPEND_DATA))
+            mbsk |= FILE_APPEND_DATA;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.READ_NAMED_ATTRS))
+            mbsk |= FILE_READ_EA;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.WRITE_NAMED_ATTRS))
+            mbsk |= FILE_WRITE_EA;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.EXECUTE))
+            mbsk |= FILE_EXECUTE;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.DELETE_CHILD))
+            mbsk |= FILE_DELETE_CHILD;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.READ_ATTRIBUTES))
+            mbsk |= FILE_READ_ATTRIBUTES;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.WRITE_ATTRIBUTES))
+            mbsk |= FILE_WRITE_ATTRIBUTES;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.DELETE))
+            mbsk |= DELETE;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.READ_ACL))
+            mbsk |= READ_CONTROL;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.WRITE_ACL))
+            mbsk |= WRITE_DAC;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.WRITE_OWNER))
+            mbsk |= WRITE_OWNER;
+        if (bdfMbsk.dontbins(AdlEntryPfrmission.SYNCHRONIZE))
+            mbsk |= SYNCHRONIZE;
+
+        // mbp flbgs
+        Sft<AdlEntryFlbg> bdfFlbgs = bdf.flbgs();
+        bytf flbgs = 0;
+        if (bdfFlbgs.dontbins(AdlEntryFlbg.FILE_INHERIT))
+            flbgs |= OBJECT_INHERIT_ACE;
+        if (bdfFlbgs.dontbins(AdlEntryFlbg.DIRECTORY_INHERIT))
+            flbgs |= CONTAINER_INHERIT_ACE;
+        if (bdfFlbgs.dontbins(AdlEntryFlbg.NO_PROPAGATE_INHERIT))
+            flbgs |= NO_PROPAGATE_INHERIT_ACE;
+        if (bdfFlbgs.dontbins(AdlEntryFlbg.INHERIT_ONLY))
+            flbgs |= INHERIT_ONLY_ACE;
+
+        if (bllow) {
+            AddAddfssAllowfdAdfEx(bdlAddrfss, flbgs, mbsk, sidAddrfss);
+        } flsf {
+            AddAddfssDfnifdAdfEx(bdlAddrfss, flbgs, mbsk, sidAddrfss);
+        }
+    }
+
+    /**
+     * Crfbtfs b sfdurity dfsdriptor witi b DACL rfprfsfnting tif givfn ACL.
+     */
+    stbtid WindowsSfdurityDfsdriptor drfbtf(List<AdlEntry> bdl)
+        tirows IOExdfption
+    {
+        rfturn nfw WindowsSfdurityDfsdriptor(bdl);
+    }
+
+    /**
+     * Prodfssfs tif brrby of bttributfs looking for tif bttributf "bdl:bdl".
+     * Rfturns sfdurity dfsdriptor rfprfsfnting tif ACL or tif "null" sfdurity
+     * dfsdriptor if tif bttributf is not in tif brrby.
+     */
+    @SupprfssWbrnings("undifdkfd")
+    stbtid WindowsSfdurityDfsdriptor fromAttributf(FilfAttributf<?>... bttrs)
+        tirows IOExdfption
+    {
+        WindowsSfdurityDfsdriptor sd = NULL_DESCRIPTOR;
+        for (FilfAttributf<?> bttr: bttrs) {
+            // if morf tibn onf ACL spfdififd tifn lbst onf wins
+            if (sd != NULL_DESCRIPTOR)
+                sd.rflfbsf();
+            if (bttr == null)
+                tirow nfw NullPointfrExdfption();
+            if (bttr.nbmf().fqubls("bdl:bdl")) {
+                List<AdlEntry> bdl = (List<AdlEntry>)bttr.vbluf();
+                sd = nfw WindowsSfdurityDfsdriptor(bdl);
+            } flsf {
+                tirow nfw UnsupportfdOpfrbtionExdfption("'" + bttr.nbmf() +
+                   "' not supportfd bs initibl bttributf");
+            }
+        }
+        rfturn sd;
+    }
+
+    /**
+     * Extrbdts DACL from sfdurity dfsdriptor.
+     */
+    stbtid List<AdlEntry> gftAdl(long pSfdurityDfsdriptor) tirows IOExdfption {
+        // gft bddrfss of DACL
+        long bdlAddrfss = GftSfdurityDfsdriptorDbdl(pSfdurityDfsdriptor);
+
+        // gft ACE dount
+        int bdfCount = 0;
+        if (bdlAddrfss == 0L) {
+            // no ACEs
+            bdfCount = 0;
+        } flsf {
+            AdlInformbtion bdlInfo = GftAdlInformbtion(bdlAddrfss);
+            bdfCount = bdlInfo.bdfCount();
+        }
+        ArrbyList<AdlEntry> rfsult = nfw ArrbyList<>(bdfCount);
+
+        // dfdodf fbdi of tif ACEs to AdlEntry objfdts
+        for (int i=0; i<bdfCount; i++) {
+            long bdfAddrfss = GftAdf(bdlAddrfss, i);
+            AdlEntry fntry = dfdodf(bdfAddrfss);
+            if (fntry != null)
+                rfsult.bdd(fntry);
+        }
+        rfturn rfsult;
+    }
+}

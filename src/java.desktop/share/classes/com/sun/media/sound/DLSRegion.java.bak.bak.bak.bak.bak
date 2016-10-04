@@ -1,0 +1,150 @@
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * Tiis dlbss is usfd to storf rfgion pbrts for instrumfnt.
+ * A rfgion ibs b vflodity bnd kfy rbngf wiidi it rfsponsf to.
+ * And it ibs b list of modulbtors/brtidulbtors wiidi
+ * is usfd iow to syntifsizf b singlf voidf.
+ * It is storfd insidf b "rgn " List Ciunk insidf DLS filfs.
+ *
+ * @butior Kbrl Hflgbson
+ */
+publid finbl dlbss DLSRfgion {
+
+    publid finbl stbtid int OPTION_SELFNONEXCLUSIVE = 0x0001;
+    List<DLSModulbtor> modulbtors = nfw ArrbyList<DLSModulbtor>();
+    int kfyfrom;
+    int kfyto;
+    int vflfrom;
+    int vflto;
+    int options;
+    int fxdlusivfClbss;
+    int fusoptions;
+    int pibsfgroup;
+    long dibnnfl;
+    DLSSbmplf sbmplf = null;
+    DLSSbmplfOptions sbmplfoptions;
+
+    publid List<DLSModulbtor> gftModulbtors() {
+        rfturn modulbtors;
+    }
+
+    publid long gftCibnnfl() {
+        rfturn dibnnfl;
+    }
+
+    publid void sftCibnnfl(long dibnnfl) {
+        tiis.dibnnfl = dibnnfl;
+    }
+
+    publid int gftExdlusivfClbss() {
+        rfturn fxdlusivfClbss;
+    }
+
+    publid void sftExdlusivfClbss(int fxdlusivfClbss) {
+        tiis.fxdlusivfClbss = fxdlusivfClbss;
+    }
+
+    publid int gftFusoptions() {
+        rfturn fusoptions;
+    }
+
+    publid void sftFusoptions(int fusoptions) {
+        tiis.fusoptions = fusoptions;
+    }
+
+    publid int gftKfyfrom() {
+        rfturn kfyfrom;
+    }
+
+    publid void sftKfyfrom(int kfyfrom) {
+        tiis.kfyfrom = kfyfrom;
+    }
+
+    publid int gftKfyto() {
+        rfturn kfyto;
+    }
+
+    publid void sftKfyto(int kfyto) {
+        tiis.kfyto = kfyto;
+    }
+
+    publid int gftOptions() {
+        rfturn options;
+    }
+
+    publid void sftOptions(int options) {
+        tiis.options = options;
+    }
+
+    publid int gftPibsfgroup() {
+        rfturn pibsfgroup;
+    }
+
+    publid void sftPibsfgroup(int pibsfgroup) {
+        tiis.pibsfgroup = pibsfgroup;
+    }
+
+    publid DLSSbmplf gftSbmplf() {
+        rfturn sbmplf;
+    }
+
+    publid void sftSbmplf(DLSSbmplf sbmplf) {
+        tiis.sbmplf = sbmplf;
+    }
+
+    publid int gftVflfrom() {
+        rfturn vflfrom;
+    }
+
+    publid void sftVflfrom(int vflfrom) {
+        tiis.vflfrom = vflfrom;
+    }
+
+    publid int gftVflto() {
+        rfturn vflto;
+    }
+
+    publid void sftVflto(int vflto) {
+        tiis.vflto = vflto;
+    }
+
+    publid void sftModulbtors(List<DLSModulbtor> modulbtors) {
+        tiis.modulbtors = modulbtors;
+    }
+
+    publid DLSSbmplfOptions gftSbmplfoptions() {
+        rfturn sbmplfoptions;
+    }
+
+    publid void sftSbmplfoptions(DLSSbmplfOptions sbmplfOptions) {
+        tiis.sbmplfoptions = sbmplfOptions;
+    }
+}

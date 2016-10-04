@@ -1,0 +1,696 @@
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * A flow lbyout brrbngfs domponfnts in b dirfdtionbl flow, mudi
+ * likf linfs of tfxt in b pbrbgrbpi. Tif flow dirfdtion is
+ * dftfrminfd by tif dontbinfr's <dodf>domponfntOrifntbtion</dodf>
+ * propfrty bnd mby bf onf of two vblufs:
+ * <ul>
+ * <li><dodf>ComponfntOrifntbtion.LEFT_TO_RIGHT</dodf>
+ * <li><dodf>ComponfntOrifntbtion.RIGHT_TO_LEFT</dodf>
+ * </ul>
+ * Flow lbyouts brf typidblly usfd
+ * to brrbngf buttons in b pbnfl. It brrbngfs buttons
+ * iorizontblly until no morf buttons fit on tif sbmf linf.
+ * Tif linf blignmfnt is dftfrminfd by tif <dodf>blign</dodf>
+ * propfrty. Tif possiblf vblufs brf:
+ * <ul>
+ * <li>{@link #LEFT LEFT}
+ * <li>{@link #RIGHT RIGHT}
+ * <li>{@link #CENTER CENTER}
+ * <li>{@link #LEADING LEADING}
+ * <li>{@link #TRAILING TRAILING}
+ * </ul>
+ * <p>
+ * For fxbmplf, tif following pidturf siows bn bpplft using tif flow
+ * lbyout mbnbgfr (its dffbult lbyout mbnbgfr) to position tirff buttons:
+ * <p>
+ * <img srd="dod-filfs/FlowLbyout-1.gif"
+ * ALT="Grbpiid of Lbyout for Tirff Buttons"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Hfrf is tif dodf for tiis bpplft:
+ *
+ * <ir><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
+ *
+ * publid dlbss myButtons fxtfnds Applft {
+ *     Button button1, button2, button3;
+ *     publid void init() {
+ *         button1 = nfw Button("Ok");
+ *         button2 = nfw Button("Opfn");
+ *         button3 = nfw Button("Closf");
+ *         bdd(button1);
+ *         bdd(button2);
+ *         bdd(button3);
+ *     }
+ * }
+ * </prf></blodkquotf><ir>
+ * <p>
+ * A flow lbyout lfts fbdi domponfnt bssumf its nbturbl (prfffrrfd) sizf.
+ *
+ * @butior      Artiur vbn Hoff
+ * @butior      Sbmi Sibio
+ * @sindf       1.0
+ * @sff ComponfntOrifntbtion
+ */
+publid dlbss FlowLbyout implfmfnts LbyoutMbnbgfr, jbvb.io.Sfriblizbblf {
+
+    /**
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf lfft-justififd.
+     */
+    publid stbtid finbl int LEFT        = 0;
+
+    /**
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf dfntfrfd.
+     */
+    publid stbtid finbl int CENTER      = 1;
+
+    /**
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf rigit-justififd.
+     */
+    publid stbtid finbl int RIGHT       = 2;
+
+    /**
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf justififd to tif lfbding fdgf of tif dontbinfr's
+     * orifntbtion, for fxbmplf, to tif lfft in lfft-to-rigit orifntbtions.
+     *
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
+     */
+    publid stbtid finbl int LEADING     = 3;
+
+    /**
+     * Tiis vbluf indidbtfs tibt fbdi row of domponfnts
+     * siould bf justififd to tif trbiling fdgf of tif dontbinfr's
+     * orifntbtion, for fxbmplf, to tif rigit in lfft-to-rigit orifntbtions.
+     *
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
+     */
+    publid stbtid finbl int TRAILING = 4;
+
+    /**
+     * <dodf>blign</dodf> is tif propfrty tibt dftfrminfs
+     * iow fbdi row distributfs fmpty spbdf.
+     * It dbn bf onf of tif following vblufs:
+     * <ul>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
+     * </ul>
+     *
+     * @sfribl
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
+     */
+    int blign;          // Tiis is for 1.1 sfriblizbtion dompbtibility
+
+    /**
+     * <dodf>nfwAlign</dodf> is tif propfrty tibt dftfrminfs
+     * iow fbdi row distributfs fmpty spbdf for tif Jbvb 2 plbtform,
+     * v1.2 bnd grfbtfr.
+     * It dbn bf onf of tif following tirff vblufs:
+     * <ul>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
+     * <li><dodf>LEADING</dodf>
+     * <li><dodf>TRAILING</dodf>
+     * </ul>
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
+     */
+    int nfwAlign;       // Tiis is tif onf wf bdtublly usf
+
+    /**
+     * Tif flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts witi gbps.  Tif iorizontbl gbp will
+     * spfdify tif spbdf bftwffn domponfnts bnd bftwffn
+     * tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     */
+    int igbp;
+
+    /**
+     * Tif flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts witi gbps.  Tif vfrtidbl gbp will
+     * spfdify tif spbdf bftwffn rows bnd bftwffn tif
+     * tif rows bnd tif bordfrs of tif <dodf>Contbinfr</dodf>.
+     *
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     */
+    int vgbp;
+
+    /**
+     * If truf, domponfnts will bf blignfd on tifir bbsflinf.
+     */
+    privbtf boolfbn blignOnBbsflinf;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = -7262534875583282631L;
+
+    /**
+     * Construdts b nfw <dodf>FlowLbyout</dodf> witi b dfntfrfd blignmfnt bnd b
+     * dffbult 5-unit iorizontbl bnd vfrtidbl gbp.
+     */
+    publid FlowLbyout() {
+        tiis(CENTER, 5, 5);
+    }
+
+    /**
+     * Construdts b nfw <dodf>FlowLbyout</dodf> witi tif spfdififd
+     * blignmfnt bnd b dffbult 5-unit iorizontbl bnd vfrtidbl gbp.
+     * Tif vbluf of tif blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm blign tif blignmfnt vbluf
+     */
+    publid FlowLbyout(int blign) {
+        tiis(blign, 5, 5);
+    }
+
+    /**
+     * Crfbtfs b nfw flow lbyout mbnbgfr witi tif indidbtfd blignmfnt
+     * bnd tif indidbtfd iorizontbl bnd vfrtidbl gbps.
+     * <p>
+     * Tif vbluf of tif blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm      blign   tif blignmfnt vbluf
+     * @pbrbm      igbp    tif iorizontbl gbp bftwffn domponfnts
+     *                     bnd bftwffn tif domponfnts bnd tif
+     *                     bordfrs of tif <dodf>Contbinfr</dodf>
+     * @pbrbm      vgbp    tif vfrtidbl gbp bftwffn domponfnts
+     *                     bnd bftwffn tif domponfnts bnd tif
+     *                     bordfrs of tif <dodf>Contbinfr</dodf>
+     */
+    publid FlowLbyout(int blign, int igbp, int vgbp) {
+        tiis.igbp = igbp;
+        tiis.vgbp = vgbp;
+        sftAlignmfnt(blign);
+    }
+
+    /**
+     * Gfts tif blignmfnt for tiis lbyout.
+     * Possiblf vblufs brf <dodf>FlowLbyout.LEFT</dodf>,
+     * <dodf>FlowLbyout.RIGHT</dodf>, <dodf>FlowLbyout.CENTER</dodf>,
+     * <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @rfturn     tif blignmfnt vbluf for tiis lbyout
+     * @sff        jbvb.bwt.FlowLbyout#sftAlignmfnt
+     * @sindf      1.1
+     */
+    publid int gftAlignmfnt() {
+        rfturn nfwAlign;
+    }
+
+    /**
+     * Sfts tif blignmfnt for tiis lbyout.
+     * Possiblf vblufs brf
+     * <ul>
+     * <li><dodf>FlowLbyout.LEFT</dodf>
+     * <li><dodf>FlowLbyout.RIGHT</dodf>
+     * <li><dodf>FlowLbyout.CENTER</dodf>
+     * <li><dodf>FlowLbyout.LEADING</dodf>
+     * <li><dodf>FlowLbyout.TRAILING</dodf>
+     * </ul>
+     * @pbrbm      blign onf of tif blignmfnt vblufs siown bbovf
+     * @sff        #gftAlignmfnt()
+     * @sindf      1.1
+     */
+    publid void sftAlignmfnt(int blign) {
+        tiis.nfwAlign = blign;
+
+        // tiis.blign is usfd only for sfriblizbtion dompbtibility,
+        // so sft it to b vbluf dompbtiblf witi tif 1.1 vfrsion
+        // of tif dlbss
+
+        switdi (blign) {
+        dbsf LEADING:
+            tiis.blign = LEFT;
+            brfbk;
+        dbsf TRAILING:
+            tiis.blign = RIGHT;
+            brfbk;
+        dffbult:
+            tiis.blign = blign;
+            brfbk;
+        }
+    }
+
+    /**
+     * Gfts tif iorizontbl gbp bftwffn domponfnts
+     * bnd bftwffn tif domponfnts bnd tif bordfrs
+     * of tif <dodf>Contbinfr</dodf>
+     *
+     * @rfturn     tif iorizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftHgbp
+     * @sindf      1.1
+     */
+    publid int gftHgbp() {
+        rfturn igbp;
+    }
+
+    /**
+     * Sfts tif iorizontbl gbp bftwffn domponfnts bnd
+     * bftwffn tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @pbrbm igbp tif iorizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftHgbp
+     * @sindf      1.1
+     */
+    publid void sftHgbp(int igbp) {
+        tiis.igbp = igbp;
+    }
+
+    /**
+     * Gfts tif vfrtidbl gbp bftwffn domponfnts bnd
+     * bftwffn tif domponfnts bnd tif bordfrs of tif
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @rfturn     tif vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftVgbp
+     * @sindf      1.1
+     */
+    publid int gftVgbp() {
+        rfturn vgbp;
+    }
+
+    /**
+     * Sfts tif vfrtidbl gbp bftwffn domponfnts bnd bftwffn
+     * tif domponfnts bnd tif bordfrs of tif <dodf>Contbinfr</dodf>.
+     *
+     * @pbrbm vgbp tif vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn tif domponfnts bnd tif bordfrs
+     *             of tif <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftVgbp
+     * @sindf      1.1
+     */
+    publid void sftVgbp(int vgbp) {
+        tiis.vgbp = vgbp;
+    }
+
+    /**
+     * Sfts wiftifr or not domponfnts siould bf vfrtidblly blignfd blong tifir
+     * bbsflinf.  Componfnts tibt do not ibvf b bbsflinf will bf dfntfrfd.
+     * Tif dffbult is fblsf.
+     *
+     * @pbrbm blignOnBbsflinf wiftifr or not domponfnts siould bf
+     *                        vfrtidblly blignfd on tifir bbsflinf
+     * @sindf 1.6
+     */
+    publid void sftAlignOnBbsflinf(boolfbn blignOnBbsflinf) {
+        tiis.blignOnBbsflinf = blignOnBbsflinf;
+    }
+
+    /**
+     * Rfturns truf if domponfnts brf to bf vfrtidblly blignfd blong
+     * tifir bbsflinf.  Tif dffbult is fblsf.
+     *
+     * @rfturn truf if domponfnts brf to bf vfrtidblly blignfd blong
+     *              tifir bbsflinf
+     * @sindf 1.6
+     */
+    publid boolfbn gftAlignOnBbsflinf() {
+        rfturn blignOnBbsflinf;
+    }
+
+    /**
+     * Adds tif spfdififd domponfnt to tif lbyout.
+     * Not usfd by tiis dlbss.
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif domponfnt to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    }
+
+    /**
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * Not usfd by tiis dlbss.
+     * @pbrbm domp tif domponfnt to rfmovf
+     * @sff       jbvb.bwt.Contbinfr#rfmovfAll
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    }
+
+    /**
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout givfn tif
+     * <i>visiblf</i> domponfnts in tif spfdififd tbrgft dontbinfr.
+     *
+     * @pbrbm tbrgft tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn    tif prfffrrfd dimfnsions to lby out tif
+     *            subdomponfnts of tif spfdififd dontbinfr
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        boolfbn firstVisiblfComponfnt = truf;
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                dim.ifigit = Mbti.mbx(dim.ifigit, d.ifigit);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.widti += igbp;
+                }
+                dim.widti += d.widti;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt, d.ifigit - bbsflinf);
+                    }
+                }
+            }
+        }
+        if (usfBbsflinf) {
+            dim.ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, dim.ifigit);
+        }
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit + igbp*2;
+        dim.ifigit += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
+      }
+    }
+
+    /**
+     * Rfturns tif minimum dimfnsions nffdfd to lbyout tif <i>visiblf</i>
+     * domponfnts dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn    tif minimum dimfnsions to lby out tif
+     *            subdomponfnts of tif spfdififd dontbinfr
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
+        boolfbn firstVisiblfComponfnt = truf;
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.visiblf) {
+                Dimfnsion d = m.gftMinimumSizf();
+                dim.ifigit = Mbti.mbx(dim.ifigit, d.ifigit);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.widti += igbp;
+                }
+                dim.widti += d.widti;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt,
+                                              dim.ifigit - bbsflinf);
+                    }
+                }
+}
+}
+
+        if (usfBbsflinf) {
+            dim.ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, dim.ifigit);
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.widti += insfts.lfft + insfts.rigit + igbp*2;
+        dim.ifigit += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
+
+
+
+
+
+      }
+    }
+
+    /**
+     * Cfntfrs tif flfmfnts in tif spfdififd row, if tifrf is bny slbdk.
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf movfd
+     * @pbrbm x tif x doordinbtf
+     * @pbrbm y tif y doordinbtf
+     * @pbrbm widti tif widti dimfnsions
+     * @pbrbm ifigit tif ifigit dimfnsions
+     * @pbrbm rowStbrt tif bfginning of tif row
+     * @pbrbm rowEnd tif tif fnding of tif row
+     * @pbrbm usfBbsflinf Wiftifr or not to blign on bbsflinf.
+     * @pbrbm bsdfnt Asdfnt for tif domponfnts. Tiis is only vblid if
+     *               usfBbsflinf is truf.
+     * @pbrbm dfsdfnt Asdfnt for tif domponfnts. Tiis is only vblid if
+     *               usfBbsflinf is truf.
+     * @rfturn bdtubl row ifigit
+     */
+    privbtf int movfComponfnts(Contbinfr tbrgft, int x, int y, int widti, int ifigit,
+                                int rowStbrt, int rowEnd, boolfbn ltr,
+                                boolfbn usfBbsflinf, int[] bsdfnt,
+                                int[] dfsdfnt) {
+        switdi (nfwAlign) {
+        dbsf LEFT:
+            x += ltr ? 0 : widti;
+            brfbk;
+        dbsf CENTER:
+            x += widti / 2;
+            brfbk;
+        dbsf RIGHT:
+            x += ltr ? widti : 0;
+            brfbk;
+        dbsf LEADING:
+            brfbk;
+        dbsf TRAILING:
+            x += widti;
+            brfbk;
+        }
+        int mbxAsdfnt = 0;
+        int nonbbsflinfHfigit = 0;
+        int bbsflinfOffsft = 0;
+        if (usfBbsflinf) {
+            int mbxDfsdfnt = 0;
+            for (int i = rowStbrt ; i < rowEnd ; i++) {
+                Componfnt m = tbrgft.gftComponfnt(i);
+                if (m.visiblf) {
+                    if (bsdfnt[i] >= 0) {
+                        mbxAsdfnt = Mbti.mbx(mbxAsdfnt, bsdfnt[i]);
+                        mbxDfsdfnt = Mbti.mbx(mbxDfsdfnt, dfsdfnt[i]);
+                    }
+                    flsf {
+                        nonbbsflinfHfigit = Mbti.mbx(m.gftHfigit(),
+                                                     nonbbsflinfHfigit);
+                    }
+                }
+            }
+            ifigit = Mbti.mbx(mbxAsdfnt + mbxDfsdfnt, nonbbsflinfHfigit);
+            bbsflinfOffsft = (ifigit - mbxAsdfnt - mbxDfsdfnt) / 2;
+        }
+        for (int i = rowStbrt ; i < rowEnd ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                int dy;
+                if (usfBbsflinf && bsdfnt[i] >= 0) {
+                    dy = y + bbsflinfOffsft + mbxAsdfnt - bsdfnt[i];
+                }
+                flsf {
+                    dy = y + (ifigit - m.ifigit) / 2;
+                }
+                if (ltr) {
+                    m.sftLodbtion(x, dy);
+                } flsf {
+                    m.sftLodbtion(tbrgft.widti - x - m.widti, dy);
+                }
+                x += m.widti + igbp;
+            }
+        }
+        rfturn ifigit;
+    }
+
+    /**
+     * Lbys out tif dontbinfr. Tiis mftiod lfts fbdi
+     * <i>visiblf</i> domponfnt tbkf
+     * its prfffrrfd sizf by rfsibping tif domponfnts in tif
+     * tbrgft dontbinfr in ordfr to sbtisfy tif blignmfnt of
+     * tiis <dodf>FlowLbyout</dodf> objfdt.
+     *
+     * @pbrbm tbrgft tif spfdififd domponfnt bfing lbid out
+     * @sff Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+      syndironizfd (tbrgft.gftTrffLodk()) {
+        Insfts insfts = tbrgft.gftInsfts();
+        int mbxwidti = tbrgft.widti - (insfts.lfft + insfts.rigit + igbp*2);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int x = 0, y = insfts.top + vgbp;
+        int rowi = 0, stbrt = 0;
+
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRigit();
+
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int[] bsdfnt = null;
+        int[] dfsdfnt = null;
+
+        if (usfBbsflinf) {
+            bsdfnt = nfw int[nmfmbfrs];
+            dfsdfnt = nfw int[nmfmbfrs];
+        }
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                m.sftSizf(d.widti, d.ifigit);
+
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.widti, d.ifigit);
+                    if (bbsflinf >= 0) {
+                        bsdfnt[i] = bbsflinf;
+                        dfsdfnt[i] = d.ifigit - bbsflinf;
+                    }
+                    flsf {
+                        bsdfnt[i] = -1;
+                    }
+                }
+                if ((x == 0) || ((x + d.widti) <= mbxwidti)) {
+                    if (x > 0) {
+                        x += igbp;
+                    }
+                    x += d.widti;
+                    rowi = Mbti.mbx(rowi, d.ifigit);
+                } flsf {
+                    rowi = movfComponfnts(tbrgft, insfts.lfft + igbp, y,
+                                   mbxwidti - x, rowi, stbrt, i, ltr,
+                                   usfBbsflinf, bsdfnt, dfsdfnt);
+                    x = d.widti;
+                    y += vgbp + rowi;
+                    rowi = d.ifigit;
+                    stbrt = i;
+                }
+            }
+        }
+        movfComponfnts(tbrgft, insfts.lfft + igbp, y, mbxwidti - x, rowi,
+                       stbrt, nmfmbfrs, ltr, usfBbsflinf, bsdfnt, dfsdfnt);
+      }
+    }
+
+    //
+    // tif intfrnbl sfribl vfrsion wiidi sbys wiidi vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsions bfforf tif Jbvb 2 plbtform, v1.2
+    // - 1 for vfrsion >= Jbvb 2 plbtform v1.2, wiidi indludfs "nfwAlign" fifld
+    //
+    privbtf stbtid finbl int durrfntSfriblVfrsion = 1;
+    /**
+     * Tiis rfprfsfnt tif <dodf>durrfntSfriblVfrsion</dodf>
+     * wiidi is bfin usfd.  It will bf onf of two vblufs :
+     * <dodf>0</dodf> vfrsions bfforf Jbvb 2 plbtform v1.2..
+     * <dodf>1</dodf> vfrsions bftfr  Jbvb 2 plbtform v1.2..
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    /**
+     * Rfbds tiis objfdt out of b sfriblizbtion strfbm, ibndling
+     * objfdts writtfn by oldfr vfrsions of tif dlbss tibt didn't dontbin bll
+     * of tif fiflds wf usf now..
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        strfbm.dffbultRfbdObjfdt();
+
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // "nfwAlign" fifld wbsn't prfsfnt, so usf tif old "blign" fifld.
+            sftAlignmfnt(tiis.blign);
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>FlowLbyout</dodf>
+     * objfdt bnd its vblufs.
+     * @rfturn     b string rfprfsfntbtion of tiis lbyout
+     */
+    publid String toString() {
+        String str = "";
+        switdi (blign) {
+          dbsf LEFT:        str = ",blign=lfft"; brfbk;
+          dbsf CENTER:      str = ",blign=dfntfr"; brfbk;
+          dbsf RIGHT:       str = ",blign=rigit"; brfbk;
+          dbsf LEADING:     str = ",blign=lfbding"; brfbk;
+          dbsf TRAILING:    str = ",blign=trbiling"; brfbk;
+        }
+        rfturn gftClbss().gftNbmf() + "[igbp=" + igbp + ",vgbp=" + vgbp + str + "]";
+    }
+
+
+}

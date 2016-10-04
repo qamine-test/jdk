@@ -1,98 +1,490 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: native2ascii
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: 国際化ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: nbtivf2bsdii
+.\" Titlf: nbtivf2bsdii
+.\" Titlf: nbtivf2bsdii
+.\" Titlf: nbtivf2bsdii
+.\" Titlf: nbtivf2bsdii
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 国際化ツール
+.\" SfdtDfsd: 国際化ツール
+.\" SfdtDfsd: 国際化ツール
+.\" SfdtDfsd: 国際化ツール
+.\" SfdtDfsd: 国際化ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "native2ascii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-native2ascii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnicodeでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fInative2ascii\fR [ \fIinputfile\fR ] [ \fIoutputfile\fR ]
+.nf
+.nf
+.nf
+.nf
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-\fIinputfile\fR
+.PP
+.PP
+.PP
+.PP
+\fIinputfilf\fR
+\fIinputfilf\fR
+\fIinputfilf\fR
+\fIinputfilf\fR
+\fIinputfilf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ASCIIに変換するエンコードされたファイル。
+ASCIIに変換するエンコードされたファイル。
+ASCIIに変換するエンコードされたファイル。
+ASCIIに変換するエンコードされたファイル。
+ASCIIに変換するエンコードされたファイル。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIoutputfile\fR
+.PP
+.PP
+.PP
+.PP
+\fIoutputfilf\fR
+\fIoutputfilf\fR
+\fIoutputfilf\fR
+\fIoutputfilf\fR
+\fIoutputfilf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 変換されたASCIIファイル。
+変換されたASCIIファイル。
+変換されたASCIIファイル。
+変換されたASCIIファイル。
+変換されたASCIIファイル。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fInative2ascii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnicodeエスケープ(\fI\eu\fR\fIxxxx\fR)表記法を使用して、Java Runtime Environment (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
 .PP
-\fIoutputfile\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfile\fR値を省略した場合、標準入力から入力されます。
+.PP
+.PP
+.PP
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+.PP
+.PP
+.PP
+.PP
+.PP
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
-\-reverse
+.PP
+.PP
+.PP
+.PP
+\-rfvfrsf
+\-rfvfrsf
+\-rfvfrsf
+\-rfvfrsf
+\-rfvfrsf
 .RS 4
-逆の処理を行います。つまり、ISO\-8859\-1でUnicodeエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-encoding \fIencoding_name\fR
+.PP
+.PP
+.PP
+.PP
+\-fndoding \fIfndoding_nbmf\fR
+\-fndoding \fIfndoding_nbmf\fR
+\-fndoding \fIfndoding_nbmf\fR
+\-fndoding \fIfndoding_nbmf\fR
+\-fndoding \fIfndoding_nbmf\fR
 .RS 4
-変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjava\&.nio\&.charset\&.Charset\&.defaultCharset\fRメソッドで定義された)が使用されます。\fIencoding_name\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/intl/encoding\&.doc\&.htmlにある
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
+「サポートされているエンコーディング」を参照してください
+「サポートされているエンコーディング」を参照してください
+「サポートされているエンコーディング」を参照してください
+「サポートされているエンコーディング」を参照してください
 「サポートされているエンコーディング」を参照してください
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
 .RS 4
-Java仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

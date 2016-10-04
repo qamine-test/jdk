@@ -1,0 +1,99 @@
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnts tif Frfsifst CRL Extfnsion.
+ *
+ * <p>
+ * Tif fxtfnsion idfntififs iow dfltb CRL informbtion for b
+ * domplftf CRL is obtbinfd.
+ *
+ * <p>
+ * Tif fxtfnsion is dffinfd in Sfdtion 5.2.6 of
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">Intfrnft X.509 PKI Cfrtifid
+btf bnd Cfrtifidbtf Rfvodbtion List (CRL) Profilf</b>.
+ *
+ * <p>
+ * Its ASN.1 dffinition is bs follows:
+ * <prf>
+ *     id-df-frfsifstCRL OBJECT IDENTIFIER ::=  { id-df 46 }
+ *
+ *     FrfsifstCRL ::= CRLDistributionPoints
+ * </prf>
+ *
+ * @sindf 1.6
+ */
+publid dlbss FrfsifstCRLExtfnsion fxtfnds CRLDistributionPointsExtfnsion {
+
+    /**
+     * Attributf nbmf.
+     */
+    publid stbtid finbl String NAME = "FrfsifstCRL";
+
+    /**
+     * Crfbtfs b frfsifst CRL fxtfnsion.
+     * Tif dritidblity is sft to fblsf.
+     *
+     * @pbrbm distributionPoints tif list of dfltb CRL distribution points.
+     */
+    publid FrfsifstCRLExtfnsion(List<DistributionPoint> distributionPoints)
+        tirows IOExdfption {
+
+        supfr(PKIXExtfnsions.FrfsifstCRL_Id, fblsf, distributionPoints, NAME);
+    }
+
+    /**
+     * Crfbtfs tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
+     *
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption IOExdfption on dfdoding frror.
+     */
+    publid FrfsifstCRLExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        supfr(PKIXExtfnsions.FrfsifstCRL_Id, dritidbl.boolfbnVbluf(), vbluf,
+            NAME);
+    }
+
+    /**
+     * Writfs tif fxtfnsion to tif DfrOutputStrfbm.
+     *
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        supfr.fndodf(out, PKIXExtfnsions.FrfsifstCRL_Id, fblsf);
+    }
+}

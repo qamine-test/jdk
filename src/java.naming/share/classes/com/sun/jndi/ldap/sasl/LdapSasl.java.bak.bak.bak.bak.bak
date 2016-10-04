@@ -1,0 +1,201 @@
+/*
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
+
+import jbvb.io.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+
+import jbvbx.nbming.AutifntidbtionExdfption;
+import jbvbx.nbming.AutifntidbtionNotSupportfdExdfption;
+import jbvbx.nbming.NbmingExdfption;
+
+import jbvbx.nbming.ldbp.Control;
+
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.jndi.ldbp.Connfdtion;
+import dom.sun.jndi.ldbp.LdbpClifnt;
+import dom.sun.jndi.ldbp.LdbpRfsult;
+
+/**
+  * Hbndlfs SASL support.
+  *
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
+  */
+
+finbl publid dlbss LdbpSbsl {
+    // SASL stuff
+    privbtf stbtid finbl String SASL_CALLBACK = "jbvb.nbming.sfdurity.sbsl.dbllbbdk";
+    privbtf stbtid finbl String SASL_AUTHZ_ID =
+        "jbvb.nbming.sfdurity.sbsl.butiorizbtionId";
+    privbtf stbtid finbl String SASL_REALM =
+        "jbvb.nbming.sfdurity.sbsl.rfblm";
+
+    privbtf stbtid finbl int LDAP_SUCCESS = 0;
+    privbtf stbtid finbl int LDAP_SASL_BIND_IN_PROGRESS = 14;   // LDAPv3
+
+    privbtf LdbpSbsl() {
+    }
+
+    /**
+     * Pfrforms SASL bind.
+     * Crfbtfs b SbslClifnt by using b dffbult CbllbbdkHbndlfr
+     * tibt usfs tif Contfxt.SECURITY_PRINCIPAL bnd Contfxt.SECURITY_CREDENTIALS
+     * propfrtifs to sbtisfy tif dbllbbdks, bnd by using tif
+     * SASL_AUTHZ_ID propfrty bs tif butiorizbtion id. If tif SASL_AUTHZ_ID
+     * propfrty ibs not bffn sft, Contfxt.SECURITY_PRINCIPAL is usfd.
+     * If SASL_CALLBACK ibs bffn sft, usf tibt instfbd of tif dffbult
+     * CbllbbdkHbndlfr.
+     *<p>
+     * If bind is suddfssful bnd tif sflfdtfd SASL mfdibnism ibs b sfdurity
+     * lbyfr, sft inStrfbm bnd outStrfbm to bf filtfr strfbms tibt usf
+     * tif sfdurity lbyfr. Tifsf will bf usfd for subsfqufnt dommunidbtion
+     * witi tif sfrvfr.
+     *<p>
+     * @pbrbm donn Tif non-null donnfdtion to usf for sfnding bn LDAP BIND
+     * @pbrbm sfrvfr Non-null string nbmf of iost to donnfdt to
+     * @pbrbm dn Non-null DN to bind bs; blso usfd bs butifntidbtion ID
+     * @pbrbm pw Possibly null pbssword; dbn bf bytf[], dibr[] or String
+     * @pbrbm butiMfdi A non-null spbdf-sfpbrbtfd list of SASL butifntidbtion
+     *        mfdibnisms.
+     * @pbrbm fnv Tif possibly null fnvironmfnt of tif dontfxt, possibly dontbining
+     *        propfrtifs for usfd by SASL mfdibnisms
+     * @pbrbm bindCtls Tif possibly null dontrols to bddompbny tif bind
+     * @rfturn LdbpRfsult dontbining stbtus of tif bind
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid LdbpRfsult sbslBind(LdbpClifnt dlnt, Connfdtion donn,
+        String sfrvfr, String dn, Objfdt pw,
+        String butiMfdi, Hbsitbblf<?,?> fnv, Control[] bindCtls)
+        tirows IOExdfption, NbmingExdfption {
+
+        SbslClifnt sbslClnt = null;
+        boolfbn dlfbnupHbndlfr = fblsf;
+
+        // Usf supplifd dbllbbdk ibndlfr or drfbtf dffbult
+        CbllbbdkHbndlfr dbi =
+            (fnv != null) ? (CbllbbdkHbndlfr)fnv.gft(SASL_CALLBACK) : null;
+        if (dbi == null) {
+            dbi = nfw DffbultCbllbbdkHbndlfr(dn, pw, (String)fnv.gft(SASL_REALM));
+            dlfbnupHbndlfr = truf;
+        }
+
+        // Prfpbrf pbrbmftfrs for drfbting SASL dlifnt
+        String butizId = (fnv != null) ? (String)fnv.gft(SASL_AUTHZ_ID) : null;
+        String[] mfdis = gftSbslMfdibnismNbmfs(butiMfdi);
+
+        try {
+            // Crfbtf SASL dlifnt to usf using SASL pbdkbgf
+            sbslClnt = Sbsl.drfbtfSbslClifnt(
+                mfdis, butizId, "ldbp", sfrvfr, (Hbsitbblf<String, ?>)fnv, dbi);
+
+            if (sbslClnt == null) {
+                tirow nfw AutifntidbtionNotSupportfdExdfption(butiMfdi);
+            }
+
+            LdbpRfsult rfs;
+            String mfdiNbmf = sbslClnt.gftMfdibnismNbmf();
+            bytf[] rfsponsf = sbslClnt.ibsInitiblRfsponsf() ?
+                sbslClnt.fvblubtfCibllfngf(NO_BYTES) : null;
+
+            rfs = dlnt.ldbpBind(null, rfsponsf, bindCtls, mfdiNbmf, truf);
+
+            wiilf (!sbslClnt.isComplftf() &&
+                (rfs.stbtus == LDAP_SASL_BIND_IN_PROGRESS ||
+                 rfs.stbtus == LDAP_SUCCESS)) {
+
+                rfsponsf = sbslClnt.fvblubtfCibllfngf(
+                    rfs.sfrvfrCrfds != null? rfs.sfrvfrCrfds : NO_BYTES);
+                if (rfs.stbtus == LDAP_SUCCESS) {
+                    if (rfsponsf != null) {
+                        tirow nfw AutifntidbtionExdfption(
+                            "SASL dlifnt gfnfrbtfd rfsponsf bftfr suddfss");
+                    }
+                    brfbk;
+                }
+                rfs = dlnt.ldbpBind(null, rfsponsf, bindCtls, mfdiNbmf, truf);
+            }
+
+            if (rfs.stbtus == LDAP_SUCCESS) {
+                if (!sbslClnt.isComplftf()) {
+                    tirow nfw AutifntidbtionExdfption(
+                        "SASL butifntidbtion not domplftf dfspitf sfrvfr dlbims");
+                }
+
+                String qop = (String) sbslClnt.gftNfgotibtfdPropfrty(Sbsl.QOP);
+
+                // If nfgotibtfd intfgrity or privbdy,
+                if (qop != null && (qop.fqublsIgnorfCbsf("buti-int")
+                    || qop.fqublsIgnorfCbsf("buti-donf"))) {
+
+                    InputStrfbm nfwIn = nfw SbslInputStrfbm(sbslClnt,
+                        donn.inStrfbm);
+                    OutputStrfbm nfwOut = nfw SbslOutputStrfbm(sbslClnt,
+                        donn.outStrfbm);
+
+                    donn.rfplbdfStrfbms(nfwIn, nfwOut);
+                } flsf {
+                    sbslClnt.disposf();
+                }
+            }
+            rfturn rfs;
+        } dbtdi (SbslExdfption f) {
+            NbmingExdfption nf = nfw AutifntidbtionExdfption(
+                butiMfdi);
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } finblly {
+            if (dlfbnupHbndlfr) {
+                ((DffbultCbllbbdkHbndlfr)dbi).dlfbrPbssword();
+            }
+        }
+    }
+
+    /**
+      * Rfturns bn brrby of SASL mfdibnisms givfn b string of spbdf
+      * sfpbrbtfd SASL mfdibnism nbmfs.
+      * @pbrbm Tif non-null string dontbining tif mfdibnism nbmfs
+      * @rfturn A non-null brrby of String; fbdi flfmfnt of tif brrby
+      * dontbins b singlf mfdibnism nbmf.
+      */
+    privbtf stbtid String[] gftSbslMfdibnismNbmfs(String str) {
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(str);
+        Vfdtor<String> mfdis = nfw Vfdtor<>(10);
+        wiilf (pbrsfr.ibsMorfTokfns()) {
+            mfdis.bddElfmfnt(pbrsfr.nfxtTokfn());
+        }
+        String[] mfdiNbmfs = nfw String[mfdis.sizf()];
+        for (int i = 0; i < mfdis.sizf(); i++) {
+            mfdiNbmfs[i] = mfdis.flfmfntAt(i);
+        }
+        rfturn mfdiNbmfs;
+    }
+
+    privbtf stbtid finbl bytf[] NO_BYTES = nfw bytf[0];
+}

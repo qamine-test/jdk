@@ -1,0 +1,181 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "jni_util.i"
+#indludf "jdk_util.i"
+
+#indludf "jbvb_lbng_Flobt.i"
+#indludf "jbvb_lbng_Doublf.i"
+#indludf "jbvb_io_ObjfdtOutputStrfbm.i"
+
+/*
+ * Clbss:     jbvb_io_ObjfdtOutputStrfbm
+ * Mftiod:    flobtsToBytfs
+ * Signbturf: ([FI[BII)V
+ *
+ * Convfrt nflobts flobt vblufs to tifir bytf rfprfsfntbtions.  Flobt vblufs
+ * brf rfbd from brrby srd stbrting bt offsft srdpos bnd writtfn to brrby
+ * dst stbrting bt offsft dstpos.
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_ObjfdtOutputStrfbm_flobtsToBytfs(JNIEnv *fnv,
+                                              jdlbss tiis,
+                                              jflobtArrby srd,
+                                              jint srdpos,
+                                              jbytfArrby dst,
+                                              jint dstpos,
+                                              jint nflobts)
+{
+    union {
+        int i;
+        flobt f;
+    } u;
+    jflobt *flobts;
+    jbytf *bytfs;
+    jsizf srdfnd;
+    jint ivbl;
+    flobt fvbl;
+
+    if (nflobts == 0)
+        rfturn;
+
+    /* fftdi sourdf brrby */
+    if (srd == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn;
+    }
+    flobts = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, srd, NULL);
+    if (flobts == NULL)         /* fxdfption tirown */
+        rfturn;
+
+    /* fftdi dfst brrby */
+    if (dst == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, flobts, JNI_ABORT);
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn;
+    }
+    bytfs = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, dst, NULL);
+    if (bytfs == NULL) {        /* fxdfption tirown */
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, flobts, JNI_ABORT);
+        rfturn;
+    }
+
+    /* do donvfrsion */
+    srdfnd = srdpos + nflobts;
+    for ( ; srdpos < srdfnd; srdpos++) {
+        fvbl = (flobt) flobts[srdpos];
+        if (ISNANF(fvbl)) {          /* dollbpsf NbNs */
+            ivbl = 0x7fd00000;
+        } flsf {
+            u.f = fvbl;
+            ivbl = (jint) u.i;
+        }
+        bytfs[dstpos++] = (ivbl >> 24) & 0xFF;
+        bytfs[dstpos++] = (ivbl >> 16) & 0xFF;
+        bytfs[dstpos++] = (ivbl >> 8) & 0xFF;
+        bytfs[dstpos++] = (ivbl >> 0) & 0xFF;
+    }
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, flobts, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dst, bytfs, 0);
+}
+
+/*
+ * Clbss:     jbvb_io_ObjfdtOutputStrfbm
+ * Mftiod:    doublfsToBytfs
+ * Signbturf: ([DI[BII)V
+ *
+ * Convfrt ndoublfs doublf vblufs to tifir bytf rfprfsfntbtions.  Doublf
+ * vblufs brf rfbd from brrby srd stbrting bt offsft srdpos bnd writtfn to
+ * brrby dst stbrting bt offsft dstpos.
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_ObjfdtOutputStrfbm_doublfsToBytfs(JNIEnv *fnv,
+                                               jdlbss tiis,
+                                               jdoublfArrby srd,
+                                               jint srdpos,
+                                               jbytfArrby dst,
+                                               jint dstpos,
+                                               jint ndoublfs)
+{
+    union {
+        jlong l;
+        doublf d;
+    } u;
+    jdoublf *doublfs;
+    jbytf *bytfs;
+    jsizf srdfnd;
+    jdoublf dvbl;
+    jlong lvbl;
+
+    if (ndoublfs == 0)
+        rfturn;
+
+    /* fftdi sourdf brrby */
+    if (srd == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn;
+    }
+    doublfs = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, srd, NULL);
+    if (doublfs == NULL)                /* fxdfption tirown */
+        rfturn;
+
+    /* fftdi dfst brrby */
+    if (dst == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, doublfs, JNI_ABORT);
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn;
+    }
+    bytfs = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, dst, NULL);
+    if (bytfs == NULL) {        /* fxdfption tirown */
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, doublfs, JNI_ABORT);
+        rfturn;
+    }
+
+    /* do donvfrsion */
+    srdfnd = srdpos + ndoublfs;
+    for ( ; srdpos < srdfnd; srdpos++) {
+        dvbl = doublfs[srdpos];
+        if (ISNAND((doublf) dvbl)) {         /* dollbpsf NbNs */
+            lvbl = jint_to_jlong(0x7ff80000);
+            lvbl = jlong_sil(lvbl, 32);
+        } flsf {
+            jdoublf_to_jlong_bits(&dvbl);
+            u.d = (doublf) dvbl;
+            lvbl = u.l;
+        }
+        bytfs[dstpos++] = (lvbl >> 56) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 48) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 40) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 32) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 24) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 16) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 8) & 0xFF;
+        bytfs[dstpos++] = (lvbl >> 0) & 0xFF;
+    }
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd, doublfs, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dst, bytfs, 0);
+}

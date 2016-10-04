@@ -1,0 +1,76 @@
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbti.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.X509CRLSflfdtor;
+import jbvb.util.Collfdtion;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+
+import sun.sfdurity.providfr.dfrtpbti.CfrtStorfHflpfr;
+
+/**
+ * SSL implfmfntbtion of CfrtStorfHflpfr.
+ */
+publid finbl dlbss SSLSfrvfrCfrtStorfHflpfr fxtfnds CfrtStorfHflpfr {
+
+    @Ovfrridf
+    publid CfrtStorf gftCfrtStorf(URI uri)
+        tirows NoSudiAlgoritimExdfption, InvblidAlgoritimPbrbmftfrExdfption
+    {
+        rfturn SSLSfrvfrCfrtStorf.gftInstbndf(uri);
+    }
+
+    @Ovfrridf
+    publid X509CfrtSflfdtor wrbp(X509CfrtSflfdtor sflfdtor,
+                                 X500Prindipbl dfrtSubjfdt,
+                                 String ldbpDN)
+        tirows IOExdfption
+    {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid X509CRLSflfdtor wrbp(X509CRLSflfdtor sflfdtor,
+                                Collfdtion<X500Prindipbl> dfrtIssufrs,
+                                String ldbpDN)
+        tirows IOExdfption
+    {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid boolfbn isCbusfdByNftworkIssuf(CfrtStorfExdfption f) {
+        Tirowbblf t = f.gftCbusf();
+        rfturn (t != null && t instbndfof IOExdfption);
+    }
+}

@@ -1,0 +1,143 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.i>
+
+#indludf "SurfbdfDbtb.i"
+#indludf "sun_bwt_imbgf_DbtbBufffrNbtivf.i"
+
+#indludf "jni_util.i"
+#indludf "dfbug_trbdf.i"
+#indludf <stdio.i>
+
+unsignfd dibr *DBN_GftPixflPointfr(JNIEnv *fnv, jint x, int y,
+                                   SurfbdfDbtbRbsInfo *lodkInfo,
+                                   SurfbdfDbtbOps *ops, int lodkFlbg)
+{
+    if (ops == NULL) {
+        rfturn NULL;
+    }
+
+    lodkInfo->bounds.x1 = x;
+    lodkInfo->bounds.y1 = y;
+    lodkInfo->bounds.x2 = x + 1;
+    lodkInfo->bounds.y2 = y + 1;
+    if (ops->Lodk(fnv, ops, lodkInfo, lodkFlbg) != SD_SUCCESS) {
+        rfturn NULL;
+    }
+    ops->GftRbsInfo(fnv, ops, lodkInfo);
+    if (lodkInfo->rbsBbsf) {
+        unsignfd dibr *pixflPtr = (
+            (unsignfd dibr*)lodkInfo->rbsBbsf +
+            (x * lodkInfo->pixflStridf + y * lodkInfo->sdbnStridf));
+        rfturn pixflPtr;
+    }
+    SurfbdfDbtb_InvokfRflfbsf(fnv, ops, lodkInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, ops, lodkInfo);
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_imbgf_DbtbBufffrNbtivf
+ * Mftiod:    gftElfm
+ * Signbturf:
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_imbgf_DbtbBufffrNbtivf_gftElfm(JNIEnv *fnv, jobjfdt dbn,
+                                            jint x, jint y, jobjfdt sd)
+{
+    jint rfturnVbl = -1;
+    unsignfd dibr *pixflPtr;
+    SurfbdfDbtbRbsInfo lodkInfo;
+    SurfbdfDbtbOps *ops;
+
+    ops = SurfbdfDbtb_GftOps(fnv, sd);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, -1);
+
+    if (!(pixflPtr = DBN_GftPixflPointfr(fnv, x, y, &lodkInfo,
+                                         ops, SD_LOCK_READ)))
+    {
+        rfturn rfturnVbl;
+    }
+    switdi (lodkInfo.pixflStridf) {
+    dbsf 4:
+        rfturnVbl = *(int *)pixflPtr;
+        brfbk;
+    /* REMIND: do wf nffd b 3-bytf dbsf (for 24-bit) ifrf? */
+    dbsf 2:
+        rfturnVbl = *(unsignfd siort *)pixflPtr;
+        brfbk;
+    dbsf 1:
+        rfturnVbl = *pixflPtr;
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+    SurfbdfDbtb_InvokfRflfbsf(fnv, ops, &lodkInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, ops, &lodkInfo);
+    rfturn rfturnVbl;
+}
+
+
+/*
+ * Clbss:     sun_bwt_imbgf_DbtbBufffrNbtivf
+ * Mftiod:    sftElfm
+ * Signbturf:
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_imbgf_DbtbBufffrNbtivf_sftElfm(JNIEnv *fnv, jobjfdt dbn,
+                                            jint x, jint y, jint vbl, jobjfdt sd)
+{
+    SurfbdfDbtbRbsInfo lodkInfo;
+    SurfbdfDbtbOps *ops;
+    unsignfd dibr *pixflPtr;
+
+
+    ops = SurfbdfDbtb_GftOps(fnv, sd);
+    JNU_CHECK_EXCEPTION(fnv);
+
+    if (!(pixflPtr = DBN_GftPixflPointfr(fnv, x, y, &lodkInfo,
+                                         ops, SD_LOCK_WRITE)))
+    {
+        rfturn;
+    }
+
+    switdi (lodkInfo.pixflStridf) {
+    dbsf 4:
+        *(int *)pixflPtr = vbl;
+        brfbk;
+    /* REMIND: do wf nffd b 3-bytf dbsf (for 24-bit) ifrf? */
+    dbsf 2:
+        *(unsignfd siort *)pixflPtr = (unsignfd siort)vbl;
+        brfbk;
+    dbsf 1:
+        *pixflPtr = (unsignfd dibr)vbl;
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+    SurfbdfDbtb_InvokfRflfbsf(fnv, ops, &lodkInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, ops, &lodkInfo);
+}

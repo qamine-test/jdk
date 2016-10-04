@@ -1,0 +1,522 @@
+/*
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.io.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.AlgoritimPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.PBEPbrbmftfrSpfd;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
+
+/**
+ * Tiis dlbss implfmfnts tif pbrbmftfr sft usfd witi pbssword-bbsfd
+ * fndryption sdifmf 2 (PBES2), wiidi is dffinfd in PKCS#5 bs follows:
+ *
+ * <prf>
+ * -- PBES2
+ *
+ * PBES2Algoritims ALGORITHM-IDENTIFIER ::=
+ *   { {PBES2-pbrbms IDENTIFIED BY id-PBES2}, ...}
+ *
+ * id-PBES2 OBJECT IDENTIFIER ::= {pkds-5 13}
+ *
+ * PBES2-pbrbms ::= SEQUENCE {
+ *   kfyDfrivbtionFund AlgoritimIdfntififr {{PBES2-KDFs}},
+ *   fndryptionSdifmf AlgoritimIdfntififr {{PBES2-Ends}} }
+ *
+ * PBES2-KDFs ALGORITHM-IDENTIFIER ::=
+ *   { {PBKDF2-pbrbms IDENTIFIED BY id-PBKDF2}, ... }
+ *
+ * PBES2-Ends ALGORITHM-IDENTIFIER ::= { ... }
+ *
+ * -- PBKDF2
+ *
+ * PBKDF2Algoritims ALGORITHM-IDENTIFIER ::=
+ *   { {PBKDF2-pbrbms IDENTIFIED BY id-PBKDF2}, ...}
+ *
+ * id-PBKDF2 OBJECT IDENTIFIER ::= {pkds-5 12}
+ *
+ * PBKDF2-pbrbms ::= SEQUENCE {
+ *     sblt CHOICE {
+ *       spfdififd OCTET STRING,
+ *       otifrSourdf AlgoritimIdfntififr {{PBKDF2-SbltSourdfs}}
+ *     },
+ *     itfrbtionCount INTEGER (1..MAX),
+ *     kfyLfngti INTEGER (1..MAX) OPTIONAL,
+ *     prf AlgoritimIdfntififr {{PBKDF2-PRFs}} DEFAULT blgid-imbdWitiSHA1
+ * }
+ *
+ * PBKDF2-SbltSourdfs ALGORITHM-IDENTIFIER ::= { ... }
+ *
+ * PBKDF2-PRFs ALGORITHM-IDENTIFIER ::= {
+ *     {NULL IDENTIFIED BY id-imbdWitiSHA1} |
+ *     {NULL IDENTIFIED BY id-imbdWitiSHA224} |
+ *     {NULL IDENTIFIED BY id-imbdWitiSHA256} |
+ *     {NULL IDENTIFIED BY id-imbdWitiSHA384} |
+ *     {NULL IDENTIFIED BY id-imbdWitiSHA512}, ... }
+ *
+ * blgid-imbdWitiSHA1 AlgoritimIdfntififr {{PBKDF2-PRFs}} ::=
+ *     {blgoritim id-imbdWitiSHA1, pbrbmftfrs NULL : NULL}
+ *
+ * id-imbdWitiSHA1 OBJECT IDENTIFIER ::= {digfstAlgoritim 7}
+ *
+ * PBES2-Ends ALGORITHM-IDENTIFIER ::= { ... }
+ *
+ * </prf>
+ */
+
+bbstrbdt dlbss PBES2Pbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
+
+    privbtf stbtid finbl int pkds5PBKDF2[] =
+                                        {1, 2, 840, 113549, 1, 5, 12};
+    privbtf stbtid finbl int pkds5PBES2[] =
+                                        {1, 2, 840, 113549, 1, 5, 13};
+    privbtf stbtid finbl int imbdWitiSHA1[] =
+                                        {1, 2, 840, 113549, 2, 7};
+    privbtf stbtid finbl int imbdWitiSHA224[] =
+                                        {1, 2, 840, 113549, 2, 8};
+    privbtf stbtid finbl int imbdWitiSHA256[] =
+                                        {1, 2, 840, 113549, 2, 9};
+    privbtf stbtid finbl int imbdWitiSHA384[] =
+                                        {1, 2, 840, 113549, 2, 10};
+    privbtf stbtid finbl int imbdWitiSHA512[] =
+                                        {1, 2, 840, 113549, 2, 11};
+    privbtf stbtid finbl int bfs128CBC[] =
+                                        {2, 16, 840, 1, 101, 3, 4, 1, 2};
+    privbtf stbtid finbl int bfs192CBC[] =
+                                        {2, 16, 840, 1, 101, 3, 4, 1, 22};
+    privbtf stbtid finbl int bfs256CBC[] =
+                                        {2, 16, 840, 1, 101, 3, 4, 1, 42};
+
+    privbtf stbtid ObjfdtIdfntififr pkds5PBKDF2_OID;
+    privbtf stbtid ObjfdtIdfntififr pkds5PBES2_OID;
+    privbtf stbtid ObjfdtIdfntififr imbdWitiSHA1_OID;
+    privbtf stbtid ObjfdtIdfntififr imbdWitiSHA224_OID;
+    privbtf stbtid ObjfdtIdfntififr imbdWitiSHA256_OID;
+    privbtf stbtid ObjfdtIdfntififr imbdWitiSHA384_OID;
+    privbtf stbtid ObjfdtIdfntififr imbdWitiSHA512_OID;
+    privbtf stbtid ObjfdtIdfntififr bfs128CBC_OID;
+    privbtf stbtid ObjfdtIdfntififr bfs192CBC_OID;
+    privbtf stbtid ObjfdtIdfntififr bfs256CBC_OID;
+
+    stbtid {
+        try {
+            pkds5PBKDF2_OID = nfw ObjfdtIdfntififr(pkds5PBKDF2);
+            pkds5PBES2_OID = nfw ObjfdtIdfntififr(pkds5PBES2);
+            imbdWitiSHA1_OID = nfw ObjfdtIdfntififr(imbdWitiSHA1);
+            imbdWitiSHA224_OID = nfw ObjfdtIdfntififr(imbdWitiSHA224);
+            imbdWitiSHA256_OID = nfw ObjfdtIdfntififr(imbdWitiSHA256);
+            imbdWitiSHA384_OID = nfw ObjfdtIdfntififr(imbdWitiSHA384);
+            imbdWitiSHA512_OID = nfw ObjfdtIdfntififr(imbdWitiSHA512);
+            bfs128CBC_OID = nfw ObjfdtIdfntififr(bfs128CBC);
+            bfs192CBC_OID = nfw ObjfdtIdfntififr(bfs192CBC);
+            bfs256CBC_OID = nfw ObjfdtIdfntififr(bfs256CBC);
+        } dbtdi (IOExdfption iof) {
+            // siould not ibppfn
+        }
+    }
+
+    // tif PBES2 blgoritim nbmf
+    privbtf String pbfs2AlgoritimNbmf = null;
+
+    // tif sblt
+    privbtf bytf[] sblt = null;
+
+    // tif itfrbtion dount
+    privbtf int iCount = 0;
+
+    // tif dipifr pbrbmftfr
+    privbtf AlgoritimPbrbmftfrSpfd dipifrPbrbm = null;
+
+    // tif kfy dfrivbtion fundtion (dffbult is HmbdSHA1)
+    privbtf ObjfdtIdfntififr kdfAlgo_OID = imbdWitiSHA1_OID;
+
+    // tif fndryption fundtion
+    privbtf ObjfdtIdfntififr dipifrAlgo_OID = null;
+
+    // tif dipifr kfysizf (in bits)
+    privbtf int kfysizf = -1;
+
+    PBES2Pbrbmftfrs() {
+        // KDF, fndryption & kfysizf vblufs brf sft lbtfr, in fnginfInit(bytf[])
+    }
+
+    PBES2Pbrbmftfrs(String pbfs2AlgoritimNbmf) tirows NoSudiAlgoritimExdfption {
+        int bnd;
+        String kdfAlgo = null;
+        String dipifrAlgo = null;
+
+        // Extrbdt tif KDF bnd fndryption blgoritim nbmfs
+        tiis.pbfs2AlgoritimNbmf = pbfs2AlgoritimNbmf;
+        if (pbfs2AlgoritimNbmf.stbrtsWiti("PBEWiti") &&
+            (bnd = pbfs2AlgoritimNbmf.indfxOf("And", 7 + 1)) > 0) {
+            kdfAlgo = pbfs2AlgoritimNbmf.substring(7, bnd);
+            dipifrAlgo = pbfs2AlgoritimNbmf.substring(bnd + 3);
+
+            // Cifdk for kfysizf
+            int undfrsdorf;
+            if ((undfrsdorf = dipifrAlgo.indfxOf('_')) > 0) {
+                int slbsi;
+                if ((slbsi = dipifrAlgo.indfxOf('/', undfrsdorf + 1)) > 0) {
+                    kfysizf =
+                        Intfgfr.pbrsfInt(dipifrAlgo.substring(undfrsdorf + 1,
+                            slbsi));
+                } flsf {
+                    kfysizf =
+                        Intfgfr.pbrsfInt(dipifrAlgo.substring(undfrsdorf + 1));
+                }
+                dipifrAlgo = dipifrAlgo.substring(0, undfrsdorf);
+            }
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption("No drypto implfmfntbtion for " +
+                pbfs2AlgoritimNbmf);
+        }
+
+        switdi (kdfAlgo) {
+        dbsf "HmbdSHA1":
+            kdfAlgo_OID = imbdWitiSHA1_OID;
+            brfbk;
+        dbsf "HmbdSHA224":
+            kdfAlgo_OID = imbdWitiSHA224_OID;
+            brfbk;
+        dbsf "HmbdSHA256":
+            kdfAlgo_OID = imbdWitiSHA256_OID;
+            brfbk;
+        dbsf "HmbdSHA384":
+            kdfAlgo_OID = imbdWitiSHA384_OID;
+            brfbk;
+        dbsf "HmbdSHA512":
+            kdfAlgo_OID = imbdWitiSHA512_OID;
+            brfbk;
+        dffbult:
+            tirow nfw NoSudiAlgoritimExdfption(
+                "No drypto implfmfntbtion for " + kdfAlgo);
+        }
+
+        if (dipifrAlgo.fqubls("AES")) {
+            tiis.kfysizf = kfysizf;
+            switdi (kfysizf) {
+            dbsf 128:
+                dipifrAlgo_OID = bfs128CBC_OID;
+                brfbk;
+            dbsf 256:
+                dipifrAlgo_OID = bfs256CBC_OID;
+                brfbk;
+            dffbult:
+                tirow nfw NoSudiAlgoritimExdfption(
+                    "No Cipifr implfmfntbtion for " + kfysizf + "-bit " +
+                        dipifrAlgo);
+            }
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption("No Cipifr implfmfntbtion for " +
+                dipifrAlgo);
+        }
+    }
+
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption
+    {
+       if (!(pbrbmSpfd instbndfof PBEPbrbmftfrSpfd)) {
+           tirow nfw InvblidPbrbmftfrSpfdExdfption
+               ("Inbppropribtf pbrbmftfr spfdifidbtion");
+       }
+       tiis.sblt = ((PBEPbrbmftfrSpfd)pbrbmSpfd).gftSblt().dlonf();
+       tiis.iCount = ((PBEPbrbmftfrSpfd)pbrbmSpfd).gftItfrbtionCount();
+       tiis.dipifrPbrbm = ((PBEPbrbmftfrSpfd)pbrbmSpfd).gftPbrbmftfrSpfd();
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd)
+        tirows IOExdfption
+    {
+        String kdfAlgo = null;
+        String dipifrAlgo = null;
+
+        DfrVbluf pBES2Algoritims = nfw DfrVbluf(fndodfd);
+        if (pBES2Algoritims.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                                  + "not bn ASN.1 SEQUENCE tbg");
+        }
+        if (!pkds5PBES2_OID.fqubls(pBES2Algoritims.dbtb.gftOID())) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "fxpfdting tif objfdt idfntififr for PBES2");
+        }
+        if (pBES2Algoritims.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 SEQUENCE tbg");
+        }
+
+        DfrVbluf pBES2_pbrbms = pBES2Algoritims.dbtb.gftDfrVbluf();
+        if (pBES2_pbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 SEQUENCE tbg");
+        }
+        kdfAlgo = pbrsfKDF(pBES2_pbrbms.dbtb.gftDfrVbluf());
+
+        if (pBES2_pbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 SEQUENCE tbg");
+        }
+        dipifrAlgo = pbrsfES(pBES2_pbrbms.dbtb.gftDfrVbluf());
+
+        pbfs2AlgoritimNbmf = nfw StringBuildfr().bppfnd("PBEWiti")
+            .bppfnd(kdfAlgo).bppfnd("And").bppfnd(dipifrAlgo).toString();
+    }
+
+    privbtf String pbrsfKDF(DfrVbluf kfyDfrivbtionFund) tirows IOExdfption {
+        String kdfAlgo = null;
+
+        if (!pkds5PBKDF2_OID.fqubls(kfyDfrivbtionFund.dbtb.gftOID())) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "fxpfdting tif objfdt idfntififr for PBKDF2");
+        }
+        if (kfyDfrivbtionFund.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 SEQUENCE tbg");
+        }
+        DfrVbluf pBKDF2_pbrbms = kfyDfrivbtionFund.dbtb.gftDfrVbluf();
+        if (pBKDF2_pbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 SEQUENCE tbg");
+        }
+        DfrVbluf spfdififd = pBKDF2_pbrbms.dbtb.gftDfrVbluf();
+        // tif 'spfdififd' ASN.1 CHOICE for 'sblt' is supportfd
+        if (spfdififd.tbg == DfrVbluf.tbg_OdtftString) {
+            sblt = spfdififd.gftOdtftString();
+        } flsf {
+            // tif 'otifrSourdf' ASN.1 CHOICE for 'sblt' is not supportfd
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "not bn ASN.1 OCTET STRING tbg");
+        }
+        iCount = pBKDF2_pbrbms.dbtb.gftIntfgfr();
+        DfrVbluf kfyLfngti = pBKDF2_pbrbms.dbtb.gftDfrVbluf();
+        if (kfyLfngti.tbg == DfrVbluf.tbg_Intfgfr) {
+            kfysizf = kfyLfngti.gftIntfgfr() * 8; // kfysizf (in bits)
+        }
+        if (pBKDF2_pbrbms.tbg == DfrVbluf.tbg_Sfqufndf) {
+            DfrVbluf prf = pBKDF2_pbrbms.dbtb.gftDfrVbluf();
+            kdfAlgo_OID = prf.dbtb.gftOID();
+            if (imbdWitiSHA1_OID.fqubls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbdSHA1";
+            } flsf if (imbdWitiSHA224_OID.fqubls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbdSHA224";
+            } flsf if (imbdWitiSHA256_OID.fqubls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbdSHA256";
+            } flsf if (imbdWitiSHA384_OID.fqubls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbdSHA384";
+            } flsf if (imbdWitiSHA512_OID.fqubls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbdSHA512";
+            } flsf {
+                tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                    + "fxpfdting tif objfdt idfntififr for b HmbdSHA kfy "
+                    + "dfrivbtion fundtion");
+            }
+            if (prf.dbtb.bvbilbblf() != 0) {
+                // pbrbmftfr is 'NULL' for bll HmbdSHA KDFs
+                DfrVbluf pbrbmftfr = prf.dbtb.gftDfrVbluf();
+                if (pbrbmftfr.tbg != DfrVbluf.tbg_Null) {
+                    tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                        + "not bn ASN.1 NULL tbg");
+                }
+            }
+        }
+
+        rfturn kdfAlgo;
+    }
+
+    privbtf String pbrsfES(DfrVbluf fndryptionSdifmf) tirows IOExdfption {
+        String dipifrAlgo = null;
+
+        dipifrAlgo_OID = fndryptionSdifmf.dbtb.gftOID();
+        if (bfs128CBC_OID.fqubls(dipifrAlgo_OID)) {
+            dipifrAlgo = "AES_128";
+            // pbrbmftfr is AES-IV 'OCTET STRING (SIZE(16))'
+            dipifrPbrbm =
+                nfw IvPbrbmftfrSpfd(fndryptionSdifmf.dbtb.gftOdtftString());
+            kfysizf = 128;
+        } flsf if (bfs256CBC_OID.fqubls(dipifrAlgo_OID)) {
+            dipifrAlgo = "AES_256";
+            // pbrbmftfr is AES-IV 'OCTET STRING (SIZE(16))'
+            dipifrPbrbm =
+                nfw IvPbrbmftfrSpfd(fndryptionSdifmf.dbtb.gftOdtftString());
+            kfysizf = 256;
+        } flsf {
+            tirow nfw IOExdfption("PBE pbrbmftfr pbrsing frror: "
+                + "fxpfdting tif objfdt idfntififr for AES dipifr");
+        }
+
+        rfturn dipifrAlgo;
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd, String dfdodingMftiod)
+        tirows IOExdfption
+    {
+        fnginfInit(fndodfd);
+    }
+
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd>
+            T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption
+    {
+        if (PBEPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(
+                nfw PBEPbrbmftfrSpfd(tiis.sblt, tiis.iCount, tiis.dipifrPbrbm));
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
+        }
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm pBES2Algoritims = nfw DfrOutputStrfbm();
+        pBES2Algoritims.putOID(pkds5PBES2_OID);
+
+        DfrOutputStrfbm pBES2_pbrbms = nfw DfrOutputStrfbm();
+
+        DfrOutputStrfbm kfyDfrivbtionFund = nfw DfrOutputStrfbm();
+        kfyDfrivbtionFund.putOID(pkds5PBKDF2_OID);
+
+        DfrOutputStrfbm pBKDF2_pbrbms = nfw DfrOutputStrfbm();
+        pBKDF2_pbrbms.putOdtftString(sblt); // dioidf: 'spfdififd OCTET STRING'
+        pBKDF2_pbrbms.putIntfgfr(iCount);
+        pBKDF2_pbrbms.putIntfgfr(kfysizf / 8); // dfrivfd kfy lfngti (in odtfts)
+
+        DfrOutputStrfbm prf = nfw DfrOutputStrfbm();
+        // blgoritim is id-imbdWitiSHA1/SHA224/SHA256/SHA384/SHA512
+        prf.putOID(kdfAlgo_OID);
+        // pbrbmftfrs is 'NULL'
+        prf.putNull();
+        pBKDF2_pbrbms.writf(DfrVbluf.tbg_Sfqufndf, prf);
+
+        kfyDfrivbtionFund.writf(DfrVbluf.tbg_Sfqufndf, pBKDF2_pbrbms);
+        pBES2_pbrbms.writf(DfrVbluf.tbg_Sfqufndf, kfyDfrivbtionFund);
+
+        DfrOutputStrfbm fndryptionSdifmf = nfw DfrOutputStrfbm();
+        // blgoritim is id-bfs128-CBC or id-bfs256-CBC
+        fndryptionSdifmf.putOID(dipifrAlgo_OID);
+        // pbrbmftfrs is 'AES-IV ::= OCTET STRING (SIZE(16))'
+        if (dipifrPbrbm != null && dipifrPbrbm instbndfof IvPbrbmftfrSpfd) {
+            fndryptionSdifmf.putOdtftString(
+                ((IvPbrbmftfrSpfd)dipifrPbrbm).gftIV());
+        } flsf {
+            tirow nfw IOExdfption("Wrong pbrbmftfr typf: IV fxpfdtfd");
+        }
+        pBES2_pbrbms.writf(DfrVbluf.tbg_Sfqufndf, fndryptionSdifmf);
+
+        pBES2Algoritims.writf(DfrVbluf.tbg_Sfqufndf, pBES2_pbrbms);
+        out.writf(DfrVbluf.tbg_Sfqufndf, pBES2Algoritims);
+
+        rfturn out.toBytfArrby();
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+        tirows IOExdfption
+    {
+        rfturn fnginfGftEndodfd();
+    }
+
+    /*
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
+     *
+     * Tif blgoritin nbmf pbttfrn is: "PBEWiti<prf>And<fndryption>"
+     * wifrf <prf> is onf of: HmbdSHA1, HmbdSHA224, HmbdSHA256, HmbdSHA384,
+     * or HmbdSHA512, bnd <fndryption> is AES witi b kfysizf suffix.
+     */
+    protfdtfd String fnginfToString() {
+        rfturn pbfs2AlgoritimNbmf;
+    }
+
+    publid stbtid finbl dlbss Gfnfrbl fxtfnds PBES2Pbrbmftfrs {
+        publid Gfnfrbl() tirows NoSudiAlgoritimExdfption {
+            supfr();
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA1AndAES_128 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA1AndAES_128() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA1AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA224AndAES_128 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA224AndAES_128() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA224AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA256AndAES_128 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA256AndAES_128() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA256AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA384AndAES_128 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA384AndAES_128() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA384AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512AndAES_128 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA512AndAES_128() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA512AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA1AndAES_256 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA1AndAES_256() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA1AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA224AndAES_256 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA224AndAES_256() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA224AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA256AndAES_256 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA256AndAES_256() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA256AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA384AndAES_256 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA384AndAES_256() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA384AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512AndAES_256 fxtfnds PBES2Pbrbmftfrs {
+        publid HmbdSHA512AndAES_256() tirows NoSudiAlgoritimExdfption {
+            supfr("PBEWitiHmbdSHA512AndAES_256");
+        }
+    }
+}

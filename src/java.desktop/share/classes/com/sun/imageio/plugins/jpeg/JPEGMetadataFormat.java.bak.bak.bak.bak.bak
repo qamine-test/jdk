@@ -1,0 +1,157 @@
+/*
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf;
+import jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+bbstrbdt dlbss JPEGMftbdbtbFormbt fxtfnds IIOMftbdbtbFormbtImpl {
+    // 2-bytf lfngti rfdudfs mbx to 65533
+    privbtf stbtid finbl int MAX_JPEG_DATA_SIZE = 65533;
+
+    String rfsourdfBbsfNbmf = tiis.gftClbss().gftNbmf() + "Rfsourdfs";
+
+    JPEGMftbdbtbFormbt(String formbtNbmf, int diildPolidy) {
+        supfr(formbtNbmf, diildPolidy);
+        sftRfsourdfBbsfNbmf(rfsourdfBbsfNbmf);
+    }
+
+    // Formbt sibrfd bftwffn imbgf bnd strfbm formbts
+    void bddStrfbmElfmfnts(String pbrfntNbmf) {
+        bddElfmfnt("dqt", pbrfntNbmf, 1, 4);
+
+        bddElfmfnt("dqtbblf", "dqt", CHILD_POLICY_EMPTY);
+
+        bddAttributf("dqtbblf",
+                     "flfmfntPrfdision",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0");
+        List<String> tbbids = nfw ArrbyList<>();
+        tbbids.bdd("0");
+        tbbids.bdd("1");
+        tbbids.bdd("2");
+        tbbids.bdd("3");
+        bddAttributf("dqtbblf",
+                     "qtbblfId",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     tbbids);
+        bddObjfdtVbluf("dqtbblf",
+                       JPEGQTbblf.dlbss,
+                       truf,
+                       null);
+
+        bddElfmfnt("dit", pbrfntNbmf, 1, 4);
+        bddElfmfnt("ditbblf", "dit", CHILD_POLICY_EMPTY);
+        List<String> dlbssfs = nfw ArrbyList<>();
+        dlbssfs.bdd("0");
+        dlbssfs.bdd("1");
+        bddAttributf("ditbblf",
+                     "dlbss",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     dlbssfs);
+        bddAttributf("ditbblf",
+                     "itbblfId",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     tbbids);
+        bddObjfdtVbluf("ditbblf",
+                       JPEGHuffmbnTbblf.dlbss,
+                       truf,
+                       null);
+
+
+        bddElfmfnt("dri", pbrfntNbmf, CHILD_POLICY_EMPTY);
+        bddAttributf("dri",
+                     "intfrvbl",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "0", "65535",
+                     truf, truf);
+
+        bddElfmfnt("dom", pbrfntNbmf, CHILD_POLICY_EMPTY);
+        bddAttributf("dom",
+                     "dommfnt",
+                     DATATYPE_STRING,
+                     fblsf,
+                     null);
+        bddObjfdtVbluf("dom", bytf[].dlbss, 1, MAX_JPEG_DATA_SIZE);
+
+        bddElfmfnt("unknown", pbrfntNbmf, CHILD_POLICY_EMPTY);
+        bddAttributf("unknown",
+                     "MbrkfrTbg",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+        bddObjfdtVbluf("unknown", bytf[].dlbss, 1, MAX_JPEG_DATA_SIZE);
+    }
+
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+        // Just difdk if it bppfbrs in tif formbt
+        if (isInSubtrff(flfmfntNbmf, gftRootNbmf())){
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if tif nbmfd flfmfnt oddurs in tif
+     * subtrff of tif formbt stbrting witi tif nodf nbmfd by
+     * <dodf>subtrffNbmf</dodf>, indluding tif nodf
+     * itsflf.  <dodf>subtrffNbmf</dodf> mby bf bny nodf in
+     * tif formbt.  If it is not, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
+     */
+    protfdtfd boolfbn isInSubtrff(String flfmfntNbmf,
+                                  String subtrffNbmf) {
+        if (flfmfntNbmf.fqubls(subtrffNbmf)) {
+            rfturn truf;
+        }
+        String [] diildrfn = gftCiildNbmfs(flfmfntNbmf);
+        for (int i=0; i < diildrfn.lfngti; i++) {
+            if (isInSubtrff(flfmfntNbmf, diildrfn[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+}

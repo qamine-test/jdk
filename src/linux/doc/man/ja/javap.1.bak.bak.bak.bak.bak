@@ -1,0 +1,344 @@
+'\" t
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jbvbp
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jbvbp" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jbvbp \- 1つ以上のクラス・ファイルを逆アセンブルします。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIdlbssfilf\fR
+.RS 4
+注釈の処理対象となる、空白で区切った1つ以上のクラス(DodFootfr\&.dlbssなど)。クラス・パスで検出できるクラスを、ファイル名またはURL(\fIfilf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fRなど)で指定できます。
+.RE
+.SH "説明"
+.PP
+\fIjbvbp\fRコマンドは、1つまたは複数のクラス・ファイルを逆アセンブルします。その出力は指定するオプションにより異なります。オプションを指定しない場合、\fIjbvbp\fRコマンドは、そのパッケージ、渡されたクラスのprotfdtfdおよびpublidのフィールドとメソッドを出力します。\fIjbvbp\fRコマンドはその出力を\fI標準出力\fRに表示します。
+.SH "オプション"
+.PP
+\-iflp, \-\-iflp, \-?
+.RS 4
+\fIjbvbp\fRコマンドについてのヘルプ・メッセージを出力します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を出力します。
+.RE
+.PP
+\-l
+.RS 4
+行番号とローカル変数表を出力します。
+.RE
+.PP
+\-publid
+.RS 4
+publidクラスおよびメンバーのみ表示します。
+.RE
+.PP
+\-protfdtfd
+.RS 4
+protfdtfdおよびpublidのクラスとメンバーのみを表示します。
+.RE
+.PP
+\-privbtf, \-p
+.RS 4
+すべてのクラスとメンバーを表示します。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+指定されたオプションをJVMに渡します。次に例を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbp \-J\-vfrsion
+jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf
+.fi
+.if n \{\
+.RE
+.\}
+JVMオプションの詳細は、コマンドのマニュアルを参照してください。
+.RE
+.PP
+\-s
+.RS 4
+内部の型シグニチャを出力します。
+.RE
+.PP
+\-sysinfo
+.RS 4
+処理中のクラスのシステム情報(パス、サイズ、日付、MD5ハッシュ)を表示します。
+.RE
+.PP
+\-donstbnts
+.RS 4
+\fIstbtid finbl\fR定数を表示します。
+.RE
+.PP
+\-d
+.RS 4
+クラスの各メソッドのために逆アセンブルされるコード、すなわちJbvbバイトコードからなる命令を表示します。
+.RE
+.PP
+\-vfrbosf
+.RS 4
+メソッドのスタック・サイズ、lodblsとbrgumfntsの数を出力します。
+.RE
+.PP
+\-dlbsspbti \fIpbti\fR
+.RS 4
+クラスを探すために\fIjbvbp\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。
+.RE
+.PP
+\-bootdlbsspbti \fIpbti\fR
+.RS 4
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf/lib/rt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+.RE
+.PP
+\-fxtdir \fIdirs\fR
+.RS 4
+インストールされた拡張機能を検索する場所をオーバーライドします。拡張機能のデフォルト位置は\fIjbvb\&.fxt\&.dirs\fRです。
+.RE
+.SH "例"
+.PP
+次の\fIDodFootfr\fRクラスをコンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+import jbvb\&.bwt\&.*;
+import jbvb\&.bpplft\&.*;
+ 
+publid dlbss DodFootfr fxtfnds Applft {
+        String dbtf;
+        String fmbil;
+ 
+        publid void init() {
+                rfsizf(500,100);
+                dbtf = gftPbrbmftfr("LAST_UPDATED");
+                fmbil = gftPbrbmftfr("EMAIL");
+        }
+ 
+        publid void pbint(Grbpiids g) {
+                g\&.drbwString(dbtf + " by ",100, 15);
+                g\&.drbwString(fmbil,290,15);
+        }
+}
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIjbvbp DodFootfr\&.dlbss\fRコマンドからの出力は次を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Compilfd from "DodFootfr\&.jbvb"
+publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {
+  jbvb\&.lbng\&.String dbtf;
+  jbvb\&.lbng\&.String fmbil;
+  publid DodFootfr();
+  publid void init();
+  publid void pbint(jbvb\&.bwt\&.Grbpiids);
+}
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIjbvbp \-d DodFootfr\&.dlbss\fRコマンドからの出力は次を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Compilfd from "DodFootfr\&.jbvb"
+publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {
+  jbvb\&.lbng\&.String dbtf;
+  jbvb\&.lbng\&.String fmbil;
+
+  publid DodFootfr();
+    Codf:
+       0: blobd_0       
+       1: invokfspfdibl #1                  // Mftiod
+jbvb/bpplft/Applft\&."<init>":()V
+       4: rfturn        
+
+  publid void init();
+    Codf:
+       0: blobd_0       
+       1: sipusi        500
+       4: bipusi        100
+       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V
+       9: blobd_0       
+      10: blobd_0       
+      11: ldd           #3                  // String LAST_UPDATED
+      13: invokfvirtubl #4                  // Mftiod
+ gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;
+      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;
+      19: blobd_0       
+      20: blobd_0       
+      21: ldd           #6                  // String EMAIL
+      23: invokfvirtubl #4                  // Mftiod
+ gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;
+      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;
+      29: rfturn        
+
+  publid void pbint(jbvb\&.bwt\&.Grbpiids);
+    Codf:
+       0: blobd_1       
+       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr
+       4: dup           
+       5: invokfspfdibl #9                  // Mftiod
+ jbvb/lbng/StringBuildfr\&."<init>":()V
+       8: blobd_0       
+       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;
+      12: invokfvirtubl #10                 // Mftiod
+ jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;
+      15: ldd           #11                 // String  by 
+      17: invokfvirtubl #10                 // Mftiod
+ jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;
+      20: invokfvirtubl #12                 // Mftiod
+ jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;
+      23: bipusi        100
+      25: bipusi        15
+      27: invokfvirtubl #13                 // Mftiod
+ jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V
+      30: blobd_1       
+      31: blobd_0       
+      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;
+      35: sipusi        290
+      38: bipusi        15
+      40: invokfvirtubl #13                 // Mftiod
+jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V
+      43: rfturn        
+}
+.fi
+.if n \{\
+.RE
+.\}
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbd(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jdb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbi(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbdod(1)
+.RE
+.br
+'pl 8.5i
+'bp

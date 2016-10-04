@@ -1,0 +1,874 @@
+/*
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.nft.MblformfdURLExdfption;
+
+import jbvbx.nbming.*;
+import dom.sun.nbming.intfrnbl.VfrsionHflpfr;
+import dom.sun.nbming.intfrnbl.RfsourdfMbnbgfr;
+import dom.sun.nbming.intfrnbl.FbdtoryEnumfrbtion;
+
+/**
+ * Tiis dlbss dontbins mftiods for drfbting dontfxt objfdts
+ * bnd objfdts rfffrrfd to by lodbtion informbtion in tif nbming
+ * or dirfdtory sfrvidf.
+ *<p>
+ * Tiis dlbss dbnnot bf instbntibtfd.  It ibs only stbtid mftiods.
+ *<p>
+ * Tif mfntion of URL in tif dodumfntbtion for tiis dlbss rfffrs to
+ * b URL string bs dffinfd by RFC 1738 bnd its rflbtfd RFCs. It is
+ * bny string tibt donforms to tif syntbx dfsdribfd tifrfin, bnd
+ * mby not blwbys ibvf dorrfsponding support in tif jbvb.nft.URL
+ * dlbss or Wfb browsfrs.
+ *<p>
+ * NbmingMbnbgfr is sbff for dondurrfnt bddfss by multiplf tirfbds.
+ *<p>
+ * Exdfpt bs otifrwisf notfd,
+ * b <tt>Nbmf</tt> or fnvironmfnt pbrbmftfr
+ * pbssfd to bny mftiod is ownfd by tif dbllfr.
+ * Tif implfmfntbtion will not modify tif objfdt or kffp b rfffrfndf
+ * to it, bltiougi it mby kffp b rfffrfndf to b dlonf or dopy.
+ *
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @sindf 1.3
+ */
+
+publid dlbss NbmingMbnbgfr {
+
+    /*
+     * Disbllow bnyonf from drfbting onf of tifsf.
+     * Mbdf pbdkbgf privbtf so tibt DirfdtoryMbnbgfr dbn subdlbss.
+     */
+
+    NbmingMbnbgfr() {}
+
+    // siould bf protfdtfd bnd pbdkbgf privbtf
+    stbtid finbl VfrsionHflpfr iflpfr = VfrsionHflpfr.gftVfrsionHflpfr();
+
+// --------- objfdt fbdtory stuff
+
+    /**
+     * Pbdkbgf-privbtf; usfd by DirfdtoryMbnbgfr bnd NbmingMbnbgfr.
+     */
+    privbtf stbtid ObjfdtFbdtoryBuildfr objfdt_fbdtory_buildfr = null;
+
+    /**
+     * Tif ObjfdtFbdtoryBuildfr dftfrminfs tif polidy usfd wifn
+     * trying to lobd objfdt fbdtorifs.
+     * Sff gftObjfdtInstbndf() bnd dlbss ObjfdtFbdtory for b dfsdription
+     * of tif dffbult polidy.
+     * sftObjfdtFbdtoryBuildfr() ovfrridfs tiis dffbult polidy by instblling
+     * bn ObjfdtFbdtoryBuildfr. Subsfqufnt objfdt fbdtorifs will
+     * bf lobdfd bnd drfbtfd using tif instbllfd buildfr.
+     *<p>
+     * Tif buildfr dbn only bf instbllfd if tif fxfduting tirfbd is bllowfd
+     * (by tif sfdurity mbnbgfr's difdkSftFbdtory() mftiod) to do so.
+     * Ondf instbllfd, tif buildfr dbnnot bf rfplbdfd.
+     *
+     * @pbrbm buildfr Tif fbdtory buildfr to instbll. If null, no buildfr
+     *                  is instbllfd.
+     * @fxdfption SfdurityExdfption buildfr dbnnot bf instbllfd
+     *          for sfdurity rfbsons.
+     * @fxdfption NbmingExdfption buildfr dbnnot bf instbllfd for
+     *         b non-sfdurity-rflbtfd rfbson.
+     * @fxdfption IllfgblStbtfExdfption If b fbdtory ibs blrfbdy bffn instbllfd.
+     * @sff #gftObjfdtInstbndf
+     * @sff ObjfdtFbdtory
+     * @sff ObjfdtFbdtoryBuildfr
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkSftFbdtory
+     */
+    publid stbtid syndironizfd void sftObjfdtFbdtoryBuildfr(
+            ObjfdtFbdtoryBuildfr buildfr) tirows NbmingExdfption {
+        if (objfdt_fbdtory_buildfr != null)
+            tirow nfw IllfgblStbtfExdfption("ObjfdtFbdtoryBuildfr blrfbdy sft");
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSftFbdtory();
+        }
+        objfdt_fbdtory_buildfr = buildfr;
+    }
+
+    /**
+     * Usfd for bddfssing objfdt fbdtory buildfr.
+     */
+    stbtid syndironizfd ObjfdtFbdtoryBuildfr gftObjfdtFbdtoryBuildfr() {
+        rfturn objfdt_fbdtory_buildfr;
+    }
+
+
+    /**
+     * Rftrifvfs tif ObjfdtFbdtory for tif objfdt idfntififd by b rfffrfndf,
+     * using tif rfffrfndf's fbdtory dlbss nbmf bnd fbdtory dodfbbsf
+     * to lobd in tif fbdtory's dlbss.
+     * @pbrbm rff Tif non-null rfffrfndf to usf.
+     * @pbrbm fbdtoryNbmf Tif non-null dlbss nbmf of tif fbdtory.
+     * @rfturn Tif objfdt fbdtory for tif objfdt idfntififd by rff; null
+     * if unbblf to lobd tif fbdtory.
+     */
+    stbtid ObjfdtFbdtory gftObjfdtFbdtoryFromRfffrfndf(
+        Rfffrfndf rff, String fbdtoryNbmf)
+        tirows IllfgblAddfssExdfption,
+        InstbntibtionExdfption,
+        MblformfdURLExdfption {
+        Clbss<?> dlbs = null;
+
+        // Try to usf durrfnt dlbss lobdfr
+        try {
+             dlbs = iflpfr.lobdClbss(fbdtoryNbmf);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            // ignorf bnd dontinuf
+            // f.printStbdkTrbdf();
+        }
+        // All otifr fxdfptions brf pbssfd up.
+
+        // Not in dlbss pbti; try to usf dodfbbsf
+        String dodfbbsf;
+        if (dlbs == null &&
+                (dodfbbsf = rff.gftFbdtoryClbssLodbtion()) != null) {
+            try {
+                dlbs = iflpfr.lobdClbss(fbdtoryNbmf, dodfbbsf);
+            } dbtdi (ClbssNotFoundExdfption f) {
+            }
+        }
+
+        rfturn (dlbs != null) ? (ObjfdtFbdtory) dlbs.nfwInstbndf() : null;
+    }
+
+
+    /**
+     * Crfbtfs bn objfdt using tif fbdtorifs spfdififd in tif
+     * <tt>Contfxt.OBJECT_FACTORIES</tt> propfrty of tif fnvironmfnt
+     * or of tif providfr rfsourdf filf bssodibtfd witi <tt>nbmfCtx</tt>.
+     *
+     * @rfturn fbdtory drfbtfd; null if dbnnot drfbtf
+     */
+    privbtf stbtid Objfdt drfbtfObjfdtFromFbdtorifs(Objfdt obj, Nbmf nbmf,
+            Contfxt nbmfCtx, Hbsitbblf<?,?> fnvironmfnt) tirows Exdfption {
+
+        FbdtoryEnumfrbtion fbdtorifs = RfsourdfMbnbgfr.gftFbdtorifs(
+            Contfxt.OBJECT_FACTORIES, fnvironmfnt, nbmfCtx);
+
+        if (fbdtorifs == null)
+            rfturn null;
+
+        // Try fbdi fbdtory until onf suddffds
+        ObjfdtFbdtory fbdtory;
+        Objfdt bnswfr = null;
+        wiilf (bnswfr == null && fbdtorifs.ibsMorf()) {
+            fbdtory = (ObjfdtFbdtory)fbdtorifs.nfxt();
+            bnswfr = fbdtory.gftObjfdtInstbndf(obj, nbmf, nbmfCtx, fnvironmfnt);
+        }
+        rfturn bnswfr;
+    }
+
+    privbtf stbtid String gftURLSdifmf(String str) {
+        int dolon_posn = str.indfxOf(':');
+        int slbsi_posn = str.indfxOf('/');
+
+        if (dolon_posn > 0 && (slbsi_posn == -1 || dolon_posn < slbsi_posn))
+            rfturn str.substring(0, dolon_posn);
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of bn objfdt for tif spfdififd objfdt
+     * bnd fnvironmfnt.
+     * <p>
+     * If bn objfdt fbdtory buildfr ibs bffn instbllfd, it is usfd to
+     * drfbtf b fbdtory for drfbting tif objfdt.
+     * Otifrwisf, tif following rulfs brf usfd to drfbtf tif objfdt:
+     *<ol>
+     * <li>If <dodf>rffInfo</dodf> is b <dodf>Rfffrfndf</dodf>
+     *    or <dodf>Rfffrfndfbblf</dodf> dontbining b fbdtory dlbss nbmf,
+     *    usf tif nbmfd fbdtory to drfbtf tif objfdt.
+     *    Rfturn <dodf>rffInfo</dodf> if tif fbdtory dbnnot bf drfbtfd.
+     *    Undfr JDK 1.1, if tif fbdtory dlbss must bf lobdfd from b lodbtion
+     *    spfdififd in tif rfffrfndf, b <tt>SfdurityMbnbgfr</tt> must ibvf
+     *    bffn instbllfd or tif fbdtory drfbtion will fbil.
+     *    If bn fxdfption is fndountfrfd wiilf drfbting tif fbdtory,
+     *    it is pbssfd up to tif dbllfr.
+     * <li>If <tt>rffInfo</tt> is b <tt>Rfffrfndf</tt> or
+     *    <tt>Rfffrfndfbblf</tt> witi no fbdtory dlbss nbmf,
+     *    bnd tif bddrfss or bddrfssfs brf <tt>StringRffAddr</tt>s witi
+     *    bddrfss typf "URL",
+     *    try tif URL dontfxt fbdtory dorrfsponding to fbdi URL's sdifmf id
+     *    to drfbtf tif objfdt (sff <tt>gftURLContfxt()</tt>).
+     *    If tibt fbils, dontinuf to tif nfxt stfp.
+     * <li> Usf tif objfdt fbdtorifs spfdififd in
+     *    tif <tt>Contfxt.OBJECT_FACTORIES</tt> propfrty of tif fnvironmfnt,
+     *    bnd of tif providfr rfsourdf filf bssodibtfd witi
+     *    <tt>nbmfCtx</tt>, in tibt ordfr.
+     *    Tif vbluf of tiis propfrty is b dolon-sfpbrbtfd list of fbdtory
+     *    dlbss nbmfs tibt brf trifd in ordfr, bnd tif first onf tibt suddffds
+     *    in drfbting bn objfdt is tif onf usfd.
+     *    If nonf of tif fbdtorifs dbn bf lobdfd,
+     *    rfturn <dodf>rffInfo</dodf>.
+     *    If bn fxdfption is fndountfrfd wiilf drfbting tif objfdt, tif
+     *    fxdfption is pbssfd up to tif dbllfr.
+     *</ol>
+     *<p>
+     * Sfrvidf providfrs tibt implfmfnt tif <tt>DirContfxt</tt>
+     * intfrfbdf siould usf
+     * <tt>DirfdtoryMbnbgfr.gftObjfdtInstbndf()</tt>, not tiis mftiod.
+     * Sfrvidf providfrs tibt implfmfnt only tif <tt>Contfxt</tt>
+     * intfrfbdf siould usf tiis mftiod.
+     * <p>
+     * Notf tibt bn objfdt fbdtory (bn objfdt tibt implfmfnts tif ObjfdtFbdtory
+     * intfrfbdf) must bf publid bnd must ibvf b publid donstrudtor tibt
+     * bddfpts no brgumfnts.
+     * <p>
+     * Tif <dodf>nbmf</dodf> bnd <dodf>nbmfCtx</dodf> pbrbmftfrs mby
+     * optionblly bf usfd to spfdify tif nbmf of tif objfdt bfing drfbtfd.
+     * <dodf>nbmf</dodf> is tif nbmf of tif objfdt, rflbtivf to dontfxt
+     * <dodf>nbmfCtx</dodf>.  Tiis informbtion dould bf usfful to tif objfdt
+     * fbdtory or to tif objfdt implfmfntbtion.
+     *  If tifrf brf sfvfrbl possiblf dontfxts from wiidi tif objfdt
+     *  dould bf nbmfd -- bs will oftfn bf tif dbsf -- it is up to
+     *  tif dbllfr to sflfdt onf.  A good rulf of tiumb is to sflfdt tif
+     * "dffpfst" dontfxt bvbilbblf.
+     * If <dodf>nbmfCtx</dodf> is null, <dodf>nbmf</dodf> is rflbtivf
+     * to tif dffbult initibl dontfxt.  If no nbmf is bfing spfdififd, tif
+     * <dodf>nbmf</dodf> pbrbmftfr siould bf null.
+     *
+     * @pbrbm rffInfo Tif possibly null objfdt for wiidi to drfbtf bn objfdt.
+     * @pbrbm nbmf Tif nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>.
+     *          Spfdifying b nbmf is optionbl; if it is
+     *          omittfd, <dodf>nbmf</dodf> siould bf null.
+     * @pbrbm nbmfCtx Tif dontfxt rflbtivf to wiidi tif <dodf>nbmf</dodf>
+     *          pbrbmftfr is spfdififd.  If null, <dodf>nbmf</dodf> is
+     *          rflbtivf to tif dffbult initibl dontfxt.
+     * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt to
+     *          bf usfd in tif drfbtion of tif objfdt fbdtory bnd tif objfdt.
+     * @rfturn An objfdt drfbtfd using <dodf>rffInfo</dodf>; or
+     *          <dodf>rffInfo</dodf> if bn objfdt dbnnot bf drfbtfd using
+     *          tif blgoritim dfsdribfd bbovf.
+     * @fxdfption NbmingExdfption if b nbming fxdfption wbs fndountfrfd
+     *  wiilf bttfmpting to gft b URL dontfxt, or if onf of tif
+     *          fbdtorifs bddfssfd tirows b NbmingExdfption.
+     * @fxdfption Exdfption if onf of tif fbdtorifs bddfssfd tirows bn
+     *          fxdfption, or if bn frror wbs fndountfrfd wiilf lobding
+     *          bnd instbntibting tif fbdtory bnd objfdt dlbssfs.
+     *          A fbdtory siould only tirow bn fxdfption if it dofs not wbnt
+     *          otifr fbdtorifs to bf usfd in bn bttfmpt to drfbtf bn objfdt.
+     *  Sff ObjfdtFbdtory.gftObjfdtInstbndf().
+     * @sff #gftURLContfxt
+     * @sff ObjfdtFbdtory
+     * @sff ObjfdtFbdtory#gftObjfdtInstbndf
+     */
+    publid stbtid Objfdt
+        gftObjfdtInstbndf(Objfdt rffInfo, Nbmf nbmf, Contfxt nbmfCtx,
+                          Hbsitbblf<?,?> fnvironmfnt)
+        tirows Exdfption
+    {
+
+        ObjfdtFbdtory fbdtory;
+
+        // Usf buildfr if instbllfd
+        ObjfdtFbdtoryBuildfr buildfr = gftObjfdtFbdtoryBuildfr();
+        if (buildfr != null) {
+            // buildfr must rfturn non-null fbdtory
+            fbdtory = buildfr.drfbtfObjfdtFbdtory(rffInfo, fnvironmfnt);
+            rfturn fbdtory.gftObjfdtInstbndf(rffInfo, nbmf, nbmfCtx,
+                fnvironmfnt);
+        }
+
+        // Usf rfffrfndf if possiblf
+        Rfffrfndf rff = null;
+        if (rffInfo instbndfof Rfffrfndf) {
+            rff = (Rfffrfndf) rffInfo;
+        } flsf if (rffInfo instbndfof Rfffrfndfbblf) {
+            rff = ((Rfffrfndfbblf)(rffInfo)).gftRfffrfndf();
+        }
+
+        Objfdt bnswfr;
+
+        if (rff != null) {
+            String f = rff.gftFbdtoryClbssNbmf();
+            if (f != null) {
+                // if rfffrfndf idfntififs b fbdtory, usf fxdlusivfly
+
+                fbdtory = gftObjfdtFbdtoryFromRfffrfndf(rff, f);
+                if (fbdtory != null) {
+                    rfturn fbdtory.gftObjfdtInstbndf(rff, nbmf, nbmfCtx,
+                                                     fnvironmfnt);
+                }
+                // No fbdtory found, so rfturn originbl rffInfo.
+                // Will rfbdi tiis point if fbdtory dlbss is not in
+                // dlbss pbti bnd rfffrfndf dofs not dontbin b URL for it
+                rfturn rffInfo;
+
+            } flsf {
+                // if rfffrfndf ibs no fbdtory, difdk for bddrfssfs
+                // dontbining URLs
+
+                bnswfr = prodfssURLAddrs(rff, nbmf, nbmfCtx, fnvironmfnt);
+                if (bnswfr != null) {
+                    rfturn bnswfr;
+                }
+            }
+        }
+
+        // try using bny spfdififd fbdtorifs
+        bnswfr =
+            drfbtfObjfdtFromFbdtorifs(rffInfo, nbmf, nbmfCtx, fnvironmfnt);
+        rfturn (bnswfr != null) ? bnswfr : rffInfo;
+    }
+
+    /*
+     * Rff ibs no fbdtory.  For fbdi bddrfss of typf "URL", try its URL
+     * dontfxt fbdtory.  Rfturns null if unsuddfssful in drfbting bnd
+     * invoking b fbdtory.
+     */
+    stbtid Objfdt prodfssURLAddrs(Rfffrfndf rff, Nbmf nbmf, Contfxt nbmfCtx,
+                                  Hbsitbblf<?,?> fnvironmfnt)
+            tirows NbmingExdfption {
+
+        for (int i = 0; i < rff.sizf(); i++) {
+            RffAddr bddr = rff.gft(i);
+            if (bddr instbndfof StringRffAddr &&
+                bddr.gftTypf().fqublsIgnorfCbsf("URL")) {
+
+                String url = (String)bddr.gftContfnt();
+                Objfdt bnswfr = prodfssURL(url, nbmf, nbmfCtx, fnvironmfnt);
+                if (bnswfr != null) {
+                    rfturn bnswfr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid Objfdt prodfssURL(Objfdt rffInfo, Nbmf nbmf,
+                                     Contfxt nbmfCtx, Hbsitbblf<?,?> fnvironmfnt)
+            tirows NbmingExdfption {
+        Objfdt bnswfr;
+
+        // If rffInfo is b URL string, try to usf its URL dontfxt fbdtory
+        // If no dontfxt found, dontinuf to try objfdt fbdtorifs.
+        if (rffInfo instbndfof String) {
+            String url = (String)rffInfo;
+            String sdifmf = gftURLSdifmf(url);
+            if (sdifmf != null) {
+                bnswfr = gftURLObjfdt(sdifmf, rffInfo, nbmf, nbmfCtx,
+                                      fnvironmfnt);
+                if (bnswfr != null) {
+                    rfturn bnswfr;
+                }
+            }
+        }
+
+        // If rffInfo is bn brrby of URL strings,
+        // try to find b dontfxt fbdtory for bny onf of its URLs.
+        // If no dontfxt found, dontinuf to try objfdt fbdtorifs.
+        if (rffInfo instbndfof String[]) {
+            String[] urls = (String[])rffInfo;
+            for (int i = 0; i <urls.lfngti; i++) {
+                String sdifmf = gftURLSdifmf(urls[i]);
+                if (sdifmf != null) {
+                    bnswfr = gftURLObjfdt(sdifmf, rffInfo, nbmf, nbmfCtx,
+                                          fnvironmfnt);
+                    if (bnswfr != null)
+                        rfturn bnswfr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Rftrifvfs b dontfxt idfntififd by <dodf>obj</dodf>, using tif spfdififd
+     * fnvironmfnt.
+     * Usfd by ContinubtionContfxt.
+     *
+     * @pbrbm obj       Tif objfdt idfntifying tif dontfxt.
+     * @pbrbm nbmf      Tif nbmf of tif dontfxt bfing rfturnfd, rflbtivf to
+     *                  <dodf>nbmfCtx</dodf>, or null if no nbmf is bfing
+     *                  spfdififd.
+     *                  Sff tif <dodf>gftObjfdtInstbndf</dodf> mftiod for
+     *                  dftbils.
+     * @pbrbm nbmfCtx   Tif dontfxt rflbtivf to wiidi <dodf>nbmf</dodf> is
+     *                  spfdififd, or null for tif dffbult initibl dontfxt.
+     *                  Sff tif <dodf>gftObjfdtInstbndf</dodf> mftiod for
+     *                  dftbils.
+     * @pbrbm fnvironmfnt Environmfnt spfdifying dibrbdtfristids of tif
+     *                  rfsulting dontfxt.
+     * @rfturn A dontfxt idfntififd by <dodf>obj</dodf>.
+     *
+     * @sff #gftObjfdtInstbndf
+     */
+    stbtid Contfxt gftContfxt(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                              Hbsitbblf<?,?> fnvironmfnt) tirows NbmingExdfption {
+        Objfdt bnswfr;
+
+        if (obj instbndfof Contfxt) {
+            // %%% Ignorf fnvironmfnt for now.  OK sindf mftiod not publid.
+            rfturn (Contfxt)obj;
+        }
+
+        try {
+            bnswfr = gftObjfdtInstbndf(obj, nbmf, nbmfCtx, fnvironmfnt);
+        } dbtdi (NbmingExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
+        }
+
+        rfturn (bnswfr instbndfof Contfxt)
+            ? (Contfxt)bnswfr
+            : null;
+    }
+
+    // Usfd by ContinubtionContfxt
+    stbtid Rfsolvfr gftRfsolvfr(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                                Hbsitbblf<?,?> fnvironmfnt) tirows NbmingExdfption {
+        Objfdt bnswfr;
+
+        if (obj instbndfof Rfsolvfr) {
+            // %%% Ignorf fnvironmfnt for now.  OK sindf mftiod not publid.
+            rfturn (Rfsolvfr)obj;
+        }
+
+        try {
+            bnswfr = gftObjfdtInstbndf(obj, nbmf, nbmfCtx, fnvironmfnt);
+        } dbtdi (NbmingExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
+        }
+
+        rfturn (bnswfr instbndfof Rfsolvfr)
+            ? (Rfsolvfr)bnswfr
+            : null;
+    }
+
+
+    /***************** URL Contfxt implfmfntbtions ***************/
+
+    /**
+     * Crfbtfs b dontfxt for tif givfn URL sdifmf id.
+     * <p>
+     * Tif rfsulting dontfxt is for rfsolving URLs of tif
+     * sdifmf <dodf>sdifmf</dodf>. Tif rfsulting dontfxt is not tifd
+     * to b spfdifid URL. It is bblf to ibndlf brbitrbry URLs witi
+     * tif spfdififd sdifmf.
+     *<p>
+     * Tif dlbss nbmf of tif fbdtory tibt drfbtfs tif rfsulting dontfxt
+     * ibs tif nbming donvfntion <i>sdifmf-id</i>URLContfxtFbdtory
+     * (f.g. "ftpURLContfxtFbdtory" for tif "ftp" sdifmf-id),
+     * in tif pbdkbgf spfdififd bs follows.
+     * Tif <tt>Contfxt.URL_PKG_PREFIXES</tt> fnvironmfnt propfrty (wiidi
+     * mby dontbin vblufs tbkfn from systfm propfrtifs,
+     * or bpplidbtion rfsourdf filfs)
+     * dontbins b dolon-sfpbrbtfd list of pbdkbgf prffixfs.
+     * Ebdi pbdkbgf prffix in
+     * tif propfrty is trifd in tif ordfr spfdififd to lobd tif fbdtory dlbss.
+     * Tif dffbult pbdkbgf prffix is "dom.sun.jndi.url" (if nonf of tif
+     * spfdififd pbdkbgfs work, tiis dffbult is trifd).
+     * Tif domplftf pbdkbgf nbmf is donstrudtfd using tif pbdkbgf prffix,
+     * dondbtfnbtfd witi tif sdifmf id.
+     *<p>
+     * For fxbmplf, if tif sdifmf id is "ldbp", bnd tif
+     * <tt>Contfxt.URL_PKG_PREFIXES</tt> propfrty
+     * dontbins "dom.widgft:dom.wiz.jndi",
+     * tif nbming mbnbgfr would bttfmpt to lobd tif following dlbssfs
+     * until onf is suddfssfully instbntibtfd:
+     *<ul>
+     * <li>dom.widgft.ldbp.ldbpURLContfxtFbdtory
+     *  <li>dom.wiz.jndi.ldbp.ldbpURLContfxtFbdtory
+     *  <li>dom.sun.jndi.url.ldbp.ldbpURLContfxtFbdtory
+     *</ul>
+     * If nonf of tif pbdkbgf prffixfs work, null is rfturnfd.
+     *<p>
+     * If b fbdtory is instbntibtfd, it is invokfd witi tif following
+     * pbrbmftfrs to produdf tif rfsulting dontfxt.
+     * <p>
+     * <dodf>fbdtory.gftObjfdtInstbndf(null, fnvironmfnt);</dodf>
+     * <p>
+     * For fxbmplf, invoking gftObjfdtInstbndf() bs siown bbovf
+     * on b LDAP URL dontfxt fbdtory would rfturn b
+     * dontfxt tibt dbn rfsolvf LDAP urls
+     * (f.g. "ldbp://ldbp.wiz.dom/o=wiz,d=us",
+     * "ldbp://ldbp.umidi.fdu/o=umidi,d=us", ...).
+     *<p>
+     * Notf tibt bn objfdt fbdtory (bn objfdt tibt implfmfnts tif ObjfdtFbdtory
+     * intfrfbdf) must bf publid bnd must ibvf b publid donstrudtor tibt
+     * bddfpts no brgumfnts.
+     *
+     * @pbrbm sdifmf    Tif non-null sdifmf-id of tif URLs supportfd by tif dontfxt.
+     * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt propfrtifs to bf
+     *           usfd in tif drfbtion of tif objfdt fbdtory bnd tif dontfxt.
+     * @rfturn A dontfxt for rfsolving URLs witi tif
+     *         sdifmf id <dodf>sdifmf</dodf>;
+     *  <dodf>null</dodf> if tif fbdtory for drfbting tif
+     *         dontfxt is not found.
+     * @fxdfption NbmingExdfption If b nbming fxdfption oddurs wiilf drfbting
+     *          tif dontfxt.
+     * @sff #gftObjfdtInstbndf
+     * @sff ObjfdtFbdtory#gftObjfdtInstbndf
+     */
+    publid stbtid Contfxt gftURLContfxt(String sdifmf,
+                                        Hbsitbblf<?,?> fnvironmfnt)
+        tirows NbmingExdfption
+    {
+        // pbss in 'null' to indidbtf drfbtion of gfnfrid dontfxt for sdifmf
+        // (i.f. not spfdifid to b URL).
+
+            Objfdt bnswfr = gftURLObjfdt(sdifmf, null, null, null, fnvironmfnt);
+            if (bnswfr instbndfof Contfxt) {
+                rfturn (Contfxt)bnswfr;
+            } flsf {
+                rfturn null;
+            }
+    }
+
+    privbtf stbtid finbl String dffbultPkgPrffix = "dom.sun.jndi.url";
+
+    /**
+     * Crfbtfs bn objfdt for tif givfn URL sdifmf id using
+     * tif supplifd urlInfo.
+     * <p>
+     * If urlInfo is null, tif rfsult is b dontfxt for rfsolving URLs
+     * witi tif sdifmf id 'sdifmf'.
+     * If urlInfo is b URL, tif rfsult is b dontfxt nbmfd by tif URL.
+     * Nbmfs pbssfd to tiis dontfxt is bssumfd to bf rflbtivf to tiis
+     * dontfxt (i.f. not b URL). For fxbmplf, if urlInfo is
+     * "ldbp://ldbp.wiz.dom/o=Wiz,d=us", tif rfsulting dontfxt will
+     * bf tibt pointfd to by "o=Wiz,d=us" on tif sfrvfr 'ldbp.wiz.dom'.
+     * Subsfqufnt nbmfs tibt dbn bf pbssfd to tiis dontfxt will bf
+     * LDAP nbmfs rflbtivf to tiis dontfxt (f.g. dn="Bbrbs Jfnsfn").
+     * If urlInfo is bn brrby of URLs, tif URLs brf bssumfd
+     * to bf fquivblfnt in tfrms of tif dontfxt to wiidi tify rfffr.
+     * Tif rfsulting dontfxt is likf tibt of tif singlf URL dbsf.
+     * If urlInfo is of bny otifr typf, tibt is ibndlfd by tif
+     * dontfxt fbdtory for tif URL sdifmf.
+     * @pbrbm sdifmf tif URL sdifmf id for tif dontfxt
+     * @pbrbm urlInfo informbtion usfd to drfbtf tif dontfxt
+     * @pbrbm nbmf nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>
+     * @pbrbm nbmfCtx Contfxt wiosf providfr rfsourdf filf will bf sfbrdifd
+     *          for pbdkbgf prffix vblufs (or null if nonf)
+     * @pbrbm fnvironmfnt Environmfnt propfrtifs for drfbting tif dontfxt
+     * @sff jbvbx.nbming.InitiblContfxt
+     */
+    privbtf stbtid Objfdt gftURLObjfdt(String sdifmf, Objfdt urlInfo,
+                                       Nbmf nbmf, Contfxt nbmfCtx,
+                                       Hbsitbblf<?,?> fnvironmfnt)
+            tirows NbmingExdfption {
+
+        // f.g. "ftpURLContfxtFbdtory"
+        ObjfdtFbdtory fbdtory = (ObjfdtFbdtory)RfsourdfMbnbgfr.gftFbdtory(
+            Contfxt.URL_PKG_PREFIXES, fnvironmfnt, nbmfCtx,
+            "." + sdifmf + "." + sdifmf + "URLContfxtFbdtory", dffbultPkgPrffix);
+
+        if (fbdtory == null)
+          rfturn null;
+
+        // Found objfdt fbdtory
+        try {
+            rfturn fbdtory.gftObjfdtInstbndf(urlInfo, nbmf, nbmfCtx, fnvironmfnt);
+        } dbtdi (NbmingExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
+        }
+
+    }
+
+
+// ------------ Initibl Contfxt Fbdtory Stuff
+    privbtf stbtid InitiblContfxtFbdtoryBuildfr initdtx_fbdtory_buildfr = null;
+
+    /**
+     * Usf tiis mftiod for bddfssing initdtx_fbdtory_buildfr wiilf
+     * insidf bn unsyndironizfd mftiod.
+     */
+    privbtf stbtid syndironizfd InitiblContfxtFbdtoryBuildfr
+    gftInitiblContfxtFbdtoryBuildfr() {
+        rfturn initdtx_fbdtory_buildfr;
+    }
+
+    /**
+     * Crfbtfs bn initibl dontfxt using tif spfdififd fnvironmfnt
+     * propfrtifs.
+     *<p>
+     * If bn InitiblContfxtFbdtoryBuildfr ibs bffn instbllfd,
+     * it is usfd to drfbtf tif fbdtory for drfbting tif initibl dontfxt.
+     * Otifrwisf, tif dlbss spfdififd in tif
+     * <tt>Contfxt.INITIAL_CONTEXT_FACTORY</tt> fnvironmfnt propfrty is usfd.
+     * Notf tibt bn initibl dontfxt fbdtory (bn objfdt tibt implfmfnts tif
+     * InitiblContfxtFbdtory intfrfbdf) must bf publid bnd must ibvf b
+     * publid donstrudtor tibt bddfpts no brgumfnts.
+     *
+     * @pbrbm fnv Tif possibly null fnvironmfnt propfrtifs usfd wifn
+     *                  drfbting tif dontfxt.
+     * @rfturn A non-null initibl dontfxt.
+     * @fxdfption NoInitiblContfxtExdfption If tif
+     *          <tt>Contfxt.INITIAL_CONTEXT_FACTORY</tt> propfrty
+     *         is not found or nbmfs b nonfxistfnt
+     *         dlbss or b dlbss tibt dbnnot bf instbntibtfd,
+     *          or if tif initibl dontfxt dould not bf drfbtfd for somf otifr
+     *          rfbson.
+     * @fxdfption NbmingExdfption If somf otifr nbming fxdfption wbs fndountfrfd.
+     * @sff jbvbx.nbming.InitiblContfxt
+     * @sff jbvbx.nbming.dirfdtory.InitiblDirContfxt
+     */
+    publid stbtid Contfxt gftInitiblContfxt(Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
+        InitiblContfxtFbdtory fbdtory;
+
+        InitiblContfxtFbdtoryBuildfr buildfr = gftInitiblContfxtFbdtoryBuildfr();
+        if (buildfr == null) {
+            // No fbdtory instbllfd, usf propfrty
+            // Gft initibl dontfxt fbdtory dlbss nbmf
+
+            String dlbssNbmf = fnv != null ?
+                (String)fnv.gft(Contfxt.INITIAL_CONTEXT_FACTORY) : null;
+            if (dlbssNbmf == null) {
+                NoInitiblContfxtExdfption nf = nfw NoInitiblContfxtExdfption(
+                    "Nffd to spfdify dlbss nbmf in fnvironmfnt or systfm " +
+                    "propfrty, or in bn bpplidbtion rfsourdf filf: " +
+                    Contfxt.INITIAL_CONTEXT_FACTORY);
+                tirow nf;
+            }
+
+            try {
+                fbdtory = (InitiblContfxtFbdtory)
+                    iflpfr.lobdClbss(dlbssNbmf).nfwInstbndf();
+            } dbtdi(Exdfption f) {
+                NoInitiblContfxtExdfption nf =
+                    nfw NoInitiblContfxtExdfption(
+                        "Cbnnot instbntibtf dlbss: " + dlbssNbmf);
+                nf.sftRootCbusf(f);
+                tirow nf;
+            }
+        } flsf {
+            fbdtory = buildfr.drfbtfInitiblContfxtFbdtory(fnv);
+        }
+
+        rfturn fbdtory.gftInitiblContfxt(fnv);
+    }
+
+
+    /**
+     * Sfts tif InitiblContfxtFbdtory buildfr to bf buildfr.
+     *
+     *<p>
+     * Tif buildfr dbn only bf instbllfd if tif fxfduting tirfbd is bllowfd by
+     * tif sfdurity mbnbgfr to do so. Ondf instbllfd, tif buildfr dbnnot
+     * bf rfplbdfd.
+     * @pbrbm buildfr Tif initibl dontfxt fbdtory buildfr to instbll. If null,
+     *                no buildfr is sft.
+     * @fxdfption SfdurityExdfption buildfr dbnnot bf instbllfd for sfdurity
+     *                  rfbsons.
+     * @fxdfption NbmingExdfption buildfr dbnnot bf instbllfd for
+     *         b non-sfdurity-rflbtfd rfbson.
+     * @fxdfption IllfgblStbtfExdfption If b buildfr wbs prfvious instbllfd.
+     * @sff #ibsInitiblContfxtFbdtoryBuildfr
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkSftFbdtory
+     */
+    publid stbtid syndironizfd void sftInitiblContfxtFbdtoryBuildfr(
+        InitiblContfxtFbdtoryBuildfr buildfr)
+        tirows NbmingExdfption {
+            if (initdtx_fbdtory_buildfr != null)
+                tirow nfw IllfgblStbtfExdfption(
+                    "InitiblContfxtFbdtoryBuildfr blrfbdy sft");
+
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkSftFbdtory();
+            }
+            initdtx_fbdtory_buildfr = buildfr;
+    }
+
+    /**
+     * Dftfrminfs wiftifr bn initibl dontfxt fbdtory buildfr ibs
+     * bffn sft.
+     * @rfturn truf if bn initibl dontfxt fbdtory buildfr ibs
+     *           bffn sft; fblsf otifrwisf.
+     * @sff #sftInitiblContfxtFbdtoryBuildfr
+     */
+    publid stbtid boolfbn ibsInitiblContfxtFbdtoryBuildfr() {
+        rfturn (gftInitiblContfxtFbdtoryBuildfr() != null);
+    }
+
+// -----  Continubtion Contfxt Stuff
+
+    /**
+     * Constbnt tibt iolds tif nbmf of tif fnvironmfnt propfrty into
+     * wiidi <tt>gftContinubtionContfxt()</tt> storfs tif vbluf of its
+     * <tt>CbnnotProdffdExdfption</tt> pbrbmftfr.
+     * Tiis propfrty is inifritfd by tif dontinubtion dontfxt, bnd mby
+     * bf usfd by tibt dontfxt's sfrvidf providfr to inspfdt tif
+     * fiflds of tif fxdfption.
+     *<p>
+     * Tif vbluf of tiis donstbnt is "jbvb.nbming.spi.CbnnotProdffdExdfption".
+     *
+     * @sff #gftContinubtionContfxt
+     * @sindf 1.3
+     */
+    publid stbtid finbl String CPE = "jbvb.nbming.spi.CbnnotProdffdExdfption";
+
+    /**
+     * Crfbtfs b dontfxt in wiidi to dontinuf b dontfxt opfrbtion.
+     *<p>
+     * In pfrforming bn opfrbtion on b nbmf tibt spbns multiplf
+     * nbmfspbdfs, b dontfxt from onf nbming systfm mby nffd to pbss
+     * tif opfrbtion on to tif nfxt nbming systfm.  Tif dontfxt
+     * implfmfntbtion dofs tiis by first donstrudting b
+     * <dodf>CbnnotProdffdExdfption</dodf> dontbining informbtion
+     * pinpointing iow fbr it ibs prodffdfd.  It tifn obtbins b
+     * dontinubtion dontfxt from JNDI by dblling
+     * <dodf>gftContinubtionContfxt</dodf>.  Tif dontfxt
+     * implfmfntbtion siould tifn rfsumf tif dontfxt opfrbtion by
+     * invoking tif sbmf opfrbtion on tif dontinubtion dontfxt, using
+     * tif rfmbindfr of tif nbmf tibt ibs not yft bffn rfsolvfd.
+     *<p>
+     * Bfforf mbking usf of tif <tt>dpf</tt> pbrbmftfr, tiis mftiod
+     * updbtfs tif fnvironmfnt bssodibtfd witi tibt objfdt by sftting
+     * tif vbluf of tif propfrty <b irff="#CPE"><tt>CPE</tt></b>
+     * to <tt>dpf</tt>.  Tiis propfrty will bf inifritfd by tif
+     * dontinubtion dontfxt, bnd mby bf usfd by tibt dontfxt's
+     * sfrvidf providfr to inspfdt tif fiflds of tiis fxdfption.
+     *
+     * @pbrbm dpf
+     *          Tif non-null fxdfption tibt triggfrfd tiis dontinubtion.
+     * @rfturn A non-null Contfxt objfdt for dontinuing tif opfrbtion.
+     * @fxdfption NbmingExdfption If b nbming fxdfption oddurrfd.
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid Contfxt gftContinubtionContfxt(CbnnotProdffdExdfption dpf)
+            tirows NbmingExdfption {
+
+        Hbsitbblf<Objfdt,Objfdt> fnv = (Hbsitbblf<Objfdt,Objfdt>)dpf.gftEnvironmfnt();
+        if (fnv == null) {
+            fnv = nfw Hbsitbblf<>(7);
+        } flsf {
+            // Mbkf b (sibllow) dopy of tif fnvironmfnt.
+            fnv = (Hbsitbblf<Objfdt,Objfdt>)fnv.dlonf();
+        }
+        fnv.put(CPE, dpf);
+
+        ContinubtionContfxt ddtx = nfw ContinubtionContfxt(dpf, fnv);
+        rfturn ddtx.gftTbrgftContfxt();
+    }
+
+// ------------ Stbtf Fbdtory Stuff
+
+    /**
+     * Rftrifvfs tif stbtf of bn objfdt for binding.
+     * <p>
+     * Sfrvidf providfrs tibt implfmfnt tif <tt>DirContfxt</tt> intfrfbdf
+     * siould usf <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>, not tiis mftiod.
+     * Sfrvidf providfrs tibt implfmfnt only tif <tt>Contfxt</tt> intfrfbdf
+     * siould usf tiis mftiod.
+     *<p>
+     * Tiis mftiod usfs tif spfdififd stbtf fbdtorifs in
+     * tif <tt>Contfxt.STATE_FACTORIES</tt> propfrty from tif fnvironmfnt
+     * propfrtifs, bnd from tif providfr rfsourdf filf bssodibtfd witi
+     * <tt>nbmfCtx</tt>, in tibt ordfr.
+     *    Tif vbluf of tiis propfrty is b dolon-sfpbrbtfd list of fbdtory
+     *    dlbss nbmfs tibt brf trifd in ordfr, bnd tif first onf tibt suddffds
+     *    in rfturning tif objfdt's stbtf is tif onf usfd.
+     * If no objfdt's stbtf dbn bf rftrifvfd in tiis wby, rfturn tif
+     * objfdt itsflf.
+     *    If bn fxdfption is fndountfrfd wiilf rftrifving tif stbtf, tif
+     *    fxdfption is pbssfd up to tif dbllfr.
+     * <p>
+     * Notf tibt b stbtf fbdtory
+     * (bn objfdt tibt implfmfnts tif StbtfFbdtory
+     * intfrfbdf) must bf publid bnd must ibvf b publid donstrudtor tibt
+     * bddfpts no brgumfnts.
+     * <p>
+     * Tif <dodf>nbmf</dodf> bnd <dodf>nbmfCtx</dodf> pbrbmftfrs mby
+     * optionblly bf usfd to spfdify tif nbmf of tif objfdt bfing drfbtfd.
+     * Sff tif dfsdription of "Nbmf bnd Contfxt Pbrbmftfrs" in
+     * {@link ObjfdtFbdtory#gftObjfdtInstbndf
+     *          ObjfdtFbdtory.gftObjfdtInstbndf()}
+     * for dftbils.
+     * <p>
+     * Tiis mftiod mby rfturn b <tt>Rfffrfndfbblf</tt> objfdt.  Tif
+     * sfrvidf providfr obtbining tiis objfdt mby dioosf to storf it
+     * dirfdtly, or to fxtrbdt its rfffrfndf (using
+     * <tt>Rfffrfndfbblf.gftRfffrfndf()</tt>) bnd storf tibt instfbd.
+     *
+     * @pbrbm obj Tif non-null objfdt for wiidi to gft stbtf to bind.
+     * @pbrbm nbmf Tif nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>,
+     *          or null if no nbmf is spfdififd.
+     * @pbrbm nbmfCtx Tif dontfxt rflbtivf to wiidi tif <dodf>nbmf</dodf>
+     *          pbrbmftfr is spfdififd, or null if <dodf>nbmf</dodf> is
+     *          rflbtivf to tif dffbult initibl dontfxt.
+     *  @pbrbm fnvironmfnt Tif possibly null fnvironmfnt to
+     *          bf usfd in tif drfbtion of tif stbtf fbdtory bnd
+     *  tif objfdt's stbtf.
+     * @rfturn Tif non-null objfdt rfprfsfnting <tt>obj</tt>'s stbtf for
+     *  binding.  It dould bf tif objfdt (<tt>obj</tt>) itsflf.
+     * @fxdfption NbmingExdfption If onf of tif fbdtorifs bddfssfd tirows bn
+     *          fxdfption, or if bn frror wbs fndountfrfd wiilf lobding
+     *          bnd instbntibting tif fbdtory bnd objfdt dlbssfs.
+     *          A fbdtory siould only tirow bn fxdfption if it dofs not wbnt
+     *          otifr fbdtorifs to bf usfd in bn bttfmpt to drfbtf bn objfdt.
+     *  Sff <tt>StbtfFbdtory.gftStbtfToBind()</tt>.
+     * @sff StbtfFbdtory
+     * @sff StbtfFbdtory#gftStbtfToBind
+     * @sff DirfdtoryMbnbgfr#gftStbtfToBind
+     * @sindf 1.3
+     */
+    publid stbtid Objfdt
+        gftStbtfToBind(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                       Hbsitbblf<?,?> fnvironmfnt)
+        tirows NbmingExdfption
+    {
+
+        FbdtoryEnumfrbtion fbdtorifs = RfsourdfMbnbgfr.gftFbdtorifs(
+            Contfxt.STATE_FACTORIES, fnvironmfnt, nbmfCtx);
+
+        if (fbdtorifs == null) {
+            rfturn obj;
+        }
+
+        // Try fbdi fbdtory until onf suddffds
+        StbtfFbdtory fbdtory;
+        Objfdt bnswfr = null;
+        wiilf (bnswfr == null && fbdtorifs.ibsMorf()) {
+            fbdtory = (StbtfFbdtory)fbdtorifs.nfxt();
+            bnswfr = fbdtory.gftStbtfToBind(obj, nbmf, nbmfCtx, fnvironmfnt);
+        }
+
+        rfturn (bnswfr != null) ? bnswfr : obj;
+    }
+}

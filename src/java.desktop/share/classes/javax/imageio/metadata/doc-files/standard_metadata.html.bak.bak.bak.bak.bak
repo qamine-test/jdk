@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
+<!--
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+
+<titlf>Stbndbrd Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
+
+<body bgdolor="wiitf">
+
+<dfntfr><i1>
+Stbndbrd (Plug-in Nfutrbl) Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
+
+<p> Tif plug-in nfutrbl "jbvbx_imbgfio_1.0" formbt donsists
+of b root nodf nbmfd "jbvbx_imbgfio_1.0" wiidi ibs diild
+nodfs "diromb", "domprfssion", "dimfnsion", "dodumfnt", "tfxt",
+"tilf", bnd "trbnspbrfndy".  Tif formbt is dfsdribfd by tif
+following DTD:
+
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_1.0" [
+
+  &lt;!ELEMENT "jbvbx_imbgfio_1.0" (Ciromb?, Comprfssion?, Dbtb?, Dimfnsion?, 
+    Dodumfnt?, Tfxt?, Trbnspbrfndy?)&gt;
+
+    &lt;!ELEMENT "Ciromb" (ColorSpbdfTypf?, NumCibnnfls?, Gbmmb?, 
+      BlbdkIsZfro?, Pblfttf?, BbdkgroundIndfx?, BbdkgroundColor?)&gt;
+      &lt;!-- Ciromb (dolor) informbtion --&gt; 
+
+      &lt;!ELEMENT "ColorSpbdfTypf" EMPTY&gt;
+        &lt;!-- Tif rbw dolor spbdf of tif imbgf --&gt; 
+        &lt;!ATTLIST "ColorSpbdfTypf" "nbmf" ("XYZ" | "Lbb" | "Luv" | 
+          "YCbCr" | "Yxy" | "YCCK" | "PiotoYCC" | "RGB" | "GRAY" | "HSV" | 
+          "HLS" | "CMYK" | "CMY" | "2CLR" | "3CLR" | "4CLR" | "5CLR" | 
+          "6CLR" | "7CLR" | "8CLR" | "9CLR" | "ACLR" | "BCLR" | "CCLR" | 
+          "DCLR" | "ECLR" | "FCLR") #REQUIRED&gt;
+
+      &lt;!ELEMENT "NumCibnnfls" EMPTY&gt;
+        &lt;!-- Tif numbfr of dibnnfls in tif rbw imbgf, indluding blpib --&gt; 
+        &lt;!ATTLIST "NumCibnnfls" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: List of Intfgfr --&gt;
+
+      &lt;!ELEMENT "Gbmmb" EMPTY&gt;
+        &lt;!-- Tif imbgf gbmmb --&gt; 
+        &lt;!ATTLIST "Gbmmb" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "BlbdkIsZfro" EMPTY&gt;
+        &lt;!-- Truf if smbllfr vblufs rfprfsfnt dbrkfr sibdfs --&gt; 
+        &lt;!ATTLIST "BlbdkIsZfro" "vbluf" ("TRUE" | "FALSE") "TRUE"&gt;
+
+      &lt;!ELEMENT "Pblfttf" (PblfttfEntry)*&gt;
+        &lt;!-- Pblfttf-dolor informbtion --&gt; 
+
+        &lt;!ELEMENT "PblfttfEntry" EMPTY&gt;
+          &lt;!-- A pblfttf fntry --&gt; 
+          &lt;!ATTLIST "PblfttfEntry" "indfx" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif indfx of tif pblfttf fntry --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "PblfttfEntry" "rfd" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif rfd vbluf for tif pblfttf fntry --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "PblfttfEntry" "grffn" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif grffn vbluf for tif pblfttf fntry --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "PblfttfEntry" "bluf" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif bluf vbluf for tif pblfttf fntry --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "PblfttfEntry" "blpib" #CDATA "255"&gt;
+            &lt;!-- Tif blpib vbluf for tif pblfttf fntry --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "BbdkgroundIndfx" EMPTY&gt;
+        &lt;!-- A pblfttf indfx to bf usfd bs b bbdkground --&gt; 
+        &lt;!ATTLIST "BbdkgroundIndfx" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "BbdkgroundColor" EMPTY&gt;
+        &lt;!-- An RGB triplf to bf usfd bs b bbdkground --&gt; 
+        &lt;!ATTLIST "BbdkgroundColor" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd bbdkground vbluf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "BbdkgroundColor" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn bbdkground vbluf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "BbdkgroundColor" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf bbdkground vbluf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+    &lt;!ELEMENT "Comprfssion" (ComprfssionTypfNbmf?, Losslfss?, 
+      NumProgrfssivfSdbns?, BitRbtf?)&gt;
+      &lt;!-- Comprfssion informbtion --&gt; 
+
+      &lt;!ELEMENT "ComprfssionTypfNbmf" EMPTY&gt;
+        &lt;!-- Tif nbmf of tif domprfssion sdifmf in usf --&gt; 
+        &lt;!ATTLIST "ComprfssionTypfNbmf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+
+      &lt;!ELEMENT "Losslfss" EMPTY&gt;
+        &lt;!-- Truf if tif domprfssion sdifmf is losslfss --&gt; 
+        &lt;!ATTLIST "Losslfss" "vbluf" ("TRUE" | "FALSE") "TRUE"&gt;
+
+      &lt;!ELEMENT "NumProgrfssivfSdbns" EMPTY&gt;
+        &lt;!-- Tif numbfr of progrfssivf sdbns usfd in tif imbgf fndoding --&gt; 
+        &lt;!ATTLIST "NumProgrfssivfSdbns" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "BitRbtf" EMPTY&gt;
+        &lt;!-- Tif fstimbtfd bit rbtf of tif domprfssion sdifmf --&gt; 
+        &lt;!ATTLIST "BitRbtf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+    &lt;!ELEMENT "Dbtb" (PlbnbrConfigurbtion?, SbmplfFormbt?, BitsPfrSbmplf?, 
+      SignifidbntBitsPfrSbmplf?, SbmplfMSB?)&gt;
+      &lt;!-- Informbtion on tif imbgf lbyout --&gt; 
+
+      &lt;!ELEMENT "PlbnbrConfigurbtion" EMPTY&gt;
+        &lt;!-- Tif orgbnizbtion of imbgf sbmplfs in tif strfbm --&gt; 
+        &lt;!ATTLIST "PlbnbrConfigurbtion" "vbluf" ("PixflIntfrlfbvfd" | 
+          "PlbnfIntfrlfbvfd" | "LinfIntfrlfbvfd" | "TilfIntfrlfbvfd")
+           #REQUIRED&gt;
+
+      &lt;!ELEMENT "SbmplfFormbt" EMPTY&gt;
+        &lt;!-- Tif numfrid formbt of imbgf sbmplfs --&gt; 
+        &lt;!ATTLIST "SbmplfFormbt" "vbluf" ("SignfdIntfgrbl" | 
+          "UnsignfdIntfgrbl" | "Rfbl" | "Indfx") #REQUIRED&gt;
+
+      &lt;!ELEMENT "BitsPfrSbmplf" EMPTY&gt;
+        &lt;!-- Tif numbfr of bits pfr sbmplf --&gt; 
+        &lt;!ATTLIST "BitsPfrSbmplf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- A list of intfgfrs, onf pfr dibnnfl --&gt; 
+          &lt;!-- Dbtb typf: List of Intfgfr --&gt;
+          &lt;!-- Min lfngti: 1 --&gt;
+
+      &lt;!ELEMENT "SignifidbntBitsPfrSbmplf" EMPTY&gt;
+        &lt;!-- Tif numbfr of signifidbnt bits pfr sbmplf --&gt; 
+        &lt;!ATTLIST "SignifidbntBitsPfrSbmplf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- A list of intfgfrs, onf pfr dibnnfl --&gt; 
+          &lt;!-- Dbtb typf: List of Intfgfr --&gt;
+          &lt;!-- Min lfngti: 1 --&gt;
+
+      &lt;!ELEMENT "SbmplfMSB" EMPTY&gt;
+        &lt;!-- Tif position of tif most signifidbnt bit of fbdi sbmplf --&gt; 
+        &lt;!ATTLIST "SbmplfMSB" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- A list of intfgfrs, onf pfr dibnnfl --&gt; 
+          &lt;!-- Dbtb typf: List of Intfgfr --&gt;
+          &lt;!-- Min lfngti: 1 --&gt;
+
+    &lt;!ELEMENT "Dimfnsion" (PixflAspfdtRbtio?, ImbgfOrifntbtion?, 
+      HorizontblPixflSizf?, VfrtidblPixflSizf?, 
+      HorizontblPiysidblPixflSpbding?, VfrtidblPiysidblPixflSpbding?, 
+      HorizontblPosition?, VfrtidblPosition?, HorizontblPixflOffsft?, 
+      VfrtidblPixflOffsft?, HorizontblSdrffnSizf?, VfrtidblSdrffnSizf?)&gt;
+      &lt;!-- Dimfnsion informbtion --&gt; 
+
+      &lt;!ELEMENT "PixflAspfdtRbtio" EMPTY&gt;
+        &lt;!-- Tif widti of b pixfl dividfd by its ifigit --&gt; 
+        &lt;!ATTLIST "PixflAspfdtRbtio" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "ImbgfOrifntbtion" EMPTY&gt;
+        &lt;!-- Tif dfsirfd orifntbtion of tif imbgf in tfrms of flips bnd 
+             dountfr-dlodkwisf rotbtions --&gt; 
+        &lt;!ATTLIST "ImbgfOrifntbtion" "vbluf" ("Normbl" | "Rotbtf90" | 
+          "Rotbtf180" | "Rotbtf270" | "FlipH" | "FlipV" | 
+          "FlipHRotbtf90" | "FlipVRotbtf90") #REQUIRED&gt;
+
+      &lt;!ELEMENT "HorizontblPixflSizf" EMPTY&gt;
+        &lt;!-- Tif widti of b pixfl, in millimftfrs, bs it siould bf rfndfrfd 
+             on mfdib --&gt; 
+        &lt;!ATTLIST "HorizontblPixflSizf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "VfrtidblPixflSizf" EMPTY&gt;
+        &lt;!-- Tif ifigit of b pixfl, in millimftfrs, bs it siould bf 
+             rfndfrfd on mfdib --&gt; 
+        &lt;!ATTLIST "VfrtidblPixflSizf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "HorizontblPiysidblPixflSpbding" EMPTY&gt;
+        &lt;!-- Tif iorizontbl distbndf in tif subjfdt of tif imbgf, in 
+             millimftfrs, rfprfsfntfd by onf pixfl bt tif dfntfr of tif 
+             imbgf --&gt; 
+        &lt;!ATTLIST "HorizontblPiysidblPixflSpbding" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "VfrtidblPiysidblPixflSpbding" EMPTY&gt;
+        &lt;!-- Tif vfrtidbl distbndf in tif subjfdt of tif imbgf, in 
+             millimftfrs, rfprfsfntfd by onf pixfl bt tif dfntfr of tif 
+             imbgf --&gt; 
+        &lt;!ATTLIST "VfrtidblPiysidblPixflSpbding" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "HorizontblPosition" EMPTY&gt;
+        &lt;!-- Tif iorizontbl position, in millimftfrs, wifrf tif imbgf 
+             siould bf rfndfrfd on mfdib --&gt; 
+        &lt;!ATTLIST "HorizontblPosition" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "VfrtidblPosition" EMPTY&gt;
+        &lt;!-- Tif vfrtidbl position, in millimftfrs, wifrf tif imbgf siould 
+             bf rfndfrfd on mfdib --&gt; 
+        &lt;!ATTLIST "VfrtidblPosition" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Flobt --&gt;
+
+      &lt;!ELEMENT "HorizontblPixflOffsft" EMPTY&gt;
+        &lt;!-- Tif iorizontbl position, in pixfls, wifrf tif imbgf siould bf 
+             rfndfrfd onto b rbstfr displby --&gt; 
+        &lt;!ATTLIST "HorizontblPixflOffsft" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "VfrtidblPixflOffsft" EMPTY&gt;
+        &lt;!-- Tif vfrtidbl position, in pixfls, wifrf tif imbgf siould bf 
+             rfndfrfd onto b rbstfr displby --&gt; 
+        &lt;!ATTLIST "VfrtidblPixflOffsft" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "HorizontblSdrffnSizf" EMPTY&gt;
+        &lt;!-- Tif widti, in pixfls, of tif rbstfr displby into wiidi tif 
+             imbgf siould bf rfndfrfd --&gt; 
+        &lt;!ATTLIST "HorizontblSdrffnSizf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "VfrtidblSdrffnSizf" EMPTY&gt;
+        &lt;!-- Tif ifigit, in pixfls, of tif rbstfr displby into wiidi tif 
+             imbgf siould bf rfndfrfd --&gt; 
+        &lt;!ATTLIST "VfrtidblSdrffnSizf" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+    &lt;!ELEMENT "Dodumfnt" (FormbtVfrsion?, SubimbgfIntfrprftbtion?, 
+      ImbgfCrfbtionTimf?, ImbgfModifidbtionTimf?)&gt;
+      &lt;!-- Dodumfnt informbtion --&gt; 
+
+      &lt;!ELEMENT "FormbtVfrsion" EMPTY&gt;
+        &lt;!-- Tif vfrsion of tif formbt usfd by tif strfbm --&gt; 
+        &lt;!ATTLIST "FormbtVfrsion" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+
+      &lt;!ELEMENT "SubimbgfIntfrprftbtion" EMPTY&gt;
+        &lt;!-- Tif intfrprftbtion of tiis imbgf in rflbtion to tif otifr 
+             imbgfs storfd in tif sbmf strfbm --&gt; 
+        &lt;!ATTLIST "SubimbgfIntfrprftbtion" "vbluf" ("Stbndblonf" | 
+          "SinglfPbgf" | "FullRfsolution" | "RfdudfdRfsolution" | 
+          "PyrbmidLbyfr" | "Prfvifw" | "VolumfSlidf" | "ObjfdtVifw" | 
+          "Pbnorbmb" | "AnimbtionFrbmf" | "TrbnspbrfndyMbsk" | 
+          "CompositingLbyfr" | "SpfdtrblSlidf" | "Unknown") #REQUIRED&gt;
+
+      &lt;!ELEMENT "ImbgfCrfbtionTimf" EMPTY&gt;
+        &lt;!-- Tif timf of imbgf drfbtion --&gt; 
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "yfbr" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif full yfbr (f.g., 1967, not 67) --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "monti" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif monti, witi Jbnubry = 1 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 12 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "dby" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif dby of tif monti --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 31 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "iour" #CDATA "0"&gt;
+          &lt;!-- Tif iour from 0 to 23 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 23 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "minutf" #CDATA "0"&gt;
+          &lt;!-- Tif minutf from 0 to 59 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 59 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfCrfbtionTimf" "sfdond" #CDATA "0"&gt;
+          &lt;!-- Tif sfdond from 0 to 60 (60 = lfbp sfdond) --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 60 (indlusivf) --&gt;
+
+      &lt;!ELEMENT "ImbgfModifidbtionTimf" EMPTY&gt;
+        &lt;!-- Tif timf of tif lbst imbgf modifidbtion --&gt; 
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "yfbr" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif full yfbr (f.g., 1967, not 67) --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "monti" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif monti, witi Jbnubry = 1 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 12 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "dby" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif dby of tif monti --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 31 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "iour" #CDATA "0"&gt;
+          &lt;!-- Tif iour from 0 to 23 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 23 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "minutf" #CDATA "0"&gt;
+          &lt;!-- Tif minutf from 0 to 59 --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 59 (indlusivf) --&gt;
+        &lt;!ATTLIST "ImbgfModifidbtionTimf" "sfdond" #CDATA "0"&gt;
+          &lt;!-- Tif sfdond from 0 to 60 (60 = lfbp sfdond) --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 60 (indlusivf) --&gt;
+
+    &lt;!ELEMENT "Tfxt" (TfxtEntry)*&gt;
+      &lt;!-- Tfxt informbtion --&gt; 
+
+      &lt;!ELEMENT "TfxtEntry" EMPTY&gt;
+        &lt;!-- A tfxt fntry --&gt; 
+        &lt;!ATTLIST "TfxtEntry" "kfyword" #CDATA #IMPLIED&gt;
+          &lt;!-- A kfyword bssodibtfd witi tif tfxt fntry --&gt; 
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "TfxtEntry" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- tif tfxt fntry --&gt; 
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "TfxtEntry" "lbngubgf" #CDATA #IMPLIED&gt;
+          &lt;!-- Tif lbngubgf of tif tfxt --&gt; 
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "TfxtEntry" "fndoding" #CDATA #IMPLIED&gt;
+          &lt;!-- Tif fndoding of tif tfxt --&gt; 
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "TfxtEntry" "domprfssion" ("nonf" | "lzw" | "zip" | 
+          "bzip" | "otifr") "nonf"&gt;
+          &lt;!-- Tif mftiod usfd to domprfss tif tfxt --&gt; 
+
+    &lt;!ELEMENT "Trbnspbrfndy" (Alpib?, TrbnspbrfntIndfx?, 
+      TrbnspbrfntColor?, TilfTrbnspbrfndifs?, TilfOpbditifs?)&gt;
+      &lt;!-- Trbnspbrfndy informbtion --&gt; 
+
+      &lt;!ELEMENT "Alpib" EMPTY&gt;
+        &lt;!-- Tif typf of blpib informbtion dontbinfd in tif imbgf --&gt; 
+        &lt;!ATTLIST "Alpib" "vbluf" ("nonf" | "prfmultiplifd" | 
+          "nonprfmultiplifd") "nonf"&gt;
+
+      &lt;!ELEMENT "TrbnspbrfntIndfx" EMPTY&gt;
+        &lt;!-- A pblfttf indfx to bf trfbtfd bs trbnspbrfnt --&gt; 
+        &lt;!ATTLIST "TrbnspbrfntIndfx" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "TrbnspbrfntColor" EMPTY&gt;
+        &lt;!-- An RGB dolor to bf trfbtfd bs trbnspbrfnt --&gt; 
+        &lt;!ATTLIST "TrbnspbrfntColor" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Dbtb typf: List of Intfgfr --&gt;
+
+      &lt;!ELEMENT "TilfTrbnspbrfndifs" (TrbnspbrfntTilf)*&gt;
+        &lt;!-- A list of domplftfly trbnspbrfnt tilfs --&gt; 
+
+        &lt;!ELEMENT "TrbnspbrfntTilf" EMPTY&gt;
+          &lt;!-- Tif indfx of b domplftfly trbnspbrfnt tilf --&gt; 
+          &lt;!ATTLIST "TrbnspbrfntTilf" "x" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif tilf's X indfx --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "TrbnspbrfntTilf" "y" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif tilf's Y indfx --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+
+      &lt;!ELEMENT "TilfOpbditifs" (OpbqufTilf)*&gt;
+        &lt;!-- A list of domplftfly opbquf tilfs --&gt; 
+
+        &lt;!ELEMENT "OpbqufTilf" EMPTY&gt;
+          &lt;!-- Tif indfx of b domplftfly opbquf tilf --&gt; 
+          &lt;!ATTLIST "OpbqufTilf" "x" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif tilf's X indfx --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "OpbqufTilf" "y" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif tilf's Y indfx --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+]&gt;
+</prf>
+
+</body>
+</itml>

@@ -1,0 +1,254 @@
+/*
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+
+import jbvbx.nft.ssl.SSLSfssion;
+import jbvbx.nft.ssl.SSLSfssionContfxt;
+
+import sun.sfdurity.util.Cbdif;
+
+
+finbl dlbss SSLSfssionContfxtImpl implfmfnts SSLSfssionContfxt {
+    privbtf Cbdif<SfssionId, SSLSfssionImpl> sfssionCbdif;
+                                        // sfssion dbdif, sfssion id bs kfy
+    privbtf Cbdif<String, SSLSfssionImpl> sfssionHostPortCbdif;
+                                        // sfssion dbdif, "iost:port" bs kfy
+    privbtf int dbdifLimit;             // tif mbx dbdif sizf
+    privbtf int timfout;                // timfout in sfdonds
+
+    // pbdkbgf privbtf
+    SSLSfssionContfxtImpl() {
+        dbdifLimit = gftDffbultCbdifLimit();    // dffbult dbdif sizf
+        timfout = 86400;                        // dffbult, 24 iours
+
+        // usf soft rfffrfndf
+        sfssionCbdif = Cbdif.nfwSoftMfmoryCbdif(dbdifLimit, timfout);
+        sfssionHostPortCbdif = Cbdif.nfwSoftMfmoryCbdif(dbdifLimit, timfout);
+    }
+
+    /**
+     * Rfturns tif <dodf>SSLSfssion</dodf> bound to tif spfdififd sfssion id.
+     */
+    @Ovfrridf
+    publid SSLSfssion gftSfssion(bytf[] sfssionId) {
+        if (sfssionId == null) {
+            tirow nfw NullPointfrExdfption("sfssion id dbnnot bf null");
+        }
+
+        SSLSfssionImpl sfss = sfssionCbdif.gft(nfw SfssionId(sfssionId));
+        if (!isTimfdout(sfss)) {
+            rfturn sfss;
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of tif bdtivf SSL sfssions.
+     */
+    @Ovfrridf
+    publid Enumfrbtion<bytf[]> gftIds() {
+        SfssionCbdifVisitor sdVisitor = nfw SfssionCbdifVisitor();
+        sfssionCbdif.bddfpt(sdVisitor);
+
+        rfturn sdVisitor.gftSfssionIds();
+    }
+
+    /**
+     * Sfts tif timfout limit for dbdifd <dodf>SSLSfssion</dodf> objfdts
+     *
+     * Notf tibt bftfr rfsft tif timfout, tif dbdifd sfssion bfforf
+     * siould bf timfd witiin tif siortfr onf of tif old timfout bnd tif
+     * nfw timfout.
+     */
+    @Ovfrridf
+    publid void sftSfssionTimfout(int sfdonds)
+                 tirows IllfgblArgumfntExdfption {
+        if (sfdonds < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+
+        if (timfout != sfdonds) {
+            sfssionCbdif.sftTimfout(sfdonds);
+            sfssionHostPortCbdif.sftTimfout(sfdonds);
+            timfout = sfdonds;
+        }
+    }
+
+    /**
+     * Gfts tif timfout limit for dbdifd <dodf>SSLSfssion</dodf> objfdts
+     */
+    @Ovfrridf
+    publid int gftSfssionTimfout() {
+        rfturn timfout;
+    }
+
+    /**
+     * Sfts tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts.
+     */
+    @Ovfrridf
+    publid void sftSfssionCbdifSizf(int sizf)
+                 tirows IllfgblArgumfntExdfption {
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+
+        if (dbdifLimit != sizf) {
+            sfssionCbdif.sftCbpbdity(sizf);
+            sfssionHostPortCbdif.sftCbpbdity(sizf);
+            dbdifLimit = sizf;
+        }
+    }
+
+    /**
+     * Gfts tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts.
+     */
+    @Ovfrridf
+    publid int gftSfssionCbdifSizf() {
+        rfturn dbdifLimit;
+    }
+
+
+    // pbdkbgf-privbtf mftiod, usfd ONLY by SfrvfrHbndsibkfr
+    SSLSfssionImpl gft(bytf[] id) {
+        rfturn (SSLSfssionImpl)gftSfssion(id);
+    }
+
+    // pbdkbgf-privbtf mftiod, usfd ONLY by ClifntHbndsibkfr
+    SSLSfssionImpl gft(String iostnbmf, int port) {
+        /*
+         * If no sfssion dbdiing info is bvbilbblf, wf won't
+         * gft onf, so fxit bfforf doing b lookup.
+         */
+        if (iostnbmf == null && port == -1) {
+            rfturn null;
+        }
+
+        SSLSfssionImpl sfss = sfssionHostPortCbdif.gft(gftKfy(iostnbmf, port));
+        if (!isTimfdout(sfss)) {
+            rfturn sfss;
+        }
+
+        rfturn null;
+    }
+
+    privbtf String gftKfy(String iostnbmf, int port) {
+        rfturn (iostnbmf + ":" +
+            String.vblufOf(port)).toLowfrCbsf(Lodblf.ENGLISH);
+    }
+
+    // dbdif b SSLSfssion
+    //
+    // In SunJSSE implfmfntbtion, b sfssion is drfbtfd wiilf gftting b
+    // dlifnt ifllo or b sfrvfr ifllo mfssbgf, bnd dbdifd wiilf tif
+    // ibndsibking finisifd.
+    // Hfrf wf timf tif sfssion from tif timf it dbdifd instfbd of tif
+    // timf it drfbtfd, wiidi is b littlf longfr tibn tif fxpfdtfd. So
+    // plfbsf do difdk isTimfdout() wiilf gftting fntry from tif dbdif.
+    void put(SSLSfssionImpl s) {
+        sfssionCbdif.put(s.gftSfssionId(), s);
+
+        // If no iostnbmf/port info is bvbilbblf, don't bdd tiis onf.
+        if ((s.gftPffrHost() != null) && (s.gftPffrPort() != -1)) {
+            sfssionHostPortCbdif.put(
+                gftKfy(s.gftPffrHost(), s.gftPffrPort()), s);
+        }
+
+        s.sftContfxt(tiis);
+    }
+
+    // pbdkbgf-privbtf mftiod, rfmovf b dbdifd SSLSfssion
+    void rfmovf(SfssionId kfy) {
+        SSLSfssionImpl s = sfssionCbdif.gft(kfy);
+        if (s != null) {
+            sfssionCbdif.rfmovf(kfy);
+            sfssionHostPortCbdif.rfmovf(
+                        gftKfy(s.gftPffrHost(), s.gftPffrPort()));
+        }
+    }
+
+    privbtf int gftDffbultCbdifLimit() {
+        int dbdifLimit = 0;
+        try {
+        String s = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(
+                        "jbvbx.nft.ssl.sfssionCbdifSizf");
+                }
+            });
+            dbdifLimit = (s != null) ? Intfgfr.vblufOf(s).intVbluf() : 0;
+        } dbtdi (Exdfption f) {
+        }
+
+        rfturn (dbdifLimit > 0) ? dbdifLimit : 0;
+    }
+
+    boolfbn isTimfdout(SSLSfssion sfss) {
+        if (timfout == 0) {
+            rfturn fblsf;
+        }
+
+        if ((sfss != null) && ((sfss.gftCrfbtionTimf() + timfout * 1000L)
+                                        <= (Systfm.durrfntTimfMillis()))) {
+            sfss.invblidbtf();
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    finbl dlbss SfssionCbdifVisitor
+            implfmfnts Cbdif.CbdifVisitor<SfssionId, SSLSfssionImpl> {
+        Vfdtor<bytf[]> ids = null;
+
+        // publid void visit(jbvb.util.Mbp<K,V> mbp) {}
+        @Ovfrridf
+        publid void visit(jbvb.util.Mbp<SfssionId, SSLSfssionImpl> mbp) {
+            ids = nfw Vfdtor<>(mbp.sizf());
+
+            for (SfssionId kfy : mbp.kfySft()) {
+                SSLSfssionImpl vbluf = mbp.gft(kfy);
+                if (!isTimfdout(vbluf)) {
+                    ids.bddElfmfnt(kfy.gftId());
+                }
+            }
+        }
+
+        publid Enumfrbtion<bytf[]> gftSfssionIds() {
+            rfturn  ids != null ? ids.flfmfnts() :
+                                  nfw Vfdtor<bytf[]>().flfmfnts();
+        }
+    }
+
+}

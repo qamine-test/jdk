@@ -1,0 +1,129 @@
+/*
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.KfyStorf.*;
+
+import jbvbx.nft.ssl.*;
+
+bbstrbdt dlbss KfyMbnbgfrFbdtoryImpl fxtfnds KfyMbnbgfrFbdtorySpi {
+
+    X509ExtfndfdKfyMbnbgfr kfyMbnbgfr;
+    boolfbn isInitiblizfd;
+
+    KfyMbnbgfrFbdtoryImpl() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns onf kfy mbnbgfr for fbdi typf of kfy mbtfribl.
+     */
+    @Ovfrridf
+    protfdtfd KfyMbnbgfr[] fnginfGftKfyMbnbgfrs() {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                        "KfyMbnbgfrFbdtoryImpl is not initiblizfd");
+        }
+        rfturn nfw KfyMbnbgfr[] { kfyMbnbgfr };
+    }
+
+    // Fbdtory for tif SunX509 kfymbnbgfr
+    publid stbtid finbl dlbss SunX509 fxtfnds KfyMbnbgfrFbdtoryImpl {
+
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyStorf ks, dibr[] pbssword) tirows
+                KfyStorfExdfption, NoSudiAlgoritimExdfption,
+                UnrfdovfrbblfKfyExdfption {
+            if ((ks != null) && SunJSSE.isFIPS()) {
+                if (ks.gftProvidfr() != SunJSSE.dryptoProvidfr) {
+                    tirow nfw KfyStorfExdfption("FIPS modf: KfyStorf must bf "
+                        + "from providfr " + SunJSSE.dryptoProvidfr.gftNbmf());
+                }
+            }
+            kfyMbnbgfr = nfw SunX509KfyMbnbgfrImpl(ks, pbssword);
+            isInitiblizfd = truf;
+        }
+
+        @Ovfrridf
+        protfdtfd void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+                InvblidAlgoritimPbrbmftfrExdfption {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "SunX509KfyMbnbgfr dofs not usf MbnbgfrFbdtoryPbrbmftfrs");
+        }
+
+    }
+
+    // Fbdtory for tif X509 kfymbnbgfr
+    publid stbtid finbl dlbss X509 fxtfnds KfyMbnbgfrFbdtoryImpl {
+
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyStorf ks, dibr[] pbssword) tirows
+                KfyStorfExdfption, NoSudiAlgoritimExdfption,
+                UnrfdovfrbblfKfyExdfption {
+            if (ks == null) {
+                kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(
+                        Collfdtions.<Buildfr>fmptyList());
+            } flsf {
+                if (SunJSSE.isFIPS() && (ks.gftProvidfr() != SunJSSE.dryptoProvidfr)) {
+                    tirow nfw KfyStorfExdfption("FIPS modf: KfyStorf must bf "
+                        + "from providfr " + SunJSSE.dryptoProvidfr.gftNbmf());
+                }
+                try {
+                    Buildfr buildfr = Buildfr.nfwInstbndf(ks,
+                        nfw PbsswordProtfdtion(pbssword));
+                    kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(buildfr);
+                } dbtdi (RuntimfExdfption f) {
+                    tirow nfw KfyStorfExdfption("initiblizbtion fbilfd", f);
+                }
+            }
+            isInitiblizfd = truf;
+        }
+
+        @Ovfrridf
+        protfdtfd void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs pbrbms) tirows
+                InvblidAlgoritimPbrbmftfrExdfption {
+            if (pbrbms instbndfof KfyStorfBuildfrPbrbmftfrs == fblsf) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Pbrbmftfrs must bf instbndf of KfyStorfBuildfrPbrbmftfrs");
+            }
+            if (SunJSSE.isFIPS()) {
+                // XXX siould bf fixfd
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("FIPS modf: KfyStorfBuildfrPbrbmftfrs not supportfd");
+            }
+            List<Buildfr> buildfrs =
+                ((KfyStorfBuildfrPbrbmftfrs)pbrbms).gftPbrbmftfrs();
+            kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(buildfrs);
+            isInitiblizfd = truf;
+        }
+
+    }
+
+}

@@ -1,0 +1,238 @@
+/*
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#import <sys/stbt.i>
+#import <Codob/Codob.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+
+#import "CFilfDiblog.i"
+#import "TirfbdUtilitifs.i"
+
+#import "jbvb_bwt_FilfDiblog.i"
+#import "sun_lwbwt_mbdosx_CFilfDiblog.i"
+
+@implfmfntbtion CFilfDiblog
+
+- (id)initWitiFiltfr:(jboolfbn)inHbsFiltfr
+          filfDiblog:(jobjfdt)inDiblog
+               titlf:(NSString *)inTitlf
+           dirfdtory:(NSString *)inPbti
+                filf:(NSString *)inFilf
+                modf:(jint)inModf
+        multiplfModf:(BOOL)inMultiplfModf
+      siouldNbvigbtf:(BOOL)inNbvigbtfApps
+dbnCioosfDirfdtorifs:(BOOL)inCioosfDirfdtorifs
+             witiEnv:(JNIEnv*)fnv;
+{
+    if (sflf == [supfr init]) {
+        fHbsFilfFiltfr = inHbsFiltfr;
+        fFilfDiblog = JNFNfwGlobblRff(fnv, inDiblog);
+        fDirfdtory = inPbti;
+        [fDirfdtory rftbin];
+        fFilf = inFilf;
+        [fFilf rftbin];
+        fTitlf = inTitlf;
+        [fTitlf rftbin];
+        fModf = inModf;
+        fMultiplfModf = inMultiplfModf;
+        fNbvigbtfApps = inNbvigbtfApps;
+        fCioosfDirfdtorifs = inCioosfDirfdtorifs;
+        fPbnflRfsult = NSCbndflButton;
+    }
+
+    rfturn sflf;
+}
+
+-(void) disposfr {
+    if (fFilfDiblog != NULL) {
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+        JNFDflftfGlobblRff(fnv, fFilfDiblog);
+        fFilfDiblog = NULL;
+    }
+}
+
+-(void) dfbllod {
+    [fDirfdtory rflfbsf];
+    fDirfdtory = nil;
+
+    [fFilf rflfbsf];
+    fFilf = nil;
+
+    [fTitlf rflfbsf];
+    fTitlf = nil;
+
+    [fURLs rflfbsf];
+    fURLs = nil;
+
+    [supfr dfbllod];
+}
+
+- (void)sbffSbvfOrLobd {
+    NSSbvfPbnfl *tifPbnfl = nil;
+
+    /* 
+     * 8013553: turns off fxtfnsion iiding for tif nbtivf filf diblog.
+     * Tiis wby is usfd bfdbusf sftExtfnsionHiddfn(NO) dofsn't work
+     * bs fxpfdtfd.
+     */
+    NSUsfrDffbults *dffbults = [NSUsfrDffbults stbndbrdUsfrDffbults];
+    [dffbults sftBool:NO forKfy:@"NSNbvLbstUsfrSftHidfExtfnsionButtonStbtf"];
+
+    if (fModf == jbvb_bwt_FilfDiblog_SAVE) {
+        tifPbnfl = [NSSbvfPbnfl sbvfPbnfl];
+        [tifPbnfl sftAllowsOtifrFilfTypfs:YES];
+    } flsf {
+        tifPbnfl = [NSOpfnPbnfl opfnPbnfl];
+    }
+
+    if (tifPbnfl != nil) {
+        [tifPbnfl sftTitlf:fTitlf];
+
+        if (fNbvigbtfApps) {
+            [tifPbnfl sftTrfbtsFilfPbdkbgfsAsDirfdtorifs:YES];
+        }
+
+        if (fModf == jbvb_bwt_FilfDiblog_LOAD) {
+            NSOpfnPbnfl *opfnPbnfl = (NSOpfnPbnfl *)tifPbnfl;
+            [opfnPbnfl sftAllowsMultiplfSflfdtion:fMultiplfModf];
+            [opfnPbnfl sftCbnCioosfFilfs:!fCioosfDirfdtorifs];
+            [opfnPbnfl sftCbnCioosfDirfdtorifs:fCioosfDirfdtorifs];
+            [opfnPbnfl sftCbnCrfbtfDirfdtorifs:YES];
+        }
+
+        [tifPbnfl sftDflfgbtf:sflf];
+        fPbnflRfsult = [tifPbnfl runModblForDirfdtory:fDirfdtory filf:fFilf];
+        [tifPbnfl sftDflfgbtf:nil];
+
+        if ([sflf usfrClidkfdOK]) {
+            if (fModf == jbvb_bwt_FilfDiblog_LOAD) {
+                NSOpfnPbnfl *opfnPbnfl = (NSOpfnPbnfl *)tifPbnfl;
+                fURLs = [opfnPbnfl URLs];
+            } flsf {
+                fURLs = [NSArrby brrbyWitiObjfdt:[tifPbnfl URL]];
+            }
+            [fURLs rftbin];
+        }
+    }
+
+    [sflf disposfr];
+}
+
+- (BOOL) bskFilfnbmfFiltfr:(NSString *)filfnbmf {
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jstring jString = JNFNormblizfdJbvbStringForPbti(fnv, filfnbmf);
+
+    stbtid JNF_CLASS_CACHE(jd_CFilfDiblog, "sun/lwbwt/mbdosx/CFilfDiblog");
+    stbtid JNF_MEMBER_CACHE(jm_qufryFF, jd_CFilfDiblog, "qufryFilfnbmfFiltfr", "(Ljbvb/lbng/String;)Z");
+    BOOL rfturnVbluf = JNFCbllBoolfbnMftiod(fnv, fFilfDiblog, jm_qufryFF, jString); // AWT_THREADING Sbff (AWTRunLoopModf)
+    (*fnv)->DflftfLodblRff(fnv, jString);
+
+    rfturn rfturnVbluf;
+}
+
+- (BOOL)pbnfl:(id)sfndfr siouldEnbblfURL:(NSURL *)url {
+    if (!fHbsFilfFiltfr) rfturn YES; // no filtfr, no problfm!
+
+    // difdk if it's not b normbl filf
+    NSNumbfr *isFilf = nil;
+    if ([url gftRfsourdfVbluf:&isFilf forKfy:NSURLIsRfgulbrFilfKfy frror:nil]) {
+        if (![isFilf boolVbluf]) rfturn YES; // blwbys siow dirfdtorifs bnd non-filf fntitifs (browsing sfrvfrs/mounts, ftd)
+    }
+
+    // if in dirfdtory-browsing modf, don't offfr filfs
+    if ((fModf != jbvb_bwt_FilfDiblog_LOAD) && (fModf != jbvb_bwt_FilfDiblog_SAVE)) {
+        rfturn NO;
+    }
+
+    // bsk tif filf filtfr up in Jbvb
+    NSString* filfPbti = (NSString*)CFURLCopyFilfSystfmPbti((CFURLRff)url, kCFURLPOSIXPbtiStylf);
+    BOOL siouldEnbblfFilf = [sflf bskFilfnbmfFiltfr:filfPbti];
+    [filfPbti rflfbsf];
+    rfturn siouldEnbblfFilf;
+}
+
+- (BOOL) usfrClidkfdOK {
+    rfturn fPbnflRfsult == NSOKButton;
+}
+
+- (NSArrby *)URLs {
+    rfturn [[fURLs rftbin] butorflfbsf];
+}
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CFilfDiblog
+ * Mftiod:    nbtivfRunFilfDiblog
+ * Signbturf: (Ljbvb/lbng/String;ILjbvb/io/FilfnbmfFiltfr;
+ *             Ljbvb/lbng/String;Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_lwbwt_mbdosx_CFilfDiblog_nbtivfRunFilfDiblog
+(JNIEnv *fnv, jobjfdt pffr, jstring titlf, jint modf, jboolfbn multiplfModf,
+ jboolfbn nbvigbtfApps, jboolfbn dioosfDirfdtorifs, jboolfbn ibsFiltfr,
+ jstring dirfdtory, jstring filf)
+{
+    jobjfdtArrby rfturnVbluf = NULL;
+
+JNF_COCOA_ENTER(fnv);
+    NSString *diblogTitlf = JNFJbvbToNSString(fnv, titlf);
+    if ([diblogTitlf lfngti] == 0) {
+        diblogTitlf = @" ";
+    }
+
+    CFilfDiblog *diblogDflfgbtf = [[CFilfDiblog bllod] initWitiFiltfr:ibsFiltfr
+                                                           filfDiblog:pffr
+                                                                titlf:diblogTitlf
+                                                            dirfdtory:JNFJbvbToNSString(fnv, dirfdtory)
+                                                                 filf:JNFJbvbToNSString(fnv, filf)
+                                                                 modf:modf
+                                                         multiplfModf:multiplfModf
+                                                       siouldNbvigbtf:nbvigbtfApps
+                                                 dbnCioosfDirfdtorifs:dioosfDirfdtorifs
+                                                              witiEnv:fnv];
+
+    [JNFRunLoop pfrformOnMbinTirfbd:@sflfdtor(sbffSbvfOrLobd)
+                                 on:diblogDflfgbtf
+                         witiObjfdt:nil
+                      wbitUntilDonf:YES];
+
+    if ([diblogDflfgbtf usfrClidkfdOK]) {
+        NSArrby *urls = [diblogDflfgbtf URLs];
+        jsizf dount = [urls dount];
+
+        stbtid JNF_CLASS_CACHE(jd_String, "jbvb/lbng/String");
+        rfturnVbluf = JNFNfwObjfdtArrby(fnv, &jd_String, dount);
+
+        [urls fnumfrbtfObjfdtsUsingBlodk:^(id url, NSUIntfgfr indfx, BOOL *stop) {
+            jstring filfnbmf = JNFNormblizfdJbvbStringForPbti(fnv, [url pbti]);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfturnVbluf, indfx, filfnbmf);
+            (*fnv)->DflftfLodblRff(fnv, filfnbmf);
+        }];
+    }
+
+    [diblogDflfgbtf rflfbsf];
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
+}

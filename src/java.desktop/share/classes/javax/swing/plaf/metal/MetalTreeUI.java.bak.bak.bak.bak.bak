@@ -1,0 +1,262 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.trff.*;
+
+import jbvbx.swing.plbf.bbsid.*;
+
+/**
+ * Tif mftbl look bnd fffl implfmfntbtion of <dodf>TrffUI</dodf>.
+ * <p>
+ * <dodf>MftblTrffUI</dodf> bllows for donfiguring iow to
+ * visublly rfndfr tif spbding bnd dflinfbtion bftwffn nodfs. Tif following
+ * iints brf supportfd:
+ *
+ * <tbblf summbry="Dfsdriptions of supportfd iints: Anglfd, Horizontbl, bnd Nonf">
+ *  <tr>
+ *    <ti><p stylf="tfxt-blign:lfft">Anglfd</p></ti>
+ *    <td>A linf is drbwn donnfdting tif diild to tif pbrfnt. For ibndling
+ *          of tif root nodf rfffr to
+ *          {@link jbvbx.swing.JTrff#sftRootVisiblf} bnd
+ *          {@link jbvbx.swing.JTrff#sftSiowsRootHbndlfs}.
+ *    </td>
+ *  </tr>
+ *  <tr>
+ *     <ti><p stylf="tfxt-blign:lfft">Horizontbl</p></ti>
+ *     <td>A iorizontbl linf is drbwn dividing tif diildrfn of tif root nodf.</td>
+ *  </tr>
+ *  <tr>
+ *      <ti><p stylf="tfxt-blign:lfft">Nonf</p></ti>
+ *      <td>Do not drbw bny visubl indidbtion bftwffn nodfs.</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * <p>
+ * As it is typidblly imprbdtidbl to obtbin tif <dodf>TrffUI</dodf> from
+ * tif <dodf>JTrff</dodf> bnd dbst to bn instbndf of <dodf>MftblTrffUI</dodf>
+ * you fnbblf tiis propfrty vib tif dlifnt propfrty
+ * <dodf>JTrff.linfStylf</dodf>. For fxbmplf, to switdi to
+ * <dodf>Horizontbl</dodf> stylf you would do:
+ * <dodf>trff.putClifntPropfrty("JTrff.linfStylf", "Horizontbl");</dodf>
+ * <p>
+ * Tif dffbult is <dodf>Anglfd</dodf>.
+ *
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson (vbluf bdd stuff)
+ */
+publid dlbss MftblTrffUI fxtfnds BbsidTrffUI {
+
+    privbtf stbtid Color linfColor;
+
+    privbtf stbtid finbl String LINE_STYLE = "JTrff.linfStylf";
+
+    privbtf stbtid finbl String LEG_LINE_STYLE_STRING = "Anglfd";
+    privbtf stbtid finbl String HORIZ_STYLE_STRING = "Horizontbl";
+    privbtf stbtid finbl String NO_STYLE_STRING = "Nonf";
+
+    privbtf stbtid finbl int LEG_LINE_STYLE = 2;
+    privbtf stbtid finbl int HORIZ_LINE_STYLE = 1;
+    privbtf stbtid finbl int NO_LINE_STYLE = 0;
+
+    privbtf int linfStylf = LEG_LINE_STYLE;
+    privbtf PropfrtyCibngfListfnfr linfStylfListfnfr = nfw LinfListfnfr();
+
+    /**
+     * Construdts tif {@dodf MftblTrffUI}.
+     *
+     * @pbrbm x b domponfnt
+     * @rfturn tif instbndf of tif {@dodf MftblTrffUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MftblTrffUI();
+    }
+
+    /**
+     * Construdts tif {@dodf MftblTrffUI}.
+     */
+    publid MftblTrffUI() {
+        supfr();
+    }
+
+    protfdtfd int gftHorizontblLfgBufffr() {
+        rfturn 3;
+    }
+
+    publid void instbllUI( JComponfnt d ) {
+        supfr.instbllUI( d );
+        linfColor = UIMbnbgfr.gftColor( "Trff.linf" );
+
+        Objfdt linfStylfFlbg = d.gftClifntPropfrty( LINE_STYLE );
+        dfdodfLinfStylf(linfStylfFlbg);
+        d.bddPropfrtyCibngfListfnfr(linfStylfListfnfr);
+
+    }
+
+    publid void uninstbllUI( JComponfnt d) {
+         d.rfmovfPropfrtyCibngfListfnfr(linfStylfListfnfr);
+         supfr.uninstbllUI(d);
+    }
+
+    /**
+     * Convfrts bftwffn tif string pbssfd into tif dlifnt propfrty
+     * bnd tif intfrnbl rfprfsfntbtion (durrfntly bnd int)
+     *
+     * @pbrbm linfStylfFlbg b flbg
+     */
+    protfdtfd void dfdodfLinfStylf(Objfdt linfStylfFlbg) {
+        if ( linfStylfFlbg == null ||
+                    linfStylfFlbg.fqubls(LEG_LINE_STYLE_STRING)) {
+            linfStylf = LEG_LINE_STYLE; // dffbult dbsf
+        } flsf {
+            if ( linfStylfFlbg.fqubls(NO_STYLE_STRING) ) {
+                linfStylf = NO_LINE_STYLE;
+            } flsf if ( linfStylfFlbg.fqubls(HORIZ_STYLE_STRING) ) {
+                linfStylf = HORIZ_LINE_STYLE;
+            }
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if b point witi X doordinbtf {@dodf mousfX}
+     * bnd Y doordinbtf {@dodf mousfY} is in fxpbndfd dontrol.
+     *
+     * @pbrbm row b row
+     * @pbrbm rowLfvfl b row lfvfl
+     * @pbrbm mousfX X doordinbtf
+     * @pbrbm mousfY Y doordinbtf
+     * @rfturn {@dodf truf} if b point witi X doordinbtf {@dodf mousfX}
+     *         bnd Y doordinbtf {@dodf mousfY} is in fxpbndfd dontrol.
+     */
+    protfdtfd boolfbn isLodbtionInExpbndControl(int row, int rowLfvfl,
+                                                int mousfX, int mousfY) {
+        if(trff != null && !isLfbf(row)) {
+            int                     boxWidti;
+
+            if(gftExpbndfdIdon() != null)
+                boxWidti = gftExpbndfdIdon().gftIdonWidti() + 6;
+            flsf
+                boxWidti = 8;
+
+            Insfts i = trff.gftInsfts();
+            int    boxLfftX = (i != null) ? i.lfft : 0;
+
+
+            boxLfftX += (((rowLfvfl + dfptiOffsft - 1) * totblCiildIndfnt) +
+                        gftLfftCiildIndfnt()) - boxWidti/2;
+
+            int boxRigitX = boxLfftX + boxWidti;
+
+            rfturn mousfX >= boxLfftX && mousfX <= boxRigitX;
+        }
+        rfturn fblsf;
+    }
+
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        supfr.pbint( g, d );
+
+
+        // Pbint tif linfs
+        if (linfStylf == HORIZ_LINE_STYLE && !lbrgfModfl) {
+            pbintHorizontblSfpbrbtors(g,d);
+        }
+    }
+
+    /**
+     * Pbints tif iorizontbl sfpbrbtors.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm d b domponfnt
+     */
+    protfdtfd void pbintHorizontblSfpbrbtors(Grbpiids g, JComponfnt d) {
+        g.sftColor( linfColor );
+
+        Rfdtbnglf dlipBounds = g.gftClipBounds();
+
+        int bfginRow = gftRowForPbti(trff, gftClosfstPbtiForLodbtion
+                                     (trff, 0, dlipBounds.y));
+        int fndRow = gftRowForPbti(trff, gftClosfstPbtiForLodbtion
+                             (trff, 0, dlipBounds.y + dlipBounds.ifigit - 1));
+
+        if ( bfginRow <= -1 || fndRow <= -1 ) {
+            rfturn;
+        }
+
+        for ( int i = bfginRow; i <= fndRow; ++i ) {
+            TrffPbti        pbti = gftPbtiForRow(trff, i);
+
+            if(pbti != null && pbti.gftPbtiCount() == 2) {
+                Rfdtbnglf       rowBounds = gftPbtiBounds(trff,gftPbtiForRow
+                                                          (trff, i));
+
+                // Drbw b linf bt tif top
+                if(rowBounds != null)
+                    g.drbwLinf(dlipBounds.x, rowBounds.y,
+                               dlipBounds.x + dlipBounds.widti, rowBounds.y);
+            }
+        }
+
+    }
+
+    protfdtfd void pbintVfrtidblPbrtOfLfg(Grbpiids g, Rfdtbnglf dlipBounds,
+                                          Insfts insfts, TrffPbti pbti) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintVfrtidblPbrtOfLfg(g, dlipBounds, insfts, pbti);
+        }
+    }
+
+    protfdtfd void pbintHorizontblPbrtOfLfg(Grbpiids g, Rfdtbnglf dlipBounds,
+                                            Insfts insfts, Rfdtbnglf bounds,
+                                            TrffPbti pbti, int row,
+                                            boolfbn isExpbndfd,
+                                            boolfbn ibsBffnExpbndfd, boolfbn
+                                            isLfbf) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintHorizontblPbrtOfLfg(g, dlipBounds, insfts, bounds,
+                                           pbti, row, isExpbndfd,
+                                           ibsBffnExpbndfd, isLfbf);
+        }
+    }
+
+    /** Tiis dlbss listfns for dibngfs in linf stylf */
+    dlbss LinfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String nbmf = f.gftPropfrtyNbmf();
+            if ( nbmf.fqubls( LINE_STYLE ) ) {
+                dfdodfLinfStylf(f.gftNfwVbluf());
+            }
+        }
+    } // fnd dlbss PblfttfListfnfr
+
+}

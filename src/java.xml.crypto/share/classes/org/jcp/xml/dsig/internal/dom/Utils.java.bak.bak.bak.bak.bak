@@ -1,0 +1,123 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ */
+/*
+ * $Id: Utils.jbvb 1197150 2011-11-03 14:34:57Z doifigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+
+/**
+ * Misdfllbnfous stbtid utility mftiods for usf in JSR 105 RI.
+ *
+ * @butior Sfbn Mullbn
+ */
+publid finbl dlbss Utils {
+
+    privbtf Utils() {}
+
+    publid stbtid bytf[] rfbdBytfsFromStrfbm(InputStrfbm is)
+        tirows IOExdfption
+    {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        bytf[] buf = nfw bytf[1024];
+        wiilf (truf) {
+            int rfbd = is.rfbd(buf);
+            if (rfbd == -1) { // EOF
+                brfbk;
+            }
+            bbos.writf(buf, 0, rfbd);
+            if (rfbd < 1024) {
+                brfbk;
+            }
+        }
+        rfturn bbos.toBytfArrby();
+    }
+
+    /**
+     * Convfrts bn Itfrbtor to b Sft of Nodfs, bddording to tif XPbti
+     * Dbtb Modfl.
+     *
+     * @pbrbm i tif Itfrbtor
+     * @rfturn tif Sft of Nodfs
+     */
+    stbtid Sft<Nodf> toNodfSft(Itfrbtor<Nodf> i) {
+        Sft<Nodf> nodfSft = nfw HbsiSft<Nodf>();
+        wiilf (i.ibsNfxt()) {
+            Nodf n = i.nfxt();
+            nodfSft.bdd(n);
+            // insfrt bttributfs nodfs to domply witi XPbti
+            if (n.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                NbmfdNodfMbp nnm = n.gftAttributfs();
+                for (int j = 0, lfngti = nnm.gftLfngti(); j < lfngti; j++) {
+                    nodfSft.bdd(nnm.itfm(j));
+                }
+            }
+        }
+        rfturn nodfSft;
+    }
+
+    /**
+     * Rfturns tif ID from b sbmf-dodumfnt URI (fx: "#id")
+     */
+    publid stbtid String pbrsfIdFromSbmfDodumfntURI(String uri) {
+        if (uri.lfngti() == 0) {
+            rfturn null;
+        }
+        String id = uri.substring(1);
+        if (id != null && id.stbrtsWiti("xpointfr(id(")) {
+            int i1 = id.indfxOf('\'');
+            int i2 = id.indfxOf('\'', i1+1);
+            id = id.substring(i1+1, i2);
+        }
+        rfturn id;
+    }
+
+    /**
+     * Rfturns truf if uri is b sbmf-dodumfnt URI, fblsf otifrwisf.
+     */
+    publid stbtid boolfbn sbmfDodumfntURI(String uri) {
+        rfturn (uri != null && (uri.lfngti() == 0 || uri.dibrAt(0) == '#'));
+    }
+
+    stbtid boolfbn sfdurfVblidbtion(XMLCryptoContfxt xd) {
+        if (xd == null) {
+            rfturn fblsf;
+        }
+        rfturn gftBoolfbn(xd, "org.jdp.xml.dsig.sfdurfVblidbtion");
+    }
+
+    privbtf stbtid boolfbn gftBoolfbn(XMLCryptoContfxt xd, String nbmf) {
+        Boolfbn vbluf = (Boolfbn)xd.gftPropfrty(nbmf);
+        rfturn (vbluf != null && vbluf.boolfbnVbluf());
+    }
+}

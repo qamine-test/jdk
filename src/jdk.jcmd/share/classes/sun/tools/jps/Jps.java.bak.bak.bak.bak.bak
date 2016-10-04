@@ -1,0 +1,171 @@
+/*
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jps;
+
+import jbvb.util.*;
+import jbvb.nft.*;
+import sun.jvmstbt.monitor.*;
+
+/**
+ * Applidbtion to providf b listing of monitorbblf jbvb prodfssfs.
+ *
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ */
+publid dlbss Jps {
+
+    privbtf stbtid Argumfnts brgumfnts;
+
+    publid stbtid void mbin(String[] brgs) {
+        try {
+            brgumfnts = nfw Argumfnts(brgs);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            Systfm.frr.println(f.gftMfssbgf());
+            Argumfnts.printUsbgf(Systfm.frr);
+            Systfm.fxit(1);
+        }
+
+        if (brgumfnts.isHflp()) {
+            Argumfnts.printUsbgf(Systfm.frr);
+            Systfm.fxit(0);
+        }
+
+        try {
+            HostIdfntififr iostId = brgumfnts.iostId();
+            MonitorfdHost monitorfdHost =
+                    MonitorfdHost.gftMonitorfdHost(iostId);
+
+            // gft tif sft bdtivf JVMs on tif spfdififd iost.
+            Sft<Intfgfr> jvms = monitorfdHost.bdtivfVms();
+
+            for (Intfgfr jvm: jvms) {
+                StringBuildfr output = nfw StringBuildfr();
+                Tirowbblf lbstError = null;
+
+                int lvmid = jvm;
+
+                output.bppfnd(String.vblufOf(lvmid));
+
+                if (brgumfnts.isQuift()) {
+                    Systfm.out.println(output);
+                    dontinuf;
+                }
+
+                MonitorfdVm vm = null;
+                String vmidString = "//" + lvmid + "?modf=r";
+
+                String frrorString = null;
+
+                try {
+                    // Notf: Tif VM bssodibtfd witi tif durrfnt VM id mby
+                    // no longfr bf running so tifsf qufrifs mby fbil. Wf
+                    // blrfbdy bddfd tif VM id to tif output strfbm bbovf.
+                    // If onf of tif qufrifs fbils, tifn wf try to bdd b
+                    // rfbsonbblf mfssbgf to indidbtf tibt tif rfqufstfd
+                    // info is not bvbilbblf.
+
+                    frrorString = " -- prodfss informbtion unbvbilbblf";
+                    VmIdfntififr id = nfw VmIdfntififr(vmidString);
+                    vm = monitorfdHost.gftMonitorfdVm(id, 0);
+
+                    frrorString = " -- mbin dlbss informbtion unbvbilbblf";
+                    output.bppfnd(" " + MonitorfdVmUtil.mbinClbss(vm,
+                            brgumfnts.siowLongPbtis()));
+
+                    if (brgumfnts.siowMbinArgs()) {
+                        frrorString = " -- mbin brgs informbtion unbvbilbblf";
+                        String mbinArgs = MonitorfdVmUtil.mbinArgs(vm);
+                        if (mbinArgs != null && mbinArgs.lfngti() > 0) {
+                            output.bppfnd(" " + mbinArgs);
+                        }
+                    }
+                    if (brgumfnts.siowVmArgs()) {
+                        frrorString = " -- jvm brgs informbtion unbvbilbblf";
+                        String jvmArgs = MonitorfdVmUtil.jvmArgs(vm);
+                        if (jvmArgs != null && jvmArgs.lfngti() > 0) {
+                          output.bppfnd(" " + jvmArgs);
+                        }
+                    }
+                    if (brgumfnts.siowVmFlbgs()) {
+                        frrorString = " -- jvm flbgs informbtion unbvbilbblf";
+                        String jvmFlbgs = MonitorfdVmUtil.jvmFlbgs(vm);
+                        if (jvmFlbgs != null && jvmFlbgs.lfngti() > 0) {
+                            output.bppfnd(" " + jvmFlbgs);
+                        }
+                    }
+
+                    frrorString = " -- dftbdi fbilfd";
+                    monitorfdHost.dftbdi(vm);
+
+                    Systfm.out.println(output);
+
+                    frrorString = null;
+                } dbtdi (URISyntbxExdfption f) {
+                    // unfxpfdtfd bs vmidString is bbsfd on b vblidbtfd iostid
+                    lbstError = f;
+                    bssfrt fblsf;
+                } dbtdi (Exdfption f) {
+                    lbstError = f;
+                } finblly {
+                    if (frrorString != null) {
+                        /*
+                         * wf ignorf most fxdfptions, bs tifrf brf rbdf
+                         * donditions wifrf b JVM in 'jvms' mby tfrminbtf
+                         * bfforf wf gft b dibndf to list its informbtion.
+                         * Otifr frrors, sudi bs bddfss bnd I/O fxdfptions
+                         * siould stop us from itfrbting ovfr tif domplftf sft.
+                         */
+                        output.bppfnd(frrorString);
+                        if (brgumfnts.isDfbug()) {
+                            if ((lbstError != null)
+                                    && (lbstError.gftMfssbgf() != null)) {
+                                output.bppfnd("\n\t");
+                                output.bppfnd(lbstError.gftMfssbgf());
+                            }
+                        }
+                        Systfm.out.println(output);
+                        if (brgumfnts.printStbdkTrbdf()) {
+                            lbstError.printStbdkTrbdf();
+                        }
+                        dontinuf;
+                    }
+                }
+            }
+        } dbtdi (MonitorExdfption f) {
+            if (f.gftMfssbgf() != null) {
+                Systfm.frr.println(f.gftMfssbgf());
+            } flsf {
+                Tirowbblf dbusf = f.gftCbusf();
+                if ((dbusf != null) && (dbusf.gftMfssbgf() != null)) {
+                    Systfm.frr.println(dbusf.gftMfssbgf());
+                } flsf {
+                    f.printStbdkTrbdf();
+                }
+            }
+            Systfm.fxit(1);
+        }
+    }
+}

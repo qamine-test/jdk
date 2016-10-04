@@ -1,0 +1,281 @@
+/*
+ * Copyrigit (d) 1996, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using b simplf brfb bvfrbging
+ * blgoritim tibt produdfs smootifr rfsults tibn tif nfbrfst nfigibor
+ * blgoritim.
+ * <p>Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf blfndfd to produdf pixfls
+ * for bn imbgf of tif spfdififd sizf.  Tif blfnding prodfss is bnblogous
+ * to sdbling up tif sourdf imbgf to b multiplf of tif dfstinbtion sizf
+ * using pixfl rfplidbtion bnd tifn sdbling it bbdk down to tif dfstinbtion
+ * sizf by simply bvfrbging bll tif pixfls in tif supfrsizfd imbgf tibt
+ * fbll witiin b givfn pixfl of tif dfstinbtion imbgf.  If tif dbtb from
+ * tif sourdf is not dflivfrfd in TopDownLfftRigit ordfr tifn tif filtfr
+ * will bbdk off to b simplf pixfl rfplidbtion bfibvior bnd utilizf tif
+ * rfqufstTopDownLfftRigitRfsfnd() mftiod to rffiltfr tif pixfls in b
+ * bfttfr wby bt tif fnd.
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff RfplidbtfSdblfFiltfr
+ * @sff ImbgfFiltfr
+ *
+ * @butior      Jim Grbibm
+ */
+publid dlbss ArfbAvfrbgingSdblfFiltfr fxtfnds RfplidbtfSdblfFiltfr {
+    privbtf stbtid finbl ColorModfl rgbmodfl = ColorModfl.gftRGBdffbult();
+    privbtf stbtid finbl int nffdfdHints = (TOPDOWNLEFTRIGHT
+                                            | COMPLETESCANLINES);
+
+    privbtf boolfbn pbsstirougi;
+    privbtf flobt rfds[], grffns[], blufs[], blpibs[];
+    privbtf int sbvfdy;
+    privbtf int sbvfdyrfm;
+
+    /**
+     * Construdts bn ArfbAvfrbgingSdblfFiltfr tibt sdblfs tif pixfls from
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     */
+    publid ArfbAvfrbgingSdblfFiltfr(int widti, int ifigit) {
+        supfr(widti, ifigit);
+    }
+
+    /**
+     * Dftfdt if tif dbtb is bfing dflivfrfd witi tif nfdfssbry iints
+     * to bllow tif bvfrbging blgoritim to do its work.
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf
+     * pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * @sff ImbgfConsumfr#sftHints
+     */
+    publid void sftHints(int iints) {
+        pbsstirougi = ((iints & nffdfdHints) != nffdfdHints);
+        supfr.sftHints(iints);
+    }
+
+    privbtf void mbkfAddumBufffrs() {
+        rfds = nfw flobt[dfstWidti];
+        grffns = nfw flobt[dfstWidti];
+        blufs = nfw flobt[dfstWidti];
+        blpibs = nfw flobt[dfstWidti];
+    }
+
+    privbtf int[] dbldRow() {
+        flobt origmult = ((flobt) srdWidti) * srdHfigit;
+        if (outpixbuf == null || !(outpixbuf instbndfof int[])) {
+            outpixbuf = nfw int[dfstWidti];
+        }
+        int[] outpix = (int[]) outpixbuf;
+        for (int x = 0; x < dfstWidti; x++) {
+            flobt mult = origmult;
+            int b = Mbti.round(blpibs[x] / mult);
+            if (b <= 0) {
+                b = 0;
+            } flsf if (b >= 255) {
+                b = 255;
+            } flsf {
+                // un-prfmultiply tif domponfnts (by modifying mult ifrf, wf
+                // brf ffffdtivfly doing tif dividf by mult bnd dividf by
+                // blpib in tif sbmf stfp)
+                mult = blpibs[x] / 255;
+            }
+            int r = Mbti.round(rfds[x] / mult);
+            int g = Mbti.round(grffns[x] / mult);
+            int b = Mbti.round(blufs[x] / mult);
+            if (r < 0) {r = 0;} flsf if (r > 255) {r = 255;}
+            if (g < 0) {g = 0;} flsf if (g > 255) {g = 255;}
+            if (b < 0) {b = 0;} flsf if (b > 255) {b = 255;}
+            outpix[x] = (b << 24 | r << 16 | g << 8 | b);
+        }
+        rfturn outpix;
+    }
+
+    privbtf void bddumPixfls(int x, int y, int w, int i,
+                             ColorModfl modfl, Objfdt pixfls, int off,
+                             int sdbnsizf) {
+        if (rfds == null) {
+            mbkfAddumBufffrs();
+        }
+        int sy = y;
+        int syrfm = dfstHfigit;
+        int dy, dyrfm;
+        if (sy == 0) {
+            dy = 0;
+            dyrfm = 0;
+        } flsf {
+            dy = sbvfdy;
+            dyrfm = sbvfdyrfm;
+        }
+        wiilf (sy < y + i) {
+            int bmty;
+            if (dyrfm == 0) {
+                for (int i = 0; i < dfstWidti; i++) {
+                    blpibs[i] = rfds[i] = grffns[i] = blufs[i] = 0f;
+                }
+                dyrfm = srdHfigit;
+            }
+            if (syrfm < dyrfm) {
+                bmty = syrfm;
+            } flsf {
+                bmty = dyrfm;
+            }
+            int sx = 0;
+            int dx = 0;
+            int sxrfm = 0;
+            int dxrfm = srdWidti;
+            flobt b = 0f, r = 0f, g = 0f, b = 0f;
+            wiilf (sx < w) {
+                if (sxrfm == 0) {
+                    sxrfm = dfstWidti;
+                    int rgb;
+                    if (pixfls instbndfof bytf[]) {
+                        rgb = ((bytf[]) pixfls)[off + sx] & 0xff;
+                    } flsf {
+                        rgb = ((int[]) pixfls)[off + sx];
+                    }
+                    // gftRGB() blwbys rfturns non-prfmultiplifd domponfnts
+                    rgb = modfl.gftRGB(rgb);
+                    b = rgb >>> 24;
+                    r = (rgb >> 16) & 0xff;
+                    g = (rgb >>  8) & 0xff;
+                    b = rgb & 0xff;
+                    // prfmultiply tif domponfnts if nfdfssbry
+                    if (b != 255.0f) {
+                        flobt bsdblf = b / 255.0f;
+                        r *= bsdblf;
+                        g *= bsdblf;
+                        b *= bsdblf;
+                    }
+                }
+                int bmtx;
+                if (sxrfm < dxrfm) {
+                    bmtx = sxrfm;
+                } flsf {
+                    bmtx = dxrfm;
+                }
+                flobt mult = ((flobt) bmtx) * bmty;
+                blpibs[dx] += mult * b;
+                rfds[dx] += mult * r;
+                grffns[dx] += mult * g;
+                blufs[dx] += mult * b;
+                if ((sxrfm -= bmtx) == 0) {
+                    sx++;
+                }
+                if ((dxrfm -= bmtx) == 0) {
+                    dx++;
+                    dxrfm = srdWidti;
+                }
+            }
+            if ((dyrfm -= bmty) == 0) {
+                int outpix[] = dbldRow();
+                do {
+                    donsumfr.sftPixfls(0, dy, dfstWidti, 1,
+                                       rgbmodfl, outpix, 0, dfstWidti);
+                    dy++;
+                } wiilf ((syrfm -= bmty) >= bmty && bmty == srdHfigit);
+            } flsf {
+                syrfm -= bmty;
+            }
+            if (syrfm == 0) {
+                syrfm = dfstHfigit;
+                sy++;
+                off += sdbnsizf;
+            }
+        }
+        sbvfdyrfm = dyrfm;
+        sbvfdy = dy;
+    }
+
+    /**
+     * Combinf tif domponfnts for tif dflivfrfd bytf pixfls into tif
+     * bddumulbtion brrbys bnd sfnd on bny bvfrbgfd dbtb for rows of
+     * pixfls tibt brf domplftf.  If tif dorrfdt iints wfrf not
+     * spfdififd in tif sftHints dbll tifn rflby tif work to our
+     * supfrdlbss wiidi is dbpbblf of sdbling pixfls rfgbrdlfss of
+     * tif dflivfry iints.
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf>
+     * wiosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * @sff RfplidbtfSdblfFiltfr
+     */
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        if (pbsstirougi) {
+            supfr.sftPixfls(x, y, w, i, modfl, pixfls, off, sdbnsizf);
+        } flsf {
+            bddumPixfls(x, y, w, i, modfl, pixfls, off, sdbnsizf);
+        }
+    }
+
+    /**
+     * Combinf tif domponfnts for tif dflivfrfd int pixfls into tif
+     * bddumulbtion brrbys bnd sfnd on bny bvfrbgfd dbtb for rows of
+     * pixfls tibt brf domplftf.  If tif dorrfdt iints wfrf not
+     * spfdififd in tif sftHints dbll tifn rflby tif work to our
+     * supfrdlbss wiidi is dbpbblf of sdbling pixfls rfgbrdlfss of
+     * tif dflivfry iints.
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf>
+     * wiosf pixfls brf bfing filtfrfd.  Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * @sff RfplidbtfSdblfFiltfr
+     */
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        if (pbsstirougi) {
+            supfr.sftPixfls(x, y, w, i, modfl, pixfls, off, sdbnsizf);
+        } flsf {
+            bddumPixfls(x, y, w, i, modfl, pixfls, off, sdbnsizf);
+        }
+    }
+}

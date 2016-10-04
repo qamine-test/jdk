@@ -1,0 +1,641 @@
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+
+/**
+ * Tif <dodf>FontMftrids</dodf> dlbss dffinfs b font mftrids objfdt, wiidi
+ * fndbpsulbtfs informbtion bbout tif rfndfring of b pbrtidulbr font on b
+ * pbrtidulbr sdrffn.
+ * <p>
+ * <b>Notf to subdlbssfrs</b>: Sindf mbny of tifsf mftiods form dlosfd,
+ * mutublly rfdursivf loops, you must tbkf dbrf tibt you implfmfnt
+ * bt lfbst onf of tif mftiods in fbdi sudi loop to prfvfnt
+ * infinitf rfdursion wifn your subdlbss is usfd.
+ * In pbrtidulbr, tif following is tif minimbl suggfstfd sft of mftiods
+ * to ovfrridf in ordfr to fnsurf dorrfdtnfss bnd prfvfnt infinitf
+ * rfdursion (tiougi otifr subsfts brf fqublly ffbsiblf):
+ * <ul>
+ * <li>{@link #gftAsdfnt()}
+ * <li>{@link #gftLfbding()}
+ * <li>{@link #gftMbxAdvbndf()}
+ * <li>{@link #dibrWidti(dibr)}
+ * <li>{@link #dibrsWidti(dibr[], int, int)}
+ * </ul>
+ * <p>
+ * <img srd="dod-filfs/FontMftrids-1.gif" blt="Tif lfttfr 'p' siowing its 'rfffrfndf point'"
+ * stylf="bordfr:15px; flobt:rigit; mbrgin: 7px 10px;">
+ * Notf tibt tif implfmfntbtions of tifsf mftiods brf
+ * infffidifnt, so tify brf usublly ovfrriddfn witi morf fffidifnt
+ * toolkit-spfdifid implfmfntbtions.
+ * <p>
+ * Wifn bn bpplidbtion bsks to plbdf b dibrbdtfr bt tif position
+ * (<i>x</i>,&nbsp;<i>y</i>), tif dibrbdtfr is plbdfd so tibt its
+ * rfffrfndf point (siown bs tif dot in tif bddompbnying imbgf) is
+ * put bt tibt position. Tif rfffrfndf point spfdififs b iorizontbl
+ * linf dbllfd tif <i>bbsflinf</i> of tif dibrbdtfr. In normbl
+ * printing, tif bbsflinfs of dibrbdtfrs siould blign.
+ * <p>
+ * In bddition, fvfry dibrbdtfr in b font ibs bn <i>bsdfnt</i>, b
+ * <i>dfsdfnt</i>, bnd bn <i>bdvbndf widti</i>. Tif bsdfnt is tif
+ * bmount by wiidi tif dibrbdtfr bsdfnds bbovf tif bbsflinf. Tif
+ * dfsdfnt is tif bmount by wiidi tif dibrbdtfr dfsdfnds bflow tif
+ * bbsflinf. Tif bdvbndf widti indidbtfs tif position bt wiidi AWT
+ * siould plbdf tif nfxt dibrbdtfr.
+ * <p>
+ * An brrby of dibrbdtfrs or b string dbn blso ibvf bn bsdfnt, b
+ * dfsdfnt, bnd bn bdvbndf widti. Tif bsdfnt of tif brrby is tif
+ * mbximum bsdfnt of bny dibrbdtfr in tif brrby. Tif dfsdfnt is tif
+ * mbximum dfsdfnt of bny dibrbdtfr in tif brrby. Tif bdvbndf widti
+ * is tif sum of tif bdvbndf widtis of fbdi of tif dibrbdtfrs in tif
+ * dibrbdtfr brrby.  Tif bdvbndf of b <dodf>String</dodf> is tif
+ * distbndf blong tif bbsflinf of tif <dodf>String</dodf>.  Tiis
+ * distbndf is tif widti tibt siould bf usfd for dfntfring or
+ * rigit-bligning tif <dodf>String</dodf>.
+ * <p>Notf tibt tif bdvbndf of b <dodf>String</dodf> is not nfdfssbrily
+ * tif sum of tif bdvbndfs of its dibrbdtfrs mfbsurfd in isolbtion
+ * bfdbusf tif widti of b dibrbdtfr dbn vbry dfpfnding on its dontfxt.
+ * For fxbmplf, in Arbbid tfxt, tif sibpf of b dibrbdtfr dbn dibngf
+ * in ordfr to donnfdt to otifr dibrbdtfrs.  Also, in somf sdripts,
+ * dfrtbin dibrbdtfr sfqufndfs dbn bf rfprfsfntfd by b singlf sibpf,
+ * dbllfd b <fm>ligbturf</fm>.  Mfbsuring dibrbdtfrs individublly dofs
+ * not bddount for tifsf trbnsformbtions.
+ * <p>Font mftrids brf bbsflinf-rflbtivf, mfbning tibt tify brf
+ * gfnfrblly indfpfndfnt of tif rotbtion bpplifd to tif font (modulo
+ * possiblf grid iinting ffffdts).  Sff {@link jbvb.bwt.Font Font}.
+ *
+ * @butior      Jim Grbibm
+ * @sff         jbvb.bwt.Font
+ * @sindf       1.0
+ */
+publid bbstrbdt dlbss FontMftrids implfmfnts jbvb.io.Sfriblizbblf {
+
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    privbtf stbtid finbl FontRfndfrContfxt
+        DEFAULT_FRC = nfw FontRfndfrContfxt(null, fblsf, fblsf);
+
+    /**
+     * Tif bdtubl {@link Font} from wiidi tif font mftrids brf
+     * drfbtfd.
+     * Tiis dbnnot bf null.
+     *
+     * @sfribl
+     * @sff #gftFont()
+     */
+    protfdtfd Font font;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1681126225205050147L;
+
+    /**
+     * Crfbtfs b nfw <dodf>FontMftrids</dodf> objfdt for finding out
+     * ifigit bnd widti informbtion bbout tif spfdififd <dodf>Font</dodf>
+     * bnd spfdifid dibrbdtfr glypis in tibt <dodf>Font</dodf>.
+     * @pbrbm     font tif <dodf>Font</dodf>
+     * @sff       jbvb.bwt.Font
+     */
+    protfdtfd FontMftrids(Font font) {
+        tiis.font = font;
+    }
+
+    /**
+     * Gfts tif <dodf>Font</dodf> dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     * @rfturn    tif <dodf>Font</dodf> dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     */
+    publid Font gftFont() {
+        rfturn font;
+    }
+
+    /**
+     * Gfts tif <dodf>FontRfndfrContfxt</dodf> usfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt to mfbsurf tfxt.
+     * <p>
+     * Notf tibt mftiods in tiis dlbss wiidi tbkf b <dodf>Grbpiids</dodf>
+     * pbrbmftfr mfbsurf tfxt using tif <dodf>FontRfndfrContfxt</dodf>
+     * of tibt <dodf>Grbpiids</dodf> objfdt, bnd not tiis
+     * <dodf>FontRfndfrContfxt</dodf>
+     * @rfturn    tif <dodf>FontRfndfrContfxt</dodf> usfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     * @sindf 1.6
+     */
+    publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+        rfturn DEFAULT_FRC;
+    }
+
+    /**
+     * Dftfrminfs tif <fm>stbndbrd lfbding</fm> of tif
+     * <dodf>Font</dodf> dfsdribfd by tiis <dodf>FontMftrids</dodf>
+     * objfdt.  Tif stbndbrd lfbding, or
+     * intfrlinf spbding, is tif logidbl bmount of spbdf to bf rfsfrvfd
+     * bftwffn tif dfsdfnt of onf linf of tfxt bnd tif bsdfnt of tif nfxt
+     * linf. Tif ifigit mftrid is dbldulbtfd to indludf tiis fxtrb spbdf.
+     * @rfturn    tif stbndbrd lfbding of tif <dodf>Font</dodf>.
+     * @sff   #gftHfigit()
+     * @sff   #gftAsdfnt()
+     * @sff   #gftDfsdfnt()
+     */
+    publid int gftLfbding() {
+        rfturn 0;
+    }
+
+    /**
+     * Dftfrminfs tif <fm>font bsdfnt</fm> of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt. Tif font bsdfnt
+     * is tif distbndf from tif font's bbsflinf to tif top of most
+     * blpibnumfrid dibrbdtfrs. Somf dibrbdtfrs in tif <dodf>Font</dodf>
+     * migit fxtfnd bbovf tif font bsdfnt linf.
+     * @rfturn     tif font bsdfnt of tif <dodf>Font</dodf>.
+     * @sff        #gftMbxAsdfnt()
+     */
+    publid int gftAsdfnt() {
+        rfturn font.gftSizf();
+    }
+
+    /**
+     * Dftfrminfs tif <fm>font dfsdfnt</fm> of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt. Tif font dfsdfnt is tif distbndf
+     * from tif font's bbsflinf to tif bottom of most blpibnumfrid
+     * dibrbdtfrs witi dfsdfndfrs. Somf dibrbdtfrs in tif
+     * <dodf>Font</dodf> migit fxtfnd
+     * bflow tif font dfsdfnt linf.
+     * @rfturn     tif font dfsdfnt of tif <dodf>Font</dodf>.
+     * @sff        #gftMbxDfsdfnt()
+     */
+    publid int gftDfsdfnt() {
+        rfturn 0;
+    }
+
+    /**
+     * Gfts tif stbndbrd ifigit of b linf of tfxt in tiis font.  Tiis
+     * is tif distbndf bftwffn tif bbsflinf of bdjbdfnt linfs of tfxt.
+     * It is tif sum of tif lfbding + bsdfnt + dfsdfnt. Duf to rounding
+     * tiis mby not bf tif sbmf bs gftAsdfnt() + gftDfsdfnt() + gftLfbding().
+     * Tifrf is no gubrbntff tibt linfs of tfxt spbdfd bt tiis distbndf brf
+     * disjoint; sudi linfs mby ovfrlbp if somf dibrbdtfrs ovfrsioot
+     * fitifr tif stbndbrd bsdfnt or tif stbndbrd dfsdfnt mftrid.
+     * @rfturn    tif stbndbrd ifigit of tif font.
+     * @sff       #gftLfbding()
+     * @sff       #gftAsdfnt()
+     * @sff       #gftDfsdfnt()
+     */
+    publid int gftHfigit() {
+        rfturn gftLfbding() + gftAsdfnt() + gftDfsdfnt();
+    }
+
+    /**
+     * Dftfrminfs tif mbximum bsdfnt of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.  No dibrbdtfr
+     * fxtfnds furtifr bbovf tif font's bbsflinf tibn tiis ifigit.
+     * @rfturn    tif mbximum bsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff       #gftAsdfnt()
+     */
+    publid int gftMbxAsdfnt() {
+        rfturn gftAsdfnt();
+    }
+
+    /**
+     * Dftfrminfs tif mbximum dfsdfnt of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.  No dibrbdtfr
+     * fxtfnds furtifr bflow tif font's bbsflinf tibn tiis ifigit.
+     * @rfturn    tif mbximum dfsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff       #gftDfsdfnt()
+     */
+    publid int gftMbxDfsdfnt() {
+        rfturn gftDfsdfnt();
+    }
+
+    /**
+     * For bbdkwbrd dompbtibility only.
+     * @rfturn    tif mbximum dfsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff #gftMbxDfsdfnt()
+     * @dfprfdbtfd As of JDK vfrsion 1.1.1,
+     * rfplbdfd by <dodf>gftMbxDfsdfnt()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid int gftMbxDfdfnt() {
+        rfturn gftMbxDfsdfnt();
+    }
+
+    /**
+     * Gfts tif mbximum bdvbndf widti of bny dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf> is
+     * not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * @rfturn    tif mbximum bdvbndf widti of bny dibrbdtfr
+     *            in tif <dodf>Font</dodf>, or <dodf>-1</dodf> if tif
+     *            mbximum bdvbndf widti is not known.
+     */
+    publid int gftMbxAdvbndf() {
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns tif bdvbndf widti of tif spfdififd dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
+     *
+     * <p>Tiis mftiod dofsn't vblidbtf tif spfdififd dibrbdtfr to bf b
+     * vblid Unidodf dodf point. Tif dbllfr must vblidbtf tif
+     * dibrbdtfr vbluf using {@link
+     * jbvb.lbng.Cibrbdtfr#isVblidCodfPoint(int)
+     * Cibrbdtfr.isVblidCodfPoint} if nfdfssbry.
+     *
+     * @pbrbm dodfPoint tif dibrbdtfr (Unidodf dodf point) to bf mfbsurfd
+     * @rfturn    tif bdvbndf widti of tif spfdififd dibrbdtfr
+     *            in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *            <dodf>FontMftrids</dodf> objfdt.
+     * @sff   #dibrsWidti(dibr[], int, int)
+     * @sff   #stringWidti(String)
+     */
+    publid int dibrWidti(int dodfPoint) {
+        if (!Cibrbdtfr.isVblidCodfPoint(dodfPoint)) {
+            dodfPoint = 0xffff; // substitutf missing glypi widti
+        }
+
+        if (dodfPoint < 256) {
+            rfturn gftWidtis()[dodfPoint];
+        } flsf {
+            dibr[] bufffr = nfw dibr[2];
+            int lfn = Cibrbdtfr.toCibrs(dodfPoint, bufffr, 0);
+            rfturn dibrsWidti(bufffr, 0, lfn);
+        }
+    }
+
+    /**
+     * Rfturns tif bdvbndf widti of tif spfdififd dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
+     *
+     * <p><b>Notf:</b> Tiis mftiod dbnnot ibndlf <b
+     * irff="../lbng/Cibrbdtfr.itml#supplfmfntbry"> supplfmfntbry
+     * dibrbdtfrs</b>. To support bll Unidodf dibrbdtfrs, indluding
+     * supplfmfntbry dibrbdtfrs, usf tif {@link #dibrWidti(int)} mftiod.
+     *
+     * @pbrbm di tif dibrbdtfr to bf mfbsurfd
+     * @rfturn     tif bdvbndf widti of tif spfdififd dibrbdtfr
+     *                  in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *                  <dodf>FontMftrids</dodf> objfdt.
+     * @sff        #dibrsWidti(dibr[], int, int)
+     * @sff        #stringWidti(String)
+     */
+    publid int dibrWidti(dibr di) {
+        if (di < 256) {
+            rfturn gftWidtis()[di];
+        }
+        dibr dbtb[] = {di};
+        rfturn dibrsWidti(dbtb, 0, 1);
+    }
+
+    /**
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd
+     * <dodf>String</dodf> in tiis <dodf>Font</dodf>.  Tif bdvbndf
+     * is tif distbndf from tif lfftmost point to tif rigitmost point
+     * on tif string's bbsflinf.
+     * <p>
+     * Notf tibt tif bdvbndf of b <dodf>String</dodf> is
+     * not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * @pbrbm str tif <dodf>String</dodf> to bf mfbsurfd
+     * @rfturn    tif bdvbndf widti of tif spfdififd <dodf>String</dodf>
+     *                  in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *                  <dodf>FontMftrids</dodf>.
+     * @tirows NullPointfrExdfption if str is null.
+     * @sff       #bytfsWidti(bytf[], int, int)
+     * @sff       #dibrsWidti(dibr[], int, int)
+     * @sff       #gftStringBounds(String, Grbpiids)
+     */
+    publid int stringWidti(String str) {
+        int lfn = str.lfngti();
+        dibr dbtb[] = nfw dibr[lfn];
+        str.gftCibrs(0, lfn, dbtb, 0);
+        rfturn dibrsWidti(dbtb, 0, lfn);
+    }
+
+    /**
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd brrby
+     * of dibrbdtfrs in tiis <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf>
+     * is not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * Tiis is fquivblfnt to mfbsuring b <dodf>String</dodf> of tif
+     * dibrbdtfrs in tif spfdififd rbngf.
+     * @pbrbm dbtb tif brrby of dibrbdtfrs to bf mfbsurfd
+     * @pbrbm off tif stbrt offsft of tif dibrbdtfrs in tif brrby
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to bf mfbsurfd from tif brrby
+     * @rfturn    tif bdvbndf widti of tif subbrrby of tif spfdififd
+     *               <dodf>dibr</dodf> brrby in tif font dfsdribfd by
+     *               tiis <dodf>FontMftrids</dodf> objfdt.
+     * @tirows    NullPointfrExdfption if <dodf>dbtb</dodf> is null.
+     * @tirows    IndfxOutOfBoundsExdfption if tif <dodf>off</dodf>
+     *            bnd <dodf>lfn</dodf> brgumfnts indfx dibrbdtfrs outsidf
+     *            tif bounds of tif <dodf>dbtb</dodf> brrby.
+     * @sff       #dibrWidti(int)
+     * @sff       #dibrWidti(dibr)
+     * @sff       #bytfsWidti(bytf[], int, int)
+     * @sff       #stringWidti(String)
+     */
+    publid int dibrsWidti(dibr dbtb[], int off, int lfn) {
+        rfturn stringWidti(nfw String(dbtb, off, lfn));
+    }
+
+    /**
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd brrby
+     * of bytfs in tiis <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf>
+     * is not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * Tiis is fquivblfnt to mfbsuring b <dodf>String</dodf> of tif
+     * dibrbdtfrs in tif spfdififd rbngf.
+     * @pbrbm dbtb tif brrby of bytfs to bf mfbsurfd
+     * @pbrbm off tif stbrt offsft of tif bytfs in tif brrby
+     * @pbrbm lfn tif numbfr of bytfs to bf mfbsurfd from tif brrby
+     * @rfturn    tif bdvbndf widti of tif subbrrby of tif spfdififd
+     *               <dodf>bytf</dodf> brrby in tif <dodf>Font</dodf>
+     *                  dfsdribfd by
+     *               tiis <dodf>FontMftrids</dodf> objfdt.
+     * @tirows    NullPointfrExdfption if <dodf>dbtb</dodf> is null.
+     * @tirows    IndfxOutOfBoundsExdfption if tif <dodf>off</dodf>
+     *            bnd <dodf>lfn</dodf> brgumfnts indfx bytfs outsidf
+     *            tif bounds of tif <dodf>dbtb</dodf> brrby.
+     * @sff       #dibrsWidti(dibr[], int, int)
+     * @sff       #stringWidti(String)
+     */
+    publid int bytfsWidti(bytf dbtb[], int off, int lfn) {
+        rfturn stringWidti(nfw String(dbtb, 0, off, lfn));
+    }
+
+    /**
+     * Gfts tif bdvbndf widtis of tif first 256 dibrbdtfrs in tif
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
+     * @rfturn    bn brrby storing tif bdvbndf widtis of tif
+     *                 dibrbdtfrs in tif <dodf>Font</dodf>
+     *                 dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.
+     */
+    publid int[] gftWidtis() {
+        int widtis[] = nfw int[256];
+        for (dibr di = 0 ; di < 256 ; di++) {
+            widtis[di] = dibrWidti(di);
+        }
+        rfturn widtis;
+    }
+
+    /**
+     * Cifdks to sff if tif <dodf>Font</dodf> ibs uniform linf mftrids.  A
+     * dompositf font mby donsist of sfvfrbl difffrfnt fonts to dovfr
+     * vbrious dibrbdtfr sfts.  In sudi dbsfs, tif
+     * <dodf>FontLinfMftrids</dodf> objfdts brf not uniform.
+     * Difffrfnt fonts mby ibvf b difffrfnt bsdfnt, dfsdfnt, mftrids bnd
+     * so on.  Tiis informbtion is somftimfs nfdfssbry for linf
+     * mfbsuring bnd linf brfbking.
+     * @rfturn <dodf>truf</dodf> if tif font ibs uniform linf mftrids;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @sff jbvb.bwt.Font#ibsUniformLinfMftrids()
+     */
+    publid boolfbn ibsUniformLinfMftrids() {
+        rfturn font.ibsUniformLinfMftrids();
+    }
+
+    /**
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * <dodf>String</dodf> in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd <dodf>String</dodf> bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(String, FontRfndfrContfxt)
+     */
+    publid LinfMftrids gftLinfMftrids( String str, Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(str, myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * <dodf>String</dodf> in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft of <dodf>str</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>str</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd <dodf>String</dodf> bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(String, int, int, FontRfndfrContfxt)
+     */
+    publid LinfMftrids gftLinfMftrids( String str,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(str, bfginIndfx, limit, myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * dibrbdtfr brrby in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm dibrs tif spfdififd dibrbdtfr brrby
+     * @pbrbm bfginIndfx tif initibl offsft of <dodf>dibrs</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>dibrs</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd dibrbdtfr brrby bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(dibr[], int, int, FontRfndfrContfxt)
+     */
+    publid LinfMftrids gftLinfMftrids(dibr [] dibrs,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(
+                                dibrs, bfginIndfx, limit, myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * {@link CibrbdtfrItfrbtor} in tif spfdififd {@link Grbpiids}
+     * dontfxt.
+     * @pbrbm di tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft in <dodf>di</dodf>
+     * @pbrbm limit tif fnd indfx of <dodf>di</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd brgumfnts.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(CibrbdtfrItfrbtor, int, int, FontRfndfrContfxt)
+     */
+    publid LinfMftrids gftLinfMftrids(CibrbdtfrItfrbtor di,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(di, bfginIndfx, limit, myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif bounds of tif spfdififd <dodf>String</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.  Tif bounds is usfd
+     * to lbyout tif <dodf>String</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b {@link Rfdtbnglf2D} tibt is tif bounding box of tif
+     * spfdififd <dodf>String</dodf> in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(String, FontRfndfrContfxt)
+     */
+    publid Rfdtbnglf2D gftStringBounds( String str, Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(str, myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif bounds of tif spfdififd <dodf>String</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.  Tif bounds is usfd
+     * to lbyout tif <dodf>String</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm bfginIndfx tif offsft of tif bfginning of <dodf>str</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>str</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * spfdififd <dodf>String</dodf> in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(String, int, int, FontRfndfrContfxt)
+     */
+    publid Rfdtbnglf2D gftStringBounds( String str,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(str, bfginIndfx, limit,
+                                        myFRC(dontfxt));
+    }
+
+   /**
+     * Rfturns tif bounds of tif spfdififd brrby of dibrbdtfrs
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * Tif bounds is usfd to lbyout tif <dodf>String</dodf>
+     * drfbtfd witi tif spfdififd brrby of dibrbdtfrs,
+     * <dodf>bfginIndfx</dodf> bnd <dodf>limit</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm dibrs bn brrby of dibrbdtfrs
+     * @pbrbm bfginIndfx tif initibl offsft of tif brrby of
+     * dibrbdtfrs
+     * @pbrbm limit tif fnd offsft of tif brrby of dibrbdtfrs
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * spfdififd dibrbdtfr brrby in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(dibr[], int, int, FontRfndfrContfxt)
+     */
+    publid Rfdtbnglf2D gftStringBounds( dibr [] dibrs,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(dibrs, bfginIndfx, limit,
+                                        myFRC(dontfxt));
+    }
+
+   /**
+     * Rfturns tif bounds of tif dibrbdtfrs indfxfd in tif spfdififd
+     * <dodf>CibrbdtfrItfrbtor</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm di tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft in <dodf>di</dodf>
+     * @pbrbm limit tif fnd indfx of <dodf>di</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * dibrbdtfrs indfxfd in tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(CibrbdtfrItfrbtor, int, int, FontRfndfrContfxt)
+     */
+    publid Rfdtbnglf2D gftStringBounds(CibrbdtfrItfrbtor di,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(di, bfginIndfx, limit,
+                                        myFRC(dontfxt));
+    }
+
+    /**
+     * Rfturns tif bounds for tif dibrbdtfr witi tif mbximum bounds
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif
+     * bounding box for tif dibrbdtfr witi tif mbximum bounds.
+     * @sff jbvb.bwt.Font#gftMbxCibrBounds(FontRfndfrContfxt)
+     */
+    publid Rfdtbnglf2D gftMbxCibrBounds(Grbpiids dontfxt) {
+        rfturn font.gftMbxCibrBounds(myFRC(dontfxt));
+    }
+
+    privbtf FontRfndfrContfxt myFRC(Grbpiids dontfxt) {
+        if (dontfxt instbndfof Grbpiids2D) {
+            rfturn ((Grbpiids2D)dontfxt).gftFontRfndfrContfxt();
+        }
+        rfturn DEFAULT_FRC;
+    }
+
+
+    /**
+     * Rfturns b rfprfsfntbtion of tiis <dodf>FontMftrids</dodf>
+     * objfdt's vblufs bs b <dodf>String</dodf>.
+     * @rfturn    b <dodf>String</dodf> rfprfsfntbtion of tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[font=" + gftFont() +
+            "bsdfnt=" + gftAsdfnt() +
+            ", dfsdfnt=" + gftDfsdfnt() +
+            ", ifigit=" + gftHfigit() + "]";
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mftiod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+}

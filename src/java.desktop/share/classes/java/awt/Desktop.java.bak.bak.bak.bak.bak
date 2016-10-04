@@ -1,0 +1,484 @@
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.bwt.AWTPfrmission;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.pffr.DfsktopPffr;
+import sun.bwt.SunToolkit;
+import sun.bwt.HfbdlfssToolkit;
+import jbvb.io.FilfPfrmission;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Tif {@dodf Dfsktop} dlbss bllows b Jbvb bpplidbtion to lbundi
+ * bssodibtfd bpplidbtions rfgistfrfd on tif nbtivf dfsktop to ibndlf
+ * b {@link jbvb.nft.URI} or b filf.
+ *
+ * <p> Supportfd opfrbtions indludf:
+ * <ul>
+ *   <li>lbundiing tif usfr-dffbult browsfr to siow b spfdififd
+ *       URI;</li>
+ *   <li>lbundiing tif usfr-dffbult mbil dlifnt witi bn optionbl
+ *       {@dodf mbilto} URI;</li>
+ *   <li>lbundiing b rfgistfrfd bpplidbtion to opfn, fdit or print b
+ *       spfdififd filf.</li>
+ * </ul>
+ *
+ * <p> Tiis dlbss providfs mftiods dorrfsponding to tifsf
+ * opfrbtions. Tif mftiods look for tif bssodibtfd bpplidbtion
+ * rfgistfrfd on tif durrfnt plbtform, bnd lbundi it to ibndlf b URI
+ * or filf. If tifrf is no bssodibtfd bpplidbtion or tif bssodibtfd
+ * bpplidbtion fbils to bf lbundifd, bn fxdfption is tirown.
+ *
+ * <p> An bpplidbtion is rfgistfrfd to b URI or filf typf; for
+ * fxbmplf, tif {@dodf "sxi"} filf fxtfnsion is typidblly rfgistfrfd
+ * to StbrOffidf.  Tif mfdibnism of rfgistfring, bddfssing, bnd
+ * lbundiing tif bssodibtfd bpplidbtion is plbtform-dfpfndfnt.
+ *
+ * <p> Ebdi opfrbtion is bn bdtion typf rfprfsfntfd by tif {@link
+ * Dfsktop.Adtion} dlbss.
+ *
+ * <p> Notf: wifn somf bdtion is invokfd bnd tif bssodibtfd
+ * bpplidbtion is fxfdutfd, it will bf fxfdutfd on tif sbmf systfm bs
+ * tif onf on wiidi tif Jbvb bpplidbtion wbs lbundifd.
+ *
+ * @sindf 1.6
+ * @butior Armin Cifn
+ * @butior Gforgf Zibng
+ */
+publid dlbss Dfsktop {
+
+    /**
+     * Rfprfsfnts bn bdtion typf.  Ebdi plbtform supports b difffrfnt
+     * sft of bdtions.  You mby usf tif {@link Dfsktop#isSupportfd}
+     * mftiod to dftfrminf if tif givfn bdtion is supportfd by tif
+     * durrfnt plbtform.
+     * @sff jbvb.bwt.Dfsktop#isSupportfd(jbvb.bwt.Dfsktop.Adtion)
+     * @sindf 1.6
+     */
+    publid stbtid fnum Adtion {
+        /**
+         * Rfprfsfnts bn "opfn" bdtion.
+         * @sff Dfsktop#opfn(jbvb.io.Filf)
+         */
+        OPEN,
+        /**
+         * Rfprfsfnts bn "fdit" bdtion.
+         * @sff Dfsktop#fdit(jbvb.io.Filf)
+         */
+        EDIT,
+        /**
+         * Rfprfsfnts b "print" bdtion.
+         * @sff Dfsktop#print(jbvb.io.Filf)
+         */
+        PRINT,
+        /**
+         * Rfprfsfnts b "mbil" bdtion.
+         * @sff Dfsktop#mbil()
+         * @sff Dfsktop#mbil(jbvb.nft.URI)
+         */
+        MAIL,
+        /**
+         * Rfprfsfnts b "browsf" bdtion.
+         * @sff Dfsktop#browsf(jbvb.nft.URI)
+         */
+        BROWSE
+    };
+
+    privbtf DfsktopPffr pffr;
+
+    /**
+     * Supprfssfs dffbult donstrudtor for noninstbntibbility.
+     */
+    privbtf Dfsktop() {
+        pffr = Toolkit.gftDffbultToolkit().drfbtfDfsktopPffr(tiis);
+    }
+
+    /**
+     * Rfturns tif <dodf>Dfsktop</dodf> instbndf of tif durrfnt
+     * browsfr dontfxt.  On somf plbtforms tif Dfsktop API mby not bf
+     * supportfd; usf tif {@link #isDfsktopSupportfd} mftiod to
+     * dftfrminf if tif durrfnt dfsktop is supportfd.
+     * @rfturn tif Dfsktop instbndf of tif durrfnt browsfr dontfxt
+     * @tirows HfbdlfssExdfption if {@link
+     * GrbpiidsEnvironmfnt#isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis dlbss is not
+     * supportfd on tif durrfnt plbtform
+     * @sff #isDfsktopSupportfd()
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid syndironizfd Dfsktop gftDfsktop(){
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) tirow nfw HfbdlfssExdfption();
+        if (!Dfsktop.isDfsktopSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Dfsktop API is not " +
+                                                    "supportfd on tif durrfnt plbtform");
+        }
+
+        sun.bwt.AppContfxt dontfxt = sun.bwt.AppContfxt.gftAppContfxt();
+        Dfsktop dfsktop = (Dfsktop)dontfxt.gft(Dfsktop.dlbss);
+
+        if (dfsktop == null) {
+            dfsktop = nfw Dfsktop();
+            dontfxt.put(Dfsktop.dlbss, dfsktop);
+        }
+
+        rfturn dfsktop;
+    }
+
+    /**
+     * Tfsts wiftifr tiis dlbss is supportfd on tif durrfnt plbtform.
+     * If it's supportfd, usf {@link #gftDfsktop()} to rftrifvf bn
+     * instbndf.
+     *
+     * @rfturn <dodf>truf</dodf> if tiis dlbss is supportfd on tif
+     *         durrfnt plbtform; <dodf>fblsf</dodf> otifrwisf
+     * @sff #gftDfsktop()
+     */
+    publid stbtid boolfbn isDfsktopSupportfd(){
+        Toolkit dffbultToolkit = Toolkit.gftDffbultToolkit();
+        if (dffbultToolkit instbndfof SunToolkit) {
+            rfturn ((SunToolkit)dffbultToolkit).isDfsktopSupportfd();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Tfsts wiftifr bn bdtion is supportfd on tif durrfnt plbtform.
+     *
+     * <p>Evfn wifn tif plbtform supports bn bdtion, b filf or URI mby
+     * not ibvf b rfgistfrfd bpplidbtion for tif bdtion.  For fxbmplf,
+     * most of tif plbtforms support tif {@link Dfsktop.Adtion#OPEN}
+     * bdtion.  But for b spfdifid filf, tifrf mby not bf bn
+     * bpplidbtion rfgistfrfd to opfn it.  In tiis dbsf, {@link
+     * #isSupportfd} mby rfturn {@dodf truf}, but tif dorrfsponding
+     * bdtion mftiod will tirow bn {@link IOExdfption}.
+     *
+     * @pbrbm bdtion tif spfdififd {@link Adtion}
+     * @rfturn <dodf>truf</dodf> if tif spfdififd bdtion is supportfd on
+     *         tif durrfnt plbtform; <dodf>fblsf</dodf> otifrwisf
+     * @sff Dfsktop.Adtion
+     */
+    publid boolfbn isSupportfd(Adtion bdtion) {
+        rfturn pffr.isSupportfd(bdtion);
+    }
+
+    /**
+     * Cifdks if tif filf is b vblid filf bnd rfbdbblf.
+     *
+     * @tirows SfdurityExdfption If b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)} mftiod
+     *         dfnifs rfbd bddfss to tif filf
+     * @tirows NullPointfrExdfption if filf is null
+     * @tirows IllfgblArgumfntExdfption if filf dofsn't fxist
+     */
+    privbtf stbtid void difdkFilfVblidbtion(Filf filf){
+        if (filf == null) tirow nfw NullPointfrExdfption("Filf must not bf null");
+
+        if (!filf.fxists()) {
+            tirow nfw IllfgblArgumfntExdfption("Tif filf: "
+                                               + filf.gftPbti() + " dofsn't fxist.");
+        }
+
+        filf.dbnRfbd();
+    }
+
+    /**
+     * Cifdks if tif bdtion typf is supportfd.
+     *
+     * @pbrbm bdtionTypf tif bdtion typf in qufstion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif spfdififd bdtion typf is not
+     *         supportfd on tif durrfnt plbtform
+     */
+    privbtf void difdkAdtionSupport(Adtion bdtionTypf){
+        if (!isSupportfd(bdtionTypf)) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tif " + bdtionTypf.nbmf()
+                                                    + " bdtion is not supportfd on tif durrfnt plbtform!");
+        }
+    }
+
+
+    /**
+     *  Cblls to tif sfdurity mbnbgfr's <dodf>difdkPfrmission</dodf> mftiod witi
+     *  bn <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     *  pfrmission.
+     */
+    privbtf void difdkAWTPfrmission(){
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(nfw AWTPfrmission(
+                                   "siowWindowWitioutWbrningBbnnfr"));
+        }
+    }
+
+    /**
+     * Lbundifs tif bssodibtfd bpplidbtion to opfn tif filf.
+     *
+     * <p> If tif spfdififd filf is b dirfdtory, tif filf mbnbgfr of
+     * tif durrfnt plbtform is lbundifd to opfn it.
+     *
+     * @pbrbm filf tif filf to bf opfnfd witi tif bssodibtfd bpplidbtion
+     * @tirows NullPointfrExdfption if {@dodf filf} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd filf dofsn't
+     * fxist
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     * dofs not support tif {@link Dfsktop.Adtion#OPEN} bdtion
+     * @tirows IOExdfption if tif spfdififd filf ibs no bssodibtfd
+     * bpplidbtion or tif bssodibtfd bpplidbtion fbils to bf lbundifd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     * {@link jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}
+     * mftiod dfnifs rfbd bddfss to tif filf, or it dfnifs tif
+     * <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     * pfrmission, or tif dblling tirfbd is not bllowfd to drfbtf b
+     * subprodfss
+     * @sff jbvb.bwt.AWTPfrmission
+     */
+    publid void opfn(Filf filf) tirows IOExdfption {
+        difdkAWTPfrmission();
+        difdkExfd();
+        difdkAdtionSupport(Adtion.OPEN);
+        difdkFilfVblidbtion(filf);
+
+        pffr.opfn(filf);
+    }
+
+    /**
+     * Lbundifs tif bssodibtfd fditor bpplidbtion bnd opfns b filf for
+     * fditing.
+     *
+     * @pbrbm filf tif filf to bf opfnfd for fditing
+     * @tirows NullPointfrExdfption if tif spfdififd filf is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd filf dofsn't
+     * fxist
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     * dofs not support tif {@link Dfsktop.Adtion#EDIT} bdtion
+     * @tirows IOExdfption if tif spfdififd filf ibs no bssodibtfd
+     * fditor, or tif bssodibtfd bpplidbtion fbils to bf lbundifd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     * {@link jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}
+     * mftiod dfnifs rfbd bddfss to tif filf, or {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)} mftiod
+     * dfnifs writf bddfss to tif filf, or it dfnifs tif
+     * <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     * pfrmission, or tif dblling tirfbd is not bllowfd to drfbtf b
+     * subprodfss
+     * @sff jbvb.bwt.AWTPfrmission
+     */
+    publid void fdit(Filf filf) tirows IOExdfption {
+        difdkAWTPfrmission();
+        difdkExfd();
+        difdkAdtionSupport(Adtion.EDIT);
+        filf.dbnWritf();
+        difdkFilfVblidbtion(filf);
+
+        pffr.fdit(filf);
+    }
+
+    /**
+     * Prints b filf witi tif nbtivf dfsktop printing fbdility, using
+     * tif bssodibtfd bpplidbtion's print dommbnd.
+     *
+     * @pbrbm filf tif filf to bf printfd
+     * @tirows NullPointfrExdfption if tif spfdififd filf is {@dodf
+     * null}
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd filf dofsn't
+     * fxist
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     *         dofs not support tif {@link Dfsktop.Adtion#PRINT} bdtion
+     * @tirows IOExdfption if tif spfdififd filf ibs no bssodibtfd
+     * bpplidbtion tibt dbn bf usfd to print it
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     * {@link jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}
+     * mftiod dfnifs rfbd bddfss to tif filf, or its {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkPrintJobAddfss()} mftiod dfnifs
+     * tif pfrmission to print tif filf, or tif dblling tirfbd is not
+     * bllowfd to drfbtf b subprodfss
+     */
+    publid void print(Filf filf) tirows IOExdfption {
+        difdkExfd();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPrintJobAddfss();
+        }
+        difdkAdtionSupport(Adtion.PRINT);
+        difdkFilfVblidbtion(filf);
+
+        pffr.print(filf);
+    }
+
+    /**
+     * Lbundifs tif dffbult browsfr to displby b {@dodf URI}.
+     * If tif dffbult browsfr is not bblf to ibndlf tif spfdififd
+     * {@dodf URI}, tif bpplidbtion rfgistfrfd for ibndling
+     * {@dodf URIs} of tif spfdififd typf is invokfd. Tif bpplidbtion
+     * is dftfrminfd from tif protodol bnd pbti of tif {@dodf URI}, bs
+     * dffinfd by tif {@dodf URI} dlbss.
+     * <p>
+     * If tif dblling tirfbd dofs not ibvf tif nfdfssbry pfrmissions,
+     * bnd tiis is invokfd from witiin bn bpplft,
+     * {@dodf ApplftContfxt.siowDodumfnt()} is usfd. Similbrly, if tif dblling
+     * dofs not ibvf tif nfdfssbry pfrmissions, bnd tiis is invokfd from witiin
+     * b Jbvb Wfb Stbrtfd bpplidbtion, {@dodf BbsidSfrvidf.siowDodumfnt()}
+     * is usfd.
+     *
+     * @pbrbm uri tif URI to bf displbyfd in tif usfr dffbult browsfr
+     * @tirows NullPointfrExdfption if {@dodf uri} is {@dodf null}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     * dofs not support tif {@link Dfsktop.Adtion#BROWSE} bdtion
+     * @tirows IOExdfption if tif usfr dffbult browsfr is not found,
+     * or it fbils to bf lbundifd, or tif dffbult ibndlfr bpplidbtion
+     * fbilfd to bf lbundifd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd it
+     * dfnifs tif
+     * <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     * pfrmission, or tif dblling tirfbd is not bllowfd to drfbtf b
+     * subprodfss; bnd not invokfd from witiin bn bpplft or Jbvb Wfb Stbrtfd
+     * bpplidbtion
+     * @tirows IllfgblArgumfntExdfption if tif nfdfssbry pfrmissions
+     * brf not bvbilbblf bnd tif URI dbn not bf donvfrtfd to b {@dodf URL}
+     * @sff jbvb.nft.URI
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sff jbvb.bpplft.ApplftContfxt
+     */
+    publid void browsf(URI uri) tirows IOExdfption {
+        SfdurityExdfption sfdurityExdfption = null;
+        try {
+            difdkAWTPfrmission();
+            difdkExfd();
+        } dbtdi (SfdurityExdfption f) {
+            sfdurityExdfption = f;
+        }
+        difdkAdtionSupport(Adtion.BROWSE);
+        if (uri == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        if (sfdurityExdfption == null) {
+            pffr.browsf(uri);
+            rfturn;
+        }
+
+        // Cblling tirfbd dofsn't ibvf nfdfssbry privilfdgfs.
+        // Dflfgbtf to DfsktopBrowsf so tibt it dbn work in
+        // bpplft/wfbstbrt.
+        URL url = null;
+        try {
+            url = uri.toURL();
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("Unbblf to donvfrt URI to URL", f);
+        }
+        sun.bwt.DfsktopBrowsf db = sun.bwt.DfsktopBrowsf.gftInstbndf();
+        if (db == null) {
+            // Not in wfbstbrt/bpplft, tirow tif fxdfption.
+            tirow sfdurityExdfption;
+        }
+        db.browsf(url);
+    }
+
+    /**
+     * Lbundifs tif mbil domposing window of tif usfr dffbult mbil
+     * dlifnt.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     * dofs not support tif {@link Dfsktop.Adtion#MAIL} bdtion
+     * @tirows IOExdfption if tif usfr dffbult mbil dlifnt is not
+     * found, or it fbils to bf lbundifd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd it
+     * dfnifs tif
+     * <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     * pfrmission, or tif dblling tirfbd is not bllowfd to drfbtf b
+     * subprodfss
+     * @sff jbvb.bwt.AWTPfrmission
+     */
+    publid void mbil() tirows IOExdfption {
+        difdkAWTPfrmission();
+        difdkExfd();
+        difdkAdtionSupport(Adtion.MAIL);
+        URI mbiltoURI = null;
+        try{
+            mbiltoURI = nfw URI("mbilto:?");
+            pffr.mbil(mbiltoURI);
+        } dbtdi (URISyntbxExdfption f){
+            // won't rfbdi ifrf.
+        }
+    }
+
+    /**
+     * Lbundifs tif mbil domposing window of tif usfr dffbult mbil
+     * dlifnt, filling tif mfssbgf fiflds spfdififd by b {@dodf
+     * mbilto:} URI.
+     *
+     * <p> A <dodf>mbilto:</dodf> URI dbn spfdify mfssbgf fiflds
+     * indluding <i>"to"</i>, <i>"dd"</i>, <i>"subjfdt"</i>,
+     * <i>"body"</i>, ftd.  Sff <b
+     * irff="ittp://www.iftf.org/rfd/rfd2368.txt">Tif mbilto URL
+     * sdifmf (RFC 2368)</b> for tif {@dodf mbilto:} URI spfdifidbtion
+     * dftbils.
+     *
+     * @pbrbm mbiltoURI tif spfdififd {@dodf mbilto:} URI
+     * @tirows NullPointfrExdfption if tif spfdififd URI is {@dodf
+     * null}
+     * @tirows IllfgblArgumfntExdfption if tif URI sdifmf is not
+     *         <dodf>"mbilto"</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tif durrfnt plbtform
+     * dofs not support tif {@link Dfsktop.Adtion#MAIL} bdtion
+     * @tirows IOExdfption if tif usfr dffbult mbil dlifnt is not
+     * found or fbils to bf lbundifd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd it
+     * dfnifs tif
+     * <dodf>AWTPfrmission("siowWindowWitioutWbrningBbnnfr")</dodf>
+     * pfrmission, or tif dblling tirfbd is not bllowfd to drfbtf b
+     * subprodfss
+     * @sff jbvb.nft.URI
+     * @sff jbvb.bwt.AWTPfrmission
+     */
+    publid  void mbil(URI mbiltoURI) tirows IOExdfption {
+        difdkAWTPfrmission();
+        difdkExfd();
+        difdkAdtionSupport(Adtion.MAIL);
+        if (mbiltoURI == null) tirow nfw NullPointfrExdfption();
+
+        if (!"mbilto".fqublsIgnorfCbsf(mbiltoURI.gftSdifmf())) {
+            tirow nfw IllfgblArgumfntExdfption("URI sdifmf is not \"mbilto\"");
+        }
+
+        pffr.mbil(mbiltoURI);
+    }
+
+    privbtf void difdkExfd() tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(nfw FilfPfrmission("<<ALL FILES>>",
+                                                  SfdurityConstbnts.FILE_EXECUTE_ACTION));
+        }
+    }
+}

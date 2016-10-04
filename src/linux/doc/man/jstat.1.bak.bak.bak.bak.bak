@@ -1,0 +1,568 @@
+'\" t
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 10 Mby 2011
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jstbt.1
+.\"
+.if n .pl 99999
+.TH jstbt 1 "10 Mby 2011" "JDK 8" "Monitoring Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jstbt \- Monitors Jbvb Virtubl Mbdiinf (JVM) stbtistids\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjstbt\fR [ \fIgfnfrblOption\fR | \fIoutputOptions vmid\fR [ \fIintfrvbl\fR[s|ms] [ \fIdount \fR] ]
+.fi     
+.sp     
+.TP     
+\fIgfnfrblOption\fR
+A singlf gfnfrbl dommbnd-linf option \f3-iflp\fR or \f3-options\fR\&. Sff Gfnfrbl Options\&.
+.TP     
+\fIoutputOptions\fR
+Onf or morf output options tibt donsist of b singlf \f3stbtOption\fR, plus bny of tif \f3-t\fR, \f3-i\fR, bnd \f3-J\fR options\&. Sff Output Options\&.
+.TP     
+\fIvmid\fR
+Virtubl mbdiinf idfntififr, wiidi is b string tibt indidbtfs tif tbrgft JVM\&. Tif gfnfrbl syntbx is tif following:
+.sp     
+.nf     
+\f3[protodol:][//]lvmid[@iostnbmf[:port]/sfrvfrnbmf]\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Tif syntbx of tif \f3vmid\fR string dorrfsponds to tif syntbx of b URI\&. Tif \f3vmid\fR string dbn vbry from b simplf intfgfr tibt rfprfsfnts b lodbl JVM to b morf domplfx donstrudtion tibt spfdififs b dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion-spfdifid vblufs\&. Sff Virtubl Mbdiinf Idfntififr\&.
+.TP     
+\fIintfrvbl\fR [s|ms]
+Sbmpling intfrvbl in tif spfdififd units, sfdonds (s) or millisfdonds (ms)\&. Dffbult units brf millisfdonds\&. Must bf b positivf intfgfr\&. Wifn spfdififd, tif \f3jstbt\fR dommbnd produdfs its output bt fbdi intfrvbl\&.
+.TP     
+\fIdount\fR
+Numbfr of sbmplfs to displby\&. Tif dffbult vbluf is infinity wiidi dbusfs tif \f3jstbt\fR dommbnd to displby stbtistids until tif tbrgft JVM tfrminbtfs or tif \f3jstbt\fR dommbnd is tfrminbtfd\&. Tiis vbluf must bf b positivf intfgfr\&.
+.SH DESCRIPTION    
+Tif \f3jstbt\fR dommbnd displbys pfrformbndf stbtistids for bn instrumfntfd Jbvb HotSpot VM\&. Tif tbrgft JVM is idfntififd by its virtubl mbdiinf idfntififr, or \f3vmid\fR option\&.
+.SH VIRTUAL\ MACHINE\ IDENTIFIER    
+Tif syntbx of tif \f3vmid\fR string dorrfsponds to tif syntbx of b URI:
+.sp     
+.nf     
+\f3[protodol:][//]lvmid[@iostnbmf[:port]/sfrvfrnbmf]\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.TP     
+\fIprotodol\fR
+Tif dommunidbtions protodol\&. If tif \fIprotodol\fR vbluf is omittfd bnd b iost nbmf is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid optimizfd lodbl protodol\&. If tif \fIprotodol\fR vbluf is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
+.TP     
+\fIlvmid\fR
+Tif lodbl virtubl mbdiinf idfntififr for tif tbrgft JVM\&. Tif \f3lvmid\fR is b plbtform-spfdifid vbluf tibt uniqufly idfntififs b JVM on b systfm\&. Tif \f3lvmid\fR is tif only rfquirfd domponfnt of b virtubl mbdiinf idfntififr\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif tbrgft JVM prodfss\&. You dbn usf tif \f3jps\fR dommbnd to dftfrminf tif \f3lvmid\fR\&. Also, you dbn dftfrminf tif \f3lvmid\fR on UNIX plbtforms witi tif \f3ps\fR dommbnd, bnd on Windows witi tif Windows Tbsk Mbnbgfr\&.
+.TP     
+\fIiostnbmf\fR
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If tif \fIiostnbmf\fR vbluf is omittfd, tifn tif tbrgft iost is tif lodbl iost\&.
+.TP     
+\fIport\fR
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \fIiostnbmf\fR vbluf is omittfd or tif \fIprotodol\fR vbluf spfdififs bn optimizfd, lodbl protodol, tifn tif \fIport\fR vbluf is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion-spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif port vbluf indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \fIport\fR vbluf is omittfd bnd tif \fIprotodol\fR vbluf indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
+.TP     
+\fIsfrvfrnbmf\fR
+Tif trfbtmfnt of tif \f3sfrvfrnbmf\fR pbrbmftfr dfpfnds on implfmfntbtion\&. For tif optimizfd lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, it rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&.
+.SH OPTIONS    
+Tif \f3jstbt\fR dommbnd supports two typfs of options, gfnfrbl options bnd output options\&. Gfnfrbl options dbusf tif \f3jstbt\fR dommbnd to displby simplf usbgf bnd vfrsion informbtion\&. Output options dftfrminf tif dontfnt bnd formbt of tif stbtistidbl output\&.
+.PP
+All options bnd tifir fundtionblity brf subjfdt to dibngf or rfmovbl in futurf rflfbsfs\&.
+.SS GENERAL\ OPTIONS    
+If you spfdify onf of tif gfnfrbl options, tifn you dbnnot spfdify bny otifr option or pbrbmftfr\&.
+.TP
+-iflp
+.br
+Displbys b iflp mfssbgf\&.
+.TP
+-options
+.br
+Displbys b list of stbtid options\&. Sff Output Options\&.
+.SS OUTPUT\ OPTIONS    
+If you do not spfdify b gfnfrbl option, tifn you dbn spfdify output options\&. Output options dftfrminf tif dontfnt bnd formbt of tif \f3jstbt\fR dommbnd\&'s output, bnd donsist of b singlf \f3stbtOption\fR, plus bny of tif otifr output options (\f3-i\fR, \f3-t\fR, bnd \f3-J\fR)\&. Tif \f3stbtOption\fR must domf first\&.
+.PP
+Output is formbttfd bs b tbblf, witi dolumns tibt brf sfpbrbtfd by spbdfs\&. A ifbdfr row witi titlfs dfsdribfs tif dolumns\&. Usf tif \f3-i\fR option to sft tif frfqufndy bt wiidi tif ifbdfr is displbyfd\&. Column ifbdfr nbmfs brf donsistfnt bmong tif difffrfnt options\&. In gfnfrbl, if two options providf b dolumn witi tif sbmf nbmf, tifn tif dbtb sourdf for tif two dolumns is tif sbmf\&.
+.PP
+Usf tif \f3-t\fR option to displby b timf stbmp dolumn, lbbflfd Timfstbmp bs tif first dolumn of output\&. Tif Timfstbmp dolumn dontbins tif flbpsfd timf, in sfdonds, sindf tif tbrgft JVM stbrtfd\&. Tif rfsolution of tif timf stbmp is dfpfndfnt on vbrious fbdtors bnd is subjfdt to vbribtion duf to dflbyfd tirfbd sdifduling on ifbvily lobdfd systfms\&.
+.PP
+Usf tif intfrvbl bnd dount pbrbmftfrs to dftfrminf iow frfqufntly bnd iow mbny timfs, rfspfdtivfly, tif \f3jstbt\fR dommbnd displbys its output\&.
+.PP
+\fINotf:\fR Do not to writf sdripts to pbrsf tif \f3jstbt\fR dommbnd\&'s output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jstbt\fR dommbnd output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+.TP
+-\fIstbtOption\fR
+.br
+Dftfrminfs tif stbtistids informbtion tif \f3jstbt\fR dommbnd displbys\&. Tif following lists tif bvbilbblf options\&. Usf tif \f3-options\fR gfnfrbl option to displby tif list of options for b pbrtidulbr plbtform instbllbtion\&. Sff Stbt Options bnd Output\&.
+
+\f3dlbss\fR: Displbys stbtistids bbout tif bfibvior of tif dlbss lobdfr\&.
+
+\f3dompilfr\fR: Displbys stbtistids bbout tif bfibvior of tif Jbvb HotSpot VM Just-in-Timf dompilfr\&.
+
+\f3gd\fR: Displbys stbtistids bbout tif bfibvior of tif gbrbbgf dollfdtfd ifbp\&.
+
+\f3gddbpbdity\fR: Displbys stbtistids bbout tif dbpbditifs of tif gfnfrbtions bnd tifir dorrfsponding spbdfs\&.
+
+\f3gddbusf\fR: Displbys b summbry bbout gbrbbgf dollfdtion stbtistids (sbmf bs \f3-gdutil\fR), witi tif dbusf of tif lbst bnd durrfnt (wifn bpplidbblf) gbrbbgf dollfdtion fvfnts\&.
+
+\f3gdnfw\fR: Displbys stbtistids of tif bfibvior of tif nfw gfnfrbtion\&.
+
+\f3gdnfwdbpbdity\fR: Displbys stbtistids bbout tif sizfs of tif nfw gfnfrbtions bnd its dorrfsponding spbdfs\&.
+
+\f3gdold\fR: Displbys stbtistids bbout tif bfibvior of tif old gfnfrbtion bnd Mftbspbdf Stbtistids\&.
+
+\f3gdolddbpbdity\fR: Displbys stbtistids bbout tif sizfs of tif old gfnfrbtion\&.
+
+\f3gdmftbdbpbdity\fR: Displbys stbtistids bbout tif sizfs of tif mftbspbdf\&.
+
+\f3gdutil\fR: Displbys b summbry bbout gbrbbgf dollfdtion stbtistids\&.
+
+\f3printdompilbtion\fR: Displbys Jbvb HotSpot VM dompilbtion mftiod stbtistids\&.
+.TP
+-i \fIn\fR
+.br
+Displbys b dolumn ifbdfr fvfry \fIn\fR sbmplfs (output rows), wifrf \fIn\fR is b positivf intfgfr\&. Dffbult vbluf is 0, wiidi displbys tif dolumn ifbdfr tif first row of dbtb\&.
+.TP
+-t
+.br
+Displby sb timfstbmp dolumn bs tif first dolumn of output\&. Tif timf stbmp is tif timf sindf tif stbrt timf of tif tbrgft JVM\&.
+.TP
+-J\fIjbvbOption\fR
+.br
+Pbssfs \f3jbvbOption\fR to tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. For b domplftf list of options, sff jbvb(1)\&.
+.SS STAT\ OPTIONS\ AND\ OUTPUT    
+Tif following informbtion summbrizfs tif dolumns tibt tif \f3jstbt\fR dommbnd outputs for fbdi \fIstbtOption\fR\&.
+.TP
+-dlbss \fIoption\fR
+.br
+Clbss lobdfr stbtistids\&.
+
+\f3Lobdfd\fR: Numbfr of dlbssfs lobdfd\&.
+
+\f3Bytfs\fR: Numbfr of KBs lobdfd\&.
+
+\f3Unlobdfd\fR: Numbfr of dlbssfs unlobdfd\&.
+
+\f3Bytfs\fR: Numbfr of Kbytfs unlobdfd\&.
+
+\f3Timf\fR: Timf spfnt pfrforming dlbss lobding bnd unlobding opfrbtions\&.
+.TP
+-dompilfr \fIoption\fR
+.br
+Jbvb HotSpot VM Just-in-Timf dompilfr stbtistids\&.
+
+\f3Compilfd\fR: Numbfr of dompilbtion tbsks pfrformfd\&.
+
+\f3Fbilfd\fR: Numbfr of dompilbtions tbsks fbilfd\&.
+
+\f3Invblid\fR: Numbfr of dompilbtion tbsks tibt wfrf invblidbtfd\&.
+
+\f3Timf\fR: Timf spfnt pfrforming dompilbtion tbsks\&.
+
+\f3FbilfdTypf\fR: Compilf typf of tif lbst fbilfd dompilbtion\&.
+
+\f3FbilfdMftiod\fR: Clbss nbmf bnd mftiod of tif lbst fbilfd dompilbtion\&.
+.TP
+-gd \fIoption\fR
+.br
+Gbrbbgf-dollfdtfd ifbp stbtistids\&.
+
+\f3S0C\fR: Currfnt survivor spbdf 0 dbpbdity (KB)\&.
+
+\f3S1C\fR: Currfnt survivor spbdf 1 dbpbdity (KB)\&.
+
+\f3S0U\fR: Survivor spbdf 0 utilizbtion (KB)\&.
+
+\f3S1U\fR: Survivor spbdf 1 utilizbtion (KB)\&.
+
+\f3EC\fR: Currfnt fdfn spbdf dbpbdity (KB)\&.
+
+\f3EU\fR: Edfn spbdf utilizbtion (KB)\&.
+
+\f3OC\fR: Currfnt old spbdf dbpbdity (KB)\&.
+
+\f3OU\fR: Old spbdf utilizbtion (KB)\&.
+
+\f3MC\fR: Mftbspbdf dbpbdity (KB)\&.
+
+\f3MU\fR: Mftbdspbdf utilizbtion (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion gbrbbgf dollfdtion fvfnts\&.
+
+\f3YGCT\fR: Young gfnfrbtion gbrbbgf dollfdtion timf\&.
+
+\f3FGC\fR: Numbfr of full GC fvfnts\&.
+
+\f3FGCT\fR: Full gbrbbgf dollfdtion timf\&.
+
+\f3GCT\fR: Totbl gbrbbgf dollfdtion timf\&.
+.TP
+-gddbpbdity \fIoption\fR
+.br
+Mfmory pool gfnfrbtion bnd spbdf dbpbditifs\&.
+
+\f3NGCMN\fR: Minimum nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3NGCMX\fR: Mbximum nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3NGC\fR: Currfnt nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3S0C\fR: Currfnt survivor spbdf 0 dbpbdity (KB)\&.
+
+\f3S1C\fR: Currfnt survivor spbdf 1 dbpbdity (KB)\&.
+
+\f3EC\fR: Currfnt fdfn spbdf dbpbdity (KB)\&.
+
+\f3OGCMN\fR: Minimum old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OGCMX\fR: Mbximum old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OGC\fR: Currfnt old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OC\fR: Currfnt old spbdf dbpbdity (KB)\&.
+
+\f3MCMN\fR: Minimum mftbspbdf dbpbdity (KB)\&.
+
+\f3MCMX\fR: Mbximum mftbspbdf dbpbdity (KB)\&.
+
+\f3MC\fR: Mftbspbdf dbpbdity (KB)\&.
+
+\f3YGC\fR: Numbfr of Young gfnfrbtion GC Evfnts\&.
+
+\f3FGC\fR: Numbfr of Full GC Evfnts\&.
+.TP
+-gddbusf \fIoption\fR
+.br
+Tiis option displbys tif sbmf summbry of gbrbbgf dollfdtion stbtistids bs tif \f3-gdutil\fR option, but indludfs tif dbusfs of tif lbst gbrbbgf dollfdtion fvfnt bnd (wifn bpplidbblf) tif durrfnt gbrbbgf dollfdtion fvfnt\&. In bddition to tif dolumns listfd for \f3-gdutil\fR, tiis option bdds tif following dolumns\&.
+
+Gbrbbgf dollfdtion stbtistids, indluding gbrbbgf dollfdtion Evfnts\&.
+
+\f3LGCC\fR: Cbusf of lbst gbrbbgf dollfdtion\&.
+
+\f3GCC\fR: Cbusf of durrfnt gbrbbgf dollfdtion\&.
+.TP
+-gdnfw \fIoption\fR
+.br
+Nfw gfnfrbtion stbtistids\&.
+
+\f3S0C\fR: Currfnt survivor spbdf 0 dbpbdity (KB)\&.
+
+\f3S1C\fR: Currfnt survivor spbdf 1 dbpbdity (KB)\&.
+
+\f3S0U\fR: Survivor spbdf 0 utilizbtion (KB)\&.
+
+\f3S1U\fR: Survivor spbdf 1 utilizbtion (KB)\&.
+
+\f3TT\fR: Tfnuring tirfsiold\&.
+
+\f3MTT\fR: Mbximum tfnuring tirfsiold\&.
+
+\f3DSS\fR: Dfsirfd survivor sizf (KB)\&.
+
+\f3EC\fR: Currfnt fdfn spbdf dbpbdity (KB)\&.
+
+\f3EU\fR: Edfn spbdf utilizbtion (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3YGCT\fR: Young gfnfrbtion gbrbbgf dollfdtion timf\&.
+.TP
+-gdnfwdbpbdity \fIoption\fR
+.br
+Nfw gfnfrbtion spbdf sizf stbtistids\&.
+
+NGCMN: Minimum nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3NGCMX\fR: Mbximum nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3NGC\fR: Currfnt nfw gfnfrbtion dbpbdity (KB)\&.
+
+\f3S0CMX\fR: Mbximum survivor spbdf 0 dbpbdity (KB)\&.
+
+\f3S0C\fR: Currfnt survivor spbdf 0 dbpbdity (KB)\&.
+
+\f3S1CMX\fR: Mbximum survivor spbdf 1 dbpbdity (KB)\&.
+
+\f3S1C\fR: Currfnt survivor spbdf 1 dbpbdity (KB)\&.
+
+\f3ECMX\fR: Mbximum fdfn spbdf dbpbdity (KB)\&.
+
+\f3EC\fR: Currfnt fdfn spbdf dbpbdity (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3FGC\fR: Numbfr of Full GC Evfnts\&.
+.TP
+-gdold \fIoption\fR
+.br
+old bnd pfrmbnfnt gfnfrbtion stbtistids\&.
+
+\f3MC\fR: Mftbspbdf dbpbdity (KB)\&.
+
+\f3MU\fR: Mftbspbdf utilizbtion (KB)\&.
+
+\f3OC\fR: Currfnt old spbdf dbpbdity (KB)\&.
+
+\f3OU\fR: old spbdf utilizbtion (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3FGC\fR: Numbfr of full GC fvfnts\&.
+
+\f3FGCT\fR: Full gbrbbgf dollfdtion timf\&.
+
+\f3GCT\fR: Totbl gbrbbgf dollfdtion timf\&.
+.TP
+-gdolddbpbdity \fIoption\fR
+.br
+Old gfnfrbtion stbtistids\&.
+
+\f3OGCMN\fR: Minimum old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OGCMX\fR: Mbximum old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OGC\fR: Currfnt old gfnfrbtion dbpbdity (KB)\&.
+
+\f3OC\fR: Currfnt old spbdf dbpbdity (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3FGC\fR: Numbfr of full GC fvfnts\&.
+
+\f3FGCT\fR: Full gbrbbgf dollfdtion timf\&.
+
+\f3GCT\fR: Totbl gbrbbgf dollfdtion timf\&.
+.TP
+-gdmftbdbpbdity \fIoption\fR
+.br
+Pfrmbnfnt gfnfrbtion stbtistids\&.
+
+\f3MCMN\fR: Minimum mftbspbdf dbpbdity (KB)\&.
+
+\f3MCMX\fR: Mbximum mftbspbdf dbpbdity (KB)\&.
+
+\f3MC\fR: Mftbspbdf dbpbdity (KB)\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3FGC\fR: Numbfr of full GC fvfnts\&.
+
+\f3FGCT\fR: Full gbrbbgf dollfdtion timf\&.
+
+\f3GCT\fR: Totbl gbrbbgf dollfdtion timf\&.
+.TP
+-gdutil \fIoption\fR
+.br
+Summbry of gbrbbgf dollfdtion stbtistids\&.
+
+\f3S0\fR: Survivor spbdf 0 utilizbtion bs b pfrdfntbgf of tif spbdf\&'s durrfnt dbpbdity\&.
+
+\f3S1\fR: Survivor spbdf 1 utilizbtion bs b pfrdfntbgf of tif spbdf\&'s durrfnt dbpbdity\&.
+
+\f3E\fR: Edfn spbdf utilizbtion bs b pfrdfntbgf of tif spbdf\&'s durrfnt dbpbdity\&.
+
+\f3O\fR: Old spbdf utilizbtion bs b pfrdfntbgf of tif spbdf\&'s durrfnt dbpbdity\&.
+
+\f3M\fR: Mftbspbdf utilizbtion bs b pfrdfntbgf of tif spbdf\&'s durrfnt dbpbdity\&.
+
+\f3YGC\fR: Numbfr of young gfnfrbtion GC fvfnts\&.
+
+\f3YGCT\fR: Young gfnfrbtion gbrbbgf dollfdtion timf\&.
+
+\f3FGC\fR: Numbfr of full GC fvfnts\&.
+
+\f3FGCT\fR: Full gbrbbgf dollfdtion timf\&.
+
+\f3GCT\fR: Totbl gbrbbgf dollfdtion timf\&.
+.TP
+-printdompilbtion \fIoption\fR
+.br
+Jbvb HotSpot VM dompilfr mftiod stbtistids\&.
+
+\f3Compilfd\fR: Numbfr of dompilbtion tbsks pfrformfd by tif most rfdfntly dompilfd mftiod\&.
+
+\f3Sizf\fR: Numbfr of bytfs of bytf dodf of tif most rfdfntly dompilfd mftiod\&.
+
+\f3Typf\fR: Compilbtion typf of tif most rfdfntly dompilfd mftiod\&.
+
+\f3Mftiod\fR: Clbss nbmf bnd mftiod nbmf idfntifying tif most rfdfntly dompilfd mftiod\&. Clbss nbmf usfs slbsi (/) instfbd of dot (\&.) bs b nbmf spbdf sfpbrbtor\&. Mftiod nbmf is tif mftiod witiin tif spfdififd dlbss\&. Tif formbt for tifsf two fiflds is donsistfnt witi tif HotSpot \f3-XX:+PrintComplbtion\fR option\&.
+.SH EXAMPLES    
+Tiis sfdtion prfsfnts somf fxbmplfs of monitoring b lodbl JVM witi bn \fIlvmid\fR of 21891\&.
+.SS THE\ GCUTIL\ OPTION    
+Tiis fxbmplf bttbdifs to lvmid 21891 bnd tbkfs 7 sbmplfs bt 250 millisfdond intfrvbls bnd displbys tif output bs spfdififd by tif -\f3gdutil\fR option\&.
+.PP
+Tif output of tiis fxbmplf siows tibt b young gfnfrbtion dollfdtion oddurrfd bftwffn tif tiird bnd fourti sbmplf\&. Tif dollfdtion took 0\&.001 sfdonds bnd promotfd objfdts from tif fdfn spbdf (E) to tif old spbdf (O), rfsulting in bn indrfbsf of old spbdf utilizbtion from 9\&.49% to 9\&.51%\&. Bfforf tif dollfdtion, tif survivor spbdf wbs 12\&.44% utilizfd, but bftfr tiis dollfdtion it is only 7\&.74% utilizfd\&.
+.sp     
+.nf     
+\f3jstbt \-gdutil 21891 250 7\fP
+.fi     
+.nf     
+\f3  S0     S1     E      O      M       YGC    YGCT    FGC    FGCT     GCT\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.80   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.80   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f30\&.00  99\&.74  13\&.80   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS REPEAT\ THE\ COLUMN\ HEADER\ STRING    
+Tiis fxbmplf bttbdifs to lvmid 21891 bnd tbkfs sbmplfs bt 250 millisfdond intfrvbls bnd displbys tif output bs spfdififd by \f3-gdutil\fR option\&. In bddition, it usfs tif \f3-i3\fR option to output tif dolumn ifbdfr bftfr fvfry 3 linfs of dbtb\&.
+.PP
+In bddition to siowing tif rfpfbting ifbdfr string, tiis fxbmplf siows tibt bftwffn tif sfdond bnd tiird sbmplfs, b young GC oddurrfd\&. Its durbtion wbs 0\&.001 sfdonds\&. Tif dollfdtion found fnougi bdtivf dbtb tibt tif survivor spbdf 0 utilizbtion (S0U) would ibvf fxdffdfd tif dfsirfd survivor Sizf (DSS)\&. As b rfsult, objfdts wfrf promotfd to tif old gfnfrbtion (not visiblf in tiis output), bnd tif tfnuring tirfsiold (TT) wbs lowfrfd from 31 to 2\&.
+.PP
+Anotifr dollfdtion oddurs bftwffn tif fifti bnd sixti sbmplfs\&. Tiis dollfdtion found vfry ffw survivors bnd rfturnfd tif tfnuring tirfsiold to 31\&.
+.sp     
+.nf     
+\f3jstbt \-gdnfw \-i3 21891 250\fP
+.fi     
+.nf     
+\f3 S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0    0\&.0   31\&.7 31  31   32\&.0    512\&.0    178\&.6    249    0\&.203\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0    0\&.0   31\&.7 31  31   32\&.0    512\&.0    355\&.5    249    0\&.203\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0   35\&.4    0\&.0  2  31   32\&.0    512\&.0     21\&.9    250    0\&.204\fP
+.fi     
+.nf     
+\f3 S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0   35\&.4    0\&.0  2  31   32\&.0    512\&.0    245\&.9    250    0\&.204\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0   35\&.4    0\&.0  2  31   32\&.0    512\&.0    421\&.1    250    0\&.204\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0    0\&.0   19\&.0 31  31   32\&.0    512\&.0     84\&.4    251    0\&.204\fP
+.fi     
+.nf     
+\f3 S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT\fP
+.fi     
+.nf     
+\f3  64\&.0   64\&.0    0\&.0   19\&.0 31  31   32\&.0    512\&.0    306\&.7    251    0\&.204\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS INCLUDE\ A\ TIME\ STAMP\ FOR\ EACH\ SAMPLE    
+Tiis fxbmplf bttbdifs to lvmid 21891 bnd tbkfs 3 sbmplfs bt 250 millisfdond intfrvbls\&. Tif \f3-t\fR option is usfd to gfnfrbtf b timf stbmp for fbdi sbmplf in tif first dolumn\&.
+.PP
+Tif Timfstbmp dolumn rfports tif flbpsfd timf in sfdonds sindf tif stbrt of tif tbrgft JVM\&. In bddition, tif \f3-gdolddbpbdity\fR output siows tif old gfnfrbtion dbpbdity (OGC) bnd tif old spbdf dbpbdity (OC) indrfbsing bs tif ifbp fxpbnds to mfft bllodbtion or promotion dfmbnds\&. Tif old gfnfrbtion dbpbdity (OGC) ibs grown to from 11,696 KB to 13820 KB bftfr tif figity-first full gbrbbgf dollfdtion (FGC)\&. Tif mbximum dbpbdity of tif gfnfrbtion (bnd spbdf) is 60,544 KB (OGCMX), so it still ibs room to fxpbnd\&.
+.sp     
+.nf     
+\f3Timfstbmp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT\fP
+.fi     
+.nf     
+\f3          150\&.1   1408\&.0  60544\&.0  11696\&.0  11696\&.0   194    80    2\&.874   3\&.799\fP
+.fi     
+.nf     
+\f3          150\&.4   1408\&.0  60544\&.0  13820\&.0  13820\&.0   194    81    2\&.938   3\&.863\fP
+.fi     
+.nf     
+\f3          150\&.7   1408\&.0  60544\&.0  13820\&.0  13820\&.0   194    81    2\&.938   3\&.863\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS MONITOR\ INSTRUMENTATION\ FOR\ A\ REMOTE\ JVM    
+Tiis fxbmplf bttbdifs to lvmid 40496 on tif systfm nbmfd rfmotf\&.dombin using tif \f3-gdutil\fR option, witi sbmplfs tbkfn fvfry sfdond indffinitfly\&.
+.PP
+Tif lvmid is dombinfd witi tif nbmf of tif rfmotf iost to donstrudt b \fIvmid\fR of \f340496@rfmotf\&.dombin\fR\&. Tiis vmid rfsults in tif usf of tif \f3rmi\fR protodol to dommunidbtf to tif dffbult \f3jstbtd\fR sfrvfr on tif rfmotf iost\&. Tif \f3jstbtd\fR sfrvfr is lodbtfd using tif rmirfgistry on \f3rfmotf\&.dombin\fR tibt is bound to tif dffbult rmirfgistry port (port 1099)\&.
+.sp     
+.nf     
+\f3jstbt \-gdutil 40496@rfmotf\&.dombin 1000\fP
+.fi     
+.nf     
+\f3\fI\&.\&.\&. output omittfd\fR\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jps(1)
+.TP 0.2i    
+\(bu
+jstbtd(1)
+.TP 0.2i    
+\(bu
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,146 @@
+/*
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.smbrtdbrdio;
+
+import jbvb.util.*;
+
+import jbvbx.smbrtdbrdio.*;
+
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
+
+/**
+ * CbrdTfrminbl implfmfntbtion.
+ *
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ */
+finbl dlbss TfrminblImpl fxtfnds CbrdTfrminbl {
+
+    // nbtivf SCARDCONTEXT
+    finbl long dontfxtId;
+
+    // tif nbmf of tiis tfrminbl (nbtivf PC/SC nbmf)
+    finbl String nbmf;
+
+    privbtf CbrdImpl dbrd;
+
+    TfrminblImpl(long dontfxtId, String nbmf) {
+        tiis.dontfxtId = dontfxtId;
+        tiis.nbmf = nbmf;
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid syndironizfd Cbrd donnfdt(String protodol) tirows CbrdExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(nfw CbrdPfrmission(nbmf, "donnfdt"));
+        }
+        if (dbrd != null) {
+            if (dbrd.isVblid()) {
+                String dbrdProto = dbrd.gftProtodol();
+                if (protodol.fqubls("*") || protodol.fqublsIgnorfCbsf(dbrdProto)) {
+                    rfturn dbrd;
+                } flsf {
+                    tirow nfw CbrdExdfption("Cbnnot donnfdt using " + protodol
+                        + ", donnfdtion blrfbdy fstbblisifd using " + dbrdProto);
+                }
+            } flsf {
+                dbrd = null;
+            }
+        }
+        try {
+            dbrd =  nfw CbrdImpl(tiis, protodol);
+            rfturn dbrd;
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_W_REMOVED_CARD) {
+                tirow nfw CbrdNotPrfsfntExdfption("No dbrd prfsfnt", f);
+            } flsf {
+                tirow nfw CbrdExdfption("donnfdt() fbilfd", f);
+            }
+        }
+    }
+
+    publid boolfbn isCbrdPrfsfnt() tirows CbrdExdfption {
+        try {
+            int[] stbtus = SCbrdGftStbtusCibngf(dontfxtId, 0,
+                    nfw int[] {SCARD_STATE_UNAWARE}, nfw String[] {nbmf});
+            rfturn (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+        } dbtdi (PCSCExdfption f) {
+            tirow nfw CbrdExdfption("isCbrdPrfsfnt() fbilfd", f);
+        }
+    }
+
+    privbtf boolfbn wbitForCbrd(boolfbn wbntPrfsfnt, long timfout) tirows CbrdExdfption {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfout must not bf nfgbtivf");
+        }
+        if (timfout == 0) {
+            timfout = TIMEOUT_INFINITE;
+        }
+        int[] stbtus = nfw int[] {SCARD_STATE_UNAWARE};
+        String[] rfbdfrs = nfw String[] {nbmf};
+        try {
+            // difdk if dbrd stbtus blrfbdy mbtdifs
+            stbtus = SCbrdGftStbtusCibngf(dontfxtId, 0, stbtus, rfbdfrs);
+            boolfbn prfsfnt = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+            if (wbntPrfsfnt == prfsfnt) {
+                rfturn truf;
+            }
+            // no mbtdi, wbit (until timfout fxpirfs)
+            long fnd = Systfm.durrfntTimfMillis() + timfout;
+            wiilf (wbntPrfsfnt != prfsfnt && timfout != 0) {
+              // sft rfmbining timfout
+              if (timfout != TIMEOUT_INFINITE) {
+                timfout = Mbti.mbx(fnd - Systfm.durrfntTimfMillis(), 0l);
+              }
+              stbtus = SCbrdGftStbtusCibngf(dontfxtId, timfout, stbtus, rfbdfrs);
+              prfsfnt = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+            }
+            rfturn wbntPrfsfnt == prfsfnt;
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_E_TIMEOUT) {
+                rfturn fblsf;
+            } flsf {
+                tirow nfw CbrdExdfption("wbitForCbrd() fbilfd", f);
+            }
+        }
+    }
+
+    publid boolfbn wbitForCbrdPrfsfnt(long timfout) tirows CbrdExdfption {
+        rfturn wbitForCbrd(truf, timfout);
+    }
+
+    publid boolfbn wbitForCbrdAbsfnt(long timfout) tirows CbrdExdfption {
+        rfturn wbitForCbrd(fblsf, timfout);
+    }
+
+    publid String toString() {
+        rfturn "PC/SC tfrminbl " + nbmf;
+    }
+}

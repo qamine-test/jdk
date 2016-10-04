@@ -1,158 +1,790 @@
 '\" t
-.\" Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: schemagen
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java Webサービス・ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: sdifmbgfn
+.\" Titlf: sdifmbgfn
+.\" Titlf: sdifmbgfn
+.\" Titlf: sdifmbgfn
+.\" Titlf: sdifmbgfn
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "schemagen" "1" "2013年11月21日" "JDK 8" "Java Webサービス・ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "sdifmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "sdifmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "sdifmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "sdifmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.TH "sdifmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-schemagen \- Javaクラス内で参照されているネームスペースごとにスキーマを生成します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+sdifmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+sdifmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+sdifmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+sdifmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+sdifmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIschemagen\fR [ \fIoptions\fR ] \fIjava\-files\fR
+.nf
+.nf
+.nf
+.nf
+\fIsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fIsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fIsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fIsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fIsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIjava\-files\fR
+.PP
+.PP
+.PP
+.PP
+\fIjbvb\-filfs\fR
+\fIjbvb\-filfs\fR
+\fIjbvb\-filfs\fR
+\fIjbvb\-filfs\fR
+\fIjbvb\-filfs\fR
 .RS 4
-処理するJavaクラス・ファイル。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+処理するJbvbクラス・ファイル。
+処理するJbvbクラス・ファイル。
+処理するJbvbクラス・ファイル。
+処理するJbvbクラス・ファイル。
+処理するJbvbクラス・ファイル。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-スキーマ・ジェネレータは、Javaクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/schemagenTask\&.htmlにある
-「Using SchemaGen with Ant」を参照してください
 .PP
-プラットフォームのbinディレクトリにある適切な\fIschemagen\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Javaソース・ファイルとクラス・ファイルのいずれも処理できます。
+.PP
+.PP
+.PP
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itmlにある
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itmlにある
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itmlにある
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itmlにある
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itmlにある
+「Using SdifmbGfn witi Ant」を参照してください
+「Using SdifmbGfn witi Ant」を参照してください
+「Using SdifmbGfn witi Ant」を参照してください
+「Using SdifmbGfn witi Ant」を参照してください
+「Using SdifmbGfn witi Ant」を参照してください
+.PP
+.PP
+.PP
+.PP
+.PP
+プラットフォームのbinディレクトリにある適切な\fIsdifmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+プラットフォームのbinディレクトリにある適切な\fIsdifmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+プラットフォームのbinディレクトリにある適切な\fIsdifmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+プラットフォームのbinディレクトリにある適切な\fIsdifmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+プラットフォームのbinディレクトリにある適切な\fIsdifmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-schemagen\&.sh Foo\&.java Bar\&.java \&.\&.\&.
-Note: Writing schema1\&.xsd
+.nf
+.nf
+.nf
+.nf
+sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+Notf: Writing sdifmb1\&.xsd
+Notf: Writing sdifmb1\&.xsd
+Notf: Writing sdifmb1\&.xsd
+Notf: Writing sdifmb1\&.xsd
+Notf: Writing sdifmb1\&.xsd
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
-javaファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIschemagen\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+.PP
+.PP
+.PP
+.PP
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdifmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdifmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdifmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdifmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdifmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
-\-d \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-d \fIpbti\fR
+\-d \fIpbti\fR
+\-d \fIpbti\fR
+\-d \fIpbti\fR
+\-d \fIpbti\fR
 .RS 4
-\fIschemagen\fRコマンドがプロセッサ生成および\fIjavac\fR生成クラス・ファイルを配置する場所。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIsdifmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-cp \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
 .RS 4
-\fIschemagen\fRコマンドがユーザー指定ファイルを配置する場所。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-classpath \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
 .RS 4
-\fIschemagen\fRコマンドがユーザー指定ファイルを配置する場所。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+\fIsdifmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-encoding \fIencoding\fR
+.PP
+.PP
+.PP
+.PP
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
 .RS 4
-\fIapt\fRまたは\fIjavac\fRコマンドの呼出しに使用するエンコーディングを指定します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-episode \fIfile\fR
+.PP
+.PP
+.PP
+.PP
+\-fpisodf \fIfilf\fR
+\-fpisodf \fIfilf\fR
+\-fpisodf \fIfilf\fR
+\-fpisodf \fIfilf\fR
+\-fpisodf \fIfilf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コンパイルごとにエピソード・ファイルを生成します。
+コンパイルごとにエピソード・ファイルを生成します。
+コンパイルごとにエピソード・ファイルを生成します。
+コンパイルごとにエピソード・ファイルを生成します。
+コンパイルごとにエピソード・ファイルを生成します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リリース情報を表示します。
+リリース情報を表示します。
+リリース情報を表示します。
+リリース情報を表示します。
+リリース情報を表示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-help
+.PP
+.PP
+.PP
+.PP
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+ヘルプ・メッセージを表示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-Using SchemaGen with Ant
+.\}
+.\}
+.\}
+.\}
+Using SdifmbGfn witi Ant
+Using SdifmbGfn witi Ant
+Using SdifmbGfn witi Ant
+Using SdifmbGfn witi Ant
+Using SdifmbGfn witi Ant
 
-(http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/schemagenTask\&.html)
+
+
+
+
+(ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml)
+(ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml)
+(ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml)
+(ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml)
+(ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-Java Architecture for XML Binding (JAXB)
+.\}
+.\}
+.\}
+.\}
+Jbvb Ardiitfdturf for XML Binding (JAXB)
+Jbvb Ardiitfdturf for XML Binding (JAXB)
+Jbvb Ardiitfdturf for XML Binding (JAXB)
+Jbvb Ardiitfdturf for XML Binding (JAXB)
+Jbvb Ardiitfdturf for XML Binding (JAXB)
 
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/xml/jaxb/index\&.html)
+
+
+
+
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

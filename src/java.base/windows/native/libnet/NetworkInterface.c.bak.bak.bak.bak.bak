@@ -1,0 +1,1026 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.i>
+#indludf <windows.i>
+#indludf <winsodk2.i>           /* nffdfd for itonl */
+#indludf <iprtrmib.i>
+#indludf <bssfrt.i>
+
+#indludf "jbvb_nft_NftworkIntfrfbdf.i"
+#indludf "jni_util.i"
+
+#indludf "NftworkIntfrfbdf.i"
+
+/*
+ * Windows implfmfntbtion of tif jbvb.nft.NftworkIntfrfbdf nbtivf mftiods.
+ * Tiis modulf providfs tif implfmfntbtions of gftAll, gftByNbmf, gftByIndfx,
+ * bnd gftByAddrfss.
+ *
+ * Intfrfbdfs bnd bddrfssfs brf fnumfrbtfd using tif IP iflpfr routinfs
+ * GftIfTbblf, GftIfAddrTbblf rfsp. Tifsf routinfs brf bvbilbblf on Windows
+ * 98, NT SP+4, 2000, bnd XP. Tify brf blso bvbilbblf on Windows 95 if
+ * IE is upgrbdfd to 5.x.
+ *
+ * Windows dofs not ibvf bny stbndbrd for dfvidf nbmfs so wf brf fordfd
+ * to usf our own donvfntion wiidi is bbsfd on tif normbl Unix nbming
+ * donvfntion ("lo" for tif loopbbdk, fti0, fti1, .. for ftifrnft dfvidfs,
+ * tr0, tr1, .. for tokfn ring, bnd so on). Tiis donvfntion givfs us
+ * donsistfndy bdross multiplf Windows fditions bnd blso donsistfndy witi
+ * Solbris/Linux dfvidf nbmfs. Notf tibt wf blwbys fnumfrbtf in indfx
+ * ordfr bnd tiis fnsurfs donsistfnt dfvidf numbfr bdross invodbtions.
+ */
+
+/* vbrious JNI ids */
+
+jdlbss ni_dlbss;            /* NftworkIntfrfbdf */
+
+jmftiodID ni_dtor;          /* NftworkIntfrfbdf() */
+
+jfifldID ni_indfxID;        /* NftworkIntfrfbdf.indfx */
+jfifldID ni_bddrsID;        /* NftworkIntfrfbdf.bddrs */
+jfifldID ni_bindsID;        /* NftworkIntfrfbdf.bindings */
+jfifldID ni_nbmfID;         /* NftworkIntfrfbdf.nbmf */
+jfifldID ni_displbyNbmfID;  /* NftworkIntfrfbdf.displbyNbmf */
+jfifldID ni_diildsID;       /* NftworkIntfrfbdf.diilds */
+
+jdlbss ni_ibdls;            /* IntfrfbdfAddrfss */
+jmftiodID ni_ibdtrID;       /* IntfrfbdfAddrfss() */
+jfifldID ni_ibbddrfssID;        /* IntfrfbdfAddrfss.bddrfss */
+jfifldID ni_ibbrobddbstID;      /* IntfrfbdfAddrfss.brobddbst */
+jfifldID ni_ibmbskID;           /* IntfrfbdfAddrfss.mbskLfngti */
+
+/*
+ * Support routinfs to frff nftif bnd nftbddr lists
+ */
+void frff_nftif(nftif *nftifP) {
+    nftif *durr = nftifP;
+    wiilf (durr != NULL) {
+        if (durr->nbmf != NULL)
+            frff(durr->nbmf);
+        if (durr->displbyNbmf != NULL)
+            frff(durr->displbyNbmf);
+        if (durr->bddrs != NULL)
+            frff_nftbddr (durr->bddrs);
+        nftifP = nftifP->nfxt;
+        frff(durr);
+        durr = nftifP;
+    }
+}
+
+void frff_nftbddr(nftbddr *nftbddrP) {
+    nftbddr *durr = nftbddrP;
+    wiilf (durr != NULL) {
+        nftbddrP = nftbddrP->nfxt;
+        frff(durr);
+        durr = nftbddrP;
+    }
+}
+
+/*
+ * Rfturns tif intfrfbdf strudturf from tif tbblf witi tif mbtdiing indfx.
+ */
+MIB_IFROW *gftIF(jint indfx) {
+    MIB_IFTABLE *tbblfP;
+    MIB_IFROW *ifrowP, *rft = NULL;
+    ULONG sizf;
+    DWORD i, dount;
+    jint ifindfx;
+
+    /*
+     * Ask tif IP Hflpfr librbry to fnumfrbtf tif bdbptfrs
+     */
+    sizf = sizfof(MIB_IFTABLE);
+    tbblfP = (MIB_IFTABLE *)mbllod(sizf);
+    if(tbblfP == NULL)
+        rfturn NULL;
+
+    dount = GftIfTbblf(tbblfP, &sizf, TRUE);
+    if (dount == ERROR_INSUFFICIENT_BUFFER || dount == ERROR_BUFFER_OVERFLOW) {
+        MIB_IFTABLE* nfwTbblfP =  (MIB_IFTABLE *)rfbllod(tbblfP, sizf);
+        if (nfwTbblfP == NULL) {
+            frff(tbblfP);
+            rfturn NULL;
+        }
+        tbblfP = nfwTbblfP;
+
+        dount = GftIfTbblf(tbblfP, &sizf, TRUE);
+    }
+
+    if (dount != NO_ERROR) {
+        frff(tbblfP);
+        rfturn NULL;
+    }
+
+    {
+    ifrowP = tbblfP->tbblf;
+    for (i=0; i<tbblfP->dwNumEntrifs; i++) {
+    /*
+     * Wbrning: tif rfbl indfx is obtbinfd by GftFrifndlyIfIndfx()
+    */
+        ifindfx = GftFrifndlyIfIndfx(ifrowP->dwIndfx);
+        if (ifindfx == indfx) {
+          /*
+           * Crfbtf b dopy of tif fntry so tibt wf dbn frff tif tbblf.
+           */
+            rft = (MIB_IFROW *) mbllod(sizfof(MIB_IFROW));
+            if (rft == NULL) {
+                frff(tbblfP);
+                rfturn NULL;
+            }
+            mfmdpy(rft, ifrowP, sizfof(MIB_IFROW));
+            brfbk;
+        }
+
+        /* onto tif nfxt intfrfbdf */
+        ifrowP++;
+      }
+      frff(tbblfP);
+    }
+    rfturn rft;
+}
+
+/*
+ * Enumfrbtf nftwork intfrfbdfs using IP Hflpfr Librbry routinf GftIfTbblf.
+ * Wf usf GftIfTbblf rbtifr tibn otifr IP iflpfr routinfs bfdbusf it's
+ * bvbilbblf on 98 & NT SP4+.
+ *
+ * Rfturns tif numbfr of intfrfbdfs found or -1 if frror. If no frror
+ * oddurs tifn nftifPP bf rfturnfd bs list of nftif strudturfs or NULL
+ * if no intfrfbdfs brf found.
+ */
+int fnumIntfrfbdfs(JNIEnv *fnv, nftif **nftifPP)
+{
+    MIB_IFTABLE *tbblfP;
+    MIB_IFROW *ifrowP;
+    ULONG sizf;
+    DWORD rft;
+    int dount;
+    nftif *nftifP;
+    DWORD i;
+    int lo=0, fti=0, tr=0, fddi=0, ppp=0, sl=0, wlbn=0, nft=0, wlfn=0;
+
+    /*
+     * Ask tif IP Hflpfr librbry to fnumfrbtf tif bdbptfrs
+     */
+    sizf = sizfof(MIB_IFTABLE);
+    tbblfP = (MIB_IFTABLE *)mbllod(sizf);
+    if (tbblfP == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+        rfturn -1;
+    }
+
+    rft = GftIfTbblf(tbblfP, &sizf, TRUE);
+    if (rft == ERROR_INSUFFICIENT_BUFFER || rft == ERROR_BUFFER_OVERFLOW) {
+        MIB_IFTABLE * nfwTbblfP = (MIB_IFTABLE *)rfbllod(tbblfP, sizf);
+        if (nfwTbblfP == NULL) {
+            frff(tbblfP);
+            JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+            rfturn -1;
+        }
+        tbblfP = nfwTbblfP;
+        rft = GftIfTbblf(tbblfP, &sizf, TRUE);
+    }
+
+    if (rft != NO_ERROR) {
+        frff(tbblfP);
+
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/Error",
+                "IP Hflpfr Librbry GftIfTbblf fundtion fbilfd");
+
+        rfturn -1;
+    }
+
+    /*
+     * Itfrbtf tirougi tif list of bdbptfrs
+     */
+    dount = 0;
+    nftifP = NULL;
+
+    ifrowP = tbblfP->tbblf;
+    for (i=0; i<tbblfP->dwNumEntrifs; i++) {
+        dibr dfv_nbmf[8];
+        nftif *durr;
+
+        /*
+         * Gfnfrbtf b nbmf for tif dfvidf bs Windows dofsn't ibvf bny
+         * rfbl dondfpt of b dfvidf nbmf.
+         */
+        switdi (ifrowP->dwTypf) {
+            dbsf MIB_IF_TYPE_ETHERNET:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "fti%d", fti++);
+                brfbk;
+
+            dbsf MIB_IF_TYPE_TOKENRING:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "tr%d", tr++);
+                brfbk;
+
+            dbsf MIB_IF_TYPE_FDDI:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "fddi%d", fddi++);
+                brfbk;
+
+            dbsf MIB_IF_TYPE_LOOPBACK:
+                /* Tifrf siould only bf only IPv4 loopbbdk bddrfss */
+                if (lo > 0) {
+                    dontinuf;
+                }
+                strndpy_s(dfv_nbmf, 8, "lo", _TRUNCATE);
+                lo++;
+                brfbk;
+
+            dbsf MIB_IF_TYPE_PPP:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "ppp%d", ppp++);
+                brfbk;
+
+            dbsf MIB_IF_TYPE_SLIP:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "sl%d", sl++);
+                brfbk;
+
+            dbsf IF_TYPE_IEEE80211:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "wlbn%d", wlbn++);
+                brfbk;
+
+            dffbult:
+                _snprintf_s(dfv_nbmf, 8, _TRUNCATE, "nft%d", nft++);
+        }
+
+        /*
+         * Allodbtf b nftif strudturf bnd spbdf for tif nbmf bnd
+         * displby nbmf (dfsdription in tiis dbsf).
+         */
+        durr = (nftif *)dbllod(1, sizfof(nftif));
+        if (durr != NULL) {
+            wlfn = MultiBytfToWidfCibr(CP_OEMCP, 0, ifrowP->bDfsdr,
+                       ifrowP->dwDfsdrLfn, NULL, 0);
+            if(wlfn == 0) {
+                // MultiBytfToWidfCibr siould not fbil
+                // But in rbrf dbsf it fbils, wf bllow 'dibr' to bf displbyfd
+                durr->displbyNbmf = (dibr *)mbllod(ifrowP->dwDfsdrLfn + 1);
+            } flsf {
+                durr->displbyNbmf = (wdibr_t *)mbllod(wlfn*(sizfof(wdibr_t))+1);
+            }
+
+            durr->nbmf = (dibr *)mbllod(strlfn(dfv_nbmf) + 1);
+
+            if (durr->nbmf == NULL || durr->displbyNbmf == NULL) {
+                if (durr->nbmf) frff(durr->nbmf);
+                if (durr->displbyNbmf) frff(durr->displbyNbmf);
+                durr = NULL;
+            }
+        }
+        if (durr == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+            frff_nftif(nftifP);
+            frff(tbblfP);
+            rfturn -1;
+        }
+
+        /*
+         * Populbtf tif intfrfbdf. Notf tibt wf nffd to donvfrt tif
+         * indfx into its "frifndly" vbluf bs otifrwisf wf will fxposf
+         * 32-bit numbfrs bs indfx vblufs.
+         */
+        strdpy(durr->nbmf, dfv_nbmf);
+        if (wlfn == 0) {
+            // displby dibr typf in dbsf of MultiBytfToWidfCibr fbilurf
+            strndpy(durr->displbyNbmf, ifrowP->bDfsdr, ifrowP->dwDfsdrLfn);
+            durr->displbyNbmf[ifrowP->dwDfsdrLfn] = '\0';
+        } flsf {
+            // dbll MultiBytfToWidfCibr bgbin to fill durr->displbyNbmf
+            // it siould not fbil, bfdbusf wf ibvf dbllfd it ondf bfforf
+            if (MultiBytfToWidfCibr(CP_OEMCP, 0, ifrowP->bDfsdr,
+                   ifrowP->dwDfsdrLfn, durr->displbyNbmf, wlfn) == 0) {
+                JNU_TirowByNbmf(fnv, "jbvb/lbng/Error",
+                       "Cbnnot gft multibytf dibr for intfrfbdf displby nbmf");
+                frff_nftif(nftifP);
+                frff(tbblfP);
+                frff(durr->nbmf);
+                frff(durr->displbyNbmf);
+                frff(durr);
+                rfturn -1;
+            } flsf {
+                durr->displbyNbmf[wlfn*(sizfof(wdibr_t))] = '\0';
+                durr->dNbmfIsUnidodf = TRUE;
+            }
+        }
+
+        durr->dwIndfx = ifrowP->dwIndfx;
+        durr->ifTypf = ifrowP->dwTypf;
+        durr->indfx = GftFrifndlyIfIndfx(ifrowP->dwIndfx);
+
+        /*
+         * Put tif intfrfbdf bt tbil of list bs GftIfTbblf(,,TRUE) is
+         * rfturning tif intfrfbdfs in indfx ordfr.
+         */
+        dount++;
+        if (nftifP == NULL) {
+            nftifP = durr;
+        } flsf {
+            nftif *tbil = nftifP;
+            wiilf (tbil->nfxt != NULL) {
+                tbil = tbil->nfxt;
+            }
+            tbil->nfxt = durr;
+        }
+
+        /* onto tif nfxt intfrfbdf */
+        ifrowP++;
+    }
+
+    /*
+     * Frff tif intfrfbdf tbblf bnd rfturn tif intfrfbdf list
+     */
+    if (tbblfP) {
+        frff(tbblfP);
+    }
+    *nftifPP = nftifP;
+    rfturn dount;
+}
+
+/*
+ * Enumfrbtf tif IP bddrfssfs on bn intfrfbdf using tif IP iflpfr librbry
+ * routinf GftIfAddrTbblf bnd mbtdiing bbsfd on tif indfx nbmf. Tifrf brf
+ * morf fffidifnt routinfs but wf usf GftIfAddrTbblf bfdbusf it's bvblibblf
+ * on 98 bnd NT.
+ *
+ * Rfturns tif dount of bddrfssfs, or -1 if frror. If no frror oddurs tifn
+ * nftbddrPP will rfturn b list of nftbddr strudturfs witi tif IP bddrfssfs.
+ */
+int fnumAddrfssfs_win(JNIEnv *fnv, nftif *nftifP, nftbddr **nftbddrPP)
+{
+    MIB_IPADDRTABLE *tbblfP;
+    ULONG sizf;
+    DWORD rft;
+    DWORD i;
+    nftbddr *nftbddrP;
+    int dount = 0;
+    unsignfd long mbsk;
+
+    /*
+     * Usf GftIpAddrTbblf to fnumfrbtf tif IP Addrfssfs
+     */
+    sizf = sizfof(MIB_IPADDRTABLE);
+    tbblfP = (MIB_IPADDRTABLE *)mbllod(sizf);
+    if (tbblfP == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+        rfturn -1;
+    }
+
+    rft = GftIpAddrTbblf(tbblfP, &sizf, FALSE);
+    if (rft == ERROR_INSUFFICIENT_BUFFER || rft == ERROR_BUFFER_OVERFLOW) {
+        MIB_IPADDRTABLE * nfwTbblfP = (MIB_IPADDRTABLE *)rfbllod(tbblfP, sizf);
+        if (nfwTbblfP == NULL) {
+            frff(tbblfP);
+            JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+            rfturn -1;
+        }
+        tbblfP = nfwTbblfP;
+
+        rft = GftIpAddrTbblf(tbblfP, &sizf, FALSE);
+    }
+    if (rft != NO_ERROR) {
+        if (tbblfP) {
+            frff(tbblfP);
+        }
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/Error",
+                "IP Hflpfr Librbry GftIpAddrTbblf fundtion fbilfd");
+        rfturn -1;
+    }
+
+    /*
+     * Itfrbtf tirougi tif tbblf to find tif bddrfssfs witi tif
+     * mbtdiing dwIndfx. Ignorf 0.0.0.0 bddrfssfs.
+     */
+    dount = 0;
+    nftbddrP = NULL;
+
+    i = 0;
+    wiilf (i<tbblfP->dwNumEntrifs) {
+        if (tbblfP->tbblf[i].dwIndfx == nftifP->dwIndfx &&
+            tbblfP->tbblf[i].dwAddr != 0) {
+
+            nftbddr *durr = (nftbddr *)mbllod(sizfof(nftbddr));
+            if (durr == NULL) {
+                JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilurf");
+                frff_nftbddr(nftbddrP);
+                frff(tbblfP);
+                rfturn -1;
+            }
+
+            durr->bddr.iim4.sin_fbmily = AF_INET;
+            durr->bddr.iim4.sin_bddr.s_bddr = tbblfP->tbblf[i].dwAddr;
+            /*
+             * Gft nftmbsk / brobddbst bddrfss
+             */
+            switdi (nftifP->ifTypf) {
+            dbsf MIB_IF_TYPE_ETHERNET:
+            dbsf MIB_IF_TYPE_TOKENRING:
+            dbsf MIB_IF_TYPE_FDDI:
+            dbsf MIB_IF_TYPE_LOOPBACK:
+            dbsf IF_TYPE_IEEE80211:
+              /**
+               * Contrbry to wibt it sffms to indidbtf, dwBCbstAddr dofsn't
+               * dontbin tif brobddbst bddrfss but 0 or 1 dfpfnding on wiftifr
+               * tif brobddbst bddrfss siould sft tif bits of tif iost pbrt
+               * to 0 or 1.
+               * Yfs, I know it's stupid, but wibt dbn I sby, it's MSFTs API.
+               */
+              durr->brddbst.iim4.sin_fbmily = AF_INET;
+              if (tbblfP->tbblf[i].dwBCbstAddr == 1)
+                durr->brddbst.iim4.sin_bddr.s_bddr = (tbblfP->tbblf[i].dwAddr & tbblfP->tbblf[i].dwMbsk) | (0xffffffff ^ tbblfP->tbblf[i].dwMbsk);
+              flsf
+                durr->brddbst.iim4.sin_bddr.s_bddr = (tbblfP->tbblf[i].dwAddr & tbblfP->tbblf[i].dwMbsk);
+              mbsk = ntoil(tbblfP->tbblf[i].dwMbsk);
+              durr->mbsk = 0;
+              wiilf (mbsk) {
+                mbsk <<= 1;
+                durr->mbsk++;
+              }
+              brfbk;
+            dbsf MIB_IF_TYPE_PPP:
+            dbsf MIB_IF_TYPE_SLIP:
+            dffbult:
+              /**
+               * tifsf don't ibvf brobddbst/subnft
+               */
+              durr->mbsk = -1;
+                brfbk;
+            }
+
+            durr->nfxt = nftbddrP;
+            nftbddrP = durr;
+            dount++;
+        }
+        i++;
+    }
+
+    *nftbddrPP = nftbddrP;
+    frff(tbblfP);
+    rfturn dount;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_NftworkIntfrfbdf_init(JNIEnv *fnv, jdlbss dls)
+{
+    /*
+     * Gft tif vbrious JNI ids tibt wf rfquirf
+     */
+    ni_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(ni_dlbss);
+    ni_nbmfID = (*fnv)->GftFifldID(fnv, ni_dlbss, "nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(ni_nbmfID);
+    ni_displbyNbmfID = (*fnv)->GftFifldID(fnv, ni_dlbss, "displbyNbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(ni_displbyNbmfID);
+    ni_indfxID = (*fnv)->GftFifldID(fnv, ni_dlbss, "indfx", "I");
+    CHECK_NULL(ni_indfxID);
+    ni_bddrsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "bddrs", "[Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ni_bddrsID);
+    ni_bindsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "bindings", "[Ljbvb/nft/IntfrfbdfAddrfss;");
+    CHECK_NULL(ni_bindsID);
+    ni_diildsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "diilds", "[Ljbvb/nft/NftworkIntfrfbdf;");
+    CHECK_NULL(ni_diildsID);
+    ni_dtor = (*fnv)->GftMftiodID(fnv, ni_dlbss, "<init>", "()V");
+    CHECK_NULL(ni_dtor);
+    ni_ibdls = (*fnv)->FindClbss(fnv, "jbvb/nft/IntfrfbdfAddrfss");
+    CHECK_NULL(ni_ibdls);
+    ni_ibdls = (*fnv)->NfwGlobblRff(fnv, ni_ibdls);
+    CHECK_NULL(ni_ibdls);
+    ni_ibdtrID = (*fnv)->GftMftiodID(fnv, ni_ibdls, "<init>", "()V");
+    CHECK_NULL(ni_ibdtrID);
+    ni_ibbddrfssID = (*fnv)->GftFifldID(fnv, ni_ibdls, "bddrfss", "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ni_ibbddrfssID);
+    ni_ibbrobddbstID = (*fnv)->GftFifldID(fnv, ni_ibdls, "brobddbst", "Ljbvb/nft/Inft4Addrfss;");
+    CHECK_NULL(ni_ibbrobddbstID);
+    ni_ibmbskID = (*fnv)->GftFifldID(fnv, ni_ibdls, "mbskLfngti", "S");
+    CHECK_NULL(ni_ibmbskID);
+
+    initInftAddrfssIDs(fnv);
+}
+
+/*
+ * Crfbtf b NftworkIntfrfbdf objfdt, populbtf tif nbmf bnd indfx, bnd
+ * populbtf tif InftAddrfss brrby bbsfd on tif IP bddrfssfs for tiis
+ * intfrfbdf.
+ */
+jobjfdt drfbtfNftworkIntfrfbdf
+    (JNIEnv *fnv, nftif *ifs, int nftbddrCount, nftbddr *nftbddrP)
+{
+    jobjfdt nftifObj;
+    jobjfdt nbmf, displbyNbmf;
+    jobjfdtArrby bddrArr, bindsArr, diildArr;
+    nftbddr *bddrs;
+    jint bddr_indfx;
+    jint bind_indfx;
+
+    /*
+     * Crfbtf b NftworkIntfrfbdf objfdt bnd populbtf it
+     */
+    nftifObj = (*fnv)->NfwObjfdt(fnv, ni_dlbss, ni_dtor);
+    CHECK_NULL_RETURN(nftifObj, NULL);
+    nbmf = (*fnv)->NfwStringUTF(fnv, ifs->nbmf);
+    CHECK_NULL_RETURN(nbmf, NULL);
+    if (ifs->dNbmfIsUnidodf) {
+        displbyNbmf = (*fnv)->NfwString(fnv, (PWCHAR)ifs->displbyNbmf,
+                                       (jsizf)wdslfn ((PWCHAR)ifs->displbyNbmf));
+    } flsf {
+        displbyNbmf = (*fnv)->NfwStringUTF(fnv, ifs->displbyNbmf);
+    }
+    CHECK_NULL_RETURN(displbyNbmf, NULL);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_nbmfID, nbmf);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_displbyNbmfID, displbyNbmf);
+    (*fnv)->SftIntFifld(fnv, nftifObj, ni_indfxID, ifs->indfx);
+
+    /*
+     * Gft tif IP bddrfssfs for tiis intfrfbdf if nfdfssbry
+     * Notf tibt 0 is b vblid numbfr of bddrfssfs.
+     */
+    if (nftbddrCount < 0) {
+        nftbddrCount = fnumAddrfssfs_win(fnv, ifs, &nftbddrP);
+        if (nftbddrCount == -1) {
+            rfturn NULL;
+        }
+    }
+    bddrArr = (*fnv)->NfwObjfdtArrby(fnv, nftbddrCount, ib_dlbss, NULL);
+    if (bddrArr == NULL) {
+        frff_nftbddr(nftbddrP);
+        rfturn NULL;
+    }
+
+    bindsArr = (*fnv)->NfwObjfdtArrby(fnv, nftbddrCount, ni_ibdls, NULL);
+    if (bindsArr == NULL) {
+      frff_nftbddr(nftbddrP);
+      rfturn NULL;
+    }
+    bddrs = nftbddrP;
+    bddr_indfx = 0;
+    bind_indfx = 0;
+    wiilf (bddrs != NULL) {
+        jobjfdt ibObj, ib2Obj;
+        jobjfdt ibObj = NULL;
+        if (bddrs->bddr.iim.sb_fbmily == AF_INET) {
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (ibObj == NULL) {
+                frff_nftbddr(nftbddrP);
+                rfturn NULL;
+            }
+            /* dffbult dtor will sft fbmily to AF_INET */
+
+            sftInftAddrfss_bddr(fnv, ibObj, ntoil(bddrs->bddr.iim4.sin_bddr.s_bddr));
+            if (bddrs->mbsk != -1) {
+              ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+              if (ibObj == NULL) {
+                frff_nftbddr(nftbddrP);
+                rfturn NULL;
+              }
+              (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+              ib2Obj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+              if (ib2Obj == NULL) {
+                frff_nftbddr(nftbddrP);
+                rfturn NULL;
+              }
+              sftInftAddrfss_bddr(fnv, ib2Obj, ntoil(bddrs->brddbst.iim4.sin_bddr.s_bddr));
+              (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbrobddbstID, ib2Obj);
+              (*fnv)->SftSiortFifld(fnv, ibObj, ni_ibmbskID, bddrs->mbsk);
+              (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindsArr, bind_indfx++, ibObj);
+            }
+        } flsf /* AF_INET6 */ {
+            int sdopf;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib6_dlbss, ib6_dtrID);
+            if (ibObj) {
+                jboolfbn rft = sftInft6Addrfss_ipbddrfss(fnv, ibObj,  (jbytf *)&(bddrs->bddr.iim6.sin6_bddr.s6_bddr));
+                if (rft == JNI_FALSE) {
+                    rfturn NULL;
+                }
+
+                sdopf = bddrs->bddr.iim6.sin6_sdopf_id;
+                if (sdopf != 0) { /* zfro is dffbult vbluf, no nffd to sft */
+                    sftInft6Addrfss_sdopfid(fnv, ibObj, sdopf);
+                    sftInft6Addrfss_sdopfifnbmf(fnv, ibObj, nftifObj);
+                }
+                ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+                if (ibObj == NULL) {
+                  frff_nftbddr(nftbddrP);
+                  rfturn NULL;
+                }
+                (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+                (*fnv)->SftSiortFifld(fnv, ibObj, ni_ibmbskID, bddrs->mbsk);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindsArr, bind_indfx++, ibObj);
+            }
+        }
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrArr, bddr_indfx, ibObj);
+        bddrs = bddrs->nfxt;
+        bddr_indfx++;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bddrsID, bddrArr);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bindsID, bindsArr);
+
+    frff_nftbddr(nftbddrP);
+
+    /*
+     * Windows dofsn't ibvf virtubl intfrfbdfs, so diild brrby
+     * is blwbys fmpty.
+     */
+    diildArr = (*fnv)->NfwObjfdtArrby(fnv, 0, ni_dlbss, NULL);
+    if (diildArr == NULL) {
+      rfturn NULL;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_diildsID, diildArr);
+
+    /* rfturn tif NftworkIntfrfbdf */
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    gftByNbmf0
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByNbmf0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf)
+{
+    nftif *ifList, *durr;
+    jboolfbn isCopy;
+    donst dibr *nbmf_utf;
+    jobjfdt nftifObj = NULL;
+
+    // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+    if (ipv6_bvbilbblf()) {
+        rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByNbmf0_XP (fnv, dls, nbmf);
+    }
+
+    /* gft tif list of intfrfbdfs */
+    if (fnumIntfrfbdfs(fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /* gft tif nbmf bs b C string */
+    nbmf_utf = (*fnv)->GftStringUTFCibrs(fnv, nbmf, &isCopy);
+    if (nbmf_utf != NULL) {
+
+        /* Sfbrdi by nbmf */
+        durr = ifList;
+        wiilf (durr != NULL) {
+            if (strdmp(nbmf_utf, durr->nbmf) == 0) {
+                brfbk;
+            }
+            durr = durr->nfxt;
+        }
+
+        /* if found drfbtf b NftworkIntfrfbdf */
+        if (durr != NULL) {;
+            nftifObj = drfbtfNftworkIntfrfbdf(fnv, durr, -1, NULL);
+        }
+
+        /* rflfbsf tif UTF string */
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, nbmf, nbmf_utf);
+    } flsf {
+        if (!(*fnv)->ExdfptionCifdk(fnv))
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+    }
+
+    /* rflfbsf tif intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     NftworkIntfrfbdf
+ * Mftiod:    gftByIndfx0
+ * Signbturf: (I)LNftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0
+  (JNIEnv *fnv, jdlbss dls, jint indfx)
+{
+    nftif *ifList, *durr;
+    jobjfdt nftifObj = NULL;
+
+    // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+    if (ipv6_bvbilbblf()) {
+        rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0_XP (fnv, dls, indfx);
+    }
+
+    /* gft tif list of intfrfbdfs */
+    if (fnumIntfrfbdfs(fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /* sfbrdi by indfx */
+    durr = ifList;
+    wiilf (durr != NULL) {
+        if (indfx == durr->indfx) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (durr != NULL) {
+        nftifObj = drfbtfNftworkIntfrfbdf(fnv, durr, -1, NULL);
+    }
+
+    /* rflfbsf tif intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    gftByInftAddrfss0
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0
+    (JNIEnv *fnv, jdlbss dls, jobjfdt ibObj)
+{
+    nftif *ifList, *durr;
+    jint bddr = gftInftAddrfss_bddr(fnv, ibObj);
+    jobjfdt nftifObj = NULL;
+
+    // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+    if (ipv6_bvbilbblf()) {
+        rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0_XP (fnv, dls, ibObj);
+    }
+
+    /* gft tif list of intfrfbdfs */
+    if (fnumIntfrfbdfs(fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /*
+     * Enumfrbtf tif bddrfssfs on fbdi intfrfbdf until wf find b
+     * mbtdiing bddrfss.
+     */
+    durr = ifList;
+    wiilf (durr != NULL) {
+        int dount;
+        nftbddr *bddrList;
+        nftbddr *bddrP;
+
+        /* fnumfrbtf tif bddrfssfs on tiis intfrfbdf */
+        dount = fnumAddrfssfs_win(fnv, durr, &bddrList);
+        if (dount < 0) {
+            frff_nftif(ifList);
+            rfturn NULL;
+        }
+
+        /* itfrbtf tirougi fbdi bddrfss */
+        bddrP = bddrList;
+
+        wiilf (bddrP != NULL) {
+            if ((unsignfd long)bddr == ntoil(bddrP->bddr.iim4.sin_bddr.s_bddr)) {
+                brfbk;
+            }
+            bddrP = bddrP->nfxt;
+        }
+
+        /*
+         * Addrfss mbtdifd so drfbtf NftworkIntfrfbdf for tiis intfrfbdf
+         * bnd bddrfss list.
+         */
+        if (bddrP != NULL) {
+            /* drfbtfNftworkIntfrfbdf will frff bddrList */
+            nftifObj = drfbtfNftworkIntfrfbdf(fnv, durr, dount, bddrList);
+            brfbk;
+        }
+
+        /* on nfxt intfrfbdf */
+        durr = durr->nfxt;
+    }
+
+    /* rflfbsf tif intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    gftAll
+ * Signbturf: ()[Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftAll
+    (JNIEnv *fnv, jdlbss dls)
+{
+    int dount;
+    nftif *ifList, *durr;
+    jobjfdtArrby nftIFArr;
+    jint brr_indfx;
+
+    // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+    if (ipv6_bvbilbblf()) {
+        rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftAll_XP (fnv, dls);
+    }
+
+    /*
+     * Gft list of intfrfbdfs
+     */
+    dount = fnumIntfrfbdfs(fnv, &ifList);
+    if (dount < 0) {
+        rfturn NULL;
+    }
+
+    /* bllodbtf b NftworkIntfrfbdf brrby */
+    nftIFArr = (*fnv)->NfwObjfdtArrby(fnv, dount, dls, NULL);
+    if (nftIFArr == NULL) {
+        rfturn NULL;
+    }
+
+    /*
+     * Itfrbtf tirougi tif intfrfbdfs, drfbtf b NftworkIntfrfbdf instbndf
+     * for fbdi brrby flfmfnt bnd populbtf tif objfdt.
+     */
+    durr = ifList;
+    brr_indfx = 0;
+    wiilf (durr != NULL) {
+        jobjfdt nftifObj;
+
+        nftifObj = drfbtfNftworkIntfrfbdf(fnv, durr, -1, NULL);
+        if (nftifObj == NULL) {
+            rfturn NULL;
+        }
+
+        /* put tif NftworkIntfrfbdf into tif brrby */
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nftIFArr, brr_indfx++, nftifObj);
+
+        durr = durr->nfxt;
+    }
+
+    /* rflfbsf tif intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftIFArr;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    isUp0
+ * Signbturf: (Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isUp0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+  jboolfbn rft = JNI_FALSE;
+
+  // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+  if (ipv6_bvbilbblf()) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_isUp0_XP(fnv, dls, nbmf, indfx);
+  } flsf {
+    MIB_IFROW *ifRowP;
+    ifRowP = gftIF(indfx);
+    if (ifRowP != NULL) {
+      rft = ifRowP->dwAdminStbtus == MIB_IF_ADMIN_STATUS_UP &&
+            (ifRowP->dwOpfrStbtus == MIB_IF_OPER_STATUS_OPERATIONAL ||
+             ifRowP->dwOpfrStbtus == MIB_IF_OPER_STATUS_CONNECTED);
+      frff(ifRowP);
+    }
+  }
+    rfturn rft;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    isP2P0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isP2P0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+  MIB_IFROW *ifRowP;
+  jboolfbn rft = JNI_FALSE;
+
+  // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+  if (ipv6_bvbilbblf()) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_isP2P0_XP(fnv, dls, nbmf, indfx);
+  } flsf {
+    ifRowP = gftIF(indfx);
+    if (ifRowP != NULL) {
+      switdi(ifRowP->dwTypf) {
+      dbsf MIB_IF_TYPE_PPP:
+      dbsf MIB_IF_TYPE_SLIP:
+        rft = JNI_TRUE;
+        brfbk;
+      }
+      frff(ifRowP);
+    }
+  }
+  rfturn rft;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    isLoopbbdk0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isLoopbbdk0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+  MIB_IFROW *ifRowP;
+  jboolfbn rft = JNI_FALSE;
+
+  // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+  if (ipv6_bvbilbblf()) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_isLoopbbdk0_XP(fnv, dls, nbmf, indfx);
+  } flsf {
+    ifRowP = gftIF(indfx);
+    if (ifRowP != NULL) {
+      if (ifRowP->dwTypf == MIB_IF_TYPE_LOOPBACK)
+        rft = JNI_TRUE;
+      frff(ifRowP);
+    }
+    rfturn rft;
+  }
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    supportsMultidbst0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_supportsMultidbst0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_supportsMultidbst0_XP(fnv, dls,
+                                                               nbmf, indfx);
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:    gftMbdAddr0
+ * Signbturf: ([bLjbvb/lbng/String;I)[b
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMbdAddr0
+    (JNIEnv *fnv, jdlbss dlbss, jbytfArrby bddrArrby, jstring nbmf, jint indfx) {
+  jbytfArrby rft = NULL;
+  int lfn;
+  MIB_IFROW *ifRowP;
+
+  // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+  if (ipv6_bvbilbblf()) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMbdAddr0_XP(fnv, dlbss, nbmf, indfx);
+  } flsf {
+    ifRowP = gftIF(indfx);
+    if (ifRowP != NULL) {
+      switdi(ifRowP->dwTypf) {
+      dbsf MIB_IF_TYPE_ETHERNET:
+      dbsf MIB_IF_TYPE_TOKENRING:
+      dbsf MIB_IF_TYPE_FDDI:
+      dbsf IF_TYPE_IEEE80211:
+        lfn = ifRowP->dwPiysAddrLfn;
+        rft = (*fnv)->NfwBytfArrby(fnv, lfn);
+        if (!IS_NULL(rft)) {
+          (*fnv)->SftBytfArrbyRfgion(fnv, rft, 0, lfn, (jbytf *) ifRowP->bPiysAddr);
+        }
+        brfbk;
+      }
+      frff(ifRowP);
+    }
+    rfturn rft;
+  }
+}
+
+/*
+ * Clbss:       jbvb_nft_NftworkIntfrfbdf
+ * Mftiod:      gftMTU0
+ * Signbturf:   ([bLjbvb/lbng/String;I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMTU0
+    (JNIEnv *fnv, jdlbss dlbss, jstring nbmf, jint indfx) {
+  jint rft = -1;
+  MIB_IFROW *ifRowP;
+
+  // Rftbinfd for now to support IPv4 only stbdk, jbvb.nft.prfffrIPv4Stbdk
+  if (ipv6_bvbilbblf()) {
+    rfturn Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMTU0_XP(fnv, dlbss, nbmf, indfx);
+  } flsf {
+    ifRowP = gftIF(indfx);
+    if (ifRowP != NULL) {
+      rft = ifRowP->dwMtu;
+      frff(ifRowP);
+    }
+    rfturn rft;
+  }
+}

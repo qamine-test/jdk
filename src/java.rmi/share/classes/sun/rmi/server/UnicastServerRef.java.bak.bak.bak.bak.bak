@@ -1,0 +1,568 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.PrintStrfbm;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.rmi.MbrsiblExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.SfrvfrError;
+import jbvb.rmi.SfrvfrExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.ExportExdfption;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.RfmotfStub;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.rmi.sfrvfr.SfrvfrRff;
+import jbvb.rmi.sfrvfr.Skflfton;
+import jbvb.rmi.sfrvfr.SkflftonNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.tdp.TCPTrbnsport;
+
+/**
+ * UnidbstSfrvfrRff implfmfnts tif rfmotf rfffrfndf lbyfr sfrvfr-sidf
+ * bfibvior for rfmotf objfdts fxportfd witi tif "UnidbstRff" rfffrfndf
+ * typf.
+ *
+ * @butior  Ann Wollrbti
+ * @butior  Rogfr Riggs
+ * @butior  Pftfr Jonfs
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss UnidbstSfrvfrRff fxtfnds UnidbstRff
+    implfmfnts SfrvfrRff, Dispbtdifr
+{
+    /** vbluf of sfrvfr dbll log propfrty */
+    publid stbtid finbl boolfbn logCblls = AddfssControllfr.doPrivilfgfd(
+        (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("jbvb.rmi.sfrvfr.logCblls"));
+
+    /** sfrvfr dbll log */
+    publid stbtid finbl Log dbllLog =
+        Log.gftLog("sun.rmi.sfrvfr.dbll", "RMI", logCblls);
+
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -7384275867073752268L;
+
+    /** flbg to fnbblf writing fxdfptions to Systfm.frr */
+    privbtf stbtid finbl boolfbn wbntExdfptionLog =
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.fxdfptionTrbdf"));
+
+    privbtf boolfbn fordfStubUsf = fblsf;
+
+    /**
+     * flbg to rfmovf sfrvfr-sidf stbdk trbdfs bfforf mbrsiblling
+     * fxdfptions tirown by rfmotf invodbtions to tiis VM
+     */
+    privbtf stbtid finbl boolfbn supprfssStbdkTrbdfs =
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.supprfssStbdkTrbdfs"));
+
+    /**
+     * skflfton to dispbtdi rfmotf dblls tirougi, for 1.1 stub protodol
+     * (mby bf null if stub dlbss only usfs 1.2 stub protodol)
+     */
+    privbtf trbnsifnt Skflfton skfl;
+
+    /** mbps mftiod ibsi to Mftiod objfdt for fbdi rfmotf mftiod */
+    privbtf trbnsifnt Mbp<Long,Mftiod> ibsiToMftiod_Mbp = null;
+
+    /**
+     * A wfbk ibsi mbp, mbpping dlbssfs to ibsi mbps tibt mbp mftiod
+     * ibsifs to mftiod objfdts.
+     **/
+    privbtf stbtid finbl WfbkClbssHbsiMbp<Mbp<Long,Mftiod>> ibsiToMftiod_Mbps =
+        nfw HbsiToMftiod_Mbps();
+
+    /** dbdif of impl dlbssfs tibt ibvf no dorrfsponding skflfton dlbss */
+    privbtf stbtid finbl Mbp<Clbss<?>,?> witioutSkflftons =
+        Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<Clbss<?>,Void>());
+
+    /**
+     * Crfbtf b nfw (fmpty) Unidbst sfrvfr rfmotf rfffrfndf.
+     */
+    publid UnidbstSfrvfrRff() {
+    }
+
+    /**
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf for b spfdififd
+     * livfRff.
+     */
+    publid UnidbstSfrvfrRff(LivfRff rff) {
+        supfr(rff);
+    }
+
+    /**
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf to bf fxportfd
+     * on tif spfdififd port.
+     */
+    publid UnidbstSfrvfrRff(int port) {
+        supfr(nfw LivfRff(port));
+    }
+
+    /**
+     * Construdts b UnidbstSfrvfrRff to bf fxportfd on bn
+     * bnonymous port (i.f., 0) bnd tibt usfs b prfgfnfrbtfd stub dlbss
+     * (NOT b dynbmid proxy instbndf) if 'fordfStubUsf' is 'truf'.
+     *
+     * Tiis donstrudtor is only dbllfd by tif mftiod
+     * UnidbstRfmotfObjfdt.fxportObjfdt(Rfmotf) pbssing 'truf' for
+     * 'fordfStubUsf'.  Tif UnidbstRfmotfObjfdt.fxportObjfdt(Rfmotf) mftiod
+     * rfturns RfmotfStub, so it must fnsurf tibt tif stub for tif
+     * fxportfd objfdt is bn instbndf of b prfgfnfrbtfd stub dlbss tibt
+     * fxtfnds RfmotfStub (instfbd of bn instbndf of b dynbmid proxy dlbss
+     * wiidi is not bn instbndf of RfmotfStub).
+     **/
+    publid UnidbstSfrvfrRff(boolfbn fordfStubUsf) {
+        tiis(0);
+        tiis.fordfStubUsf = fordfStubUsf;
+    }
+
+    /**
+     * Witi tif bddition of support for dynbmid proxifs bs stubs, tiis
+     * mftiod is obsolftf bfdbusf it rfturns RfmotfStub instfbd of tif morf
+     * gfnfrbl Rfmotf.  It siould not bf dbllfd.  It sfts tif
+     * 'fordfStubUsf' flbg to truf so tibt tif stub for tif fxportfd objfdt
+     * is fordfd to bf bn instbndf of tif prfgfnfrbtfd stub dlbss, wiidi
+     * fxtfnds RfmotfStub.
+     *
+     * Export tiis objfdt, drfbtf tif skflfton bnd stubs for tiis
+     * dispbtdifr.  Crfbtf b stub bbsfd on tif typf of tif impl,
+     * initiblizf it witi tif bppropribtf rfmotf rfffrfndf. Crfbtf tif
+     * tbrgft dffinfd by tif impl, dispbtdifr (tiis) bnd stub.
+     * Export tibt tbrgft vib tif Rff.
+     **/
+    publid RfmotfStub fxportObjfdt(Rfmotf impl, Objfdt dbtb)
+        tirows RfmotfExdfption
+    {
+        fordfStubUsf = truf;
+        rfturn (RfmotfStub) fxportObjfdt(impl, dbtb, fblsf);
+    }
+
+    /**
+     * Export tiis objfdt, drfbtf tif skflfton bnd stubs for tiis
+     * dispbtdifr.  Crfbtf b stub bbsfd on tif typf of tif impl,
+     * initiblizf it witi tif bppropribtf rfmotf rfffrfndf. Crfbtf tif
+     * tbrgft dffinfd by tif impl, dispbtdifr (tiis) bnd stub.
+     * Export tibt tbrgft vib tif Rff.
+     */
+    publid Rfmotf fxportObjfdt(Rfmotf impl, Objfdt dbtb,
+                               boolfbn pfrmbnfnt)
+        tirows RfmotfExdfption
+    {
+        Clbss<?> implClbss = impl.gftClbss();
+        Rfmotf stub;
+
+        try {
+            stub = Util.drfbtfProxy(implClbss, gftClifntRff(), fordfStubUsf);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw ExportExdfption(
+                "rfmotf objfdt implfmfnts illfgbl rfmotf intfrfbdf", f);
+        }
+        if (stub instbndfof RfmotfStub) {
+            sftSkflfton(impl);
+        }
+
+        Tbrgft tbrgft =
+            nfw Tbrgft(impl, tiis, stub, rff.gftObjID(), pfrmbnfnt);
+        rff.fxportObjfdt(tbrgft);
+        ibsiToMftiod_Mbp = ibsiToMftiod_Mbps.gft(implClbss);
+        rfturn stub;
+    }
+
+    /**
+     * Rfturn tif iostnbmf of tif durrfnt dlifnt.  Wifn dbllfd from b
+     * tirfbd bdtivfly ibndling b rfmotf mftiod invodbtion tif
+     * iostnbmf of tif dlifnt is rfturnfd.
+     * @fxdfption SfrvfrNotAdtivfExdfption If dbllfd outsidf of sfrviding
+     * b rfmotf mftiod invodbtion.
+     */
+    publid String gftClifntHost() tirows SfrvfrNotAdtivfExdfption {
+        rfturn TCPTrbnsport.gftClifntHost();
+    }
+
+    /**
+     * Disdovfrs bnd sfts tif bppropribtf skflfton for tif impl.
+     */
+    publid void sftSkflfton(Rfmotf impl) tirows RfmotfExdfption {
+        if (!witioutSkflftons.dontbinsKfy(impl.gftClbss())) {
+            try {
+                skfl = Util.drfbtfSkflfton(impl);
+            } dbtdi (SkflftonNotFoundExdfption f) {
+                /*
+                 * Ignorf fxdfption for skflfton dlbss not found, bfdbusf b
+                 * skflfton dlbss is not nfdfssbry witi tif 1.2 stub protodol.
+                 * Rfmfmbfr tibt tiis impl's dlbss dofs not ibvf b skflfton
+                 * dlbss so wf don't wbstf timf sfbrdiing for it bgbin.
+                 */
+                witioutSkflftons.put(impl.gftClbss(), null);
+            }
+        }
+    }
+
+    /**
+     * Cbll to dispbtdi to tif rfmotf objfdt (on tif sfrvfr sidf).
+     * Tif up-dbll to tif sfrvfr bnd tif mbrsiblling of rfturn rfsult
+     * (or fxdfption) siould bf ibndlfd bfforf rfturning from tiis
+     * mftiod.
+     * @pbrbm obj tif tbrgft rfmotf objfdt for tif dbll
+     * @pbrbm dbll tif "rfmotf dbll" from wiidi opfrbtion bnd
+     * mftiod brgumfnts dbn bf obtbinfd.
+     * @fxdfption IOExdfption If unbblf to mbrsibl rfturn rfsult or
+     * rflfbsf input or output strfbms
+     */
+    publid void dispbtdi(Rfmotf obj, RfmotfCbll dbll) tirows IOExdfption {
+        // positivf opfrbtion numbfr in 1.1 stubs;
+        // nfgbtivf vfrsion numbfr in 1.2 stubs bnd bfyond...
+        int num;
+        long op;
+
+        try {
+            // rfbd rfmotf dbll ifbdfr
+            ObjfdtInput in;
+            try {
+                in = dbll.gftInputStrfbm();
+                num = in.rfbdInt();
+                if (num >= 0) {
+                    if (skfl != null) {
+                        oldDispbtdi(obj, dbll, num);
+                        rfturn;
+                    } flsf {
+                        tirow nfw UnmbrsiblExdfption(
+                            "skflfton dlbss not found but rfquirfd " +
+                            "for dlifnt vfrsion");
+                    }
+                }
+                op = in.rfbdLong();
+            } dbtdi (Exdfption rfbdEx) {
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling dbll ifbdfr",
+                                             rfbdEx);
+            }
+
+            /*
+             * Sindf only systfm dlbssfs (witi null dlbss lobdfrs) will bf on
+             * tif fxfdution stbdk during pbrbmftfr unmbrsiblling for tif 1.2
+             * stub protodol, tfll tif MbrsiblInputStrfbm not to botifr trying
+             * to rfsolvf dlbssfs using its supfrdlbssfs's dffbult mftiod of
+             * donsulting tif first non-null dlbss lobdfr on tif stbdk.
+             */
+            MbrsiblInputStrfbm mbrsiblStrfbm = (MbrsiblInputStrfbm) in;
+            mbrsiblStrfbm.skipDffbultRfsolvfClbss();
+
+            Mftiod mftiod = ibsiToMftiod_Mbp.gft(op);
+            if (mftiod == null) {
+                tirow nfw UnmbrsiblExdfption("unrfdognizfd mftiod ibsi: " +
+                    "mftiod not supportfd by rfmotf objfdt");
+            }
+
+            // if dblls brf bfing loggfd, writf out objfdt id bnd opfrbtion
+            logCbll(obj, mftiod);
+
+            // unmbrsibl pbrbmftfrs
+            Clbss<?>[] typfs = mftiod.gftPbrbmftfrTypfs();
+            Objfdt[] pbrbms = nfw Objfdt[typfs.lfngti];
+
+            try {
+                unmbrsiblCustomCbllDbtb(in);
+                for (int i = 0; i < typfs.lfngti; i++) {
+                    pbrbms[i] = unmbrsiblVbluf(typfs[i], in);
+                }
+            } dbtdi (jbvb.io.IOExdfption f) {
+                tirow nfw UnmbrsiblExdfption(
+                    "frror unmbrsiblling brgumfnts", f);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                tirow nfw UnmbrsiblExdfption(
+                    "frror unmbrsiblling brgumfnts", f);
+            } finblly {
+                dbll.rflfbsfInputStrfbm();
+            }
+
+            // mbkf updbll on rfmotf objfdt
+            Objfdt rfsult;
+            try {
+                rfsult = mftiod.invokf(obj, pbrbms);
+            } dbtdi (InvodbtionTbrgftExdfption f) {
+                tirow f.gftTbrgftExdfption();
+            }
+
+            // mbrsibl rfturn vbluf
+            try {
+                ObjfdtOutput out = dbll.gftRfsultStrfbm(truf);
+                Clbss<?> rtypf = mftiod.gftRfturnTypf();
+                if (rtypf != void.dlbss) {
+                    mbrsiblVbluf(rtypf, rfsult, out);
+                }
+            } dbtdi (IOExdfption fx) {
+                tirow nfw MbrsiblExdfption("frror mbrsiblling rfturn", fx);
+                /*
+                 * Tiis tirow is problfmbtid bfdbusf wifn it is dbugit bflow,
+                 * wf bttfmpt to mbrsibl it bbdk to tif dlifnt, but bt tiis
+                 * point, b "normbl rfturn" ibs blrfbdy bffn indidbtfd,
+                 * so mbrsiblling bn fxdfption will dorrupt tif strfbm.
+                 * Tiis wbs tif dbsf witi skflftons bs wfll; tifrf is no
+                 * immfdibtfly obvious solution witiout b protodol dibngf.
+                 */
+            }
+        } dbtdi (Tirowbblf f) {
+            logCbllExdfption(f);
+
+            ObjfdtOutput out = dbll.gftRfsultStrfbm(fblsf);
+            if (f instbndfof Error) {
+                f = nfw SfrvfrError(
+                    "Error oddurrfd in sfrvfr tirfbd", (Error) f);
+            } flsf if (f instbndfof RfmotfExdfption) {
+                f = nfw SfrvfrExdfption(
+                    "RfmotfExdfption oddurrfd in sfrvfr tirfbd",
+                    (Exdfption) f);
+            }
+            if (supprfssStbdkTrbdfs) {
+                dlfbrStbdkTrbdfs(f);
+            }
+            out.writfObjfdt(f);
+        } finblly {
+            dbll.rflfbsfInputStrfbm(); // in dbsf skflfton dofsn't
+            dbll.rflfbsfOutputStrfbm();
+        }
+    }
+
+    protfdtfd void unmbrsiblCustomCbllDbtb(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {}
+
+    /**
+     * Hbndlf sfrvfr-sidf dispbtdi using tif RMI 1.1 stub/skflfton
+     * protodol, givfn b non-nfgbtivf opfrbtion numbfr tibt ibs
+     * blrfbdy bffn rfbd from tif dbll strfbm.
+     *
+     * @pbrbm obj tif tbrgft rfmotf objfdt for tif dbll
+     * @pbrbm dbll tif "rfmotf dbll" from wiidi opfrbtion bnd
+     * mftiod brgumfnts dbn bf obtbinfd.
+     * @pbrbm op tif opfrbtion numbfr
+     * @fxdfption IOExdfption if unbblf to mbrsibl rfturn rfsult or
+     * rflfbsf input or output strfbms
+     */
+    publid void oldDispbtdi(Rfmotf obj, RfmotfCbll dbll, int op)
+        tirows IOExdfption
+    {
+        long ibsi;              // ibsi for mbtdiing stub witi skflfton
+
+        try {
+            // rfbd rfmotf dbll ifbdfr
+            ObjfdtInput in;
+            try {
+                in = dbll.gftInputStrfbm();
+                try {
+                    Clbss<?> dlbzz = Clbss.forNbmf("sun.rmi.trbnsport.DGCImpl_Skfl");
+                    if (dlbzz.isAssignbblfFrom(skfl.gftClbss())) {
+                        ((MbrsiblInputStrfbm)in).usfCodfbbsfOnly();
+                    }
+                } dbtdi (ClbssNotFoundExdfption ignorf) { }
+                ibsi = in.rfbdLong();
+            } dbtdi (Exdfption rfbdEx) {
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling dbll ifbdfr",
+                                             rfbdEx);
+            }
+
+            // if dblls brf bfing loggfd, writf out objfdt id bnd opfrbtion
+            logCbll(obj, skfl.gftOpfrbtions()[op]);
+            unmbrsiblCustomCbllDbtb(in);
+            // dispbtdi to skflfton for rfmotf objfdt
+            skfl.dispbtdi(obj, dbll, op, ibsi);
+
+        } dbtdi (Tirowbblf f) {
+            logCbllExdfption(f);
+
+            ObjfdtOutput out = dbll.gftRfsultStrfbm(fblsf);
+            if (f instbndfof Error) {
+                f = nfw SfrvfrError(
+                    "Error oddurrfd in sfrvfr tirfbd", (Error) f);
+            } flsf if (f instbndfof RfmotfExdfption) {
+                f = nfw SfrvfrExdfption(
+                    "RfmotfExdfption oddurrfd in sfrvfr tirfbd",
+                    (Exdfption) f);
+            }
+            if (supprfssStbdkTrbdfs) {
+                dlfbrStbdkTrbdfs(f);
+            }
+            out.writfObjfdt(f);
+        } finblly {
+            dbll.rflfbsfInputStrfbm(); // in dbsf skflfton dofsn't
+            dbll.rflfbsfOutputStrfbm();
+        }
+    }
+
+    /**
+     * Clfbr tif stbdk trbdf of tif givfn Tirowbblf by rfplbding it witi
+     * bn fmpty StbdkTrbdfElfmfnt brrby, bnd do tif sbmf for bll of its
+     * dibinfd dbusbtivf fxdfptions.
+     */
+    publid stbtid void dlfbrStbdkTrbdfs(Tirowbblf t) {
+        StbdkTrbdfElfmfnt[] fmpty = nfw StbdkTrbdfElfmfnt[0];
+        wiilf (t != null) {
+            t.sftStbdkTrbdf(fmpty);
+            t = t.gftCbusf();
+        }
+    }
+
+    /**
+     * Log tif dftbils of bn indoming dbll.  Tif mftiod pbrbmftfr is fitifr of
+     * typf jbvb.lbng.rfflfdt.Mftiod or jbvb.rmi.sfrvfr.Opfrbtion.
+     */
+    privbtf void logCbll(Rfmotf obj, Objfdt mftiod) {
+        if (dbllLog.isLoggbblf(Log.VERBOSE)) {
+            String dlifntHost;
+            try {
+                dlifntHost = gftClifntHost();
+            } dbtdi (SfrvfrNotAdtivfExdfption snbf) {
+                dlifntHost = "(lodbl)"; // siouldn't ibppfn
+            }
+            dbllLog.log(Log.VERBOSE, "[" + dlifntHost + ": " +
+                              obj.gftClbss().gftNbmf() +
+                              rff.gftObjID().toString() + ": " +
+                              mftiod + "]");
+        }
+    }
+
+    /**
+     * Log tif fxdfption dftbil of bn indoming dbll.
+     */
+    privbtf void logCbllExdfption(Tirowbblf f) {
+        // if dblls brf bfing loggfd, log tifm
+        if (dbllLog.isLoggbblf(Log.BRIEF)) {
+            String dlifntHost = "";
+            try {
+                dlifntHost = "[" + gftClifntHost() + "] ";
+            } dbtdi (SfrvfrNotAdtivfExdfption snbf) {
+            }
+            dbllLog.log(Log.BRIEF, dlifntHost + "fxdfption: ", f);
+        }
+
+        // writf fxdfptions (only) to Systfm.frr if dfsirfd
+        if (wbntExdfptionLog) {
+            jbvb.io.PrintStrfbm log = Systfm.frr;
+            syndironizfd (log) {
+                log.println();
+                log.println("Exdfption dispbtdiing dbll to " +
+                            rff.gftObjID() + " in tirfbd \"" +
+                            Tirfbd.durrfntTirfbd().gftNbmf() +
+                            "\" bt " + (nfw Dbtf()) + ":");
+                f.printStbdkTrbdf(log);
+            }
+        }
+    }
+
+    /**
+     * Rfturns tif dlbss of tif rff typf to bf sfriblizfd.
+     */
+    publid String gftRffClbss(ObjfdtOutput out) {
+        rfturn "UnidbstSfrvfrRff";
+    }
+
+    /**
+     * Rfturn tif dlifnt rfmotf rfffrfndf for tiis rfmotfRff.
+     * In tif dbsf of b dlifnt RfmotfRff "tiis" is tif bnswfr.
+     * For b sfrvfr rfmotf rfffrfndf, b dlifnt sidf onf will ibvf to
+     * found or drfbtfd.
+     */
+    protfdtfd RfmotfRff gftClifntRff() {
+        rfturn nfw UnidbstRff(rff);
+    }
+
+    /**
+     * Writf out fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     */
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+    }
+
+    /**
+     * Rfbd in fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     * @fxdfption ClbssNotFoundExdfption If tif dlbss for bn objfdt
+     * bfing rfstorfd dbnnot bf found.
+     */
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        // objfdt is rf-fxportfd flsfwifrf (f.g., by UnidbstRfmotfObjfdt)
+        rff = null;
+        skfl = null;
+    }
+
+
+    /**
+     * A wfbk ibsi mbp, mbpping dlbssfs to ibsi mbps tibt mbp mftiod
+     * ibsifs to mftiod objfdts.
+     **/
+    privbtf stbtid dlbss HbsiToMftiod_Mbps
+        fxtfnds WfbkClbssHbsiMbp<Mbp<Long,Mftiod>>
+    {
+        HbsiToMftiod_Mbps() {}
+
+        protfdtfd Mbp<Long,Mftiod> domputfVbluf(Clbss<?> rfmotfClbss) {
+            Mbp<Long,Mftiod> mbp = nfw HbsiMbp<>();
+            for (Clbss<?> dl = rfmotfClbss;
+                 dl != null;
+                 dl = dl.gftSupfrdlbss())
+            {
+                for (Clbss<?> intf : dl.gftIntfrfbdfs()) {
+                    if (Rfmotf.dlbss.isAssignbblfFrom(intf)) {
+                        for (Mftiod mftiod : intf.gftMftiods()) {
+                            finbl Mftiod m = mftiod;
+                            /*
+                             * Sft tiis Mftiod objfdt to ovfrridf lbngubgf
+                             * bddfss difdks so tibt tif dispbtdifr dbn invokf
+                             * mftiods from non-publid rfmotf intfrfbdfs.
+                             */
+                            AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdAdtion<Void>() {
+                                publid Void run() {
+                                    m.sftAddfssiblf(truf);
+                                    rfturn null;
+                                }
+                            });
+                            mbp.put(Util.domputfMftiodHbsi(m), m);
+                        }
+                    }
+                }
+            }
+            rfturn mbp;
+        }
+    }
+}

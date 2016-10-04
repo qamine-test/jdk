@@ -1,0 +1,19 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+     prodfssorArdiitfdturf="X86"
+     nbmf="unpbdk200.fxf"
+     typf="win32"/> 
+
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
+  </trustInfo>
+</bssfmbly>

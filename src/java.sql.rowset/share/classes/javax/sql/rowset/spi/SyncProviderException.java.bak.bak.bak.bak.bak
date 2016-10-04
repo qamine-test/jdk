@@ -1,0 +1,165 @@
+/*
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+import jbvb.sql.SQLExdfption;
+import jbvbx.sql.rowsft.*;
+
+/**
+ * Indidbtfs bn frror witi tif <dodf>SyndProvidfr</dodf> mfdibnism. Tiis fxdfption
+ * is drfbtfd by b <dodf>SyndProvidfr</dodf> bbstrbdt dlbss fxtfnsion if it
+ * fndountfrs violbtions in rfbding from or writing to tif originbting dbtb sourdf.
+ * <P>
+ * If it is implfmfntfd to do so, tif <dodf>SyndProvidfr</dodf> objfdt mby blso drfbtf b
+ * <dodf>SyndRfsolvfr</dodf> objfdt bnd fitifr initiblizf tif <dodf>SyndProvidfrExdfption</dodf>
+ * objfdt witi it bt donstrudtion timf or sft it witi tif <dodf>SyndProvidfr</dodf> objfdt bt
+ * b lbtfr timf.
+ * <P>
+ * Tif mftiod <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption bftfr tif writfr
+ * ibs finisifd difdking for donflidts bnd ibs found onf or morf donflidts. An
+ * bpplidbtion mby dbtdi b <dodf>SyndProvidfrExdfption</dodf> objfdt bnd dbll its
+ * <dodf>gftSyndRfsolvfr</dodf> mftiod to gft its <dodf>SyndRfsolvfr</dodf> objfdt.
+ * Sff tif dodf frbgmfnt in tif intfrfbdf dommfnt for
+ * <b irff="SyndRfsolvfr.itml"><dodf>SyndRfsolvfr</dodf></b> for bn fxbmplf.
+ * Tiis <dodf>SyndRfsolvfr</dodf> objfdt will mirror tif <dodf>RowSft</dodf>
+ * objfdt tibt gfnfrbtfd tif fxdfption, fxdfpt tibt it will dontbin only tif vblufs
+ * from tif dbtb sourdf tibt brf in donflidt.  All otifr vblufs in tif <dodf>SyndRfsolvfr</dodf>
+ * objfdt will bf <dodf>null</dodf>.
+ * <P>
+ * Tif <dodf>SyndRfsolvfr</dodf> objfdt mby bf usfd to fxbminf bnd rfsolvf
+ * fbdi donflidt in b row bnd tifn go to tif nfxt row witi b donflidt to
+ * rfpfbt tif prodfdurf.
+ * <P>
+ * A <dodf>SyndProvidfrExdfption</dodf> objfdt mby or mby not dontbin b dfsdription of tif
+ * dondition dbusing tif fxdfption.  Tif inifritfd mftiod <dodf>gftMfssbgf</dodf> mby bf
+ * dbllfd to rftrifvf tif dfsdription if tifrf is onf.
+ *
+ * @butior Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndRfsolvfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ * @sindf 1.5
+ */
+publid dlbss SyndProvidfrExdfption fxtfnds jbvb.sql.SQLExdfption {
+
+    /**
+     * Tif instbndf of <dodf>jbvbx.sql.rowsft.spi.SyndRfsolvfr</dodf> tibt
+     * tiis <dodf>SyndProvidfrExdfption</dodf> objfdt will rfturn wifn its
+     * <dodf>gftSyndRfsolvfr</dodf> mftiod is dbllfd.
+     */
+     privbtf SyndRfsolvfr syndRfsolvfr = null;
+
+    /**
+     * Crfbtfs b nfw <dodf>SyndProvidfrExdfption</dodf> objfdt witiout b dftbil mfssbgf.
+     */
+    publid SyndProvidfrExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>SyndProvidfrExdfption</dodf> objfdt witi tif spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm msg tif dftbil mfssbgf
+     */
+    publid SyndProvidfrExdfption(String msg)  {
+        supfr(msg);
+    }
+
+    /**
+     * Construdts b <dodf>SyndProvidfrExdfption</dodf> objfdt witi tif spfdififd
+     * <dodf>SyndRfsolvfr</dodf> instbndf.
+     *
+     * @pbrbm syndRfsolvfr tif <dodf>SyndRfsolvfr</dodf> instbndf usfd to
+     *     to prodfss tif syndironizbtion donflidts
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>SyndRfsolvfr</dodf> objfdt
+     *     is <dodf>null</dodf>.
+     */
+    publid SyndProvidfrExdfption(SyndRfsolvfr syndRfsolvfr)  {
+        if (syndRfsolvfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot instbntibtf b SyndProvidfrExdfption " +
+                "witi b null SyndRfsolvfr objfdt");
+        } flsf {
+            tiis.syndRfsolvfr = syndRfsolvfr;
+        }
+    }
+
+    /**
+     * Rftrifvfs tif <dodf>SyndRfsolvfr</dodf> objfdt tibt ibs bffn sft for
+     * tiis <dodf>SyndProvidfrExdfption</dodf> objfdt, or
+     * if nonf ibs bffn sft, bn instbndf of tif dffbult <dodf>SyndRfsolvfr</dodf>
+     * implfmfntbtion indludfd in tif rfffrfndf implfmfntbtion.
+     * <P>
+     * If b <dodf>SyndProvidfrExdfption</dodf> objfdt is tirown, bn bpplidbtion
+     * mby usf tiis mftiod to gfnfrbtf b <dodf>SyndRfsolvfr</dodf> objfdt
+     * witi wiidi to rfsolvf tif donflidt or donflidts tibt dbusfd tif
+     * fxdfption to bf tirown.
+     *
+     * @rfturn tif <dodf>SyndRfsolvfr</dodf> objfdt sft for tiis
+     *     <dodf>SyndProvidfrExdfption</dodf> objfdt or, if nonf ibs
+     *     bffn sft, bn instbndf of tif dffbult <dodf>SyndRfsolvfr</dodf>
+     *     implfmfntbtion. In bddition, tif dffbult <dodf>SyndRfsolvfr</dodf>
+     *     implfmfntbtion is blso rfturnfd if tif <dodf>SyndRfsolvfr()</dodf> or
+     *     <dodf>SyndRfsolvfr(String)</dodf> donstrudtors brf usfd to instbntibtf
+     *     tif <dodf>SyndRfsolvfr</dodf> instbndf.
+     */
+    publid SyndRfsolvfr gftSyndRfsolvfr() {
+        if (syndRfsolvfr != null) {
+            rfturn syndRfsolvfr;
+        } flsf {
+            try {
+              syndRfsolvfr = nfw dom.sun.rowsft.intfrnbl.SyndRfsolvfrImpl();
+            } dbtdi (SQLExdfption sqlf) {
+            }
+            rfturn syndRfsolvfr;
+        }
+    }
+
+    /**
+     * Sfts tif <dodf>SyndRfsolvfr</dodf> objfdt for tiis
+     * <dodf>SyndProvidfrExdfption</dodf> objfdt to tif onf supplifd.
+     * If tif brgumfnt supplifd is <dodf>null</dodf>, b dbll to tif mftiod
+     * <dodf>gftSyndRfsolvfr</dodf> will rfturn tif dffbult rfffrfndf
+     * implfmfntbtion of tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+     *
+     * @pbrbm syndRfsolvfr tif <dodf>SyndRfsolvfr</dodf> objfdt to bf sft;
+     *     dbnnot bf <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>SyndRfsolvfr</dodf> objfdt
+     *     is <dodf>null</dodf>.
+     * @sff #gftSyndRfsolvfr
+     */
+    publid void sftSyndRfsolvfr(SyndRfsolvfr syndRfsolvfr) {
+        if (syndRfsolvfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot sft b null SyndRfsolvfr " +
+                "objfdt");
+        } flsf {
+            tiis.syndRfsolvfr = syndRfsolvfr;
+        }
+    }
+
+    stbtid finbl long sfriblVfrsionUID = -939908523620640692L;
+
+}

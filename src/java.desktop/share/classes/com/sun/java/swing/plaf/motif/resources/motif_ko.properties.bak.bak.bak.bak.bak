@@ -1,0 +1,40 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+# @butior Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uD655\uC778
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=\uACBD\uB85C \uB610\uB294 \uD3F4\uB354 \uC774\uB984 \uC785\uB825(&P):
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=\uD544\uD130(&R)
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=\uD3F4\uB354(&L)
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=\uD30C\uC77C(&I)
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC774\uB984 \uC785\uB825(&N):
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=\uD3F4\uB354 \uC774\uB984 \uC785\uB825:
+
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=\uD30C\uC77C \uC120\uD0DD\uAE30 \uB300\uD654\uC0C1\uC790\uB97C \uC911\uB2E8\uD569\uB2C8\uB2E4.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=\uC120\uD0DD\uB41C \uD30C\uC77C\uC744 \uC800\uC7A5\uD569\uB2C8\uB2E4.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=\uC120\uD0DD\uB41C \uD30C\uC77C\uC744 \uC5FD\uB2C8\uB2E4.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC \uBAA9\uB85D\uC744 \uC5C5\uB370\uC774\uD2B8\uD569\uB2C8\uB2E4.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=FilfCioosfr \uB3C4\uC6C0\uB9D0\uC785\uB2C8\uB2E4.

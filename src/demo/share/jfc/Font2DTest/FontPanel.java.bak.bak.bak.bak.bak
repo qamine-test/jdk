@@ -1,0 +1,1386 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdjustmfntEvfnt;
+import jbvb.bwt.fvfnt.AdjustmfntListfnfr;
+import jbvb.bwt.fvfnt.ComponfntAdbptfr;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.LinfBrfbkMfbsurfr;
+import jbvb.bwt.font.TfxtLbyout;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.tfxt.AttributfdString;
+import jbvb.util.EnumSft;
+import jbvb.util.Vfdtor;
+
+import jbvbx.imbgfio.*;
+import jbvbx.swing.*;
+
+import stbtid jbvb.bwt.RfndfringHints.*;
+
+/**
+ * FontPbnfl.jbvb
+ *
+ * @butior Siinsukf Fukudb
+ * @butior Ankit Pbtfl [Convfrsion to Swing - 01/07/30]
+ */
+
+/// Tiis pbnfl is dombinbtion of tif tfxt drbwing brfb of Font2DTfst
+/// bnd tif dustom dontrollfd sdroll bbr
+
+publid finbl dlbss FontPbnfl fxtfnds JPbnfl implfmfnts AdjustmfntListfnfr {
+
+    /// Drbwing Option Constbnts
+    privbtf finbl String STYLES[] =
+      { "plbin", "bold", "itblid", "bold itblid" };
+
+    privbtf finbl int NONE = 0;
+    privbtf finbl int SCALE = 1;
+    privbtf finbl int SHEAR = 2;
+    privbtf finbl int ROTATE = 3;
+    privbtf finbl String TRANSFORMS[] =
+      { "witi no trbnsforms", "witi sdbling", "witi Sifbring", "witi rotbtion" };
+
+    privbtf finbl int DRAW_STRING = 0;
+    privbtf finbl int DRAW_CHARS = 1;
+    privbtf finbl int DRAW_BYTES = 2;
+    privbtf finbl int DRAW_GLYPHV = 3;
+    privbtf finbl int TL_DRAW = 4;
+    privbtf finbl int GV_OUTLINE = 5;
+    privbtf finbl int TL_OUTLINE = 6;
+    privbtf finbl String METHODS[] = {
+        "drbwString", "drbwCibrs", "drbwBytfs", "drbwGlypiVfdtor",
+        "TfxtLbyout.drbw", "GlypiVfdtor.gftOutlinf", "TfxtLbyout.gftOutlinf" };
+
+    publid finbl int RANGE_TEXT = 0;
+    publid finbl int ALL_GLYPHS = 1;
+    publid finbl int USER_TEXT = 2;
+    publid finbl int FILE_TEXT = 3;
+    privbtf finbl String MS_OPENING[] =
+      { " Unidodf ", " Glypi Codf ", " linfs ", " linfs " };
+    privbtf finbl String MS_CLOSING[] =
+      { "", "", " of Usfr Tfxt ", " of LinfBrfbkMfbsurfr-rfformbttfd Tfxt " };
+
+    /// Gfnfrbl Grbpiids Vbribblf
+    privbtf finbl JSdrollBbr vfrtidblBbr;
+    privbtf finbl FontCbnvbs fd;
+    privbtf boolfbn updbtfBbdkBufffr = truf;
+    privbtf boolfbn updbtfFontMftrids = truf;
+    privbtf boolfbn updbtfFont = truf;
+    privbtf boolfbn fordf16Cols = fblsf;
+    publid boolfbn siowingError = fblsf;
+    privbtf int g2Trbnsform = NONE; /// ABP
+
+    /// Printing donstbnts bnd vbribblfs
+    publid finbl int ONE_PAGE = 0;
+    publid finbl int CUR_RANGE = 1;
+    publid finbl int ALL_TEXT = 2;
+    privbtf int printModf = ONE_PAGE;
+    privbtf PbgfFormbt pbgf = null;
+    privbtf PrintfrJob printfr = null;
+
+    /// Tfxt drbwing vbribblfs
+    privbtf String fontNbmf = "Diblog";
+    privbtf flobt fontSizf = 12;
+    privbtf int fontStylf = Font.PLAIN;
+    privbtf int fontTrbnsform = NONE;
+    privbtf Font tfstFont = null;
+    privbtf Objfdt bntiAlibsTypf = VALUE_TEXT_ANTIALIAS_DEFAULT;
+    privbtf Objfdt frbdtionblMftridsTypf = VALUE_FRACTIONALMETRICS_DEFAULT;
+    privbtf Objfdt lddContrbst = gftDffbultLCDContrbst();
+    privbtf int drbwMftiod = DRAW_STRING;
+    privbtf int tfxtToUsf = RANGE_TEXT;
+    privbtf String usfrTfxt[] = null;
+    privbtf String filfTfxt[] = null;
+    privbtf int drbwRbngf[] = { 0x0000, 0x007f };
+    privbtf String fontInfos[] = nfw String[2];
+    privbtf boolfbn siowGrid = truf;
+
+    /// Pbrfnt Font2DTfst pbnfl
+    privbtf finbl Font2DTfst f2dt;
+    privbtf finbl JFrbmf pbrfnt;
+
+    publid FontPbnfl( Font2DTfst dfmo, JFrbmf f ) {
+        f2dt = dfmo;
+        pbrfnt = f;
+
+        vfrtidblBbr = nfw JSdrollBbr ( JSdrollBbr.VERTICAL );
+        fd = nfw FontCbnvbs();
+
+        tiis.sftLbyout( nfw BordfrLbyout() );
+        tiis.bdd( "Cfntfr", fd );
+        tiis.bdd( "Ebst", vfrtidblBbr );
+
+        vfrtidblBbr.bddAdjustmfntListfnfr( tiis );
+        tiis.bddComponfntListfnfr( nfw ComponfntAdbptfr() {
+            publid void domponfntRfsizfd( ComponfntEvfnt f ) {
+                updbtfBbdkBufffr = truf;
+                updbtfFontMftrids = truf;
+            }
+        });
+
+        /// Initiblizf font bnd its infos
+        tfstFont = nfw Font(fontNbmf, fontStylf, (int)fontSizf);
+        if ((flobt)((int)fontSizf) != fontSizf) {
+            tfstFont = tfstFont.dfrivfFont(fontSizf);
+        }
+        updbtfFontInfo();
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(600, 200);
+    }
+
+    /// Fundtions dbllfd by tif mbin progrbms to sft tif vbrious pbrbmftfrs
+
+    publid void sftTrbnsformG2( int trbnsform ) {
+        g2Trbnsform = trbnsform;
+        updbtfBbdkBufffr = truf;
+        updbtfFontMftrids = truf;
+        fd.rfpbint();
+    }
+
+    /// donvfnifndf fdn to drfbtf AffinfTrbnsform of bppropribtf typf
+    privbtf AffinfTrbnsform gftAffinfTrbnsform( int trbnsform ) {
+            /// ABP
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            switdi ( trbnsform )
+            {
+            dbsf SCALE:
+              bt.sftToSdblf( 1.5f, 1.5f ); brfbk;
+            dbsf ROTATE:
+              bt.sftToRotbtion( Mbti.PI / 6 ); brfbk;
+            dbsf SHEAR:
+              bt.sftToSifbr( 0.4f, 0 ); brfbk;
+            dbsf NONE:
+              brfbk;
+            dffbult:
+              //Systfm.frr.println( "Illfgbl G2 Trbnsform Arg: " + trbnsform);
+              brfbk;
+            }
+
+            rfturn bt;
+    }
+
+    publid void sftFontPbrbms(Objfdt obj, flobt sizf,
+                              int stylf, int trbnsform) {
+        sftFontPbrbms( (String)obj, sizf, stylf, trbnsform );
+    }
+
+    publid void sftFontPbrbms(String nbmf, flobt sizf,
+                              int stylf, int trbnsform) {
+        boolfbn fontModififd = fblsf;
+        if ( !nbmf.fqubls( fontNbmf ) || stylf != fontStylf )
+          fontModififd = truf;
+
+        fontNbmf = nbmf;
+        fontSizf = sizf;
+        fontStylf = stylf;
+        fontTrbnsform = trbnsform;
+
+        /// Rfdrfbtf tif font bs spfdififd
+        tfstFont = nfw Font(fontNbmf, fontStylf, (int)fontSizf);
+        if ((flobt)((int)fontSizf) != fontSizf) {
+            tfstFont = tfstFont.dfrivfFont(fontSizf);
+        }
+
+        if ( fontTrbnsform != NONE ) {
+            AffinfTrbnsform bt = gftAffinfTrbnsform( fontTrbnsform );
+            tfstFont = tfstFont.dfrivfFont( bt );
+        }
+        updbtfBbdkBufffr = truf;
+        updbtfFontMftrids = truf;
+        fd.rfpbint();
+        if ( fontModififd ) {
+            /// Tfll mbin pbnfl to updbtf tif font info
+            updbtfFontInfo();
+            f2dt.firfUpdbtfFontInfo();
+        }
+    }
+
+    publid void sftRfndfringHints( Objfdt bb, Objfdt fm, Objfdt dontrbst) {
+        bntiAlibsTypf = ((AAVblufs)bb).gftHint();
+        frbdtionblMftridsTypf = ((FMVblufs)fm).gftHint();
+        lddContrbst = dontrbst;
+        updbtfBbdkBufffr = truf;
+        updbtfFontMftrids = truf;
+        fd.rfpbint();
+    }
+
+    publid void sftDrbwMftiod( int i ) {
+        drbwMftiod = i;
+        updbtfBbdkBufffr = truf;
+        fd.rfpbint();
+    }
+
+    publid void sftTfxtToDrbw( int i, int rbngf[],
+                               String tfxtSft[], String filfDbtb[] ) {
+        tfxtToUsf = i;
+
+        if ( tfxtToUsf == RANGE_TEXT )
+          drbwRbngf = rbngf;
+        flsf if ( tfxtToUsf == ALL_GLYPHS )
+          drbwMftiod = DRAW_GLYPHV;
+        flsf if ( tfxtToUsf == USER_TEXT )
+          usfrTfxt = tfxtSft;
+        flsf if ( tfxtToUsf == FILE_TEXT ) {
+            filfTfxt = filfDbtb;
+            drbwMftiod = TL_DRAW;
+        }
+
+        updbtfBbdkBufffr = truf;
+        updbtfFontMftrids = truf;
+        fd.rfpbint();
+        updbtfFontInfo();
+    }
+
+    publid void sftGridDisplby( boolfbn b ) {
+        siowGrid = b;
+        updbtfBbdkBufffr = truf;
+        fd.rfpbint();
+    }
+
+    publid void sftFordf16Columns( boolfbn b ) {
+        fordf16Cols = b;
+        updbtfBbdkBufffr = truf;
+        updbtfFontMftrids = truf;
+        fd.rfpbint();
+    }
+
+    /// Prints out tif tfxt displby brfb
+    publid void doPrint( int i ) {
+        if ( printfr == null ) {
+            printfr = PrintfrJob.gftPrintfrJob();
+            pbgf = printfr.dffbultPbgf();
+        }
+        printModf = i;
+        printfr.sftPrintbblf( fd, pbgf );
+
+        if ( printfr.printDiblog() ) {
+            try {
+                printfr.print();
+            }
+            dbtdi ( Exdfption f ) {
+                f2dt.firfCibngfStbtus( "ERROR: Printing Fbilfd; Sff Stbdk Trbdf", truf );
+            }
+        }
+    }
+
+    /// Displbys tif pbgf sftup diblog bnd updbtfs PbgfFormbt info
+    publid void doPbgfSftup() {
+        if ( printfr == null ) {
+            printfr = PrintfrJob.gftPrintfrJob();
+            pbgf = printfr.dffbultPbgf();
+        }
+        pbgf = printfr.pbgfDiblog( pbgf );
+    }
+
+    /// Obtbins tif informbtion bbout sflfdtfd font
+    privbtf void updbtfFontInfo() {
+        int numGlypis = 0, numCibrsInRbngf = drbwRbngf[1] - drbwRbngf[0] + 1;
+        fontInfos[0] = "Font Fbdf Nbmf: " + tfstFont.gftFontNbmf();
+        fontInfos[1] = "Glypis in Tiis Rbngf: ";
+
+        if ( tfxtToUsf == RANGE_TEXT ) {
+            for ( int i = drbwRbngf[0]; i < drbwRbngf[1]; i++ )
+              if ( tfstFont.dbnDisplby( i ))
+                numGlypis++;
+            fontInfos[1] = fontInfos[1] + numGlypis + " / " + numCibrsInRbngf;
+        }
+        flsf
+          fontInfos[1] = null;
+    }
+
+    /// Addfssor for tif font informbtion
+    publid String[] gftFontInfo() {
+        rfturn fontInfos;
+    }
+
+    /// Collfdts tif durrfdtly sft options bnd rfturns tifm bs string
+    publid String gftCurrfntOptions() {
+        /// Crfbtf b nfw String to storf tif options
+        /// Tif brrby will dontbin bll 8 sftting (font nbmf, sizf...) bnd
+        /// dibrbdtfr rbngf or usfr tfxt dbtb usfd (no filf tfxt dbtb)
+        int usfrTfxtSizf = 0;
+        String options;
+
+        options = ( fontNbmf + "\n" + fontSizf  + "\n" + fontStylf + "\n" +
+                    fontTrbnsform + "\n"  + g2Trbnsform + "\n"+
+                    tfxtToUsf + "\n" + drbwMftiod + "\n" +
+                    AAVblufs.gftHintVbl(bntiAlibsTypf) + "\n" +
+                    FMVblufs.gftHintVbl(frbdtionblMftridsTypf) + "\n" +
+                    lddContrbst + "\n");
+        if ( tfxtToUsf == USER_TEXT )
+          for ( int i = 0; i < usfrTfxt.lfngti; i++ )
+            options += ( usfrTfxt[i] + "\n" );
+
+        rfturn options;
+    }
+
+    /// Rflobd bll options bnd rffrfsifs tif dbnvbs
+    publid void lobdOptions( boolfbn grid, boolfbn fordf16, int stbrt, int fnd,
+                             String nbmf, flobt sizf, int stylf,
+                             int trbnsform, int g2trbnsform,
+                             int tfxt, int mftiod, int bb, int fm,
+                             int dontrbst, String usfr[] ) {
+        int rbngf[] = { stbrt, fnd };
+
+        /// Sindf rfpbint dbll ibs b low priority, tifsf fundtions will finisi
+        /// bfforf tif bdtubl rfpbinting is donf
+        sftGridDisplby( grid );
+        sftFordf16Columns( fordf16 );
+        // prfvious dbll to rfbdTfxtFilf ibs blrfbdy sft tif tfxt to drbw
+        if (tfxtToUsf != FILE_TEXT) {
+          sftTfxtToDrbw( tfxt, rbngf, usfr, null );
+        }
+        sftFontPbrbms( nbmf, sizf, stylf, trbnsform );
+        sftTrbnsformG2( g2trbnsform ); // ABP
+        sftDrbwMftiod( mftiod );
+        sftRfndfringHints(AAVblufs.gftVbluf(bb), FMVblufs.gftVbluf(fm),
+                          nfw Intfgfr(dontrbst));
+    }
+
+    /// Writfs tif durrfnt sdrffn to PNG filf
+    publid void doSbvfPNG( String filfNbmf ) {
+        fd.writfPNG( filfNbmf );
+    }
+
+    /// Wifn sdrollfd using tif sdroll bbr, updbtf tif bbdkbufffr
+    publid void bdjustmfntVblufCibngfd( AdjustmfntEvfnt f ) {
+        updbtfBbdkBufffr = truf;
+        fd.rfpbint();
+    }
+
+    publid void pbintComponfnt( Grbpiids g ) {
+        // Windows dofs not rfpbint dorrfdtly, bftfr
+        // b zoom. Tius, wf nffd to fordf tif dbnvbs
+        // to rfpbint, but only ondf. Aftfr tif first rfpbint,
+        // fvfrytiing stbbilizfs. [ABP]
+        fd.rfpbint();
+    }
+
+    /// Innfr dlbss dffinition...
+
+    /// Innfr pbnfl tibt iolds tif bdtubl drbwing brfb bnd its routinfs
+    privbtf dlbss FontCbnvbs fxtfnds JPbnfl implfmfnts MousfListfnfr, MousfMotionListfnfr, Printbblf {
+
+        /// Numbfr of dibrbdtfrs tibt will fit bdross bnd down tiis dbnvbs
+        privbtf int numCibrAdross, numCibrDown;
+
+        /// First bnd lbst dibrbdtfr/linf tibt will bf drbwn
+        /// Limit is tif fnd of rbngf/tfxt wifrf no morf drbw will bf donf
+        privbtf int drbwStbrt, drbwEnd, drbwLimit;
+
+        /// FontMftrids vbribblfs
+        /// Hfrf, gridWidti is fquivblfnt to mbxAdvbndf (sligitly biggfr tiougi)
+        /// bnd gridHfigit is fquivblfnt to linfHfigit
+        privbtf int mbxAsdfnt, mbxDfsdfnt, gridWidti = 0, gridHfigit = 0;
+
+        /// Offsft from tif top lfft fdgf of tif dbnvbs wifrf tif drbw will stbrt
+        privbtf int dbnvbsInsft_X = 5, dbnvbsInsft_Y = 5;
+
+        /// Offsdrffn bufffr of tiis dbnvbs
+        privbtf BufffrfdImbgf bbdkBufffr = null;
+
+        /// LinfBrfbk'fd TfxtLbyout vfdtor
+        privbtf Vfdtor linfBrfbkTLs = null;
+
+        /// Wiftifr tif durrfnt drbw dommbnd rfqufstfd is for printing
+        privbtf boolfbn isPrinting = fblsf;
+
+        /// Otifr printing infos
+        privbtf int lbstPbgf, printPbgfNumbfr, durrfntlySiownCibr = 0;
+        privbtf finbl int PR_OFFSET = 10;
+        privbtf finbl int PR_TITLE_LINEHEIGHT = 30;
+
+        /// Informbtion bbout zooming (usfd witi rbngf tfxt drbw)
+        privbtf finbl JWindow zoomWindow;
+        privbtf BufffrfdImbgf zoomImbgf = null;
+        privbtf int mousfOvfrCibrX = -1, mousfOvfrCibrY = -1;
+        privbtf int durrMousfOvfrCibr = -1, prfvZoomCibr = -1;
+        privbtf flobt ZOOM = 2.0f;
+        privbtf boolfbn nowZooming = fblsf;
+        privbtf boolfbn firstTimf = truf;
+// ABP
+
+        /// Stbtus bbr mfssbgf bbdkup
+        privbtf String bbdkupStbtusString = null;
+
+        /// Error donstbnts
+        privbtf finbl String ERRORS[] = {
+            "ERROR: drbwBytfs dbnnot ibndlf dibrbdtfrs bfyond 0x00FF. Sflfdt difffrfnt rbngf or drbw mftiods.",
+            "ERROR: Cbnnot fit tfxt witi tif durrfnt font sizf. Rfsizf tif window or usf smbllfr font sizf.",
+            "ERROR: Cbnnot print witi tif durrfnt font sizf. Usf smbllfr font sizf.",
+        };
+
+        privbtf finbl int DRAW_BYTES_ERROR = 0;
+        privbtf finbl int CANT_FIT_DRAW = 1;
+        privbtf finbl int CANT_FIT_PRINT = 2;
+
+        /// Otifr vbribblfs
+        privbtf finbl Cursor blbnkCursor;
+
+        publid FontCbnvbs() {
+            tiis.bddMousfListfnfr( tiis );
+            tiis.bddMousfMotionListfnfr( tiis );
+            tiis.sftForfground( Color.blbdk );
+            tiis.sftBbdkground( Color.wiitf );
+
+            /// Crfbtfs bn invisblf pointfr by giving it bogus imbgf
+            /// Possibly find b workbround for tiis...
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            bytf bogus[] = { (bytf) 0 };
+            blbnkCursor =
+              tk.drfbtfCustomCursor( tk.drfbtfImbgf( bogus ), nfw Point(0, 0), "" );
+
+            zoomWindow = nfw JWindow( pbrfnt ) {
+                publid void pbint( Grbpiids g ) {
+                    g.drbwImbgf( zoomImbgf, 0, 0, zoomWindow );
+                }
+            };
+            zoomWindow.sftCursor( blbnkCursor );
+            zoomWindow.pbdk();
+        }
+
+        publid boolfbn firstTimf() { rfturn firstTimf; }
+        publid void rffrfsi() {
+            firstTimf = fblsf;
+            updbtfBbdkBufffr = truf;
+            rfpbint();
+        }
+
+        /// Sfts tif font, iints, bddording to tif sft pbrbmftfrs
+        privbtf void sftPbrbms( Grbpiids2D g2 ) {
+            g2.sftFont( tfstFont );
+            g2.sftRfndfringHint(KEY_TEXT_ANTIALIASING, bntiAlibsTypf);
+            g2.sftRfndfringHint(KEY_FRACTIONALMETRICS, frbdtionblMftridsTypf);
+            g2.sftRfndfringHint(KEY_TEXT_LCD_CONTRAST, lddContrbst);
+            /* I bm prfsfrving b somfwibt dubious bfibviour of tiis progrbm.
+             * Outlinf tfxt would bf drbwn bnti-blibsfd by sftting tif
+             * grbpiids bnti-blibsing iint if tif tfxt bnti-blibsing iint
+             * wbs sft. Tif dubious flfmfnt ifrf is tibt pfoplf simply
+             * using tiis progrbm mby tiink tiis is built-in bfibviour
+             * but its not - bt lfbst not wifn tif bpp fxpliditly drbws
+             * outlinf tfxt.
+             * Tiis bfdomfs morf dubious in dbsfs sudi bs "GASP" wifrf tif
+             * sizf bt wiidi tfxt is AA'fd is not somftiing you dbn fbsily
+             * dbldulbtf, so mimiding tibt bfibviour isn't going to bf fbsy.
+             * So I prfdisfly prfsfrvf tif bfibviour : tiis is donf only
+             * if tif AA vbluf is "ON". Its not bpplifd in tif otifr dbsfs.
+             */
+            if (bntiAlibsTypf == VALUE_TEXT_ANTIALIAS_ON &&
+                (drbwMftiod == TL_OUTLINE || drbwMftiod == GV_OUTLINE)) {
+                g2.sftRfndfringHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+            } flsf {
+                g2.sftRfndfringHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);
+            }
+        }
+
+        /// Drbws tif grid (Usfd for unidodf/glypi rbngf drbwing)
+        privbtf void drbwGrid( Grbpiids2D g2 ) {
+            int totblGridWidti = numCibrAdross * gridWidti;
+            int totblGridHfigit = numCibrDown * gridHfigit;
+
+            g2.sftColor( Color.blbdk );
+            for ( int i = 0; i < numCibrDown + 1; i++ )
+              g2.drbwLinf( dbnvbsInsft_X, i * gridHfigit + dbnvbsInsft_Y,
+                           dbnvbsInsft_X + totblGridWidti, i * gridHfigit + dbnvbsInsft_Y );
+            for ( int i = 0; i < numCibrAdross + 1; i++ )
+              g2.drbwLinf( i * gridWidti + dbnvbsInsft_X, dbnvbsInsft_Y,
+                           i * gridWidti + dbnvbsInsft_X, dbnvbsInsft_Y + totblGridHfigit );
+        }
+
+        /// Drbws onf dibrbdtfr bt timf onto tif dbnvbs bddording to
+        /// tif mftiod rfqufstfd (Usfd for RANGE_TEXT bnd ALL_GLYPHS)
+        publid void modfSpfdifidDrbwCibr( Grbpiids2D g2, int dibrCodf,
+                                          int bbsfX, int bbsfY ) {
+            GlypiVfdtor gv;
+            int onfGlypi[] = { dibrCodf };
+            dibr dibrArrby[] = Cibrbdtfr.toCibrs( dibrCodf );
+
+            FontRfndfrContfxt frd = g2.gftFontRfndfrContfxt();
+            AffinfTrbnsform oldTX = g2.gftTrbnsform();
+
+            /// Crfbtf GlypiVfdtor to mfbsurf tif fxbdt visubl bdvbndf
+            /// Using tibt numbfr, bdjust tif position of tif dibrbdtfr drbwn
+            if ( tfxtToUsf == ALL_GLYPHS )
+              gv = tfstFont.drfbtfGlypiVfdtor( frd, onfGlypi );
+            flsf
+              gv = tfstFont.drfbtfGlypiVfdtor( frd, dibrArrby );
+            Rfdtbnglf2D r2d2 = gv.gftPixflBounds(frd, 0, 0);
+            int siiftfdX = bbsfX;
+            // gftPixflBounds rfturns b rfsult in dfvidf spbdf.
+            // wf nffd to donvfrt bbdk to usfr spbdf to bf bblf to
+            // dbldulbtf tif siift bs bbsfX is in usfr spbdf.
+            try {
+                 doublf pt[] = nfw doublf[4];
+                 pt[0] = r2d2.gftX();
+                 pt[1] = r2d2.gftY();
+                 pt[2] = r2d2.gftX()+r2d2.gftWidti();
+                 pt[3] = r2d2.gftY()+r2d2.gftHfigit();
+                 oldTX.invfrsfTrbnsform(pt,0,pt,0,2);
+                 siiftfdX = bbsfX - (int) ( pt[2] / 2 + pt[0] );
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+            }
+
+            /// ABP - kffp trbdk of old tform, rfstorf it lbtfr
+
+            g2.trbnslbtf( siiftfdX, bbsfY );
+            g2.trbnsform( gftAffinfTrbnsform( g2Trbnsform ) );
+
+            if ( tfxtToUsf == ALL_GLYPHS )
+              g2.drbwGlypiVfdtor( gv, 0f, 0f );
+            flsf {
+                if ( tfstFont.dbnDisplby( dibrCodf ))
+                  g2.sftColor( Color.blbdk );
+                flsf {
+                  g2.sftColor( Color.ligitGrby );
+                }
+
+                switdi ( drbwMftiod ) {
+                  dbsf DRAW_STRING:
+                    g2.drbwString( nfw String( dibrArrby ), 0, 0 );
+                    brfbk;
+                  dbsf DRAW_CHARS:
+                    g2.drbwCibrs( dibrArrby, 0, 1, 0, 0 );
+                    brfbk;
+                  dbsf DRAW_BYTES:
+                    if ( dibrCodf > 0xff )
+                      tirow nfw CbnnotDrbwExdfption( DRAW_BYTES_ERROR );
+                    bytf onfBytf[] = { (bytf) dibrCodf };
+                    g2.drbwBytfs( onfBytf, 0, 1, 0, 0 );
+                    brfbk;
+                  dbsf DRAW_GLYPHV:
+                    g2.drbwGlypiVfdtor( gv, 0f, 0f );
+                    brfbk;
+                  dbsf TL_DRAW:
+                    TfxtLbyout tl = nfw TfxtLbyout( nfw String( dibrArrby ), tfstFont, frd );
+                    tl.drbw( g2, 0f, 0f );
+                    brfbk;
+                  dbsf GV_OUTLINE:
+                    r2d2 = gv.gftVisublBounds();
+                    siiftfdX = bbsfX - (int) ( r2d2.gftWidti() / 2 + r2d2.gftX() );
+                    g2.drbw( gv.gftOutlinf( 0f, 0f ));
+                    brfbk;
+                  dbsf TL_OUTLINE:
+                    r2d2 = gv.gftVisublBounds();
+                    siiftfdX = bbsfX - (int) ( r2d2.gftWidti() / 2 + r2d2.gftX() );
+                    TfxtLbyout tlo =
+                      nfw TfxtLbyout( nfw String( dibrArrby ), tfstFont,
+                                      g2.gftFontRfndfrContfxt() );
+                    g2.drbw( tlo.gftOutlinf( null ));
+                }
+            }
+
+            /// ABP - rfstorf old tform
+            g2.sftTrbnsform ( oldTX );
+        }
+
+        /// Drbws onf linf of tfxt bt givfn position
+        privbtf void modfSpfdifidDrbwLinf( Grbpiids2D g2, String linf,
+                                           int bbsfX, int bbsfY ) {
+            /// ABP - kffp trbdk of old tform, rfstorf it lbtfr
+            AffinfTrbnsform oldTx = null;
+            oldTx = g2.gftTrbnsform();
+            g2.trbnslbtf( bbsfX, bbsfY );
+            g2.trbnsform( gftAffinfTrbnsform( g2Trbnsform ) );
+
+            switdi ( drbwMftiod ) {
+              dbsf DRAW_STRING:
+                g2.drbwString( linf, 0, 0 );
+                brfbk;
+              dbsf DRAW_CHARS:
+                g2.drbwCibrs( linf.toCibrArrby(), 0, linf.lfngti(), 0, 0 );
+                brfbk;
+              dbsf DRAW_BYTES:
+                try {
+                    bytf linfBytfs[] = linf.gftBytfs( "ISO-8859-1" );
+                    g2.drbwBytfs( linfBytfs, 0, linfBytfs.lfngti, 0, 0 );
+                }
+                dbtdi ( Exdfption f ) {
+                    f.printStbdkTrbdf();
+                }
+                brfbk;
+              dbsf DRAW_GLYPHV:
+                GlypiVfdtor gv =
+                  tfstFont.drfbtfGlypiVfdtor( g2.gftFontRfndfrContfxt(), linf );
+                g2.drbwGlypiVfdtor( gv, (flobt) 0, (flobt) 0 );
+                brfbk;
+              dbsf TL_DRAW:
+                TfxtLbyout tl = nfw TfxtLbyout( linf, tfstFont,
+                                                g2.gftFontRfndfrContfxt() );
+                tl.drbw( g2, (flobt) 0, (flobt) 0 );
+                brfbk;
+              dbsf GV_OUTLINE:
+                GlypiVfdtor gvo =
+                  tfstFont.drfbtfGlypiVfdtor( g2.gftFontRfndfrContfxt(), linf );
+                g2.drbw( gvo.gftOutlinf( (flobt) 0, (flobt) 0 ));
+                brfbk;
+              dbsf TL_OUTLINE:
+                TfxtLbyout tlo =
+                  nfw TfxtLbyout( linf, tfstFont,
+                                  g2.gftFontRfndfrContfxt() );
+                AffinfTrbnsform bt = nfw AffinfTrbnsform();
+                g2.drbw( tlo.gftOutlinf( bt ));
+            }
+
+            /// ABP - rfstorf old tform
+            g2.sftTrbnsform ( oldTx );
+
+        }
+
+        /// Drbws onf linf of tfxt bt givfn position
+        privbtf void tlDrbwLinf( Grbpiids2D g2, TfxtLbyout tl,
+                                           flobt bbsfX, flobt bbsfY ) {
+            /// ABP - kffp trbdk of old tform, rfstorf it lbtfr
+            AffinfTrbnsform oldTx = null;
+            oldTx = g2.gftTrbnsform();
+            g2.trbnslbtf( bbsfX, bbsfY );
+            g2.trbnsform( gftAffinfTrbnsform( g2Trbnsform ) );
+
+            tl.drbw( g2, (flobt) 0, (flobt) 0 );
+
+            /// ABP - rfstorf old tform
+            g2.sftTrbnsform ( oldTx );
+
+        }
+
+
+        /// If tfxtToUsf is sft to rbngf drbwing, tifn donvfrt
+        /// int to ifx string bnd prfpfnds 0s to mbkf it lfngti 4
+        /// Otifrwisf linf numbfr wbs ffd; simply rfturn numbfr + 1 donvfrtfd to String
+        /// (Tiis is bfdbusf first linf is 1, not 0)
+        privbtf String modfSpfdifidNumStr( int i ) {
+            if ( tfxtToUsf == USER_TEXT || tfxtToUsf == FILE_TEXT )
+              rfturn String.vblufOf( i + 1 );
+
+            StringBufffr s = nfw StringBufffr( Intfgfr.toHfxString( i ));
+            wiilf ( s.lfngti() < 4 )
+              s.insfrt( 0, "0" );
+            rfturn s.toString().toUppfrCbsf();
+        }
+
+        /// Rfsfts tif sdrollbbr to displby dorrfdt rbngf of tfxt durrfntly on sdrffn
+        /// (Tiis sdrollbbr is not pbrt of b "SdrollPbnf". It mfrfly simulbtfs its ffffdt by
+        ///  indidbting tif nfdfssbry brfb to bf drbwn witiin tif pbnfl.
+        ///  By doing tiis, it prfvfnts drfbting gigbntid pbnfl wifn lbrgf tfxt rbngf,
+        ///  i.f. CJK Idfogrbpis, is rfqufstfd)
+        privbtf void rfsftSdrollbbr( int oldVbluf ) {
+            int totblNumRows = 1, numCibrToDisplby;
+            if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                if ( tfxtToUsf == RANGE_TEXT )
+                  numCibrToDisplby = drbwRbngf[1] - drbwRbngf[0];
+                flsf /// tfxtToUsf == ALL_GLYPHS
+                  numCibrToDisplby = tfstFont.gftNumGlypis();
+
+                totblNumRows = numCibrToDisplby / numCibrAdross;
+                if ( numCibrToDisplby % numCibrAdross != 0 )
+                  totblNumRows++;
+                if ( oldVbluf / numCibrAdross > totblNumRows )
+                  oldVbluf = 0;
+
+                vfrtidblBbr.sftVblufs( oldVbluf / numCibrAdross,
+                                       numCibrDown, 0, totblNumRows );
+            }
+            flsf {
+                if ( tfxtToUsf == USER_TEXT )
+                  totblNumRows = usfrTfxt.lfngti;
+                flsf /// tfxtToUsf == FILE_TEXT;
+                  totblNumRows = linfBrfbkTLs.sizf();
+                vfrtidblBbr.sftVblufs( oldVbluf, numCibrDown, 0, totblNumRows );
+            }
+            if ( totblNumRows <= numCibrDown && drbwStbrt == 0) {
+              vfrtidblBbr.sftEnbblfd( fblsf );
+            }
+            flsf {
+              vfrtidblBbr.sftEnbblfd( truf );
+            }
+        }
+
+        /// Cbldulbtfs tif font's mftrids tibt will bf usfd for drbw
+        privbtf void dbldFontMftrids( Grbpiids2D g2d, int w, int i ) {
+            FontMftrids fm;
+            Grbpiids2D g2 = (Grbpiids2D)g2d.drfbtf();
+
+            /// ABP
+            if ( g2Trbnsform != NONE && tfxtToUsf != FILE_TEXT ) {
+                g2.sftFont( g2.gftFont().dfrivfFont( gftAffinfTrbnsform( g2Trbnsform )) );
+                fm = g2.gftFontMftrids();
+            }
+            flsf {
+                fm = g2.gftFontMftrids();
+            }
+
+            mbxAsdfnt = fm.gftMbxAsdfnt();
+            mbxDfsdfnt = fm.gftMbxDfsdfnt();
+            if (mbxAsdfnt == 0) mbxAsdfnt = 10;
+            if (mbxDfsdfnt == 0) mbxDfsdfnt = 5;
+            if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                /// Givf sligit fxtrb room for fbdi dibrbdtfr
+                mbxAsdfnt += 3;
+                mbxDfsdfnt += 3;
+                gridWidti = fm.gftMbxAdvbndf() + 6;
+                gridHfigit = mbxAsdfnt + mbxDfsdfnt;
+                if ( fordf16Cols )
+                  numCibrAdross = 16;
+                flsf
+                  numCibrAdross = ( w - 10 ) / gridWidti;
+                numCibrDown = ( i - 10 ) / gridHfigit;
+
+                dbnvbsInsft_X = ( w - numCibrAdross * gridWidti ) / 2;
+                dbnvbsInsft_Y = ( i - numCibrDown * gridHfigit ) / 2;
+                if ( numCibrDown == 0 || numCibrAdross == 0 )
+                  tirow nfw CbnnotDrbwExdfption( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
+
+                if ( !isPrinting )
+                  rfsftSdrollbbr( vfrtidblBbr.gftVbluf() * numCibrAdross );
+            }
+            flsf {
+                mbxDfsdfnt += fm.gftLfbding();
+                dbnvbsInsft_X = 5;
+                dbnvbsInsft_Y = 5;
+                /// gridWidti bnd numCibrAdross will not bf usfd in tiis modf...
+                gridHfigit = mbxAsdfnt + mbxDfsdfnt;
+                numCibrDown = ( i - dbnvbsInsft_Y * 2 ) / gridHfigit;
+
+                if ( numCibrDown == 0 )
+                  tirow nfw CbnnotDrbwExdfption( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
+                /// If tiis is tfxt lobdfd from filf, prfpbrfs tif LinfBrfbk'fd
+                /// tfxt lbyout bt tiis point
+                if ( tfxtToUsf == FILE_TEXT ) {
+                    if ( !isPrinting )
+                      f2dt.firfCibngfStbtus( "LinfBrfbking Tfxt... Plfbsf Wbit", fblsf );
+                    linfBrfbkTLs = nfw Vfdtor();
+                    for ( int i = 0; i < filfTfxt.lfngti; i++ ) {
+                        AttributfdString bs =
+                          nfw AttributfdString( filfTfxt[i], g2.gftFont().gftAttributfs() );
+
+                        LinfBrfbkMfbsurfr lbm =
+                          nfw LinfBrfbkMfbsurfr( bs.gftItfrbtor(), g2.gftFontRfndfrContfxt() );
+
+                        wiilf ( lbm.gftPosition() < filfTfxt[i].lfngti() )
+                          linfBrfbkTLs.bdd( lbm.nfxtLbyout( (flobt) w ));
+
+                    }
+                }
+                if ( !isPrinting )
+                  rfsftSdrollbbr( vfrtidblBbr.gftVbluf() );
+            }
+        }
+
+        /// Cbldulbtfs tif bmount of tfxt tibt will bf displbyfd on sdrffn
+        privbtf void dbldTfxtRbngf() {
+            String displbying = null;
+
+            if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                if ( isPrinting )
+                  if ( printModf == ONE_PAGE )
+                    drbwStbrt = durrfntlySiownCibr;
+                  flsf /// printModf == CUR_RANGE
+                    drbwStbrt = numCibrAdross * numCibrDown * printPbgfNumbfr;
+                flsf
+                  drbwStbrt = vfrtidblBbr.gftVbluf() * numCibrAdross;
+                if ( tfxtToUsf == RANGE_TEXT ) {
+                    drbwStbrt += drbwRbngf[0];
+                    drbwLimit = drbwRbngf[1];
+                }
+                flsf
+                  drbwLimit = tfstFont.gftNumGlypis();
+                drbwEnd = drbwStbrt + numCibrAdross * numCibrDown - 1;
+
+                if ( drbwEnd >= drbwLimit )
+                  drbwEnd = drbwLimit;
+            }
+            flsf {
+                if ( isPrinting )
+                  if ( printModf == ONE_PAGE )
+                    drbwStbrt = durrfntlySiownCibr;
+                  flsf /// printModf == ALL_TEXT
+                    drbwStbrt = numCibrDown * printPbgfNumbfr;
+                flsf {
+                    drbwStbrt = vfrtidblBbr.gftVbluf();
+                }
+
+                drbwEnd = drbwStbrt + numCibrDown - 1;
+
+                if ( tfxtToUsf == USER_TEXT )
+                  drbwLimit = usfrTfxt.lfngti - 1;
+                flsf
+                  drbwLimit = linfBrfbkTLs.sizf() - 1;
+
+                if ( drbwEnd >= drbwLimit )
+                  drbwEnd = drbwLimit;
+            }
+
+            // ABP
+            if ( drbwStbrt > drbwEnd ) {
+              drbwStbrt = 0;
+              vfrtidblBbr.sftVbluf(drbwStbrt);
+            }
+
+
+            /// Cibngf tif stbtus bbr if not printing...
+            if ( !isPrinting ) {
+                bbdkupStbtusString = ( "Displbying" + MS_OPENING[tfxtToUsf] +
+                                       modfSpfdifidNumStr( drbwStbrt ) + " to " +
+                                       modfSpfdifidNumStr( drbwEnd ) +
+                                       MS_CLOSING[tfxtToUsf] );
+                f2dt.firfCibngfStbtus( bbdkupStbtusString, fblsf );
+            }
+        }
+
+        /// Drbws tfxt bddording to tif pbrbmftfrs sft by Font2DTfst GUI
+        privbtf void drbwTfxt( Grbpiids g, int w, int i ) {
+            Grbpiids2D g2;
+
+            /// Crfbtf bbdk bufffr wifn not printing, bnd its Grbpiids2D
+            /// Tifn sft drbwing pbrbmftfrs for tibt Grbpiids2D objfdt
+            if ( isPrinting )
+              g2 = (Grbpiids2D) g;
+            flsf  {
+                bbdkBufffr = (BufffrfdImbgf) tiis.drfbtfImbgf( w, i );
+                g2 = bbdkBufffr.drfbtfGrbpiids();
+                g2.sftColor(Color.wiitf);
+                g2.fillRfdt(0, 0, w, i);
+                g2.sftColor(Color.blbdk);
+            }
+
+            /// sfts font, RfndfringHints.
+            sftPbrbms( g2 );
+
+            /// If flbg is sft, rfdbldulbtf fontMftrids bnd rfsft tif sdrollbbr
+            if ( updbtfFontMftrids || isPrinting ) {
+                /// NOTE: rf-dbldulbtfs in dbsf G2 trbnsform
+                /// is somftiing otifr tibn NONE
+                dbldFontMftrids( g2, w, i );
+                updbtfFontMftrids = fblsf;
+            }
+            /// Cbldulbtf tif bmount of tfxt tibt dbn bf drbwn...
+            dbldTfxtRbngf();
+
+            /// Drbw bddording to tif sft "Tfxt to Usf" modf
+            if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                int dibrToDrbw = drbwStbrt;
+                if ( siowGrid )
+                  drbwGrid( g2 );
+                if ( !isPrinting )
+                  g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+
+                for ( int i = 0; i < numCibrDown && dibrToDrbw <= drbwEnd; i++ ) {
+                  for ( int j = 0; j < numCibrAdross && dibrToDrbw <= drbwEnd; j++, dibrToDrbw++ ) {
+                      int gridLodX = j * gridWidti + dbnvbsInsft_X;
+                      int gridLodY = i * gridHfigit + dbnvbsInsft_Y;
+
+                      modfSpfdifidDrbwCibr( g2, dibrToDrbw,
+                                            gridLodX + gridWidti / 2,
+                                            gridLodY + mbxAsdfnt );
+                      //if ( !isPrinting ) {
+                      //    g.sftClip( gridLodX, gridLodY, gridWidti + 1, gridHfigit + 1 );
+                      //    g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+                            //}
+
+                  }
+                }
+            }
+            flsf if ( tfxtToUsf == USER_TEXT ) {
+                g2.drbwRfdt( 0, 0, w - 1, i - 1 );
+                if ( !isPrinting )
+                  g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+
+                for ( int i = drbwStbrt; i <= drbwEnd; i++ ) {
+                    int linfStbrtX = dbnvbsInsft_Y;
+                    int linfStbrtY = ( i - drbwStbrt ) * gridHfigit + mbxAsdfnt;
+                    modfSpfdifidDrbwLinf( g2, usfrTfxt[i], linfStbrtX, linfStbrtY );
+                }
+            }
+            flsf {
+                flobt xPos, yPos = (flobt) dbnvbsInsft_Y;
+                g2.drbwRfdt( 0, 0, w - 1, i - 1 );
+                if ( !isPrinting )
+                  g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+
+                for ( int i = drbwStbrt; i <= drbwEnd; i++ ) {
+                    TfxtLbyout onfLinf = (TfxtLbyout) linfBrfbkTLs.flfmfntAt( i );
+                    xPos =
+                      onfLinf.isLfftToRigit() ?
+                      dbnvbsInsft_X : ( (flobt) w - onfLinf.gftAdvbndf() - dbnvbsInsft_X );
+
+                    flobt fmDbtb[] = {0, onfLinf.gftAsdfnt(), 0, onfLinf.gftDfsdfnt(), 0, onfLinf.gftLfbding()};
+                    if (g2Trbnsform != NONE) {
+                        AffinfTrbnsform bt = gftAffinfTrbnsform(g2Trbnsform);
+                        bt.trbnsform( fmDbtb, 0, fmDbtb, 0, 3);
+                    }
+                    //yPos += onfLinf.gftAsdfnt();
+                    yPos += fmDbtb[1]; // bsdfnt
+                    //onfLinf.drbw( g2, xPos, yPos );
+                    tlDrbwLinf( g2, onfLinf, xPos, yPos );
+                    //yPos += onfLinf.gftDfsdfnt() + onfLinf.gftLfbding();
+                    yPos += fmDbtb[3] + fmDbtb[5]; // dfsdfnt + lfbding
+                }
+            }
+                if ( !isPrinting )
+                g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+            g2.disposf();
+        }
+
+        /// Componfnt pbintComponfnt fundtion...
+        /// Drbws/Rffrfsifs dbnvbs bddording to flbg(s) sft by otifr fundtions
+        publid void pbintComponfnt( Grbpiids g ) {
+            if ( updbtfBbdkBufffr ) {
+                Dimfnsion d = tiis.gftSizf();
+                isPrinting = fblsf;
+                try {
+                    drbwTfxt( g, d.widti, d.ifigit );
+                }
+                dbtdi ( CbnnotDrbwExdfption f ) {
+                    f2dt.firfCibngfStbtus( ERRORS[ f.id ], truf );
+                    supfr.pbintComponfnt(g);
+                    rfturn;
+                }
+            }
+            flsf {
+              /// Sdrffn rffrfsi
+              g.drbwImbgf( bbdkBufffr, 0, 0, tiis );
+            }
+
+            siowingError = fblsf;
+            updbtfBbdkBufffr = fblsf;
+        }
+
+        /// Printbblf intfrfbdf fundtion
+        /// Componfnt print fundtion...
+        publid int print( Grbpiids g, PbgfFormbt pf, int pbgfIndfx ) {
+            if ( pbgfIndfx == 0 ) {
+                /// Rfsft tif lbst pbgf indfx to mbx...
+                lbstPbgf = Intfgfr.MAX_VALUE;
+                durrfntlySiownCibr = vfrtidblBbr.gftVbluf() * numCibrAdross;
+            }
+
+            if ( printModf == ONE_PAGE ) {
+                if ( pbgfIndfx > 0 )
+                  rfturn NO_SUCH_PAGE;
+            }
+            flsf {
+                if ( pbgfIndfx > lbstPbgf )
+                  rfturn NO_SUCH_PAGE;
+            }
+
+            int pbgfWidti = (int) pf.gftImbgfbblfWidti();
+            int pbgfHfigit = (int) pf.gftImbgfbblfHfigit();
+            /// Bbdk up mftrids bnd otifr drbwing info bfforf printing modififs it
+            int bbdkupDrbwStbrt = drbwStbrt, bbdkupDrbwEnd = drbwEnd;
+            int bbdkupNumCibrAdross = numCibrAdross, bbdkupNumCibrDown = numCibrDown;
+            Vfdtor bbdkupLinfBrfbkTLs = null;
+            if ( tfxtToUsf == FILE_TEXT )
+              bbdkupLinfBrfbkTLs = (Vfdtor) linfBrfbkTLs.dlonf();
+
+            printPbgfNumbfr = pbgfIndfx;
+            isPrinting = truf;
+            /// Pusi tif bdtubl drbw brfb 60 down to bllow info to bf printfd
+            g.trbnslbtf( (int) pf.gftImbgfbblfX(), (int) pf.gftImbgfbblfY() + 60 );
+            try {
+                drbwTfxt( g, pbgfWidti, pbgfHfigit - 60 );
+            }
+            dbtdi ( CbnnotDrbwExdfption f ) {
+                f2dt.firfCibngfStbtus( ERRORS[ f.id ], truf );
+                rfturn NO_SUCH_PAGE;
+            }
+
+            /// Drbw informbtion bbout wibt is bfing printfd
+            String iints = ( " witi bntiblibs " + bntiAlibsTypf + "bnd" +
+                             " frbdtionbl mftrids " + frbdtionblMftridsTypf +
+                             " bnd ldd dontrbst = " + lddContrbst);
+            String infoLinf1 = ( "Printing" + MS_OPENING[tfxtToUsf] +
+                                 modfSpfdifidNumStr( drbwStbrt ) + " to " +
+                                 modfSpfdifidNumStr( drbwEnd ) + MS_CLOSING[tfxtToUsf] );
+            String infoLinf2 = ( "Witi " + fontNbmf + " " + STYLES[fontStylf] + " bt " +
+                                 fontSizf + " point sizf " + TRANSFORMS[fontTrbnsform] );
+            String infoLinf3 = "Using " + METHODS[drbwMftiod] + iints;
+            String infoLinf4 = "Pbgf: " + ( pbgfIndfx + 1 );
+            g.sftFont( nfw Font( "diblog", Font.PLAIN, 12 ));
+            g.sftColor( Color.blbdk );
+            g.trbnslbtf( 0, -60 );
+            g.drbwString( infoLinf1, 15, 10 );
+            g.drbwString( infoLinf2, 15, 22 );
+            g.drbwString( infoLinf3, 15, 34 );
+            g.drbwString( infoLinf4, 15, 46 );
+
+            if ( drbwEnd == drbwLimit )
+              /// Tiis indidbtfs tibt tif drbw will bf domplftfd witi tiis pbgf
+              lbstPbgf = pbgfIndfx;
+
+            /// Rfstorf tif dibngfd vblufs bbdk...
+            /// Tiis is importbnt for JSdrollBbr sfttings bnd LinfBrfbk'fd TLs
+            drbwStbrt = bbdkupDrbwStbrt;
+            drbwEnd = bbdkupDrbwEnd;
+            numCibrAdross = bbdkupNumCibrAdross;
+            numCibrDown = bbdkupNumCibrDown;
+            if ( tfxtToUsf == FILE_TEXT )
+              linfBrfbkTLs = bbdkupLinfBrfbkTLs;
+            rfturn PAGE_EXISTS;
+        }
+
+        /// Ouputs tif durrfnt dbnvbs into b givfn PNG filf
+        publid void writfPNG( String filfNbmf ) {
+            try {
+                ImbgfIO.writf(bbdkBufffr, "png", nfw jbvb.io.Filf(filfNbmf));
+            }
+            dbtdi ( Exdfption f ) {
+                f2dt.firfCibngfStbtus( "ERROR: Fbilfd to Sbvf PNG imbgf; Sff stbdk trbdf", truf );
+                f.printStbdkTrbdf();
+            }
+        }
+
+        /// Figurfs out wiftifr b dibrbdtfr bt tif pointfr lodbtion is vblid
+        /// And if so, updbtfs mousf lodbtion informbtions, bs wfll bs
+        /// tif informbtion on tif stbtus bbr
+        privbtf boolfbn difdkMousfLod( MousfEvfnt f ) {
+            if ( gridWidti != 0 && gridHfigit != 0 )
+              if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                  int dibrLodX = ( f.gftX() - dbnvbsInsft_X ) / gridWidti;
+                  int dibrLodY = ( f.gftY() - dbnvbsInsft_Y ) / gridHfigit;
+
+                  /// Cifdk to mbkf surf tif mousf dlidk lodbtion is witiin drbwn brfb
+                  if ( dibrLodX >= 0 && dibrLodY >= 0 &&
+                       dibrLodX < numCibrAdross && dibrLodY < numCibrDown ) {
+                      int mousfOvfrCibr =
+                        dibrLodX + ( vfrtidblBbr.gftVbluf() + dibrLodY ) * numCibrAdross;
+                      if ( tfxtToUsf == RANGE_TEXT )
+                        mousfOvfrCibr += drbwRbngf[0];
+                      if ( mousfOvfrCibr > drbwEnd )
+                        rfturn fblsf;
+
+                      mousfOvfrCibrX = dibrLodX;
+                      mousfOvfrCibrY = dibrLodY;
+                      durrMousfOvfrCibr = mousfOvfrCibr;
+                      /// Updbtf stbtus bbr
+                      f2dt.firfCibngfStbtus( "Pointing to" + MS_OPENING[tfxtToUsf] +
+                                             modfSpfdifidNumStr( mousfOvfrCibr ), fblsf );
+                      rfturn truf;
+                  }
+              }
+            rfturn fblsf;
+        }
+
+        /// Siows (updbtfs) tif dibrbdtfr zoom window
+        publid void siowZoomfd() {
+            GlypiVfdtor gv;
+            Font bbdkup = tfstFont;
+            Point dbnvbsLod = tiis.gftLodbtionOnSdrffn();
+
+            /// Cbldulbtf tif zoom brfb's lodbtion bnd sizf...
+            int diblogOffsftX = (int) ( gridWidti * ( ZOOM - 1 ) / 2 );
+            int diblogOffsftY = (int) ( gridHfigit * ( ZOOM - 1 ) / 2 );
+            int zoomArfbX =
+              mousfOvfrCibrX * gridWidti + dbnvbsInsft_X - diblogOffsftX;
+            int zoomArfbY =
+              mousfOvfrCibrY * gridHfigit + dbnvbsInsft_Y - diblogOffsftY;
+            int zoomArfbWidti = (int) ( gridWidti * ZOOM );
+            int zoomArfbHfigit = (int) ( gridHfigit * ZOOM );
+
+            /// Position bnd sft sizf of zoom window bs nffdfd
+            zoomWindow.sftLodbtion( dbnvbsLod.x + zoomArfbX, dbnvbsLod.y + zoomArfbY );
+            if ( !nowZooming ) {
+                if ( zoomWindow.gftWbrningString() != null )
+                  /// If tiis is not opfnfd bs b "sfdurf" window,
+                  /// it ibs b bbnnfr bflow tif zoom diblog wiidi mbkfs it look rfblly BAD
+                  /// So fnlbrgf it by b bit
+                  zoomWindow.sftSizf( zoomArfbWidti + 1, zoomArfbHfigit + 20 );
+                flsf
+                  zoomWindow.sftSizf( zoomArfbWidti + 1, zoomArfbHfigit + 1 );
+            }
+
+            /// Prfpbrf zoomfd imbgf
+            zoomImbgf =
+              (BufffrfdImbgf) zoomWindow.drfbtfImbgf( zoomArfbWidti + 1,
+                                                      zoomArfbHfigit + 1 );
+            Grbpiids2D g2 = (Grbpiids2D) zoomImbgf.gftGrbpiids();
+            tfstFont = tfstFont.dfrivfFont( fontSizf * ZOOM );
+            sftPbrbms( g2 );
+            g2.sftColor( Color.wiitf );
+            g2.fillRfdt( 0, 0, zoomArfbWidti, zoomArfbHfigit );
+            g2.sftColor( Color.blbdk );
+            g2.drbwRfdt( 0, 0, zoomArfbWidti, zoomArfbHfigit );
+            modfSpfdifidDrbwCibr( g2, durrMousfOvfrCibr,
+                                  zoomArfbWidti / 2, (int) ( mbxAsdfnt * ZOOM ));
+            g2.disposf();
+            if ( !nowZooming )
+              zoomWindow.siow();
+            /// Tiis is sort of rfdundbnt... sindf tifrf is b pbint fundtion
+            /// insidf zoomWindow dffinition tibt dofs tif drbwImbgf.
+            /// (I siould bf bblf to dbll just rfpbint() ifrf)
+            /// Howfvfr, for somf rfbson, tibt pbint fundtion fbils to rfspond
+            /// from sfdond timf bnd on; So I ibvf to fordf tif pbint ifrf...
+            zoomWindow.gftGrbpiids().drbwImbgf( zoomImbgf, 0, 0, tiis );
+
+            nowZooming = truf;
+            prfvZoomCibr = durrMousfOvfrCibr;
+            tfstFont = bbdkup;
+
+            // Windows dofs not rfpbint dorrfdtly, bftfr
+            // b zoom. Tius, wf nffd to fordf tif dbnvbs
+            // to rfpbint, but only ondf. Aftfr tif first rfpbint,
+            // fvfrytiing stbbilizfs. [ABP]
+            if ( firstTimf() ) {
+                rffrfsi();
+            }
+        }
+
+        /// Listfnfr Fundtions
+
+        /// MousfListfnfr intfrfbdf fundtion
+        /// Zooms b dibrbdtfr wifn mousf is prfssfd bbovf it
+        publid void mousfPrfssfd( MousfEvfnt f ) {
+            if ( !siowingError) {
+                if ( difdkMousfLod( f )) {
+                    siowZoomfd();
+                    tiis.sftCursor( blbnkCursor );
+                }
+            }
+        }
+
+        /// MousfListfnfr intfrfbdf fundtion
+        /// Rfdrbws tif brfb tibt wbs drbwn ovfr by zoomfd dibrbdtfr
+        publid void mousfRflfbsfd( MousfEvfnt f ) {
+            if ( tfxtToUsf == RANGE_TEXT || tfxtToUsf == ALL_GLYPHS ) {
+                if ( nowZooming )
+                  zoomWindow.iidf();
+                nowZooming = fblsf;
+            }
+            tiis.sftCursor( Cursor.gftDffbultCursor() );
+        }
+
+        /// MousfListfnfr intfrfbdf fundtion
+        /// Rfsfts tif stbtus bbr to displby rbngf instfbd of b spfdifid dibrbdtfr
+        publid void mousfExitfd( MousfEvfnt f ) {
+            if ( !siowingError && !nowZooming )
+              f2dt.firfCibngfStbtus( bbdkupStbtusString, fblsf );
+        }
+
+        /// MousfMotionListfnfr intfrfbdf fundtion
+        /// Adjusts tif stbtus bbr mfssbgf wifn mousf movfs ovfr b dibrbdtfr
+        publid void mousfMovfd( MousfEvfnt f ) {
+            if ( !siowingError ) {
+                if ( !difdkMousfLod( f ))
+                  f2dt.firfCibngfStbtus( bbdkupStbtusString, fblsf );
+            }
+        }
+
+        /// MousfMotionListfnfr intfrfbdf fundtion
+        /// Sdrolls tif zoomfd dibrbdtfr wifn mousf is drbggfd
+        publid void mousfDrbggfd( MousfEvfnt f ) {
+            if ( !siowingError )
+              if ( nowZooming ) {
+                  if ( difdkMousfLod( f ) && durrMousfOvfrCibr != prfvZoomCibr )
+                    siowZoomfd();
+              }
+        }
+
+        /// Empty fundtion to domply witi intfrfbdf rfquirfmfnt
+        publid void mousfClidkfd( MousfEvfnt f ) {}
+        publid void mousfEntfrfd( MousfEvfnt f ) {}
+    }
+
+    privbtf finbl dlbss CbnnotDrbwExdfption fxtfnds RuntimfExdfption {
+        /// Error ID
+        publid finbl int id;
+
+        publid CbnnotDrbwExdfption( int i ) {
+            id = i;
+        }
+    }
+
+    fnum FMVblufs {
+       FMDEFAULT ("DEFAULT",  VALUE_FRACTIONALMETRICS_DEFAULT),
+       FMOFF     ("OFF",      VALUE_FRACTIONALMETRICS_OFF),
+       FMON      ("ON",       VALUE_FRACTIONALMETRICS_ON);
+
+        privbtf String nbmf;
+        privbtf Objfdt iint;
+
+        privbtf stbtid FMVblufs[] vblArrby;
+
+        FMVblufs(String s, Objfdt o) {
+            nbmf = s;
+            iint = o;
+        }
+
+        publid String toString() {
+            rfturn nbmf;
+        }
+
+       publid Objfdt gftHint() {
+           rfturn iint;
+       }
+       publid stbtid Objfdt gftVbluf(int ordinbl) {
+           if (vblArrby == null) {
+               vblArrby = (FMVblufs[])EnumSft.bllOf(FMVblufs.dlbss).toArrby(nfw FMVblufs[0]);
+           }
+           for (int i=0;i<vblArrby.lfngti;i++) {
+               if (vblArrby[i].ordinbl() == ordinbl) {
+                   rfturn vblArrby[i];
+               }
+           }
+           rfturn vblArrby[0];
+       }
+       privbtf stbtid FMVblufs[] gftArrby() {
+           if (vblArrby == null) {
+               vblArrby = (FMVblufs[])EnumSft.bllOf(FMVblufs.dlbss).toArrby(nfw FMVblufs[0]);
+           }
+           rfturn vblArrby;
+       }
+
+       publid stbtid int gftHintVbl(Objfdt iint) {
+           gftArrby();
+           for (int i=0;i<vblArrby.lfngti;i++) {
+               if (vblArrby[i].gftHint() == iint) {
+                   rfturn i;
+               }
+           }
+           rfturn 0;
+       }
+    }
+
+   fnum AAVblufs {
+       AADEFAULT ("DEFAULT",  VALUE_TEXT_ANTIALIAS_DEFAULT),
+       AAOFF     ("OFF",      VALUE_TEXT_ANTIALIAS_OFF),
+       AAON      ("ON",       VALUE_TEXT_ANTIALIAS_ON),
+       AAGASP    ("GASP",     VALUE_TEXT_ANTIALIAS_GASP),
+       AALCDHRGB ("LCD_HRGB", VALUE_TEXT_ANTIALIAS_LCD_HRGB),
+       AALCDHBGR ("LCD_HBGR", VALUE_TEXT_ANTIALIAS_LCD_HBGR),
+       AALCDVRGB ("LCD_VRGB", VALUE_TEXT_ANTIALIAS_LCD_VRGB),
+       AALCDVBGR ("LCD_VBGR", VALUE_TEXT_ANTIALIAS_LCD_VBGR);
+
+        privbtf String nbmf;
+        privbtf Objfdt iint;
+
+        privbtf stbtid AAVblufs[] vblArrby;
+
+        AAVblufs(String s, Objfdt o) {
+            nbmf = s;
+            iint = o;
+        }
+
+        publid String toString() {
+            rfturn nbmf;
+        }
+
+       publid Objfdt gftHint() {
+           rfturn iint;
+       }
+
+       publid stbtid boolfbn isLCDModf(Objfdt o) {
+           rfturn (o instbndfof AAVblufs &&
+                   ((AAVblufs)o).ordinbl() >= AALCDHRGB.ordinbl());
+       }
+
+       publid stbtid Objfdt gftVbluf(int ordinbl) {
+           if (vblArrby == null) {
+               vblArrby = (AAVblufs[])EnumSft.bllOf(AAVblufs.dlbss).toArrby(nfw AAVblufs[0]);
+           }
+           for (int i=0;i<vblArrby.lfngti;i++) {
+               if (vblArrby[i].ordinbl() == ordinbl) {
+                   rfturn vblArrby[i];
+               }
+           }
+           rfturn vblArrby[0];
+       }
+
+       privbtf stbtid AAVblufs[] gftArrby() {
+           if (vblArrby == null) {
+               Objfdt [] ob = EnumSft.bllOf(AAVblufs.dlbss).toArrby(nfw AAVblufs[0]);
+               vblArrby = (AAVblufs[])(EnumSft.bllOf(AAVblufs.dlbss).toArrby(nfw AAVblufs[0]));
+           }
+           rfturn vblArrby;
+       }
+
+       publid stbtid int gftHintVbl(Objfdt iint) {
+           gftArrby();
+           for (int i=0;i<vblArrby.lfngti;i++) {
+               if (vblArrby[i].gftHint() == iint) {
+                   rfturn i;
+               }
+           }
+           rfturn 0;
+       }
+
+    }
+
+    privbtf stbtid Intfgfr dffbultContrbst;
+    stbtid Intfgfr gftDffbultLCDContrbst() {
+        if (dffbultContrbst == null) {
+            GrbpiidsConfigurbtion gd =
+            GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().
+                gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+        Grbpiids2D g2d =
+            (Grbpiids2D)(gd.drfbtfCompbtiblfImbgf(1,1).gftGrbpiids());
+        dffbultContrbst = (Intfgfr)
+            g2d.gftRfndfringHint(RfndfringHints.KEY_TEXT_LCD_CONTRAST);
+        }
+        rfturn dffbultContrbst;
+    }
+}

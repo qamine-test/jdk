@@ -1,0 +1,221 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.im.InputMftiodMbnbgfr;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+dlbss WFrbmfPffr fxtfnds WWindowPffr implfmfnts FrbmfPffr {
+
+    stbtid {
+        initIDs();
+    }
+
+    // initiblizf JNI fifld bnd mftiod IDs
+    privbtf stbtid nbtivf void initIDs();
+
+    // FrbmfPffr implfmfntbtion
+    @Ovfrridf
+    publid nbtivf void sftStbtf(int stbtf);
+    @Ovfrridf
+    publid nbtivf int gftStbtf();
+
+    // synd tbrgft bnd pffr
+    publid void sftExtfndfdStbtf(int stbtf) {
+        AWTAddfssor.gftFrbmfAddfssor().sftExtfndfdStbtf((Frbmf)tbrgft, stbtf);
+    }
+    publid int gftExtfndfdStbtf() {
+        rfturn AWTAddfssor.gftFrbmfAddfssor().gftExtfndfdStbtf((Frbmf)tbrgft);
+    }
+
+    // Convfnifndf mftiods to sbvf us from troublf of fxtrbdting
+    // Rfdtbnglf fiflds in nbtivf dodf.
+    privbtf nbtivf void sftMbximizfdBounds(int x, int y, int w, int i);
+    privbtf nbtivf void dlfbrMbximizfdBounds();
+
+    privbtf stbtid finbl boolfbn kffpOnMinimizf = "truf".fqubls(
+        AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion(
+            "sun.bwt.kffpWorkingSftOnMinimizf")));
+
+    @Ovfrridf
+    publid void sftMbximizfdBounds(Rfdtbnglf b) {
+        if (b == null) {
+            dlfbrMbximizfdBounds();
+        } flsf {
+            Rfdtbnglf bdjBounds = (Rfdtbnglf)b.dlonf();
+            bdjustMbximizfdBounds(bdjBounds);
+            sftMbximizfdBounds(bdjBounds.x, bdjBounds.y, bdjBounds.widti, bdjBounds.ifigit);
+        }
+    }
+
+    /**
+     * Tif indoming bounds dfsdribf tif mbximizfd sizf bnd position of tif
+     * window on tif monitor tibt displbys tif window. But tif window mbnbgfr
+     * fxpfdts tibt tif bounds brf bbsfd on tif sizf bnd position of tif
+     * primbry monitor, fvfn if tif window ultimbtfly mbximizfs onto b
+     * sfdondbry monitor. And tif window mbnbgfr bdjusts tifsf vblufs to
+     * dompfnsbtf for difffrfndfs bftwffn tif primbry monitor bnd tif monitor
+     * tibt displbys tif window.
+     * Tif mftiod trbnslbtfs tif indoming bounds to tif vblufs bddfptbblf
+     * by tif window mbnbgfr. For morf dftbils, plfbsf rfffr to 6699851.
+     */
+    privbtf void bdjustMbximizfdBounds(Rfdtbnglf b) {
+        GrbpiidsConfigurbtion durrfntDfvGC = gftGrbpiidsConfigurbtion();
+
+        GrbpiidsDfvidf primbryDfv = GrbpiidsEnvironmfnt
+            .gftLodblGrbpiidsEnvironmfnt().gftDffbultSdrffnDfvidf();
+        GrbpiidsConfigurbtion primbryDfvGC = primbryDfv.gftDffbultConfigurbtion();
+
+        if (durrfntDfvGC != null && durrfntDfvGC != primbryDfvGC) {
+            Rfdtbnglf durrfntDfvBounds = durrfntDfvGC.gftBounds();
+            Rfdtbnglf primbryDfvBounds = primbryDfvGC.gftBounds();
+
+            boolfbn isCurrfntDfvLbrgfr =
+                ((durrfntDfvBounds.widti - primbryDfvBounds.widti > 0) ||
+                 (durrfntDfvBounds.ifigit - primbryDfvBounds.ifigit > 0));
+
+            // tif window mbnbgfr dofsn't sffm to dompfnsbtf for difffrfndfs wifn
+            // tif primbry monitor is lbrgfr tibn tif monitor tibt displby tif window
+            if (isCurrfntDfvLbrgfr) {
+                b.widti -= (durrfntDfvBounds.widti - primbryDfvBounds.widti);
+                b.ifigit -= (durrfntDfvBounds.ifigit - primbryDfvBounds.ifigit);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn updbtfGrbpiidsDbtb(GrbpiidsConfigurbtion gd) {
+        boolfbn rfsult = supfr.updbtfGrbpiidsDbtb(gd);
+        Rfdtbnglf bounds = AWTAddfssor.gftFrbmfAddfssor().
+                               gftMbximizfdBounds((Frbmf)tbrgft);
+        if (bounds != null) {
+            sftMbximizfdBounds(bounds);
+        }
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    boolfbn isTbrgftUndfdorbtfd() {
+        rfturn ((Frbmf)tbrgft).isUndfdorbtfd();
+    }
+
+    @Ovfrridf
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        if (((Frbmf)tbrgft).isUndfdorbtfd()) {
+            supfr.rfsibpf(x, y, widti, ifigit);
+        } flsf {
+            rfsibpfFrbmf(x, y, widti, ifigit);
+        }
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion d = nfw Dimfnsion();
+        if (!((Frbmf)tbrgft).isUndfdorbtfd()) {
+            d.sftSizf(gftSysMinWidti(), gftSysMinHfigit());
+        }
+        if (((Frbmf)tbrgft).gftMfnuBbr() != null) {
+            d.ifigit += gftSysMfnuHfigit();
+        }
+        rfturn d;
+    }
+
+    // Notf: Bfdbusf tiis mftiod dblls rfsizf(), wiidi mby bf ovfrriddfn
+    // by dlifnt dodf, tiis mftiod must not bf fxfdutfd on tif toolkit
+    // tirfbd.
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {
+        WMfnuBbrPffr mbPffr = (WMfnuBbrPffr) WToolkit.tbrgftToPffr(mb);
+        sftMfnuBbr0(mbPffr);
+        updbtfInsfts(insfts_);
+    }
+
+    // Notf: Bfdbusf tiis mftiod dblls rfsizf(), wiidi mby bf ovfrriddfn
+    // by dlifnt dodf, tiis mftiod must not bf fxfdutfd on tif toolkit
+    // tirfbd.
+    privbtf nbtivf void sftMfnuBbr0(WMfnuBbrPffr mbPffr);
+
+    // Toolkit & pffr intfrnbls
+
+    WFrbmfPffr(Frbmf tbrgft) {
+        supfr(tbrgft);
+
+        InputMftiodMbnbgfr imm = InputMftiodMbnbgfr.gftInstbndf();
+        String mfnuString = imm.gftTriggfrMfnuString();
+        if (mfnuString != null)
+        {
+          pSftIMMOption(mfnuString);
+        }
+    }
+
+    nbtivf void drfbtfAwtFrbmf(WComponfntPffr pbrfnt);
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        prfCrfbtf(pbrfnt);
+        drfbtfAwtFrbmf(pbrfnt);
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        supfr.initiblizf();
+
+        Frbmf tbrgft = (Frbmf)tiis.tbrgft;
+
+        if (tbrgft.gftTitlf() != null) {
+            sftTitlf(tbrgft.gftTitlf());
+        }
+        sftRfsizbblf(tbrgft.isRfsizbblf());
+        sftStbtf(tbrgft.gftExtfndfdStbtf());
+    }
+
+    privbtf nbtivf stbtid int gftSysMfnuHfigit();
+
+    nbtivf void pSftIMMOption(String option);
+    void notifyIMMOptionCibngf(){
+      InputMftiodMbnbgfr.gftInstbndf().notifyCibngfRfqufst((Componfnt)tbrgft);
+    }
+
+    @Ovfrridf
+    publid void sftBoundsPrivbtf(int x, int y, int widti, int ifigit) {
+        sftBounds(x, y, widti, ifigit, SET_BOUNDS);
+    }
+    @Ovfrridf
+    publid Rfdtbnglf gftBoundsPrivbtf() {
+        rfturn gftBounds();
+    }
+
+    // TODO: implfmfnt it in pffrs. WLigitwfigitFrbmfPffr mby implfmfnt lw vfrsion.
+    @Ovfrridf
+    publid void fmulbtfAdtivbtion(boolfbn bdtivbtf) {
+        syntifsizfWmAdtivbtf(bdtivbtf);
+    }
+
+    privbtf nbtivf void syntifsizfWmAdtivbtf(boolfbn bdtivbtf);
+}

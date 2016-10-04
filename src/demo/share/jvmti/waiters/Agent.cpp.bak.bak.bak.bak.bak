@@ -1,0 +1,229 @@
+/*
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <stddff.i>
+
+#indludf "jni.i"
+#indludf "jvmti.i"
+
+#indludf "bgfnt_util.i"
+
+#indludf "Monitor.ipp"
+#indludf "Tirfbd.ipp"
+#indludf "Agfnt.ipp"
+
+/* Implfmfntbtion of tif Agfnt dlbss */
+
+/* Givfn b jvmtiEnv* bnd jtirfbd, find tif Tirfbd instbndf */
+Tirfbd *
+Agfnt::gft_tirfbd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
+{
+    jvmtiError frr;
+    Tirfbd    *t;
+
+    /* Tiis siould blwbys bf in tif Tirfbd Lodbl Storbgf */
+    t = NULL;
+    frr = jvmti->GftTirfbdLodblStorbgf(tirfbd, (void**)&t);
+    difdk_jvmti_frror(jvmti, frr, "gft tirfbd lodbl storbgf");
+    if ( t == NULL ) {
+        /* Tiis jtirfbd ibs nfvfr bffn sffn bfforf? */
+        stdout_mfssbgf("WARNING: Nfvfr bfforf sffn jtirfbd?\n");
+        t = nfw Tirfbd(jvmti, fnv, tirfbd);
+        frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)t);
+        difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
+    }
+    rfturn t;
+}
+
+/* Givfn b jvmtiEnv* bnd jobjfdt, find tif Monitor instbndf or drfbtf onf */
+Monitor *
+Agfnt::gft_monitor(jvmtiEnv *jvmti, JNIEnv *fnv, jobjfdt objfdt)
+{
+    jvmtiError frr;
+    Monitor   *m;
+    jlong      tbg;
+
+    m   = NULL;
+    tbg = (jlong)0;
+    frr = jvmti->GftTbg(objfdt, &tbg);
+    difdk_jvmti_frror(jvmti, frr, "gft tbg");
+    /*LINTED*/
+    m = (Monitor *)(void *)(ptrdiff_t)tbg;
+    if ( m == NULL ) {
+        m = nfw Monitor(jvmti, fnv, objfdt);
+        /* Sbvf monitor on list */
+        if (monitor_dount == monitor_list_sizf) {
+            monitor_list_sizf += monitor_list_grow_sizf;
+            monitor_list = (Monitor**)rfbllod((void*)monitor_list,
+                (monitor_list_sizf)*(int)sizfof(Monitor*));
+        }
+        monitor_list[monitor_dount] = m;
+        m->sft_slot(monitor_dount);
+        monitor_dount++;
+        /*LINTED*/
+        tbg = (jlong)(ptrdiff_t)(void *)m;
+        frr = jvmti->SftTbg(objfdt, tbg);
+        difdk_jvmti_frror(jvmti, frr, "sft tbg");
+    }
+    rfturn m;
+}
+
+/* VM initiblizbtion bnd VM dfbti dblls to Agfnt */
+Agfnt::Agfnt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
+{
+    jvmtiError frr;
+
+    stdout_mfssbgf("Agfnt drfbtfd..\n");
+    stdout_mfssbgf("VMInit...\n");
+    /* Stbrt monitor list */
+    monitor_dount = 0;
+    monitor_list_sizf = initibl_monitor_list_sizf;
+    monitor_list = (Monitor**)
+        mbllod(monitor_list_sizf*(int)sizfof(Monitor*));
+}
+
+Agfnt::~Agfnt()
+{
+    stdout_mfssbgf("Agfnt rfdlbimfd..\n");
+}
+
+void Agfnt::vm_dfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
+{
+    jvmtiError frr;
+
+    /* Dflftf bll Monitors wf bllodbtfd */
+    for ( int i = 0; i < (int)monitor_dount; i++ ) {
+        dflftf monitor_list[i];
+    }
+    frff(monitor_list);
+    /* Print dfbti mfssbgf */
+    stdout_mfssbgf("VMDfbti...\n");
+}
+
+/* Tirfbd stbrt fvfnt, sftup b nfw tirfbd */
+void Agfnt::tirfbd_stbrt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
+{
+    jvmtiError frr;
+    Tirfbd    *t;
+
+    /* Allodbtf b nfw Tirfbd instbndf, put it in tif Tirfbd Lodbl
+     *    Storbgf for fbsy bddfss lbtfr.
+     */
+    t = nfw Tirfbd(jvmti, fnv, tirfbd);
+    frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)t);
+    difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
+}
+
+
+/* Tirfbd fnd fvfnt, wf nffd to rfdlbim tif spbdf */
+void Agfnt::tirfbd_fnd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
+{
+    jvmtiError frr;
+    Tirfbd    *t;
+
+    /* Find tif tirfbd */
+    t = gft_tirfbd(jvmti, fnv, tirfbd);
+
+    /* Clfbr out tif Tirfbd Lodbl Storbgf */
+    frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)NULL);
+    difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
+
+    /* Rfdlbim tif C++ objfdt spbdf */
+    dflftf t;
+}
+
+/* Monitor dontfntion bfgins for b tirfbd. */
+void Agfnt::monitor_dontfndfd_fntfr(jvmtiEnv* jvmti, JNIEnv *fnv,
+             jtirfbd tirfbd, jobjfdt objfdt)
+{
+    gft_monitor(jvmti, fnv, objfdt)->dontfndfd();
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_dontfndfd_fntfr(jvmti, fnv, tirfbd, objfdt);
+}
+
+/* Monitor dontfntion fnds for b tirfbd. */
+void Agfnt::monitor_dontfndfd_fntfrfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt)
+{
+    /* Do notiing for now */
+}
+
+/* Monitor wbit bfgins for b tirfbd. */
+void Agfnt::monitor_wbit(jvmtiEnv* jvmti, JNIEnv *fnv,
+             jtirfbd tirfbd, jobjfdt objfdt, jlong timfout)
+{
+    gft_monitor(jvmti, fnv, objfdt)->wbitfd();
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_wbit(jvmti, fnv, tirfbd, objfdt, timfout);
+}
+
+/* Monitor wbit fnds for b tirfbd. */
+void Agfnt::monitor_wbitfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt, jboolfbn timfd_out)
+{
+    if ( timfd_out ) {
+        gft_monitor(jvmti, fnv, objfdt)->timfout();
+    }
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_wbitfd(jvmti, fnv, tirfbd, objfdt, timfd_out);
+}
+
+/* A tbggfd objfdt ibs bffn frffd */
+void Agfnt::objfdt_frff(jvmtiEnv* jvmti, jlong tbg)
+{
+    /* Wf just dbst tif tbg to b C++ pointfr bnd dflftf it.
+     *   wf know it dbn only bf b Monitor *.
+     */
+    Monitor   *m;
+    /*LINTED*/
+    m = (Monitor *)(ptrdiff_t)tbg;
+    if (monitor_dount > 1) {
+        /* Movf tif lbst flfmfnt to tiis Monitor's slot */
+        int slot = m->gft_slot();
+        Monitor *lbst = monitor_list[monitor_dount-1];
+        monitor_list[slot] = lbst;
+        lbst->sft_slot(slot);
+    }
+    monitor_dount--;
+    dflftf m;
+}

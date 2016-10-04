@@ -1,0 +1,524 @@
+/*
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.mbti.BigIntfgfr;
+
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+
+/**
+ * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
+ *
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * following blgoritim nbmfs:
+ *
+ *  . "NONEwitiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD2witiRSA"
+ *
+ * NOTE: RSA kfys must bf bt lfbst 512 bits long.
+ *
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+ *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *
+ * @sindf   1.6
+ * @butior  Stbnlfy Mbn-Kit Ho
+ */
+bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+{
+    // mfssbgf digfst implfmfntbtion wf usf
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
+
+    // mfssbgf digfst nbmf
+    privbtf String mfssbgfDigfstAlgoritim;
+
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    privbtf boolfbn nffdsRfsft;
+
+    // tif signing kfy
+    privbtf Kfy privbtfKfy = null;
+
+    // tif vfrifidbtion kfy
+    privbtf Kfy publidKfy = null;
+
+    /**
+     * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     */
+    RSASignbturf() {
+        mfssbgfDigfst = null;
+        mfssbgfDigfstAlgoritim = null;
+    }
+
+    /**
+     * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     */
+    RSASignbturf(String digfstNbmf) {
+
+        try {
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+            // Gft tif digfst's dbnonidbl nbmf
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
+
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+           tirow nfw ProvidfrExdfption(f);
+        }
+
+        nffdsRfsft = fblsf;
+    }
+
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
+
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        privbtf stbtid finbl int RAW_RSA_MAX = 64;
+
+        privbtf finbl bytf[] prfdomputfdDigfst;
+        privbtf int offsft = 0;
+
+        publid Rbw() {
+            prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
+        }
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                rfturn;
+            }
+            prfdomputfdDigfst[offsft++] = b;
+        }
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                tirows SignbturfExdfption {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                rfturn;
+            }
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
+        }
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+            int lfn = bytfBufffr.rfmbining();
+            if (lfn <= 0) {
+                rfturn;
+            }
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                rfturn;
+            }
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
+        }
+
+        @Ovfrridf
+        protfdtfd void rfsftDigfst(){
+            offsft = 0;
+        }
+
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+            if (offsft > RAW_RSA_MAX) {
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+            }
+
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            if (offsft == 20) {
+                sftDigfstNbmf("SHA1");
+            } flsf if (offsft == 36) {
+                sftDigfstNbmf("SHA1+MD5");
+            } flsf if (offsft == 32) {
+                sftDigfstNbmf("SHA-256");
+            } flsf if (offsft == 48) {
+                sftDigfstNbmf("SHA-384");
+            } flsf if (offsft == 64) {
+                sftDigfstNbmf("SHA-512");
+            } flsf if (offsft == 16) {
+                sftDigfstNbmf("MD5");
+            } flsf {
+                tirow nfw SignbturfExdfption(
+                    "Mfssbgf digfst lfngti is not supportfd");
+            }
+
+            bytf[] rfsult = nfw bytf[offsft];
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
+            offsft = 0;
+
+            rfturn rfsult;
+        }
+    }
+
+    publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+        publid SHA1() {
+            supfr("SHA1");
+        }
+    }
+
+    publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+        publid SHA256() {
+            supfr("SHA-256");
+        }
+    }
+
+    publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+        publid SHA384() {
+            supfr("SHA-384");
+        }
+    }
+
+    publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+        publid SHA512() {
+            supfr("SHA-512");
+        }
+    }
+
+    publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+        publid MD5() {
+            supfr("MD5");
+        }
+    }
+
+    publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+        publid MD2() {
+            supfr("MD2");
+        }
+    }
+
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitVfrify(PublidKfy kfy)
+        tirows InvblidKfyExdfption
+    {
+        // Tiis signbturf bddfpts only RSAPublidKfy
+        if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+        }
+
+        jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+            (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
+
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
+
+            // donvfrt kfy to MSCAPI formbt
+
+            BigIntfgfr modulus = rsbKfy.gftModulus();
+            BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
+
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+                fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+
+            bytf[] modulusBytfs = modulus.toBytfArrby();
+            bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
+
+            // Adjust kfy lfngti duf to sign bit
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+                ? (modulusBytfs.lfngti - 1) * 8
+                : modulusBytfs.lfngti * 8;
+
+            bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+
+            try {
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
+
+            } dbtdi (KfyStorfExdfption f) {
+                tirow nfw InvblidKfyExdfption(f);
+            }
+
+        } flsf {
+            publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+        }
+
+        tiis.privbtfKfy = null;
+        rfsftDigfst();
+    }
+
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
+    {
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+        }
+        privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
+
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+            null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
+            RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+
+        tiis.publidKfy = null;
+        rfsftDigfst();
+    }
+
+    /**
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     */
+    protfdtfd void rfsftDigfst() {
+        if (nffdsRfsft) {
+            mfssbgfDigfst.rfsft();
+            nffdsRfsft = fblsf;
+        }
+    }
+
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        nffdsRfsft = fblsf;
+        rfturn mfssbgfDigfst.digfst();
+    }
+
+    protfdtfd void sftDigfstNbmf(String nbmf) {
+        mfssbgfDigfstAlgoritim = nbmf;
+    }
+
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * using tif spfdififd bytf.
+     *
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly.
+     */
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    {
+        mfssbgfDigfst.updbtf(b);
+        nffdsRfsft = truf;
+    }
+
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
+     *
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly
+     */
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        tirows SignbturfExdfption
+    {
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        nffdsRfsft = truf;
+    }
+
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * spfdififd BytfBufffr.
+     *
+     * @pbrbm input tif BytfBufffr
+     */
+    protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    {
+        mfssbgfDigfst.updbtf(input);
+        nffdsRfsft = truf;
+    }
+
+    /**
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * updbtfd so fbr.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
+     *
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd.
+     */
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+
+        bytf[] ibsi = gftDigfstVbluf();
+
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+
+        // Sign ibsi using MS Crypto APIs
+
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            privbtfKfy.gftHCryptKfy());
+
+        // Convfrt signbturf brrby from littlf fndibn to big fndibn
+        rfturn donvfrtEndibnArrby(rfsult);
+    }
+
+    /**
+     * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     */
+    privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
+    {
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+            rfturn bytfArrby;
+
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+
+        // mbkf it big fndibn
+        for (int i=0;i < bytfArrby.lfngti;i++)
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+
+        rfturn rftvbl;
+    }
+
+    /**
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
+     */
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+            tirows SignbturfExdfption;
+
+    /**
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     */
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+
+    /**
+     * Vfrififs tif pbssfd-in signbturf.
+     *
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     *
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+        tirows SignbturfExdfption
+    {
+        bytf[] ibsi = gftDigfstVbluf();
+
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            publidKfy.gftHCryptKfy());
+    }
+
+    /**
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
+     *
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     *
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * tif pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     *
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * fnginfSftPbrbmftfr}.
+     */
+    @Dfprfdbtfd
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+        tirows InvblidPbrbmftfrExdfption
+    {
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    }
+
+
+    /**
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
+     *
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     *
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * tifrf is nonf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * trying to gft tiis pbrbmftfr.
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+        tirows InvblidPbrbmftfrExdfption
+    {
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    }
+
+    /**
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     */
+    // usfd by RSACipifr
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+            tirows InvblidKfyExdfption;
+
+    /**
+     * Imports b publid-kfy BLOB.
+     */
+    // usfd by RSACipifr
+    stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
+        tirows KfyStorfExdfption;
+}

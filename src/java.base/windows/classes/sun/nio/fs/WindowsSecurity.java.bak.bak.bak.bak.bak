@@ -1,0 +1,150 @@
+/*
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Sfdurity rflbtfd utility mftiods.
+ */
+
+dlbss WindowsSfdurity {
+    privbtf WindowsSfdurity() { }
+
+    // opfns prodfss tokfn for givfn bddfss
+    privbtf stbtid long opfnProdfssTokfn(int bddfss) {
+        try {
+            rfturn OpfnProdfssTokfn(GftCurrfntProdfss(), bddfss);
+        } dbtdi (WindowsExdfption x) {
+            rfturn 0L;
+        }
+    }
+
+    /**
+     * Rfturns tif bddfss tokfn for tiis prodfss witi TOKEN_DUPLICATE bddfss
+     */
+    stbtid finbl long prodfssTokfnWitiDuplidbtfAddfss =
+        opfnProdfssTokfn(TOKEN_DUPLICATE);
+
+    /**
+     * Rfturns tif bddfss tokfn for tiis prodfss witi TOKEN_QUERY bddfss
+     */
+    stbtid finbl long prodfssTokfnWitiQufryAddfss =
+        opfnProdfssTokfn(TOKEN_QUERY);
+
+    /**
+     * Rfturnfd by fnbblfPrivilfgf wifn dodf mby rfquirf b givfn privilfgf.
+     * Tif drop mftiod siould bf invokfd bftfr tif opfrbtion domplftfs so bs
+     * to rfvfrt tif privilfgf.
+     */
+    stbtid intfrfbdf Privilfgf {
+        void drop();
+    }
+
+    /**
+     * Attfmpts to fnbblf tif givfn privilfgf for tiis mftiod.
+     */
+    stbtid Privilfgf fnbblfPrivilfgf(String priv) {
+        finbl long pLuid;
+        try {
+            pLuid = LookupPrivilfgfVbluf(priv);
+        } dbtdi (WindowsExdfption x) {
+            // indidbtfs bug in dbllfr
+            tirow nfw AssfrtionError(x);
+        }
+
+        long iTokfn = 0L;
+        boolfbn impfrsontbting = fblsf;
+        boolfbn flfvbtfd = fblsf;
+        try {
+            iTokfn = OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+                                     TOKEN_ADJUST_PRIVILEGES, fblsf);
+            if (iTokfn == 0L && prodfssTokfnWitiDuplidbtfAddfss != 0L) {
+                iTokfn = DuplidbtfTokfnEx(prodfssTokfnWitiDuplidbtfAddfss,
+                    (TOKEN_ADJUST_PRIVILEGES|TOKEN_IMPERSONATE));
+                SftTirfbdTokfn(0L, iTokfn);
+                impfrsontbting = truf;
+            }
+
+            if (iTokfn != 0L) {
+                AdjustTokfnPrivilfgfs(iTokfn, pLuid, SE_PRIVILEGE_ENABLED);
+                flfvbtfd = truf;
+            }
+        } dbtdi (WindowsExdfption x) {
+            // notiing to do, privilfgf not fnbblfd
+        }
+
+        finbl long tokfn = iTokfn;
+        finbl boolfbn stopImpfrsontbting = impfrsontbting;
+        finbl boolfbn nffdToRfvfrt = flfvbtfd;
+
+        rfturn nfw Privilfgf() {
+            @Ovfrridf
+            publid void drop() {
+                if (tokfn != 0L) {
+                    try {
+                        if (stopImpfrsontbting)
+                            SftTirfbdTokfn(0L, 0L);
+                        flsf if (nffdToRfvfrt)
+                            AdjustTokfnPrivilfgfs(tokfn, pLuid, 0);
+                    } dbtdi (WindowsExdfption x) {
+                        // siould not ibppfn
+                        tirow nfw AssfrtionError(x);
+                    } finblly {
+                        ClosfHbndlf(tokfn);
+                    }
+                }
+            }
+        };
+    }
+
+    /**
+     * Cifdk tif bddfss rigit bgbinst tif sfdurityInfo in tif durrfnt tirfbd.
+     */
+    stbtid boolfbn difdkAddfssMbsk(long sfdurityInfo, int bddfssMbsk,
+        int gfnfridRfbd, int gfnfridWritf, int gfnfridExfdutf, int gfnfridAll)
+        tirows WindowsExdfption
+    {
+        int privilfgfs = TOKEN_QUERY;
+        long iTokfn = OpfnTirfbdTokfn(GftCurrfntTirfbd(), privilfgfs, fblsf);
+        if (iTokfn == 0L && prodfssTokfnWitiDuplidbtfAddfss != 0L)
+            iTokfn = DuplidbtfTokfnEx(prodfssTokfnWitiDuplidbtfAddfss,
+                privilfgfs);
+
+        boolfbn ibsRigit = fblsf;
+        if (iTokfn != 0L) {
+            try {
+                ibsRigit = AddfssCifdk(iTokfn, sfdurityInfo, bddfssMbsk,
+                    gfnfridRfbd, gfnfridWritf, gfnfridExfdutf, gfnfridAll);
+            } finblly {
+                ClosfHbndlf(iTokfn);
+            }
+        }
+        rfturn ibsRigit;
+    }
+
+}

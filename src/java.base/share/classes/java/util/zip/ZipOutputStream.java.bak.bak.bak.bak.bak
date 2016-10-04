@@ -1,0 +1,759 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.util.Vfdtor;
+import jbvb.util.HbsiSft;
+import stbtid jbvb.util.zip.ZipConstbnts64.*;
+import stbtid jbvb.util.zip.ZipUtils.*;
+
+/**
+ * Tiis dlbss implfmfnts bn output strfbm filtfr for writing filfs in tif
+ * ZIP filf formbt. Indludfs support for boti domprfssfd bnd undomprfssfd
+ * fntrifs.
+ *
+ * @butior      Dbvid Connflly
+ */
+publid
+dlbss ZipOutputStrfbm fxtfnds DfflbtfrOutputStrfbm implfmfnts ZipConstbnts {
+
+    /**
+     * Wiftifr to usf ZIP64 for zip filfs witi morf tibn 64k fntrifs.
+     * Until ZIP64 support in zip implfmfntbtions is ubiquitous, tiis
+     * systfm propfrty bllows tif drfbtion of zip filfs wiidi dbn bf
+     * rfbd by lfgbdy zip implfmfntbtions wiidi tolfrbtf "indorrfdt"
+     * totbl fntry dount fiflds, sudi bs tif onfs in jdk6, bnd fvfn
+     * somf in jdk7.
+     */
+    privbtf stbtid finbl boolfbn iniibitZip64 =
+        Boolfbn.pbrsfBoolfbn(
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "jdk.util.zip.iniibitZip64", "fblsf")));
+
+    privbtf stbtid dlbss XEntry {
+        finbl ZipEntry fntry;
+        finbl long offsft;
+        long dostimf;    // lbst modifidbtion timf in msdos formbt
+        publid XEntry(ZipEntry fntry, long offsft) {
+            tiis.fntry = fntry;
+            tiis.offsft = offsft;
+        }
+    }
+
+    privbtf XEntry durrfnt;
+    privbtf Vfdtor<XEntry> xfntrifs = nfw Vfdtor<>();
+    privbtf HbsiSft<String> nbmfs = nfw HbsiSft<>();
+    privbtf CRC32 drd = nfw CRC32();
+    privbtf long writtfn = 0;
+    privbtf long lodoff = 0;
+    privbtf bytf[] dommfnt;
+    privbtf int mftiod = DEFLATED;
+    privbtf boolfbn finisifd;
+
+    privbtf boolfbn dlosfd = fblsf;
+
+    privbtf finbl ZipCodfr zd;
+
+    privbtf stbtid int vfrsion(ZipEntry f) tirows ZipExdfption {
+        switdi (f.mftiod) {
+        dbsf DEFLATED: rfturn 20;
+        dbsf STORED:   rfturn 10;
+        dffbult: tirow nfw ZipExdfption("unsupportfd domprfssion mftiod");
+        }
+    }
+
+    /**
+     * Cifdks to mbkf surf tibt tiis strfbm ibs not bffn dlosfd.
+     */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+    /**
+     * Comprfssion mftiod for undomprfssfd (STORED) fntrifs.
+     */
+    publid stbtid finbl int STORED = ZipEntry.STORED;
+
+    /**
+     * Comprfssion mftiod for domprfssfd (DEFLATED) fntrifs.
+     */
+    publid stbtid finbl int DEFLATED = ZipEntry.DEFLATED;
+
+    /**
+     * Crfbtfs b nfw ZIP output strfbm.
+     *
+     * <p>Tif UTF-8 {@link jbvb.nio.dibrsft.Cibrsft dibrsft} is usfd
+     * to fndodf tif fntry nbmfs bnd dommfnts.
+     *
+     * @pbrbm out tif bdtubl output strfbm
+     */
+    publid ZipOutputStrfbm(OutputStrfbm out) {
+        tiis(out, StbndbrdCibrsfts.UTF_8);
+    }
+
+    /**
+     * Crfbtfs b nfw ZIP output strfbm.
+     *
+     * @pbrbm out tif bdtubl output strfbm
+     *
+     * @pbrbm dibrsft tif {@linkplbin jbvb.nio.dibrsft.Cibrsft dibrsft}
+     *                to bf usfd to fndodf tif fntry nbmfs bnd dommfnts
+     *
+     * @sindf 1.7
+     */
+    publid ZipOutputStrfbm(OutputStrfbm out, Cibrsft dibrsft) {
+        supfr(out, nfw Dfflbtfr(Dfflbtfr.DEFAULT_COMPRESSION, truf));
+        if (dibrsft == null)
+            tirow nfw NullPointfrExdfption("dibrsft is null");
+        tiis.zd = ZipCodfr.gft(dibrsft);
+        usfsDffbultDfflbtfr = truf;
+    }
+
+    /**
+     * Sfts tif ZIP filf dommfnt.
+     * @pbrbm dommfnt tif dommfnt string
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti of tif spfdififd
+     *            ZIP filf dommfnt is grfbtfr tibn 0xFFFF bytfs
+     */
+    publid void sftCommfnt(String dommfnt) {
+        if (dommfnt != null) {
+            tiis.dommfnt = zd.gftBytfs(dommfnt);
+            if (tiis.dommfnt.lfngti > 0xffff)
+                tirow nfw IllfgblArgumfntExdfption("ZIP filf dommfnt too long.");
+        }
+    }
+
+    /**
+     * Sfts tif dffbult domprfssion mftiod for subsfqufnt fntrifs. Tiis
+     * dffbult will bf usfd wifnfvfr tif domprfssion mftiod is not spfdififd
+     * for bn individubl ZIP filf fntry, bnd is initiblly sft to DEFLATED.
+     * @pbrbm mftiod tif dffbult domprfssion mftiod
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd domprfssion mftiod
+     *            is invblid
+     */
+    publid void sftMftiod(int mftiod) {
+        if (mftiod != DEFLATED && mftiod != STORED) {
+            tirow nfw IllfgblArgumfntExdfption("invblid domprfssion mftiod");
+        }
+        tiis.mftiod = mftiod;
+    }
+
+    /**
+     * Sfts tif domprfssion lfvfl for subsfqufnt fntrifs wiidi brf DEFLATED.
+     * Tif dffbult sftting is DEFAULT_COMPRESSION.
+     * @pbrbm lfvfl tif domprfssion lfvfl (0-9)
+     * @fxdfption IllfgblArgumfntExdfption if tif domprfssion lfvfl is invblid
+     */
+    publid void sftLfvfl(int lfvfl) {
+        dff.sftLfvfl(lfvfl);
+    }
+
+    /**
+     * Bfgins writing b nfw ZIP filf fntry bnd positions tif strfbm to tif
+     * stbrt of tif fntry dbtb. Closfs tif durrfnt fntry if still bdtivf.
+     * Tif dffbult domprfssion mftiod will bf usfd if no domprfssion mftiod
+     * wbs spfdififd for tif fntry, bnd tif durrfnt timf will bf usfd if
+     * tif fntry ibs no sft modifidbtion timf.
+     * @pbrbm f tif ZIP fntry to bf writtfn
+     * @fxdfption ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid void putNfxtEntry(ZipEntry f) tirows IOExdfption {
+        fnsurfOpfn();
+        if (durrfnt != null) {
+            dlosfEntry();       // dlosf prfvious fntry
+        }
+        if (f.timf == -1) {
+            // by dffbult, do NOT usf fxtfndfd timfstbmps in fxtrb
+            // dbtb, for now.
+            f.sftTimf(Systfm.durrfntTimfMillis());
+        }
+        if (f.mftiod == -1) {
+            f.mftiod = mftiod;  // usf dffbult mftiod
+        }
+        // storf sizf, domprfssfd sizf, bnd drd-32 in LOC ifbdfr
+        f.flbg = 0;
+        switdi (f.mftiod) {
+        dbsf DEFLATED:
+            // storf sizf, domprfssfd sizf, bnd drd-32 in dbtb dfsdriptor
+            // immfdibtfly following tif domprfssfd fntry dbtb
+            if (f.sizf  == -1 || f.dsizf == -1 || f.drd   == -1)
+                f.flbg = 8;
+
+            brfbk;
+        dbsf STORED:
+            // domprfssfd sizf, undomprfssfd sizf, bnd drd-32 must bll bf
+            // sft for fntrifs using STORED domprfssion mftiod
+            if (f.sizf == -1) {
+                f.sizf = f.dsizf;
+            } flsf if (f.dsizf == -1) {
+                f.dsizf = f.sizf;
+            } flsf if (f.sizf != f.dsizf) {
+                tirow nfw ZipExdfption(
+                    "STORED fntry wifrf domprfssfd != undomprfssfd sizf");
+            }
+            if (f.sizf == -1 || f.drd == -1) {
+                tirow nfw ZipExdfption(
+                    "STORED fntry missing sizf, domprfssfd sizf, or drd-32");
+            }
+            brfbk;
+        dffbult:
+            tirow nfw ZipExdfption("unsupportfd domprfssion mftiod");
+        }
+        if (! nbmfs.bdd(f.nbmf)) {
+            tirow nfw ZipExdfption("duplidbtf fntry: " + f.nbmf);
+        }
+        if (zd.isUTF8())
+            f.flbg |= EFS;
+        durrfnt = nfw XEntry(f, writtfn);
+        xfntrifs.bdd(durrfnt);
+        writfLOC(durrfnt);
+    }
+
+    /**
+     * Closfs tif durrfnt ZIP fntry bnd positions tif strfbm for writing
+     * tif nfxt fntry.
+     * @fxdfption ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid void dlosfEntry() tirows IOExdfption {
+        fnsurfOpfn();
+        if (durrfnt != null) {
+            ZipEntry f = durrfnt.fntry;
+            switdi (f.mftiod) {
+            dbsf DEFLATED:
+                dff.finisi();
+                wiilf (!dff.finisifd()) {
+                    dfflbtf();
+                }
+                if ((f.flbg & 8) == 0) {
+                    // vfrify sizf, domprfssfd sizf, bnd drd-32 sfttings
+                    if (f.sizf != dff.gftBytfsRfbd()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry sizf (fxpfdtfd " + f.sizf +
+                            " but got " + dff.gftBytfsRfbd() + " bytfs)");
+                    }
+                    if (f.dsizf != dff.gftBytfsWrittfn()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry domprfssfd sizf (fxpfdtfd " +
+                            f.dsizf + " but got " + dff.gftBytfsWrittfn() + " bytfs)");
+                    }
+                    if (f.drd != drd.gftVbluf()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry CRC-32 (fxpfdtfd 0x" +
+                            Long.toHfxString(f.drd) + " but got 0x" +
+                            Long.toHfxString(drd.gftVbluf()) + ")");
+                    }
+                } flsf {
+                    f.sizf  = dff.gftBytfsRfbd();
+                    f.dsizf = dff.gftBytfsWrittfn();
+                    f.drd = drd.gftVbluf();
+                    writfEXT(f);
+                }
+                dff.rfsft();
+                writtfn += f.dsizf;
+                brfbk;
+            dbsf STORED:
+                // wf blrfbdy know tibt boti f.sizf bnd f.dsizf brf tif sbmf
+                if (f.sizf != writtfn - lodoff) {
+                    tirow nfw ZipExdfption(
+                        "invblid fntry sizf (fxpfdtfd " + f.sizf +
+                        " but got " + (writtfn - lodoff) + " bytfs)");
+                }
+                if (f.drd != drd.gftVbluf()) {
+                    tirow nfw ZipExdfption(
+                         "invblid fntry drd-32 (fxpfdtfd 0x" +
+                         Long.toHfxString(f.drd) + " but got 0x" +
+                         Long.toHfxString(drd.gftVbluf()) + ")");
+                }
+                brfbk;
+            dffbult:
+                tirow nfw ZipExdfption("invblid domprfssion mftiod");
+            }
+            drd.rfsft();
+            durrfnt = null;
+        }
+    }
+
+    /**
+     * Writfs bn brrby of bytfs to tif durrfnt ZIP fntry dbtb. Tiis mftiod
+     * will blodk until bll tif bytfs brf writtfn.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid syndironizfd void writf(bytf[] b, int off, int lfn)
+        tirows IOExdfption
+    {
+        fnsurfOpfn();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+
+        if (durrfnt == null) {
+            tirow nfw ZipExdfption("no durrfnt ZIP fntry");
+        }
+        ZipEntry fntry = durrfnt.fntry;
+        switdi (fntry.mftiod) {
+        dbsf DEFLATED:
+            supfr.writf(b, off, lfn);
+            brfbk;
+        dbsf STORED:
+            writtfn += lfn;
+            if (writtfn - lodoff > fntry.sizf) {
+                tirow nfw ZipExdfption(
+                    "bttfmpt to writf pbst fnd of STORED fntry");
+            }
+            out.writf(b, off, lfn);
+            brfbk;
+        dffbult:
+            tirow nfw ZipExdfption("invblid domprfssion mftiod");
+        }
+        drd.updbtf(b, off, lfn);
+    }
+
+    /**
+     * Finisifs writing tif dontfnts of tif ZIP output strfbm witiout dlosing
+     * tif undfrlying strfbm. Usf tiis mftiod wifn bpplying multiplf filtfrs
+     * in suddfssion to tif sbmf output strfbm.
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O fxdfption ibs oddurrfd
+     */
+    publid void finisi() tirows IOExdfption {
+        fnsurfOpfn();
+        if (finisifd) {
+            rfturn;
+        }
+        if (durrfnt != null) {
+            dlosfEntry();
+        }
+        // writf dfntrbl dirfdtory
+        long off = writtfn;
+        for (XEntry xfntry : xfntrifs)
+            writfCEN(xfntry);
+        writfEND(off, writtfn - off);
+        finisifd = truf;
+    }
+
+    /**
+     * Closfs tif ZIP output strfbm bs wfll bs tif strfbm bfing filtfrfd.
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid void dlosf() tirows IOExdfption {
+        if (!dlosfd) {
+            supfr.dlosf();
+            dlosfd = truf;
+        }
+    }
+
+    /*
+     * Writfs lodbl filf (LOC) ifbdfr for spfdififd fntry.
+     */
+    privbtf void writfLOC(XEntry xfntry) tirows IOExdfption {
+        ZipEntry f = xfntry.fntry;
+        int flbg = f.flbg;
+        boolfbn ibsZip64 = fblsf;
+        int flfn = gftExtrbLfn(f.fxtrb);
+
+        // kffp b dopy of dostimf for writfCEN(), otifrwisf tif tz
+        // sfnsitivf lodbl timf fntrifs in lod bnd dfn migit bf
+        // difffrfnt if tif dffbult tz gft dibngfd during writfLOC()
+        // bnd writfCEN()
+        xfntry.dostimf = jbvbToDosTimf(f.timf);
+
+        writfInt(LOCSIG);               // LOC ifbdfr signbturf
+        if ((flbg & 8) == 8) {
+            writfSiort(vfrsion(f));     // vfrsion nffdfd to fxtrbdt
+            writfSiort(flbg);           // gfnfrbl purposf bit flbg
+            writfSiort(f.mftiod);       // domprfssion mftiod
+            writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+            // storf sizf, undomprfssfd sizf, bnd drd-32 in dbtb dfsdriptor
+            // immfdibtfly following domprfssfd fntry dbtb
+            writfInt(0);
+            writfInt(0);
+            writfInt(0);
+        } flsf {
+            if (f.dsizf >= ZIP64_MAGICVAL || f.sizf >= ZIP64_MAGICVAL) {
+                ibsZip64 = truf;
+                writfSiort(45);         // vfr 4.5 for zip64
+            } flsf {
+                writfSiort(vfrsion(f)); // vfrsion nffdfd to fxtrbdt
+            }
+            writfSiort(flbg);           // gfnfrbl purposf bit flbg
+            writfSiort(f.mftiod);       // domprfssion mftiod
+            writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+            writfInt(f.drd);            // drd-32
+            if (ibsZip64) {
+                writfInt(ZIP64_MAGICVAL);
+                writfInt(ZIP64_MAGICVAL);
+                flfn += 20;        //ifbdid(2) + sizf(2) + sizf(8) + dsizf(8)
+            } flsf {
+                writfInt(f.dsizf);  // domprfssfd sizf
+                writfInt(f.sizf);   // undomprfssfd sizf
+            }
+        }
+        bytf[] nbmfBytfs = zd.gftBytfs(f.nbmf);
+        writfSiort(nbmfBytfs.lfngti);
+
+        int flfnEXTT = 0;               // info-zip fxtfndfd timfstbmp
+        int flbgEXTT = 0;
+        if (f.mtimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAG_LMT;
+        }
+        if (f.btimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAG_LAT;
+        }
+        if (f.dtimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAT_CT;
+        }
+        if (flbgEXTT != 0)
+            flfn += (flfnEXTT + 5);    // ifbdid(2) + sizf(2) + flbg(1) + dbtb
+        writfSiort(flfn);
+        writfBytfs(nbmfBytfs, 0, nbmfBytfs.lfngti);
+        if (ibsZip64) {
+            writfSiort(ZIP64_EXTID);
+            writfSiort(16);
+            writfLong(f.sizf);
+            writfLong(f.dsizf);
+        }
+        if (flbgEXTT != 0) {
+            writfSiort(EXTID_EXTT);
+            writfSiort(flfnEXTT + 1);      // flbg + dbtb
+            writfBytf(flbgEXTT);
+            if (f.mtimf != null)
+                writfInt(filfTimfToUnixTimf(f.mtimf));
+            if (f.btimf != null)
+                writfInt(filfTimfToUnixTimf(f.btimf));
+            if (f.dtimf != null)
+                writfInt(filfTimfToUnixTimf(f.dtimf));
+        }
+        writfExtrb(f.fxtrb);
+        lodoff = writtfn;
+    }
+
+    /*
+     * Writfs fxtrb dbtb dfsdriptor (EXT) for spfdififd fntry.
+     */
+    privbtf void writfEXT(ZipEntry f) tirows IOExdfption {
+        writfInt(EXTSIG);           // EXT ifbdfr signbturf
+        writfInt(f.drd);            // drd-32
+        if (f.dsizf >= ZIP64_MAGICVAL || f.sizf >= ZIP64_MAGICVAL) {
+            writfLong(f.dsizf);
+            writfLong(f.sizf);
+        } flsf {
+            writfInt(f.dsizf);          // domprfssfd sizf
+            writfInt(f.sizf);           // undomprfssfd sizf
+        }
+    }
+
+    /*
+     * Writf dfntrbl dirfdtory (CEN) ifbdfr for spfdififd fntry.
+     * REMIND: bdd support for filf bttributfs
+     */
+    privbtf void writfCEN(XEntry xfntry) tirows IOExdfption {
+        ZipEntry f  = xfntry.fntry;
+        int flbg = f.flbg;
+        int vfrsion = vfrsion(f);
+        long dsizf = f.dsizf;
+        long sizf = f.sizf;
+        long offsft = xfntry.offsft;
+        int flfnZIP64 = 0;
+        boolfbn ibsZip64 = fblsf;
+
+        if (f.dsizf >= ZIP64_MAGICVAL) {
+            dsizf = ZIP64_MAGICVAL;
+            flfnZIP64 += 8;              // dsizf(8)
+            ibsZip64 = truf;
+        }
+        if (f.sizf >= ZIP64_MAGICVAL) {
+            sizf = ZIP64_MAGICVAL;    // sizf(8)
+            flfnZIP64 += 8;
+            ibsZip64 = truf;
+        }
+        if (xfntry.offsft >= ZIP64_MAGICVAL) {
+            offsft = ZIP64_MAGICVAL;
+            flfnZIP64 += 8;              // offsft(8)
+            ibsZip64 = truf;
+        }
+        writfInt(CENSIG);           // CEN ifbdfr signbturf
+        if (ibsZip64) {
+            writfSiort(45);         // vfr 4.5 for zip64
+            writfSiort(45);
+        } flsf {
+            writfSiort(vfrsion);    // vfrsion mbdf by
+            writfSiort(vfrsion);    // vfrsion nffdfd to fxtrbdt
+        }
+        writfSiort(flbg);           // gfnfrbl purposf bit flbg
+        writfSiort(f.mftiod);       // domprfssion mftiod
+        // usf tif dopy in xfntry, wiidi ibs bffn donvfrtfd
+        // from f.timf in writfLOC()
+        writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+        writfInt(f.drd);            // drd-32
+        writfInt(dsizf);            // domprfssfd sizf
+        writfInt(sizf);             // undomprfssfd sizf
+        bytf[] nbmfBytfs = zd.gftBytfs(f.nbmf);
+        writfSiort(nbmfBytfs.lfngti);
+
+        int flfn = gftExtrbLfn(f.fxtrb);
+        if (ibsZip64) {
+            flfn += (flfnZIP64 + 4);// + ifbdid(2) + dbtbsizf(2)
+        }
+        // dfn info-zip fxtfndfd timfstbmp only outputs mtimf
+        // but sft tif flbg for b/dtimf, if prfsfnt in lod
+        int flbgEXTT = 0;
+        if (f.mtimf != null) {
+            flfn += 4;              // + mtimf(4)
+            flbgEXTT |= EXTT_FLAG_LMT;
+        }
+        if (f.btimf != null) {
+            flbgEXTT |= EXTT_FLAG_LAT;
+        }
+        if (f.dtimf != null) {
+            flbgEXTT |= EXTT_FLAT_CT;
+        }
+        if (flbgEXTT != 0) {
+            flfn += 5;             // ifbdid + sz + flbg
+        }
+        writfSiort(flfn);
+        bytf[] dommfntBytfs;
+        if (f.dommfnt != null) {
+            dommfntBytfs = zd.gftBytfs(f.dommfnt);
+            writfSiort(Mbti.min(dommfntBytfs.lfngti, 0xffff));
+        } flsf {
+            dommfntBytfs = null;
+            writfSiort(0);
+        }
+        writfSiort(0);              // stbrting disk numbfr
+        writfSiort(0);              // intfrnbl filf bttributfs (unusfd)
+        writfInt(0);                // fxtfrnbl filf bttributfs (unusfd)
+        writfInt(offsft);           // rflbtivf offsft of lodbl ifbdfr
+        writfBytfs(nbmfBytfs, 0, nbmfBytfs.lfngti);
+
+        // tbkf dbrf of EXTID_ZIP64 bnd EXTID_EXTT
+        if (ibsZip64) {
+            writfSiort(ZIP64_EXTID);// Zip64 fxtrb
+            writfSiort(flfnZIP64);
+            if (sizf == ZIP64_MAGICVAL)
+                writfLong(f.sizf);
+            if (dsizf == ZIP64_MAGICVAL)
+                writfLong(f.dsizf);
+            if (offsft == ZIP64_MAGICVAL)
+                writfLong(xfntry.offsft);
+        }
+        if (flbgEXTT != 0) {
+            writfSiort(EXTID_EXTT);
+            if (f.mtimf != null) {
+                writfSiort(5);      // flbg + mtimf
+                writfBytf(flbgEXTT);
+                writfInt(filfTimfToUnixTimf(f.mtimf));
+            } flsf {
+                writfSiort(1);      // flbg only
+                writfBytf(flbgEXTT);
+            }
+        }
+        writfExtrb(f.fxtrb);
+        if (dommfntBytfs != null) {
+            writfBytfs(dommfntBytfs, 0, Mbti.min(dommfntBytfs.lfngti, 0xffff));
+        }
+    }
+
+    /*
+     * Writfs fnd of dfntrbl dirfdtory (END) ifbdfr.
+     */
+    privbtf void writfEND(long off, long lfn) tirows IOExdfption {
+        boolfbn ibsZip64 = fblsf;
+        long xlfn = lfn;
+        long xoff = off;
+        if (xlfn >= ZIP64_MAGICVAL) {
+            xlfn = ZIP64_MAGICVAL;
+            ibsZip64 = truf;
+        }
+        if (xoff >= ZIP64_MAGICVAL) {
+            xoff = ZIP64_MAGICVAL;
+            ibsZip64 = truf;
+        }
+        int dount = xfntrifs.sizf();
+        if (dount >= ZIP64_MAGICCOUNT) {
+            ibsZip64 |= !iniibitZip64;
+            if (ibsZip64) {
+                dount = ZIP64_MAGICCOUNT;
+            }
+        }
+        if (ibsZip64) {
+            long off64 = writtfn;
+            //zip64 fnd of dfntrbl dirfdtory rfdord
+            writfInt(ZIP64_ENDSIG);        // zip64 END rfdord signbturf
+            writfLong(ZIP64_ENDHDR - 12);  // sizf of zip64 fnd
+            writfSiort(45);                // vfrsion mbdf by
+            writfSiort(45);                // vfrsion nffdfd to fxtrbdt
+            writfInt(0);                   // numbfr of tiis disk
+            writfInt(0);                   // dfntrbl dirfdtory stbrt disk
+            writfLong(xfntrifs.sizf());    // numbfr of dirfdtory fntirfs on disk
+            writfLong(xfntrifs.sizf());    // numbfr of dirfdtory fntirfs
+            writfLong(lfn);                // lfngti of dfntrbl dirfdtory
+            writfLong(off);                // offsft of dfntrbl dirfdtory
+
+            //zip64 fnd of dfntrbl dirfdtory lodbtor
+            writfInt(ZIP64_LOCSIG);        // zip64 END lodbtor signbturf
+            writfInt(0);                   // zip64 END stbrt disk
+            writfLong(off64);              // offsft of zip64 END
+            writfInt(1);                   // totbl numbfr of disks (?)
+        }
+        writfInt(ENDSIG);                 // END rfdord signbturf
+        writfSiort(0);                    // numbfr of tiis disk
+        writfSiort(0);                    // dfntrbl dirfdtory stbrt disk
+        writfSiort(dount);                // numbfr of dirfdtory fntrifs on disk
+        writfSiort(dount);                // totbl numbfr of dirfdtory fntrifs
+        writfInt(xlfn);                   // lfngti of dfntrbl dirfdtory
+        writfInt(xoff);                   // offsft of dfntrbl dirfdtory
+        if (dommfnt != null) {            // zip filf dommfnt
+            writfSiort(dommfnt.lfngti);
+            writfBytfs(dommfnt, 0, dommfnt.lfngti);
+        } flsf {
+            writfSiort(0);
+        }
+    }
+
+    /*
+     * Rfturns tif lfngti of fxtrb dbtb witiout EXTT bnd ZIP64.
+     */
+    privbtf int gftExtrbLfn(bytf[] fxtrb) {
+        if (fxtrb == null)
+            rfturn 0;
+        int skippfd = 0;
+        int lfn = fxtrb.lfngti;
+        int off = 0;
+        wiilf (off + 4 <= lfn) {
+            int tbg = gft16(fxtrb, off);
+            int sz = gft16(fxtrb, off + 2);
+            if (sz < 0 || (off + 4 + sz) > lfn) {
+                brfbk;
+            }
+            if (tbg == EXTID_EXTT || tbg == EXTID_ZIP64) {
+                skippfd += (sz + 4);
+            }
+            off += (sz + 4);
+        }
+        rfturn lfn - skippfd;
+    }
+
+    /*
+     * Writfs fxtrb dbtb witiout EXTT bnd ZIP64.
+     *
+     * Extrb timfstbmp bnd ZIP64 dbtb is ibndlfd/output sfpbrbtfly
+     * in writfLOC bnd writfCEN.
+     */
+    privbtf void writfExtrb(bytf[] fxtrb) tirows IOExdfption {
+        if (fxtrb != null) {
+            int lfn = fxtrb.lfngti;
+            int off = 0;
+            wiilf (off + 4 <= lfn) {
+                int tbg = gft16(fxtrb, off);
+                int sz = gft16(fxtrb, off + 2);
+                if (sz < 0 || (off + 4 + sz) > lfn) {
+                    writfBytfs(fxtrb, off, lfn - off);
+                    rfturn;
+                }
+                if (tbg != EXTID_EXTT && tbg != EXTID_ZIP64) {
+                    writfBytfs(fxtrb, off, sz + 4);
+                }
+                off += (sz + 4);
+            }
+            if (off < lfn) {
+                writfBytfs(fxtrb, off, lfn - off);
+            }
+        }
+    }
+
+    /*
+     * Writfs b 8-bit bytf to tif output strfbm.
+     */
+    privbtf void writfBytf(int v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf(v & 0xff);
+        writtfn += 1;
+    }
+
+    /*
+     * Writfs b 16-bit siort to tif output strfbm in littlf-fndibn bytf ordfr.
+     */
+    privbtf void writfSiort(int v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((v >>> 0) & 0xff);
+        out.writf((v >>> 8) & 0xff);
+        writtfn += 2;
+    }
+
+    /*
+     * Writfs b 32-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
+     */
+    privbtf void writfInt(long v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((int)((v >>>  0) & 0xff));
+        out.writf((int)((v >>>  8) & 0xff));
+        out.writf((int)((v >>> 16) & 0xff));
+        out.writf((int)((v >>> 24) & 0xff));
+        writtfn += 4;
+    }
+
+    /*
+     * Writfs b 64-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
+     */
+    privbtf void writfLong(long v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((int)((v >>>  0) & 0xff));
+        out.writf((int)((v >>>  8) & 0xff));
+        out.writf((int)((v >>> 16) & 0xff));
+        out.writf((int)((v >>> 24) & 0xff));
+        out.writf((int)((v >>> 32) & 0xff));
+        out.writf((int)((v >>> 40) & 0xff));
+        out.writf((int)((v >>> 48) & 0xff));
+        out.writf((int)((v >>> 56) & 0xff));
+        writtfn += 8;
+    }
+
+    /*
+     * Writfs bn brrby of bytfs to tif output strfbm.
+     */
+    privbtf void writfBytfs(bytf[] b, int off, int lfn) tirows IOExdfption {
+        supfr.out.writf(b, off, lfn);
+        writtfn += lfn;
+    }
+}

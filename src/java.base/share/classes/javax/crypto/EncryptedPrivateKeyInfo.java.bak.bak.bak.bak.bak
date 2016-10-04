@@ -1,0 +1,430 @@
+/*
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+
+/**
+ * Tiis dlbss implfmfnts tif <dodf>EndryptfdPrivbtfKfyInfo</dodf> typf
+ * bs dffinfd in PKCS #8.
+ * <p>Its ASN.1 dffinition is bs follows:
+ *
+ * <prf>
+ * EndryptfdPrivbtfKfyInfo ::=  SEQUENCE {
+ *     fndryptionAlgoritim   AlgoritimIdfntififr,
+ *     fndryptfdDbtb   OCTET STRING }
+ *
+ * AlgoritimIdfntififr  ::=  SEQUENCE  {
+ *     blgoritim              OBJECT IDENTIFIER,
+ *     pbrbmftfrs             ANY DEFINED BY blgoritim OPTIONAL  }
+ * </prf>
+ *
+ * @butior Vblfrif Pfng
+ *
+ * @sff jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss EndryptfdPrivbtfKfyInfo {
+
+    // tif "fndryptionAlgoritim" fifld
+    privbtf AlgoritimId blgid;
+
+    // tif "fndryptfdDbtb" fifld
+    privbtf bytf[] fndryptfdDbtb;
+
+    // tif ASN.1 fndodfd dontfnts of tiis dlbss
+    privbtf bytf[] fndodfd = null;
+
+    /**
+     * Construdts (i.f., pbrsfs) bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from
+     * its ASN.1 fndoding.
+     * @pbrbm fndodfd tif ASN.1 fndoding of tiis objfdt. Tif dontfnts of
+     * tif brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if tif <dodf>fndodfd</dodf> is null.
+     * @fxdfption IOExdfption if frror oddurs wifn pbrsing tif ASN.1 fndoding.
+     */
+    publid EndryptfdPrivbtfKfyInfo(bytf[] fndodfd)
+        tirows IOExdfption {
+        if (fndodfd == null) {
+            tirow nfw NullPointfrExdfption("tif fndodfd pbrbmftfr " +
+                                           "must bf non-null");
+        }
+        tiis.fndodfd = fndodfd.dlonf();
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fndodfd);
+
+        DfrVbluf[] sfq = nfw DfrVbluf[2];
+
+        sfq[0] = vbl.dbtb.gftDfrVbluf();
+        sfq[1] = vbl.dbtb.gftDfrVbluf();
+
+        if (vbl.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("ovfrrun, bytfs = " + vbl.dbtb.bvbilbblf());
+        }
+
+        tiis.blgid = AlgoritimId.pbrsf(sfq[0]);
+        if (sfq[0].dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("fndryptionAlgoritim fifld ovfrrun");
+        }
+
+        tiis.fndryptfdDbtb = sfq[1].gftOdtftString();
+        if (sfq[1].dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("fndryptfdDbtb fifld ovfrrun");
+        }
+    }
+
+    /**
+     * Construdts bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from tif
+     * fndryption blgoritim nbmf bnd tif fndryptfd dbtb.
+     *
+     * <p>Notf: Tiis donstrudtor will usf null bs tif vbluf of tif
+     * blgoritim pbrbmftfrs. If tif fndryption blgoritim ibs
+     * pbrbmftfrs wiosf vbluf is not null, b difffrfnt donstrudtor,
+     * f.g. EndryptfdPrivbtfKfyInfo(AlgoritimPbrbmftfrs, bytf[]),
+     * siould bf usfd.
+     *
+     * @pbrbm blgNbmf fndryption blgoritim nbmf. Sff Appfndix A in tif
+     * <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Rfffrfndf Guidf</b>
+     * for informbtion bbout stbndbrd Cipifr blgoritim nbmfs.
+     * @pbrbm fndryptfdDbtb fndryptfd dbtb. Tif dontfnts of
+     * <dodf>fndrypfdDbtb</dodf> brf dopifd to protfdt bgbinst subsfqufnt
+     * modifidbtion wifn donstrudting tiis objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>blgNbmf</dodf> or
+     * <dodf>fndryptfdDbtb</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fndryptfdDbtb</dodf>
+     * is fmpty, i.f. 0-lfngti.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd blgNbmf is
+     * not supportfd.
+     */
+    publid EndryptfdPrivbtfKfyInfo(String blgNbmf, bytf[] fndryptfdDbtb)
+        tirows NoSudiAlgoritimExdfption {
+
+        if (blgNbmf == null)
+                tirow nfw NullPointfrExdfption("tif blgNbmf pbrbmftfr " +
+                                               "must bf non-null");
+        tiis.blgid = AlgoritimId.gft(blgNbmf);
+
+        if (fndryptfdDbtb == null) {
+            tirow nfw NullPointfrExdfption("tif fndryptfdDbtb " +
+                                           "pbrbmftfr must bf non-null");
+        } flsf if (fndryptfdDbtb.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif fndryptfdDbtb " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            tiis.fndryptfdDbtb = fndryptfdDbtb.dlonf();
+        }
+        // dflby tif gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        tiis.fndodfd = null;
+    }
+
+    /**
+     * Construdts bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from tif
+     * fndryption blgoritim pbrbmftfrs bnd tif fndryptfd dbtb.
+     *
+     * @pbrbm blgPbrbms tif blgoritim pbrbmftfrs for tif fndryption
+     * blgoritim. <dodf>blgPbrbms.gftEndodfd()</dodf> siould rfturn
+     * tif ASN.1 fndodfd bytfs of tif <dodf>pbrbmftfrs</dodf> fifld
+     * of tif <dodf>AlgoritimIdfntiffr</dodf> domponfnt of tif
+     * <dodf>EndryptfdPrivbtfKfyInfo</dodf> typf.
+     * @pbrbm fndryptfdDbtb fndryptfd dbtb. Tif dontfnts of
+     * <dodf>fndrypfdDbtb</dodf> brf dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion wifn donstrudting tiis objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>blgPbrbms</dodf> or
+     * <dodf>fndryptfdDbtb</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fndryptfdDbtb</dodf>
+     * is fmpty, i.f. 0-lfngti.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd blgNbmf of
+     * tif spfdififd <dodf>blgPbrbms</dodf> pbrbmftfr is not supportfd.
+     */
+    publid EndryptfdPrivbtfKfyInfo(AlgoritimPbrbmftfrs blgPbrbms,
+        bytf[] fndryptfdDbtb) tirows NoSudiAlgoritimExdfption {
+
+        if (blgPbrbms == null) {
+            tirow nfw NullPointfrExdfption("blgPbrbms must bf non-null");
+        }
+        tiis.blgid = AlgoritimId.gft(blgPbrbms);
+
+        if (fndryptfdDbtb == null) {
+            tirow nfw NullPointfrExdfption("fndryptfdDbtb must bf non-null");
+        } flsf if (fndryptfdDbtb.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif fndryptfdDbtb " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            tiis.fndryptfdDbtb = fndryptfdDbtb.dlonf();
+        }
+
+        // dflby tif gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        tiis.fndodfd = null;
+    }
+
+
+    /**
+     * Rfturns tif fndryption blgoritim.
+     * <p>Notf: Stbndbrd nbmf is rfturnfd instfbd of tif spfdififd onf
+     * in tif donstrudtor wifn sudi mbpping is bvbilbblf.
+     * Sff Appfndix A in tif
+     * <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Rfffrfndf Guidf</b>
+     * for informbtion bbout stbndbrd Cipifr blgoritim nbmfs.
+     *
+     * @rfturn tif fndryption blgoritim nbmf.
+     */
+    publid String gftAlgNbmf() {
+        rfturn tiis.blgid.gftNbmf();
+    }
+
+    /**
+     * Rfturns tif blgoritim pbrbmftfrs usfd by tif fndryption blgoritim.
+     * @rfturn tif blgoritim pbrbmftfrs.
+     */
+    publid AlgoritimPbrbmftfrs gftAlgPbrbmftfrs() {
+        rfturn tiis.blgid.gftPbrbmftfrs();
+    }
+
+    /**
+     * Rfturns tif fndryptfd dbtb.
+     * @rfturn tif fndryptfd dbtb. Rfturns b nfw brrby
+     * fbdi timf tiis mftiod is dbllfd.
+     */
+    publid bytf[] gftEndryptfdDbtb() {
+        rfturn tiis.fndryptfdDbtb.dlonf();
+    }
+
+    /**
+     * Extrbdt tif fndlosfd PKCS8EndodfdKfySpfd objfdt from tif
+     * fndryptfd dbtb bnd rfturn it.
+     * <br>Notf: In ordfr to suddfssfully rftrifvf tif fndlosfd
+     * PKCS8EndodfdKfySpfd objfdt, <dodf>dipifr</dodf> nffds
+     * to bf initiblizfd to fitifr Cipifr.DECRYPT_MODE or
+     * Cipifr.UNWRAP_MODE, witi tif sbmf kfy bnd pbrbmftfrs usfd
+     * for gfnfrbting tif fndryptfd dbtb.
+     *
+     * @pbrbm dipifr tif initiblizfd dipifr objfdt wiidi will bf
+     * usfd for dfdrypting tif fndryptfd dbtb.
+     * @rfturn tif PKCS8EndodfdKfySpfd objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>dipifr</dodf>
+     * is null.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn dipifr is
+     * inbppropribtf for tif fndryptfd dbtb or tif fndryptfd
+     * dbtb is dorruptfd bnd dbnnot bf dfdryptfd.
+     */
+    publid PKCS8EndodfdKfySpfd gftKfySpfd(Cipifr dipifr)
+        tirows InvblidKfySpfdExdfption {
+        bytf[] fndodfd = null;
+        try {
+            fndodfd = dipifr.doFinbl(fndryptfdDbtb);
+            difdkPKCS8Endoding(fndodfd);
+        } dbtdi (GfnfrblSfdurityExdfption |
+                 IOExdfption |
+                 IllfgblStbtfExdfption fx) {
+            tirow nfw InvblidKfySpfdExdfption(
+                    "Cbnnot rftrifvf tif PKCS8EndodfdKfySpfd", fx);
+        }
+        rfturn nfw PKCS8EndodfdKfySpfd(fndodfd);
+    }
+
+    privbtf PKCS8EndodfdKfySpfd gftKfySpfdImpl(Kfy dfdryptKfy,
+        Providfr providfr) tirows NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption {
+        bytf[] fndodfd = null;
+        Cipifr d;
+        try {
+            if (providfr == null) {
+                // usf tif most prfffrrfd onf
+                d = Cipifr.gftInstbndf(blgid.gftNbmf());
+            } flsf {
+                d = Cipifr.gftInstbndf(blgid.gftNbmf(), providfr);
+            }
+            d.init(Cipifr.DECRYPT_MODE, dfdryptKfy, blgid.gftPbrbmftfrs());
+            fndodfd = d.doFinbl(fndryptfdDbtb);
+            difdkPKCS8Endoding(fndodfd);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // rftirow
+            tirow nsbf;
+        } dbtdi (GfnfrblSfdurityExdfption | IOExdfption fx) {
+            tirow nfw InvblidKfyExdfption(
+                    "Cbnnot rftrifvf tif PKCS8EndodfdKfySpfd", fx);
+        }
+        rfturn nfw PKCS8EndodfdKfySpfd(fndodfd);
+    }
+
+    /**
+     * Extrbdt tif fndlosfd PKCS8EndodfdKfySpfd objfdt from tif
+     * fndryptfd dbtb bnd rfturn it.
+     * @pbrbm dfdryptKfy kfy usfd for dfdrypting tif fndryptfd dbtb.
+     * @rfturn tif PKCS8EndodfdKfySpfd objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>dfdryptKfy</dodf>
+     * is null.
+     * @fxdfption NoSudiAlgoritimExdfption if dbnnot find bppropribtf
+     * dipifr to dfdrypt tif fndryptfd dbtb.
+     * @fxdfption InvblidKfyExdfption if <dodf>dfdryptKfy</dodf>
+     * dbnnot bf usfd to dfdrypt tif fndryptfd dbtb or tif dfdryption
+     * rfsult is not b vblid PKCS8KfySpfd.
+     *
+     * @sindf 1.5
+     */
+    publid PKCS8EndodfdKfySpfd gftKfySpfd(Kfy dfdryptKfy)
+        tirows NoSudiAlgoritimExdfption, InvblidKfyExdfption {
+        if (dfdryptKfy == null) {
+            tirow nfw NullPointfrExdfption("dfdryptKfy is null");
+        }
+        rfturn gftKfySpfdImpl(dfdryptKfy, null);
+    }
+
+    /**
+     * Extrbdt tif fndlosfd PKCS8EndodfdKfySpfd objfdt from tif
+     * fndryptfd dbtb bnd rfturn it.
+     * @pbrbm dfdryptKfy kfy usfd for dfdrypting tif fndryptfd dbtb.
+     * @pbrbm providfrNbmf tif nbmf of providfr wiosf Cipifr
+     * implfmfntbtion will bf usfd.
+     * @rfturn tif PKCS8EndodfdKfySpfd objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>dfdryptKfy</dodf>
+     * or <dodf>providfrNbmf</dodf> is null.
+     * @fxdfption NoSudiProvidfrExdfption if no providfr
+     * <dodf>providfrNbmf</dodf> is rfgistfrfd.
+     * @fxdfption NoSudiAlgoritimExdfption if dbnnot find bppropribtf
+     * dipifr to dfdrypt tif fndryptfd dbtb.
+     * @fxdfption InvblidKfyExdfption if <dodf>dfdryptKfy</dodf>
+     * dbnnot bf usfd to dfdrypt tif fndryptfd dbtb or tif dfdryption
+     * rfsult is not b vblid PKCS8KfySpfd.
+     *
+     * @sindf 1.5
+     */
+    publid PKCS8EndodfdKfySpfd gftKfySpfd(Kfy dfdryptKfy,
+        String providfrNbmf) tirows NoSudiProvidfrExdfption,
+        NoSudiAlgoritimExdfption, InvblidKfyExdfption {
+        if (dfdryptKfy == null) {
+            tirow nfw NullPointfrExdfption("dfdryptKfy is null");
+        }
+        if (providfrNbmf == null) {
+            tirow nfw NullPointfrExdfption("providfr is null");
+        }
+        Providfr providfr = Sfdurity.gftProvidfr(providfrNbmf);
+        if (providfr == null) {
+            tirow nfw NoSudiProvidfrExdfption("providfr " +
+                providfrNbmf + " not found");
+        }
+        rfturn gftKfySpfdImpl(dfdryptKfy, providfr);
+    }
+
+    /**
+     * Extrbdt tif fndlosfd PKCS8EndodfdKfySpfd objfdt from tif
+     * fndryptfd dbtb bnd rfturn it.
+     * @pbrbm dfdryptKfy kfy usfd for dfdrypting tif fndryptfd dbtb.
+     * @pbrbm providfr tif nbmf of providfr wiosf Cipifr implfmfntbtion
+     * will bf usfd.
+     * @rfturn tif PKCS8EndodfdKfySpfd objfdt.
+     * @fxdfption NullPointfrExdfption if <dodf>dfdryptKfy</dodf>
+     * or <dodf>providfr</dodf> is null.
+     * @fxdfption NoSudiAlgoritimExdfption if dbnnot find bppropribtf
+     * dipifr to dfdrypt tif fndryptfd dbtb in <dodf>providfr</dodf>.
+     * @fxdfption InvblidKfyExdfption if <dodf>dfdryptKfy</dodf>
+     * dbnnot bf usfd to dfdrypt tif fndryptfd dbtb or tif dfdryption
+     * rfsult is not b vblid PKCS8KfySpfd.
+     *
+     * @sindf 1.5
+     */
+    publid PKCS8EndodfdKfySpfd gftKfySpfd(Kfy dfdryptKfy,
+        Providfr providfr) tirows NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption {
+        if (dfdryptKfy == null) {
+            tirow nfw NullPointfrExdfption("dfdryptKfy is null");
+        }
+        if (providfr == null) {
+            tirow nfw NullPointfrExdfption("providfr is null");
+        }
+        rfturn gftKfySpfdImpl(dfdryptKfy, providfr);
+    }
+
+    /**
+     * Rfturns tif ASN.1 fndoding of tiis objfdt.
+     * @rfturn tif ASN.1 fndoding. Rfturns b nfw brrby
+     * fbdi timf tiis mftiod is dbllfd.
+     * @fxdfption IOExdfption if frror oddurs wifn donstrudting its
+     * ASN.1 fndoding.
+     */
+    publid bytf[] gftEndodfd() tirows IOExdfption {
+        if (tiis.fndodfd == null) {
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+            // fndodf fndryption blgoritim
+            blgid.fndodf(tmp);
+
+            // fndodf fndryptfd dbtb
+            tmp.putOdtftString(fndryptfdDbtb);
+
+            // wrbp fvfrytiing into b SEQUENCE
+            out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+            tiis.fndodfd = out.toBytfArrby();
+        }
+        rfturn tiis.fndodfd.dlonf();
+    }
+
+    privbtf stbtid void difdkTbg(DfrVbluf vbl, bytf tbg, String vblNbmf)
+        tirows IOExdfption {
+        if (vbl.gftTbg() != tbg) {
+            tirow nfw IOExdfption("invblid kfy fndoding - wrong tbg for " +
+                                  vblNbmf);
+        }
+    }
+
+    @SupprfssWbrnings("fblltirougi")
+    privbtf stbtid void difdkPKCS8Endoding(bytf[] fndodfdKfy)
+        tirows IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(fndodfdKfy);
+        DfrVbluf[] vblufs = in.gftSfqufndf(3);
+
+        switdi (vblufs.lfngti) {
+        dbsf 4:
+            difdkTbg(vblufs[3], DfrVbluf.TAG_CONTEXT, "bttributfs");
+            /* fbll tirougi */
+        dbsf 3:
+            difdkTbg(vblufs[0], DfrVbluf.tbg_Intfgfr, "vfrsion");
+            DfrInputStrfbm blgid = vblufs[1].toDfrInputStrfbm();
+            blgid.gftOID();
+            if (blgid.bvbilbblf() != 0) {
+                blgid.gftDfrVbluf();
+            }
+            difdkTbg(vblufs[2], DfrVbluf.tbg_OdtftString, "privbtfKfy");
+            brfbk;
+        dffbult:
+            tirow nfw IOExdfption("invblid kfy fndoding");
+        }
+    }
+}

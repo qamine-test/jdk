@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
+<!--
+Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+
+</ifbd>
+
+<body bgdolor="wiitf">
+
+A pbdkbgf of tif Jbvb Imbgf I/O API dfbling witi rfbding bnd writing
+mftbdbtb.
+
+<p>
+
+Wifn rfbding bn imbgf, its pfr-strfbm bnd pfr-imbgf mftbdbtb is mbdf
+bvbilbblf bs bn <dodf>IIOMftbdbtb</dodf> objfdt.  Tif intfrnbls of
+tiis objfdt brf spfdifid to tif plug-in tibt drfbtfd it.  Its dontfnts
+mby bf bddfssfd in tif form of bn XML <dodf>Dodumfnt</dodf>, wiidi is
+implfmfntfd bs b trff of <dodf>IIOMftbdbtbNodf</dodf> objfdts.
+
+<p>
+
+Wifn writing bn imbgf, its mftbdbtb mby bf sft by dffining or
+modifying bn <dodf>IIOMftbdbtb</dodf> objfdt.  Sudi bn objfdt mby bf
+obtbinfd from bn <dodf>ImbgfWritfr</dodf> or
+<dodf>ImbgfTrbnsdodfr</dodf> (from tif
+<dodf>jbvbx.imbgfio</dodf> pbdkbgf).  Ondf sudi bn objfdt ibs
+bffn obtbinfd, its dontfnts mby bf sft of modififd vib b
+<dodf>Dodumfnt</dodf> donsisting of <dodf>IIOMftbdbtbNodf</dodf>s.
+Tif dodumfnt formbt mby optionblly bf dfsdribfd using bn
+<dodf>IIOMftbdbtbFormbt</dodf> objfdt.
+
+<p>
+
+Tif formbt of tif mftbdbtb dontbinfd in tif XML <dodf>Dodumfnt</dodf>
+is idfntififd by b string wiidi bppfbrs bs tif root nodf of tif trff
+of <dodf>IIOMftbdbtbNodf</dodf> objfdts.  Tiis string dontbins b vfrsion
+numbfr, f.g. "jbvbx_imbgfio_jpfg_imbgf_1.0".  Rfbdfrs bnd writfrs mby
+support multiplf vfrsions of tif sbmf bbsid formbt bnd tif Imbgf I/O
+API ibs mftiods tibt bllow spfdifying wiidi vfrsion to usf by pbssing
+tif string to tif mftiod/donstrudtor usfd to obtbin bn <dodf>IIOMftbdbtb</dodf>
+objfdt.  In somf dbsfs, b morf rfdfnt vfrsion mby not bf stridtly
+dompbtiblf witi b progrbm writtfn fxpfdting bn oldfr vfrsion (for
+bn fxbmplf, sff tif Nbtivf Mftbdbtb Formbt sfdtion of tif JPEG Mftbdbtb
+Usbgf Notfs bflow).
+
+<p>
+
+Plug-ins mby dioosf to support b <A
+HREF="dod-filfs/stbndbrd_mftbdbtb.itml">stbndbrd (plug-in nfutrbl)
+formbt</A>.  Tiis formbt dofs not providf losslfss fndoding of
+mftbdbtb, but bllows b portion of tif mftbdbtb to bf bddfssfd in b
+gfnfrid mbnnfr.
+
+<p>
+
+Ebdi of tif stbndbrd plug-ins supports b so-dbllfd "nbtivf" mftbdbtb
+formbt, wiidi fndodfs its mftbdbtb losslfssly:
+
+<ul>
+<li>
+<A HREF="dod-filfs/gif_mftbdbtb.itml">
+GIF mftbdbtb
+</A>
+
+<li>
+<A HREF="dod-filfs/jpfg_mftbdbtb.itml">
+JPEG mftbdbtb
+</A>
+
+<li>
+<A HREF="dod-filfs/png_mftbdbtb.itml">
+PNG mftbdbtb
+</A>
+
+<li>
+<A HREF="dod-filfs/bmp_mftbdbtb.itml">
+BMP mftbdbtb
+</A>
+
+<li>
+<A HREF="dod-filfs/wbmp_mftbdbtb.itml">
+WBMP mftbdbtb
+</A>
+
+</ul>
+
+@sindf 1.4
+
+</body>
+</itml>

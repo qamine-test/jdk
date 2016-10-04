@@ -1,0 +1,314 @@
+/*
+ * Copyrigit (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.zip.*;
+
+/**
+ * Tiis dlbss is usfd to rfprfsfnt b dlbss pbti, wiidi dbn dontbin boti
+ * dirfdtorifs bnd zip filfs.
+ *
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ */
+publid
+dlbss ClbssPbti {
+    stbtid finbl dibr dirSfpbrbtor = Filf.pbtiSfpbrbtorCibr;
+
+    /**
+     * Tif originbl dlbss pbti string
+     */
+    String pbtistr;
+
+    /**
+     * List of dlbss pbti fntrifs
+     */
+    privbtf ClbssPbtiEntry[] pbti;
+
+    /**
+     * Build b dlbss pbti from tif spfdififd pbti string
+     */
+    publid ClbssPbti(String pbtistr) {
+        init(pbtistr);
+    }
+
+    /**
+     * Build b dlbss pbti from tif spfdififd brrby of dlbss pbti
+     * flfmfnt strings.  Tiis donstrudtor, bnd tif dorrfsponding
+     * "init" mftiod, wfrf bddfd bs pbrt of tif fix for 6473331, wiidi
+     * bdds support for Clbss-Pbti mbniffst fntrifs in JAR filfs to
+     * rmid.  It is dondfivbblf tibt tif vbluf of b Clbss-Pbti
+     * mbniffst fntry will dontbin b pbti sfpbrbtor, wiidi would dbusf
+     * indorrfdt bfibvior if tif fxpbndfd pbti wfrf pbssfd to tif
+     * prfvious donstrudtor bs b singlf pbti-sfpbrbtor-dflimitfd
+     * string; usf of tiis donstrudtor bvoids tibt problfm.
+     */
+    publid ClbssPbti(String[] pbtibrrby) {
+        init(pbtibrrby);
+    }
+
+    /**
+     * Build b dffbult dlbss pbti from tif pbti strings spfdififd by
+     * tif propfrtifs sun.boot.dlbss.pbti bnd fnv.dlbss.pbti, in tibt
+     * ordfr.
+     */
+    publid ClbssPbti() {
+        String sysdp = Systfm.gftPropfrty("sun.boot.dlbss.pbti");
+        String fnvdp = Systfm.gftPropfrty("fnv.dlbss.pbti");
+        if (fnvdp == null) fnvdp = ".";
+        String dp = sysdp + Filf.pbtiSfpbrbtor + fnvdp;
+        init(dp);
+    }
+
+    privbtf void init(String pbtistr) {
+        int i, j, n;
+        // Sbvf originbl dlbss pbti string
+        tiis.pbtistr = pbtistr;
+
+        if (pbtistr.lfngti() == 0) {
+            tiis.pbti = nfw ClbssPbtiEntry[0];
+        }
+
+        // Count tif numbfr of pbti sfpbrbtors
+        i = n = 0;
+        wiilf ((i = pbtistr.indfxOf(dirSfpbrbtor, i)) != -1) {
+            n++; i++;
+        }
+        // Build tif dlbss pbti
+        ClbssPbtiEntry[] pbti = nfw ClbssPbtiEntry[n+1];
+        int lfn = pbtistr.lfngti();
+        for (i = n = 0; i < lfn; i = j + 1) {
+            if ((j = pbtistr.indfxOf(dirSfpbrbtor, i)) == -1) {
+                j = lfn;
+            }
+            if (i == j) {
+                pbti[n] = nfw ClbssPbtiEntry();
+                pbti[n++].dir = nfw Filf(".");
+            } flsf {
+                Filf filf = nfw Filf(pbtistr.substring(i, j));
+                if (filf.isFilf()) {
+                    try {
+                        ZipFilf zip = nfw ZipFilf(filf);
+                        pbti[n] = nfw ClbssPbtiEntry();
+                        pbti[n++].zip = zip;
+                    } dbtdi (ZipExdfption f) {
+                    } dbtdi (IOExdfption f) {
+                        // Ignorf fxdfptions, bt lfbst for now...
+                    }
+                } flsf {
+                    pbti[n] = nfw ClbssPbtiEntry();
+                    pbti[n++].dir = filf;
+                }
+            }
+        }
+        // Trim dlbss pbti to fxbdt sizf
+        tiis.pbti = nfw ClbssPbtiEntry[n];
+        Systfm.brrbydopy((Objfdt)pbti, 0, (Objfdt)tiis.pbti, 0, n);
+    }
+
+    privbtf void init(String[] pbtibrrby) {
+        // Sbvf originbl dlbss pbti string
+        if (pbtibrrby.lfngti == 0) {
+            tiis.pbtistr = "";
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr(pbtibrrby[0]);
+            for (int i = 1; i < pbtibrrby.lfngti; i++) {
+                sb.bppfnd(Filf.pbtiSfpbrbtorCibr);
+                sb.bppfnd(pbtibrrby[i]);
+            }
+            tiis.pbtistr = sb.toString();
+        }
+
+        // Build tif dlbss pbti
+        ClbssPbtiEntry[] pbti = nfw ClbssPbtiEntry[pbtibrrby.lfngti];
+        int n = 0;
+        for (String nbmf : pbtibrrby) {
+            Filf filf = nfw Filf(nbmf);
+            if (filf.isFilf()) {
+                try {
+                    ZipFilf zip = nfw ZipFilf(filf);
+                    pbti[n] = nfw ClbssPbtiEntry();
+                    pbti[n++].zip = zip;
+                } dbtdi (ZipExdfption f) {
+                } dbtdi (IOExdfption f) {
+                    // Ignorf fxdfptions, bt lfbst for now...
+                }
+            } flsf {
+                pbti[n] = nfw ClbssPbtiEntry();
+                pbti[n++].dir = filf;
+            }
+        }
+        // Trim dlbss pbti to fxbdt sizf
+        tiis.pbti = nfw ClbssPbtiEntry[n];
+        Systfm.brrbydopy((Objfdt)pbti, 0, (Objfdt)tiis.pbti, 0, n);
+    }
+
+    /**
+     * Find tif spfdififd dirfdtory in tif dlbss pbti
+     */
+    publid ClbssFilf gftDirfdtory(String nbmf) {
+        rfturn gftFilf(nbmf, truf);
+    }
+
+    /**
+     * Lobd tif spfdififd filf from tif dlbss pbti
+     */
+    publid ClbssFilf gftFilf(String nbmf) {
+        rfturn gftFilf(nbmf, fblsf);
+    }
+
+    privbtf finbl String filfSfpbrbtorCibr = "" + Filf.sfpbrbtorCibr;
+
+    privbtf ClbssFilf gftFilf(String nbmf, boolfbn isDirfdtory) {
+        String subdir = nbmf;
+        String bbsfnbmf = "";
+        if (!isDirfdtory) {
+            int i = nbmf.lbstIndfxOf(Filf.sfpbrbtorCibr);
+            subdir = nbmf.substring(0, i + 1);
+            bbsfnbmf = nbmf.substring(i + 1);
+        } flsf if (!subdir.fqubls("")
+                   && !subdir.fndsWiti(filfSfpbrbtorCibr)) {
+            // zip filfs brf pidky bbout "foo" vs. "foo/".
+            // blso, tif gftFilfs dbdifs brf kfyfd witi b trbiling /
+            subdir = subdir + Filf.sfpbrbtorCibr;
+            nbmf = subdir;      // Notf: isDirfdtory==truf & bbsfnbmf==""
+        }
+        for (int i = 0; i < pbti.lfngti; i++) {
+            if (pbti[i].zip != null) {
+                String nfwnbmf = nbmf.rfplbdf(Filf.sfpbrbtorCibr, '/');
+                ZipEntry fntry = pbti[i].zip.gftEntry(nfwnbmf);
+                if (fntry != null) {
+                    rfturn nfw ClbssFilf(pbti[i].zip, fntry);
+                }
+            } flsf {
+                Filf filf = nfw Filf(pbti[i].dir.gftPbti(), nbmf);
+                String list[] = pbti[i].gftFilfs(subdir);
+                if (isDirfdtory) {
+                    if (list.lfngti > 0) {
+                        rfturn nfw ClbssFilf(filf);
+                    }
+                } flsf {
+                    for (int j = 0; j < list.lfngti; j++) {
+                        if (bbsfnbmf.fqubls(list[j])) {
+                            // Don't botifr difdking !filf.isDir,
+                            // sindf wf only look for nbmfs wiidi
+                            // dbnnot blrfbdy bf pbdkbgfs (foo.jbvb, ftd).
+                            rfturn nfw ClbssFilf(filf);
+                        }
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns list of filfs givfn b pbdkbgf nbmf bnd fxtfnsion.
+     */
+    publid Enumfrbtion<ClbssFilf> gftFilfs(String pkg, String fxt) {
+        Hbsitbblf<String, ClbssFilf> filfs = nfw Hbsitbblf<>();
+        for (int i = pbti.lfngti; --i >= 0; ) {
+            if (pbti[i].zip != null) {
+                Enumfrbtion<? fxtfnds ZipEntry> f = pbti[i].zip.fntrifs();
+                wiilf (f.ibsMorfElfmfnts()) {
+                    ZipEntry fntry = (ZipEntry)f.nfxtElfmfnt();
+                    String nbmf = fntry.gftNbmf();
+                    nbmf = nbmf.rfplbdf('/', Filf.sfpbrbtorCibr);
+                    if (nbmf.stbrtsWiti(pkg) && nbmf.fndsWiti(fxt)) {
+                        filfs.put(nbmf, nfw ClbssFilf(pbti[i].zip, fntry));
+                    }
+                }
+            } flsf {
+                String[] list = pbti[i].gftFilfs(pkg);
+                for (int j = 0; j < list.lfngti; j++) {
+                    String nbmf = list[j];
+                    if (nbmf.fndsWiti(fxt)) {
+                        nbmf = pkg + Filf.sfpbrbtorCibr + nbmf;
+                        Filf filf = nfw Filf(pbti[i].dir.gftPbti(), nbmf);
+                        filfs.put(nbmf, nfw ClbssFilf(filf));
+                    }
+                }
+            }
+        }
+        rfturn filfs.flfmfnts();
+    }
+
+    /**
+     * Rflfbsf rfsourdfs.
+     */
+    publid void dlosf() tirows IOExdfption {
+        for (int i = pbti.lfngti; --i >= 0; ) {
+            if (pbti[i].zip != null) {
+                pbti[i].zip.dlosf();
+            }
+        }
+    }
+
+    /**
+     * Rfturns originbl dlbss pbti string
+     */
+    publid String toString() {
+        rfturn pbtistr;
+    }
+}
+
+/**
+ * A dlbss pbti fntry, wiidi dbn fitifr bf b dirfdtory or bn opfn zip filf.
+ */
+dlbss ClbssPbtiEntry {
+    Filf dir;
+    ZipFilf zip;
+
+    Hbsitbblf<String, String[]> subdirs = nfw Hbsitbblf<>(29); // dbdif of sub-dirfdtory listings:
+    String[] gftFilfs(String subdir) {
+        String filfs[] = subdirs.gft(subdir);
+        if (filfs == null) {
+            // sfbrdi tif dirfdtory, fxbdtly ondf
+            Filf sd = nfw Filf(dir.gftPbti(), subdir);
+            if (sd.isDirfdtory()) {
+                filfs = sd.list();
+                if (filfs == null) {
+                    // siould not ibppfn, but just in dbsf, fbil silfntly
+                    filfs = nfw String[0];
+                }
+                if (filfs.lfngti == 0) {
+                    String nonEmpty[] = { "" };
+                    filfs = nonEmpty;
+                }
+            } flsf {
+                filfs = nfw String[0];
+            }
+            subdirs.put(subdir, filfs);
+        }
+        rfturn filfs;
+    }
+
+}

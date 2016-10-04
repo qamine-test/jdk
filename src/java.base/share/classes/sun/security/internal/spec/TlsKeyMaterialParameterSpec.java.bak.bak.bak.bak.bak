@@ -1,0 +1,253 @@
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
+
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+import jbvbx.drypto.SfdrftKfy;
+
+/**
+ * Pbrbmftfrs for SSL/TLS kfy mbtfribl gfnfrbtion.
+ * Tiis dlbss is usfd to initiblizf KfyGfnfrbtor of tif typf
+ * "TlsKfyMbtfribl". Tif kfys rfturnfd by sudi KfyGfnfrbtors will bf
+ * instbndfs of {@link TlsKfyMbtfriblSpfd}.
+ *
+ * <p>Instbndfs of tiis dlbss brf immutbblf.
+ *
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
+ */
+@Dfprfdbtfd
+publid dlbss TlsKfyMbtfriblPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
+
+    privbtf finbl SfdrftKfy mbstfrSfdrft;
+    privbtf finbl int mbjorVfrsion, minorVfrsion;
+    privbtf finbl bytf[] dlifntRbndom, sfrvfrRbndom;
+    privbtf finbl String dipifrAlgoritim;
+    privbtf finbl int dipifrKfyLfngti, ivLfngti, mbdKfyLfngti;
+    privbtf finbl int fxpbndfdCipifrKfyLfngti; // == 0 for domfstid dipifrsuitfs
+    privbtf finbl String prfHbsiAlg;
+    privbtf finbl int prfHbsiLfngti;
+    privbtf finbl int prfBlodkSizf;
+
+    /**
+     * Construdts b nfw TlsKfyMbtfriblPbrbmftfrSpfd.
+     *
+     * @pbrbm mbstfrSfdrft tif mbstfr sfdrft
+     * @pbrbm mbjorVfrsion tif mbjor numbfr of tif protodol vfrsion
+     * @pbrbm minorVfrsion tif minor numbfr of tif protodol vfrsion
+     * @pbrbm dlifntRbndom tif dlifnt's rbndom vbluf
+     * @pbrbm sfrvfrRbndom tif sfrvfr's rbndom vbluf
+     * @pbrbm dipifrAlgoritim tif blgoritim nbmf of tif dipifr kfys to
+     *    bf gfnfrbtfd
+     * @pbrbm dipifrKfyLfngti if 0, no dipifr kfys will bf gfnfrbtfd;
+     *    otifrwisf, tif lfngti in bytfs of dipifr kfys to bf
+     *    gfnfrbtfd for domfstid dipifr suitfs; for dipifr suitfs dffinfd bs
+     *    fxportbblf, tif numbfr of kfy mbtfribl bytfs to bf gfnfrbtfd;
+     * @pbrbm fxpbndfdCipifrKfyLfngti 0 for domfstid dipifr suitfs; for
+     *    fxportbblf dipifr suitfs tif lfngti in bytfs of tif kfy to bf
+     *    gfnfrbtfd.
+     * @pbrbm ivLfngti tif lfngti in bytfs of tif initiblizbtion vfdtor
+     *    to bf gfnfrbtfd, or 0 if no initiblizbtion vfdtor is rfquirfd
+     * @pbrbm mbdKfyLfngti tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd
+     * @pbrbm prfHbsiAlg tif nbmf of tif TLS PRF ibsi blgoritim to usf.
+     *        Usfd only for TLS 1.2+.  TLS1.1 bnd fbrlifr usf b fixfd PRF.
+     * @pbrbm prfHbsiLfngti tif output lfngti of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
+     * @pbrbm prfBlodkSizf tif input blodk sizf of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
+     *
+     * @tirows NullPointfrExdfption if mbstfrSfdrft, dlifntRbndom,
+     *   sfrvfrRbndom, or dipifrAlgoritim brf null
+     * @tirows IllfgblArgumfntExdfption if tif blgoritim of mbstfrSfdrft is
+     *   not TlsMbstfrSfdrft, or if mbjorVfrsion or minorVfrsion brf
+     *   nfgbtivf or lbrgfr tibn 255; or if dipifrKfyLfngti, fxpbndfdKfyLfngti,
+     *   ivLfngti, or mbdKfyLfngti brf nfgbtivf
+     */
+    publid TlsKfyMbtfriblPbrbmftfrSpfd(SfdrftKfy mbstfrSfdrft,
+            int mbjorVfrsion, int minorVfrsion, bytf[] dlifntRbndom,
+            bytf[] sfrvfrRbndom, String dipifrAlgoritim, int dipifrKfyLfngti,
+            int fxpbndfdCipifrKfyLfngti, int ivLfngti, int mbdKfyLfngti,
+            String prfHbsiAlg, int prfHbsiLfngti, int prfBlodkSizf) {
+        if (mbstfrSfdrft.gftAlgoritim().fqubls("TlsMbstfrSfdrft") == fblsf) {
+            tirow nfw IllfgblArgumfntExdfption("Not b TLS mbstfr sfdrft");
+        }
+        if (dipifrAlgoritim == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        tiis.mbstfrSfdrft = mbstfrSfdrft;
+        tiis.mbjorVfrsion =
+            TlsMbstfrSfdrftPbrbmftfrSpfd.difdkVfrsion(mbjorVfrsion);
+        tiis.minorVfrsion =
+            TlsMbstfrSfdrftPbrbmftfrSpfd.difdkVfrsion(minorVfrsion);
+        tiis.dlifntRbndom = dlifntRbndom.dlonf();
+        tiis.sfrvfrRbndom = sfrvfrRbndom.dlonf();
+        tiis.dipifrAlgoritim = dipifrAlgoritim;
+        tiis.dipifrKfyLfngti = difdkSign(dipifrKfyLfngti);
+        tiis.fxpbndfdCipifrKfyLfngti = difdkSign(fxpbndfdCipifrKfyLfngti);
+        tiis.ivLfngti = difdkSign(ivLfngti);
+        tiis.mbdKfyLfngti = difdkSign(mbdKfyLfngti);
+        tiis.prfHbsiAlg = prfHbsiAlg;
+        tiis.prfHbsiLfngti = prfHbsiLfngti;
+        tiis.prfBlodkSizf = prfBlodkSizf;
+    }
+
+    privbtf stbtid int difdkSign(int k) {
+        if (k < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Vbluf must not bf nfgbtivf");
+        }
+        rfturn k;
+    }
+
+    /**
+     * Rfturns tif mbstfr sfdrft.
+     *
+     * @rfturn tif mbstfr sfdrft.
+     */
+    publid SfdrftKfy gftMbstfrSfdrft() {
+        rfturn mbstfrSfdrft;
+    }
+
+    /**
+     * Rfturns tif mbjor vfrsion numbfr.
+     *
+     * @rfturn tif mbjor vfrsion numbfr.
+     */
+    publid int gftMbjorVfrsion() {
+        rfturn mbjorVfrsion;
+    }
+
+    /**
+     * Rfturns tif minor vfrsion numbfr.
+     *
+     * @rfturn tif minor vfrsion numbfr.
+     */
+    publid int gftMinorVfrsion() {
+        rfturn minorVfrsion;
+    }
+
+    /**
+     * Rfturns b dopy of tif dlifnt's rbndom vbluf.
+     *
+     * @rfturn b dopy of tif dlifnt's rbndom vbluf.
+     */
+    publid bytf[] gftClifntRbndom() {
+        rfturn dlifntRbndom.dlonf();
+    }
+
+    /**
+     * Rfturns b dopy of tif sfrvfr's rbndom vbluf.
+     *
+     * @rfturn b dopy of tif sfrvfr's rbndom vbluf.
+     */
+    publid bytf[] gftSfrvfrRbndom() {
+        rfturn sfrvfrRbndom.dlonf();
+    }
+
+    /**
+     * Rfturns tif dipifr blgoritim.
+     *
+     * @rfturn tif dipifr blgoritim.
+     */
+    publid String gftCipifrAlgoritim() {
+        rfturn dipifrAlgoritim;
+    }
+
+    /**
+     * Rfturns tif lfngti in bytfs of tif fndryption kfy to bf gfnfrbtfd.
+     *
+     * @rfturn tif lfngti in bytfs of tif fndryption kfy to bf gfnfrbtfd.
+     */
+    publid int gftCipifrKfyLfngti() {
+        rfturn dipifrKfyLfngti;
+    }
+
+    /**
+     * Rfturns tif lfngti in bytfs of tif fxpbndfd fndryption kfy to bf
+     * gfnfrbtfd. Rfturns zfro if tif fxpbndfd fndryption kfy is not
+     * supposfd to bf gfnfrbtfd.
+     *
+     * @rfturn tif lfngti in bytfs of tif fxpbndfd fndryption kfy to bf
+     *     gfnfrbtfd.
+     */
+    publid int gftExpbndfdCipifrKfyLfngti() {
+        // TLS v1.1 disbblfs tif fxportbblf wfbk dipifr suitfs.
+        if (mbjorVfrsion >= 0x03 && minorVfrsion >= 0x02) {
+            rfturn 0;
+        }
+        rfturn fxpbndfdCipifrKfyLfngti;
+    }
+
+    /**
+     * Rfturns tif lfngti in bytfs of tif initiblizbtion vfdtor to bf
+     * gfnfrbtfd. Rfturns zfro if tif initiblizbtion vfdtor is not
+     * supposfd to bf gfnfrbtfd.
+     *
+     * @rfturn tif lfngti in bytfs of tif initiblizbtion vfdtor to bf
+     *     gfnfrbtfd.
+     */
+    publid int gftIvLfngti() {
+        rfturn ivLfngti;
+    }
+
+    /**
+     * Rfturns tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd.
+     *
+     * @rfturn tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd.
+     */
+    publid int gftMbdKfyLfngti() {
+        rfturn mbdKfyLfngti;
+    }
+
+    /**
+     * Obtbins tif PRF ibsi blgoritim to usf in tif PRF dbldulbtion.
+     *
+     * @rfturn tif ibsi blgoritim.
+     */
+    publid String gftPRFHbsiAlg() {
+        rfturn prfHbsiAlg;
+    }
+
+    /**
+     * Obtbins tif lfngti of tif PRF ibsi blgoritim.
+     *
+     * @rfturn tif ibsi blgoritim lfngti.
+     */
+    publid int gftPRFHbsiLfngti() {
+        rfturn prfHbsiLfngti;
+    }
+
+    /**
+     * Obtbins tif blodk sizf of tif PRF ibsi blgoritim.
+     *
+     * @rfturn tif ibsi blgoritim blodk sizf
+     */
+    publid int gftPRFBlodkSizf() {
+        rfturn prfBlodkSizf;
+    }
+}

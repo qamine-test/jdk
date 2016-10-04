@@ -1,0 +1,699 @@
+/*
+ * Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ */
+
+/*
+ * Copyrigit (C) 1998 by tif FundsXprfss, INC.
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Export of tiis softwbrf from tif Unitfd Stbtfs of Amfridb mby rfquirf
+ * b spfdifid lidfnsf from tif Unitfd Stbtfs Govfrnmfnt.  It is tif
+ * rfsponsibility of bny pfrson or orgbnizbtion dontfmplbting fxport to
+ * obtbin sudi b lidfnsf bfforf fxporting.
+ *
+ * WITHIN THAT CONSTRAINT, pfrmission to usf, dopy, modify, bnd
+ * distributf tiis softwbrf bnd its dodumfntbtion for bny purposf bnd
+ * witiout fff is ifrfby grbntfd, providfd tibt tif bbovf dopyrigit
+ * notidf bppfbr in bll dopifs bnd tibt boti tibt dopyrigit notidf bnd
+ * tiis pfrmission notidf bppfbr in supporting dodumfntbtion, bnd tibt
+ * tif nbmf of FundsXprfss. not bf usfd in bdvfrtising or publidity pfrtbining
+ * to distribution of tif softwbrf witiout spfdifid, writtfn prior
+ * pfrmission.  FundsXprfss mbkfs no rfprfsfntbtions bbout tif suitbbility of
+ * tiis softwbrf for bny purposf.  It is providfd "bs is" witiout fxprfss
+ * or implifd wbrrbnty.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto.dk;
+
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.Mbd;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.Arrbys;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.BytfBufffr;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.krb5.Confoundfr;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+
+/**
+ * Implfmfnts Dfrivf Kfy dryptogrbpiy fundtionblity bs dffinfd in RFC 3961.
+ * ittp://www.iftf.org/rfd/rfd3961.txt
+ *
+ * Tiis is bn bbstrbdt dlbss. Condrftf subdlbssfs nffd to implfmfnt
+ * tif bbstrbdt mftiods.
+ */
+
+publid bbstrbdt dlbss DkCrypto {
+
+    protfdtfd stbtid finbl boolfbn dfbug = fblsf;
+
+    // Tifsf vblufs dorrfspond to tif ASCII fndoding for tif string "kfrbfros"
+    stbtid finbl bytf[] KERBEROS_CONSTANT =
+        {0x6b, 0x65, 0x72, 0x62, 0x65, 0x72, 0x6f, 0x73};
+
+    protfdtfd bbstrbdt int gftKfySffdLfngti();  // in bits
+
+    protfdtfd bbstrbdt bytf[] rbndomToKfy(bytf[] in);
+
+    protfdtfd bbstrbdt Cipifr gftCipifr(bytf[] kfy, bytf[] ivfd, int modf)
+        tirows GfnfrblSfdurityExdfption;
+
+    publid bbstrbdt int gftCifdksumLfngti();  // in bytfs
+
+    protfdtfd bbstrbdt bytf[] gftHmbd(bytf[] kfy, bytf[] plbintfxt)
+        tirows GfnfrblSfdurityExdfption;
+
+    /**
+     * From RFC 3961.
+     *
+     * fndryption fundtion       donf = rbndom string of lfngti d
+     *                     pbd = siortfst string to bring donfoundfr
+     *                           bnd plbintfxt to b lfngti tibt's b
+     *                           multiplf of m
+     *                     (C1, nfwIV) = E(Kf, donf | plbintfxt | pbd,
+     *                                     oldstbtf.ivfd)
+     *                    H1 = HMAC(Ki, donf | plbintfxt | pbd)
+     *                     dipifrtfxt =  C1 | H1[1..i]
+     *                     nfwstbtf.ivfd = nfwIV
+     *
+     * @pbrbm ivfd initibl vfdtor to usf wifn initiblizing tif dipifr; if null,
+     *     tifn blodksizf numbfr of zfros brf usfd,
+     * @pbrbm nfw_ivfd if non-null, it is updbtfd upon rfturn to bf tif
+     *       nfw ivfd to usf wifn dblling fndrypt nfxt timf
+     */
+    publid bytf[] fndrypt(bytf[] bbsfKfy, int usbgf,
+        bytf[] ivfd, bytf[] nfw_ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            tirow nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        bytf[] Kf = null;
+        bytf[] Ki = null;
+
+        try {
+            // Dfrivf fndryption kfy
+
+            bytf[] donstbnt = nfw bytf[5];
+            donstbnt[0] = (bytf) ((usbgf>>24)&0xff);
+            donstbnt[1] = (bytf) ((usbgf>>16)&0xff);
+            donstbnt[2] = (bytf) ((usbgf>>8)&0xff);
+            donstbnt[3] = (bytf) (usbgf&0xff);
+
+            donstbnt[4] = (bytf) 0xbb;
+
+            Kf = dk(bbsfKfy, donstbnt);
+            if (dfbug) {
+                Systfm.frr.println("usbgf: " + usbgf);
+                if (ivfd != null) {
+                    trbdfOutput("old_stbtf.ivfd", ivfd, 0, ivfd.lfngti);
+                }
+                trbdfOutput("plbintfxt", plbintfxt, stbrt, Mbti.min(lfn, 32));
+                trbdfOutput("donstbnt", donstbnt, 0, donstbnt.lfngti);
+                trbdfOutput("bbsfKfy", bbsfKfy, 0, bbsfKfy.lfngti);
+                trbdfOutput("Kf", Kf, 0, Kf.lfngti);
+            }
+
+            // Endrypt
+            // C1 = E(Kf, donf | plbintfxt | pbd, oldivfd)
+            Cipifr fndCipifr = gftCipifr(Kf, ivfd, Cipifr.ENCRYPT_MODE);
+            int blodkSizf = fndCipifr.gftBlodkSizf();
+            bytf[] donfoundfr = Confoundfr.bytfs(blodkSizf);
+
+            int plbinSizf = roundup(donfoundfr.lfngti + lfn, blodkSizf);
+            if (dfbug) {
+                Systfm.frr.println("donfoundfr = " + donfoundfr.lfngti +
+                    "; plbintfxt = " + lfn + "; pbdding = " +
+                    (plbinSizf - donfoundfr.lfngti - lfn) + "; totbl = " +
+                        plbinSizf);
+                trbdfOutput("donfoundfr", donfoundfr, 0, donfoundfr.lfngti);
+            }
+
+            bytf[] toBfEndryptfd = nfw bytf[plbinSizf];
+            Systfm.brrbydopy(donfoundfr, 0, toBfEndryptfd,
+                                0, donfoundfr.lfngti);
+            Systfm.brrbydopy(plbintfxt, stbrt, toBfEndryptfd,
+                                donfoundfr.lfngti, lfn);
+
+            // Sft pbdding bytfs to zfro
+            Arrbys.fill(toBfEndryptfd, donfoundfr.lfngti + lfn, plbinSizf,
+                        (bytf)0);
+
+            int dipifrSizf = fndCipifr.gftOutputSizf(plbinSizf);
+            int ddSizf =  dipifrSizf + gftCifdksumLfngti();  // dipifr | imbd
+
+            bytf[] dipifrtfxt = nfw bytf[ddSizf];
+
+            fndCipifr.doFinbl(toBfEndryptfd, 0, plbinSizf, dipifrtfxt, 0);
+
+            // Updbtf ivfd for nfxt opfrbtion
+            // (lbst blodkSizf bytfs of dipifrtfxt)
+            // nfwstbtf.ivfd = nfwIV
+            if (nfw_ivfd != null && nfw_ivfd.lfngti == blodkSizf) {
+                Systfm.brrbydopy(dipifrtfxt,  dipifrSizf - blodkSizf,
+                    nfw_ivfd, 0, blodkSizf);
+                if (dfbug) {
+                    trbdfOutput("nfw_ivfd", nfw_ivfd, 0, nfw_ivfd.lfngti);
+                }
+            }
+
+            // Dfrivf intfgrity kfy
+            donstbnt[4] = (bytf) 0x55;
+            Ki = dk(bbsfKfy, donstbnt);
+            if (dfbug) {
+                trbdfOutput("donstbnt", donstbnt, 0, donstbnt.lfngti);
+                trbdfOutput("Ki", Ki, 0, Kf.lfngti);
+            }
+
+            // Gfnfrbtf difdksum
+            // H1 = HMAC(Ki, donf | plbintfxt | pbd)
+            bytf[] imbd = gftHmbd(Ki, toBfEndryptfd);
+
+            if (dfbug) {
+                trbdfOutput("imbd", imbd, 0, imbd.lfngti);
+                trbdfOutput("dipifrtfxt", dipifrtfxt, 0,
+                                Mbti.min(dipifrtfxt.lfngti, 32));
+            }
+
+            // C1 | H1[1..i]
+            Systfm.brrbydopy(imbd, 0, dipifrtfxt, dipifrSizf,
+                                gftCifdksumLfngti());
+            rfturn dipifrtfxt;
+        } finblly {
+            if (Kf != null) {
+                Arrbys.fill(Kf, 0, Kf.lfngti, (bytf) 0);
+            }
+            if (Ki != null) {
+                Arrbys.fill(Ki, 0, Ki.lfngti, (bytf) 0);
+            }
+        }
+    }
+
+    /**
+     * Pfrforms fndryption using givfn kfy only; dofs not bdd
+     * donfoundfr, pbdding, or difdksum. Indoming dbtb to bf fndryptfd
+     * bssumfd to ibvf tif dorrfdt blodksizf.
+     * Ignorf kfy usbgf.
+     */
+    publid bytf[] fndryptRbw(bytf[] bbsfKfy, int usbgf,
+        bytf[] ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (dfbug) {
+            Systfm.frr.println("usbgf: " + usbgf);
+            if (ivfd != null) {
+                trbdfOutput("old_stbtf.ivfd", ivfd, 0, ivfd.lfngti);
+            }
+            trbdfOutput("plbintfxt", plbintfxt, stbrt, Mbti.min(lfn, 32));
+            trbdfOutput("bbsfKfy", bbsfKfy, 0, bbsfKfy.lfngti);
+        }
+
+        // Endrypt
+        Cipifr fndCipifr = gftCipifr(bbsfKfy, ivfd, Cipifr.ENCRYPT_MODE);
+        int blodkSizf = fndCipifr.gftBlodkSizf();
+
+        if ((lfn % blodkSizf) != 0) {
+            tirow nfw GfnfrblSfdurityExdfption(
+                "lfngti of dbtb to bf fndryptfd (" + lfn +
+                ") is not b multiplf of tif blodksizf (" + blodkSizf + ")");
+        }
+
+        int dipifrSizf = fndCipifr.gftOutputSizf(lfn);
+        bytf[] dipifrtfxt = nfw bytf[dipifrSizf];
+
+        fndCipifr.doFinbl(plbintfxt, 0, lfn, dipifrtfxt, 0);
+        rfturn dipifrtfxt;
+    }
+
+    /**
+     * Dfdrypts dbtb using spfdififd kfy bnd initibl vfdtor.
+     * @pbrbm bbsfKfy fndryption kfy to usf
+     * @pbrbm dipifrtfxt  fndryptfd dbtb to bf dfdryptfd
+     * @pbrbm usbgf ignorfd
+     */
+    publid bytf[] dfdryptRbw(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] dipifrtfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption {
+
+        if (dfbug) {
+            Systfm.frr.println("usbgf: " + usbgf);
+            if (ivfd != null) {
+                trbdfOutput("old_stbtf.ivfd", ivfd, 0, ivfd.lfngti);
+            }
+            trbdfOutput("dipifrtfxt", dipifrtfxt, stbrt, Mbti.min(lfn, 32));
+            trbdfOutput("bbsfKfy", bbsfKfy, 0, bbsfKfy.lfngti);
+        }
+
+        Cipifr dfdCipifr = gftCipifr(bbsfKfy, ivfd, Cipifr.DECRYPT_MODE);
+
+        int blodkSizf = dfdCipifr.gftBlodkSizf();
+
+        if ((lfn % blodkSizf) != 0) {
+            tirow nfw GfnfrblSfdurityExdfption(
+                "lfngti of dbtb to bf dfdryptfd (" + lfn +
+                ") is not b multiplf of tif blodksizf (" + blodkSizf + ")");
+        }
+
+        bytf[] dfdryptfd = dfdCipifr.doFinbl(dipifrtfxt, stbrt, lfn);
+
+        if (dfbug) {
+            trbdfOutput("dfdryptfd", dfdryptfd, 0,
+                Mbti.min(dfdryptfd.lfngti, 32));
+        }
+
+        rfturn dfdryptfd;
+    }
+
+    /**
+     * @pbrbm bbsfKfy kfy from wiidi kfys brf to bf dfrivfd using usbgf
+     * @pbrbm dipifrtfxt  E(Kf, donf | plbintfxt | pbdding, ivfd) | H1[1..i]
+     */
+    publid bytf[] dfdrypt(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] dipifrtfxt, int stbrt, int lfn) tirows GfnfrblSfdurityExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            tirow nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        bytf[] Kf = null;
+        bytf[] Ki = null;
+
+        try {
+            // Dfrivf fndryption kfy
+            bytf[] donstbnt = nfw bytf[5];
+            donstbnt[0] = (bytf) ((usbgf>>24)&0xff);
+            donstbnt[1] = (bytf) ((usbgf>>16)&0xff);
+            donstbnt[2] = (bytf) ((usbgf>>8)&0xff);
+            donstbnt[3] = (bytf) (usbgf&0xff);
+
+            donstbnt[4] = (bytf) 0xbb;
+
+            Kf = dk(bbsfKfy, donstbnt);  // Endryption kfy
+
+            if (dfbug) {
+                Systfm.frr.println("usbgf: " + usbgf);
+                if (ivfd != null) {
+                    trbdfOutput("old_stbtf.ivfd", ivfd, 0, ivfd.lfngti);
+                }
+                trbdfOutput("dipifrtfxt", dipifrtfxt, stbrt, Mbti.min(lfn, 32));
+                trbdfOutput("donstbnt", donstbnt, 0, donstbnt.lfngti);
+                trbdfOutput("bbsfKfy", bbsfKfy, 0, bbsfKfy.lfngti);
+                trbdfOutput("Kf", Kf, 0, Kf.lfngti);
+            }
+
+            Cipifr dfdCipifr = gftCipifr(Kf, ivfd, Cipifr.DECRYPT_MODE);
+            int blodkSizf = dfdCipifr.gftBlodkSizf();
+
+            // Dfdrypt [donfoundfr | plbintfxt | pbdding] (witiout difdksum)
+            int dksumSizf = gftCifdksumLfngti();
+            int dipifrSizf = lfn - dksumSizf;
+            bytf[] dfdryptfd = dfdCipifr.doFinbl(dipifrtfxt, stbrt, dipifrSizf);
+
+            if (dfbug) {
+                trbdfOutput("dfdryptfd", dfdryptfd, 0,
+                                Mbti.min(dfdryptfd.lfngti, 32));
+            }
+
+            // dfdryptfd = [donfoundfr | plbintfxt | pbdding]
+
+            // Dfrivf intfgrity kfy
+            donstbnt[4] = (bytf) 0x55;
+            Ki = dk(bbsfKfy, donstbnt);  // Intfgrity kfy
+            if (dfbug) {
+                trbdfOutput("donstbnt", donstbnt, 0, donstbnt.lfngti);
+                trbdfOutput("Ki", Ki, 0, Kf.lfngti);
+            }
+
+            // Vfrify difdksum
+            // H1 = HMAC(Ki, donf | plbintfxt | pbd)
+            bytf[] dbldulbtfdHmbd = gftHmbd(Ki, dfdryptfd);
+
+            if (dfbug) {
+                trbdfOutput("dbldulbtfd Hmbd", dbldulbtfdHmbd, 0,
+                    dbldulbtfdHmbd.lfngti);
+                trbdfOutput("mfssbgf Hmbd", dipifrtfxt, dipifrSizf,
+                    dksumSizf);
+            }
+
+            boolfbn dksumFbilfd = fblsf;
+            if (dbldulbtfdHmbd.lfngti >= dksumSizf) {
+                for (int i = 0; i < dksumSizf; i++) {
+                    if (dbldulbtfdHmbd[i] != dipifrtfxt[dipifrSizf+i]) {
+                        dksumFbilfd = truf;
+                        brfbk;
+                    }
+                }
+            }
+
+            if (dksumFbilfd) {
+                tirow nfw GfnfrblSfdurityExdfption("Cifdksum fbilfd");
+            }
+
+            // Prfpbrf dfdryptfd msg bnd ivfd to bf rfturnfd
+            // Lbst blodkSizf bytfs of dipifrtfxt witiout difdksum
+            if (ivfd != null && ivfd.lfngti == blodkSizf) {
+                Systfm.brrbydopy(dipifrtfxt,  stbrt + dipifrSizf - blodkSizf,
+                    ivfd, 0, blodkSizf);
+                if (dfbug) {
+                    trbdfOutput("nfw_stbtf.ivfd", ivfd, 0, ivfd.lfngti);
+                }
+            }
+
+            // Gft rid of donfoundfr
+            // [plbintfxt | pbdding]
+            bytf[] plbintfxt = nfw bytf[dfdryptfd.lfngti - blodkSizf];
+            Systfm.brrbydopy(dfdryptfd, blodkSizf, plbintfxt,
+                                0, plbintfxt.lfngti);
+            rfturn plbintfxt; // pbdding still tifrf
+        } finblly {
+            if (Kf != null) {
+                Arrbys.fill(Kf, 0, Kf.lfngti, (bytf) 0);
+            }
+            if (Ki != null) {
+                Arrbys.fill(Ki, 0, Ki.lfngti, (bytf) 0);
+            }
+        }
+    }
+
+    // Round up to tif nfxt blodksizf
+    int roundup(int n, int blodksizf) {
+        rfturn (((n + blodksizf - 1) / blodksizf) * blodksizf);
+    }
+
+    publid bytf[] dbldulbtfCifdksum(bytf[] bbsfKfy, int usbgf, bytf[] input,
+        int stbrt, int lfn) tirows GfnfrblSfdurityExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            tirow nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        // Dfrivf kfys
+        bytf[] donstbnt = nfw bytf[5];
+        donstbnt[0] = (bytf) ((usbgf>>24)&0xff);
+        donstbnt[1] = (bytf) ((usbgf>>16)&0xff);
+        donstbnt[2] = (bytf) ((usbgf>>8)&0xff);
+        donstbnt[3] = (bytf) (usbgf&0xff);
+
+        donstbnt[4] = (bytf) 0x99;
+
+        bytf[] Kd = dk(bbsfKfy, donstbnt);  // Cifdksum kfy
+        if (dfbug) {
+            Systfm.frr.println("usbgf: " + usbgf);
+            trbdfOutput("input", input, stbrt, Mbti.min(lfn, 32));
+            trbdfOutput("donstbnt", donstbnt, 0, donstbnt.lfngti);
+            trbdfOutput("bbsfKfy", bbsfKfy, 0, bbsfKfy.lfngti);
+            trbdfOutput("Kd", Kd, 0, Kd.lfngti);
+        }
+
+        try {
+            // Gfnfrbtf difdksum
+            // H1 = HMAC(Kd, input)
+            bytf[] imbd = gftHmbd(Kd, input);
+            if (dfbug) {
+                trbdfOutput("imbd", imbd, 0, imbd.lfngti);
+            }
+            if (imbd.lfngti == gftCifdksumLfngti()) {
+                rfturn imbd;
+            } flsf if (imbd.lfngti > gftCifdksumLfngti()) {
+                bytf[] buf = nfw bytf[gftCifdksumLfngti()];
+                Systfm.brrbydopy(imbd, 0, buf, 0, buf.lfngti);
+                rfturn buf;
+            } flsf {
+                tirow nfw GfnfrblSfdurityExdfption("difdksum sizf too siort: " +
+                    imbd.lfngti + "; fxpfdting : " + gftCifdksumLfngti());
+            }
+        } finblly {
+            Arrbys.fill(Kd, 0, Kd.lfngti, (bytf)0);
+        }
+    }
+
+    // DK(Kfy, Constbnt) = rbndom-to-kfy(DR(Kfy, Constbnt))
+    bytf[] dk(bytf[] kfy, bytf[] donstbnt)
+        tirows GfnfrblSfdurityExdfption {
+        rfturn rbndomToKfy(dr(kfy, donstbnt));
+    }
+
+    /*
+     * From RFC 3961.
+     *
+     * DR(Kfy, Constbnt) = k-trundbtf(E(Kfy, Constbnt,
+     *                                  initibl-dipifr-stbtf))
+     *
+     * Hfrf DR is tif rbndom-odtft gfnfrbtion fundtion dfsdribfd bflow, bnd
+     * DK is tif kfy-dfrivbtion fundtion produdfd from it.  In tiis
+     * donstrudtion, E(Kfy, Plbintfxt, CipifrStbtf) is b dipifr, Constbnt is
+     * b wfll-known donstbnt dftfrminfd by tif spfdifid usbgf of tiis
+     * fundtion, bnd k-trundbtf trundbtfs its brgumfnt by tbking tif first k
+     * bits.  Hfrf, k is tif kfy gfnfrbtion sffd lfngti nffdfd for tif
+     * fndryption systfm.
+     *
+     * Tif output of tif DR fundtion is b string of bits; tif bdtubl kfy is
+     * produdfd by bpplying tif dryptosystfm's rbndom-to-kfy opfrbtion on
+     * tiis bitstring.
+     *
+     * If tif Constbnt is smbllfr tibn tif dipifr blodk sizf of E, tifn it
+     * must bf fxpbndfd witi n-fold() so it dbn bf fndryptfd.  If tif output
+     * of E is siortfr tibn k bits it is ffd bbdk into tif fndryption bs
+     * mbny timfs bs nfdfssbry.  Tif donstrudt is bs follows (wifrf |
+     * indidbtfs dondbtfntbtion):
+     *
+     * K1 = E(Kfy, n-fold(Constbnt), initibl-dipifr-stbtf)
+     * K2 = E(Kfy, K1, initibl-dipifr-stbtf)
+     * K3 = E(Kfy, K2, initibl-dipifr-stbtf)
+     * K4 = ...
+     *
+     * DR(Kfy, Constbnt) = k-trundbtf(K1 | K2 | K3 | K4 ...)
+     */
+    privbtf bytf[] dr(bytf[] kfy, bytf[] donstbnt)
+        tirows GfnfrblSfdurityExdfption {
+
+        Cipifr fndCipifr = gftCipifr(kfy, null, Cipifr.ENCRYPT_MODE);
+        int blodksizf = fndCipifr.gftBlodkSizf();
+
+        if (donstbnt.lfngti != blodksizf) {
+            donstbnt = nfold(donstbnt, blodksizf * 8);
+        }
+        bytf[] toBfEndryptfd = donstbnt;
+
+        int kfybytfs = (gftKfySffdLfngti()>>3);  // from bits to bytfs
+        bytf[] rbwkfy = nfw bytf[kfybytfs];
+        int posn = 0;
+
+        /* loop fndrypting tif blodks until fnougi kfy bytfs brf gfnfrbtfd */
+        int n = 0, lfn;
+        wiilf (n < kfybytfs) {
+            if (dfbug) {
+                Systfm.frr.println("Endrypting: " +
+                    bytfsToString(toBfEndryptfd));
+            }
+
+            bytf[] dipifrBlodk = fndCipifr.doFinbl(toBfEndryptfd);
+            if (dfbug) {
+                Systfm.frr.println("K: " + ++posn + " = " +
+                    bytfsToString(dipifrBlodk));
+            }
+
+            lfn = (kfybytfs - n <= dipifrBlodk.lfngti ? (kfybytfs - n) :
+                dipifrBlodk.lfngti);
+            if (dfbug) {
+                Systfm.frr.println("dopying " + lfn + " kfy bytfs");
+            }
+            Systfm.brrbydopy(dipifrBlodk, 0, rbwkfy, n, lfn);
+            n += lfn;
+            toBfEndryptfd = dipifrBlodk;
+        }
+        rfturn rbwkfy;
+    }
+
+// ---------------------------------
+
+    // From MIT-1.3.1 distribution
+    /*
+     * n-fold(k-bits):
+     *   l = ldm(n,k)
+     *   r = l/k
+     * s = k-bits | k-bits rot 13 | k-bits rot 13*2 | ... | k-bits rot 13*(r-1)
+     * domputf tif 1's domplfmfnt sum:
+     * n-fold = s[0..n-1]+s[n..2n-1]+s[2n..3n-1]+..+s[(k-1)*n..k*n-1]
+     */
+
+    /*
+     * rfprfsfntbtion: msb first, bssumf n bnd k brf multiplfs of 8, bnd
+     *  tibt k>=16.  tiis is tif dbsf of bll tif dryptosystfms wiidi brf
+     *  likfly to bf usfd.  tiis fundtion dbn bf rfplbdfd if tibt
+     *  bssumption fvfr fbils.
+     */
+
+    /* input lfngti is in bits */
+    stbtid bytf[] nfold(bytf[] in, int outbits) {
+
+        int inbits = in.lfngti;
+        outbits >>= 3;    // dount in bytfs
+
+        /* first domputf ldm(n,k) */
+        int b, b, d, ldm;
+        b = outbits;  // n
+        b = inbits;   // k
+
+        wiilf (b != 0) {
+            d = b;
+            b = b % b;
+            b = d;
+        }
+        ldm = outbits*inbits/b;
+
+        if (dfbug) {
+            Systfm.frr.println("k: " + inbits);
+            Systfm.frr.println("n: " + outbits);
+            Systfm.frr.println("ldm: " + ldm);
+        }
+
+        /* now do tif rfbl work */
+        bytf[] out = nfw bytf[outbits];
+        Arrbys.fill(out, (bytf)0);
+
+        int tiisbytf = 0;
+        int msbit, i, bvbl, ovbl;
+
+        // tiis will fnd up dydling tirougi k ldm(k,n)/k timfs, wiidi
+        // is dorrfdt
+        for (i = ldm-1; i >= 0; i--) {
+            /* domputf tif msbit in k wiidi gfts bddfd into tiis bytf */
+            msbit = (/* first, stbrt witi msbit in tif first, unrotbtfd bytf */
+                ((inbits<<3)-1)
+                /* tifn, for fbdi bytf, siift to rigit for fbdi rfpftition */
+                + (((inbits<<3)+13)*(i/inbits))
+                /* lbst, pidk out dorrfdt bytf witiin tibt siiftfd rfpftition */
+                + ((inbits-(i%inbits)) << 3)) % (inbits << 3);
+
+            /* pull out tif bytf vbluf itsflf */
+            // Mbsk off vblufs using &0xff to gft only tif lowfr bytf
+            // Usf >>> to bvoid sign fxtfnsion
+            bvbl =  ((((in[((inbits-1)-(msbit>>>3))%inbits]&0xff)<<8)|
+                (in[((inbits)-(msbit>>>3))%inbits]&0xff))
+                >>>((msbit&7)+1))&0xff;
+
+            /*
+            Systfm.frr.println("((" +
+                ((in[((inbits-1)-(msbit>>>3))%inbits]&0xff)<<8)
+                + "|" + (in[((inbits)-(msbit>>>3))%inbits]&0xff) + ")"
+                + ">>>" + ((msbit&7)+1) + ")&0xff = " + bvbl);
+            */
+
+            tiisbytf += bvbl;
+
+            /* do tif bddition */
+            // Mbsk off vblufs using &0xff to gft only tif lowfr bytf
+            ovbl = (out[i%outbits]&0xff);
+            tiisbytf += ovbl;
+            out[i%outbits] = (bytf) (tiisbytf&0xff);
+
+            if (dfbug) {
+                Systfm.frr.println("msbit[" + i + "] = " +  msbit + "\tbvbl=" +
+                    Intfgfr.toHfxString(bvbl) + "\tovbl=" +
+                    Intfgfr.toHfxString(ovbl)
+                    + "\tsum = " + Intfgfr.toHfxString(tiisbytf));
+            }
+
+
+            /* kffp bround tif dbrry bit, if bny */
+            tiisbytf >>>= 8;
+
+            if (dfbug) {
+                Systfm.frr.println("dbrry=" + tiisbytf);
+            }
+        }
+
+        /* if tifrf's b dbrry bit lfft ovfr, bdd it bbdk in */
+        if (tiisbytf != 0) {
+            for (i = outbits-1; i >= 0; i--) {
+                /* do tif bddition */
+                tiisbytf += (out[i]&0xff);
+                out[i] = (bytf) (tiisbytf&0xff);
+
+                /* kffp bround tif dbrry bit, if bny */
+                tiisbytf >>>= 8;
+            }
+        }
+
+        rfturn out;
+    }
+
+    // Routinfs usfd for dfbugging
+    stbtid String bytfsToString(bytf[] digfst) {
+        // Gft dibrbdtfr rfprfsfntbtion of digfst
+        StringBuildfr digfstString = nfw StringBuildfr();
+
+        for (int i = 0; i < digfst.lfngti; i++) {
+            if ((digfst[i] & 0x000000ff) < 0x10) {
+                digfstString.bppfnd("0" +
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
+            } flsf {
+                digfstString.bppfnd(
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
+            }
+        }
+        rfturn digfstString.toString();
+    }
+
+    privbtf stbtid bytf[] binbryStringToBytfs(String str) {
+        dibr[] usbgfStr = str.toCibrArrby();
+        bytf[] usbgf = nfw bytf[usbgfStr.lfngti/2];
+        for (int i = 0; i < usbgf.lfngti; i++) {
+            bytf b = Bytf.pbrsfBytf(nfw String(usbgfStr, i*2, 1), 16);
+            bytf b = Bytf.pbrsfBytf(nfw String(usbgfStr, i*2 + 1, 1), 16);
+            usbgf[i] = (bytf) ((b<<4)|b);
+        }
+        rfturn usbgf;
+    }
+
+    stbtid void trbdfOutput(String trbdfTbg, bytf[] output, int offsft,
+        int lfn) {
+        try {
+            BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm(lfn);
+            nfw HfxDumpEndodfr().fndodfBufffr(
+                nfw BytfArrbyInputStrfbm(output, offsft, lfn), out);
+
+            Systfm.frr.println(trbdfTbg + ":" + out.toString());
+        } dbtdi (Exdfption f) {
+        }
+    }
+
+// String.gftBytfs("UTF-8");
+// Do tiis instfbd of using String to bvoid mbking pbssword immutbblf
+    stbtid bytf[] dibrToUtf8(dibr[] dibrs) {
+        Cibrsft utf8 = Cibrsft.forNbmf("UTF-8");
+
+        CibrBufffr db = CibrBufffr.wrbp(dibrs);
+        BytfBufffr bb = utf8.fndodf(db);
+        int lfn = bb.limit();
+        bytf[] bnswfr = nfw bytf[lfn];
+        bb.gft(bnswfr, 0, lfn);
+        rfturn bnswfr;
+    }
+
+    stbtid bytf[] dibrToUtf16(dibr[] dibrs) {
+        Cibrsft utf8 = Cibrsft.forNbmf("UTF-16LE");
+
+        CibrBufffr db = CibrBufffr.wrbp(dibrs);
+        BytfBufffr bb = utf8.fndodf(db);
+        int lfn = bb.limit();
+        bytf[] bnswfr = nfw bytf[lfn];
+        bb.gft(bnswfr, 0, lfn);
+        rfturn bnswfr;
+    }
+}

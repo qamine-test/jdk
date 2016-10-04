@@ -1,0 +1,214 @@
+'\" t
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: orbd.1
+.\"
+.if n .pl 99999
+.TH orbd 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+orbd \- Enbblfs dlifnts to lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBorbd\fR [ \fIoptions\fR ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+.SH DESCRIPTION    
+Tif \f3orbd\fR dommbnd fnbblfs dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&. Tif Sfrvfr Mbnbgfr indludfd witi tif orbd tool is usfd to fnbblf dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&. Tif pfrsistfnt sfrvfrs, wiilf publisiing tif pfrsistfnt objfdt rfffrfndfs in tif nbming sfrvidf, indludf tif port numbfr of tif ORBD in tif objfdt rfffrfndf instfbd of tif port numbfr of tif sfrvfr\&. Tif indlusion of bn ORBD port numbfr in tif objfdt rfffrfndf for pfrsistfnt objfdt rfffrfndfs ibs tif following bdvbntbgfs:
+.TP 0.2i    
+\(bu
+Tif objfdt rfffrfndf in tif nbming sfrvidf rfmbins indfpfndfnt of tif sfrvfr liff dydlf\&. For fxbmplf, tif objfdt rfffrfndf dould bf publisifd by tif sfrvfr in tif Nbming Sfrvidf wifn it is first instbllfd, bnd tifn, indfpfndfnt of iow mbny timfs tif sfrvfr is stbrtfd or siut down, tif ORBD rfturns tif dorrfdt objfdt rfffrfndf to tif dblling dlifnt\&.
+.TP 0.2i    
+\(bu
+Tif dlifnt nffds to look up tif objfdt rfffrfndf in tif nbming sfrvidf only ondf, bnd dbn kffp rfusing tiis rfffrfndf indfpfndfnt of tif dibngfs introdudfd duf to sfrvfr liff dydlf\&.
+.PP
+To bddfss tif ORBD Sfrvfr Mbnbgfr, tif sfrvfr must bf stbrtfd using \f3sfrvfrtool\fR, wiidi is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. For morf informbtion on tif Sfrvfr Mbnbgfr, sff Sfrvfr Mbnbgfr\&.
+.PP
+Wifn \f3orbd\fR stbrts, it blso stbrts b nbming sfrvidf\&. For morf informbtion bbout tif nbming sfrvidf\&. Sff Stbrt bnd Stop tif Nbming Sfrvidf\&.
+.SH OPTIONS    
+.TP
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+.br
+Rfquirfd\&. Spfdififs tif port on wiidi tif nbmf sfrvfr siould bf stbrtfd\&. Aftfr it is stbrtfd, \f3orbd\fR listfns for indoming rfqufsts on tiis port\&. On Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024\&.
+.SS NONREQUIRED\ OPTIONS    
+.TP
+-port \fIport\fR
+.br
+Spfdififs tif bdtivbtion port wifrf ORBD siould bf stbrtfd, bnd wifrf ORBD will bf bddfpting rfqufsts for pfrsistfnt objfdts\&. Tif dffbult vbluf for tiis port is 1049\&. Tiis port numbfr is bddfd to tif port fifld of tif pfrsistfnt Intfropfrbblf Objfdt Rfffrfndfs (IOR)\&.
+.TP
+-dffbultdb \fIdirfdtory\fR
+.br
+Spfdififs tif bbsf wifrf tif ORBD pfrsistfnt storbgf dirfdtory, \f3orb\&.db\fR, is drfbtfd\&. If tiis option is not spfdififd, tifn tif dffbult vbluf is \f3\&./orb\&.db\fR\&.
+.TP
+-sfrvfrPollingTimf \fImillisfdonds\fR
+.br
+Spfdififs iow oftfn ORBD difdks for tif ifblti of pfrsistfnt sfrvfrs rfgistfrfd tirougi \f3sfrvfrtool\fR\&. Tif dffbult vbluf is 1000 ms\&. Tif vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
+.TP
+-sfrvfrStbrtupDflby millisfdonds
+.br
+Spfdififs iow long ORBD wbits bfforf sfnding b lodbtion forwbrd fxdfption bftfr b pfrsistfnt sfrvfr tibt is rfgistfrfd tirougi \f3sfrvfrtool\fR is rfstbrtfd\&. Tif dffbult vbluf is 1000 ms\&. Tif vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SS START\ AND\ STOP\ THE\ NAMING\ SERVICE    
+A nbming sfrvidf is b CORBA sfrvidf tibt bllows CORBA objfdts to bf nbmfd by mfbns of binding b nbmf to bn objfdt rfffrfndf\&. Tif nbmf binding dbn bf storfd in tif nbming sfrvidf, bnd b dlifnt dbn supply tif nbmf to obtbin tif dfsirfd objfdt rfffrfndf\&.
+.PP
+Bfforf running b dlifnt or b sfrvfr, you will stbrt ORBD\&. ORBD indludfs b pfrsistfnt nbming sfrvidf bnd b trbnsifnt nbming sfrvidf, boti of wiidi brf bn implfmfntbtion of tif COS Nbming Sfrvidf\&.
+.PP
+Tif Pfrsistfnt Nbming Sfrvidf providfs pfrsistfndf for nbming dontfxts\&. Tiis mfbns tibt tiis informbtion is pfrsistfnt bdross sfrvidf siutdowns bnd stbrtups, bnd is rfdovfrbblf in tif fvfnt of b sfrvidf fbilurf\&. If ORBD is rfstbrtfd, tifn tif Pfrsistfnt Nbming Sfrvidf rfstorfs tif nbming dontfxt grbpi, so tibt tif binding of bll dlifnts\&' bnd sfrvfrs\&' nbmfs rfmbins intbdt (pfrsistfnt)\&.
+.PP
+For bbdkwbrd dompbtibility, \f3tnbmfsfrv\fR, b Trbnsifnt Nbming Sfrvidf tibt siippfd witi fbrlifr rflfbsfs of tif JDK, is blso indludfd in tiis rflfbsf of Jbvb SE\&. A trbnsifnt nbming sfrvidf rftbins nbming dontfxts bs long bs it is running\&. If tifrf is b sfrvidf intfrruption, tifn tif nbming dontfxt grbpi is lost\&.
+.PP
+Tif \f3-ORBInitiblPort\fR brgumfnt is b rfquirfd dommbnd-linf brgumfnt for \f3orbd\fR, bnd is usfd to sft tif port numbfr on wiidi tif nbming sfrvidf runs\&. Tif following instrudtions bssumf you dbn usf port 1050 for tif Jbvb IDL Objfdt Rfqufst Brokfr Dbfmon\&. Wifn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port lowfr tibn 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr bbovf or fqubl to 1024\&. You dbn substitutf b difffrfnt port wifn nfdfssbry\&.
+.PP
+To stbrt \f3orbd\fR from b UNIX dommbnd sifll, fntfr:
+.sp     
+.nf     
+\f3orbd \-ORBInitiblPort 1050&\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+From bn MS-DOS systfm prompt (Windows), fntfr:
+.sp     
+.nf     
+\f3stbrt orbd \-ORBInitiblPort 1050\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Now tibt ORBD is running, you dbn run your sfrvfr bnd dlifnt bpplidbtions\&. Wifn running tif dlifnt bnd sfrvfr bpplidbtions, tify must bf mbdf bwbrf of tif port numbfr (bnd mbdiinf nbmf, wifn bpplidbblf) wifrf tif Nbming Sfrvidf is running\&. Onf wby to do tiis is to bdd tif following dodf to your bpplidbtion:
+.sp     
+.nf     
+\f3Propfrtifs props = nfw Propfrtifs();\fP
+.fi     
+.nf     
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+.fi     
+.nf     
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblHost", "MyHost");\fP
+.fi     
+.nf     
+\f3ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+In tiis fxbmplf, tif nbming sfrvidf is running on port 1050 on iost \f3MyHost\fR\&. Anotifr wby is to spfdify tif port numbfr bnd/or mbdiinf nbmf wifn running tif sfrvfr or dlifnt bpplidbtion from tif dommbnd linf\&. For fxbmplf, you would stbrt your \f3HflloApplidbtion\fR witi tif following dommbnd linf:
+.sp     
+.nf     
+\f3jbvb HflloApplidbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+To stop tif nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3pkill\fR\f3orbd\fR on Orbdlf Solbris, or \fICtrl+C\fR in tif DOS window in wiidi \f3orbd\fR is running\&. Notf tibt nbmfs rfgistfrfd witi tif nbming sfrvidf dbn disbppfbr wifn tif sfrvidf is tfrminbtfd bfdbusf of b trbnsifnt nbming sfrvidf\&. Tif Jbvb IDL nbming sfrvidf will run until it is fxpliditly stoppfd\&.
+.PP
+For morf informbtion bbout tif nbming sfrvidf indludfd witi ORBD, sff Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+.SH SERVER\ MANAGER    
+To bddfss tif ORBD Sfrvfr Mbnbgfr bnd run b pfrsistfnt sfrvfr, tif sfrvfr must bf stbrtfd witi \f3sfrvfrtool\fR, wiidi is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Wifn b sfrvfr is stbrtfd using \f3sfrvfrtool\fR, it must bf stbrtfd on tif sbmf iost bnd port on wiidi \f3orbd\fR is fxfduting\&. If tif sfrvfr is run on b difffrfnt port, tifn tif informbtion storfd in tif dbtbbbsf for lodbl dontfxts will bf invblid bnd tif sfrvidf will not work propfrly\&.
+.PP
+Sff Jbvb IDL: Tif "Hfllo World" Exbmplf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlExbmplf\&.itml
+.PP
+In tiis fxbmplf, you run tif \f3idlj\fR dompilfr bnd \f3jbvbd\fR dompilfr bs siown in tif tutoribl\&. To run tif ORBD Sfrvfr Mbnbgfr, follow tifsf stfps for running tif bpplidbtion:
+.PP
+Stbrt \f3orbd\fR\&.
+.PP
+UNIX dommbnd sifll, fntfr: \f3orbd -ORBInitiblPort 1050\fR\&.
+.PP
+MS-DOS systfm prompt (Windows), fntfr: \f3s\fR\f3tbrt orbd -ORBInitiblPort 105\fR\f30\fR\&.
+.PP
+Port 1050 is tif port on wiidi you wbnt tif nbmf sfrvfr to run\&. Tif \f3-ORBInitiblPort\fR option is b rfquirfd dommbnd-linf brgumfnt\&. Wifn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr bbovf or fqubl to 1024\&.
+.PP
+Stbrt tif \f3sfrvfrtool\fR: \f3sfrvfrtool -ORBInitiblPort 1050\fR\&.
+.PP
+Mbkf surf tif nbmf sfrvfr (\f3orbd\fR) port is tif sbmf bs in tif prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\&.\fR Tif \f3sfrvfrtool\fR must bf stbrtfd on tif sbmf port bs tif nbmf sfrvfr\&.
+.PP
+In tif \f3sfrvfrtool\fR dommbnd linf intfrfbdf, stbrt tif \f3Hfllo\fR sfrvfr from tif \f3sfrvfrtool\fR prompt:
+.sp     
+.nf     
+\f3sfrvfrtool  > rfgistfr \-sfrvfr HflloSfrvfr \-dlbsspbti \&. \-bpplidbtionNbmf\fP
+.fi     
+.nf     
+\f3                HflloSfrvfrApNbmf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Tif \f3sfrvfrtool\fR rfgistfrs tif sfrvfr, bssigns it tif nbmf \f3HflloSfrvfrApNbmf\fR, bnd displbys its sfrvfr ID witi b listing of bll rfgistfrfd sfrvfrs\&.Run tif dlifnt bpplidbtion from bnotifr tfrminbl window or prompt:
+.sp     
+.nf     
+\f3jbvb HflloClifnt \-ORBInitiblPort 1050 \-ORBInitiblHost lodbliost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+For tiis fxbmplf, you dbn omit \f3-ORBInitiblHost lodbliost\fR bfdbusf tif nbmf sfrvfr is running on tif sbmf iost bs tif \f3Hfllo\fR dlifnt\&. If tif nbmf sfrvfr is running on b difffrfnt iost, tifn usf tif -\f3ORBInitiblHost nbmfsfrvfriost\fR option to spfdify tif iost on wiidi tif IDL nbmf sfrvfr is running\&.Spfdify tif nbmf sfrvfr (\f3orbd\fR) port bs donf in tif prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\fR\&. Wifn you finisi fxpfrimfnting witi tif ORBD Sfrvfr Mbnbgfr, bf surf to siut down or tfrminbtf tif nbmf sfrvfr (\f3orbd\fR) bnd \f3sfrvfrtool\fR\&. To siut down \f3orbd\fR from bm MS-DOS prompt, sflfdt tif window tibt is running tif sfrvfr bnd fntfr \fICtrl+C\fR to siut it down\&.
+.PP
+To siut down \f3orbd\fR from bn Orbdlf Solbris sifll, find tif prodfss, bnd tfrminbtf witi tif \f3kill\fR dommbnd\&. Tif sfrvfr dontinufs to wbit for invodbtions until it is fxpliditly stoppfd\&. To siut down tif \f3sfrvfrtool\fR, typf \fIquit\fR bnd prfss tif \fIEntfr\fR kfy\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+sfrvfrtool(1)
+.TP 0.2i    
+\(bu
+Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+.RE
+.br
+'pl 8.5i
+'bp

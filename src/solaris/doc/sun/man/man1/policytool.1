@@ -1,115 +1,575 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Security Tools
-.\"     Title: policytool.1
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: polidytool.1
+.\"     Titlf: polidytool.1
+.\"     Titlf: polidytool.1
+.\"     Titlf: polidytool.1
+.\"     Titlf: polidytool.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH policytool 1 "21 November 2013" "JDK 8" "Security Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-policytool \- Reads and writes a plain text policy file based on user input through the utility GUI\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBpolicytool\fR [ \fB\-file\fR ] [ \fIfilename\fR ] 
+
+
+
+
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .TP
--file
+.TP
+.TP
+.TP
+.TP
+-filf
+-filf
+-filf
+-filf
+-filf
 .br
-Directs the \f3policytool\fR command to load a policy file\&.
+.br
+.br
+.br
+.br
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
 .TP     
-\fIfilename\fR
-The name of the file to be loaded\&.
+.TP     
+.TP     
+.TP     
+.TP     
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+Tif nbmf of tif filf to bf lobdfd\&.
+Tif nbmf of tif filf to bf lobdfd\&.
+Tif nbmf of tif filf to bf lobdfd\&.
+Tif nbmf of tif filf to bf lobdfd\&.
+Tif nbmf of tif filf to bf lobdfd\&.
 .PP
-\fIExamples\fR:
 .PP
-Run the policy tool administrator utility:
+.PP
+.PP
+.PP
+\fIExbmplfs\fR:
+\fIExbmplfs\fR:
+\fIExbmplfs\fR:
+\fIExbmplfs\fR:
+\fIExbmplfs\fR:
+.PP
+.PP
+.PP
+.PP
+.PP
+Run tif polidy tool bdministrbtor utility:
+Run tif polidy tool bdministrbtor utility:
+Run tif polidy tool bdministrbtor utility:
+Run tif polidy tool bdministrbtor utility:
+Run tif polidy tool bdministrbtor utility:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3policytool\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3polidytool\fP
+\f3polidytool\fP
+\f3polidytool\fP
+\f3polidytool\fP
+\f3polidytool\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
-.fi     
-.sp     
-Run the \f3policytool\fR command and load the specified file:
-.sp     
-.nf     
-\f3policytool\-file mypolicyfile\fP
-.fi     
-.nf     
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3polidytool\-filf mypolidyfilf\fP
+\f3polidytool\-filf mypolidyfilf\fP
+\f3polidytool\-filf mypolidyfilf\fP
+\f3polidytool\-filf mypolidyfilf\fP
+\f3polidytool\-filf mypolidyfilf\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH DESCRIPTION    
-The \f3policytool\fR command calls an administrator\&'s GUI that enables system administrators to manage the contents of local policy files\&. A policy file is a plain-text file with a \f3\&.policy\fR extension, that maps remote requestors by domain, to permission objects\&. For details, see Default Policy Implementation and Policy File Syntax at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
--file
+.TP
+.TP
+.TP
+.TP
+-filf
+-filf
+-filf
+-filf
+-filf
 .br
-Directs the \f3policytool\fR command to load a policy file\&.
+.br
+.br
+.br
+.br
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
-\(bu
-Default Policy Implementation and Policy File Syntax at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Policy File Creation and Management at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyGuide\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Permissions in Java SE Development Kit (JDK) at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/permissions\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Java Security Overview at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/overview/jsoverview\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
+\(bu
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

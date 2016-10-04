@@ -1,220 +1,1100 @@
 '\" t
-.\" Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: javah
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: 基本ツール
-.\" Software: JDK 8
-.\" Arch: 汎用
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jbvbi
+.\" Titlf: jbvbi
+.\" Titlf: jbvbi
+.\" Titlf: jbvbi
+.\" Titlf: jbvbi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\"
+.\"
+.\"
+.\"
 .\"
 .pl 99999
-.TH "javah" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-javah \- JavaクラスからCヘッダーとソース・ファイルを生成します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIjavah\fR [ \fIoptions\fR ] f\fIully\-qualified\-class\-name \&.\&.\&.\fR
+.nf
+.nf
+.nf
+.nf
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIfully\-qualified\-class\-name\fR
+.PP
+.PP
+.PP
+.PP
+\fIfully\-qublififd\-dlbss\-nbmf\fR
+\fIfully\-qublififd\-dlbss\-nbmf\fR
+\fIfully\-qublififd\-dlbss\-nbmf\fR
+\fIfully\-qublififd\-dlbss\-nbmf\fR
+\fIfully\-qublififd\-dlbss\-nbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
+Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
+Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
+Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
+Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIjavah\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.h\fRファイルは、対応するクラスと一致する配置を持つ\fIstruct\fR定義を含みます。\fIstruct\fRのフィールドは、クラスのインスタンス変数に対応します。
 .PP
-ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjavah\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
 .PP
-デフォルトでは\fIjavah\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
 .PP
-Java Native Interface (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjavah\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjavah\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.h\fRファイルに格納します。
+.PP
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
+.PP
+.PP
+.PP
+.PP
+.PP
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+.PP
+.PP
+.PP
+.PP
+.PP
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+.PP
+.PP
+.PP
+.PP
+.PP
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
-\-o \fIoutputfile\fR
+.PP
+.PP
+.PP
+.PP
+\-o \fIoutputfilf\fR
+\-o \fIoutputfilf\fR
+\-o \fIoutputfilf\fR
+\-o \fIoutputfilf\fR
+\-o \fIoutputfilf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
+コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
+コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
+コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
+コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-d \fIdirectory\fR
+.PP
+.PP
+.PP
+.PP
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
 .RS 4
-\fIjavah\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-stubs
+\-stubs
+\-stubs
+\-stubs
+\-stubs
 .RS 4
-\fIjavah\fRコマンドが、Javaオブジェクト・ファイルからC宣言を生成します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-verbose
+.PP
+.PP
+.PP
+.PP
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
 .RS 4
-詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjavah\fRコマンドが\fI標準出力\fRに出力します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-help
+.PP
+.PP
+.PP
+.PP
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
 .RS 4
-\fIjavah\fRの使用方法についてのヘルプ・メッセージを出力します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-version
+.PP
+.PP
+.PP
+.PP
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
 .RS 4
-\fIjavah\fRコマンドのリリース情報を出力します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjbvbi\fRコマンドのリリース情報を出力します。
+\fIjbvbi\fRコマンドのリリース情報を出力します。
+\fIjbvbi\fRコマンドのリリース情報を出力します。
+\fIjbvbi\fRコマンドのリリース情報を出力します。
+\fIjbvbi\fRコマンドのリリース情報を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-jni
+\-jni
+\-jni
+\-jni
+\-jni
 .RS 4
-JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjavah\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-classpath \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
 .RS 4
-クラスを探すために\fIjavah\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOracle Solarisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
 .sp
-\fBOracle Solaris\fRの場合:
 .sp
-\&.:\fIyour\-path\fR
+.sp
+.sp
+.sp
+\fBOrbdlf Solbris\fRの場合:
+\fBOrbdlf Solbris\fRの場合:
+\fBOrbdlf Solbris\fRの場合:
+\fBOrbdlf Solbris\fRの場合:
+\fBOrbdlf Solbris\fRの場合:
+.sp
+.sp
+.sp
+.sp
+.sp
+\&.:\fIyour\-pbti\fR
+\&.:\fIyour\-pbti\fR
+\&.:\fIyour\-pbti\fR
+\&.:\fIyour\-pbti\fR
+\&.:\fIyour\-pbti\fR
+.sp
+.sp
+.sp
+.sp
 .sp
 例:
-\fI\&.:/home/avh/classes:/usr/local/java/classes\fR
+例:
+例:
+例:
+例:
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+.sp
+.sp
+.sp
+.sp
 .sp
 \fBWindows\fRの場合:
+\fBWindows\fRの場合:
+\fBWindows\fRの場合:
+\fBWindows\fRの場合:
+\fBWindows\fRの場合:
 .sp
-\&.;\fIyour\-path\fR
+.sp
+.sp
+.sp
+.sp
+\&.;\fIyour\-pbti\fR
+\&.;\fIyour\-pbti\fR
+\&.;\fIyour\-pbti\fR
+\&.;\fIyour\-pbti\fR
+\&.;\fIyour\-pbti\fR
+.sp
+.sp
+.sp
+.sp
 .sp
 例:
-\fI\&.;C:\eusers\edac\eclasses;C:\etools\ejava\eclasses\fR
+例:
+例:
+例:
+例:
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
 .sp
-便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jar\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
 .sp
-たとえば、ディレクトリ\fImydir\fRに\fIa\&.jar\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jar:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Java仮想マシン(JVM)の開始前に行われます。Javaプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystem\&.getenv("CLASSPATH")\fRをコールして問い合せる場合です。
+.sp
+.sp
+.sp
+便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
+便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
+便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
+便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
+便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
+.sp
+.sp
+.sp
+.sp
+.sp
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-bootclasspath \fIpath\fR
+.PP
+.PP
+.PP
+.PP
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
 .RS 4
-ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjre\elib\ert\&.jar\fRおよび他のいくつかのJARファイルにある、コアJavaプラットフォームを実装するクラスです。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-old
+\-old
+\-old
+\-old
+\-old
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
+古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
+古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
+古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
+古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\-force
+.PP
+.PP
+.PP
+.PP
+\-fordf
+\-fordf
+\-fordf
+\-fordf
+\-fordf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 出力ファイルが常に書き込まれるように指定します。
+出力ファイルが常に書き込まれるように指定します。
+出力ファイルが常に書き込まれるように指定します。
+出力ファイルが常に書き込まれるように指定します。
+出力ファイルが常に書き込まれるように指定します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
 \-J\fIoption\fR
 .RS 4
-Java仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-javah(1)
+.\}
+.\}
+.\}
+.\}
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+jbvbi(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-java(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+jdb(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-javap(1)
-.RE
+.sp
+.sp
+.sp
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-javadoc(1)
+.\}
+.\}
+.\}
+.\}
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+jbvbdod(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

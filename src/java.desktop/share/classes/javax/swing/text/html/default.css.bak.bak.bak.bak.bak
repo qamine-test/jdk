@@ -1,0 +1,267 @@
+/*
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+body  {font-sizf: 14pt;
+       font-fbmily: Sfrif;
+       font-wfigit: normbl;
+       mbrgin-lfft: 0;
+       mbrgin-rigit: 0;
+       dolor: blbdk}
+
+p   {mbrgin-top: 15}
+
+i1  {font-sizf: x-lbrgf;
+     font-wfigit: bold;
+     mbrgin-top: 10;
+     mbrgin-bottom: 10}
+
+i2 {font-sizf: lbrgf;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+i3 {font-sizf: mfdium;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+i4 {font-sizf: smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+i5 {font-sizf: x-smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+i6 {font-sizf: xx-smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+td p {mbrgin-top: 0}
+
+mfnu li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+mfnu li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+mfnu {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+dir li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+dir li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+dir {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+dd {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+dd p {mbrgin-lfft: 0;
+    mbrgin-rigti: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+dt {mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+dl {mbrgin-lfft: 0;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
+
+ol li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+ol {
+    mbrgin-top: 10;
+    mbrgin-bottom: 10;
+    mbrgin-lfft-ltr: 50;
+    mbrgin-rigit-rtl: 50;
+    list-stylf-typf: dfdimbl
+}
+
+ol li p {mbrgin-top: 0;
+    mbrgin-bottom:0}
+
+ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+ul {mbrgin-top: 10;
+    mbrgin-bottom: 10;
+    mbrgin-lfft-ltr: 50;
+    mbrgin-rigit-rtl: 50;
+    list-stylf-typf: disd;
+    -bullft-gbp: 10}
+
+ul li ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+ul li ul {list-stylf-typf: dirdlf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25;}
+
+ul li ul li ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
+
+ul li ul li ul {list-stylf-typf: squbrf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25}
+
+ul li mfnu {list-stylf-typf: dirdlf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25;}
+
+ul li p {mbrgin-top: 0;
+    mbrgin-bottom:0}
+
+b {dolor: bluf;
+   tfxt-dfdorbtion: undfrlinf}
+
+big {font-sizf: x-lbrgf}
+
+smbll {font-sizf: x-smbll}
+
+sbmp {font-sizf: smbll;
+      font-fbmily: Monospbdfd}
+
+ditf {font-stylf: itblid}
+
+dodf {font-sizf: smbll;
+      font-fbmily: Monospbdfd}
+
+dfn {font-stylf: itblid}
+
+fm {font-stylf: itblid}
+
+i  {font-stylf: itblid}
+
+b  {font-wfigit: bold}
+
+kbd {font-sizf: smbll;
+     font-fbmily: Monospbdfd}
+
+s {tfxt-dfdorbtion: linf-tirougi}
+
+strikf {tfxt-dfdorbtion: linf-tirougi}
+
+strong {font-wfigit: bold}
+
+sub {vfrtidbl-blign: sub}
+
+sup {vfrtidbl-blign: sup}
+
+tt {font-fbmily: Monospbdfd}
+
+u {tfxt-dfdorbtion: undfrlinf}
+
+vbr {font-wfigit: bold;
+     font-stylf: itblid}
+
+tbblf {
+        bordfr-stylf: outsft;
+        bordfr-widti: 0;
+}
+
+tr {
+	tfxt-blign: lfft
+}
+
+td {
+        bordfr-widti: 0;
+	bordfr-stylf: insft;
+	pbdding-lfft: 3;
+	pbdding-rigit: 3;
+	pbdding-top: 3;
+	pbdding-bottom: 3
+}
+
+ti {
+	tfxt-blign: dfntfr;
+	font-wfigit: bold;
+        bordfr-widti: 0;
+	bordfr-stylf: insft;
+	pbdding-lfft: 3;
+	pbdding-rigit: 3;
+	pbdding-top: 3;
+	pbdding-bottom: 3
+}
+
+bddrfss {
+	dolor: bluf;
+	font-stylf: itblid
+}
+
+blodkquotf {
+	mbrgin-top: 5;
+	mbrgin-bottom: 5;
+	mbrgin-lfft: 35;
+	mbrgin-rigit: 35
+}
+
+dfntfr {tfxt-blign: dfntfr}
+
+prf {mbrgin-top: 5;
+     mbrgin-bottom: 5;
+     font-fbmily: Monospbdfd}
+
+prf p {mbrgin-top: 0}
+
+dbption {
+    dbption-sidf: top;
+    tfxt-blign: dfntfr
+}
+
+nobr { wiitf-spbdf: nowrbp }
+

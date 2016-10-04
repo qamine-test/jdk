@@ -1,0 +1,592 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfr;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.CbnonidblizfrBbsf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315OmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_OmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityRuntimfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.JbvbUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Clbss XMLSignbturfInput
+ *
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * $todo$ difdk wiftifr bn XMLSignbturfInput dbn bf _boti_, odtft strfbm _bnd_ nodf sft?
+ */
+publid dlbss XMLSignbturfInput {
+    /*
+     * Tif XMLSignbturf Input dbn bf fitifr:
+     *   A bytfArrby likf witi/or witiout InputStrfbm.
+     *   Or b nodfSft likf dffinfd fitifr:
+     *       * bs b dollfdtion of nodfs
+     *       * or bs subnodf fxdluding or not dommfnts bnd fxdluding or
+     *         not otifr nodfs.
+     */
+
+    /**
+     * Somf InputStrfbms do not support tif {@link jbvb.io.InputStrfbm#rfsft}
+     * mftiod, so wf rfbd it in domplftfly bnd work on our Proxy.
+     */
+    privbtf InputStrfbm inputOdtftStrfbmProxy = null;
+    /**
+     * Tif originbl NodfSft for tiis XMLSignbturfInput
+     */
+    privbtf Sft<Nodf> inputNodfSft = null;
+    /**
+     * Tif originbl Elfmfnt
+     */
+    privbtf Nodf subNodf = null;
+    /**
+     * Exdludf Nodf *for fnvflopfd trbnsformbtions*
+     */
+    privbtf Nodf fxdludfNodf = null;
+    /**
+     *
+     */
+    privbtf boolfbn fxdludfCommfnts = fblsf;
+
+    privbtf boolfbn isNodfSft = fblsf;
+    /**
+     * A dbdifd bytfs
+     */
+    privbtf bytf[] bytfs = null;
+
+    /**
+     * Somf Trbnsforms mby rfquirf fxplidit MIME typf, dibrsft (IANA rfgistfrfd
+     * "dibrbdtfr sft"), or otifr sudi informbtion dondfrning tif dbtb tify brf
+     * rfdfiving from bn fbrlifr Trbnsform or tif sourdf dbtb, bltiougi no
+     * Trbnsform blgoritim spfdififd in tiis dodumfnt nffds sudi fxplidit
+     * informbtion. Sudi dbtb dibrbdtfristids brf providfd bs pbrbmftfrs to tif
+     * Trbnsform blgoritim bnd siould bf dfsdribfd in tif spfdifidbtion for tif
+     * blgoritim.
+     */
+    privbtf String mimfTypf = null;
+
+    /**
+     * Fifld sourdfURI
+     */
+    privbtf String sourdfURI = null;
+
+    /**
+     * Nodf Filtfr list.
+     */
+    privbtf List<NodfFiltfr> nodfFiltfrs = nfw ArrbyList<NodfFiltfr>();
+
+    privbtf boolfbn nffdsToBfExpbndfd = fblsf;
+    privbtf OutputStrfbm outputStrfbm = null;
+
+    privbtf DodumfntBuildfrFbdtory dfbdtory;
+
+    /**
+     * Construdt b XMLSignbturfInput from bn odtft brrby.
+     * <p>
+     * Tiis is b domfort mftiod, wiidi intfrnblly donvfrts tif bytf[] brrby into
+     * bn InputStrfbm
+     * <p>NOTE: no dfffnsivf dopy</p>
+     * @pbrbm inputOdtfts bn odtft brrby wiidi indluding XML dodumfnt or nodf
+     */
+    publid XMLSignbturfInput(bytf[] inputOdtfts) {
+        // NO dfffnsivf dopy
+        tiis.bytfs = inputOdtfts;
+    }
+
+    /**
+     * Construdts b <dodf>XMLSignbturfInput</dodf> from bn odtft strfbm. Tif
+     * strfbm is dirfdtly rfbd.
+     *
+     * @pbrbm inputOdtftStrfbm
+     */
+    publid XMLSignbturfInput(InputStrfbm inputOdtftStrfbm)  {
+        tiis.inputOdtftStrfbmProxy = inputOdtftStrfbm;
+    }
+
+    /**
+     * Construdt b XMLSignbturfInput from b subtrff rootfd by rootNodf. Tiis
+     * mftiod indludfd tif nodf bnd <I>bll</I> iis dfsdfndbnts in tif output.
+     *
+     * @pbrbm rootNodf
+     */
+    publid XMLSignbturfInput(Nodf rootNodf) {
+        tiis.subNodf = rootNodf;
+    }
+
+    /**
+     * Construdtor XMLSignbturfInput
+     *
+     * @pbrbm inputNodfSft
+     */
+    publid XMLSignbturfInput(Sft<Nodf> inputNodfSft) {
+        tiis.inputNodfSft = inputNodfSft;
+    }
+
+    /**
+     * Cifdk if tif strudturf nffds to bf fxpbndfd.
+     * @rfturn truf if so.
+     */
+    publid boolfbn isNffdsToBfExpbndfd() {
+        rfturn nffdsToBfExpbndfd;
+    }
+
+    /**
+     * Sft if tif strudturf nffds to bf fxpbndfd.
+     * @pbrbm nffdsToBfExpbndfd truf if so.
+     */
+    publid void sftNffdsToBfExpbndfd(boolfbn nffdsToBfExpbndfd) {
+        tiis.nffdsToBfExpbndfd = nffdsToBfExpbndfd;
+    }
+
+    /**
+     * Rfturns tif nodf sft from input wiidi wbs spfdififd bs tif pbrbmftfr of
+     * {@link XMLSignbturfInput} donstrudtor
+     *
+     * @rfturn tif nodf sft
+     * @tirows SAXExdfption
+     * @tirows IOExdfption
+     * @tirows PbrsfrConfigurbtionExdfption
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid Sft<Nodf> gftNodfSft() tirows CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption,
+        IOExdfption, SAXExdfption {
+        rfturn gftNodfSft(fblsf);
+    }
+
+    /**
+     * Gft tif Input NodfSft.
+     * @rfturn tif Input NodfSft.
+     */
+    publid Sft<Nodf> gftInputNodfSft() {
+        rfturn inputNodfSft;
+    }
+
+    /**
+     * Rfturns tif nodf sft from input wiidi wbs spfdififd bs tif pbrbmftfr of
+     * {@link XMLSignbturfInput} donstrudtor
+     * @pbrbm dirdumvfnt
+     *
+     * @rfturn tif nodf sft
+     * @tirows SAXExdfption
+     * @tirows IOExdfption
+     * @tirows PbrsfrConfigurbtionExdfption
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid Sft<Nodf> gftNodfSft(boolfbn dirdumvfnt) tirows PbrsfrConfigurbtionExdfption,
+        IOExdfption, SAXExdfption, CbnonidblizbtionExdfption {
+        if (inputNodfSft != null) {
+            rfturn inputNodfSft;
+        }
+        if (inputOdtftStrfbmProxy == null && subNodf != null) {
+            if (dirdumvfnt) {
+                XMLUtils.dirdumvfntBug2650(XMLUtils.gftOwnfrDodumfnt(subNodf));
+            }
+            inputNodfSft = nfw LinkfdHbsiSft<Nodf>();
+            XMLUtils.gftSft(subNodf, inputNodfSft, fxdludfNodf, fxdludfCommfnts);
+            rfturn inputNodfSft;
+        } flsf if (isOdtftStrfbm()) {
+            donvfrtToNodfs();
+            Sft<Nodf> rfsult = nfw LinkfdHbsiSft<Nodf>();
+            XMLUtils.gftSft(subNodf, rfsult, null, fblsf);
+            rfturn rfsult;
+        }
+
+        tirow nfw RuntimfExdfption("gftNodfSft() dbllfd but no input dbtb prfsfnt");
+    }
+
+    /**
+     * Rfturns tif Odtft strfbm(bytf Strfbm) from input wiidi wbs spfdififd bs
+     * tif pbrbmftfr of {@link XMLSignbturfInput} donstrudtor
+     *
+     * @rfturn tif Odtft strfbm(bytf Strfbm) from input wiidi wbs spfdififd bs
+     * tif pbrbmftfr of {@link XMLSignbturfInput} donstrudtor
+     * @tirows IOExdfption
+     */
+    publid InputStrfbm gftOdtftStrfbm() tirows IOExdfption  {
+        if (inputOdtftStrfbmProxy != null) {
+            rfturn inputOdtftStrfbmProxy;
+        }
+
+        if (bytfs != null) {
+            inputOdtftStrfbmProxy = nfw BytfArrbyInputStrfbm(bytfs);
+            rfturn inputOdtftStrfbmProxy;
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * @rfturn rfbl odtft strfbm
+     */
+    publid InputStrfbm gftOdtftStrfbmRfbl() {
+        rfturn inputOdtftStrfbmProxy;
+    }
+
+    /**
+     * Rfturns tif bytf brrby from input wiidi wbs spfdififd bs tif pbrbmftfr of
+     * {@link XMLSignbturfInput} donstrudtor
+     *
+     * @rfturn tif bytf[] from input wiidi wbs spfdififd bs tif pbrbmftfr of
+     * {@link XMLSignbturfInput} donstrudtor
+     *
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows IOExdfption
+     */
+    publid bytf[] gftBytfs() tirows IOExdfption, CbnonidblizbtionExdfption {
+        bytf[] inputBytfs = gftBytfsFromInputStrfbm();
+        if (inputBytfs != null) {
+            rfturn inputBytfs;
+        }
+        Cbnonidblizfr20010315OmitCommfnts d14nizfr = nfw Cbnonidblizfr20010315OmitCommfnts();
+        bytfs = d14nizfr.fnginfCbnonidblizf(tiis);
+        rfturn bytfs;
+    }
+
+    /**
+     * Dftfrminfs if tif objfdt ibs bffn sft up witi b Nodf sft
+     *
+     * @rfturn truf if tif objfdt ibs bffn sft up witi b Nodf sft
+     */
+    publid boolfbn isNodfSft() {
+        rfturn ((inputOdtftStrfbmProxy == null
+            && inputNodfSft != null) || isNodfSft);
+    }
+
+    /**
+     * Dftfrminfs if tif objfdt ibs bffn sft up witi bn Elfmfnt
+     *
+     * @rfturn truf if tif objfdt ibs bffn sft up witi bn Elfmfnt
+     */
+    publid boolfbn isElfmfnt() {
+        rfturn (inputOdtftStrfbmProxy == null && subNodf != null
+            && inputNodfSft == null && !isNodfSft);
+    }
+
+    /**
+     * Dftfrminfs if tif objfdt ibs bffn sft up witi bn odtft strfbm
+     *
+     * @rfturn truf if tif objfdt ibs bffn sft up witi bn odtft strfbm
+     */
+    publid boolfbn isOdtftStrfbm() {
+        rfturn ((inputOdtftStrfbmProxy != null || bytfs != null)
+          && (inputNodfSft == null && subNodf == null));
+    }
+
+    /**
+     * Dftfrminfs if {@link #sftOutputStrfbm} ibs bffn dbllfd witi b
+     * non-null OutputStrfbm.
+     *
+     * @rfturn truf if {@link #sftOutputStrfbm} ibs bffn dbllfd witi b
+     * non-null OutputStrfbm
+     */
+    publid boolfbn isOutputStrfbmSft() {
+        rfturn outputStrfbm != null;
+    }
+
+    /**
+     * Dftfrminfs if tif objfdt ibs bffn sft up witi b BytfArrby
+     *
+     * @rfturn truf is tif objfdt ibs bffn sft up witi bn odtft strfbm
+     */
+    publid boolfbn isBytfArrby() {
+        rfturn (bytfs != null && (tiis.inputNodfSft == null && subNodf == null));
+    }
+
+    /**
+     * Is tif objfdt dorrfdtly sft up?
+     *
+     * @rfturn truf if tif objfdt ibs bffn sft up dorrfdtly
+     */
+    publid boolfbn isInitiblizfd() {
+        rfturn isOdtftStrfbm() || isNodfSft();
+    }
+
+    /**
+     * Rfturns mimfTypf
+     *
+     * @rfturn mimfTypf
+     */
+    publid String gftMIMETypf() {
+        rfturn mimfTypf;
+    }
+
+    /**
+     * Sfts mimfTypf
+     *
+     * @pbrbm mimfTypf
+     */
+    publid void sftMIMETypf(String mimfTypf) {
+        tiis.mimfTypf = mimfTypf;
+    }
+
+    /**
+     * Rfturn SourdfURI
+     *
+     * @rfturn SourdfURI
+     */
+    publid String gftSourdfURI() {
+        rfturn sourdfURI;
+    }
+
+    /**
+     * Sfts SourdfURI
+     *
+     * @pbrbm sourdfURI
+     */
+    publid void sftSourdfURI(String sourdfURI) {
+        tiis.sourdfURI = sourdfURI;
+    }
+
+    /**
+     * Mftiod toString
+     * @inifritDod
+     */
+    publid String toString() {
+        if (isNodfSft()) {
+            rfturn "XMLSignbturfInput/NodfSft/" + inputNodfSft.sizf()
+                   + " nodfs/" + gftSourdfURI();
+        }
+        if (isElfmfnt()) {
+            rfturn "XMLSignbturfInput/Elfmfnt/" + subNodf
+                + " fxdludf "+ fxdludfNodf + " dommfnts:"
+                + fxdludfCommfnts +"/" + gftSourdfURI();
+        }
+        try {
+            rfturn "XMLSignbturfInput/OdtftStrfbm/" + gftBytfs().lfngti
+                   + " odtfts/" + gftSourdfURI();
+        } dbtdi (IOExdfption ifx) {
+            rfturn "XMLSignbturfInput/OdtftStrfbm//" + gftSourdfURI();
+        } dbtdi (CbnonidblizbtionExdfption dfx) {
+            rfturn "XMLSignbturfInput/OdtftStrfbm//" + gftSourdfURI();
+        }
+    }
+
+    /**
+     * Mftiod gftHTMLRfprfsfntbtion
+     *
+     * @tirows XMLSignbturfExdfption
+     * @rfturn Tif HTML rfprfsfntbtion for tiis XMLSignbturf
+     */
+    publid String gftHTMLRfprfsfntbtion() tirows XMLSignbturfExdfption {
+        XMLSignbturfInputDfbuggfr db = nfw XMLSignbturfInputDfbuggfr(tiis);
+        rfturn db.gftHTMLRfprfsfntbtion();
+    }
+
+    /**
+     * Mftiod gftHTMLRfprfsfntbtion
+     *
+     * @pbrbm indlusivfNbmfspbdfs
+     * @tirows XMLSignbturfExdfption
+     * @rfturn Tif HTML rfprfsfntbtion for tiis XMLSignbturf
+     */
+    publid String gftHTMLRfprfsfntbtion(Sft<String> indlusivfNbmfspbdfs)
+       tirows XMLSignbturfExdfption {
+        XMLSignbturfInputDfbuggfr db =
+            nfw XMLSignbturfInputDfbuggfr(tiis, indlusivfNbmfspbdfs);
+        rfturn db.gftHTMLRfprfsfntbtion();
+    }
+
+    /**
+     * Gfts tif fxdludf nodf of tiis XMLSignbturfInput
+     * @rfturn Rfturns tif fxdludfNodf.
+     */
+    publid Nodf gftExdludfNodf() {
+        rfturn fxdludfNodf;
+    }
+
+    /**
+     * Sfts tif fxdludf nodf of tiis XMLSignbturfInput
+     * @pbrbm fxdludfNodf Tif fxdludfNodf to sft.
+     */
+    publid void sftExdludfNodf(Nodf fxdludfNodf) {
+        tiis.fxdludfNodf = fxdludfNodf;
+    }
+
+    /**
+     * Gfts tif nodf of tiis XMLSignbturfInput
+     * @rfturn Tif fxdludfNodf sft.
+     */
+    publid Nodf gftSubNodf() {
+        rfturn subNodf;
+    }
+
+    /**
+     * @rfturn Rfturns tif fxdludfCommfnts.
+     */
+    publid boolfbn isExdludfCommfnts() {
+        rfturn fxdludfCommfnts;
+    }
+
+    /**
+     * @pbrbm fxdludfCommfnts Tif fxdludfCommfnts to sft.
+     */
+    publid void sftExdludfCommfnts(boolfbn fxdludfCommfnts) {
+        tiis.fxdludfCommfnts = fxdludfCommfnts;
+    }
+
+    /**
+     * @pbrbm diOs
+     * @tirows IOExdfption
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid void updbtfOutputStrfbm(OutputStrfbm diOs)
+        tirows CbnonidblizbtionExdfption, IOExdfption {
+        updbtfOutputStrfbm(diOs, fblsf);
+    }
+
+    publid void updbtfOutputStrfbm(OutputStrfbm diOs, boolfbn d14n11)
+        tirows CbnonidblizbtionExdfption, IOExdfption {
+        if (diOs == outputStrfbm) {
+            rfturn;
+        }
+        if (bytfs != null) {
+            diOs.writf(bytfs);
+        } flsf if (inputOdtftStrfbmProxy == null) {
+            CbnonidblizfrBbsf d14nizfr = null;
+            if (d14n11) {
+                d14nizfr = nfw Cbnonidblizfr11_OmitCommfnts();
+            } flsf {
+                d14nizfr = nfw Cbnonidblizfr20010315OmitCommfnts();
+            }
+            d14nizfr.sftWritfr(diOs);
+            d14nizfr.fnginfCbnonidblizf(tiis);
+        } flsf {
+            bytf[] bufffr = nfw bytf[4 * 1024];
+            int bytfsrfbd = 0;
+            try {
+                wiilf ((bytfsrfbd = inputOdtftStrfbmProxy.rfbd(bufffr)) != -1) {
+                    diOs.writf(bufffr, 0, bytfsrfbd);
+                }
+            } dbtdi (IOExdfption fx) {
+                inputOdtftStrfbmProxy.dlosf();
+                tirow fx;
+            }
+        }
+    }
+
+    /**
+     * @pbrbm os
+     */
+    publid void sftOutputStrfbm(OutputStrfbm os) {
+        outputStrfbm = os;
+    }
+
+    privbtf bytf[] gftBytfsFromInputStrfbm() tirows IOExdfption {
+        if (bytfs != null) {
+            rfturn bytfs;
+        }
+        if (inputOdtftStrfbmProxy == null) {
+            rfturn null;
+        }
+        try {
+            bytfs = JbvbUtils.gftBytfsFromStrfbm(inputOdtftStrfbmProxy);
+        } finblly {
+            inputOdtftStrfbmProxy.dlosf();
+        }
+        rfturn bytfs;
+    }
+
+    /**
+     * @pbrbm filtfr
+     */
+    publid void bddNodfFiltfr(NodfFiltfr filtfr) {
+        if (isOdtftStrfbm()) {
+            try {
+                donvfrtToNodfs();
+            } dbtdi (Exdfption f) {
+                tirow nfw XMLSfdurityRuntimfExdfption(
+                    "signbturf.XMLSignbturfInput.nodfsftRfffrfndf", f
+                );
+            }
+        }
+        nodfFiltfrs.bdd(filtfr);
+    }
+
+    /**
+     * @rfturn tif nodf filtfrs
+     */
+    publid List<NodfFiltfr> gftNodfFiltfrs() {
+        rfturn nodfFiltfrs;
+    }
+
+    /**
+     * @pbrbm b
+     */
+    publid void sftNodfSft(boolfbn b) {
+        isNodfSft = b;
+    }
+
+    void donvfrtToNodfs() tirows CbnonidblizbtionExdfption,
+        PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption {
+        if (dfbdtory == null) {
+            dfbdtory = DodumfntBuildfrFbdtory.nfwInstbndf();
+            dfbdtory.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+            dfbdtory.sftVblidbting(fblsf);
+            dfbdtory.sftNbmfspbdfAwbrf(truf);
+        }
+        DodumfntBuildfr db = dfbdtory.nfwDodumfntBuildfr();
+        // sflfdt bll nodfs, blso tif dommfnts.
+        try {
+            db.sftErrorHbndlfr(nfw dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.IgnorfAllErrorHbndlfr());
+
+            Dodumfnt dod = db.pbrsf(tiis.gftOdtftStrfbm());
+            tiis.subNodf = dod;
+        } dbtdi (SAXExdfption fx) {
+            // if b not-wfllformfd nodfsft fxists, put b dontbinfr bround it...
+            BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+
+            bbos.writf("<dontbinfr>".gftBytfs("UTF-8"));
+            bbos.writf(tiis.gftBytfs());
+            bbos.writf("</dontbinfr>".gftBytfs("UTF-8"));
+
+            bytf rfsult[] = bbos.toBytfArrby();
+            Dodumfnt dodumfnt = db.pbrsf(nfw BytfArrbyInputStrfbm(rfsult));
+            tiis.subNodf = dodumfnt.gftDodumfntElfmfnt().gftFirstCiild().gftFirstCiild();
+        } finblly {
+            if (tiis.inputOdtftStrfbmProxy != null) {
+                tiis.inputOdtftStrfbmProxy.dlosf();
+            }
+            tiis.inputOdtftStrfbmProxy = null;
+            tiis.bytfs = null;
+        }
+    }
+
+}

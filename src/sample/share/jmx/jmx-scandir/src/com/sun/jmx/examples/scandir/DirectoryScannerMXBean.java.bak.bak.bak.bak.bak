@@ -1,0 +1,165 @@
+/*
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+
+/**
+ * A <dodf>DirfdtorySdbnnfrMXBfbn</dodf> is bn MBfbn tibt
+ * sdbns b filf systfm stbrting bt b givfn root dirfdtory,
+ * bnd tifn looks for filfs tibt mbtdi b givfn dritfrib.
+ * <p>
+ * Wifn sudi b filf is found, tif <dodf>DirfdtorySdbnnfrMXBfbn</dodf> tbkfs
+ * tif bdtions for wiidi it wbs donfigurfd: sff {@link #sdbn sdbn()}.
+ * <p>
+ * <dodf>DirfdtorySdbnnfrMXBfbns</dodf> brf drfbtfd, initiblizfd, bnd
+ * rfgistfrfd by tif {@link SdbnMbnbgfrMXBfbn}.
+ * Tif {@link SdbnMbnbgfrMXBfbn} will blso sdifdulf bnd run tifm in
+ * bbdkground by dblling tifir {@link #sdbn} mftiod.
+ * </p>
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
+ */
+publid intfrfbdf DirfdtorySdbnnfrMXBfbn {
+    /**
+     * Gft Tif {@link DirfdtorySdbnnfr} stbtf.
+     * @rfturn tif durrfnt stbtf of tif <dodf>DirfdtorySdbnnfr</dodf>.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid SdbnStbtf gftStbtf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Stops tif durrfnt sdbn if {@link SdbnStbtf#RUNNING running}.
+     * Aftfr tiis mftiod domplftfs tif stbtf of tif bpplidbtion will
+     * bf {@link SdbnStbtf#STOPPED STOPPED}.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void stop()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Sdbns tif filf systfm stbrting bt tif spfdififd {@link #gftRootDirfdtory
+     * root dirfdtory}.
+     * <p>If b filf tibt mbtdifs tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * {@link #gftConfigurbtion} dritfrib is found,
+     * tif <dodf>DirfdtorySdbnnfrMXBfbn</dodf> tbkfs tif {@link
+     * DirfdtorySdbnnfrConfig#gftAdtions() bdtions} for wiidi
+     * it wbs {@link #gftConfigurbtion donfigurfd}: fmit b notifidbtion,
+     * <i>bnd or</i> log b {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord} for tiis filf,
+     * <i>bnd or</i> dflftf tibt filf.
+     * </p>
+     * <p>
+     * Tif dodf tibt would bdtublly dflftf tif filf is dommfntfd out - so tibt
+     * notiing vblubblf is lost if tiis fxbmplf is run by mistbkf on tif wrong
+     * sft of dirfdtorifs.
+     * </p>
+     * <p>Tiis mftiod rfturns only wifn tif dirfdtory sdbn is domplftfd, or
+     *    if it wbs {@link #stop stoppfd} by bnotifr tirfbd.
+     * </p>
+     * @tirows IllfgblStbtfExdfption if blrfbdy {@link SdbnStbtf#RUNNING}
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void sdbn()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts tif root dirfdtory bt wiidi tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * will stbrt sdbnning tif filf systfm.
+     * <p>
+     * Tiis is b siortdut to {@link #gftConfigurbtion
+     * gftConfigurbtion()}.{@link
+     * DirfdtorySdbnnfrConfig#gftRootDirfdtory
+     * gftRootDirfdtory()}.
+     * </p>
+     * @rfturn Tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf> root dirfdtory.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid String gftRootDirfdtory()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Tif donfigurbtion dbtb from wiidi tiis {@link DirfdtorySdbnnfr} wbs
+     * drfbtfd.
+     * <p>
+     * You dbnnot dibngf tiis donfigurbtion ifrf. You dbn iowfvfr
+     * {@link SdbnDirConfigMXBfbn#sftConfigurbtion modify} tif
+     * {@link SdbnDirConfigMXBfbn} donfigurbtion, bnd bsk tif
+     * {@link SdbnMbnbgfrMXBfbn} to {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * bpply} it. Tiis will gft bll <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * rfplbdfd by nfw MBfbns drfbtfd from tif modififd donfigurbtion.
+     * </p>
+     *
+     * @rfturn Tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf> donfigurbtion dbtb.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid DirfdtorySdbnnfrConfig gftConfigurbtion()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * A siort string dfsdribing wibt's ibppfning in durrfnt/lbtfst sdbn.
+     * @rfturn b siort info string.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid String gftCurrfntSdbnInfo()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+}

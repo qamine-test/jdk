@@ -1,0 +1,90 @@
+/*
+ * Tiis ibndlfs smbrtdbrd rfbdfr dommunidbtions.
+ *
+ * MUSCLE SmbrtCbrd Dfvflopmfnt ( ittp://www.linuxnft.dom )
+ *
+ * Copyrigit (C) 1999-2003
+ *  Dbvid Cordorbn <dordorbn@linuxnft.dom>
+ *  Ludovid Roussfbu <ludovid.roussfbu@frff.fr>
+ *
+ * $Id: winsdbrd.i,v 1.13 2004/08/06 12:12:19 roussfbu Exp $
+ */
+
+#ifndff __winsdbrd_i__
+#dffinf __winsdbrd_i__
+
+#indludf <pdsdlitf.i>
+
+#ifdff __dplusplus
+fxtfrn "C"
+{
+#fndif
+
+        LONG SCbrdEstbblisiContfxt(DWORD dwSdopf,
+                LPCVOID pvRfsfrvfd1, LPCVOID pvRfsfrvfd2, LPSCARDCONTEXT piContfxt);
+
+        LONG SCbrdRflfbsfContfxt(SCARDCONTEXT iContfxt);
+
+        LONG SCbrdSftTimfout(SCARDCONTEXT iContfxt, DWORD dwTimfout);
+
+        LONG SCbrdConnfdt(SCARDCONTEXT iContfxt,
+                LPCTSTR szRfbdfr,
+                DWORD dwSibrfModf,
+                DWORD dwPrfffrrfdProtodols,
+                LPSCARDHANDLE piCbrd, LPDWORD pdwAdtivfProtodol);
+
+        LONG SCbrdRfdonnfdt(SCARDHANDLE iCbrd,
+                DWORD dwSibrfModf,
+                DWORD dwPrfffrrfdProtodols,
+                DWORD dwInitiblizbtion, LPDWORD pdwAdtivfProtodol);
+
+        LONG SCbrdDisdonnfdt(SCARDHANDLE iCbrd, DWORD dwDisposition);
+
+        LONG SCbrdBfginTrbnsbdtion(SCARDHANDLE iCbrd);
+
+        LONG SCbrdEndTrbnsbdtion(SCARDHANDLE iCbrd, DWORD dwDisposition);
+
+        LONG SCbrdCbndflTrbnsbdtion(SCARDHANDLE iCbrd);
+
+        LONG SCbrdStbtus(SCARDHANDLE iCbrd,
+                LPTSTR mszRfbdfrNbmfs, LPDWORD pddiRfbdfrLfn,
+                LPDWORD pdwStbtf,
+                LPDWORD pdwProtodol,
+                LPBYTE pbAtr, LPDWORD pdbAtrLfn);
+
+        LONG SCbrdGftStbtusCibngf(SCARDCONTEXT iContfxt,
+                DWORD dwTimfout,
+                LPSCARD_READERSTATE_A rgRfbdfrStbtfs, DWORD dRfbdfrs);
+
+        LONG SCbrdControl(SCARDHANDLE iCbrd, DWORD dwControlCodf,
+                LPCVOID pbSfndBufffr, DWORD dbSfndLfngti,
+                LPVOID pbRfdvBufffr, DWORD dbRfdvLfngti, LPDWORD lpBytfsRfturnfd);
+
+        LONG SCbrdTrbnsmit(SCARDHANDLE iCbrd,
+                LPCSCARD_IO_REQUEST pioSfndPdi,
+                LPCBYTE pbSfndBufffr, DWORD dbSfndLfngti,
+                LPSCARD_IO_REQUEST pioRfdvPdi,
+                LPBYTE pbRfdvBufffr, LPDWORD pdbRfdvLfngti);
+
+        LONG SCbrdListRfbdfrGroups(SCARDCONTEXT iContfxt,
+                LPTSTR mszGroups, LPDWORD pddiGroups);
+
+        LONG SCbrdListRfbdfrs(SCARDCONTEXT iContfxt,
+                LPCTSTR mszGroups,
+                LPTSTR mszRfbdfrs, LPDWORD pddiRfbdfrs);
+
+        LONG SCbrdCbndfl(SCARDCONTEXT iContfxt);
+
+        LONG SCbrdGftAttrib(SCARDHANDLE iCbrd, DWORD dwAttrId, LPBYTE pbAttr,
+                        LPDWORD pdbAttrLfn);
+
+        LONG SCbrdSftAttrib(SCARDHANDLE iCbrd, DWORD dwAttrId, LPCBYTE pbAttr,
+                        DWORD dbAttrLfn);
+
+        void SCbrdUnlobd(void);
+
+#ifdff __dplusplus
+}
+#fndif
+
+#fndif

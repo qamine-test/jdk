@@ -1,0 +1,1237 @@
+/*
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MISC_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.DfsdriptorCbdif;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import dom.sun.jmx.mbfbnsfrvfr.MBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.StbndbrdMBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport;
+
+/**
+ * <p>An MBfbn wiosf mbnbgfmfnt intfrfbdf is dftfrminfd by rfflfdtion
+ * on b Jbvb intfrfbdf.</p>
+ *
+ * <p>Tiis dlbss brings morf flfxibility to tif notion of Mbnbgfmfnt
+ * Intfrfbdf in tif usf of Stbndbrd MBfbns.  Strbigitforwbrd usf of
+ * tif pbttfrns for Stbndbrd MBfbns dfsdribfd in tif JMX Spfdifidbtion
+ * mfbns tibt tifrf is b fixfd rflbtionsiip bftwffn tif implfmfntbtion
+ * dlbss of bn MBfbn bnd its mbnbgfmfnt intfrfbdf (i.f., if tif
+ * implfmfntbtion dlbss is Tiing, tif mbnbgfmfnt intfrfbdf must bf
+ * TiingMBfbn).  Tiis dlbss mbkfs it possiblf to kffp tif donvfnifndf
+ * of spfdifying tif mbnbgfmfnt intfrfbdf witi b Jbvb intfrfbdf,
+ * witiout rfquiring tibt tifrf bf bny nbming rflbtionsiip bftwffn tif
+ * implfmfntbtion bnd intfrfbdf dlbssfs.</p>
+ *
+ * <p>By mbking b DynbmidMBfbn out of bn MBfbn, tiis dlbss mbkfs
+ * it possiblf to sflfdt bny intfrfbdf implfmfntfd by tif MBfbn bs its
+ * mbnbgfmfnt intfrfbdf, providfd tibt it domplifs witi JMX pbttfrns
+ * (i.f., bttributfs dffinfd by gfttfr/sfttfr ftd...).</p>
+ *
+ * <p> Tiis dlbss blso providfs iooks tibt mbkf it possiblf to supply
+ * dustom dfsdriptions bnd nbmfs for tif {@link MBfbnInfo} rfturnfd by
+ * tif DynbmidMBfbn intfrfbdf.</p>
+ *
+ * <p>Using tiis dlbss, bn MBfbn dbn bf drfbtfd witi bny
+ * implfmfntbtion dlbss nbmf <i>Impl</i> bnd witi b mbnbgfmfnt
+ * intfrfbdf dffinfd (bs for durrfnt Stbndbrd MBfbns) by bny intfrfbdf
+ * <i>Intf</i>, in onf of two gfnfrbl wbys:</p>
+ *
+ * <ul>
+ *
+ * <li>Using tif publid donstrudtor
+ *     {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss, boolfbn)
+ *     StbndbrdMBfbn(impl,intfrfbdf)}:
+ *     <prf>
+ *     MBfbnSfrvfr mbs;
+ *     ...
+ *     Impl impl = nfw Impl(...);
+ *     StbndbrdMBfbn mbfbn = nfw StbndbrdMBfbn(impl, Intf.dlbss, fblsf);
+ *     mbs.rfgistfrMBfbn(mbfbn, objfdtNbmf);
+ *     </prf></li>
+ *
+ * <li>Subdlbssing StbndbrdMBfbn:
+ *     <prf>
+ *     publid dlbss Impl fxtfnds StbndbrdMBfbn implfmfnts Intf {
+ *        publid Impl() {
+ *          supfr(Intf.dlbss, fblsf);
+ *       }
+ *       // implfmfnt mftiods of Intf
+ *     }
+ *
+ *     [...]
+ *
+ *     MBfbnSfrvfr mbs;
+ *     ....
+ *     Impl impl = nfw Impl();
+ *     mbs.rfgistfrMBfbn(impl, objfdtNbmf);
+ *     </prf></li>
+ *
+ * </ul>
+ *
+ * <p>In fitifr dbsf, tif dlbss <i>Impl</i> must implfmfnt tif
+ * intfrfbdf <i>Intf</i>.</p>
+ *
+ * <p>Stbndbrd MBfbns bbsfd on tif nbming rflbtionsiip bftwffn
+ * implfmfntbtion bnd intfrfbdf dlbssfs brf of doursf still
+ * bvbilbblf.</p>
+ *
+ * <p>Tiis dlbss mby blso bf usfd to donstrudt MXBfbns.  Tif usbgf
+ * is fxbdtly tif sbmf bs for Stbndbrd MBfbns fxdfpt tibt in tif
+ * fxbmplfs bbovf, tif {@dodf fblsf} pbrbmftfr to tif donstrudtor or
+ * {@dodf supfr(...)} invodbtion is instfbd {@dodf truf}.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss StbndbrdMBfbn implfmfnts DynbmidMBfbn, MBfbnRfgistrbtion {
+
+    privbtf finbl stbtid DfsdriptorCbdif dfsdriptors =
+        DfsdriptorCbdif.gftInstbndf(JMX.proof);
+
+    /**
+     * Tif DynbmidMBfbn tibt wrbps tif MXBfbn or Stbndbrd MBfbn implfmfntbtion.
+     **/
+    privbtf volbtilf MBfbnSupport<?> mbfbn;
+
+    /**
+     * Tif dbdifd MBfbnInfo.
+     **/
+    privbtf volbtilf MBfbnInfo dbdifdMBfbnInfo;
+
+    /**
+     * Mbkf b DynbmidMBfbn out of <vbr>implfmfntbtion</vbr>, using tif
+     * spfdififd <vbr>mbfbnIntfrfbdf</vbr> dlbss.
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     *        If <dodf>null</dodf>, bnd null implfmfntbtion is bllowfd,
+     *        tifn tif implfmfntbtion is bssumfd to bf <vbr>tiis</vbr>.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm nullImplfmfntbtionAllowfd <dodf>truf</dodf> if b null
+     *        implfmfntbtion is bllowfd. If null implfmfntbtion is bllowfd,
+     *        bnd b null implfmfntbtion is pbssfd, tifn tif implfmfntbtion
+     *        is bssumfd to bf <vbr>tiis</vbr>.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null, bnd null is not bllowfd.
+     **/
+    privbtf <T> void donstrudt(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                               boolfbn nullImplfmfntbtionAllowfd,
+                               boolfbn isMXBfbn)
+                               tirows NotComplibntMBfbnExdfption {
+        if (implfmfntbtion == null) {
+            // Hbvf to usf (T)tiis rbtifr tibn mbfbnIntfrfbdf.dbst(tiis)
+            // bfdbusf mbfbnIntfrfbdf migit bf null.
+            if (nullImplfmfntbtionAllowfd)
+                implfmfntbtion = Util.<T>dbst(tiis);
+            flsf tirow nfw IllfgblArgumfntExdfption("implfmfntbtion is null");
+        }
+        if (isMXBfbn) {
+            if (mbfbnIntfrfbdf == null) {
+                mbfbnIntfrfbdf = Util.dbst(Introspfdtor.gftMXBfbnIntfrfbdf(
+                        implfmfntbtion.gftClbss()));
+            }
+            tiis.mbfbn = nfw MXBfbnSupport(implfmfntbtion, mbfbnIntfrfbdf);
+        } flsf {
+            if (mbfbnIntfrfbdf == null) {
+                mbfbnIntfrfbdf = Util.dbst(Introspfdtor.gftStbndbrdMBfbnIntfrfbdf(
+                        implfmfntbtion.gftClbss()));
+            }
+            tiis.mbfbn =
+                    nfw StbndbrdMBfbnSupport(implfmfntbtion, mbfbnIntfrfbdf);
+        }
+    }
+
+    /**
+     * <p>Mbkf b DynbmidMBfbn out of tif objfdt
+     * <vbr>implfmfntbtion</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss.</p>
+     *
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm <T> Allows tif dompilfr to difdk
+     * tibt {@dodf implfmfntbtion} dofs indffd implfmfnt tif dlbss
+     * dfsdribfd by {@dodf mbfbnIntfrfbdf}.  Tif dompilfr dbn only
+     * difdk tiis if {@dodf mbfbnIntfrfbdf} is b dlbss litfrbl sudi
+     * bs {@dodf MyMBfbn.dlbss}.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null.
+     * @fxdfption NotComplibntMBfbnExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     *    spfdififd intfrfbdf.
+     **/
+    publid <T> StbndbrdMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf)
+        tirows NotComplibntMBfbnExdfption {
+        donstrudt(implfmfntbtion, mbfbnIntfrfbdf, fblsf, fblsf);
+    }
+
+    /**
+     * <p>Mbkf b DynbmidMBfbn out of <vbr>tiis</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss.</p>
+     *
+     * <p>Cblls {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss)
+     *       tiis(tiis,mbfbnIntfrfbdf)}.
+     * Tiis donstrudtor is rfsfrvfd to subdlbssfs.</p>
+     *
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn.
+     *
+     * @fxdfption NotComplibntMBfbnExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if <vbr>tiis</vbr> dofs not implfmfnt tif spfdififd intfrfbdf.
+     **/
+    protfdtfd StbndbrdMBfbn(Clbss<?> mbfbnIntfrfbdf)
+        tirows NotComplibntMBfbnExdfption {
+        donstrudt(null, mbfbnIntfrfbdf, truf, fblsf);
+    }
+
+    /**
+     * <p>Mbkf b DynbmidMBfbn out of tif objfdt
+     * <vbr>implfmfntbtion</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss, bnd dioosing wiftifr tif
+     * rfsultbnt MBfbn is bn MXBfbn.  Tiis donstrudtor dbn bf usfd
+     * to mbkf fitifr Stbndbrd MBfbns or MXBfbns.  Unlikf tif
+     * donstrudtor {@link #StbndbrdMBfbn(Objfdt, Clbss)}, it
+     * dofs not tirow NotComplibntMBfbnExdfption.</p>
+     *
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
+     * @pbrbm <T> Allows tif dompilfr to difdk
+     * tibt {@dodf implfmfntbtion} dofs indffd implfmfnt tif dlbss
+     * dfsdribfd by {@dodf mbfbnIntfrfbdf}.  Tif dompilfr dbn only
+     * difdk tiis if {@dodf mbfbnIntfrfbdf} is b dlbss litfrbl sudi
+     * bs {@dodf MyMBfbn.dlbss}.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null, or if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     *    spfdififd intfrfbdf.
+     *
+     * @sindf 1.6
+     **/
+    publid <T> StbndbrdMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                             boolfbn isMXBfbn) {
+        try {
+            donstrudt(implfmfntbtion, mbfbnIntfrfbdf, fblsf, isMXBfbn);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /**
+     * <p>Mbkf b DynbmidMBfbn out of <vbr>tiis</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss, bnd dioosing wiftifr tif rfsulting
+     * MBfbn is bn MXBfbn.  Tiis donstrudtor dbn bf usfd
+     * to mbkf fitifr Stbndbrd MBfbns or MXBfbns.  Unlikf tif
+     * donstrudtor {@link #StbndbrdMBfbn(Objfdt, Clbss)}, it
+     * dofs not tirow NotComplibntMBfbnExdfption.</p>
+     *
+     * <p>Cblls {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss, boolfbn)
+     *       tiis(tiis, mbfbnIntfrfbdf, isMXBfbn)}.
+     * Tiis donstrudtor is rfsfrvfd to subdlbssfs.</p>
+     *
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if <vbr>tiis</vbr> dofs not implfmfnt tif spfdififd intfrfbdf.
+     *
+     * @sindf 1.6
+     **/
+    protfdtfd StbndbrdMBfbn(Clbss<?> mbfbnIntfrfbdf, boolfbn isMXBfbn) {
+        try {
+            donstrudt(null, mbfbnIntfrfbdf, truf, isMXBfbn);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /**
+     * <p>Rfplbdf tif implfmfntbtion objfdt wrbppfd in tiis objfdt.</p>
+     *
+     * @pbrbm implfmfntbtion Tif nfw implfmfntbtion of tiis Stbndbrd MBfbn
+     * (or MXBfbn). Tif <dodf>implfmfntbtion</dodf> objfdt must implfmfnt
+     * tif Stbndbrd MBfbn (or MXBfbn) intfrfbdf tibt wbs supplifd wifn tiis
+     * <dodf>StbndbrdMBfbn</dodf> wbs donstrudtfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     * <vbr>implfmfntbtion</vbr> is null.
+     *
+     * @fxdfption NotComplibntMBfbnExdfption if tif givfn
+     * <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     * Stbndbrd MBfbn (or MXBfbn) intfrfbdf tibt wbs
+     * supplifd bt donstrudtion.
+     *
+     * @sff #gftImplfmfntbtion
+     **/
+    publid void sftImplfmfntbtion(Objfdt implfmfntbtion)
+        tirows NotComplibntMBfbnExdfption {
+
+        if (implfmfntbtion == null)
+            tirow nfw IllfgblArgumfntExdfption("implfmfntbtion is null");
+
+        if (isMXBfbn()) {
+            tiis.mbfbn = nfw MXBfbnSupport(implfmfntbtion,
+                    Util.<Clbss<Objfdt>>dbst(gftMBfbnIntfrfbdf()));
+        } flsf {
+            tiis.mbfbn = nfw StbndbrdMBfbnSupport(implfmfntbtion,
+                    Util.<Clbss<Objfdt>>dbst(gftMBfbnIntfrfbdf()));
+        }
+    }
+
+    /**
+     * Gft tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     *
+     * @sff #sftImplfmfntbtion
+     **/
+    publid Objfdt gftImplfmfntbtion() {
+        rfturn mbfbn.gftRfsourdf();
+    }
+
+    /**
+     * Gft tif Mbnbgfmfnt Intfrfbdf of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif mbnbgfmfnt intfrfbdf of tiis Stbndbrd MBfbn (or MXBfbn).
+     **/
+    publid finbl Clbss<?> gftMBfbnIntfrfbdf() {
+        rfturn mbfbn.gftMBfbnIntfrfbdf();
+    }
+
+    /**
+     * Gft tif dlbss of tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif dlbss of tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     **/
+    publid Clbss<?> gftImplfmfntbtionClbss() {
+        rfturn mbfbn.gftRfsourdf().gftClbss();
+    }
+
+    // ------------------------------------------------------------------
+    // From tif DynbmidMBfbn intfrfbdf.
+    // ------------------------------------------------------------------
+    publid Objfdt gftAttributf(String bttributf)
+        tirows AttributfNotFoundExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption {
+        rfturn mbfbn.gftAttributf(bttributf);
+    }
+
+    // ------------------------------------------------------------------
+    // From tif DynbmidMBfbn intfrfbdf.
+    // ------------------------------------------------------------------
+    publid void sftAttributf(Attributf bttributf)
+        tirows AttributfNotFoundExdfption,
+               InvblidAttributfVblufExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption {
+        mbfbn.sftAttributf(bttributf);
+    }
+
+    // ------------------------------------------------------------------
+    // From tif DynbmidMBfbn intfrfbdf.
+    // ------------------------------------------------------------------
+    publid AttributfList gftAttributfs(String[] bttributfs) {
+        rfturn mbfbn.gftAttributfs(bttributfs);
+    }
+
+    // ------------------------------------------------------------------
+    // From tif DynbmidMBfbn intfrfbdf.
+    // ------------------------------------------------------------------
+    publid AttributfList sftAttributfs(AttributfList bttributfs) {
+        rfturn mbfbn.sftAttributfs(bttributfs);
+    }
+
+    // ------------------------------------------------------------------
+    // From tif DynbmidMBfbn intfrfbdf.
+    // ------------------------------------------------------------------
+    publid Objfdt invokf(String bdtionNbmf, Objfdt pbrbms[], String signbturf[])
+            tirows MBfbnExdfption, RfflfdtionExdfption {
+        rfturn mbfbn.invokf(bdtionNbmf, pbrbms, signbturf);
+    }
+
+    /**
+     * Gft tif {@link MBfbnInfo} for tiis MBfbn.
+     * <p>
+     * Tiis mftiod implfmfnts
+     * {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn#gftMBfbnInfo()
+     *   DynbmidMBfbn.gftMBfbnInfo()}.
+     * <p>
+     * Tiis mftiod first dblls {@link #gftCbdifdMBfbnInfo()} in ordfr to
+     * rftrifvf tif dbdifd MBfbnInfo for tiis MBfbn, if bny. If tif
+     * MBfbnInfo rfturnfd by {@link #gftCbdifdMBfbnInfo()} is not null,
+     * tifn it is rfturnfd.<br>
+     * Otifrwisf, tiis mftiod builds b dffbult MBfbnInfo for tiis MBfbn,
+     * using tif Mbnbgfmfnt Intfrfbdf spfdififd for tiis MBfbn.
+     * <p>
+     * Wiilf building tif MBfbnInfo, tiis mftiod dblls tif dustomizbtion
+     * iooks tibt mbkf it possiblf for subdlbssfs to supply tifir dustom
+     * dfsdriptions, pbrbmftfr nbmfs, ftd...<br>
+     * Finblly, it dblls {@link #dbdifMBfbnInfo(jbvbx.mbnbgfmfnt.MBfbnInfo)
+     * dbdifMBfbnInfo()} in ordfr to dbdif tif nfw MBfbnInfo.
+     * @rfturn Tif dbdifd MBfbnInfo for tibt MBfbn, if not null, or b
+     *         nfwly built MBfbnInfo if nonf wbs dbdifd.
+     **/
+    publid MBfbnInfo gftMBfbnInfo() {
+        try {
+            finbl MBfbnInfo dbdifd = gftCbdifdMBfbnInfo();
+            if (dbdifd != null) rfturn dbdifd;
+        } dbtdi (RuntimfExdfption x) {
+            if (MISC_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MISC_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                        "Fbilfd to gft dbdifd MBfbnInfo", x);
+            }
+        }
+
+        if (MISC_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MISC_LOGGER.logp(Lfvfl.FINER,
+                    MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                    "Building MBfbnInfo for " +
+                    gftImplfmfntbtionClbss().gftNbmf());
+        }
+
+        MBfbnSupport<?> msupport = mbfbn;
+        finbl MBfbnInfo bi = msupport.gftMBfbnInfo();
+        finbl Objfdt impl = msupport.gftRfsourdf();
+
+        finbl boolfbn immutbblfInfo = immutbblfInfo(tiis.gftClbss());
+
+        finbl String                  dnbmf = gftClbssNbmf(bi);
+        finbl String                  tfxt  = gftDfsdription(bi);
+        finbl MBfbnConstrudtorInfo[]  dtors = gftConstrudtors(bi,impl);
+        finbl MBfbnAttributfInfo[]    bttrs = gftAttributfs(bi);
+        finbl MBfbnOpfrbtionInfo[]    ops   = gftOpfrbtions(bi);
+        finbl MBfbnNotifidbtionInfo[] ntfs  = gftNotifidbtions(bi);
+        finbl Dfsdriptor              dfsd  = gftDfsdriptor(bi, immutbblfInfo);
+
+        finbl MBfbnInfo nmbi = nfw MBfbnInfo(
+                dnbmf, tfxt, bttrs, dtors, ops, ntfs, dfsd);
+        try {
+            dbdifMBfbnInfo(nmbi);
+        } dbtdi (RuntimfExdfption x) {
+            if (MISC_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MISC_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                        "Fbilfd to dbdif MBfbnInfo", x);
+            }
+        }
+
+        rfturn nmbi;
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dlbssNbmf tibt will bf usfd in tif MBfbnInfo rfturnfd by
+     * tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dlbss nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnInfo#gftClbssNbmf() info.gftClbssNbmf()}.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dlbss nbmf for tif nfw MBfbnInfo.
+     **/
+    protfdtfd String gftClbssNbmf(MBfbnInfo info) {
+        if (info == null) rfturn gftImplfmfntbtionClbss().gftNbmf();
+        rfturn info.gftClbssNbmf();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnInfo rfturnfd by
+     * tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom MBfbn dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnInfo#gftDfsdription() info.gftDfsdription()}.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif nfw MBfbnInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnInfo info) {
+        if (info == null) rfturn null;
+        rfturn info.gftDfsdription();
+    }
+
+    /**
+     * <p>Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnFfbturfInfo
+     * rfturnfd by tiis MBfbn.</p>
+     *
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply
+     * tifir dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnFfbturfInfo#gftDfsdription()
+     * info.gftDfsdription()}.</p>
+     *
+     * <p>Tiis mftiod is dbllfd by
+     *      {@link #gftDfsdription(MBfbnAttributfInfo)},
+     *      {@link #gftDfsdription(MBfbnOpfrbtionInfo)},
+     *      {@link #gftDfsdription(MBfbnConstrudtorInfo)}.</p>
+     *
+     * @pbrbm info Tif dffbult MBfbnFfbturfInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnFfbturfInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnFfbturfInfo info) {
+        if (info == null) rfturn null;
+        rfturn info.gftDfsdription();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnAttributfInfo
+     * rfturnfd by tiis MBfbn.
+     *
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns {@link
+     * #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnAttributfInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnAttributfInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnAttributfInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnConstrudtorInfo
+     * rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.
+     * Tif dffbult implfmfntbtion rfturns {@link
+     * #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnConstrudtorInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnConstrudtorInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd for tif  <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnConstrudtorInfo rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftDfsdription() pbrbm.gftDfsdription()}.
+     *
+     * @pbrbm dtor  Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif dfsdription for tif givfn MBfbnPbrbmftfrInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnConstrudtorInfo dtor,
+                                    MBfbnPbrbmftfrInfo   pbrbm,
+                                    int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftDfsdription();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif nbmf tibt will bf usfd for tif <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnConstrudtorInfo rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom pbrbmftfr nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftNbmf() pbrbm.gftNbmf()}.
+     *
+     * @pbrbm dtor  Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif nbmf for tif givfn MBfbnPbrbmftfrInfo.
+     **/
+    protfdtfd String gftPbrbmftfrNbmf(MBfbnConstrudtorInfo dtor,
+                                      MBfbnPbrbmftfrInfo pbrbm,
+                                      int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftNbmf();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnOpfrbtionInfo
+     * rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnOpfrbtionInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnOpfrbtionInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif <vbr>impbdt</vbr> flbg of tif opfrbtion tibt will bf usfd in
+     * tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom impbdt flbg.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnOpfrbtionInfo#gftImpbdt() info.gftImpbdt()}.
+     * @pbrbm info Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @rfturn tif impbdt flbg for tif givfn MBfbnOpfrbtionInfo.
+     **/
+    protfdtfd int gftImpbdt(MBfbnOpfrbtionInfo info) {
+        if (info == null) rfturn MBfbnOpfrbtionInfo.UNKNOWN;
+        rfturn info.gftImpbdt();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif nbmf tibt will bf usfd for tif <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom pbrbmftfr nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftNbmf() pbrbm.gftNbmf()}.
+     *
+     * @pbrbm op    Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif nbmf to usf for tif givfn MBfbnPbrbmftfrInfo.
+     **/
+    protfdtfd String gftPbrbmftfrNbmf(MBfbnOpfrbtionInfo op,
+                                      MBfbnPbrbmftfrInfo pbrbm,
+                                      int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftNbmf();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd for tif  <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftDfsdription() pbrbm.gftDfsdription()}.
+     *
+     * @pbrbm op    Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif dfsdription for tif givfn MBfbnPbrbmftfrInfo.
+     **/
+    protfdtfd String gftDfsdription(MBfbnOpfrbtionInfo op,
+                                    MBfbnPbrbmftfrInfo pbrbm,
+                                    int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftDfsdription();
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif MBfbnConstrudtorInfo[] tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.
+     * <br>
+     * By dffbult, tiis mftiod rfturns <dodf>null</dodf> if tif wrbppfd
+     * implfmfntbtion is not <vbr>tiis</vbr>. Indffd, if tif wrbppfd
+     * implfmfntbtion is not tiis objfdt itsflf, it will not bf possiblf
+     * to rfdrfbtf b wrbppfd implfmfntbtion by dblling tif implfmfntbtion
+     * donstrudtors tirougi <dodf>MBfbnSfrvfr.drfbtfMBfbn(...)</dodf>.<br>
+     * Otifrwisf, if tif wrbppfd implfmfntbtion is <vbr>tiis</vbr>,
+     * <vbr>dtors</vbr> is rfturnfd.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to modify tiis
+     * bfibvior, if nffdfd.
+     * @pbrbm dtors Tif dffbult MBfbnConstrudtorInfo[] dfrivfd by rfflfdtion.
+     * @pbrbm impl  Tif wrbppfd implfmfntbtion. If <dodf>null</dodf> is
+     *        pbssfd, tif wrbppfd implfmfntbtion is ignorfd bnd
+     *        <vbr>dtors</vbr> is rfturnfd.
+     * @rfturn tif MBfbnConstrudtorInfo[] for tif nfw MBfbnInfo.
+     **/
+    protfdtfd MBfbnConstrudtorInfo[]
+        gftConstrudtors(MBfbnConstrudtorInfo[] dtors, Objfdt impl) {
+            if (dtors == null) rfturn null;
+            if (impl != null && impl != tiis) rfturn null;
+            rfturn dtors;
+    }
+
+    /**
+     * Customizbtion iook:
+     * Gft tif MBfbnNotifidbtionInfo[] tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.
+     * <br>
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom notifidbtions.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif MBfbnNotifidbtionInfo[] for tif nfw MBfbnInfo.
+     **/
+    MBfbnNotifidbtionInfo[] gftNotifidbtions(MBfbnInfo info) {
+        rfturn null;
+    }
+
+    /**
+     * <p>Gft tif Dfsdriptor tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.</p>
+     *
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply
+     * tifir dustom dfsdriptor.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns b Dfsdriptor
+     * tibt dontbins bt lfbst tif fifld {@dodf intfrfbdfClbssNbmf}, witi
+     * vbluf {@link #gftMBfbnIntfrfbdf()}.gftNbmf(). It mby blso dontbin
+     * tif fifld {@dodf immutbblfInfo}, witi b vbluf tibt is tif string
+     * {@dodf "truf"} if tif implfmfntbtion dbn dftfrminf tibt tif
+     * {@dodf MBfbnInfo} rfturnfd by {@link #gftMBfbnInfo()} will blwbys
+     * bf tif sbmf. It mby dontbin otifr fiflds: fiflds dffinfd by tif
+     * JMX spfdifidbtion must ibvf bppropribtf vblufs, bnd otifr fiflds
+     * must follow tif donvfntions for non-stbndbrd fifld nbmfs.</p>
+     *
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif Dfsdriptor for tif nfw MBfbnInfo.
+     */
+    Dfsdriptor gftDfsdriptor(MBfbnInfo info, boolfbn immutbblfInfo) {
+        ImmutbblfDfsdriptor dfsd;
+        if (info == null ||
+            info.gftDfsdriptor() == null ||
+            info.gftDfsdriptor().gftFifldNbmfs().lfngti == 0) {
+            finbl String intfrfbdfClbssNbmfS =
+                "intfrfbdfClbssNbmf=" + gftMBfbnIntfrfbdf().gftNbmf();
+            finbl String immutbblfInfoS =
+                "immutbblfInfo=" + immutbblfInfo;
+            dfsd = nfw ImmutbblfDfsdriptor(intfrfbdfClbssNbmfS, immutbblfInfoS);
+            dfsd = dfsdriptors.gft(dfsd);
+        } flsf {
+            Dfsdriptor d = info.gftDfsdriptor();
+            Mbp<String,Objfdt> fiflds = nfw HbsiMbp<String,Objfdt>();
+            for (String fifldNbmf : d.gftFifldNbmfs()) {
+                if (fifldNbmf.fqubls("immutbblfInfo")) {
+                    // Rfplbdf immutbblfInfo bs tif undfrlying MBfbn/MXBfbn
+                    // dould blrfbdy implfmfnt NotifidbtionBrobddbstfr bnd
+                    // rfturn immutbblfInfo=truf in its MBfbnInfo.
+                    fiflds.put(fifldNbmf, Boolfbn.toString(immutbblfInfo));
+                } flsf {
+                    fiflds.put(fifldNbmf, d.gftFifldVbluf(fifldNbmf));
+                }
+            }
+            dfsd = nfw ImmutbblfDfsdriptor(fiflds);
+        }
+        rfturn dfsd;
+    }
+
+    /**
+     * Customizbtion iook:
+     * Rfturn tif MBfbnInfo dbdifd for tiis objfdt.
+     *
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to implfmfnt tifir
+     * own dbdiing polidy.  Tif dffbult implfmfntbtion storfs onf
+     * {@link MBfbnInfo} objfdt pfr instbndf.
+     *
+     * @rfturn Tif dbdifd MBfbnInfo, or null if no MBfbnInfo is dbdifd.
+     *
+     * @sff #dbdifMBfbnInfo(MBfbnInfo)
+     **/
+    protfdtfd MBfbnInfo gftCbdifdMBfbnInfo() {
+        rfturn dbdifdMBfbnInfo;
+    }
+
+    /**
+     * Customizbtion iook:
+     * dbdif tif MBfbnInfo built for tiis objfdt.
+     *
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to implfmfnt
+     * tifir own dbdiing polidy.  Tif dffbult implfmfntbtion storfs
+     * <dodf>info</dodf> in tiis instbndf.  A subdlbss dbn dffinf
+     * otifr polidifs, sudi bs not sbving <dodf>info</dodf> (so it is
+     * rfdonstrudtfd fvfry timf {@link #gftMBfbnInfo()} is dbllfd) or
+     * sibring b uniquf {@link MBfbnInfo} objfdt wifn sfvfrbl
+     * <dodf>StbndbrdMBfbn</dodf> instbndfs ibvf fqubl {@link
+     * MBfbnInfo} vblufs.
+     *
+     * @pbrbm info tif nfw <dodf>MBfbnInfo</dodf> to dbdif.  Any
+     * prfviously dbdifd vbluf is disdbrdfd.  Tiis pbrbmftfr mby bf
+     * null, in wiidi dbsf tifrf is no nfw dbdifd vbluf.
+     **/
+    protfdtfd void dbdifMBfbnInfo(MBfbnInfo info) {
+        dbdifdMBfbnInfo = info;
+    }
+
+    privbtf boolfbn isMXBfbn() {
+        rfturn mbfbn.isMXBfbn();
+    }
+
+    privbtf stbtid <T> boolfbn idfntidblArrbys(T[] b, T[] b) {
+        if (b == b)
+            rfturn truf;
+        if (b == null || b == null || b.lfngti != b.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < b.lfngti; i++) {
+            if (b[i] != b[i])
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    privbtf stbtid <T> boolfbn fqubl(T b, T b) {
+        if (b == b)
+            rfturn truf;
+        if (b == null || b == null)
+            rfturn fblsf;
+        rfturn b.fqubls(b);
+    }
+
+    privbtf stbtid MBfbnPbrbmftfrInfo
+            dustomizf(MBfbnPbrbmftfrInfo pi,
+                      String nbmf,
+                      String dfsdription) {
+        if (fqubl(nbmf, pi.gftNbmf()) &&
+                fqubl(dfsdription, pi.gftDfsdription()))
+            rfturn pi;
+        flsf if (pi instbndfof OpfnMBfbnPbrbmftfrInfo) {
+            OpfnMBfbnPbrbmftfrInfo opi = (OpfnMBfbnPbrbmftfrInfo) pi;
+            rfturn nfw OpfnMBfbnPbrbmftfrInfoSupport(nbmf,
+                                                     dfsdription,
+                                                     opi.gftOpfnTypf(),
+                                                     pi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnPbrbmftfrInfo(nbmf,
+                                          pi.gftTypf(),
+                                          dfsdription,
+                                          pi.gftDfsdriptor());
+        }
+    }
+
+    privbtf stbtid MBfbnConstrudtorInfo
+            dustomizf(MBfbnConstrudtorInfo di,
+                      String dfsdription,
+                      MBfbnPbrbmftfrInfo[] signbturf) {
+        if (fqubl(dfsdription, di.gftDfsdription()) &&
+                idfntidblArrbys(signbturf, di.gftSignbturf()))
+            rfturn di;
+        if (di instbndfof OpfnMBfbnConstrudtorInfo) {
+            OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+                pbrbmsToOpfnPbrbms(signbturf);
+            rfturn nfw OpfnMBfbnConstrudtorInfoSupport(di.gftNbmf(),
+                                                       dfsdription,
+                                                       opbrbms,
+                                                       di.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnConstrudtorInfo(di.gftNbmf(),
+                                            dfsdription,
+                                            signbturf,
+                                            di.gftDfsdriptor());
+        }
+    }
+
+    privbtf stbtid MBfbnOpfrbtionInfo
+            dustomizf(MBfbnOpfrbtionInfo oi,
+                      String dfsdription,
+                      MBfbnPbrbmftfrInfo[] signbturf,
+                      int impbdt) {
+        if (fqubl(dfsdription, oi.gftDfsdription()) &&
+                idfntidblArrbys(signbturf, oi.gftSignbturf()) &&
+                impbdt == oi.gftImpbdt())
+            rfturn oi;
+        if (oi instbndfof OpfnMBfbnOpfrbtionInfo) {
+            OpfnMBfbnOpfrbtionInfo ooi = (OpfnMBfbnOpfrbtionInfo) oi;
+            OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+                pbrbmsToOpfnPbrbms(signbturf);
+            rfturn nfw OpfnMBfbnOpfrbtionInfoSupport(oi.gftNbmf(),
+                                                     dfsdription,
+                                                     opbrbms,
+                                                     ooi.gftRfturnOpfnTypf(),
+                                                     impbdt,
+                                                     oi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnOpfrbtionInfo(oi.gftNbmf(),
+                                          dfsdription,
+                                          signbturf,
+                                          oi.gftRfturnTypf(),
+                                          impbdt,
+                                          oi.gftDfsdriptor());
+        }
+    }
+
+    privbtf stbtid MBfbnAttributfInfo
+            dustomizf(MBfbnAttributfInfo bi,
+                      String dfsdription) {
+        if (fqubl(dfsdription, bi.gftDfsdription()))
+            rfturn bi;
+        if (bi instbndfof OpfnMBfbnAttributfInfo) {
+            OpfnMBfbnAttributfInfo obi = (OpfnMBfbnAttributfInfo) bi;
+            rfturn nfw OpfnMBfbnAttributfInfoSupport(bi.gftNbmf(),
+                                                     dfsdription,
+                                                     obi.gftOpfnTypf(),
+                                                     bi.isRfbdbblf(),
+                                                     bi.isWritbblf(),
+                                                     bi.isIs(),
+                                                     bi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnAttributfInfo(bi.gftNbmf(),
+                                          bi.gftTypf(),
+                                          dfsdription,
+                                          bi.isRfbdbblf(),
+                                          bi.isWritbblf(),
+                                          bi.isIs(),
+                                          bi.gftDfsdriptor());
+        }
+    }
+
+    privbtf stbtid OpfnMBfbnPbrbmftfrInfo[]
+            pbrbmsToOpfnPbrbms(MBfbnPbrbmftfrInfo[] pbrbms) {
+        if (pbrbms instbndfof OpfnMBfbnPbrbmftfrInfo[])
+            rfturn (OpfnMBfbnPbrbmftfrInfo[]) pbrbms;
+        OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+            nfw OpfnMBfbnPbrbmftfrInfoSupport[pbrbms.lfngti];
+        Systfm.brrbydopy(pbrbms, 0, opbrbms, 0, pbrbms.lfngti);
+        rfturn opbrbms;
+    }
+
+    // ------------------------------------------------------------------
+    // Build tif dustom MBfbnConstrudtorInfo[]
+    // ------------------------------------------------------------------
+    privbtf MBfbnConstrudtorInfo[]
+            gftConstrudtors(MBfbnInfo info, Objfdt impl) {
+        finbl MBfbnConstrudtorInfo[] dtors =
+            gftConstrudtors(info.gftConstrudtors(), impl);
+        if (dtors == null)
+            rfturn null;
+        finbl int dtorlfn = dtors.lfngti;
+        finbl MBfbnConstrudtorInfo[] ndtors = nfw MBfbnConstrudtorInfo[dtorlfn];
+        for (int i=0; i<dtorlfn; i++) {
+            finbl MBfbnConstrudtorInfo d = dtors[i];
+            finbl MBfbnPbrbmftfrInfo[] pbrbms = d.gftSignbturf();
+            finbl MBfbnPbrbmftfrInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plfn = pbrbms.lfngti;
+                nps = nfw MBfbnPbrbmftfrInfo[plfn];
+                for (int ii=0;ii<plfn;ii++) {
+                    MBfbnPbrbmftfrInfo p = pbrbms[ii];
+                    nps[ii] = dustomizf(p,
+                                        gftPbrbmftfrNbmf(d,p,ii),
+                                        gftDfsdription(d,p,ii));
+                }
+            } flsf {
+                nps = null;
+            }
+            ndtors[i] =
+                dustomizf(d, gftDfsdription(d), nps);
+        }
+        rfturn ndtors;
+    }
+
+    // ------------------------------------------------------------------
+    // Build tif dustom MBfbnOpfrbtionInfo[]
+    // ------------------------------------------------------------------
+    privbtf MBfbnOpfrbtionInfo[] gftOpfrbtions(MBfbnInfo info) {
+        finbl MBfbnOpfrbtionInfo[] ops = info.gftOpfrbtions();
+        if (ops == null)
+            rfturn null;
+        finbl int oplfn = ops.lfngti;
+        finbl MBfbnOpfrbtionInfo[] nops = nfw MBfbnOpfrbtionInfo[oplfn];
+        for (int i=0; i<oplfn; i++) {
+            finbl MBfbnOpfrbtionInfo o = ops[i];
+            finbl MBfbnPbrbmftfrInfo[] pbrbms = o.gftSignbturf();
+            finbl MBfbnPbrbmftfrInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plfn = pbrbms.lfngti;
+                nps = nfw MBfbnPbrbmftfrInfo[plfn];
+                for (int ii=0;ii<plfn;ii++) {
+                    MBfbnPbrbmftfrInfo p = pbrbms[ii];
+                    nps[ii] = dustomizf(p,
+                                        gftPbrbmftfrNbmf(o,p,ii),
+                                        gftDfsdription(o,p,ii));
+                }
+            } flsf {
+                nps = null;
+            }
+            nops[i] = dustomizf(o, gftDfsdription(o), nps, gftImpbdt(o));
+        }
+        rfturn nops;
+    }
+
+    // ------------------------------------------------------------------
+    // Build tif dustom MBfbnAttributfInfo[]
+    // ------------------------------------------------------------------
+    privbtf MBfbnAttributfInfo[] gftAttributfs(MBfbnInfo info) {
+        finbl MBfbnAttributfInfo[] btts = info.gftAttributfs();
+        if (btts == null)
+            rfturn null; // siould not ibppfn
+        finbl MBfbnAttributfInfo[] nbtts;
+        finbl int bttlfn = btts.lfngti;
+        nbtts = nfw MBfbnAttributfInfo[bttlfn];
+        for (int i=0; i<bttlfn; i++) {
+            finbl MBfbnAttributfInfo b = btts[i];
+            nbtts[i] = dustomizf(b, gftDfsdription(b));
+        }
+        rfturn nbtts;
+    }
+
+    /**
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing rfgistfrfd in tif MBfbn sfrvfr.  If tif nbmf of tif MBfbn
+     * is not spfdififd, tif MBfbn dbn providf b nbmf for its
+     * rfgistrbtion.  If bny fxdfption is rbisfd, tif MBfbn will not bf
+     * rfgistfrfd in tif MBfbn sfrvfr.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns tif {@dodf nbmf}
+     * pbrbmftfr.  It dofs notiing flsf for
+     * Stbndbrd MBfbns.  For MXBfbns, it rfdords tif {@dodf MBfbnSfrvfr}
+     * bnd {@dodf ObjfdtNbmf} pbrbmftfrs so tify dbn bf usfd to trbnslbtf
+     * intfr-MXBfbn rfffrfndfs.</p>
+     *
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.prfRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
+     *
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif MBfbn will bf rfgistfrfd.
+     *
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.  Tiis nbmf is null if
+     * tif nbmf pbrbmftfr to onf of tif <dodf>drfbtfMBfbn</dodf> or
+     * <dodf>rfgistfrMBfbn</dodf> mftiods in tif {@link MBfbnSfrvfr}
+     * intfrfbdf is null.  In tibt dbsf, tiis mftiod must rfturn b
+     * non-null ObjfdtNbmf for tif nfw MBfbn.
+     *
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd.
+     * Tiis vbluf must not bf null.  If tif <dodf>nbmf</dodf>
+     * pbrbmftfr is not null, it will usublly but not nfdfssbrily bf
+     * tif rfturnfd vbluf.
+     *
+     * @tirows IllfgblArgumfntExdfption if tiis is bn MXBfbn bnd
+     * {@dodf nbmf} is null.
+     *
+     * @tirows InstbndfAlrfbdyExistsExdfption if tiis is bn MXBfbn bnd
+     * it ibs blrfbdy bffn rfgistfrfd undfr bnotifr nbmf (in tiis
+     * MBfbn Sfrvfr or bnotifr).
+     *
+     * @tirows Exdfption no otifr difdkfd fxdfptions brf tirown by
+     * tiis mftiod but {@dodf Exdfption} is dfdlbrfd so tibt subdlbssfs
+     * dbn ovfrridf tif mftiod bnd tirow tifir own fxdfptions.
+     *
+     * @sindf 1.6
+     */
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows Exdfption {
+        mbfbn.rfgistfr(sfrvfr, nbmf);
+        rfturn nbmf;
+    }
+
+    /**
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs fbilfd.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing for
+     * Stbndbrd MBfbns.  For MXBfbns, it undofs bny work donf by
+     * {@link #prfRfgistfr prfRfgistfr} if rfgistrbtion fbils.</p>
+     *
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.postRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
+     *
+     * @pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs
+     * bffn suddfssfully rfgistfrfd in tif MBfbn sfrvfr. Tif vbluf
+     * fblsf mfbns tibt tif rfgistrbtion pibsf ibs fbilfd.
+     *
+     * @sindf 1.6
+     */
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf)
+            mbfbn.unrfgistfr();
+    }
+
+    /**
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing unrfgistfrfd by tif MBfbn sfrvfr.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.</p>
+     *
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.prfDfrfgistfr(...)}.</p>
+     *
+     * @tirows Exdfption no difdkfd fxdfptions brf tirow by tiis mftiod
+     * but {@dodf Exdfption} is dfdlbrfd so tibt subdlbssfs dbn ovfrridf
+     * tiis mftiod bnd tirow tifir own fxdfptions.
+     *
+     * @sindf 1.6
+     */
+    publid void prfDfrfgistfr() tirows Exdfption {
+    }
+
+    /**
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd in tif MBfbn sfrvfr.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing for
+     * Stbndbrd MBfbns.  For MXBfbns, it rfmovfs bny informbtion tibt
+     * wbs rfdordfd by tif {@link #prfRfgistfr prfRfgistfr} mftiod.</p>
+     *
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.postRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
+     *
+     * @sindf 1.6
+     */
+    publid void postDfrfgistfr() {
+        mbfbn.unrfgistfr();
+    }
+
+    //
+    // MBfbnInfo immutbbility
+    //
+
+    /**
+     * Cbdifd rfsults of prfvious dblls to immutbblfInfo. Tiis is
+     * b WfbkHbsiMbp so tibt wf don't prfvfnt b dlbss from bfing
+     * gbrbbgf dollfdtfd just bfdbusf wf know wiftifr its MBfbnInfo
+     * is immutbblf.
+     */
+    privbtf stbtid finbl Mbp<Clbss<?>, Boolfbn> mbfbnInfoSbffMbp =
+        nfw WfbkHbsiMbp<Clbss<?>, Boolfbn>();
+
+    /**
+     * Rfturn truf if {@dodf subdlbss} is known to prfsfrvf tif immutbbility
+     * of tif {@dodf MBfbnInfo}. Tif {@dodf subdlbss} is donsidfrfd to ibvf
+     * bn immutbblf {@dodf MBfbnInfo} if it dofs not ovfrridf bny of tif
+     * gftMBfbnInfo, gftCbdifdMBfbnInfo, dbdifMBfbnInfo bnd gftNotifidbtionInfo
+     * mftiods.
+     */
+    stbtid boolfbn immutbblfInfo(Clbss<? fxtfnds StbndbrdMBfbn> subdlbss) {
+        if (subdlbss == StbndbrdMBfbn.dlbss ||
+            subdlbss == StbndbrdEmittfrMBfbn.dlbss)
+            rfturn truf;
+        syndironizfd (mbfbnInfoSbffMbp) {
+            Boolfbn sbff = mbfbnInfoSbffMbp.gft(subdlbss);
+            if (sbff == null) {
+                try {
+                    MBfbnInfoSbffAdtion bdtion =
+                        nfw MBfbnInfoSbffAdtion(subdlbss);
+                    sbff = AddfssControllfr.doPrivilfgfd(bdtion);
+                } dbtdi (Exdfption f) { // f.g. SfdurityExdfption
+                    /* Wf don't know, so wf bssumf it isn't.  */
+                    sbff = fblsf;
+                }
+                mbfbnInfoSbffMbp.put(subdlbss, sbff);
+            }
+            rfturn sbff;
+        }
+    }
+
+    stbtid boolfbn ovfrridfs(Clbss<?> subdlbss, Clbss<?> supfrdlbss,
+                             String nbmf, Clbss<?>... pbrbms) {
+        for (Clbss<?> d = subdlbss; d != supfrdlbss; d = d.gftSupfrdlbss()) {
+            try {
+                d.gftDfdlbrfdMftiod(nbmf, pbrbms);
+                rfturn truf;
+            } dbtdi (NoSudiMftiodExdfption f) {
+                // OK: tiis dlbss dofsn't ovfrridf it
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid dlbss MBfbnInfoSbffAdtion
+            implfmfnts PrivilfgfdAdtion<Boolfbn> {
+
+        privbtf finbl Clbss<?> subdlbss;
+
+        MBfbnInfoSbffAdtion(Clbss<?> subdlbss) {
+            tiis.subdlbss = subdlbss;
+        }
+
+        publid Boolfbn run() {
+            // Cifdk for "void dbdifMBfbnInfo(MBfbnInfo)" mftiod.
+            //
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "dbdifMBfbnInfo", MBfbnInfo.dlbss))
+                rfturn fblsf;
+
+            // Cifdk for "MBfbnInfo gftCbdifdMBfbnInfo()" mftiod.
+            //
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "gftCbdifdMBfbnInfo", (Clbss<?>[]) null))
+                rfturn fblsf;
+
+            // Cifdk for "MBfbnInfo gftMBfbnInfo()" mftiod.
+            //
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "gftMBfbnInfo", (Clbss<?>[]) null))
+                rfturn fblsf;
+
+            // Cifdk for "MBfbnNotifidbtionInfo[] gftNotifidbtionInfo()"
+            // mftiod.
+            //
+            // Tiis mftiod is tbkfn into bddount for tif MBfbnInfo
+            // immutbbility difdks if bnd only if tif givfn subdlbss is
+            // StbndbrdEmittfrMBfbn itsflf or dbn bf bssignfd to
+            // StbndbrdEmittfrMBfbn.
+            //
+            if (StbndbrdEmittfrMBfbn.dlbss.isAssignbblfFrom(subdlbss))
+                if (ovfrridfs(subdlbss, StbndbrdEmittfrMBfbn.dlbss,
+                              "gftNotifidbtionInfo", (Clbss<?>[]) null))
+                    rfturn fblsf;
+            rfturn truf;
+        }
+    }
+}

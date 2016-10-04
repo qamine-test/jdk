@@ -1,0 +1,330 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.UnbryOpfrbtor;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.Arrbys;
+import jbvb.lbng.rfflfdt.Arrby;
+import sun.misd.Unsbff;
+
+/**
+ * An brrby of objfdt rfffrfndfs in wiidi flfmfnts mby bf updbtfd
+ * btomidblly.  Sff tif {@link jbvb.util.dondurrfnt.btomid} pbdkbgf
+ * spfdifidbtion for dfsdription of tif propfrtifs of btomid
+ * vbribblfs.
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> Tif bbsf dlbss of flfmfnts ifld in tiis brrby
+ */
+publid dlbss AtomidRfffrfndfArrby<E> implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6209656149925076980L;
+
+    privbtf stbtid finbl Unsbff unsbff;
+    privbtf stbtid finbl int bbsf;
+    privbtf stbtid finbl int siift;
+    privbtf stbtid finbl long brrbyFifldOffsft;
+    privbtf finbl Objfdt[] brrby; // must ibvf fxbdt typf Objfdt[]
+
+    stbtid {
+        try {
+            unsbff = Unsbff.gftUnsbff();
+            brrbyFifldOffsft = unsbff.objfdtFifldOffsft
+                (AtomidRfffrfndfArrby.dlbss.gftDfdlbrfdFifld("brrby"));
+            bbsf = unsbff.brrbyBbsfOffsft(Objfdt[].dlbss);
+            int sdblf = unsbff.brrbyIndfxSdblf(Objfdt[].dlbss);
+            if ((sdblf & (sdblf - 1)) != 0)
+                tirow nfw Error("dbtb typf sdblf not b powfr of two");
+            siift = 31 - Intfgfr.numbfrOfLfbdingZfros(sdblf);
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
+        }
+    }
+
+    privbtf long difdkfdBytfOffsft(int i) {
+        if (i < 0 || i >= brrby.lfngti)
+            tirow nfw IndfxOutOfBoundsExdfption("indfx " + i);
+
+        rfturn bytfOffsft(i);
+    }
+
+    privbtf stbtid long bytfOffsft(int i) {
+        rfturn ((long) i << siift) + bbsf;
+    }
+
+    /**
+     * Crfbtfs b nfw AtomidRfffrfndfArrby of tif givfn lfngti, witi bll
+     * flfmfnts initiblly null.
+     *
+     * @pbrbm lfngti tif lfngti of tif brrby
+     */
+    publid AtomidRfffrfndfArrby(int lfngti) {
+        brrby = nfw Objfdt[lfngti];
+    }
+
+    /**
+     * Crfbtfs b nfw AtomidRfffrfndfArrby witi tif sbmf lfngti bs, bnd
+     * bll flfmfnts dopifd from, tif givfn brrby.
+     *
+     * @pbrbm brrby tif brrby to dopy flfmfnts from
+     * @tirows NullPointfrExdfption if brrby is null
+     */
+    publid AtomidRfffrfndfArrby(E[] brrby) {
+        // Visibility gubrbntffd by finbl fifld gubrbntffs
+        tiis.brrby = Arrbys.dopyOf(brrby, brrby.lfngti, Objfdt[].dlbss);
+    }
+
+    /**
+     * Rfturns tif lfngti of tif brrby.
+     *
+     * @rfturn tif lfngti of tif brrby
+     */
+    publid finbl int lfngti() {
+        rfturn brrby.lfngti;
+    }
+
+    /**
+     * Gfts tif durrfnt vbluf bt position {@dodf i}.
+     *
+     * @pbrbm i tif indfx
+     * @rfturn tif durrfnt vbluf
+     */
+    publid finbl E gft(int i) {
+        rfturn gftRbw(difdkfdBytfOffsft(i));
+    }
+
+    @SupprfssWbrnings("undifdkfd")
+    privbtf E gftRbw(long offsft) {
+        rfturn (E) unsbff.gftObjfdtVolbtilf(brrby, offsft);
+    }
+
+    /**
+     * Sfts tif flfmfnt bt position {@dodf i} to tif givfn vbluf.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
+     */
+    publid finbl void sft(int i, E nfwVbluf) {
+        unsbff.putObjfdtVolbtilf(brrby, difdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Evfntublly sfts tif flfmfnt bt position {@dodf i} to tif givfn vbluf.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @sindf 1.6
+     */
+    publid finbl void lbzySft(int i, E nfwVbluf) {
+        unsbff.putOrdfrfdObjfdt(brrby, difdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * vbluf bnd rfturns tif old vbluf.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @rfturn tif prfvious vbluf
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl E gftAndSft(int i, E nfwVbluf) {
+        rfturn (E)unsbff.gftAndSftObjfdt(brrby, difdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs tibt
+     * tif bdtubl vbluf wbs not fqubl to tif fxpfdtfd vbluf.
+     */
+    publid finbl boolfbn dompbrfAndSft(int i, E fxpfdt, E updbtf) {
+        rfturn dompbrfAndSftRbw(difdkfdBytfOffsft(i), fxpfdt, updbtf);
+    }
+
+    privbtf boolfbn dompbrfAndSftRbw(long offsft, E fxpfdt, E updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(brrby, offsft, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
+     *
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid finbl boolfbn wfbkCompbrfAndSft(int i, E fxpfdt, E updbtf) {
+        rfturn dompbrfAndSft(i, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif rfsults
+     * of bpplying tif givfn fundtion, rfturning tif prfvious vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl E gftAndUpdbtf(int i, UnbryOpfrbtor<E> updbtfFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif rfsults
+     * of bpplying tif givfn fundtion, rfturning tif updbtfd vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl E updbtfAndGft(int i, UnbryOpfrbtor<E> updbtfFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif
+     * rfsults of bpplying tif givfn fundtion to tif durrfnt bnd
+     * givfn vblufs, rfturning tif prfvious vbluf. Tif fundtion siould
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion is
+     * bpplifd witi tif durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd tif givfn updbtf bs tif sfdond brgumfnt.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl E gftAndAddumulbtf(int i, E x,
+                                    BinbryOpfrbtor<E> bddumulbtorFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif
+     * rfsults of bpplying tif givfn fundtion to tif durrfnt bnd
+     * givfn vblufs, rfturning tif updbtfd vbluf. Tif fundtion siould
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion is
+     * bpplifd witi tif durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd tif givfn updbtf bs tif sfdond brgumfnt.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl E bddumulbtfAndGft(int i, E x,
+                                    BinbryOpfrbtor<E> bddumulbtorFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Rfturns tif String rfprfsfntbtion of tif durrfnt vblufs of brrby.
+     * @rfturn tif String rfprfsfntbtion of tif durrfnt vblufs of brrby
+     */
+    publid String toString() {
+        int iMbx = brrby.lfngti - 1;
+        if (iMbx == -1)
+            rfturn "[]";
+
+        StringBuildfr b = nfw StringBuildfr();
+        b.bppfnd('[');
+        for (int i = 0; ; i++) {
+            b.bppfnd(gftRbw(bytfOffsft(i)));
+            if (i == iMbx)
+                rfturn b.bppfnd(']').toString();
+            b.bppfnd(',').bppfnd(' ');
+        }
+    }
+
+    /**
+     * Rfdonstitutfs tif instbndf from b strfbm (tibt is, dfsfriblizfs it).
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption,
+        jbvb.io.InvblidObjfdtExdfption {
+        // Notf: Tiis must bf dibngfd if bny bdditionbl fiflds brf dffinfd
+        Objfdt b = s.rfbdFiflds().gft("brrby", null);
+        if (b == null || !b.gftClbss().isArrby())
+            tirow nfw jbvb.io.InvblidObjfdtExdfption("Not brrby typf");
+        if (b.gftClbss() != Objfdt[].dlbss)
+            b = Arrbys.dopyOf((Objfdt[])b, Arrby.gftLfngti(b), Objfdt[].dlbss);
+        unsbff.putObjfdtVolbtilf(tiis, brrbyFifldOffsft, b);
+    }
+
+}

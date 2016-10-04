@@ -1,0 +1,230 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+
+finbl dlbss WListPffr fxtfnds WComponfntPffr implfmfnts ListPffr {
+
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    // ListPffr implfmfntbtion
+
+    @Ovfrridf
+    publid int[] gftSflfdtfdIndfxfs() {
+        List l = (List)tbrgft;
+        int lfn = l.dountItfms();
+        int sfl[] = nfw int[lfn];
+        int nsfl = 0;
+        for (int i = 0 ; i < lfn ; i++) {
+            if (isSflfdtfd(i)) {
+                sfl[nsfl++] = i;
+            }
+        }
+        int sflfdtfd[] = nfw int[nsfl];
+        Systfm.brrbydopy(sfl, 0, sflfdtfd, 0, nsfl);
+        rfturn sflfdtfd;
+    }
+
+    /* Nfw mftiod nbmf for 1.1 */
+    @Ovfrridf
+    publid void bdd(String itfm, int indfx) {
+        bddItfm(itfm, indfx);
+    }
+
+    /* Nfw mftiod nbmf for 1.1 */
+    @Ovfrridf
+    publid void rfmovfAll() {
+        dlfbr();
+    }
+
+    /* Nfw mftiod nbmf for 1.1 */
+    @Ovfrridf
+    publid void sftMultiplfModf (boolfbn b) {
+        sftMultiplfSflfdtions(b);
+    }
+
+    /* Nfw mftiod nbmf for 1.1 */
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(int rows) {
+        rfturn prfffrrfdSizf(rows);
+    }
+
+    /* Nfw mftiod nbmf for 1.1 */
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(int rows) {
+        rfturn minimumSizf(rows);
+    }
+
+    privbtf FontMftrids   fm;
+    publid void bddItfm(String itfm, int indfx) {
+        bddItfms(nfw String[] {itfm}, indfx, fm.stringWidti(itfm));
+    }
+    nbtivf void bddItfms(String[] itfms, int indfx, int widti);
+
+    @Ovfrridf
+    publid nbtivf void dflItfms(int stbrt, int fnd);
+    publid void dlfbr() {
+        List l = (List)tbrgft;
+        dflItfms(0, l.dountItfms());
+    }
+    @Ovfrridf
+    publid nbtivf void sflfdt(int indfx);
+    @Ovfrridf
+    publid nbtivf void dfsflfdt(int indfx);
+    @Ovfrridf
+    publid nbtivf void mbkfVisiblf(int indfx);
+    publid nbtivf void sftMultiplfSflfdtions(boolfbn v);
+    publid nbtivf int  gftMbxWidti();
+
+    publid Dimfnsion prfffrrfdSizf(int v) {
+        if ( fm == null ) {
+            List li = (List)tbrgft;
+            fm = gftFontMftrids( li.gftFont() );
+        }
+        Dimfnsion d = minimumSizf(v);
+        d.widti = Mbti.mbx(d.widti, gftMbxWidti() + 20);
+        rfturn d;
+    }
+    publid Dimfnsion minimumSizf(int v) {
+        rfturn nfw Dimfnsion(20 + fm.stringWidti("0123456789bbddf"),
+                             (fm.gftHfigit() * v) + 4); // indludf bordfrs
+    }
+
+    // Toolkit & pffr intfrnbls
+
+    WListPffr(List tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+
+    @Ovfrridf
+    void initiblizf() {
+        List li = (List)tbrgft;
+
+        fm = gftFontMftrids( li.gftFont() );
+
+        // Fixfd 6336384: sftFont siould bf donf bfforf bddItfms
+        Font  f = li.gftFont();
+        if (f != null) {
+            sftFont(f);
+        }
+
+        // bdd bny itfms tibt wfrf blrfbdy insfrtfd in tif tbrgft.
+        int  nitfms = li.dountItfms();
+        if (nitfms > 0) {
+            String[] itfms = nfw String[nitfms];
+            int mbxWidti = 0;
+            int widti = 0;
+            for (int i = 0; i < nitfms; i++) {
+                itfms[i] = li.gftItfm(i);
+                widti = fm.stringWidti(itfms[i]);
+                if (widti > mbxWidti) {
+                    mbxWidti = widti;
+                }
+            }
+            bddItfms(itfms, 0, mbxWidti);
+        }
+
+        // sft wiftifr tiis list siould bllow multiplf sflfdtions.
+        sftMultiplfSflfdtions(li.bllowsMultiplfSflfdtions());
+
+        // sflfdt tif itfm if nfdfssbry.
+        int sfl[] = li.gftSflfdtfdIndfxfs();
+        for (int i = 0 ; i < sfl.lfngti ; i++) {
+            sflfdt(sfl[i]);
+        }
+
+        // mbkf tif visiblf position visiblf.
+        // fix for 4676536 by kdm@spbrd.spb.su
+        // wf siould dbll mbkfVisiblf() bftfr wf dbll sflfdt()
+        // bfdbusf of b bug in Windows wiidi is mbniffstfd by
+        // indorrfdt sdrolling of tif sflfdtfd itfm if tif list
+        // ifigit is lfss tibn bn itfm ifigit of tif list.
+        int indfx = li.gftVisiblfIndfx();
+        if (indfx < 0 && sfl.lfngti > 0) {
+            indfx = sfl[0];
+        }
+        if (indfx >= 0) {
+            mbkfVisiblf(indfx);
+        }
+
+        supfr.initiblizf();
+    }
+
+    @Ovfrridf
+    publid boolfbn siouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+
+    privbtf nbtivf void updbtfMbxItfmWidti();
+
+    /*publid*/ nbtivf boolfbn isSflfdtfd(int indfx);
+
+    // updbtf tif fontmftrids wifn tif font dibngfs
+    @Ovfrridf
+    syndironizfd void _sftFont(Font f)
+    {
+        supfr._sftFont( f );
+            fm = gftFontMftrids( ((List)tbrgft).gftFont() );
+        updbtfMbxItfmWidti();
+    }
+
+    // nbtivf dbllbbdks
+
+    void ibndlfAdtion(finbl int indfx, finbl long wifn, finbl int modififrs) {
+        finbl List l = (List)tbrgft;
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(l, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                l.sflfdt(indfx);
+                postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                          l.gftItfm(indfx), wifn, modififrs));
+            }
+        });
+    }
+
+    void ibndlfListCibngfd(finbl int indfx) {
+        finbl List l = (List)tbrgft;
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(l, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                postEvfnt(nfw ItfmEvfnt(l, ItfmEvfnt.ITEM_STATE_CHANGED,
+                                Intfgfr.vblufOf(indfx),
+                                isSflfdtfd(indfx)? ItfmEvfnt.SELECTED :
+                                                   ItfmEvfnt.DESELECTED));
+
+            }
+        });
+    }
+}

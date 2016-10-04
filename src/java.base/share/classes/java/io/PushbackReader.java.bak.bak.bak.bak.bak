@@ -1,0 +1,281 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * A dibrbdtfr-strfbm rfbdfr tibt bllows dibrbdtfrs to bf pusifd bbdk into tif
+ * strfbm.
+ *
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
+ */
+
+publid dlbss PusibbdkRfbdfr fxtfnds FiltfrRfbdfr {
+
+    /** Pusibbdk bufffr */
+    privbtf dibr[] buf;
+
+    /** Currfnt position in bufffr */
+    privbtf int pos;
+
+    /**
+     * Crfbtfs b nfw pusibbdk rfbdfr witi b pusibbdk bufffr of tif givfn sizf.
+     *
+     * @pbrbm   in   Tif rfbdfr from wiidi dibrbdtfrs will bf rfbd
+     * @pbrbm   sizf Tif sizf of tif pusibbdk bufffr
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
+     */
+    publid PusibbdkRfbdfr(Rfbdfr in, int sizf) {
+        supfr(in);
+        if (sizf <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sizf <= 0");
+        }
+        tiis.buf = nfw dibr[sizf];
+        tiis.pos = sizf;
+    }
+
+    /**
+     * Crfbtfs b nfw pusibbdk rfbdfr witi b onf-dibrbdtfr pusibbdk bufffr.
+     *
+     * @pbrbm   in  Tif rfbdfr from wiidi dibrbdtfrs will bf rfbd
+     */
+    publid PusibbdkRfbdfr(Rfbdfr in) {
+        tiis(in, 1);
+    }
+
+    /** Cifdks to mbkf surf tibt tif strfbm ibs not bffn dlosfd. */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (buf == null)
+            tirow nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    /**
+     * Rfbds b singlf dibrbdtfr.
+     *
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     *             rfbdifd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (pos < buf.lfngti)
+                rfturn buf[pos++];
+            flsf
+                rfturn supfr.rfbd();
+        }
+    }
+
+    /**
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     *
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
+     *
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     *             strfbm ibs bffn rfbdifd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            try {
+                if (lfn <= 0) {
+                    if (lfn < 0) {
+                        tirow nfw IndfxOutOfBoundsExdfption();
+                    } flsf if ((off < 0) || (off > dbuf.lfngti)) {
+                        tirow nfw IndfxOutOfBoundsExdfption();
+                    }
+                    rfturn 0;
+                }
+                int bvbil = buf.lfngti - pos;
+                if (bvbil > 0) {
+                    if (lfn < bvbil)
+                        bvbil = lfn;
+                    Systfm.brrbydopy(buf, pos, dbuf, off, bvbil);
+                    pos += bvbil;
+                    off += bvbil;
+                    lfn -= bvbil;
+                }
+                if (lfn > 0) {
+                    lfn = supfr.rfbd(dbuf, off, lfn);
+                    if (lfn == -1) {
+                        rfturn (bvbil == 0) ? -1 : bvbil;
+                    }
+                    rfturn bvbil + lfn;
+                }
+                rfturn bvbil;
+            } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            }
+        }
+    }
+
+    /**
+     * Pusifs bbdk b singlf dibrbdtfr by dopying it to tif front of tif
+     * pusibbdk bufffr. Aftfr tiis mftiod rfturns, tif nfxt dibrbdtfr to bf rfbd
+     * will ibvf tif vbluf <dodf>(dibr)d</dodf>.
+     *
+     * @pbrbm  d  Tif int vbluf rfprfsfnting b dibrbdtfr to bf pusifd bbdk
+     *
+     * @fxdfption  IOExdfption  If tif pusibbdk bufffr is full,
+     *                          or if somf otifr I/O frror oddurs
+     */
+    publid void unrfbd(int d) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (pos == 0)
+                tirow nfw IOExdfption("Pusibbdk bufffr ovfrflow");
+            buf[--pos] = (dibr) d;
+        }
+    }
+
+    /**
+     * Pusifs bbdk b portion of bn brrby of dibrbdtfrs by dopying it to tif
+     * front of tif pusibbdk bufffr.  Aftfr tiis mftiod rfturns, tif nfxt
+     * dibrbdtfr to bf rfbd will ibvf tif vbluf <dodf>dbuf[off]</dodf>, tif
+     * dibrbdtfr bftfr tibt will ibvf tif vbluf <dodf>dbuf[off+1]</dodf>, bnd
+     * so forti.
+     *
+     * @pbrbm  dbuf  Cibrbdtfr brrby
+     * @pbrbm  off   Offsft of first dibrbdtfr to pusi bbdk
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to pusi bbdk
+     *
+     * @fxdfption  IOExdfption  If tifrf is insuffidifnt room in tif pusibbdk
+     *                          bufffr, or if somf otifr I/O frror oddurs
+     */
+    publid void unrfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (lfn > pos)
+                tirow nfw IOExdfption("Pusibbdk bufffr ovfrflow");
+            pos -= lfn;
+            Systfm.brrbydopy(dbuf, off, buf, pos, lfn);
+        }
+    }
+
+    /**
+     * Pusifs bbdk bn brrby of dibrbdtfrs by dopying it to tif front of tif
+     * pusibbdk bufffr.  Aftfr tiis mftiod rfturns, tif nfxt dibrbdtfr to bf
+     * rfbd will ibvf tif vbluf <dodf>dbuf[0]</dodf>, tif dibrbdtfr bftfr tibt
+     * will ibvf tif vbluf <dodf>dbuf[1]</dodf>, bnd so forti.
+     *
+     * @pbrbm  dbuf  Cibrbdtfr brrby to pusi bbdk
+     *
+     * @fxdfption  IOExdfption  If tifrf is insuffidifnt room in tif pusibbdk
+     *                          bufffr, or if somf otifr I/O frror oddurs
+     */
+    publid void unrfbd(dibr dbuf[]) tirows IOExdfption {
+        unrfbd(dbuf, 0, dbuf.lfngti);
+    }
+
+    /**
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid boolfbn rfbdy() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            rfturn (pos < buf.lfngti) || supfr.rfbdy();
+        }
+    }
+
+    /**
+     * Mbrks tif prfsfnt position in tif strfbm. Tif <dodf>mbrk</dodf>
+     * for dlbss <dodf>PusibbdkRfbdfr</dodf> blwbys tirows bn fxdfption.
+     *
+     * @fxdfption  IOExdfption  Alwbys, sindf mbrk is not supportfd
+     */
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
+    }
+
+    /**
+     * Rfsfts tif strfbm. Tif <dodf>rfsft</dodf> mftiod of
+     * <dodf>PusibbdkRfbdfr</dodf> blwbys tirows bn fxdfption.
+     *
+     * @fxdfption  IOExdfption  Alwbys, sindf rfsft is not supportfd
+     */
+    publid void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
+    }
+
+    /**
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs
+     * not.
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * unrfbd(), rfbdy(), or skip() invodbtions will tirow bn IOExdfption.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void dlosf() tirows IOExdfption {
+        supfr.dlosf();
+        buf = null;
+    }
+
+    /**
+     * Skips dibrbdtfrs.  Tiis mftiod will blodk until somf dibrbdtfrs brf
+     * bvbilbblf, bn I/O frror oddurs, or tif fnd of tif strfbm is rfbdifd.
+     *
+     * @pbrbm  n  Tif numbfr of dibrbdtfrs to skip
+     *
+     * @rfturn    Tif numbfr of dibrbdtfrs bdtublly skippfd
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If <dodf>n</dodf> is nfgbtivf.
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid long skip(long n) tirows IOExdfption {
+        if (n < 0L)
+            tirow nfw IllfgblArgumfntExdfption("skip vbluf is nfgbtivf");
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            int bvbil = buf.lfngti - pos;
+            if (bvbil > 0) {
+                if (n <= bvbil) {
+                    pos += n;
+                    rfturn n;
+                } flsf {
+                    pos = buf.lfngti;
+                    n -= bvbil;
+                }
+            }
+            rfturn bvbil + supfr.skip(n);
+        }
+    }
+}

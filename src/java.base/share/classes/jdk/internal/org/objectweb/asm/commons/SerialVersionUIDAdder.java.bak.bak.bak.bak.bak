@@ -1,0 +1,569 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutput;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+
+/**
+ * A {@link ClbssVisitor} tibt bdds b sfribl vfrsion uniquf idfntififr to b
+ * dlbss if missing. Hfrf is typidbl usbgf of tiis dlbss:
+ *
+ * <prf>
+ *   ClbssWritfr dw = nfw ClbssWritfr(...);
+ *   ClbssVisitor sv = nfw SfriblVfrsionUIDAddfr(dw);
+ *   ClbssVisitor db = nfw MyClbssAdbptfr(sv);
+ *   nfw ClbssRfbdfr(orginblClbss).bddfpt(db, fblsf);
+ * </prf>
+ *
+ * Tif SVUID blgoritim dbn bf found <b irff=
+ * "ittp://jbvb.sun.dom/j2sf/1.4.2/dods/guidf/sfriblizbtion/spfd/dlbss.itml"
+ * >ittp://jbvb.sun.dom/j2sf/1.4.2/dods/guidf/sfriblizbtion/spfd/dlbss.itml</b>:
+ *
+ * <prf>
+ * Tif sfriblVfrsionUID is domputfd using tif signbturf of b strfbm of bytfs
+ * tibt rfflfdt tif dlbss dffinition. Tif Nbtionbl Institutf of Stbndbrds bnd
+ * Tfdinology (NIST) Sfdurf Hbsi Algoritim (SHA-1) is usfd to domputf b
+ * signbturf for tif strfbm. Tif first two 32-bit qubntitifs brf usfd to form b
+ * 64-bit ibsi. A jbvb.lbng.DbtbOutputStrfbm is usfd to donvfrt primitivf dbtb
+ * typfs to b sfqufndf of bytfs. Tif vblufs input to tif strfbm brf dffinfd by
+ * tif Jbvb Virtubl Mbdiinf (VM) spfdifidbtion for dlbssfs.
+ *
+ * Tif sfqufndf of itfms in tif strfbm is bs follows:
+ *
+ * 1. Tif dlbss nbmf writtfn using UTF fndoding.
+ * 2. Tif dlbss modififrs writtfn bs b 32-bit intfgfr.
+ * 3. Tif nbmf of fbdi intfrfbdf sortfd by nbmf writtfn using UTF fndoding.
+ * 4. For fbdi fifld of tif dlbss sortfd by fifld nbmf (fxdfpt privbtf stbtid
+ * bnd privbtf trbnsifnt fiflds):
+ * 1. Tif nbmf of tif fifld in UTF fndoding.
+ * 2. Tif modififrs of tif fifld writtfn bs b 32-bit intfgfr.
+ * 3. Tif dfsdriptor of tif fifld in UTF fndoding
+ * 5. If b dlbss initiblizfr fxists, writf out tif following:
+ * 1. Tif nbmf of tif mftiod, &lt;dlinit&gt;, in UTF fndoding.
+ * 2. Tif modififr of tif mftiod, jbvb.lbng.rfflfdt.Modififr.STATIC,
+ * writtfn bs b 32-bit intfgfr.
+ * 3. Tif dfsdriptor of tif mftiod, ()V, in UTF fndoding.
+ * 6. For fbdi non-privbtf donstrudtor sortfd by mftiod nbmf bnd signbturf:
+ * 1. Tif nbmf of tif mftiod, &lt;init&gt;, in UTF fndoding.
+ * 2. Tif modififrs of tif mftiod writtfn bs b 32-bit intfgfr.
+ * 3. Tif dfsdriptor of tif mftiod in UTF fndoding.
+ * 7. For fbdi non-privbtf mftiod sortfd by mftiod nbmf bnd signbturf:
+ * 1. Tif nbmf of tif mftiod in UTF fndoding.
+ * 2. Tif modififrs of tif mftiod writtfn bs b 32-bit intfgfr.
+ * 3. Tif dfsdriptor of tif mftiod in UTF fndoding.
+ * 8. Tif SHA-1 blgoritim is fxfdutfd on tif strfbm of bytfs produdfd by
+ * DbtbOutputStrfbm bnd produdfs fivf 32-bit vblufs sib[0..4].
+ *
+ * 9. Tif ibsi vbluf is bssfmblfd from tif first bnd sfdond 32-bit vblufs of
+ * tif SHA-1 mfssbgf digfst. If tif rfsult of tif mfssbgf digfst, tif fivf
+ * 32-bit words H0 H1 H2 H3 H4, is in bn brrby of fivf int vblufs nbmfd
+ * sib, tif ibsi vbluf would bf domputfd bs follows:
+ *
+ * long ibsi = ((sib[0] &gt;&gt;&gt; 24) &bmp; 0xFF) |
+ * ((sib[0] &gt;&gt;&gt; 16) &bmp; 0xFF) &lt;&lt; 8 |
+ * ((sib[0] &gt;&gt;&gt; 8) &bmp; 0xFF) &lt;&lt; 16 |
+ * ((sib[0] &gt;&gt;&gt; 0) &bmp; 0xFF) &lt;&lt; 24 |
+ * ((sib[1] &gt;&gt;&gt; 24) &bmp; 0xFF) &lt;&lt; 32 |
+ * ((sib[1] &gt;&gt;&gt; 16) &bmp; 0xFF) &lt;&lt; 40 |
+ * ((sib[1] &gt;&gt;&gt; 8) &bmp; 0xFF) &lt;&lt; 48 |
+ * ((sib[1] &gt;&gt;&gt; 0) &bmp; 0xFF) &lt;&lt; 56;
+ * </prf>
+ *
+ * @butior Rbjfndrb Inbmdbr, Visibl Visinoi
+ */
+publid dlbss SfriblVfrsionUIDAddfr fxtfnds ClbssVisitor {
+
+    /**
+     * Flbg tibt indidbtfs if wf nffd to domputf SVUID.
+     */
+    privbtf boolfbn domputfSVUID;
+
+    /**
+     * Sft to truf if tif dlbss blrfbdy ibs SVUID.
+     */
+    privbtf boolfbn ibsSVUID;
+
+    /**
+     * Clbssfs bddfss flbgs.
+     */
+    privbtf int bddfss;
+
+    /**
+     * Intfrnbl nbmf of tif dlbss
+     */
+    privbtf String nbmf;
+
+    /**
+     * Intfrfbdfs implfmfntfd by tif dlbss.
+     */
+    privbtf String[] intfrfbdfs;
+
+    /**
+     * Collfdtion of fiflds. (fxdfpt privbtf stbtid bnd privbtf trbnsifnt
+     * fiflds)
+     */
+    privbtf Collfdtion<Itfm> svuidFiflds;
+
+    /**
+     * Sft to truf if tif dlbss ibs stbtid initiblizfr.
+     */
+    privbtf boolfbn ibsStbtidInitiblizfr;
+
+    /**
+     * Collfdtion of non-privbtf donstrudtors.
+     */
+    privbtf Collfdtion<Itfm> svuidConstrudtors;
+
+    /**
+     * Collfdtion of non-privbtf mftiods.
+     */
+    privbtf Collfdtion<Itfm> svuidMftiods;
+
+    /**
+     * Crfbtfs b nfw {@link SfriblVfrsionUIDAddfr}. <i>Subdlbssfs must not usf
+     * tiis donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #SfriblVfrsionUIDAddfr(int, ClbssVisitor)} vfrsion.
+     *
+     * @pbrbm dv
+     *            b {@link ClbssVisitor} to wiidi tiis visitor will dflfgbtf
+     *            dblls.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
+     */
+    publid SfriblVfrsionUIDAddfr(finbl ClbssVisitor dv) {
+        tiis(Opdodfs.ASM5, dv);
+        if (gftClbss() != SfriblVfrsionUIDAddfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw {@link SfriblVfrsionUIDAddfr}.
+     *
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm dv
+     *            b {@link ClbssVisitor} to wiidi tiis visitor will dflfgbtf
+     *            dblls.
+     */
+    protfdtfd SfriblVfrsionUIDAddfr(finbl int bpi, finbl ClbssVisitor dv) {
+        supfr(bpi, dv);
+        svuidFiflds = nfw ArrbyList<Itfm>();
+        svuidConstrudtors = nfw ArrbyList<Itfm>();
+        svuidMftiods = nfw ArrbyList<Itfm>();
+    }
+
+    // ------------------------------------------------------------------------
+    // Ovfrriddfn mftiods
+    // ------------------------------------------------------------------------
+
+    /*
+     * Visit dlbss ifbdfr bnd gft dlbss nbmf, bddfss , bnd intfrfbdfs
+     * informbtion (stfp 1,2, bnd 3) for SVUID domputbtion.
+     */
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        domputfSVUID = (bddfss & Opdodfs.ACC_INTERFACE) == 0;
+
+        if (domputfSVUID) {
+            tiis.nbmf = nbmf;
+            tiis.bddfss = bddfss;
+            tiis.intfrfbdfs = nfw String[intfrfbdfs.lfngti];
+            Systfm.brrbydopy(intfrfbdfs, 0, tiis.intfrfbdfs, 0,
+                    intfrfbdfs.lfngti);
+        }
+
+        supfr.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
+    }
+
+    /*
+     * Visit tif mftiods bnd gft donstrudtor bnd mftiod informbtion (stfp 5 bnd
+     * 7). Also dftfrminf if tifrf is b dlbss initiblizfr (stfp 6).
+     */
+    @Ovfrridf
+    publid MftiodVisitor visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        if (domputfSVUID) {
+            if ("<dlinit>".fqubls(nbmf)) {
+                ibsStbtidInitiblizfr = truf;
+            }
+            /*
+             * Rfmfmbfrs non privbtf donstrudtors bnd mftiods for SVUID
+             * domputbtion For donstrudtor bnd mftiod modififrs, only tif
+             * ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED, ACC_STATIC, ACC_FINAL,
+             * ACC_SYNCHRONIZED, ACC_NATIVE, ACC_ABSTRACT bnd ACC_STRICT flbgs
+             * brf usfd.
+             */
+            int mods = bddfss
+                    & (Opdodfs.ACC_PUBLIC | Opdodfs.ACC_PRIVATE
+                            | Opdodfs.ACC_PROTECTED | Opdodfs.ACC_STATIC
+                            | Opdodfs.ACC_FINAL | Opdodfs.ACC_SYNCHRONIZED
+                            | Opdodfs.ACC_NATIVE | Opdodfs.ACC_ABSTRACT | Opdodfs.ACC_STRICT);
+
+            // bll non privbtf mftiods
+            if ((bddfss & Opdodfs.ACC_PRIVATE) == 0) {
+                if ("<init>".fqubls(nbmf)) {
+                    svuidConstrudtors.bdd(nfw Itfm(nbmf, mods, dfsd));
+                } flsf if (!"<dlinit>".fqubls(nbmf)) {
+                    svuidMftiods.bdd(nfw Itfm(nbmf, mods, dfsd));
+                }
+            }
+        }
+
+        rfturn supfr.visitMftiod(bddfss, nbmf, dfsd, signbturf, fxdfptions);
+    }
+
+    /*
+     * Gfts dlbss fifld informbtion for stfp 4 of tif blgoritim. Also dftfrminfs
+     * if tif dlbss blrfbdy ibs b SVUID.
+     */
+    @Ovfrridf
+    publid FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        if (domputfSVUID) {
+            if ("sfriblVfrsionUID".fqubls(nbmf)) {
+                // sindf tif dlbss blrfbdy ibs SVUID, wf won't bf domputing it.
+                domputfSVUID = fblsf;
+                ibsSVUID = truf;
+            }
+            /*
+             * Rfmfmbfr fifld for SVUID domputbtion For fifld modififrs, only
+             * tif ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED, ACC_STATIC,
+             * ACC_FINAL, ACC_VOLATILE, bnd ACC_TRANSIENT flbgs brf usfd wifn
+             * domputing sfriblVfrsionUID vblufs.
+             */
+            if ((bddfss & Opdodfs.ACC_PRIVATE) == 0
+                    || (bddfss & (Opdodfs.ACC_STATIC | Opdodfs.ACC_TRANSIENT)) == 0) {
+                int mods = bddfss
+                        & (Opdodfs.ACC_PUBLIC | Opdodfs.ACC_PRIVATE
+                                | Opdodfs.ACC_PROTECTED | Opdodfs.ACC_STATIC
+                                | Opdodfs.ACC_FINAL | Opdodfs.ACC_VOLATILE | Opdodfs.ACC_TRANSIENT);
+                svuidFiflds.bdd(nfw Itfm(nbmf, mods, dfsd));
+            }
+        }
+
+        rfturn supfr.visitFifld(bddfss, nbmf, dfsd, signbturf, vbluf);
+    }
+
+    /**
+     * Hbndlf b bizbrrf spfdibl dbsf. Nfstfd dlbssfs (stbtid dlbssfs dfdlbrfd
+     * insidf bnotifr dlbss) tibt brf protfdtfd ibvf tifir bddfss bit sft to
+     * publid in tifir dlbss filfs to dfbl witi somf odd rfflfdtion situbtion.
+     * Our SVUID domputbtion must do bs tif JVM dofs bnd ignorf bddfss bits in
+     * tif dlbss filf in fbvor of tif bddfss bits InnfrClbss bttributf.
+     */
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String bnbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bttr_bddfss) {
+        if ((nbmf != null) && nbmf.fqubls(bnbmf)) {
+            tiis.bddfss = bttr_bddfss;
+        }
+        supfr.visitInnfrClbss(bnbmf, outfrNbmf, innfrNbmf, bttr_bddfss);
+    }
+
+    /*
+     * Add tif SVUID if dlbss dofsn't ibvf onf
+     */
+    @Ovfrridf
+    publid void visitEnd() {
+        // domputf SVUID bnd bdd it to tif dlbss
+        if (domputfSVUID && !ibsSVUID) {
+            try {
+                bddSVUID(domputfSVUID());
+            } dbtdi (Tirowbblf f) {
+                tirow nfw RuntimfExdfption("Error wiilf domputing SVUID for "
+                        + nbmf, f);
+            }
+        }
+
+        supfr.visitEnd();
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mftiods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns truf if tif dlbss blrfbdy ibs b SVUID fifld. Tif rfsult of tiis
+     * mftiod is only vblid wifn visitEnd is or ibs bffn dbllfd.
+     *
+     * @rfturn truf if tif dlbss blrfbdy ibs b SVUID fifld.
+     */
+    publid boolfbn ibsSVUID() {
+        rfturn ibsSVUID;
+    }
+
+    protfdtfd void bddSVUID(long svuid) {
+        FifldVisitor fv = supfr.visitFifld(Opdodfs.ACC_FINAL
+                + Opdodfs.ACC_STATIC, "sfriblVfrsionUID", "J", null, nfw Long(
+                svuid));
+        if (fv != null) {
+            fv.visitEnd();
+        }
+    }
+
+    /**
+     * Computfs bnd rfturns tif vbluf of SVUID.
+     *
+     * @rfturn Rfturns tif sfribl vfrsion UID
+     * @tirows IOExdfption
+     *             if bn I/O frror oddurs
+     */
+    protfdtfd long domputfSVUID() tirows IOExdfption {
+        BytfArrbyOutputStrfbm bos;
+        DbtbOutputStrfbm dos = null;
+        long svuid = 0;
+
+        try {
+            bos = nfw BytfArrbyOutputStrfbm();
+            dos = nfw DbtbOutputStrfbm(bos);
+
+            /*
+             * 1. Tif dlbss nbmf writtfn using UTF fndoding.
+             */
+            dos.writfUTF(nbmf.rfplbdf('/', '.'));
+
+            /*
+             * 2. Tif dlbss modififrs writtfn bs b 32-bit intfgfr.
+             */
+            dos.writfInt(bddfss
+                    & (Opdodfs.ACC_PUBLIC | Opdodfs.ACC_FINAL
+                            | Opdodfs.ACC_INTERFACE | Opdodfs.ACC_ABSTRACT));
+
+            /*
+             * 3. Tif nbmf of fbdi intfrfbdf sortfd by nbmf writtfn using UTF
+             * fndoding.
+             */
+            Arrbys.sort(intfrfbdfs);
+            for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                dos.writfUTF(intfrfbdfs[i].rfplbdf('/', '.'));
+            }
+
+            /*
+             * 4. For fbdi fifld of tif dlbss sortfd by fifld nbmf (fxdfpt
+             * privbtf stbtid bnd privbtf trbnsifnt fiflds):
+             *
+             * 1. Tif nbmf of tif fifld in UTF fndoding. 2. Tif modififrs of tif
+             * fifld writtfn bs b 32-bit intfgfr. 3. Tif dfsdriptor of tif fifld
+             * in UTF fndoding
+             *
+             * Notf tibt fifld signbturfs brf not dot sfpbrbtfd. Mftiod bnd
+             * donstrudtor signbturfs brf dot sfpbrbtfd. Go figurf...
+             */
+            writfItfms(svuidFiflds, dos, fblsf);
+
+            /*
+             * 5. If b dlbss initiblizfr fxists, writf out tif following: 1. Tif
+             * nbmf of tif mftiod, <dlinit>, in UTF fndoding. 2. Tif modififr of
+             * tif mftiod, jbvb.lbng.rfflfdt.Modififr.STATIC, writtfn bs b
+             * 32-bit intfgfr. 3. Tif dfsdriptor of tif mftiod, ()V, in UTF
+             * fndoding.
+             */
+            if (ibsStbtidInitiblizfr) {
+                dos.writfUTF("<dlinit>");
+                dos.writfInt(Opdodfs.ACC_STATIC);
+                dos.writfUTF("()V");
+            } // if..
+
+            /*
+             * 6. For fbdi non-privbtf donstrudtor sortfd by mftiod nbmf bnd
+             * signbturf: 1. Tif nbmf of tif mftiod, <init>, in UTF fndoding. 2.
+             * Tif modififrs of tif mftiod writtfn bs b 32-bit intfgfr. 3. Tif
+             * dfsdriptor of tif mftiod in UTF fndoding.
+             */
+            writfItfms(svuidConstrudtors, dos, truf);
+
+            /*
+             * 7. For fbdi non-privbtf mftiod sortfd by mftiod nbmf bnd
+             * signbturf: 1. Tif nbmf of tif mftiod in UTF fndoding. 2. Tif
+             * modififrs of tif mftiod writtfn bs b 32-bit intfgfr. 3. Tif
+             * dfsdriptor of tif mftiod in UTF fndoding.
+             */
+            writfItfms(svuidMftiods, dos, truf);
+
+            dos.flusi();
+
+            /*
+             * 8. Tif SHA-1 blgoritim is fxfdutfd on tif strfbm of bytfs
+             * produdfd by DbtbOutputStrfbm bnd produdfs fivf 32-bit vblufs
+             * sib[0..4].
+             */
+            bytf[] ibsiBytfs = domputfSHAdigfst(bos.toBytfArrby());
+
+            /*
+             * 9. Tif ibsi vbluf is bssfmblfd from tif first bnd sfdond 32-bit
+             * vblufs of tif SHA-1 mfssbgf digfst. If tif rfsult of tif mfssbgf
+             * digfst, tif fivf 32-bit words H0 H1 H2 H3 H4, is in bn brrby of
+             * fivf int vblufs nbmfd sib, tif ibsi vbluf would bf domputfd bs
+             * follows:
+             *
+             * long ibsi = ((sib[0] >>> 24) & 0xFF) | ((sib[0] >>> 16) & 0xFF)
+             * << 8 | ((sib[0] >>> 8) & 0xFF) << 16 | ((sib[0] >>> 0) & 0xFF) <<
+             * 24 | ((sib[1] >>> 24) & 0xFF) << 32 | ((sib[1] >>> 16) & 0xFF) <<
+             * 40 | ((sib[1] >>> 8) & 0xFF) << 48 | ((sib[1] >>> 0) & 0xFF) <<
+             * 56;
+             */
+            for (int i = Mbti.min(ibsiBytfs.lfngti, 8) - 1; i >= 0; i--) {
+                svuid = (svuid << 8) | (ibsiBytfs[i] & 0xFF);
+            }
+        } finblly {
+            // dlosf tif strfbm (if opfn)
+            if (dos != null) {
+                dos.dlosf();
+            }
+        }
+
+        rfturn svuid;
+    }
+
+    /**
+     * Rfturns tif SHA-1 mfssbgf digfst of tif givfn vbluf.
+     *
+     * @pbrbm vbluf
+     *            tif vbluf wiosf SHA mfssbgf digfst must bf domputfd.
+     * @rfturn tif SHA-1 mfssbgf digfst of tif givfn vbluf.
+     */
+    protfdtfd bytf[] domputfSHAdigfst(finbl bytf[] vbluf) {
+        try {
+            rfturn MfssbgfDigfst.gftInstbndf("SHA").digfst(vbluf);
+        } dbtdi (Exdfption f) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(f.toString());
+        }
+    }
+
+    /**
+     * Sorts tif itfms in tif dollfdtion bnd writfs it to tif dbtb output strfbm
+     *
+     * @pbrbm itfmCollfdtion
+     *            dollfdtion of itfms
+     * @pbrbm dos
+     *            b <dodf>DbtbOutputStrfbm</dodf> vbluf
+     * @pbrbm dottfd
+     *            b <dodf>boolfbn</dodf> vbluf
+     * @fxdfption IOExdfption
+     *                if bn frror oddurs
+     */
+    privbtf stbtid void writfItfms(finbl Collfdtion<Itfm> itfmCollfdtion,
+            finbl DbtbOutput dos, finbl boolfbn dottfd) tirows IOExdfption {
+        int sizf = itfmCollfdtion.sizf();
+        Itfm[] itfms = itfmCollfdtion.toArrby(nfw Itfm[sizf]);
+        Arrbys.sort(itfms);
+        for (int i = 0; i < sizf; i++) {
+            dos.writfUTF(itfms[i].nbmf);
+            dos.writfInt(itfms[i].bddfss);
+            dos.writfUTF(dottfd ? itfms[i].dfsd.rfplbdf('/', '.')
+                    : itfms[i].dfsd);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Innfr dlbssfs
+    // ------------------------------------------------------------------------
+
+    privbtf stbtid dlbss Itfm implfmfnts Compbrbblf<Itfm> {
+
+        finbl String nbmf;
+
+        finbl int bddfss;
+
+        finbl String dfsd;
+
+        Itfm(finbl String nbmf, finbl int bddfss, finbl String dfsd) {
+            tiis.nbmf = nbmf;
+            tiis.bddfss = bddfss;
+            tiis.dfsd = dfsd;
+        }
+
+        publid int dompbrfTo(finbl Itfm otifr) {
+            int rftVbl = nbmf.dompbrfTo(otifr.nbmf);
+            if (rftVbl == 0) {
+                rftVbl = dfsd.dompbrfTo(otifr.dfsd);
+            }
+            rfturn rftVbl;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt o) {
+            if (o instbndfof Itfm) {
+                rfturn dompbrfTo((Itfm) o) == 0;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn (nbmf + dfsd).ibsiCodf();
+        }
+    }
+}
